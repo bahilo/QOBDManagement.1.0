@@ -438,7 +438,7 @@
                 <!-- Delivery receipt to include -->
                 
                 <StackPanel Orientation="Vertical">
-                    <DataGrid ItemsSource="{Binding OrderViewModel.OrderDetailViewModel.Item_deliveryModelBillingInProcess, UpdateSourceTrigger=PropertyChanged}"
+                    <DataGrid ItemsSource="{Binding OrderViewModel.OrderDetailViewModel.Item_deliveryModelBillingInProcessSelectionList, UpdateSourceTrigger=PropertyChanged}"
                               MaxWidth="990" MaxHeight="200" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockDeliveryListToIncludeVisibility, UpdateSourceTrigger=PropertyChanged}"
                               AutoGenerateColumns="False" CanUserAddRows="False">
                         <DataGrid.Columns>

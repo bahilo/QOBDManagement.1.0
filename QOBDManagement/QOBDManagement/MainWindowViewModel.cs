@@ -462,13 +462,13 @@ namespace QOBDManagement
             }
         }
 
-        private void onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage(object sender, PropertyChangedEventArgs e)
+        private async void onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("IsLodingDataFromWebServiceToLocal"))
             {
-                Application.Current.Dispatcher.Invoke(() => {
-                    downloadHeaderImages();
-                });
+                await Application.Current.Dispatcher.BeginInvoke(new System.Action(() =>{
+                    //downloadHeaderImages();
+                }));
                 //
                 //Dispatcher.CurrentDispatcher.Invoke(() =>
                 //{

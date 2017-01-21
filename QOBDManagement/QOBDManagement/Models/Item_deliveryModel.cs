@@ -27,59 +27,64 @@ namespace QOBDManagement.Models
         public Item_delivery Item_delivery
         {
             get { return _item_delivery; }
-            set { setProperty(ref _item_delivery, value, "Item_delivery"); }
+            set { setProperty(ref _item_delivery, value); }
         }
 
         public Item Item
         {
             get { return _item; }
-            set { setProperty(ref _item, value, "Item"); }
+            set { setProperty(ref _item, value); }
         }
 
         public DeliveryModel DeliveryModel
         {
             get { return _deliveryReceiptList; }
-            set { setProperty(ref _deliveryReceiptList, value, "DeliveryModelList"); }
+            set { setProperty(ref _deliveryReceiptList, value); }
         }
 
         public string TxtID
         {
             get { return _item_delivery.ID.ToString(); }
-            set { _item_delivery.ID = Convert.ToInt32(value); onPropertyChange("TxtID"); }
+            set { _item_delivery.ID = Convert.ToInt32(value); onPropertyChange(); }
         }
 
         public string TxtDeliveryId
         {
             get { return _item_delivery.DeliveryId.ToString(); }
-            set { _item_delivery.DeliveryId = Convert.ToInt32(value); onPropertyChange("TxtDeliveryId"); }
+            set { _item_delivery.DeliveryId = Convert.ToInt32(value); onPropertyChange(); }
         }
 
         public string TxtItem_ref
         {
             get { return _item_delivery.Item_ref; }
-            set { _item_delivery.Item_ref = value; onPropertyChange("TxtItem_ref"); }
+            set { _item_delivery.Item_ref = value; onPropertyChange(); }
         }
 
         public string TxtQuantity_delivery
         {
             get { return _item_delivery.Quantity_delivery.ToString(); }
-            set { _item_delivery.Quantity_delivery = Convert.ToInt32(value); onPropertyChange("TxtQuantity_delivery"); }
+            set { _item_delivery.Quantity_delivery = Convert.ToInt32(value); onPropertyChange(); }
         }
 
         public string TxtQuantity_current
         {
             get { return _quantity_current.ToString(); }
-            set { _quantity_current = Convert.ToInt32(value); onPropertyChange("TxtQuantity_current"); }
+            set { _quantity_current = Convert.ToInt32(value); onPropertyChange(); }
         }
 
         public bool IsSelected
         {
             get { return _isSelected; }
-            set { setProperty(ref _isSelected, value, "IsSelected"); }
+            set { setProperty(ref _isSelected, value); }
         }
 
 
+        //----------------------------[ Actions ]------------------
 
+        public void updateIselected( bool selected)
+        {
+            _isSelected = selected;
+        }
 
 
     }

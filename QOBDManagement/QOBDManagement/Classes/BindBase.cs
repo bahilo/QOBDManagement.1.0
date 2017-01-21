@@ -48,7 +48,7 @@ namespace QOBDManagement.Classes
             set { setProperty(ref _dialog, value); }
         }
 
-        protected void onPropertyChange(string propertyName)
+        protected void onPropertyChange([CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged != null)
             {

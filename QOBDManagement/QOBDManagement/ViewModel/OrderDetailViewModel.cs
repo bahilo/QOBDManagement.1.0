@@ -315,7 +315,12 @@ namespace QOBDManagement.ViewModel
         public List<Item_deliveryModel> Item_deliveryModelBillingInProcess
         {
             get { return _item_deliveryModelBillingInProcessList; }
-            set { setProperty(ref _item_deliveryModelBillingInProcessList, value); BillCreationCommand.raiseCanExecuteActionChanged(); }
+            set { setProperty(ref _item_deliveryModelBillingInProcessList, value); BillCreationCommand.raiseCanExecuteActionChanged(); onPropertyChange("Item_deliveryModelBillingInProcessSelectionList"); }
+        }
+
+        public List<Item_deliveryModel> Item_deliveryModelBillingInProcessSelectionList
+        {
+            get { return Item_deliveryModelBillingInProcess.GroupBy(x => x.Item_delivery.DeliveryId).Select(x => x.First()).ToList(); }
         }
 
         #endregion
@@ -525,18 +530,24 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         public void loadInvoicesAndDeliveryReceipts()
         {
+            foreach (Item_deliveryModel item_deliveryModel in Item_deliveryModelBillingInProcess)
+                item_deliveryModel.PropertyChanged -= onItem_ModelDeliveryInProcessIselectedChanged;
+
             Item_deliveryModelBillingInProcess = (from c in Order_ItemModelList
                                                   from d in c.ItemModel.Item_deliveryModelList
                                                   where d.DeliveryModel.TxtStatus == EStatusOrder.Not_Billed.ToString()
                                                   select d).ToList();
 
-            Item_ModelDeliveryInProcess = Order_ItemModelList.Where(x => x.Order_Item.Quantity_current > 0).Select(x => new Item_deliveryModel { Item = x.ItemModel.Item, TxtQuantity_current = x.TxtQuantity_current, TxtQuantity_delivery = x.TxtQuantity_delivery }).ToList();
+            foreach (Item_deliveryModel item_deliveryModel in Item_deliveryModelBillingInProcess)
+                item_deliveryModel.PropertyChanged += onItem_ModelDeliveryInProcessIselectedChanged;
 
+            Item_ModelDeliveryInProcess = Order_ItemModelList.Where(x => x.Order_Item.Quantity_current > 0).Select(x => new Item_deliveryModel { Item = x.ItemModel.Item, TxtQuantity_current = x.TxtQuantity_current, TxtQuantity_delivery = x.TxtQuantity_delivery }).ToList();
+                 
             BillModelList = new BillModel().BillListToModelViewList(Bl.BlOrder.searchBill(new Bill { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
             DeliveryModelList = new DeliveryModel().DeliveryListToModelViewList(Bl.BlOrder.searchDelivery(new Delivery { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
 
         }
-        
+
         private void totalCalcul()
         {
             if (Order_ItemModelList.Count > 0)
@@ -816,6 +827,8 @@ namespace QOBDManagement.ViewModel
             _updateOrderStatusTask.PropertyChanged -= onInitializationTaskComplete_UpdateOrderStatus;
             foreach (var Order_itemModel in Order_ItemModelList)
                 Order_itemModel.PropertyChanged -= onTotalSelling_PriceOrPrice_purchaseChange;
+            foreach (Item_deliveryModel item_deliveryModel in Item_deliveryModelBillingInProcess)
+                item_deliveryModel.PropertyChanged -= onItem_ModelDeliveryInProcessIselectedChanged;
             Bl.BlOrder.Dispose();
         }
 
@@ -894,7 +907,23 @@ namespace QOBDManagement.ViewModel
                     Environment.NewLine+"Please contact your administrator.");
                 Log.error("Error while updating the order(ID=+"+OrderSelected.TxtID+") from "+OrderSelected.TxtStatus+""+_orderStatus.ToString());
             }
-                
+
+        }
+
+        /// <summary>
+        /// When one item of a delivery receipt is selected 
+        /// then select all items of the delivery receipt
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void onItem_ModelDeliveryInProcessIselectedChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("IsSelected"))
+            {
+                foreach (var item_deliveryModel in Item_deliveryModelBillingInProcess.Where(x => x.Item_delivery.DeliveryId == ((Item_deliveryModel)sender).Item_delivery.DeliveryId).ToList())
+                    item_deliveryModel.updateIselected(((Item_deliveryModel)sender).IsSelected);
+                refreshBindings();
+            }
         }
 
         #endregion
@@ -1061,10 +1090,15 @@ namespace QOBDManagement.ViewModel
 
             if (Order_itemFound != null)
             {
+                // cancelling the receiption of items
                 Order_itemFound.Order_Item.Quantity_delivery = Math.Max(0, Order_itemFound.Order_Item.Quantity_delivery - Order_itemFound.Order_Item.Quantity_current);
                 Order_itemFound.Order_Item.Quantity_current = 0;
                 var Order_itemSavedList = await Bl.BlOrder.UpdateOrder_itemAsync(new List<Order_item> { Order_itemFound.Order_Item });
+
+                // remove the delivery receipt.
                 Item_ModelDeliveryInProcess.Remove(obj);
+
+                // update the bindings
                 updateDeliveryAndInvoiceListBindingByCallingPropertyChange();
                 refreshBindings();
             }
@@ -1092,7 +1126,7 @@ namespace QOBDManagement.ViewModel
                                                 && d.TxtItem_ref == obj.TxtItem_ref
                                            select c).FirstOrDefault();
 
-            // search of the previous delivery record of the particular item
+            // getting the previous delivery receipt of the targeted item
             var item_deliveryModelPrevious = (from c in Order_ItemModelList
                                         from d in c.ItemModel.Item_deliveryModelList
                                         where   d.Item_delivery.DeliveryId < obj.DeliveryModel.Delivery.ID
@@ -1106,15 +1140,18 @@ namespace QOBDManagement.ViewModel
                 // calcul of the quantity delivery for resetting
                 int quantityDelivery = obj.Item_delivery.Quantity_delivery - (item_deliveryModelPrevious != null ? item_deliveryModelPrevious.Quantity_delivery : 0);
                 
-                Order_itemModelTargeted.Order_Item.Quantity_current = quantityDelivery ;
-
-                Order_itemModelTargeted.ItemModel.Item_deliveryModelList.Remove(obj);
+                // push this item back to delivery creation list
+                Order_itemModelTargeted.Order_Item.Quantity_current += quantityDelivery ;
+                Order_itemModelTargeted.ItemModel.Item_deliveryModelList.Remove(obj);                
                 var savedOrder_itemList = await Bl.BlOrder.UpdateOrder_itemAsync(new List<Order_item> { Order_itemModelTargeted.Order_Item });
+
+                // deldete any delivery receipt regarding this item
                 await Bl.BlOrder.DeleteDeliveryAsync(new List<Delivery> { obj.DeliveryModel.Delivery });
                 await Bl.BlItem.DeleteItem_deliveryAsync(new List<Item_delivery> { obj.Item_delivery });
             }
             else
             {
+                // otherwise delete any delivery receipt created by mistake
                 Order_itemModelTargeted.ItemModel.Item_deliveryModelList.Remove(obj);
                 await Bl.BlOrder.DeleteDeliveryAsync(new List<Delivery> { obj.DeliveryModel.Delivery });
                 await Bl.BlItem.DeleteItem_deliveryAsync(new List<Item_delivery> { obj.Item_delivery });
@@ -1169,7 +1206,7 @@ namespace QOBDManagement.ViewModel
 
             List<Item_deliveryModel> item_deliveryModelToRemoveList = new List<Item_deliveryModel>();
 
-            foreach (var item_deliveryModel in Item_deliveryModelBillingInProcess)
+            foreach (var item_deliveryModel in _item_deliveryModelBillingInProcessList)
             {
                 if (item_deliveryModel.IsSelected)
                 {
@@ -1242,7 +1279,7 @@ namespace QOBDManagement.ViewModel
 
             // removing processed item from the Qeue
             foreach (var item_deliveryModel in item_deliveryModelToRemoveList)
-                Item_deliveryModelBillingInProcess.Remove(item_deliveryModel);
+                _item_deliveryModelBillingInProcessList.Remove(item_deliveryModel);
 
             refreshBindings();
             Dialog.IsDialogOpen = false;
