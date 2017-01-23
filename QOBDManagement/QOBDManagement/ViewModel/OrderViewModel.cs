@@ -16,7 +16,6 @@ using System.IO;
 using System.Xml.Serialization;
 using QOBDManagement.Interfaces;
 using System.Windows.Threading;
-using System.Windows;
 
 namespace QOBDManagement.ViewModel
 {
@@ -127,21 +126,13 @@ namespace QOBDManagement.ViewModel
         public OrderSearch OrderSearch
         {
             get { return _orderSearch; }
-            set {
-                Application.Current.Dispatcher.Invoke(() => {
-                    setProperty(ref _orderSearch, value, "OrderSearch");
-                });                
-            }
+            set { setProperty(ref _orderSearch, value); }
         }
 
         public string Title
         {
             get { return _title; }
-            set {
-                    Application.Current.Dispatcher.Invoke(()=> {
-                        setProperty(ref _title, value, "Title");
-                    });
-                 }
+            set { setProperty(ref _title, value); }
         }
 
         public ClientModel SelectedClient
@@ -154,11 +145,7 @@ namespace QOBDManagement.ViewModel
         public List<Entity.Tax> TaxList
         {
             get { return _taxesList; }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        setProperty(ref _taxesList, value, "TaxList");
-                    });
-                 }
+            set { setProperty(ref _taxesList, value); }
         }
 
         public OrderDetailViewModel OrderDetailViewModel
@@ -193,11 +180,7 @@ namespace QOBDManagement.ViewModel
         public List<OrderModel> OrderModelList
         {
             get { return _orderModelList; }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _orderModelList = value; onPropertyChange("OrderModelList"); updateOrderModelListBinding();
-                    });
-               }
+            set { _orderModelList = value; onPropertyChange("OrderModelList"); updateOrderModelListBinding(); }
         }
 
         public List<OrderModel> InProcessOrderList
@@ -223,21 +206,13 @@ namespace QOBDManagement.ViewModel
         public string BlockSearchResultVisibility
         {
             get { return _blockSearchResultVisibility; }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        setProperty(ref _blockSearchResultVisibility, value, "BlockSearchResultVisibility");
-                    });
-               }
+            set { setProperty(ref _blockSearchResultVisibility, value, "BlockSearchResultVisibility"); }
         }
 
         public string BlockOrderVisibility
         {
             get { return _blockOrderVisibility; }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        setProperty(ref _blockOrderVisibility, value, "BlockOrderVisibility");
-                    });
-                }
+            set { setProperty(ref _blockOrderVisibility, value, "BlockOrderVisibility"); }
         }
 
         //----------------------------[ Actions ]------------------
@@ -285,26 +260,26 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         public async void loadOrders()
         {
-            await Task.Factory.StartNew(async ()=> {
-                Dialog.showSearch("Loading...");
-                TaxList = await Bl.BlOrder.GetTaxDataAsync(999);
-                OrderSearch.AgentList = await Bl.BlAgent.GetAgentDataAsync(-999);
+            Dialog.showSearch("Loading...");
+            TaxList = await Bl.BlOrder.GetTaxDataAsync(999);
+            OrderSearch.AgentList = await Bl.BlAgent.GetAgentDataAsync(-999);
 
-                if (SelectedClient.Client.ID != 0)
-                {
-                    Title = string.Format("Orders for the Company {0}", SelectedClient.Client.Company);
+            if (SelectedClient.Client.ID != 0)
+            {
+                Title = string.Format("Orders for the Company {0}", SelectedClient.Client.Company);
 
-                    OrderModelList = (await OrderListToModelList(await Bl.BlOrder.searchOrderAsync(new Entity.Order { ClientId = SelectedClient.Client.ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
-                    SelectedClient = new ClientModel();
-                }
-                else
-                {
-                    Title = "Orders Management";
-                    OrderModelList = (await OrderListToModelList(await Bl.BlOrder.searchOrderAsync(new QOBDCommon.Entities.Order { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
-                }
-                BlockSearchResultVisibility = "Hidden";
-                Dialog.IsDialogOpen = false;
-            }); 
+                OrderModelList = (await OrderListToModelList(await Bl.BlOrder.searchOrderAsync(new Entity.Order { ClientId = SelectedClient.Client.ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
+                SelectedClient = new ClientModel();
+            }
+            else
+            {
+                Title = "Orders Management";
+                OrderModelList = (await OrderListToModelList(await Bl.BlOrder.searchOrderAsync(new QOBDCommon.Entities.Order { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
+            }
+            BlockSearchResultVisibility = "Hidden";
+            Dialog.IsDialogOpen = false;
+           
+
         }
 
         

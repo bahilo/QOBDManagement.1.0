@@ -13,7 +13,6 @@ using System.Diagnostics;
 using System.Windows.Media.Imaging;
 using System.Configuration;
 using System.Windows.Threading;
-using System.Windows;
 
 namespace QOBDManagement.Classes
 {
@@ -146,11 +145,7 @@ namespace QOBDManagement.Classes
                 public List<Info> ImageDataList
                 {
                     get { return _imageData; }
-                    set {
-                            Application.Current.Dispatcher.Invoke(()=> {
-                                _imageData = value; onPropertyChange("ImageDataList");
-                            });
-                        }
+                    set { _imageData = value; onPropertyChange("ImageDataList"); }
                 }
 
                 public string TxtLogin
@@ -254,26 +249,33 @@ namespace QOBDManagement.Classes
                         int.TryParse(ImageHeight.Value, out _height);
                 }
 
-                private async void read()
+                private void read()
                 {
-                    await Task.Factory.StartNew(()=> {
-                        bool isFileFound = false;
+                    bool isFileFound = false;
 
-                        if (ImageInfos != null && ImageInfos.ID != 0 && !string.IsNullOrEmpty(ImageInfos.Value))
-                        {
-                            _chosenFile = ImageInfos.Value;
-                            setup();
+                    if (ImageInfos != null && ImageInfos.ID != 0 && !string.IsNullOrEmpty(ImageInfos.Value))
+                    {
+                        _chosenFile = ImageInfos.Value;
+                        setup();
 
-                            if (TxtFtpUrl != null && TxtFileFullPath != null)
-                                isFileFound =  Utility.downloadFile(TxtFtpUrl, TxtFileFullPath, _login, _password);
+                        if (TxtFtpUrl != null && TxtFileFullPath != null)
+                            try
+                            {
+                                //updateImageSource(isClosingImageStream: true);
+                                isFileFound = Utility.downloadFIle(TxtFtpUrl, TxtFileFullPath, _login, _password);
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.WriteLine("[WARNNING] - " + e.Message);
+                                _fileFullPath = "";
+                            }
 
-                            //if (isFileFound && File.Exists(TxtFileFullPath))
-                            //    copyImage();
+                        if (isFileFound && File.Exists(TxtFileFullPath))
+                            copyImage();
 
-                            updateImageSource();
-                        }
-                    });
-                    
+                        updateImageSource();
+
+                    }
                 }
 
                 public bool save()
@@ -318,39 +320,37 @@ namespace QOBDManagement.Classes
 
                 public void updateImageSource(bool isClosingImageStream = false)
                 {
-                    Application.Current.Dispatcher.Invoke(()=> {
-                        if (!string.IsNullOrEmpty(TxtFileFullPath))
+                    if (!string.IsNullOrEmpty(TxtFileFullPath))
+                    {
+                        try
                         {
-                            try
+                            if (!isClosingImageStream)
                             {
-                                if (!isClosingImageStream)
-                                {
-                                    FileStream imageStream = new FileStream(TxtFileFullPath, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete);
-                                    BitmapImage imageSource = new BitmapImage();
-                                    imageSource.BeginInit();
-                                    imageSource.UriSource = null;
-                                    imageSource.StreamSource = imageStream;
-                                    imageSource.CacheOption = BitmapCacheOption.OnLoad;
-                                    imageSource.EndInit();
-                                    imageSource.Freeze();
+                                FileStream imageStream = new FileStream(TxtFileFullPath, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete);
+                                BitmapImage imageSource = new BitmapImage();
+                                imageSource.BeginInit();
+                                imageSource.UriSource = null;
+                                imageSource.StreamSource = imageStream;
+                                imageSource.CacheOption = BitmapCacheOption.OnLoad;
+                                imageSource.EndInit();
+                                imageSource.Freeze();
 
-                                    ImageSource = imageSource;
-                                }
-                                else
-                                {
-                                    Stream stream = ImageSource.StreamSource;
-                                    if (stream != null)
-                                    {
-                                        stream.Close();
-                                    }
-                                }
+                                ImageSource = imageSource;
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                Log.error(ex.Message);
+                                Stream stream = ImageSource.StreamSource;
+                                if (stream != null)
+                                {
+                                    stream.Close();
+                                }
                             }
                         }
-                    });                    
+                        catch (Exception ex)
+                        {
+                            Log.error(ex.Message);
+                        }
+                    }
                 }
 
                 public bool deleteFiles()

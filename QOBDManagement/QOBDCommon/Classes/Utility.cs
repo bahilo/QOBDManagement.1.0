@@ -126,7 +126,7 @@ namespace QOBDCommon.Classes
                     requestStream.Close();
             }
 
-            downloadFile(ftpUrl, fileFullPath, username, password);
+            downloadFIle(ftpUrl, fileFullPath, username, password);
 
             FtpWebResponse response = (FtpWebResponse)req.GetResponse();
             if (response.StatusCode.Equals(FtpStatusCode.ClosingData)) // && count > 0)
@@ -135,67 +135,62 @@ namespace QOBDCommon.Classes
             return isComplete;
         }
 
-        public static bool downloadFile(string ftpUrl, string fileFullPath, string username, string password)
+        public static bool downloadFIle(string ftpUrl, string fileFullPath, string username, string password)
         {
-            object _lock = new object();
-            lock (_lock)
+            bool isComplete = false;
+            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(ftpUrl);
+            req.UseBinary = true;
+            req.KeepAlive = true;
+            req.Method = WebRequestMethods.Ftp.DownloadFile;
+            req.Credentials = new NetworkCredential(username, password);
+            req.Timeout = 600000;
+            FtpWebResponse response = null;
+            Stream ftpStream = null;
+
+            FileStream fs = null;
+            int totalByte;
+            int bytes = 0;
+            int bufferSize = 4096;
+            byte[] buffer = new byte[bufferSize];
+
+            try
             {
-                bool isComplete = false;
-                FtpWebRequest req = (FtpWebRequest)WebRequest.Create(ftpUrl);
-                req.UseBinary = true;
-                req.KeepAlive = true;
-                req.Method = WebRequestMethods.Ftp.DownloadFile;
-                req.Credentials = new NetworkCredential(username, password);
-                req.Timeout = 600000;
-                FtpWebResponse response = null;
-                Stream ftpStream = null;
+                response = (FtpWebResponse)req.GetResponse();
+                ftpStream = response.GetResponseStream();             
 
-                FileStream fs = null;
-                int totalByte;
-                int bytes = 0;
-                int bufferSize = 4096;
-                byte[] buffer = new byte[bufferSize];
+                fs = new FileStream(fileFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Write);
+                totalByte = (int)fs.Length;
 
-                try
+                while (totalByte > 0)
                 {
-                    response = (FtpWebResponse)req.GetResponse();
-                    ftpStream = response.GetResponseStream();
-
-                    fs = new FileStream(fileFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Write);
-                    totalByte = (int)fs.Length;
-
-                    while (totalByte > 0)
-                    {
-                        bytes = ftpStream.Read(buffer, 0, bufferSize);
-                        fs.Write(buffer, 0, bytes);
-                        totalByte = totalByte - bytes;
-                    }
+                    bytes = ftpStream.Read(buffer, 0, bufferSize);
+                    fs.Write(buffer, 0, bytes);
+                    totalByte = totalByte - bytes;
                 }
-                catch (WebException ex)
-                {
-                    String status = ((FtpWebResponse)ex.Response).StatusDescription;
-                    Log.warning(ex.Message + " - " + ftpUrl);
-                }
-                catch (Exception ex)
-                {
-                    Log.error(ex.Message);
-                }
-                finally
-                {
-                    if (fs != null)
-                        fs.Close();
-                    if (response != null)
-                        response.Close();
-                    if (ftpStream != null)
-                        ftpStream.Close();
-                }
-
-                if (response != null && response.StatusCode.Equals(FtpStatusCode.ClosingData))
-                    isComplete = true;
-
-                return isComplete;
             }
-            
+            catch (WebException ex)
+            {
+                String status = ((FtpWebResponse)ex.Response).StatusDescription;
+                Log.warning(status + " => " + ex.Message);
+            }
+            catch(Exception ex)
+            {
+                Log.error(ex.Message);
+            }
+            finally
+            {
+                if(fs != null)
+                    fs.Close();
+                if(response != null)
+                    response.Close();
+                if(ftpStream != null)
+                    ftpStream.Close();
+            }
+                        
+            if (response != null && response.StatusCode.Equals(FtpStatusCode.ClosingData))
+                isComplete = true;
+
+            return isComplete;
         }
 
         public static string getDirectory(string directory, params string[] pathElements)

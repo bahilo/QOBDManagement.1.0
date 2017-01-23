@@ -132,19 +132,35 @@ namespace QOBDManagement
         public DisplayAndData.Display.Image HeaderImageDisplay
         {
             get { return _headerImageDisplay; }
-            set { setProperty(ref _headerImageDisplay, value, "HeaderImageDisplay"); }
+            set {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        setProperty(ref _headerImageDisplay, value, "HeaderImageDisplay");
+                    });
+                }
         }
 
         public DisplayAndData.Display.Image LogoImageDisplay
         {
             get { return _logoImageDisplay; }
-            set { setProperty(ref _logoImageDisplay, value, "LogoImageDisplay"); }
+            set {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        setProperty(ref _logoImageDisplay, value, "LogoImageDisplay");
+                    });
+                }
         }
 
         public DisplayAndData.Display.Image BillImageDisplay
         {
             get { return _billImageDisplay; }
-            set { setProperty(ref _billImageDisplay, value, "BillImageDisplay"); }
+            set
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    setProperty(ref _billImageDisplay, value, "BillImageDisplay");
+                });
+            }
         }
 
         public string SearchProgressVisibility
@@ -358,7 +374,7 @@ namespace QOBDManagement
 
         private void loadUIData()
         {
-             Application.Current.Dispatcher.Invoke(() =>
+             Dispatcher.CurrentDispatcher.Invoke(() =>
             {
                 SearchProgressVisibility = "Visible";
                 if (isNewAgentAuthentication)
@@ -445,13 +461,13 @@ namespace QOBDManagement
             }
         }
 
-        private void onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage(object sender, PropertyChangedEventArgs e)
+        private async void onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("IsLodingDataFromWebServiceToLocal"))
             {
-                Application.Current.Dispatcher.Invoke(new System.Action(() => {
+                await Task.Factory.StartNew(() => {
                     downloadHeaderImages();
-                }));
+                });
                 
             }
         }
@@ -459,49 +475,52 @@ namespace QOBDManagement
 
         //----------------------------[ Action Orders ]------------------
 
-        private  void appNavig(string propertyName)
+        private async void appNavig(string propertyName)
         {
-            IsThroughContext = false;
-            switch (propertyName)
+            await Task.Factory.StartNew(() =>
             {
-                case "home":
-                    HomeViewModel.executeNavig(propertyName);
-                    break;
-                case "client":
-                    ClientViewModel.executeNavig(propertyName);
-                    break;
-                case "item":
-                    ItemViewModel.executeNavig(propertyName);
-                    break;
-                case "order":
-                    OrderViewModel.executeNavig(propertyName);
-                    break;
-                case "quote":
-                    QuoteViewModel.executeNavig(propertyName);
-                    break;
-                case "agent":
-                    AgentViewModel.executeNavig(propertyName);
-                    break;
-                case "notification":
-                    CurrentViewModel = NotificationViewModel;
-                    break;
-                case "notification-new":
-                    CurrentViewModel = NotificationViewModel;
-                    break;
-                case "notification-detail":
-                    CurrentViewModel = NotificationViewModel;
-                    break;
-                case "option":
-                    ReferentialViewModel.executeNavig(propertyName);
-                    break;
-                case "statistic":
-                    CurrentViewModel = StatisticViewModel;
-                    break;
-                case "back":
-                    Context.Request();
-                    IsThroughContext = true;
-                    break;
-            }             
+                IsThroughContext = false;
+                switch (propertyName)
+                {
+                    case "home":
+                        HomeViewModel.executeNavig(propertyName);
+                        break;
+                    case "client":
+                        ClientViewModel.executeNavig(propertyName);
+                        break;
+                    case "item":
+                        ItemViewModel.executeNavig(propertyName);
+                        break;
+                    case "order":
+                        OrderViewModel.executeNavig(propertyName);
+                        break;
+                    case "quote":
+                        QuoteViewModel.executeNavig(propertyName);
+                        break;
+                    case "agent":
+                        AgentViewModel.executeNavig(propertyName);
+                        break;
+                    case "notification":
+                        CurrentViewModel = NotificationViewModel;
+                        break;
+                    case "notification-new":
+                        CurrentViewModel = NotificationViewModel;
+                        break;
+                    case "notification-detail":
+                        CurrentViewModel = NotificationViewModel;
+                        break;
+                    case "option":
+                        ReferentialViewModel.executeNavig(propertyName);
+                        break;
+                    case "statistic":
+                        CurrentViewModel = StatisticViewModel;
+                        break;
+                    case "back":
+                        Context.Request();
+                        IsThroughContext = true;
+                        break;
+                }
+            });                
         }
 
         private bool canAppNavig(string arg)

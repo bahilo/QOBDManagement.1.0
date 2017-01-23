@@ -5,12 +5,11 @@ using System.Linq;
 using QOBDCommon.Classes;
 using QOBDCommon.Enum;
 using System.ComponentModel;
-using System.Windows;
 
 namespace QOBDManagement.Classes
 {
     public class OrderSearch : System.ComponentModel.INotifyPropertyChanged
-    { 
+    {
         private int _commandId;
         private int _billId;
         private int _clientId;
@@ -61,91 +60,55 @@ namespace QOBDManagement.Classes
         public string SelectedStatus
         {
             get { return _selectedStatus; }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _selectedStatus = value; onPropertyChange("SelectedStatus");
-                    });
-                }
+            set { _selectedStatus = value; onPropertyChange("SelectedStatus"); }
         }
 
         public List<string> StatusList
         {
             get { return _statusList; }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _statusList = value; onPropertyChange("StatusList");
-                    });
-                }
+            set { _statusList = value; onPropertyChange("StatusList"); }
         }
 
         public Entity.Agent SelectedAgent
         {
             get { return _selectedAgent; }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _selectedAgent = value; onPropertyChange("SelectedAgent");
-                    });
-                }
+            set { _selectedAgent = value; onPropertyChange("SelectedAgent"); }
         }
 
         public List<Entity.Agent> AgentList
         {
             get { return _agents; }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _agents = value; onPropertyChange("AgentList");
-                    });
-                }
+            set { _agents = value; onPropertyChange("AgentList"); }
         }
 
         public string CompanyName
         {
             get { return _companyName; }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _companyName = value; onPropertyChange("CompanyName");
-                    });
-                }
+            set { _companyName = value; onPropertyChange("CompanyName"); }
         }
 
         public int ClientId
         {
             get { return _clientId; }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _clientId = value; onPropertyChange("ClientId");
-                    });
-                }
+            set { _clientId = value; onPropertyChange("ClientId"); }
         }
 
         public string StartDate
         {
             get { return _startDate.ToString(); }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _startDate = Utility.convertToDateTime(value, true); onPropertyChange("StartDate");
-                    });
-                }
+            set {  _startDate = Utility.convertToDateTime(value, true); onPropertyChange("StartDate"); }
         }
 
         public string EndDate
         {
             get { return _endDate.ToString(); }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _endDate = Utility.convertToDateTime(value, true); onPropertyChange("EndDate");
-                    });
-                }
+            set { _endDate = Utility.convertToDateTime(value, true); onPropertyChange("EndDate"); }
         }
 
         public bool IsDeepSearch
         {
             get { return _isDeepSearch; }
-            set {
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _isDeepSearch = value; onPropertyChange("IsDeepSearch");
-                    });
-                }
+            set { _isDeepSearch = value; onPropertyChange("IsDeepSearch"); }
         }
 
         public void onPropertyChange(string propertyName)
