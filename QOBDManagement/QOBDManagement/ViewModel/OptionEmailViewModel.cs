@@ -42,11 +42,11 @@ namespace QOBDManagement.ViewModel
         {
             _title = "Email Management";
             _emails = new Dictionary<string, GeneralInfos.FileWriter>();
-            _emails["quote"] = new GeneralInfos.FileWriter("quote", EOption.Mails);
-            _emails["reminder_1"] = new GeneralInfos.FileWriter("reminder_1", EOption.Mails);
-            _emails["reminder_2"] = new GeneralInfos.FileWriter("reminder_2", EOption.Mails);
-            _emails["bill"] = new GeneralInfos.FileWriter("bill", EOption.Mails);
-            _emails["order_confirmation"] = new GeneralInfos.FileWriter("order_confirmation", EOption.Mails);
+            _emails["quote"] = new GeneralInfos.FileWriter("quote", EOption.mails);
+            _emails["reminder_1"] = new GeneralInfos.FileWriter("reminder_1", EOption.mails);
+            _emails["reminder_2"] = new GeneralInfos.FileWriter("reminder_2", EOption.mails);
+            _emails["bill"] = new GeneralInfos.FileWriter("bill", EOption.mails);
+            _emails["order_confirmation"] = new GeneralInfos.FileWriter("order_confirmation", EOption.mails);
         }
 
         private void instancesCommand()

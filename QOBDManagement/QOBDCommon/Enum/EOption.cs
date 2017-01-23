@@ -8,7 +8,7 @@ namespace QOBDCommon.Enum
 {
     public enum EOption
     {
-        Texts,
-        Mails,
+        texts,
+        mails,
     }
 }

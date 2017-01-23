@@ -295,7 +295,7 @@ namespace QOBDManagement.Classes
                 _password = ftpPassword;
                 _fileNameWithoutExtension = fileName;
                 _content = "Message here";
-                _path = Directory.GetCurrentDirectory() + @"\Docs\Files\";
+                _path = Utility.getDirectory("Docs", "Files");
             }
 
             public string TxtLogin
@@ -345,10 +345,10 @@ namespace QOBDManagement.Classes
             private void setup()
             {
                 string lang = CultureInfo.CurrentCulture.Name.Split('-').FirstOrDefault() ?? "en";
-                _ftpHost = ConfigurationManager.AppSettings["ftp"];// "ftp://ftpperso.free.fr";
-                _remotePath = string.Format(@"{0}/{1}/{2}/", "Files", lang, _typeOfFile);
-                _localPath = Directory.GetCurrentDirectory() + string.Format(@"\{0}\{1}\", "Docs", "Mails");
-
+                _ftpHost = ConfigurationManager.AppSettings["ftp"];
+                _remotePath = ConfigurationManager.AppSettings["ftp_doc_base_folder"] + lang + "/" + _typeOfFile + "/";
+                _localPath = Utility.getDirectory("Docs", _typeOfFile);
+                
                 TxtFileName = TxtFileNameWithoutExtension + ".txt";
                 TxtFtpUrl = _ftpHost + _remotePath + TxtFileName;
                 TxtFileFullPath = Path.Combine(_localPath, TxtFileName);

@@ -10,6 +10,7 @@ using QOBDGateway.QOBDServiceReference;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -602,7 +603,7 @@ namespace QOBDGateway.Core
             try
             {
                 client.Credentials = new NetworkCredential(_channel.ClientCredentials.UserName.UserName, _channel.ClientCredentials.UserName.Password);
-                var uri = "http://localhost/webservicesoap/fpdf/" + paramDeliveryToPdf.Lang+"/BL_Codsimex.php?num_dev=" + paramDeliveryToPdf.OrderId + " &num_bl=" + paramDeliveryToPdf.DeliveryId;
+                var uri = ConfigurationManager.AppSettings["remote_host"] + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"] + paramDeliveryToPdf.Lang+"/BL_Codsimex.php?num_dev=" + paramDeliveryToPdf.OrderId + " &num_bl=" + paramDeliveryToPdf.DeliveryId;
 
                 System.Diagnostics.Process.Start(uri);
             }
@@ -622,7 +623,8 @@ namespace QOBDGateway.Core
             try
             {
                 client.Credentials = new NetworkCredential(_channel.ClientCredentials.UserName.UserName, _channel.ClientCredentials.UserName.Password);
-                string uri = "http://localhost/webservicesoap/fpdf/" + paramCommandToPdf.Lang + "/Facture_Codsimex.php?";
+                string uri = ConfigurationManager.AppSettings["remote_host"] + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"] + paramCommandToPdf.Lang + "/Facture_Codsimex.php?";
+
                 uri += "num_dev=" + paramCommandToPdf.OrderId;
                 uri += "&num_fact=" + paramCommandToPdf.BillId;
                 uri += "&currency=" + paramCommandToPdf.Currency;
@@ -652,7 +654,7 @@ namespace QOBDGateway.Core
             try
             {
                 client.Credentials = new NetworkCredential(_channel.ClientCredentials.UserName.UserName, _channel.ClientCredentials.UserName.Password);
-                string uri = "http://localhost/webservicesoap/fpdf/" + paramCommandToPdf.Lang + "/Devis_Codsimex.php?";
+                string uri = ConfigurationManager.AppSettings["remote_host"] + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"] + paramCommandToPdf.Lang + "/Devis_Codsimex.php?";
 
                 uri += "num_dev=" + paramCommandToPdf.OrderId;
                 uri += "&delay=" + paramCommandToPdf.ValidityDay;

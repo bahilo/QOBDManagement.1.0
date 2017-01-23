@@ -69,8 +69,8 @@ namespace QOBDManagement.ViewModel
         
         private void instances()
         {
-            _legalInformationFileManagement = new GeneralInfos.FileWriter("legal_information", EOption.Texts);
-            _saleGeneralConditionFileManagement = new GeneralInfos.FileWriter("sale_general_condition", EOption.Texts);
+            _legalInformationFileManagement = new GeneralInfos.FileWriter("legal_information", EOption.texts);
+            _saleGeneralConditionFileManagement = new GeneralInfos.FileWriter("sale_general_condition", EOption.texts);
             _addressDetails = new List<GeneralInfos.Contact>();
             _bankDetails = new List<GeneralInfos.Bank>();
             _generalInfos = new GeneralInfos();

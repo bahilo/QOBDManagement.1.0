@@ -88,6 +88,15 @@
                             <TextBlock Margin="8 0 0 0">Close Order</TextBlock>
                         </StackPanel>
                     </Button>
+                    <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                                Command="{Binding OrderViewModel.OrderSideBarViewModel.UtilitiesCommand}"
+                                CommandParameter="close-credit"
+                                HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="BookmarkCheck"/>
+                            <TextBlock Margin="8 0 0 0">Close Credit</TextBlock>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </Expander>
             <!-- -->

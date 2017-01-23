@@ -133,7 +133,7 @@ namespace QOBDManagement
         {
             get { return _headerImageDisplay; }
             set {
-                    Dispatcher.CurrentDispatcher.Invoke(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         setProperty(ref _headerImageDisplay, value, "HeaderImageDisplay");
                     });
@@ -144,7 +144,7 @@ namespace QOBDManagement
         {
             get { return _logoImageDisplay; }
             set {
-                    Dispatcher.CurrentDispatcher.Invoke(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         setProperty(ref _logoImageDisplay, value, "LogoImageDisplay");
                     });
@@ -156,7 +156,7 @@ namespace QOBDManagement
             get { return _billImageDisplay; }
             set
             {
-                Dispatcher.CurrentDispatcher.Invoke(() =>
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     setProperty(ref _billImageDisplay, value, "BillImageDisplay");
                 });
@@ -182,13 +182,23 @@ namespace QOBDManagement
         public Object CurrentViewModel
         {
             get { return _currentViewModel; }
-            set { setProperty(ref _currentViewModel, value); }
+            set {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    setProperty(ref _currentViewModel, value);
+                });
+             }
         }
 
         public double ProgressBarPercentValue
         {
             get { return _progressBarPercentValue; }
-            set { setProperty(ref _progressBarPercentValue, value); }
+            set {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    setProperty(ref _progressBarPercentValue, value);
+                });
+            }
         }
 
         //----------------------------[ Actions ]------------------
@@ -197,7 +207,6 @@ namespace QOBDManagement
         {
             if (string.IsNullOrEmpty(HeaderImageDisplay.TxtLogin) || string.IsNullOrEmpty(LogoImageDisplay.TxtLogin) || string.IsNullOrEmpty(BillImageDisplay.TxtLogin))
             {
-                //var res = _startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR);
                 HeaderImageDisplay.TxtLogin = LogoImageDisplay.TxtLogin = BillImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
                 HeaderImageDisplay.TxtPassword = LogoImageDisplay.TxtPassword = BillImageDisplay.TxtPassword = (_startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
             }
@@ -257,12 +266,9 @@ namespace QOBDManagement
         {
             if (centralPageContent != null)
             {
-                Dispatcher.CurrentDispatcher.Invoke(() =>
-                {
-                    Context.PreviousState = CurrentViewModel as IState;
-                    CurrentViewModel = centralPageContent;
-                    Context.NextState = centralPageContent as IState;
-                });
+                Context.PreviousState = CurrentViewModel as IState;
+                CurrentViewModel = centralPageContent;
+                Context.NextState = centralPageContent as IState;
             }
 
             return CurrentViewModel;
@@ -287,10 +293,7 @@ namespace QOBDManagement
             if (fileType.ToUpper().Equals("HEADER"))
             {
                 if (newImage != null)
-                    Dispatcher.CurrentDispatcher.Invoke(() =>
-                    {
-                        HeaderImageDisplay = newImage;
-                    });
+                    HeaderImageDisplay = newImage;
 
                 return HeaderImageDisplay;
             }
@@ -298,20 +301,16 @@ namespace QOBDManagement
             if (fileType.ToUpper().Equals("LOGO"))
             {
                 if (newImage != null)
-                    Dispatcher.CurrentDispatcher.Invoke(() =>
-                    {
-                        LogoImageDisplay = newImage;
-                    });
+                    LogoImageDisplay = newImage;
+
                 return LogoImageDisplay;
             }
 
             if (fileType.ToUpper().Equals("BILL"))
             {
                 if (newImage != null)
-                    Dispatcher.CurrentDispatcher.Invoke(() =>
-                    {
-                        BillImageDisplay = newImage;
-                    });
+                    BillImageDisplay = newImage;
+
                 return BillImageDisplay;
             }
 
@@ -466,23 +465,19 @@ namespace QOBDManagement
         {
             if (e.PropertyName.Equals("IsLodingDataFromWebServiceToLocal"))
             {
-                await Application.Current.Dispatcher.BeginInvoke(new System.Action(() =>{
-                    //downloadHeaderImages();
-                }));
-                //
-                //Dispatcher.CurrentDispatcher.Invoke(() =>
-                //{
-                    
-                //});
+                await Task.Factory.StartNew(() => {
+                    downloadHeaderImages();
+                });
+                
             }
         }
 
 
         //----------------------------[ Action Orders ]------------------
 
-        private void appNavig(string propertyName)
+        private async void appNavig(string propertyName)
         {
-            Dispatcher.CurrentDispatcher.Invoke(() =>
+            await Task.Factory.StartNew(() =>
             {
                 IsThroughContext = false;
                 switch (propertyName)
@@ -525,7 +520,7 @@ namespace QOBDManagement
                         IsThroughContext = true;
                         break;
                 }
-            });
+            });                
         }
 
         private bool canAppNavig(string arg)

@@ -199,16 +199,14 @@ namespace QOBDManagement.ViewModel
         private bool canExecuteUtilityAction(string arg)
         {
             if ((_page(null) as OrderDetailViewModel) == null)
-            {
-                return false;
-            }
-
-            if ((_page(null) as OrderDetailViewModel) != null
-                && SelectedOrderModel.Order.ID == 0
-                && string.IsNullOrEmpty(SelectedOrderModel.TxtStatus))
                 return false;
 
-            if (arg.Equals("close-order") && !this._main.securityCheck(EAction.Order_Close, ESecurity._Update)
+            if ((_page(null) as OrderDetailViewModel) != null && 
+                (SelectedOrderModel.Order.ID == 0
+                || string.IsNullOrEmpty(SelectedOrderModel.TxtStatus)))
+                return false;
+
+            if ((arg.Equals("close-order") || arg.Equals("close-credit")) && !this._main.securityCheck(EAction.Order_Close, ESecurity._Update)
                 || arg.Equals("valid-order") && !this._main.securityCheck(EAction.Order_Valid, ESecurity._Update) && !this._main.securityCheck(EAction.Order_Valid, ESecurity._Write)
                 || arg.Equals("convert-orderToQuote") && !this._main.securityCheck(EAction.Order_Quote, ESecurity._Write) && !this._main.securityCheck(EAction.Order, ESecurity._Update)
                 || arg.Equals("valid-credit") && !this._main.securityCheck(EAction.Order_Close, ESecurity._Update))
@@ -223,6 +221,7 @@ namespace QOBDManagement.ViewModel
 
             if (SelectedOrderModel.TxtStatus.Equals(EStatusOrder.Quote.ToString())
                 && (arg.Equals("close-order")
+                   || arg.Equals("close-credit")
                    || arg.Equals("valid-order")
                    || arg.Equals("convert-orderToQuote")
                    ))
@@ -232,12 +231,16 @@ namespace QOBDManagement.ViewModel
                 && arg.Equals("valid-order"))
                 return false;
 
-            if ((SelectedOrderModel.TxtStatus.Equals(EStatusOrder.Order.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EStatusOrder.Pre_Credit.ToString()))
+            if ((SelectedOrderModel.TxtStatus.Equals(EStatusOrder.Credit.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EStatusOrder.Pre_Credit.ToString()))
                 && arg.Equals("valid-credit"))
                 return false;
 
-            if (SelectedOrderModel.TxtStatus.Equals(EStatusOrder.Order_Close.ToString())
+            if ((SelectedOrderModel.TxtStatus.Equals(EStatusOrder.Order_Close.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EStatusOrder.Order.ToString()))
                 && arg.Equals("close-order"))
+                return false;
+
+            if ((SelectedOrderModel.TxtStatus.Equals(EStatusOrder.Credit_CLose.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EStatusOrder.Credit.ToString()))
+                && arg.Equals("close-credit"))
                 return false;
 
             return true;
@@ -288,6 +291,14 @@ namespace QOBDManagement.ViewModel
                     {
                         //Dialog.showSearch("Processing...");
                         orderDetail.updateOrderStatus(EStatusOrder.Order_Close);
+                        //Dialog.IsDialogOpen = false;
+                    }
+                    break;
+                case "close-credit":
+                    if (await Dialog.show("Do you really want to close this credit?"))
+                    {
+                        //Dialog.showSearch("Processing...");
+                        orderDetail.updateOrderStatus(EStatusOrder.Credit_CLose);
                         //Dialog.IsDialogOpen = false;
                     }
                     break;

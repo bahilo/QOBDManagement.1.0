@@ -212,10 +212,10 @@ namespace QOBDManagement.Classes
                 {
                     if (!string.IsNullOrEmpty(TxtChosenFile))
                     {
-                        _ftpHost = ConfigurationManager.AppSettings["ftp"];// "ftp://ftpperso.free.fr";
-                        _remotePath = string.Format(@"{0}/", "Images");//string.Format(@"//{0}/", "images");
-                        _localPath = Directory.GetCurrentDirectory() + string.Format(@"\{0}\{1}\", "Docs", "Images");
-
+                        _ftpHost = ConfigurationManager.AppSettings["ftp"];
+                        _remotePath = ConfigurationManager.AppSettings["ftp_image_folder"];
+                        _localPath = Utility.getDirectory("Docs","Images");
+                        
                         var chosenFileName = Path.GetFileName(TxtChosenFile);
                         var filseExtension = chosenFileName.Split('.').LastOrDefault();
                         TxtFileName = TxtFileNameWithoutExtension + "." + filseExtension;
@@ -242,16 +242,6 @@ namespace QOBDManagement.Classes
 
                         File.Copy(TxtChosenFile, TxtFileFullPath);
                     }
-                    
-                    //if (File.Exists(TxtFileFullPath))
-                    //    try
-                    //    {
-                    //        updateImageSource();
-                    //    }
-                    //    catch (Exception ex)
-                    //    {
-                    //        Log.write(ex.Message, "ERR");
-                    //    }
 
                     if (ImageWidth != null)
                         int.TryParse(ImageWidth.Value, out _width);
@@ -284,7 +274,6 @@ namespace QOBDManagement.Classes
                             copyImage();
 
                         updateImageSource();
-                            //TxtChosenFile = TxtFileFullPath;
 
                     }
                 }
@@ -292,8 +281,7 @@ namespace QOBDManagement.Classes
                 public bool save()
                 {
                     bool isSavedSuccessfully = false;
-
-                    //if (!File.Exists(TxtFileFullPath))
+                    
                     ImageDataList.Clear();
 
                     if (File.Exists(TxtFileFullPath))
@@ -338,8 +326,6 @@ namespace QOBDManagement.Classes
                         {
                             if (!isClosingImageStream)
                             {
-                                /*using (FileStream imageStream = new FileStream(TxtFileFullPath, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete))
-                                {*/
                                 FileStream imageStream = new FileStream(TxtFileFullPath, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete);
                                 BitmapImage imageSource = new BitmapImage();
                                 imageSource.BeginInit();
@@ -350,8 +336,6 @@ namespace QOBDManagement.Classes
                                 imageSource.Freeze();
 
                                 ImageSource = imageSource;
-
-                                //}
                             }
                             else
                             {

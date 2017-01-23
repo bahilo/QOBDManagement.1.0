@@ -80,7 +80,7 @@
                     <materialDesign:ColorZone Mode="PrimaryMid">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Name="txtBWaitValid" HorizontalAlignment="Center">Items List</TextBlock>
-                            <DataGrid x:Name="dgOrderWaitValidList" AutoGenerateColumns="False"
+                            <DataGrid x:Name="dgOrder_itemList" AutoGenerateColumns="False" IsReadOnly="True"
                                 ItemsSource="{Binding OrderViewModel.OrderDetailViewModel.Order_ItemModelList, UpdateSourceTrigger=PropertyChanged}" 
                                 RowDetailsVisibilityMode="{Binding OrderViewModel.OrderDetailViewModel.BlockItemListDetailVisibility}"
                                 CanUserAddRows="False">
@@ -93,7 +93,7 @@
                                             </Grid.ColumnDefinitions>
                                             <Border Background="{DynamicResource PrimaryHueMidForegroundBrush}">
                                                 <StackPanel Orientation="Vertical">
-                                                    <TextBox Text="{Binding TxtComment_Purchase_Price}" 
+                                                    <TextBox Text="{Binding TxtComment_Purchase_Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                                      materialDesign:HintAssist.Hint="Comment"
                                                      Background="White" MinLines="5" Width="300"  TextWrapping="Wrap" AcceptsReturn="True" HorizontalAlignment="Left"/>
@@ -114,7 +114,7 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBox Text="{Binding TxtPrice_purchase, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                                     IsEnabled="{Binding OrderViewModel.OrderDetailViewModel.IsItemListPurchasePriceTextBoxEnable, UpdateSourceTrigger=PropertyChanged}"
+                                                     IsEnabled="{Binding DataContext.OrderViewModel.OrderDetailViewModel.IsItemListPurchasePriceTextBoxEnable, ElementName=dgOrder_itemList, UpdateSourceTrigger=PropertyChanged}"
                                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                                      materialDesign:HintAssist.Hint="Purchase Price"/>
                                             </DataTemplate>
@@ -124,7 +124,7 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBox Text="{Binding TxtPrice, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                                     IsEnabled="{Binding OrderViewModel.OrderDetailViewModel.IsItemListSellingPriceTextBoxEnable, UpdateSourceTrigger=PropertyChanged}"
+                                                     IsEnabled="{Binding DataContext.OrderViewModel.OrderDetailViewModel.IsItemListSellingPriceTextBoxEnable, ElementName=dgOrder_itemList, UpdateSourceTrigger=PropertyChanged}"
                                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                                      materialDesign:HintAssist.Hint="sale Price"/>
                                             </DataTemplate>
@@ -134,7 +134,7 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBox Text="{Binding TxtQuantity, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                                     IsEnabled="{Binding OrderViewModel.OrderDetailViewModel.IsItemListQuantityTextBoxEnable, UpdateSourceTrigger=PropertyChanged}"
+                                                     IsEnabled="{Binding DataContext.OrderViewModel.OrderDetailViewModel.IsItemListQuantityTextBoxEnable, ElementName=dgOrder_itemList, UpdateSourceTrigger=PropertyChanged}"
                                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                                      materialDesign:HintAssist.Hint="Quantity"/>
                                             </DataTemplate>
@@ -152,7 +152,7 @@
                                             <DataTemplate>
                                                 <StackPanel>
                                                     <Button Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.DeleteItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                        CommandParameter="{Binding CurrentItem, ElementName=dgOrderWaitValidList}">
+                                                        CommandParameter="{Binding CurrentItem, ElementName=dgOrder_itemList}">
                                                         <materialDesign:PackIcon Kind="Delete"/>
                                                     </Button>
                                                 </StackPanel>
@@ -555,9 +555,6 @@
                                                 <CheckBox  IsChecked="{Binding DataContext.OrderViewModel.OrderDetailViewModel.IsOrderReferencesVisible, ElementName=dgBillCreated, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                     Refs Constructor visible.
                                                 </CheckBox>
-                                                <Button Style="{DynamicResource MaterialDesignFlatButton}">
-                                                    Open an Email
-                                                </Button>
                                                 <Button Style="{DynamicResource MaterialDesignFlatButton}"
                                                             Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.CancelBillCreatedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                             CommandParameter="{Binding CurrentItem, ElementName=dgBillCreated}">
@@ -601,13 +598,13 @@
                                             <Border Grid.Row="3" Grid.Column="2" Background="{DynamicResource PrimaryHueMidBrush}">
                                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                                     <TextBlock>Private Comment</TextBlock>
-                                                    <TextBox MinHeight="100" MinWidth="200"  Background="White" Text="{Binding TxtPrivateComment, UpdateSourceTrigger=PropertyChanged}" TextWrapping="wrap" AcceptsReturn="True" MinLines="3"/>
+                                                    <TextBox MinHeight="100" MinWidth="200"  Background="White" Text="{Binding TxtPrivateComment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="wrap" AcceptsReturn="True" MinLines="3"/>
                                                 </StackPanel>
                                             </Border>
                                             <Border Grid.Row="3" Grid.Column="3" Background="{DynamicResource PrimaryHueLightBrush}">
                                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                                     <TextBlock>Public Comment</TextBlock>
-                                                    <TextBox MinHeight="100" MinWidth="200"  MaxWidth="990"  Background="White" Text="{Binding TxtPublicComment, UpdateSourceTrigger=PropertyChanged}" TextWrapping="wrap" AcceptsReturn="True" MinLines="3"/>
+                                                    <TextBox MinHeight="100" MinWidth="200"  MaxWidth="990"  Background="White" Text="{Binding TxtPublicComment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="wrap" AcceptsReturn="True" MinLines="3"/>
                                                 </StackPanel>
                                             </Border>
                                             <Button Grid.Row="4" Grid.ColumnSpan="2"  HorizontalAlignment="Center"

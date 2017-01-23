@@ -36,7 +36,7 @@ namespace QOBDManagement.ViewModel
         private ParamOrderToPdf _paramQuoteToPdf;
         private ParamOrderToPdf _paramOrderToPdf;
         private ParamDeliveryToPdf _paramDeliveryToPdf;
-        public NotifyTaskCompletion<List<Order_item>> _order_ItemTask { get; set; }
+        //public NotifyTaskCompletion<List<Order_item>> _order_ItemTask { get; set; }
         public NotifyTaskCompletion<bool> _updateOrderStatusTask { get; set; }
         private Func<object, object> _page;        
         private List<Tax> _taxes;
@@ -103,14 +103,14 @@ namespace QOBDManagement.ViewModel
         {
             PropertyChanged += onOrderSelectedChange;
             PropertyChanged += onOrder_itemModelWorkFlowChange;
-            _order_ItemTask.PropertyChanged += onOrder_itemTaskComplete_getOrderModel;
+            //_order_ItemTask.PropertyChanged += onOrder_itemTaskComplete_getOrderModel;
             _updateOrderStatusTask.PropertyChanged += onInitializationTaskComplete_UpdateOrderStatus;
         }
 
         private void instances()
         {
             _selectedBillToSend = new BillModel();
-            _order_ItemTask = new NotifyTaskCompletion<List<Order_item>>();
+            //_order_ItemTask = new NotifyTaskCompletion<List<Order_item>>();
             _updateOrderStatusTask = new NotifyTaskCompletion<bool>();
             _paramDeliveryToPdf = new ParamDeliveryToPdf();
             _paramQuoteToPdf = new ParamOrderToPdf(EStatusOrder.Quote, 2);
@@ -118,7 +118,7 @@ namespace QOBDManagement.ViewModel
             _paramOrderToPdf.Currency = _paramQuoteToPdf.Currency = CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol;
             _paramOrderToPdf.Lang = _paramQuoteToPdf.Lang = _paramDeliveryToPdf.Lang = CultureInfo.CurrentCulture.Name.Split('-').FirstOrDefault() ?? "en";
 
-            _mailFile = new GeneralInfos.FileWriter("", EOption.Mails);
+            _mailFile = new GeneralInfos.FileWriter("", EOption.mails);
             //_quoteEmailFile.TxtSubject = "** CODSIMEX – Votre devis n°{BILL_ID} **";
         }
 
@@ -169,13 +169,13 @@ namespace QOBDManagement.ViewModel
         public List<BillModel> BillModelList
         {
             get { return OrderSelected.BillModelList; }
-            set { OrderSelected.BillModelList = value; onPropertyChange("BillModelList"); }
+            set { OrderSelected.BillModelList = value; onPropertyChange(); updateItemListBindingByCallingPropertyChange(); }
         }
 
         public List<DeliveryModel> DeliveryModelList
         {
             get { return OrderSelected.DeliveryModelList; }
-            set { OrderSelected.DeliveryModelList = value; onPropertyChange("DeliveryModelList"); }
+            set { OrderSelected.DeliveryModelList = value; onPropertyChange(); }
         }
 
         public GeneralInfos.FileWriter EmailFile
@@ -187,7 +187,7 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
-            set { _startup.Bl = value; onPropertyChange("Bl"); }
+            set { _startup.Bl = value; onPropertyChange(); }
         }
 
         public OrderModel OrderSelected
@@ -199,7 +199,7 @@ namespace QOBDManagement.ViewModel
         public string TxtQuoteValidityInDays
         {
             get { return _paramQuoteToPdf.ValidityDay.ToString(); }
-            set { int convertedNumber; if (int.TryParse(value, out convertedNumber)) { _paramQuoteToPdf.ValidityDay = convertedNumber; onPropertyChange("QuoteValidityInDays"); } }
+            set { int convertedNumber; if (int.TryParse(value, out convertedNumber)) { _paramQuoteToPdf.ValidityDay = convertedNumber; onPropertyChange(); } }
         }
 
         public bool IsQuote
@@ -216,7 +216,7 @@ namespace QOBDManagement.ViewModel
                 if (value == true)
                 {
                     _paramQuoteToPdf.TypeQuoteOrProformat = EStatusOrder.Quote;
-                    onPropertyChange("IsQuote");
+                    onPropertyChange();
                 }
             }
         }
@@ -235,7 +235,7 @@ namespace QOBDManagement.ViewModel
                 if (value == true)
                 {
                     _paramQuoteToPdf.TypeQuoteOrProformat = EStatusOrder.Proforma;
-                    onPropertyChange("IsProForma");
+                    onPropertyChange();
                 }
             }
         }
@@ -243,13 +243,13 @@ namespace QOBDManagement.ViewModel
         public bool IsQuoteReferencesVisible
         {
             get { return _paramQuoteToPdf.IsQuoteConstructorReferencesVisible; }
-            set { _paramQuoteToPdf.IsQuoteConstructorReferencesVisible = value; onPropertyChange("IsQuoteReferencesVisible"); }
+            set { _paramQuoteToPdf.IsQuoteConstructorReferencesVisible = value; onPropertyChange(); }
         }
 
         public bool IsOrderReferencesVisible
         {
             get { return _paramOrderToPdf.IsOrderConstructorReferencesVisible; }
-            set { _paramOrderToPdf.IsOrderConstructorReferencesVisible = value; onPropertyChange("IsOrderReferencesVisible"); }
+            set { _paramOrderToPdf.IsOrderConstructorReferencesVisible = value; onPropertyChange(); }
         }
 
         public string TxtTotalAfterTax
@@ -267,7 +267,7 @@ namespace QOBDManagement.ViewModel
         public string TxtTotalProfit
         {
             get { return _totalProfit.ToString(); }
-            set { setProperty(ref _totalProfit, Convert.ToDecimal(value), ""); }
+            set { setProperty(ref _totalProfit, Convert.ToDecimal(value)); }
         }
 
         public string TxtTotalTaxAmount
@@ -279,7 +279,7 @@ namespace QOBDManagement.ViewModel
         public Tax Tax
         {
             get { return _orderSelected.Tax; }
-            set { _orderSelected.Tax = value; onPropertyChange("Tax"); }
+            set { _orderSelected.Tax = value; onPropertyChange(); }
         }
 
         public string TxtTotalBeforeTax
@@ -303,7 +303,7 @@ namespace QOBDManagement.ViewModel
         public List<Item_deliveryModel> Item_ModelDeliveryInProcess
         {
             get { return _item_ModelDeliveryInProcess; }
-            set { setProperty(ref _item_ModelDeliveryInProcess, value); }
+            set { setProperty(ref _item_ModelDeliveryInProcess, value); updateItemListBindingByCallingPropertyChange(); }
         }
 
         public List<Item_deliveryModel> Item_deliveryModelCreatedList
@@ -315,7 +315,7 @@ namespace QOBDManagement.ViewModel
         public List<Item_deliveryModel> Item_deliveryModelBillingInProcess
         {
             get { return _item_deliveryModelBillingInProcessList; }
-            set { setProperty(ref _item_deliveryModelBillingInProcessList, value); BillCreationCommand.raiseCanExecuteActionChanged(); onPropertyChange("Item_deliveryModelBillingInProcessSelectionList"); }
+            set { setProperty(ref _item_deliveryModelBillingInProcessList, value); BillCreationCommand.raiseCanExecuteActionChanged(); onPropertyChange("Item_deliveryModelBillingInProcessSelectionList"); updateItemListBindingByCallingPropertyChange(); }
         }
 
         public List<Item_deliveryModel> Item_deliveryModelBillingInProcessSelectionList
@@ -417,6 +417,18 @@ namespace QOBDManagement.ViewModel
 
         #region [ Actions ]
         //----------------------------[ Actions ]------------------
+        
+        public void loadOrder_items()
+        {
+            Dialog.showSearch("Loading items...");
+            Order_ItemModelList = Order_ItemListToModelViewList(Bl.BlOrder.searchOrder_item(new Order_item { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
+
+            totalCalcul();
+            refreshBindings();
+            loadEmail();
+            Dialog.IsDialogOpen = false;
+
+        }
 
         public List<Order_itemModel> Order_ItemListToModelViewList(List<Order_item> Order_ItemList)
         {
@@ -432,8 +444,15 @@ namespace QOBDManagement.ViewModel
 
                 output.Add(localOrder_item);
             }
-
             return output;
+        }
+
+        public ItemModel loadOrder_itemItem(string itemRef, int itemId)
+        {
+            var itemFoundList = Bl.BlItem.searchItem(new Item { ID = itemId, Ref = itemRef }, ESearchOption.AND);
+            if (itemFoundList.Count > 0)
+                return ItemListToModelViewList(new List<Item> { itemFoundList[0] }).FirstOrDefault();
+            return new ItemModel();
         }
 
         private List<ItemModel> ItemListToModelViewList(List<Item> itemList)
@@ -443,38 +462,26 @@ namespace QOBDManagement.ViewModel
             {
                 ItemModel itemModel = new ItemModel();
                 itemModel.Item = item;
-
-                var itemDelivery = new Item_delivery();
-                itemDelivery.Item_ref = item.Ref;
-                itemDelivery.ItemId = item.ID;
-
-                // search for the delivery reference of the item
-                var item_DeliveryFoundList = Bl.BlItem.searchItem_delivery(itemDelivery, ESearchOption.AND).Select(x => new Item_deliveryModel { Item_delivery = x, Item = item }).ToList();
-                if (item_DeliveryFoundList != null && item_DeliveryFoundList.Count > 0)
-                    itemModel.Item_deliveryModelList = item_DeliveryFoundList;
-
+                
                 // search for the item's delivery receipt
-                foreach (var item_delivery in itemModel.Item_deliveryModelList)
+                var deliveryFoundList = Bl.BlOrder.searchDelivery(new Delivery { OrderId = OrderSelected.Order.ID }, ESearchOption.AND);
+                List<Item_deliveryModel> itemDeliveryList = new List<Item_deliveryModel>();
+                foreach (var delivery in deliveryFoundList)
                 {
-                    var deliveryFoundList = Bl.BlOrder.searchDelivery(new Delivery { ID = item_delivery.Item_delivery.DeliveryId }, ESearchOption.AND);
-                    if (deliveryFoundList.Count > 0)
-                        item_delivery.DeliveryModel = deliveryFoundList.Select(x => new DeliveryModel { Delivery = x }).FirstOrDefault();
+                    // search for the delivery reference of the item
+                    var item_DeliveryFoundList = Bl.BlItem.searchItem_delivery(new Item_delivery { DeliveryId = delivery.ID }, ESearchOption.AND).Select(x => new Item_deliveryModel { Item_delivery = x, Item = item }).ToList();
+                    foreach (Item_deliveryModel item_delivery in item_DeliveryFoundList)
+                    {
+                        item_delivery.DeliveryModel = new DeliveryModel { Delivery = delivery };
+                        itemDeliveryList.Add(item_delivery);
+                    }                         
                 }
+                itemModel.Item_deliveryModelList = itemDeliveryList;
+
+
                 output.Add(itemModel);
             }
             return output;
-        }
-
-        public void loadOrder_items()
-        {
-            Dialog.showSearch("Loading items...");
-            Order_ItemModelList = Order_ItemListToModelViewList( Bl.BlOrder.searchOrder_item(new Order_item { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
-
-            totalCalcul();
-            refreshBindings();
-            loadEmail();
-            Dialog.IsDialogOpen = false;
-
         }
 
         public void loadEmail()
@@ -488,7 +495,7 @@ namespace QOBDManagement.ViewModel
                 switch (OrderSelected.TxtStatus)
                 {
                     case "Quote":
-                        EmailFile = new GeneralInfos.FileWriter("quote", EOption.Mails, ftpLogin: login, ftpPassword: password);
+                        EmailFile = new GeneralInfos.FileWriter("quote", EOption.mails, ftpLogin: login, ftpPassword: password);
                         EmailFile.read();
                         if (infos != null)
                             EmailFile.TxtSubject = "** " + infos.Value + " – Your Quote n°{QUOTE_ID} **";
@@ -496,7 +503,7 @@ namespace QOBDManagement.ViewModel
                             EmailFile.TxtSubject = "** Your Quote n°{QUOTE_ID} **";
                         break;
                     case "Pre_Order":
-                        EmailFile = new GeneralInfos.FileWriter("order_confirmation", EOption.Mails, ftpLogin: login, ftpPassword: password);
+                        EmailFile = new GeneralInfos.FileWriter("order_confirmation", EOption.mails, ftpLogin: login, ftpPassword: password);
                         EmailFile.read();
                         if (infos != null)
                             EmailFile.TxtSubject = "** " + infos.Value + " – Your Invoice n°{BILL_ID} **";
@@ -504,7 +511,7 @@ namespace QOBDManagement.ViewModel
                             EmailFile.TxtSubject = "** Your Order n°{BILL_ID} **";
                         break;
                     case "Pre_Credit":
-                        EmailFile = new GeneralInfos.FileWriter("order_confirmation", EOption.Mails, ftpLogin: login, ftpPassword: password);
+                        EmailFile = new GeneralInfos.FileWriter("order_confirmation", EOption.mails, ftpLogin: login, ftpPassword: password);
                         EmailFile.read();
                         if (infos != null)
                             EmailFile.TxtSubject = "** " + infos.Value + " – Your Credit with Invoice n°{BILL_ID} **";
@@ -512,7 +519,7 @@ namespace QOBDManagement.ViewModel
                             EmailFile.TxtSubject = "** Your Credit with Invoice n°{BILL_ID} **";
                         break;
                     case "Order":
-                        EmailFile = new GeneralInfos.FileWriter("bill", EOption.Mails, ftpLogin: login, ftpPassword: password);
+                        EmailFile = new GeneralInfos.FileWriter("bill", EOption.mails, ftpLogin: login, ftpPassword: password);
                         EmailFile.read();
                         if (infos != null)
                             EmailFile.TxtSubject = "** " + infos.Value + " – Bill n°{BILL_ID} **";
@@ -521,9 +528,13 @@ namespace QOBDManagement.ViewModel
                         break;
                 }
             }
-
         }
-        
+
+        private void refreshBindings()
+        {
+            loadInvoicesAndDeliveryReceipts();
+        }
+
 
         /// <summary>
         /// load all bills of the selected Order
@@ -582,17 +593,9 @@ namespace QOBDManagement.ViewModel
             OrderSelected.AddressList = Bl.BlClient.searchAddress(new Address { ClientId = OrderSelected.CLientModel.Client.ID }, ESearchOption.AND);
         }
 
-        public ItemModel loadOrder_itemItem(string itemRef, int itemId)
-        {
-            var itemFoundList = Bl.BlItem.searchItem(new Item { ID = itemId, Ref = itemRef }, ESearchOption.AND);
-            if (itemFoundList.Count > 0)
-                return ItemListToModelViewList(new List<Item> { itemFoundList[0] }).FirstOrDefault();
-            return new ItemModel();
-        }
-
         private bool disableUIElementByBoolean([CallerMemberName]string obj = "")
         {
-
+            // Lock order when all invoices have been generated
             if ((OrderSelected.TxtStatus.Equals(EStatusOrder.Bill_Order.ToString()) || OrderSelected.TxtStatus.Equals(EStatusOrder.Bill_Credit.ToString()))
                 && (obj.Equals("IsItemListCommentTextBoxEnabled")
                 || obj.Equals("IsItemListQuantityReceivedTextBoxEnabled")
@@ -600,6 +603,8 @@ namespace QOBDManagement.ViewModel
                 || obj.Equals("IsItemListSellingPriceTextBoxEnable")
                 || obj.Equals("IsItemListPurchasePriceTextBoxEnable")))
                 return false;
+
+            // Prevent updating information when the order has been closed
             if ((OrderSelected.TxtStatus.Equals(EStatusOrder.Order_Close.ToString()) || OrderSelected.TxtStatus.Equals(EStatusOrder.Credit_CLose.ToString()))
                 && (obj.Equals("IsItemListCommentTextBoxEnabled")
                 || obj.Equals("IsItemListQuantityReceivedTextBoxEnabled")
@@ -608,18 +613,33 @@ namespace QOBDManagement.ViewModel
                 || obj.Equals("IsItemListPurchasePriceTextBoxEnable")))
                 return false;
 
+            // Lock items information when an invoice has been created
+            if ((BillModelList.Count > 0 )
+                && (obj.Equals("IsItemListCommentTextBoxEnabled")
+                || obj.Equals("IsItemListQuantityTextBoxEnable")
+                || obj.Equals("IsItemListSellingPriceTextBoxEnable")
+                || obj.Equals("IsItemListPurchasePriceTextBoxEnable")))
+                return false;
+
+            // Prevent updating the items quantity when delivering receipt creation process has started
+            if ((Item_deliveryModelBillingInProcess.Count > 0 || Item_ModelDeliveryInProcess.Count > 0)
+                && obj.Equals("IsItemListQuantityTextBoxEnable"))
+                return false;
+
             return true;
         }
 
         private string disableUIElementByString([CallerMemberName]string obj = "")
         {
+
             if (!OrderSelected.TxtStatus.Equals(EStatusOrder.Order.ToString())
                 && obj.Equals("BlockItemListDetailVisibility"))
                 return "Collapsed";
 
+            // Show order details when converted into order
             else if (OrderSelected.TxtStatus.Equals(EStatusOrder.Order.ToString())
                 && obj.Equals("BlockItemListDetailVisibility"))
-                return "Visible";// "VisibleWhenSelected";
+                return "Visible";
 
             if ((!OrderSelected.TxtStatus.Equals(EStatusOrder.Order.ToString()) && !OrderSelected.TxtStatus.Equals(EStatusOrder.Credit.ToString()))
                 && (obj.Equals("BlockDeliveryListToIncludeVisibility")
@@ -683,7 +703,15 @@ namespace QOBDManagement.ViewModel
             onPropertyChange("Item_ModelDeliveryInProcess");
             onPropertyChange("Item_deliveryModelBillingInProcess");
         }
-                
+
+        private void updateItemListBindingByCallingPropertyChange()
+        {
+            onPropertyChange("IsItemListCommentTextBoxEnabled");
+            onPropertyChange("IsItemListQuantityTextBoxEnable");
+            onPropertyChange("IsItemListSellingPriceTextBoxEnable");
+            onPropertyChange("IsItemListPurchasePriceTextBoxEnable");
+        }
+
         public void updateOrderStatus(EStatusOrder status)
         {
             Dialog.showSearch("Processing...");
@@ -720,14 +748,6 @@ namespace QOBDManagement.ViewModel
                     canChangeStatus = await Dialog.show("Credit CLosing: Be careful as it will not be possible to do any change after.");
                     break;
             }
-            //if (canChangeStatus)
-            //{
-            //    OrderSelected.TxtStatus = status.ToString();
-            //    OrderSelected.Order.Date = DateTime.Now;
-            //    var savedOrderList = await Bl.BlOrder.UpdateOrderAsync(new List<Entity.Order> { { OrderSelected.Order } });
-            //    if (savedOrderList.Count > 0)
-            //        OrderSelected.Order = savedOrderList[0];
-            //}
             return canChangeStatus;
         }
 
@@ -783,15 +803,7 @@ namespace QOBDManagement.ViewModel
 
                 canDelete = true;
             }
-            //else
-            //    await Dialog.show("Convertion to Quote Failed! Order bills are not the latest.");
-
             return canDelete;
-        }
-
-        private void refreshBindings()
-        {
-            loadInvoicesAndDeliveryReceipts();
         }
 
 
@@ -823,12 +835,17 @@ namespace QOBDManagement.ViewModel
         {            
             PropertyChanged -= onOrderSelectedChange;
             PropertyChanged -= onOrder_itemModelWorkFlowChange;
-            _order_ItemTask.PropertyChanged -= onOrder_itemTaskComplete_getOrderModel;
             _updateOrderStatusTask.PropertyChanged -= onInitializationTaskComplete_UpdateOrderStatus;
+
             foreach (var Order_itemModel in Order_ItemModelList)
                 Order_itemModel.PropertyChanged -= onTotalSelling_PriceOrPrice_purchaseChange;
+
             foreach (Item_deliveryModel item_deliveryModel in Item_deliveryModelBillingInProcess)
                 item_deliveryModel.PropertyChanged -= onItem_ModelDeliveryInProcessIselectedChanged;
+
+            foreach (Order_itemModel order_item in Order_ItemModelList)
+                order_item.Dispose();
+
             Bl.BlOrder.Dispose();
         }
 
@@ -850,19 +867,6 @@ namespace QOBDManagement.ViewModel
         {
             if (string.Equals(e.PropertyName, "TxtTotalSelling") || string.Equals(e.PropertyName, "TxtPrice") || string.Equals(e.PropertyName, "TxtPrice_purchase"))
                 totalCalcul();
-        }
-
-        private void onOrder_itemTaskComplete_getOrderModel(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("IsSuccessfullyCompleted"))
-            {
-                Dialog.showSearch("Loading items...");
-                Order_ItemModelList = Order_ItemListToModelViewList(_order_ItemTask.Result);
-
-                totalCalcul();
-                refreshBindings();
-                Dialog.IsDialogOpen = false;
-            }
         }
 
         private void onOrder_itemModelWorkFlowChange(object sender, PropertyChangedEventArgs e)
@@ -983,6 +987,7 @@ namespace QOBDManagement.ViewModel
                 && !OrderSelected.TxtStatus.Equals(EStatusOrder.Pre_Order.ToString())
                 && !OrderSelected.TxtStatus.Equals(EStatusOrder.Pre_Credit.ToString()))
                 return false;
+            
             return true;
         }
 
@@ -1242,8 +1247,6 @@ namespace QOBDManagement.ViewModel
                                                      where  i.DeliveryModel.Delivery.ID == item_deliveryModel.DeliveryModel.Delivery.ID 
                                                             && i.DeliveryModel.TxtStatus == EStatusOrder.Not_Billed.ToString()
                                                      select i.DeliveryModel).ToList();
-
-                        // var deliveryModelFoundList = Order_itemInProcess.Where(x => x.ItemModel.Item_deliveryModelList.Where(y=> y.DeliveryModel.Delivery.ID == item_deliveryModel.DeliveryModel.Delivery.ID && y.DeliveryModel.TxtStatus == EStatusOrder.Not_Billed.ToString()).Count() > 0).SelectMany(z=>z.ItemModel.Item_deliveryModelList.Select(w=>w.DeliveryModel)).ToList();
 
                         foreach (DeliveryModel deliveryModel in deliveryModelFoundList)
                         {

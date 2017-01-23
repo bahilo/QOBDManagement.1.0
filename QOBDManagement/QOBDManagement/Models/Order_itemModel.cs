@@ -28,9 +28,8 @@ namespace QOBDManagement.Models
             _order_item = new Entity.Order_item();
             _itemModel = new ItemModel();
             _nbPackages = 1;
-            PropertyChanged += onQuantityChange;
-            PropertyChanged += onAmountSellOrPurchaseChange;
-            PropertyChanged += onOrder_itemChange;
+            PropertyChanged += onAmountOrQuantityOrObjectChange;
+            //PropertyChanged += onOrder_itemChange;
         }
 
         public string TxtItemId
@@ -120,13 +119,13 @@ namespace QOBDManagement.Models
         public string TxtQuantity_pending
         {
             get { return (_quantityPending = _order_item.Quantity - Order_Item.Quantity_delivery).ToString(); }
-            set { int converted; if (int.TryParse(value, out converted)) setProperty(ref _quantityPending, converted, "TxtQuantity_pending"); }
+            set { int converted; if (int.TryParse(value, out converted)) setProperty(ref _quantityPending, converted); }
         }
 
         public string TxtPrice
         {
             get { return _order_item.Price.ToString(); }
-            set { decimal converted; if (decimal.TryParse(value, out converted)) { _order_item.Price = converted; onPropertyChange("TxtPrice"); } }
+            set { decimal converted; if (decimal.TryParse(value, out converted)) { _order_item.Price = converted; onPropertyChange(); } }
         }
 
         public string TxtPrice_purchase
@@ -159,41 +158,71 @@ namespace QOBDManagement.Models
         {
             try
             {
-                TxtPercentProfit = string.Format("{0:0.00}", (((_order_item.Price - _order_item.Price_purchase) / _order_item.Price) * 100));
+                if(_order_item.Price_purchase >= 0)
+                    TxtPercentProfit = string.Format("{0:0.00}", (((_order_item.Price - _order_item.Price_purchase) / _order_item.Price) * 100));
+                else
+                    // In case of order converted into credit
+                    TxtPercentProfit = string.Format("{0:0.00}", ( -1 * ((_order_item.Price - _order_item.Price_purchase) / _order_item.Price) * 100));
+
             }
             catch (DivideByZeroException)
             {
                 TxtPercentProfit = 0.ToString();
             }
-            TxtProfit = string.Format("{0:0.00}", (_order_item.Price - _order_item.Price_purchase) * _order_item.Quantity);
+
+            if (_order_item.Price_purchase >= 0)
+                TxtProfit = string.Format("{0:0.00}", (_order_item.Price - _order_item.Price_purchase) * _order_item.Quantity);
+            else
+                // In case of order converted into credit
+                TxtProfit = string.Format("{0:0.00}", -1 * (_order_item.Price - _order_item.Price_purchase) * _order_item.Quantity);
+        }
+
+        private void resetSellingAndPurchasePrice()
+        {
+            TxtTotalSelling = Convert.ToString(_order_item.Quantity * _order_item.Price);
+            TxtTotalPurchase = Convert.ToString(_order_item.Quantity * _order_item.Price_purchase);
         }
 
         //----------------------------[ Event Handler ]------------------
 
-        private void onQuantityChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (string.Equals(e.PropertyName, "TxtQuantity") || string.Equals(e.PropertyName, "Order_Item"))
-            {     
-                TxtTotalSelling = Convert.ToString(_order_item.Quantity * _order_item.Price);
-                TxtTotalPurchase = Convert.ToString(_order_item.Quantity * _order_item.Price_purchase);
-                profitCalcul();
-            }
-        }
+        //private void onQuantityChange(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (string.Equals(e.PropertyName, "TxtQuantity") || string.Equals(e.PropertyName, "Order_Item"))
+        //    {
 
-        private void onOrder_itemChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (string.Equals(e.PropertyName, "Order_Item"))
-                profitCalcul();
-        }
+        //    }
+        //        profitCalcul();
+        //}
+
+        //private void onOrder_itemChange(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName.Equals("Order_Item"))
+        //    {
+        //        resetSellingAndPurchasePrice();
+        //        profitCalcul();
+        //    }
+        //}
         
 
-        private void onAmountSellOrPurchaseChange(object sender, PropertyChangedEventArgs e)
+        private void onAmountOrQuantityOrObjectChange(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("TxtPrice") || e.PropertyName.Equals("TxtPrice_purchase"))
+            if (e.PropertyName.Equals("TxtPrice") 
+                || e.PropertyName.Equals("TxtPrice_purchase")
+                || e.PropertyName.Equals("TxtQuantity")
+                || e.PropertyName.Equals("Order_Item"))
             {
                 if ( _order_item.Price_purchase != 0 && _order_item.Price != 0)
+                {
+                    resetSellingAndPurchasePrice();
                     profitCalcul();
+                }                    
             }            
+        }
+
+        public override void Dispose()
+        {
+            PropertyChanged -= onAmountOrQuantityOrObjectChange;
+            //PropertyChanged -= onOrder_itemChange;
         }
 
     }

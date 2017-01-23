@@ -171,7 +171,7 @@ namespace QOBDCommon.Classes
             catch (WebException ex)
             {
                 String status = ((FtpWebResponse)ex.Response).StatusDescription;
-                Log.error(status);
+                Log.warning(status + " => " + ex.Message);
             }
             catch(Exception ex)
             {
