@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 using System.Xml.Serialization;
 
@@ -51,9 +52,7 @@ namespace QOBDManagement.Classes
         protected void onPropertyChange([CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }                
+               PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
 

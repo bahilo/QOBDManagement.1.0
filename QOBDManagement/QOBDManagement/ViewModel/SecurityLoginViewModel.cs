@@ -118,7 +118,9 @@ namespace QOBDManagement.ViewModel
 
         public void showView()
         {
-            _DialogtaskCompletion.initializeNewTask(Dialog.show(this));
+            //Task.Factory.StartNew(()=> {
+                _DialogtaskCompletion.initializeNewTask(Dialog.show(this));
+            //});            
         }
         
         private async Task<object> authenticateAgent()

@@ -368,7 +368,7 @@ namespace QOBDManagement.Classes
                 return isSavedSuccessfully;
             }
 
-            public void read()
+            public async void read()
             {
                 bool isFileFound = false;
 
@@ -378,7 +378,13 @@ namespace QOBDManagement.Classes
                     && !string.IsNullOrEmpty(TxtFileFullPath)
                         && !string.IsNullOrEmpty(TxtLogin)
                             && !string.IsNullOrEmpty(TxtPassword))
-                   isFileFound = Utility.downloadFIle(TxtFtpUrl, TxtFileFullPath, TxtLogin, TxtPassword);
+                {
+                    isFileFound = await Task.Factory.StartNew(() => {
+                        return Utility.downloadFile(TxtFtpUrl, TxtFileFullPath, _login, _password);
+                    });
+                }
+                    
+                //isFileFound = Utility.downloadFIle(TxtFtpUrl, TxtFileFullPath, TxtLogin, TxtPassword);
                    
 
                 if (isFileFound && File.Exists(TxtFileFullPath))
