@@ -1,5 +1,6 @@
 ﻿using QOBDCommon.Entities;
 using QOBDManagement.Classes;
+using QOBDManagement.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,8 +51,8 @@ namespace QOBDManagement.Models
 
         public string TxtDeliveryId
         {
-            get { return _item_delivery.DeliveryId.ToString(); }
-            set { _item_delivery.DeliveryId = Convert.ToInt32(value); onPropertyChange(); }
+            get { return _item_delivery.DeliveryId.addPrefix(Enums.EPrefix.DELIVERY); }
+            set { _item_delivery.DeliveryId = Convert.ToInt32(value.deletePrefix()); onPropertyChange(); }
         }
 
         public string TxtItem_ref

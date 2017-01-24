@@ -32,6 +32,9 @@ namespace QOBDManagement.Helper
                 case EPrefix.INVOICE:
                     prefix = ConfigurationManager.AppSettings["invoice_prefix"];
                     break;
+                case EPrefix.DELIVERY:
+                    prefix = ConfigurationManager.AppSettings["delivery_prefix"];
+                    break;
             }
 
             return prefix + valueString;

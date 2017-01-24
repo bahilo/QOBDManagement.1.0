@@ -11,5 +11,6 @@ namespace QOBDManagement.Enums
         INVOICE,
         ORDER,
         CLIENT,
+        DELIVERY,
     }
 }

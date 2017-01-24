@@ -34,8 +34,8 @@ namespace QOBDManagement.Models
 
         public string TxtID
         {
-            get { return _delivery.ID.ToString(); }
-            set { _delivery.ID = Convert.ToInt32(value); onPropertyChange("TxtID"); }
+            get { return _delivery.ID.addPrefix(EPrefix.DELIVERY); }
+            set { _delivery.ID = Convert.ToInt32(value.deletePrefix()); onPropertyChange("TxtID"); }
         }
 
         public string TxtOrderId
