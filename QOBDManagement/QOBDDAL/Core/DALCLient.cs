@@ -74,7 +74,8 @@ namespace QOBDDAL.Core
         {
             if (e.PropertyName.Equals("Credential"))
             {
-                DALHelper.doActionAsync(retrieveGateWayDataClient);                
+                retrieveGateWayDataClient();
+                //DALHelper.doActionAsync();                
             }
         }
 
@@ -100,11 +101,14 @@ namespace QOBDDAL.Core
                         ConcurrentBag<Contact> contactFoundList = new ConcurrentBag<Contact>(new NotifyTaskCompletion<List<Contact>>(_gateWayClient.GetContactDataByClientListAsync(savedClientList.Skip(i * loadUnit).Take(loadUnit).ToList())).Task.Result); // await dalItem.GateWayItem.GetItemDataByCommand_itemList(new List<Command_item>(command_itemList.Skip(i * loadUnit).Take(loadUnit)));
                         contactList = new ConcurrentBag<Contact>(contactList.Concat(new ConcurrentBag<Contact>(contactFoundList)));
                     }
-
                     List<Address> savedAddressList = LoadAddress(addressList.ToList()); // UpdateAddress(addressList.ToList());
                     List<Contact> savedContactList = LoadContact(new NotifyTaskCompletion<List<Contact>>(_gateWayClient.GetContactDataByClientListAsync(clientList.ToList())).Task.Result);
 
                 }
+            }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message);
             }
             finally
             {

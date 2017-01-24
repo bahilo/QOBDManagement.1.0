@@ -58,7 +58,8 @@ namespace QOBDDAL.Core
         {
             if (e.PropertyName.Equals("Credential"))
             {
-                DALHelper.doActionAsync(retrieveGateWayData);                
+                retrieveGateWayData();
+                //DALHelper.doActionAsync();                
             }
         }
 
@@ -76,6 +77,10 @@ namespace QOBDDAL.Core
                 var statisticList = new NotifyTaskCompletion<List<Statistic>>(_gateWayStatistic.GetStatisticDataAsync(_loadSize)).Task.Result;
                 if (statisticList.Count > 0)
                     LoadStatistic(statisticList);
+            }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message);
             }
             finally
             {

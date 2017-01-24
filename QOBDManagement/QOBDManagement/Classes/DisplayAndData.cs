@@ -73,7 +73,6 @@ namespace QOBDManagement.Classes
                     _width = 150;
                     _imageSource = new BitmapImage();
                     PropertyChanged += onTxtChosenFileChange_setup;
-                    //PropertyChanged += onImageInfosChange_getImageFullPath;
                     PropertyChanged += onTxtFileFullPathDelete_deleteTxtChosenFileChange;
                     PropertyChanged += onImageDataListChange_splitImageData;
                 }
@@ -96,14 +95,6 @@ namespace QOBDManagement.Classes
                         read();
                     }
                 }
-
-                //private void onImageInfosChange_getImageFullPath(object sender, PropertyChangedEventArgs e)
-                //{
-                //    if (e.PropertyName.Equals("ImageInfos") && ImageInfos != null && ImageInfos.ID != 0)
-                //    {
-                //        read();
-                //    }
-                //}
 
                 private void onTxtChosenFileChange_setup(object sender, PropertyChangedEventArgs e)
                 {

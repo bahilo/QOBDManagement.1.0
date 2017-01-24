@@ -56,8 +56,8 @@ namespace QOBDDAL.Core
         {
             if (e.PropertyName.Equals("Credential"))
             {
-                DALHelper.doActionAsync(retrieveGateWayDataOrder);
-                
+                retrieveGateWayDataOrder();
+                //DALHelper.doActionAsync();                
             }
         }
 
@@ -79,7 +79,7 @@ namespace QOBDDAL.Core
                 UpdateOrderDependencies(new NotifyTaskCompletion<List<Order>>(_gatewayOrder.searchOrderAsync(new Order { AgentId = AuthenticatedUser.ID }, ESearchOption.AND)).Task.Result.Take(_loadSize).ToList(), true);
             }
             catch (Exception ex) { Log.error(ex.Message); }
-            finally { lock (_lock) _isLodingDataFromWebServiceToLocal = true; }
+            finally { lock (_lock) IsLodingDataFromWebServiceToLocal = true; }
             
         }
 

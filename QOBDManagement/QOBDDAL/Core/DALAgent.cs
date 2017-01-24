@@ -57,7 +57,8 @@ namespace QOBDDAL.Core
         {
             if (e.PropertyName.Equals("Credential"))
             {
-                DALHelper.doActionAsync(retrieveGateWayData);                
+                retrieveGateWayData();
+                //DALHelper.doActionAsync();                
             }
         }        
         
@@ -82,6 +83,10 @@ namespace QOBDDAL.Core
                 {
                     var savedAgentList = LoadAgent(agentList);
                 }
+            }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message);
             }
             finally
             {

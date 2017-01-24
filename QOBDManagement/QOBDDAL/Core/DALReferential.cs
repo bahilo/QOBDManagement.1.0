@@ -48,7 +48,8 @@ namespace QOBDDAL.Core
         {
             if (e.PropertyName.Equals("Credential"))
             {
-                DALHelper.doActionAsync(retrieveGateWayDataReferential);                
+                retrieveGateWayDataReferential();
+                //DALHelper.doActionAsync();                
             }
         }
 
@@ -76,6 +77,10 @@ namespace QOBDDAL.Core
             {
                 ConcurrentBag<Info> infosList = new ConcurrentBag<Info>(new NotifyTaskCompletion<List<Info>>(_gateWayReferential.GetInfoDataAsync(_loadSize)).Task.Result);
                 List<Info> savedInfosList = LoadInfos(infosList.ToList());
+            }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message);
             }
             finally
             {

@@ -378,6 +378,9 @@ namespace QOBDManagement
             return ObjectToReturn;
         }
 
+        /// <summary>
+        /// Initializing the User Interface
+        /// </summary>
         private void loadUIData()
         {
              Dispatcher.CurrentDispatcher.Invoke(() =>
@@ -395,6 +398,7 @@ namespace QOBDManagement
                     _startup.Dal.ProgressBarFunc = progressBarManagement;
                     _startup.Dal.SetUserCredential(AuthenticatedUser);
                     _startup.Dal.DALReferential.PropertyChanged += onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage;
+                    _startup.Dal.DALItem.PropertyChanged += onLodingIsLodingDataFromWebServiceToLocalChange_loadStatistics;
                     //downloadHeaderImages();                    
                 }
                 CommandNavig.raiseCanExecuteActionChanged();
@@ -479,6 +483,17 @@ namespace QOBDManagement
                     downloadHeaderImages();
                 });
                 
+            }
+        }
+
+        private void onLodingIsLodingDataFromWebServiceToLocalChange_loadStatistics(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("IsLodingDataFromWebServiceToLocal"))
+            {
+                Application.Current.Dispatcher.Invoke(() => {
+                    HomeViewModel.loadData();
+                });
+
             }
         }
 

@@ -66,7 +66,8 @@ namespace QOBDDAL.Core
         {
             if (e.PropertyName.Equals("Credential"))
             {
-                DALHelper.doActionAsync(retrieveGateWayDataItem);                
+                retrieveGateWayDataItem();
+                //DALHelper.doActionAsync();                
             }
         }
 
