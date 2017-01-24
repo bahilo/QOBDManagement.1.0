@@ -73,7 +73,7 @@ namespace QOBDManagement.Classes
                     _width = 150;
                     _imageSource = new BitmapImage();
                     PropertyChanged += onTxtChosenFileChange_setup;
-                    PropertyChanged += onImageInfosChange_getImageFullPath;
+                    //PropertyChanged += onImageInfosChange_getImageFullPath;
                     PropertyChanged += onTxtFileFullPathDelete_deleteTxtChosenFileChange;
                     PropertyChanged += onImageDataListChange_splitImageData;
                 }
@@ -93,16 +93,17 @@ namespace QOBDManagement.Classes
                         ImageWidth = ImageDataList.Where(x => x != null && x.Name == TxtFileNameWithoutExtension + _filter[0]).FirstOrDefault();
                         ImageHeight = ImageDataList.Where(x => x != null && x.Name == TxtFileNameWithoutExtension + _filter[1]).FirstOrDefault();
                         ImageInfos = ImageDataList.Where(x => x != null && x.Name == TxtFileNameWithoutExtension).FirstOrDefault();
-                    }
-                }
-
-                private void onImageInfosChange_getImageFullPath(object sender, PropertyChangedEventArgs e)
-                {
-                    if (e.PropertyName.Equals("ImageInfos") && ImageInfos != null && ImageInfos.ID != 0)
-                    {
                         read();
                     }
                 }
+
+                //private void onImageInfosChange_getImageFullPath(object sender, PropertyChangedEventArgs e)
+                //{
+                //    if (e.PropertyName.Equals("ImageInfos") && ImageInfos != null && ImageInfos.ID != 0)
+                //    {
+                //        read();
+                //    }
+                //}
 
                 private void onTxtChosenFileChange_setup(object sender, PropertyChangedEventArgs e)
                 {
@@ -118,7 +119,7 @@ namespace QOBDManagement.Classes
                     get { return _imageSource; }
                     set {
                             Dispatcher.CurrentDispatcher.Invoke(() =>
-                            {
+                            {                                
                                 setProperty(ref _imageSource, value, "ImageSource");
                             });
                          }
@@ -229,7 +230,7 @@ namespace QOBDManagement.Classes
 
                 private void copyImage()
                 {
-                    updateImageSource(isClosingImageStream: true);
+                    closeImageSource();
 
                     if (File.Exists(Path.Combine(_localPath, TxtChosenFile)))
                         _chosenFile = Path.Combine(_localPath, TxtChosenFile);
@@ -278,8 +279,8 @@ namespace QOBDManagement.Classes
 
                     if (File.Exists(TxtFileFullPath))
                     {
-                        // closing the header images stream before updating
-                        updateImageSource(isClosingImageStream: true);
+                        // closing the images stream before updating
+                        closeImageSource();
 
                         if (ImageInfos == null)
                         {
@@ -310,39 +311,45 @@ namespace QOBDManagement.Classes
                     return isSavedSuccessfully;
                 }
 
-                public void updateImageSource(bool isClosingImageStream = false)
+                public void updateImageSource()
                 {
-                    if (!string.IsNullOrEmpty(TxtFileFullPath))
+                    try
                     {
-                        try
+                        if (closeImageSource())
                         {
-                            if (!isClosingImageStream)
-                            {
-                                FileStream imageStream = new FileStream(TxtFileFullPath, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete);
-                                BitmapImage imageSource = new BitmapImage();
-                                imageSource.BeginInit();
-                                imageSource.UriSource = null;
-                                imageSource.StreamSource = imageStream;
-                                imageSource.CacheOption = BitmapCacheOption.OnLoad;
-                                imageSource.EndInit();
-                                imageSource.Freeze();
+                            FileStream imageStream = new FileStream(TxtFileFullPath, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete);
+                            BitmapImage imageSource = new BitmapImage();
+                            imageSource.BeginInit();
+                            imageSource.UriSource = null;
+                            imageSource.StreamSource = imageStream;
+                            imageSource.CacheOption = BitmapCacheOption.OnLoad;
+                            imageSource.EndInit();
+                            imageSource.Freeze();
 
-                                ImageSource = imageSource;
-                            }
-                            else
-                            {
-                                Stream stream = ImageSource.StreamSource;
-                                if (stream != null)
-                                {
-                                    stream.Close();
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.error(ex.Message);
+                            ImageSource = imageSource;
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Log.error(ex.Message);
+                    }
+                }
+
+                public bool closeImageSource()
+                {
+                    Stream stream = ImageSource.StreamSource;
+                    bool isClosed = true;
+                    try
+                    {
+                        if (stream != null)
+                            stream.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.error(ex.Message);
+                        isClosed = false;
+                    }
+                    return isClosed;
                 }
 
                 public bool deleteFiles()
@@ -351,16 +358,17 @@ namespace QOBDManagement.Classes
                     {
                         try
                         {
-                            updateImageSource(isClosingImageStream: true);
-                            var imageSource = new BitmapImage();
-                            imageSource.Freeze();
-                            ImageSource = imageSource;
-                            File.Delete(TxtFileFullPath);
+                            if (closeImageSource())
+                            {
+                                var imageSource = new BitmapImage();
+                                imageSource.Freeze();
+                                ImageSource = imageSource;
+                                File.Delete(TxtFileFullPath);
+                            }                            
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-
-                            return false;
+                            Log.error(ex.Message);
                         }
                         return true;
                     }

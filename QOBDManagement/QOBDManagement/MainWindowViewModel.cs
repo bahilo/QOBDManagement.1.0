@@ -205,33 +205,33 @@ namespace QOBDManagement
 
         private void downloadHeaderImages()
         {
-            if (string.IsNullOrEmpty(HeaderImageDisplay.TxtLogin) || string.IsNullOrEmpty(LogoImageDisplay.TxtLogin) || string.IsNullOrEmpty(BillImageDisplay.TxtLogin))
+            if (string.IsNullOrEmpty(_headerImageDisplay.TxtLogin) || string.IsNullOrEmpty(_logoImageDisplay.TxtLogin) || string.IsNullOrEmpty(_billImageDisplay.TxtLogin))
             {
-                HeaderImageDisplay.TxtLogin = LogoImageDisplay.TxtLogin = BillImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
-                HeaderImageDisplay.TxtPassword = LogoImageDisplay.TxtPassword = BillImageDisplay.TxtPassword = (_startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+                _headerImageDisplay.TxtLogin = _logoImageDisplay.TxtLogin = _billImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+                _headerImageDisplay.TxtPassword = _logoImageDisplay.TxtPassword = _billImageDisplay.TxtPassword = (_startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
             }
 
-            if (string.IsNullOrEmpty(HeaderImageDisplay.TxtFileFullPath))
+            if (string.IsNullOrEmpty(_headerImageDisplay.TxtFileFullPath))
             {                
-                var headerImageFoundDisplay = loadImage(HeaderImageDisplay.TxtFileNameWithoutExtension, HeaderImageDisplay.TxtName, HeaderImageDisplay.TxtLogin, HeaderImageDisplay.TxtPassword);
+                var headerImageFoundDisplay = loadImage(_headerImageDisplay.TxtFileNameWithoutExtension, _headerImageDisplay.TxtName, _headerImageDisplay.TxtLogin, _headerImageDisplay.TxtPassword);
                 if (!string.IsNullOrEmpty(headerImageFoundDisplay.TxtFileFullPath) && File.Exists(headerImageFoundDisplay.TxtFileFullPath))
                     Application.Current.Dispatcher.Invoke(()=> {
                         HeaderImageDisplay = headerImageFoundDisplay;
                     });                    
             }
 
-            if (string.IsNullOrEmpty(LogoImageDisplay.TxtFileFullPath))
+            if (string.IsNullOrEmpty(_logoImageDisplay.TxtFileFullPath))
             {
-                var logoImageFoundDisplay = loadImage(LogoImageDisplay.TxtFileNameWithoutExtension, LogoImageDisplay.TxtName, LogoImageDisplay.TxtLogin, LogoImageDisplay.TxtPassword);
+                var logoImageFoundDisplay = loadImage(_logoImageDisplay.TxtFileNameWithoutExtension, _logoImageDisplay.TxtName, _logoImageDisplay.TxtLogin, _logoImageDisplay.TxtPassword);
                 if (!string.IsNullOrEmpty(logoImageFoundDisplay.TxtFileFullPath) && File.Exists(logoImageFoundDisplay.TxtFileFullPath))
                     Application.Current.Dispatcher.Invoke(() => {
                         LogoImageDisplay = logoImageFoundDisplay;
                     });                
             }
 
-            if (string.IsNullOrEmpty(BillImageDisplay.TxtFileFullPath))
+            if (string.IsNullOrEmpty(_billImageDisplay.TxtFileFullPath))
             {
-                var billImageFoundDisplay = loadImage(BillImageDisplay.TxtFileNameWithoutExtension, BillImageDisplay.TxtName, BillImageDisplay.TxtLogin, BillImageDisplay.TxtPassword);
+                var billImageFoundDisplay = loadImage(_billImageDisplay.TxtFileNameWithoutExtension, _billImageDisplay.TxtName, _billImageDisplay.TxtLogin, _billImageDisplay.TxtPassword);
                 if (!string.IsNullOrEmpty(billImageFoundDisplay.TxtFileFullPath) && File.Exists(billImageFoundDisplay.TxtFileFullPath))
                     Application.Current.Dispatcher.Invoke(() => {
                         BillImageDisplay = billImageFoundDisplay;

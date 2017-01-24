@@ -125,11 +125,11 @@ namespace QOBDCommon.Classes
                 if(requestStream != null)
                     requestStream.Close();
             }
-            
+
             downloadFIle(ftpUrl, fileFullPath, username, password);
 
             FtpWebResponse response = (FtpWebResponse)req.GetResponse();
-            if (response.StatusCode.Equals(FtpStatusCode.ClosingData)) // && count > 0)
+            if (response.StatusCode.Equals(FtpStatusCode.ClosingData))
                 isComplete = true;
 
             return isComplete;
@@ -140,7 +140,7 @@ namespace QOBDCommon.Classes
             bool isComplete = false;
             FtpWebRequest req = (FtpWebRequest)WebRequest.Create(ftpUrl);
             req.UseBinary = true;
-            req.KeepAlive = true;
+            req.KeepAlive = false;
             req.Method = WebRequestMethods.Ftp.DownloadFile;
             req.Credentials = new NetworkCredential(username, password);
             req.Timeout = 600000;
@@ -148,7 +148,6 @@ namespace QOBDCommon.Classes
             Stream ftpStream = null;
 
             FileStream fs = null;
-            int totalByte;
             int bytes = 0;
             int bufferSize = 4096;
             byte[] buffer = new byte[bufferSize];
@@ -156,20 +155,21 @@ namespace QOBDCommon.Classes
             try
             {
                 response = (FtpWebResponse)req.GetResponse();
-                ftpStream = response.GetResponseStream();             
+                ftpStream = response.GetResponseStream();
 
-                // delete the file before update
-                if(File.Exists(fileFullPath))
-                    File.Delete(fileFullPath);
+                if (File.Exists(fileFullPath))
+                    fileFullPath.Clone();
 
                 fs = new FileStream(fileFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Write);
-                totalByte = (int)fs.Length;
-
-                while (totalByte > 0)
+                
+                while (true)
                 {
                     bytes = ftpStream.Read(buffer, 0, bufferSize);
+
+                    if (bytes == 0)
+                        break;
+
                     fs.Write(buffer, 0, bytes);
-                    totalByte = totalByte - bytes;
                 }
             }
             catch (WebException ex)
