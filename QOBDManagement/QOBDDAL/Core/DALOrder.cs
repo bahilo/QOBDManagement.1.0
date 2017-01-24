@@ -77,6 +77,7 @@ namespace QOBDDAL.Core
             {
                 lock (_lock) _isLodingDataFromWebServiceToLocal = true;
                 UpdateOrderDependencies(new NotifyTaskCompletion<List<Order>>(_gatewayOrder.searchOrderAsync(new Order { AgentId = AuthenticatedUser.ID }, ESearchOption.AND)).Task.Result.Take(_loadSize).ToList(), true);
+                //Log.debug("-- Orders loaded --");
             }
             catch (Exception ex) { Log.error(ex.Message); }
             finally { lock (_lock) IsLodingDataFromWebServiceToLocal = true; }
@@ -1047,7 +1048,6 @@ namespace QOBDDAL.Core
                     order_itemList = new ConcurrentBag<Order_item>(order_itemList.Concat(new ConcurrentBag<Order_item>(order_itemFoundList)));
                 }
                 var savedOrder_itemList = new ConcurrentBag<Order_item>(LoadOrder_item(order_itemList.ToList()));
-
             }
             if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
 
@@ -1061,7 +1061,6 @@ namespace QOBDDAL.Core
                     itemList = new ConcurrentBag<Item>(itemList.Concat(new ConcurrentBag<Item>(itemFoundList)));
                 }
                 var savedItemList = new ConcurrentBag<Item>(dalItem.LoadItem(itemList.ToList()));
-
             }
             if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
 
@@ -1074,9 +1073,7 @@ namespace QOBDDAL.Core
                     ConcurrentBag<Provider_item> provider_itemFoundList = new ConcurrentBag<Provider_item>(new NotifyTaskCompletion<List<Provider_item>>(dalItem.GateWayItem.GetProvider_itemDataByItemListAsync(itemList.Skip(i * loadUnit).Take(loadUnit).ToList())).Task.Result); // await dalItem.GateWayItem.GetProvider_itemDataByItemList(new List<Item>(itemList.Skip(i * loadUnit).Take(loadUnit)));
                     provider_itemList = new ConcurrentBag<Provider_item>(provider_itemList.Concat(new ConcurrentBag<Provider_item>(provider_itemFoundList)).OrderBy(x => x.Provider_name).Distinct());
                 }
-
                 var savedProvider_itemList = new ConcurrentBag<Provider_item>(dalItem.LoadProvider_item(provider_itemList.ToList()));
-
             }
             if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
 
@@ -1130,6 +1127,7 @@ namespace QOBDDAL.Core
                 contactList = new ConcurrentBag<Contact>(contactList.Concat(new ConcurrentBag<Contact>(contactFoundList)));
                 List<Contact> savedContactList = dalClient.LoadContact(contactList.ToList());
             }
+            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
 
             // saving orders
             if (orderList.Count > 0)

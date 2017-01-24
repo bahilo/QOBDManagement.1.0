@@ -104,7 +104,12 @@ namespace QOBDDAL.Core
                         }
                     }
                 }
-                
+
+                //Log.debug("-- Items loaded --");
+            }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message);
             }
             finally
             {

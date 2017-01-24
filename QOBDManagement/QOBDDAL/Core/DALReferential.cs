@@ -77,6 +77,8 @@ namespace QOBDDAL.Core
             {
                 ConcurrentBag<Info> infosList = new ConcurrentBag<Info>(new NotifyTaskCompletion<List<Info>>(_gateWayReferential.GetInfoDataAsync(_loadSize)).Task.Result);
                 List<Info> savedInfosList = LoadInfos(infosList.ToList());
+
+                //Log.debug("-- Referentials loaded --");
             }
             catch (Exception ex)
             {

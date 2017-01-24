@@ -103,8 +103,8 @@ namespace QOBDDAL.Core
                     }
                     List<Address> savedAddressList = LoadAddress(addressList.ToList()); // UpdateAddress(addressList.ToList());
                     List<Contact> savedContactList = LoadContact(new NotifyTaskCompletion<List<Contact>>(_gateWayClient.GetContactDataByClientListAsync(clientList.ToList())).Task.Result);
-
                 }
+                Log.debug("-- Clients loaded --");
             }
             catch (Exception ex)
             {

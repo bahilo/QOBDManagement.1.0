@@ -77,6 +77,7 @@ namespace QOBDDAL.Core
                 var statisticList = new NotifyTaskCompletion<List<Statistic>>(_gateWayStatistic.GetStatisticDataAsync(_loadSize)).Task.Result;
                 if (statisticList.Count > 0)
                     LoadStatistic(statisticList);
+                //Log.debug("-- Statistics loaded --");
             }
             catch (Exception ex)
             {

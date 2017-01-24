@@ -80,9 +80,9 @@ namespace QOBDDAL.Core
                 lock (_lock) _isLodingDataFromWebServiceToLocal = true;
                 var agentList = new NotifyTaskCompletion<List<Agent>>(_gateWayAgent.GetAgentDataAsync(_loadSize)).Task.Result;
                 if (agentList.Count > 0)
-                {
-                    var savedAgentList = LoadAgent(agentList);
-                }
+                    LoadAgent(agentList);
+
+                //Log.debug("-- Agents loaded --");
             }
             catch (Exception ex)
             {
