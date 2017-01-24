@@ -247,6 +247,8 @@ namespace QOBDManagement.Classes
                         int.TryParse(ImageWidth.Value, out _width);
                     if (ImageHeight != null)
                         int.TryParse(ImageHeight.Value, out _height);
+
+                    updateImageSource();
                 }
 
                 private void read()
@@ -259,21 +261,11 @@ namespace QOBDManagement.Classes
                         setup();
 
                         if (TxtFtpUrl != null && TxtFileFullPath != null)
-                            try
-                            {
-                                //updateImageSource(isClosingImageStream: true);
-                                isFileFound = Utility.downloadFIle(TxtFtpUrl, TxtFileFullPath, _login, _password);
-                            }
-                            catch (Exception e)
-                            {
-                                Debug.WriteLine("[WARNNING] - " + e.Message);
-                                _fileFullPath = "";
-                            }
+                            isFileFound = Utility.downloadFIle(TxtFtpUrl, TxtFileFullPath, _login, _password);
+                            
 
                         if (isFileFound && File.Exists(TxtFileFullPath))
-                            copyImage();
-
-                        updateImageSource();
+                            copyImage();                       
 
                     }
                 }

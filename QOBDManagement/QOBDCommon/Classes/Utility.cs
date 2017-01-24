@@ -125,7 +125,7 @@ namespace QOBDCommon.Classes
                 if(requestStream != null)
                     requestStream.Close();
             }
-
+            
             downloadFIle(ftpUrl, fileFullPath, username, password);
 
             FtpWebResponse response = (FtpWebResponse)req.GetResponse();
@@ -157,6 +157,10 @@ namespace QOBDCommon.Classes
             {
                 response = (FtpWebResponse)req.GetResponse();
                 ftpStream = response.GetResponseStream();             
+
+                // delete the file before update
+                if(File.Exists(fileFullPath))
+                    File.Delete(fileFullPath);
 
                 fs = new FileStream(fileFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Write);
                 totalByte = (int)fs.Length;

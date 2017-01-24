@@ -222,10 +222,8 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="OrderList"></param>
         /// <returns></returns>
-        private Task<List<OrderModel>> OrderListToModelList(List<Entity.Order> OrderList)
-        {
-            return Task.Factory.StartNew(async () =>
-            {
+        private List<OrderModel> OrderListToModelList(List<Entity.Order> OrderList)
+        {            
                 List<OrderModel> output = new List<OrderModel>();
                 ConcurrentBag<OrderModel> concurrentOrderModelList = new ConcurrentBag<OrderModel>();
                 foreach (var order in OrderList)
@@ -240,7 +238,7 @@ namespace QOBDManagement.ViewModel
 
                     var tax_order = new Entity.Tax_order();
                     tax_order.OrderId = order.ID;
-                    var resultSearchOrderTaxList = await Bl.BlOrder.searchTax_orderAsync(tax_order, ESearchOption.AND);
+                    var resultSearchOrderTaxList = Bl.BlOrder.searchTax_order(tax_order, ESearchOption.AND);
                     ovm.Tax_order = (resultSearchOrderTaxList.Count > 0) ? resultSearchOrderTaxList[0] : new Entity.Tax_order();
 
                     Entity.Tax taxFound = TaxList.Where(x => x.ID == ovm.Tax_order.TaxId).OrderBy(x => x.Date_insert).LastOrDefault();// await Bl.BlOrder.GetTaxDataById(cmdvm.Tax_command.TaxId);
@@ -250,9 +248,7 @@ namespace QOBDManagement.ViewModel
                     concurrentOrderModelList.Add(ovm);
                 }
                 output = new List<OrderModel>(concurrentOrderModelList);
-                return output;
-            }).Result;
-            
+                return output; 
         }
 
         /// <summary>
@@ -261,20 +257,20 @@ namespace QOBDManagement.ViewModel
         public async void loadOrders()
         {
             Dialog.showSearch("Loading...");
-            TaxList = await Bl.BlOrder.GetTaxDataAsync(999);
+            TaxList = Bl.BlOrder.GetTaxData(999);
             OrderSearch.AgentList = await Bl.BlAgent.GetAgentDataAsync(-999);
 
             if (SelectedClient.Client.ID != 0)
             {
                 Title = string.Format("Orders for the Company {0}", SelectedClient.Client.Company);
 
-                OrderModelList = (await OrderListToModelList(await Bl.BlOrder.searchOrderAsync(new Entity.Order { ClientId = SelectedClient.Client.ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
+                OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new Entity.Order { ClientId = SelectedClient.Client.ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
                 SelectedClient = new ClientModel();
             }
             else
             {
                 Title = "Orders Management";
-                OrderModelList = (await OrderListToModelList(await Bl.BlOrder.searchOrderAsync(new QOBDCommon.Entities.Order { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
+                OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new QOBDCommon.Entities.Order { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
             }
             BlockSearchResultVisibility = "Hidden";
             Dialog.IsDialogOpen = false;
@@ -528,7 +524,7 @@ namespace QOBDManagement.ViewModel
             if (Utility.convertToDateTime(OrderSearch.EndDate) != Utility.DateTimeMinValueInSQL2005)
                 orderFoundFilterByDate = orderFoundFilterByDate.Where(x => x.Date <= Utility.convertToDateTime(OrderSearch.EndDate)).ToList();
 
-            OrderModelList = await OrderListToModelList(orderFoundFilterByDate);
+            OrderModelList = OrderListToModelList(orderFoundFilterByDate);
 
             BlockSearchResultVisibility = "Visible";
 

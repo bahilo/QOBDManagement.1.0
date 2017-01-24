@@ -133,10 +133,10 @@ namespace QOBDManagement
         {
             get { return _headerImageDisplay; }
             set {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
+                    //Application.Current.Dispatcher.Invoke(() =>
+                    //{
                         setProperty(ref _headerImageDisplay, value, "HeaderImageDisplay");
-                    });
+                    //});
                 }
         }
 
@@ -144,10 +144,10 @@ namespace QOBDManagement
         {
             get { return _logoImageDisplay; }
             set {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
+                    //Application.Current.Dispatcher.Invoke(() =>
+                    //{
                         setProperty(ref _logoImageDisplay, value, "LogoImageDisplay");
-                    });
+                    //});
                 }
         }
 
@@ -156,10 +156,10 @@ namespace QOBDManagement
             get { return _billImageDisplay; }
             set
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
+                //Application.Current.Dispatcher.Invoke(() =>
+                //{
                     setProperty(ref _billImageDisplay, value, "BillImageDisplay");
-                });
+                //});
             }
         }
 
@@ -215,21 +215,27 @@ namespace QOBDManagement
             {                
                 var headerImageFoundDisplay = loadImage(HeaderImageDisplay.TxtFileNameWithoutExtension, HeaderImageDisplay.TxtName, HeaderImageDisplay.TxtLogin, HeaderImageDisplay.TxtPassword);
                 if (!string.IsNullOrEmpty(headerImageFoundDisplay.TxtFileFullPath) && File.Exists(headerImageFoundDisplay.TxtFileFullPath))
-                    HeaderImageDisplay = headerImageFoundDisplay;
+                    Application.Current.Dispatcher.Invoke(()=> {
+                        HeaderImageDisplay = headerImageFoundDisplay;
+                    });                    
             }
 
             if (string.IsNullOrEmpty(LogoImageDisplay.TxtFileFullPath))
             {
                 var logoImageFoundDisplay = loadImage(LogoImageDisplay.TxtFileNameWithoutExtension, LogoImageDisplay.TxtName, LogoImageDisplay.TxtLogin, LogoImageDisplay.TxtPassword);
                 if (!string.IsNullOrEmpty(logoImageFoundDisplay.TxtFileFullPath) && File.Exists(logoImageFoundDisplay.TxtFileFullPath))
-                    LogoImageDisplay = logoImageFoundDisplay;
+                    Application.Current.Dispatcher.Invoke(() => {
+                        LogoImageDisplay = logoImageFoundDisplay;
+                    });                
             }
 
             if (string.IsNullOrEmpty(BillImageDisplay.TxtFileFullPath))
             {
                 var billImageFoundDisplay = loadImage(BillImageDisplay.TxtFileNameWithoutExtension, BillImageDisplay.TxtName, BillImageDisplay.TxtLogin, BillImageDisplay.TxtPassword);
                 if (!string.IsNullOrEmpty(billImageFoundDisplay.TxtFileFullPath) && File.Exists(billImageFoundDisplay.TxtFileFullPath))
-                    BillImageDisplay = billImageFoundDisplay;
+                    Application.Current.Dispatcher.Invoke(() => {
+                        BillImageDisplay = billImageFoundDisplay;
+                    });                
             }
         }
 
@@ -242,11 +248,11 @@ namespace QOBDManagement
 
             if (infosFoundImage != null)
             {
-                imageObject.ImageInfos = infosFoundImage;
-                imageObject.TxtFileNameWithoutExtension = fileName;
                 imageObject.TxtName = imageName;
                 imageObject.TxtLogin = login;
                 imageObject.TxtPassword = password;
+                imageObject.TxtFileNameWithoutExtension = fileName;
+                imageObject.ImageInfos = infosFoundImage;
                 var infosWidthFound = _startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = fileName + "_width" }, ESearchOption.AND).FirstOrDefault();
                 var infosHeightFound = _startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = fileName + "_height" }, ESearchOption.AND).FirstOrDefault();
 
@@ -461,11 +467,15 @@ namespace QOBDManagement
             }
         }
 
-        private async void onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage(object sender, PropertyChangedEventArgs e)
+        private void onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("IsLodingDataFromWebServiceToLocal"))
             {
-                await Task.Factory.StartNew(() => {
+                //Task.Factory.StartNew(() => {
+                //    downloadHeaderImages();
+                //});
+
+                Application.Current.Dispatcher.Invoke(() => {
                     downloadHeaderImages();
                 });
                 
