@@ -42,7 +42,10 @@ namespace QOBDManagement.Helper
 
         public static string addPrefix(this int valueInteger, EPrefix type)
         {
-            return addPrefix(valueInteger.ToString(), type);
+            if(valueInteger == 0)
+                return valueInteger.ToString();
+            else
+                return addPrefix(valueInteger.ToString(), type);
         }
 
         public static string deletePrefix(this string valueString)

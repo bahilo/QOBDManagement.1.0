@@ -149,8 +149,8 @@ namespace QOBDDAL.Core
                 {
                     int returnResult = _statisticsTableAdapter
                                             .load_data_statistic(
-                                                statistic.Bill_date,
-                                                statistic.BillId,
+                                                statistic.InvoiceDate,
+                                                statistic.InvoiceId,
                                                 statistic.Company,
                                                 statistic.Price_purchase_total,
                                                 statistic.Total,
@@ -171,7 +171,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Statistic>> DeleteStatisticAsync(List<Statistic> statisticList)
         {
-            List<Statistic> result = statisticList;
+            List<Statistic> result = new List<Statistic>();
             List<Statistic> gateWayResultList = new List<Statistic>();
             using (statisticsTableAdapter _statisticsTableAdapter = new statisticsTableAdapter())
             {
@@ -181,8 +181,8 @@ namespace QOBDDAL.Core
                     foreach (Statistic statistic in gateWayResultList)
                     {
                         int returnResult = _statisticsTableAdapter.Delete1(statistic.ID);
-                        if (returnResult > 0)
-                            result.Remove(statistic);
+                        if (returnResult == 0)
+                            result.Add(statistic);
                     }
             }
             return result;

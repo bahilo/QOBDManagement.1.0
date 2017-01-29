@@ -153,7 +153,7 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Actions ]------------------
 
-        public async Task<List<RoleModel>> getRoleModel()
+        public async Task<List<RoleModel>> getRoleModelAsync()
         {
             List<Role> roleList = await Bl.BlSecurity.GetRoleDataAsync(999);
             List<RoleModel> roleModelList = new List<RoleModel>();
@@ -190,9 +190,9 @@ namespace QOBDManagement.ViewModel
             return roleModelList;
         }
 
-        public List<AgentModel> getAgentModel()
+        public async Task<List<AgentModel>> getAgentModelAsync()
         {
-            List<Agent> agentList = Bl.BlAgent.GetAgentData(999);
+            List<Agent> agentList = await Bl.BlAgent.GetAgentDataAsync(999);
             List<AgentModel> agentModelList = new List<AgentModel>();
             foreach (var agent in agentList)
             {
@@ -208,9 +208,9 @@ namespace QOBDManagement.ViewModel
         public async void loadData()
         {
             Dialog.showSearch("Security roles loading...");
-            RoleModelList = await getRoleModel();
+            RoleModelList = await getRoleModelAsync();
             Dialog.showSearch("Agent credentials loading...");
-            AgentModelList = getAgentModel();
+            AgentModelList = await getAgentModelAsync();
             Dialog.IsDialogOpen = false;
         }
 
@@ -250,6 +250,8 @@ namespace QOBDManagement.ViewModel
 
 
             // update agent role
+            Dialog.showSearch("Agent roles updating...");
+            var agent_roleProcessedList = new List<Agent_role>();
             var agentModifiedList = AgentModelList.Where(x => x.IsModified).ToList();
             foreach (var agentModel in agentModifiedList)
             {
@@ -265,20 +267,28 @@ namespace QOBDManagement.ViewModel
                     agent_roleToAddList.Add(agent_role);
                 }
 
+                // save new roles
+                var agent_roleSavedList = await Bl.BlSecurity.InsertAgent_roleAsync(agent_roleToAddList);
+                if (agent_roleSavedList.Count > 0)
+                    agent_roleProcessedList = agent_roleProcessedList.Concat(agent_roleSavedList).ToList();
+
+
                 // delete agent role
                 foreach (var role in agentModel.RoleToRemoveList)
                 {
                     var agent_roleFoundList = await Bl.BlSecurity.searchAgent_roleAsync(new Agent_role { AgentId = agentModel.Agent.ID, RoleId = role.ID }, ESearchOption.AND);
                     agent_roleToRemoveList = new List<Agent_role>(agent_roleToRemoveList.Concat(agent_roleFoundList));
                 }
-                var savedAgent_roleList = await Bl.BlSecurity.InsertAgent_roleAsync(agent_roleToAddList);
-                if (savedAgent_roleList.Count > 0)
-                    await Dialog.show("Agent role has been saved successfuly");
                 await Bl.BlSecurity.DeleteAgent_roleAsync(agent_roleToRemoveList);
+
                 agentModel.IsModified = false;
                 agentModel.RoleToAddList.Clear();
                 agentModel.RoleToRemoveList.Clear();
             }
+
+            if (agent_roleProcessedList.Count > 0)
+                await Dialog.show("Agent role has been saved successfuly");
+
             Dialog.IsDialogOpen = false;
             _page(this);
         }

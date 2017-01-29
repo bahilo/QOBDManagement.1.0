@@ -76,9 +76,9 @@ namespace QOBDCommon.Classes
                 Debug.WriteLine(string.Format("[Warning] - decode base64 of not encoded variable ({0})", encodedString));
                 return encodedString;
             }
-
             return returnValue;
-        }
+        }       
+
 
         public static bool uploadFIle(string ftpUrl, string fileFullPath, string username, string password)
         {

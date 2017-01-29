@@ -141,9 +141,19 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                     <DataGridTextColumn Header="Quantity Pending" Binding="{Binding TxtQuantity_pending, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <DataGridTextColumn Header="Total Selling" Binding="{Binding TxtTotalSelling, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <DataGridTextColumn Header="Percentage Profit" Binding="{Binding TxtPercentProfit, UpdateSourceTrigger=PropertyChanged}"/>
-                                    <DataGridTextColumn Header="Profit" Binding="{Binding TxtProfit, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <DataGridTextColumn Header="Total Sales" Binding="{Binding TxtTotalSelling, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <DataGridTextColumn Header="Total Income (%)" Binding="{Binding TxtPercentProfit, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <!--<DataGridTextColumn Header="" Binding=""/>-->
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock Text="{Binding DataContext.OrderViewModel.OrderDetailViewModel.TxtIncomeHeaderWithCurrency, ElementName=dgOrder_itemList, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtProfit, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                     <DataGridTemplateColumn>
                                         <DataGridTemplateColumn.Header>
                                             <TextBlock>Delete</TextBlock>
@@ -175,14 +185,14 @@
             
             <Grid Grid.Row="3" Margin="0 0 0 15">
                 <StackPanel Margin="0 10 0 0" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock  Margin="0 0 10 0">Total Before Taxes</TextBlock>
-                    <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalBeforeTax, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Margin="0 0 10 0" Width="50" HorizontalAlignment="Center"  />
-                    <TextBlock Margin="0 0 10 0">Total After Tax</TextBlock>
-                    <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalAfterTax, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="50"  IsEnabled="False" HorizontalAlignment="Center" />
-                    <TextBlock Margin="0 0 10 0">Total Precentage Profit</TextBlock>
-                    <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalPercentProfit, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="50"  IsEnabled="False" HorizontalAlignment="Center" />
-                    <TextBlock Margin="0 0 10 0">Total Profit</TextBlock>
-                    <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalProfit, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="50"  IsEnabled="False" HorizontalAlignment="Center" />
+                    <TextBlock  Margin="0 0 10 0">Total (Taxes Included)</TextBlock>
+                    <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalTaxIncluded, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Margin="0 0 10 0" Width="50" HorizontalAlignment="Center"  />
+                    <TextBlock Margin="0 0 10 0">Total (Taxes Excluded)</TextBlock>
+                    <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalTaxExcluded, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="50"  IsEnabled="False" HorizontalAlignment="Center" />
+                    <TextBlock Margin="0 0 10 0">Total Income (%)</TextBlock>
+                    <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalIncomePercent, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="50"  IsEnabled="False" HorizontalAlignment="Center" />
+                    <TextBlock Margin="0 0 10 0" Text="{Binding OrderViewModel.OrderDetailViewModel.TxtIncomeHeaderWithCurrency, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalIncome, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="50"  IsEnabled="False" HorizontalAlignment="Center" />
                     <TextBlock Margin="0 0 10 0">Total Taxes Amount</TextBlock>
                     <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalTaxAmount, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="50"  IsEnabled="False" HorizontalAlignment="Center" />
                     <TextBlock Margin="0 0 10 0">Tax</TextBlock>
@@ -361,7 +371,7 @@
                 <StackPanel Orientation="Vertical" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockStepOneVisibility, UpdateSourceTrigger=PropertyChanged}">
                     <Button Margin="8" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignFlatButton}"
                                     Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.DeliveryReceiptCreationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
-                        Step 1/3 Create one delivery receipt for the received items
+                        Step 1/3 Create delivery receipt for the received items
                     </Button>
                 </StackPanel>
             </StackPanel>
@@ -383,7 +393,7 @@
 
                         <materialDesign:ColorZone Grid.Row="1" Grid.ColumnSpan="2" Mode="PrimaryMid">
                             <StackPanel Orientation="Vertical">
-                                <TextBlock HorizontalAlignment="Center">Bills Creation</TextBlock>
+                                <TextBlock HorizontalAlignment="Center">Invoices Creation</TextBlock>
                                 <DataGrid Name="dgBillCreation"
                                     ItemsSource="{Binding OrderViewModel.OrderDetailViewModel.Item_deliveryModelBillingInProcess, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False"
                                     CanUserAddRows="False" MaxWidth="990">
@@ -469,7 +479,7 @@
                     <StackPanel Orientation="Vertical"  Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockStepTwoVisibility, UpdateSourceTrigger=PropertyChanged}">
                         <Button Margin="5" Style="{DynamicResource MaterialDesignFlatButton}"  HorizontalAlignment="Center"
                             Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BillCreationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
-                            Step 2/3 Create the delivery receipt bill for the selected items
+                            Step 2/3 Create Invoice for the selected items
                         </Button>
                     </StackPanel>
                 </StackPanel>
@@ -521,7 +531,7 @@
             <materialDesign:Card Grid.Row="10" Margin="0 0 0 15" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockBillCreatedVisibility}">
                 <materialDesign:ColorZone Mode="PrimaryMid">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock HorizontalAlignment="Center">Bills Created</TextBlock>
+                        <TextBlock HorizontalAlignment="Center">Invoices Created</TextBlock>
                         <DataGrid Name="dgBillCreated"  ItemsSource="{Binding OrderViewModel.OrderDetailViewModel.BillModelList, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False"
                               CanUserAddRows="False" MaxWidth="990" RowDetailsVisibilityMode="Visible" CanUserDeleteRows="False">
                             <DataGrid.Columns>
@@ -531,7 +541,7 @@
                                 <DataGridTextColumn Header="Limit Date" Binding="{Binding TxtDateLimit, UpdateSourceTrigger=LostFocus}"/>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock>Bill</TextBlock>
+                                        <TextBlock>Invoice</TextBlock>
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -555,10 +565,22 @@
                                                 <CheckBox  IsChecked="{Binding DataContext.OrderViewModel.OrderDetailViewModel.IsOrderReferencesVisible, ElementName=dgBillCreated, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                     Refs Constructor visible.
                                                 </CheckBox>
-                                                <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                                <!--<Button Style="{DynamicResource MaterialDesignFlatButton}"
                                                             Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.CancelBillCreatedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                             CommandParameter="{Binding CurrentItem, ElementName=dgBillCreated}">
                                                     Cancel this ref.
+                                                </Button>-->
+                                                <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                                                Content="Cancel this ref."
+                                                                CommandParameter="{Binding}">
+                                                    <Button.Command>
+                                                        <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                                            <Binding Path="DataContext.OrderViewModel.OrderDetailViewModel.CancelBillCreatedCommand"
+                                                                            ElementName="dgBillCreated" />
+                                                            <Binding />
+                                                        </MultiBinding>
+                                                    </Button.Command>
+
                                                 </Button>
                                             </StackPanel>
                                         </DataTemplate>
@@ -635,7 +657,7 @@
                         <StackPanel Orientation="Vertical"  Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockEmailVisibility, UpdateSourceTrigger=PropertyChanged}">
                             <Border BorderBrush="Red">
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock HorizontalAlignment="Center">Email Bill</TextBlock>
+                                    <TextBlock HorizontalAlignment="Center">Email Invoice</TextBlock>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock>Subject:</TextBlock>
                                         <TextBox  Text="{Binding OrderViewModel.OrderDetailViewModel.EmailFile.TxtSubject, Mode=TwoWay}" Width="400" Background="White"/>
@@ -655,7 +677,7 @@
                                 <TextBlock>Quote validity(in days)</TextBlock>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockBillListBoxVisibility}">
-                                <TextBlock VerticalAlignment="Center"  Margin="0 0 10 0">Add the Following Bill</TextBlock>
+                                <TextBlock VerticalAlignment="Center"  Margin="0 0 10 0">Add the Following Invoice</TextBlock>
                                 <ComboBox ItemsSource="{Binding OrderViewModel.OrderDetailViewModel.OrderSelected.BillModelList}" SelectedItem="{Binding OrderViewModel.OrderDetailViewModel.SelectedBillToSend, UpdateSourceTrigger=PropertyChanged}"
                                       IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center">
                                     <ComboBox.ItemTemplate>
@@ -680,7 +702,7 @@
                                 Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BilledCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
                                 <TextBlock>Step 3/3 Confirm sending and billing all items of this Order (Status: waiting to be paid)</TextBlock>
                             </Button>
-                            <TextBlock>Caution: Make sure you have generated all Delivery receipts and Bills before updating the status</TextBlock>
+                            <TextBlock>Caution: Make sure you have generated all Delivery receipts and Invoices before updating the status</TextBlock>
                         </StackPanel>
                     </Grid>
                 </materialDesign:ColorZone>

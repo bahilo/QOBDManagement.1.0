@@ -187,7 +187,7 @@ namespace QOBDDAL.Core
                     foreach (Order order in listOrder)
                     {
                         int returnValue = _ordersTableAdapter.Delete1(order.ID);
-                        if (returnValue > 0)
+                        if (returnValue == 0)
                             result.Add(order);
                     }
             }
@@ -196,7 +196,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_order>> DeleteTax_orderAsync(List<Tax_order> listTax_order)
         {
-            List<Tax_order> result = listTax_order;
+            List<Tax_order> result = new List<Tax_order>();
             List<Tax_order> gateWayResultList = new List<Tax_order>();
             using (tax_ordersTableAdapter _tax_ordersTableAdapter = new tax_ordersTableAdapter())
             {
@@ -206,8 +206,8 @@ namespace QOBDDAL.Core
                     foreach (Tax_order tax_order in listTax_order)
                     {
                         int returnValue = _tax_ordersTableAdapter.Delete1(tax_order.ID);
-                        if(returnValue > 0)
-                            result.Remove(tax_order);
+                        if(returnValue == 0)
+                            result.Add(tax_order);
                     }
             }
             return result;
@@ -215,7 +215,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Order_item>> DeleteOrder_itemAsync(List<Order_item> listOrder_item)
         {
-            List<Order_item> result = listOrder_item;
+            List<Order_item> result = new List<Order_item>();
             List<Order_item> gateWayResultList = new List<Order_item>();
             using (order_itemsTableAdapter _order_itemsTableAdapter = new order_itemsTableAdapter())
             {
@@ -225,8 +225,8 @@ namespace QOBDDAL.Core
                     foreach (Order_item order_item in listOrder_item)
                     {
                         int returnValue = _order_itemsTableAdapter.Delete1(order_item.ID);
-                        if (returnValue > 0)
-                            result.Remove(order_item);
+                        if (returnValue == 0)
+                            result.Add(order_item);
                     }
             }
             return result;
@@ -234,7 +234,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax>> DeleteTaxAsync(List<Tax> listTax)
         {
-            List<Tax> result = listTax;
+            List<Tax> result = new List<Tax>();
             List<Tax> gateWayResultList = new List<Tax>();
             using (taxesTableAdapter _taxesTableAdapter = new taxesTableAdapter())
             {
@@ -244,8 +244,8 @@ namespace QOBDDAL.Core
                     foreach (Tax tax in listTax)
                     {
                         int returnValue = _taxesTableAdapter.Delete1(tax.ID);
-                        if (returnValue > 0)
-                            result.Remove(tax);
+                        if (returnValue == 0)
+                            result.Add(tax);
                     }
             }
             return result;
@@ -253,7 +253,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Bill>> DeleteBillAsync(List<Bill> listBill)
         {
-            List<Bill> result = listBill;
+            List<Bill> result = new List<Bill>();
             List<Bill> gateWayResultList = new List<Bill>();
             using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
             {
@@ -263,8 +263,8 @@ namespace QOBDDAL.Core
                     foreach (Bill bill in listBill)
                     {
                         int returnValue = _billsTableAdapter.Delete1(bill.ID);
-                        if (returnValue > 0)
-                            result.Remove(bill);
+                        if (returnValue == 0)
+                            result.Add(bill);
                     }
             }
             return result;
@@ -272,7 +272,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Delivery>> DeleteDeliveryAsync(List<Delivery> listDelivery)
         {
-            List<Delivery> result = listDelivery;
+            List<Delivery> result = new List<Delivery>();
             List<Delivery> gateWayResultList = new List<Delivery>();
             using (deliveriesTableAdapter _deliveriesTableAdapter = new deliveriesTableAdapter())
             {
@@ -282,8 +282,8 @@ namespace QOBDDAL.Core
                     foreach (Delivery delivery in listDelivery)
                     {
                         int returnValue = _deliveriesTableAdapter.Delete1(delivery.ID);
-                        if (returnValue > 0)
-                            result.Remove(delivery);
+                        if (returnValue == 0)
+                            result.Add(delivery);
                     }
             }
             return result;

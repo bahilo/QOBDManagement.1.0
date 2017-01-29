@@ -169,13 +169,16 @@ namespace QOBDManagement.ViewModel
         }
         //----------------------------[ Actions ]------------------
         
-        public async void loadData()
+        public void loadData()
         {
-            Dialog.showSearch("Loading...");
-            StatisticDataList = (await Bl.DALStatisitc.searchStatisticAsync(new Statistic { Option = 1 }, ESearchOption.AND)).Select(x=>new StatisticModel { Statistic = x }).ToList();
-            ToDoList = getToDoTasks();
-            loadUIData();
-            Dialog.IsDialogOpen = false;
+            Application.Current.Dispatcher.Invoke(async()=> {
+                Dialog.showSearch("Loading...");
+                StatisticDataList = (await Bl.DALStatisitc.searchStatisticAsync(new Statistic { Option = 1 }, ESearchOption.AND)).Select(x => new StatisticModel { Statistic = x }).ToList();
+                ToDoList = getToDoTasks();
+                loadUIData();
+                Dialog.IsDialogOpen = false;
+            });
+            
         }
 
 
@@ -190,10 +193,10 @@ namespace QOBDManagement.ViewModel
         private void loadPayReceivedAndBillChart()
         {
             var payReceivedChartValue = new ChartValues<decimal>();
-            var billAmountChartValue = new ChartValues<decimal>();
+            var invoiceAmountChartValue = new ChartValues<decimal>();
 
             payReceivedChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Pay_received).ToList());
-            billAmountChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Total_tax_included).ToList());
+            invoiceAmountChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Total_tax_included).ToList());
 
             CreditSeriesCollection = new SeriesCollection
             {
@@ -204,12 +207,12 @@ namespace QOBDManagement.ViewModel
                 },
                 new LineSeries
                 {
-                    Title = "Bill",
-                    Values = billAmountChartValue
+                    Title = "Invoice",
+                    Values = invoiceAmountChartValue
                 }
             };
 
-            PayReceivedAndBillLabels = StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Bill_date.ToString("MMM")).ToArray();
+            PayReceivedAndBillLabels = StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.InvoiceDate.ToString("MMM")).ToArray();
 
         }
 
@@ -242,7 +245,7 @@ namespace QOBDManagement.ViewModel
                 }
             };
 
-            PurchaseAndIncomeLabels = StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x=>x.Statistic.Bill_date.ToString("MMMM") ).ToArray();
+            PurchaseAndIncomeLabels = StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x=>x.Statistic.InvoiceDate.ToString("MMMM") ).ToArray();
             //Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
         }
 
@@ -253,14 +256,14 @@ namespace QOBDManagement.ViewModel
 
         public async void getBestSellers()
         {
-            var itemBestSsellerList = await Bl.BlItem.searchItemAsync(new Item { Option =1  }, ESearchOption.AND);
-            if(itemBestSsellerList.Count > 4)
-            {
-                FirstBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault();
-                SecondBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Where(x => x.Number_of_sale < FirstBestItemModelSeller.Item.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault();
-                ThirdBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Where(x => x.Number_of_sale < SecondBestItemModelSeller.Item.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault();
-                FourthBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Where(x => x.Number_of_sale < ThirdBestItemModelSeller.Item.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault();
-            }             
+            // getting four best sellers
+            // option = 1 (10 bestseller)
+            var itemBestSsellerList = await Bl.BlItem.searchItemAsync(new Item { Option = 1  }, ESearchOption.AND);
+            FirstBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault() ?? new ItemModel();
+            SecondBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Where(x => x.Number_of_sale < FirstBestItemModelSeller.Item.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault() ?? new ItemModel();
+            ThirdBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Where(x => x.Number_of_sale < SecondBestItemModelSeller.Item.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault() ?? new ItemModel();
+            FourthBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Where(x => x.Number_of_sale < ThirdBestItemModelSeller.Item.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault() ?? new ItemModel();
+                        
         }
 
         private void loadChartPayreceivedData()

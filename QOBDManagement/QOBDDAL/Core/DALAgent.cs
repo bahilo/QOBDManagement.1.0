@@ -78,7 +78,8 @@ namespace QOBDDAL.Core
             try
             { 
                 lock (_lock) _isLodingDataFromWebServiceToLocal = true;
-                var agentList = new NotifyTaskCompletion<List<Agent>>(_gateWayAgent.GetAgentDataAsync(_loadSize)).Task.Result;
+                // getting agents without their credentials (_loadSize < 0)
+                var agentList = new NotifyTaskCompletion<List<Agent>>(_gateWayAgent.GetAgentDataAsync(-1 * _loadSize)).Task.Result;
                 if (agentList.Count > 0)
                     LoadAgent(agentList);
 
@@ -103,9 +104,25 @@ namespace QOBDDAL.Core
             _rogressBarFunc = progressBarFunc;
         }
 
+
+
+        public async Task<List<Agent>> InsertAgentAsync(List<Agent> listAgent)
+        {
+            List<Agent> result = new List<Agent>();
+            List<Agent> gateWayResultList = new List<Agent>();
+            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
+            {
+                _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                gateWayResultList = await _gateWayAgent.InsertAgentAsync(listAgent);
+
+                result = LoadAgent(gateWayResultList);
+            }
+            return result;
+        }
+
         public async Task<List<Agent>> DeleteAgentAsync(List<Agent> listAgent)
         {
-            List<Agent> result = listAgent;
+            List<Agent> result = new List<Agent>();
             List<Agent> gateWayResultList = new List<Agent>();
             using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
             {
@@ -115,66 +132,9 @@ namespace QOBDDAL.Core
                     foreach (Agent agent in gateWayResultList)
                     {
                         int returnResult = _agentsTableAdapter.Delete1(agent.ID);
-                        if (returnResult > 0)
-                            result.Remove(agent);
+                        if (returnResult == 0)
+                            result.Add(agent);
                     }
-            }
-            return result;
-        }
-
-        public List<Agent> GetAgentData(int nbLine)
-        {
-            List<Agent> result = new List<Agent>();
-            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
-                result = _agentsTableAdapter.GetData().DataTableTypeToAgent();
-
-            if (nbLine.Equals(999) || result.Count == 0)
-                return result;
-
-            return result.GetRange(0, nbLine);
-        }
-
-        public async Task<List<Agent>> GetAgentDataAsync(int nbLine)
-        {
-            _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayAgent.GetAgentDataAsync(nbLine);
-        }
-
-        public List<Agent> GetAgentDataById(int id)
-        {
-            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
-                return _agentsTableAdapter.get_agent_by_id(id).DataTableTypeToAgent();
-        }
-
-        public List<Agent> GetAgentDataByOrderList(List<Order> orderList)
-        {
-            List<Agent> result = new List<Agent>();
-            foreach (Order order in orderList)
-            {
-                var agentList = searchAgent(new Agent { ID = order.AgentId }, ESearchOption.OR);
-                if (agentList.Count() > 0)
-                    result.Add(agentList.First());
-            }
-            return result;
-        }
-
-        public async Task<List<Agent>> GetAgentDataByOrderListAsync(List<Order> orderList)
-        {
-            _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayAgent.GetAgentDataByOrderListAsync(orderList);
-        }
-
-
-        public async Task<List<Agent>> InsertAgentAsync(List<Agent> listAgent)
-        {
-           List<Agent> result = new List<Agent>();
-            List<Agent> gateWayResultList = new List<Agent>();
-            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
-            {
-                _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                gateWayResultList = await _gateWayAgent.InsertAgentAsync(listAgent);
-                
-                result = LoadAgent(gateWayResultList);
             }
             return result;
         }
@@ -231,6 +191,48 @@ namespace QOBDDAL.Core
                 }
             }
             return result;
+        }
+
+        public List<Agent> GetAgentData(int nbLine)
+        {
+            List<Agent> result = new List<Agent>();
+            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
+                result = _agentsTableAdapter.GetData().DataTableTypeToAgent();
+
+            if (nbLine.Equals(999) || result.Count == 0)
+                return result;
+
+            return result.GetRange(0, nbLine);
+        }
+
+        public async Task<List<Agent>> GetAgentDataAsync(int nbLine)
+        {
+            _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+            return await _gateWayAgent.GetAgentDataAsync(nbLine);
+        }
+
+        public List<Agent> GetAgentDataById(int id)
+        {
+            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
+                return _agentsTableAdapter.get_agent_by_id(id).DataTableTypeToAgent();
+        }
+
+        public List<Agent> GetAgentDataByOrderList(List<Order> orderList)
+        {
+            List<Agent> result = new List<Agent>();
+            foreach (Order order in orderList)
+            {
+                var agentList = searchAgent(new Agent { ID = order.AgentId }, ESearchOption.OR);
+                if (agentList.Count() > 0)
+                    result.Add(agentList.First());
+            }
+            return result;
+        }
+
+        public async Task<List<Agent>> GetAgentDataByOrderListAsync(List<Order> orderList)
+        {
+            _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+            return await _gateWayAgent.GetAgentDataByOrderListAsync(orderList);
         }
 
         public List<Agent> searchAgent(Agent agent, ESearchOption filterOperator)

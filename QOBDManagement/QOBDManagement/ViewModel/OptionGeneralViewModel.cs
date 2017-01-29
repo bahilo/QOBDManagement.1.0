@@ -274,7 +274,7 @@ namespace QOBDManagement.ViewModel
                             TxtReminderEmail = infosFoundList[0].Value;
                             break;
                         case "validation_email":
-                            TxtReminderEmail = infosFoundList[0].Value;
+                            TxtValidationEmail = infosFoundList[0].Value;
                             break;
                     }
                 }
@@ -476,7 +476,7 @@ namespace QOBDManagement.ViewModel
                             infosFoundList[0].Value = TxtReminderEmail;
                             break;
                         case "validation_email":
-                            infosFoundList[0].Value = TxtReminderEmail;
+                            infosFoundList[0].Value = TxtValidationEmail;
                             break;
                     }
                     updateList.Add(infosFoundList[0]);

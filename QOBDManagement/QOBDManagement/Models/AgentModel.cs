@@ -218,10 +218,14 @@ namespace QOBDManagement.Models
         private bool getRoleBooleanByID(int id)
         {
             object _lock = new object();
-            Role roleFound = RoleList.Where(x => x.ID == id).FirstOrDefault();
-            lock (_lock)
-                if (roleFound != null)
-                    return true;
+            if(RoleList != null)
+            {
+                Role roleFound = RoleList.Where(x => x.ID == id).FirstOrDefault();
+                lock (_lock)
+                    if (roleFound != null)
+                        return true;
+            }
+            
             return false;
         }
 
@@ -234,6 +238,9 @@ namespace QOBDManagement.Models
                 lock (_lock)
                     if (roleFound != null)
                     {
+                        if (RoleList == null)
+                            RoleList = new List<Role>();
+
                         if (RoleList.Where(x=>x.ID == roleFound.ID).Count() == 0)
                         {
                             RoleList.Add(roleFound);

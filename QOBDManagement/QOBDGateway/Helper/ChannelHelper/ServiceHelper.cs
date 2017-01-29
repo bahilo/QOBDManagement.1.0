@@ -15,6 +15,30 @@ namespace QOBDGateway.Helper.ChannelHelper
     public static class ServiceHelper
     {
         
+        private static int intTryParse(string input)
+        {
+            int result = 0;
+            if (int.TryParse(input, out result))
+                return result; 
+            return result;
+        }
+
+        private static decimal decimalTryParse(string input)
+        {
+            decimal result = 0m;
+            if (decimal.TryParse(input, out result))
+                return result;
+            return result;
+        }
+
+        private static double doubleTryParse(string input)
+        {
+            double result = 0;
+            if (double.TryParse(input, out result))
+                return result;
+            return result;
+        }
+
         //====================================================================================
         //===============================[ Agent ]===========================================
         //====================================================================================
@@ -84,21 +108,21 @@ namespace QOBDGateway.Helper.ChannelHelper
 
         public static List<Statistic> ArrayTypeToStatistic(this StatisticQOBD[] statisticQOBDList)
         {
-            List<Statistic> outputList = statisticQOBDList.AsParallel().Select(x => new Statistic
+            List <Statistic> outputList = statisticQOBDList.AsParallel().Select(x => new Statistic
             {
                 ID = x.ID,
-                BillId = Convert.ToInt32(x.BillId),
-                Bill_date = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Bill_date)),
+                InvoiceId = intTryParse(x.BillId),
+                InvoiceDate = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Bill_date)),
                 Company = Utility.decodeBase64ToString(x.Company),
                 Date_limit = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date_limit)),
-                Income = Convert.ToDecimal(Utility.decodeBase64ToString(x.Income)),
-                Income_percent =  Convert.ToDouble(Utility.decodeBase64ToString(x.Income_percent).Replace("%", "")),
+                Income = decimalTryParse(Utility.decodeBase64ToString(x.Income)),
+                Income_percent =  doubleTryParse(Utility.decodeBase64ToString(x.Income_percent).Replace("%", "")),
                 Pay_date = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Pay_date)),
-                Pay_received = Convert.ToDecimal(Utility.decodeBase64ToString(x.Pay_received).Split(new char[] { ' ' }).FirstOrDefault()),
-                Price_purchase_total = Convert.ToDecimal(Utility.decodeBase64ToString(x.Price_purchase_total)),
+                Pay_received = decimalTryParse(Utility.decodeBase64ToString(x.Pay_received).Split(new char[] { ' ' }).FirstOrDefault()),
+                Price_purchase_total = decimalTryParse(Utility.decodeBase64ToString(x.Price_purchase_total)),
                 Tax_value = x.Tax_value,
-                Total = Convert.ToDecimal(Utility.decodeBase64ToString(x.Total)),
-                Total_tax_included = Convert.ToDecimal(Utility.decodeBase64ToString(x.Total_tax_included)),
+                Total = decimalTryParse(Utility.decodeBase64ToString(x.Total)),
+                Total_tax_included = decimalTryParse(Utility.decodeBase64ToString(x.Total_tax_included)),
             }).ToList();
 
             return outputList;
@@ -109,13 +133,13 @@ namespace QOBDGateway.Helper.ChannelHelper
             StatisticQOBD[] outputArray = statisticList.AsParallel().Select(x => new StatisticQOBD
             {
                 ID = x.ID,
-                BillId = Utility.encodeStringToBase64(x.BillId.ToString()),
-                Bill_date = Utility.encodeStringToBase64(x.Bill_date.ToString()),
+                BillId = Utility.encodeStringToBase64(x.InvoiceId.ToString()),
+                Bill_date = Utility.encodeStringToBase64(x.InvoiceDate.ToString("yyyy-MM-dd H:mm:ss")),
                 Company = Utility.encodeStringToBase64(x.Company),
-                Date_limit = Utility.encodeStringToBase64(x.Date_limit.ToString()),
+                Date_limit = Utility.encodeStringToBase64(x.Date_limit.ToString("yyyy-MM-dd H:mm:ss")),
                 Income = Utility.encodeStringToBase64(x.Income.ToString()),
                 Income_percent = Utility.encodeStringToBase64(x.Income_percent.ToString()),
-                Pay_date = Utility.encodeStringToBase64(x.Pay_date.ToString()),
+                Pay_date = Utility.encodeStringToBase64(x.Pay_date.ToString("yyyy-MM-dd H:mm:ss")),
                 Pay_received = Utility.encodeStringToBase64(x.Pay_received.ToString()),
                 Price_purchase_total = Utility.encodeStringToBase64(x.Price_purchase_total.ToString()),
                 Tax_value = x.Tax_value,
@@ -133,13 +157,13 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 statisticQCBD.ID = statistic.ID;
                 statisticQCBD.Option = statistic.Option;
-                statisticQCBD.BillId = Utility.encodeStringToBase64(statistic.BillId.ToString());
-                statisticQCBD.Bill_date = Utility.encodeStringToBase64(statistic.Bill_date.ToString());
+                statisticQCBD.BillId = Utility.encodeStringToBase64(statistic.InvoiceId.ToString());
+                statisticQCBD.Bill_date = Utility.encodeStringToBase64(statistic.InvoiceDate.ToString("yyyy-MM-dd H:mm:ss"));
                 statisticQCBD.Company = Utility.encodeStringToBase64(statistic.Company);
-                statisticQCBD.Date_limit = Utility.encodeStringToBase64(statistic.Date_limit.ToString());
+                statisticQCBD.Date_limit = Utility.encodeStringToBase64(statistic.Date_limit.ToString("yyyy-MM-dd H:mm:ss"));
                 statisticQCBD.Income = Utility.encodeStringToBase64(statistic.Income.ToString());
                 statisticQCBD.Income_percent = Utility.encodeStringToBase64(statistic.Income_percent.ToString());
-                statisticQCBD.Pay_date = Utility.encodeStringToBase64(statistic.Pay_date.ToString());
+                statisticQCBD.Pay_date = Utility.encodeStringToBase64(statistic.Pay_date.ToString("yyyy-MM-dd H:mm:ss"));
                 statisticQCBD.Pay_received = Utility.encodeStringToBase64(statistic.Pay_received.ToString());
                 statisticQCBD.Price_purchase_total = Utility.encodeStringToBase64(statistic.Price_purchase_total.ToString());
                 statisticQCBD.Tax_value = statistic.Tax_value;
@@ -1138,7 +1162,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Price_sell = x.Price_sell,
                 Ref = Utility.decodeBase64ToString(x.Ref),
                 Type_sub = Utility.decodeBase64ToString(x.Type_sub),
-                Source = Convert.ToInt32(Utility.decodeBase64ToString(x.Source.ToString())),
+                Source = intTryParse(Utility.decodeBase64ToString(x.Source.ToString())),
                 Type = Utility.decodeBase64ToString(x.Type),
             }).ToList();
             

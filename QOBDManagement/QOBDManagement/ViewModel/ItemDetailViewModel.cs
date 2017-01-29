@@ -261,22 +261,16 @@ namespace QOBDManagement.ViewModel
         private async void saveItem(string obj)
         {
             Dialog.showSearch("Please wait while we are dealing with your request...");
-            var providerToSaveList = new List<Provider>();
-            var auto_refToSaveList = new List<Auto_ref>();
-            var itemToSaveList = new List<Item>();
-            var provider_itemToSaveList = new List<Provider_item>();
 
             // check that the item doesn't already exist
             string newRef = "";
-            var searchItem = new Item();
-            searchItem.Ref = SelectedItemModel.Item.Ref;
-            var itemFoundList = await Bl.BlItem.searchItemAsync(searchItem, ESearchOption.AND);
+            var itemFoundList = await Bl.BlItem.searchItemAsync(new Item { Ref = SelectedItemModel.Item.Ref }, ESearchOption.AND);
             if (itemFoundList.Count == 0)
             {
                 // creating a new reference via the automatic reference system
-                var auto_reflist = Bl.BlItem.GetAuto_refData(999);
+                var auto_reflist = await Bl.BlItem.GetAuto_refDataAsync(1);
                 var auto_ref = (auto_reflist.Count > 0) ? auto_reflist[0] : new Auto_ref();
-                newRef = "QCBD" + auto_ref.RefId;
+                newRef = "QOBD" + auto_ref.RefId;
                 newRef += " : " + SelectedItemModel.TxtRef;
                 auto_ref.RefId++;
 
@@ -293,33 +287,31 @@ namespace QOBDManagement.ViewModel
                 SelectedItemModel.Item.Ref = newRef;
                 SelectedItemModel.Item.Source = Bl.BlSecurity.GetAuthenticatedUser().ID;
                 SelectedItemModel.Item.Erasable = EItem.Yes.ToString();
-                itemToSaveList.Add(SelectedItemModel.Item);
-                var itemSavedList = await Bl.BlItem.InsertItemAsync(itemToSaveList);
+                var itemSavedList = await Bl.BlItem.InsertItemAsync(new List<Item> { SelectedItemModel.Item });
                                 
                 if (auto_ref.ID == 0)
                         await Bl.BlItem.InsertAuto_refAsync(new List<Auto_ref> { auto_ref });
                 else
-                    await Bl.BlItem.UpdateAuto_refAsync(new List<Auto_ref> { auto_ref });
-                                
+                    await Bl.BlItem.UpdateAuto_refAsync(new List<Auto_ref> { auto_ref }); 
+
+                var provider_itemResultList = await updateProvider_itemTable(itemSavedList[0], ((providerFoundList.Count > 0) ? providerFoundList[0] : new Provider()));
+                SelectedItemModel.ProviderList = retrieveProviderFromProvider_item(provider_itemResultList, SelectedItemModel.Item.Source);
+
                 if (itemSavedList.Count > 0)
                     await Dialog.show("Item has been created successfully!");
-
-                var provider_itemResultList = updateProvider_itemTable(itemSavedList[0], ((providerFoundList.Count > 0) ? providerFoundList[0] : new Provider()));
-                SelectedItemModel.ProviderList = retrieveProviderFromProvider_item(await provider_itemResultList, SelectedItemModel.Item.Source);
             }
 
             // Otherwise update the current item
             else
             {
-                itemToSaveList.Add(SelectedItemModel.Item);
-                var providerSavedList = await Bl.BlItem.UpdateProviderAsync(await getEntryNewProvider());
-                itemToSaveList = await Bl.BlItem.UpdateItemAsync(itemToSaveList);
-                provider_itemToSaveList = await updateProvider_itemTable(itemToSaveList[0], ((providerSavedList.Count > 0) ? providerSavedList[0] : new Provider()));
+                var savedProviderList = await Bl.BlItem.UpdateProviderAsync(await getEntryNewProvider());
+                var savedItemList = await Bl.BlItem.UpdateItemAsync(new List<Item> { SelectedItemModel.Item });
+                var savedProvider_itemList = await updateProvider_itemTable(savedItemList[0], ((savedProviderList.Count > 0) ? savedProviderList[0] : new Provider()));
                 
                 // update of the item providers of the selected item
-                SelectedItemModel.ProviderList = retrieveProviderFromProvider_item(provider_itemToSaveList, SelectedItemModel.Item.Source);
+                SelectedItemModel.ProviderList = retrieveProviderFromProvider_item(savedProvider_itemList, SelectedItemModel.Item.Source);
 
-                if (itemToSaveList.Count > 0)
+                if (savedItemList.Count > 0)
                     await Dialog.show("Item has been updated successfully!");
             }
 

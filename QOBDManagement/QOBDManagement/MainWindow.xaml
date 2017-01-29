@@ -168,13 +168,19 @@
                                 <ColumnDefinition  Width="*"/>
                                 <ColumnDefinition  Width="*"/>
                                 <ColumnDefinition  Width="*"/>
+                                <ColumnDefinition  Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="btnBack" Style="{DynamicResource MaterialDesignFlatButton}" Margin="0,0,0,1" Command="{Binding CommandNavig}" CommandParameter="back">
+                            <Button x:Name="btnBack" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="back">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="ArrowLeftBold"/>
                                 </StackPanel>
                             </Button>
-                            <Button x:Name="btnHome" Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" Width="95" Margin="0,0,0,1" Command="{Binding CommandNavig}" CommandParameter="home">
+                            <Button x:Name="btnRefresh" Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="refresh">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Refresh"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="btnHome" Grid.Column="2" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="home">
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Home"/>
@@ -182,49 +188,49 @@
                                     </StackPanel>
                                 </StackPanel>
                             </Button>
-                            <Button Grid.Column="2" x:Name="btnCLient" Style="{DynamicResource MaterialDesignFlatButton}" Width="95" Margin="0,0,0,1" Command="{Binding CommandNavig}" CommandParameter="client">
+                            <Button Grid.Column="3" x:Name="btnCLient" Style="{DynamicResource MaterialDesignFlatButton}"  Command="{Binding CommandNavig}" CommandParameter="client">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="HumanMaleFemale"/>
                                     <TextBlock Margin="5 0 0 0">Client</TextBlock>
                                 </StackPanel>
                             </Button>
-                            <Button Grid.Column="3" x:Name="btnCatalog" Style="{DynamicResource MaterialDesignFlatButton}" Width="102" Margin="0,0,0,1" Command="{Binding CommandNavig}" CommandParameter="item">
+                            <Button Grid.Column="4" x:Name="btnCatalog" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="item">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FolderMultipleOutline"/>
                                     <TextBlock Margin="5 0 0 0">Catalog</TextBlock>
                                 </StackPanel>
                             </Button>
-                            <Button Grid.Column="4" x:Name="btnQuote" Style="{DynamicResource MaterialDesignFlatButton}" Width="115" Margin="0,0,0,1" Command="{Binding CommandNavig}" CommandParameter="quote">
+                            <Button Grid.Column="5" x:Name="btnQuote" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="quote">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FormatFloatLeft"/>
                                     <TextBlock Margin="5 0 0 0">Quote</TextBlock>
                                 </StackPanel>
                             </Button>
-                            <Button Grid.Column="5" x:Name="btnOrder" Style="{DynamicResource MaterialDesignFlatButton}" Width="125" Margin="0,0,0,1" Command="{Binding CommandNavig}" CommandParameter="order">
+                            <Button Grid.Column="6" x:Name="btnOrder" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="order">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FormatFloatRight"/>
                                     <TextBlock Margin="5 0 0 0">Orders</TextBlock>
                                 </StackPanel>
                             </Button>
-                            <Button Grid.Column="6" x:Name="btnStatistic" Style="{DynamicResource MaterialDesignFlatButton}" Width="110" Margin="0,0,0,1" Command="{Binding CommandNavig}" CommandParameter="statistic">
+                            <Button Grid.Column="7" x:Name="btnStatistic" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="statistic">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="ChartBar"/>
                                     <TextBlock Margin="5 0 0 0">Statistic</TextBlock>
                                 </StackPanel>
                             </Button>
-                            <Button Grid.Column="7" x:Name="btnAgent" Style="{DynamicResource MaterialDesignFlatButton}" Width="100" Margin="0,0,0,1" Command="{Binding CommandNavig}" CommandParameter="agent">
+                            <Button Grid.Column="8" x:Name="btnAgent" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="agent">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Alarm"/>
                                     <TextBlock Margin="5 0 0 0">Agent</TextBlock>
                                 </StackPanel>
                             </Button>
-                            <Button Grid.Column="8" x:Name="btnNotification" Style="{DynamicResource MaterialDesignFlatButton}" Width="135" Margin="0,0,0,1" Command="{Binding CommandNavig}" CommandParameter="notification">
+                            <Button Grid.Column="9" x:Name="btnNotification" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="notification">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Alarm"/>
                                     <TextBlock Margin="5 0 0 0">Notification</TextBlock>
                                 </StackPanel>
                             </Button>
-                            <Button Grid.Column="9" x:Name="btnOption" Style="{DynamicResource MaterialDesignFlatButton}" Width="105" Margin="0,0,0,1" Command="{Binding CommandNavig}" CommandParameter="option">
+                            <Button Grid.Column="10" x:Name="btnOption" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="option">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Apps"/>
                                     <TextBlock Margin="5 0 0 0">Option</TextBlock>

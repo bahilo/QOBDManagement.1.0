@@ -16,6 +16,7 @@ using System.IO;
 using System.Xml.Serialization;
 using QOBDManagement.Interfaces;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace QOBDManagement.ViewModel
 {
@@ -254,27 +255,28 @@ namespace QOBDManagement.ViewModel
         /// <summary>
         /// Load all orders in defferent sections according to their status
         /// </summary>
-        public async void loadOrders()
+        public void loadOrders()
         {
-            Dialog.showSearch("Loading...");
-            TaxList = Bl.BlOrder.GetTaxData(999);
-            OrderSearch.AgentList = await Bl.BlAgent.GetAgentDataAsync(-999);
+            Application.Current.Dispatcher.Invoke(async () => {
+                Dialog.showSearch("Loading...");
+                TaxList = Bl.BlOrder.GetTaxData(999);
+                OrderSearch.AgentList = await Bl.BlAgent.GetAgentDataAsync(-999);
 
-            if (SelectedClient.Client.ID != 0)
-            {
-                Title = string.Format("Orders for the Company {0}", SelectedClient.Client.Company);
+                if (SelectedClient.Client.ID != 0)
+                {
+                    Title = string.Format("Orders for the Company {0}", SelectedClient.Client.Company);
 
-                OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new Entity.Order { ClientId = SelectedClient.Client.ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
-                SelectedClient = new ClientModel();
-            }
-            else
-            {
-                Title = "Orders Management";
-                OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new QOBDCommon.Entities.Order { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
-            }
-            BlockSearchResultVisibility = "Hidden";
-            Dialog.IsDialogOpen = false;
-           
+                    OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new Entity.Order { ClientId = SelectedClient.Client.ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
+                    SelectedClient = new ClientModel();
+                }
+                else
+                {
+                    Title = "Orders Management";
+                    OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new QOBDCommon.Entities.Order { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
+                }
+                BlockSearchResultVisibility = "Hidden";
+                Dialog.IsDialogOpen = false;
+            });            
 
         }
 
@@ -443,34 +445,36 @@ namespace QOBDManagement.ViewModel
 
         public async void deleteOrder(OrderModel obj)
         {
-            Bill lastBill = new Bill();
-            lastBill = await Bl.BlOrder.GetLastBillAsync();
-            List<Bill> billFoundList = await Bl.BlOrder.GetBillDataByOrderListAsync(new List<Entity.Order> { obj.Order });
-            if (billFoundList.Count > 0 && billFoundList[0].ID == lastBill.ID)
+            if(await Dialog.show("do you really want to delete this bill (" + obj.TxtID + ")"))
             {
-                Dialog.showSearch("Deleting...");
+                Bill lastBill = new Bill();
+                lastBill = await Bl.BlOrder.GetLastBillAsync();
+                List<Bill> billFoundList = await Bl.BlOrder.GetBillDataByOrderListAsync(new List<Entity.Order> { obj.Order });
+                if (billFoundList.Count > 0 && await OrderDetailViewModel.checkIfLastBillAsync(billFoundList[0], offset: 0))
+                {
+                    Dialog.showSearch("Deleting...");
 
-                var order_itemFoundList = Bl.BlOrder.GetOrder_itemByOrderList(new List<Entity.Order> { obj.Order });
-                var deliveryFoundList = Bl.BlOrder.GetDeliveryDataByOrderList(new List<Entity.Order> { obj.Order });
-                var Item_deliveryFoundList = Bl.BlItem.GetItem_deliveryDataByDeliveryList(deliveryFoundList);
-                var tax_orderFoundList = Bl.BlOrder.GetTax_orderDataByOrderList(new List<Entity.Order> { obj.Order });
+                    var order_itemFoundList = Bl.BlOrder.GetOrder_itemByOrderList(new List<Entity.Order> { obj.Order });
+                    var deliveryFoundList = Bl.BlOrder.GetDeliveryDataByOrderList(new List<Entity.Order> { obj.Order });
+                    var Item_deliveryFoundList = Bl.BlItem.GetItem_deliveryDataByDeliveryList(deliveryFoundList);
+                    var tax_orderFoundList = Bl.BlOrder.GetTax_orderDataByOrderList(new List<Entity.Order> { obj.Order });
 
-                // deleting everything involved into this order
-                await Bl.BlOrder.DeleteTax_orderAsync(tax_orderFoundList);
-                await Bl.BlItem.DeleteItem_deliveryAsync(Item_deliveryFoundList);
-                await Bl.BlOrder.DeleteDeliveryAsync(deliveryFoundList);
-                await Bl.BlOrder.DeleteBillAsync(billFoundList);
-                await Bl.BlOrder.DeleteOrder_itemAsync(order_itemFoundList);
-                await Bl.BlOrder.DeleteOrderAsync(new List<Entity.Order> { obj.Order });
+                    // deleting everything involved into this order
+                    await Bl.BlOrder.DeleteTax_orderAsync(tax_orderFoundList);
+                    await Bl.BlItem.DeleteItem_deliveryAsync(Item_deliveryFoundList);
+                    await Bl.BlOrder.DeleteDeliveryAsync(deliveryFoundList);
+                    await Bl.BlOrder.DeleteBillAsync(billFoundList);
+                    await Bl.BlOrder.DeleteOrder_itemAsync(order_itemFoundList);
+                    await Bl.BlOrder.DeleteOrderAsync(new List<Entity.Order> { obj.Order });
 
-                OrderModelList.Remove(obj);
-                updateOrderModelListBinding();
-                Dialog.IsDialogOpen = false;
+                    OrderModelList.Remove(obj);
+                    updateOrderModelListBinding();
+                    Dialog.IsDialogOpen = false;
+                }
+                else
+                    await Dialog.show("Order invoice is not the latest.");
+
             }
-            else
-                await Dialog.show("Order bill is not the last one.");
-
-
         }
 
         public bool canDeleteOrder(OrderModel arg)
@@ -480,7 +484,7 @@ namespace QOBDManagement.ViewModel
                                 && _main.securityCheck(EAction.Security, ESecurity._Read)
                                     && _main.securityCheck(EAction.Security, ESecurity._Update)
                                         && _main.securityCheck(EAction.Security, ESecurity._Write);
-            if (!isAdmin)
+            if (isAdmin)
                 return true;
             return false;
         }

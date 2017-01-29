@@ -272,8 +272,8 @@ namespace QOBDDAL.Helper.ChannelHelper
             {
                 Statistic statistic = new Statistic();
                 statistic.ID = statisticQCBD.ID;
-                statistic.BillId = statisticQCBD.BillId;
-                statistic.Bill_date = statisticQCBD.Bill_datetime;
+                statistic.InvoiceId = statisticQCBD.BillId;
+                statistic.InvoiceDate = statisticQCBD.Bill_datetime;
                 statistic.Company = statisticQCBD.Company;
                 statistic.Date_limit = statisticQCBD.Date_limit;
                 statistic.Income = statisticQCBD.Income;
@@ -300,8 +300,8 @@ namespace QOBDDAL.Helper.ChannelHelper
             {
                 QOBDSet.statisticsRow statisticQCBD = returnQCBDDataTable.NewstatisticsRow();
                 statisticQCBD.ID = statistic.ID;
-                statisticQCBD.BillId = statistic.BillId;
-                statisticQCBD.Bill_datetime = statistic.Bill_date;
+                statisticQCBD.BillId = statistic.InvoiceId;
+                statisticQCBD.Bill_datetime = statistic.InvoiceDate;
                 statisticQCBD.Company = statistic.Company;
                 statisticQCBD.Date_limit = statistic.Date_limit;
                 statisticQCBD.Income = statistic.Income;
@@ -338,8 +338,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     foreach (var statistic in statisticsList)
                     {
                         QOBDSet.statisticsRow statisticQCBD = dataSet.statistics.Where(x => x.ID == statistic.ID).First();
-                        statisticQCBD.BillId = statistic.BillId;
-                        statisticQCBD.Bill_datetime = statistic.Bill_date;
+                        statisticQCBD.BillId = statistic.InvoiceId;
+                        statisticQCBD.Bill_datetime = statistic.InvoiceDate;
                         statisticQCBD.Company = statistic.Company;
                         statisticQCBD.Date_limit = statistic.Date_limit;
                         statisticQCBD.Income = statistic.Income;
@@ -367,8 +367,8 @@ namespace QOBDDAL.Helper.ChannelHelper
 
                 if (Statistic.ID != 0)
                     query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Statistic.ID);
-                if (Statistic.BillId != 0)
-                    query = string.Format(query + " {0} BillId LIKE '{1}' ", filterOperator.ToString(), Statistic.BillId);
+                if (Statistic.InvoiceId != 0)
+                    query = string.Format(query + " {0} BillId LIKE '{1}' ", filterOperator.ToString(), Statistic.InvoiceId);
                 if (Statistic.Pay_received != 0)
                     query = string.Format(query + " {0} Pay_received LIKE '{1}' ", filterOperator.ToString(), Statistic.Pay_received);
                 if (Statistic.Price_purchase_total != 0)

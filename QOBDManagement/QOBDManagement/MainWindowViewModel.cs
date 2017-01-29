@@ -31,6 +31,7 @@ namespace QOBDManagement
         private DisplayAndData.Display.Image _logoImageDisplay;
         private DisplayAndData.Display.Image _billImageDisplay;
         private bool _isThroughContext;
+        private bool _isRefresh;
 
         //----------------------------[ Models ]------------------
 
@@ -121,6 +122,12 @@ namespace QOBDManagement
         {
             get { return _isThroughContext; }
             set { setProperty(ref _isThroughContext, value); }
+        }
+
+        public bool IsRefresh
+        {
+            get { return _isRefresh; }
+            set { setProperty(ref _isRefresh, value); }
         }
 
         public Context Context
@@ -412,6 +419,7 @@ namespace QOBDManagement
             {
                 Agent agent = _startup.Bl.BlSecurity.GetAuthenticatedUser();
                 if (agent.RoleList != null)
+                {
                     foreach (var role in agent.RoleList)
                     {
                         var actionFound = role.ActionList.Where(x => x.Name.Equals(action.ToString())).FirstOrDefault();
@@ -420,20 +428,30 @@ namespace QOBDManagement
                             switch (right)
                             {
                                 case ESecurity._Delete:
-                                    return actionFound.Right.IsDelete;
+                                    if(actionFound.Right.IsDelete)
+                                        return actionFound.Right.IsDelete;
+                                    break;
                                 case ESecurity._Read:
-                                    return actionFound.Right.IsRead;
+                                    if (actionFound.Right.IsRead)
+                                        return actionFound.Right.IsRead;
+                                    break;
                                 case ESecurity._Update:
-                                    return actionFound.Right.IsUpdate;
+                                    if (actionFound.Right.IsUpdate)
+                                        return actionFound.Right.IsUpdate;
+                                    break;
                                 case ESecurity._Write:
-                                    return actionFound.Right.IsWrite;
+                                    if (actionFound.Right.IsWrite)
+                                        return actionFound.Right.IsWrite;
+                                    break;
                                 case ESecurity.SendEmail:
-                                    return actionFound.Right.IsSendMail;
-                                default:
-                                    return false;
+                                    if (actionFound.Right.IsSendMail)
+                                        return actionFound.Right.IsSendMail;
+                                    break;
                             }
                         }
-                    }
+                    }                    
+                }
+                    
             }
             return false;
         }
@@ -500,52 +518,54 @@ namespace QOBDManagement
 
         //----------------------------[ Action Orders ]------------------
 
-        private async void appNavig(string propertyName)
+        private void appNavig(string propertyName)
         {
-            await Task.Factory.StartNew(() =>
+            IsThroughContext = false;
+            IsRefresh = false;
+            switch (propertyName)
             {
-                IsThroughContext = false;
-                switch (propertyName)
-                {
-                    case "home":
-                        HomeViewModel.executeNavig(propertyName);
-                        break;
-                    case "client":
-                        ClientViewModel.executeNavig(propertyName);
-                        break;
-                    case "item":
-                        ItemViewModel.executeNavig(propertyName);
-                        break;
-                    case "order":
-                        OrderViewModel.executeNavig(propertyName);
-                        break;
-                    case "quote":
-                        QuoteViewModel.executeNavig(propertyName);
-                        break;
-                    case "agent":
-                        AgentViewModel.executeNavig(propertyName);
-                        break;
-                    case "notification":
-                        CurrentViewModel = NotificationViewModel;
-                        break;
-                    case "notification-new":
-                        CurrentViewModel = NotificationViewModel;
-                        break;
-                    case "notification-detail":
-                        CurrentViewModel = NotificationViewModel;
-                        break;
-                    case "option":
-                        ReferentialViewModel.executeNavig(propertyName);
-                        break;
-                    case "statistic":
-                        CurrentViewModel = StatisticViewModel;
-                        break;
-                    case "back":
-                        Context.Request();
-                        IsThroughContext = true;
-                        break;
-                }
-            });                
+                case "home":
+                    HomeViewModel.executeNavig(propertyName);
+                    break;
+                case "client":
+                    ClientViewModel.executeNavig(propertyName);
+                    break;
+                case "item":
+                    ItemViewModel.executeNavig(propertyName);
+                    break;
+                case "order":
+                    OrderViewModel.executeNavig(propertyName);
+                    break;
+                case "quote":
+                    QuoteViewModel.executeNavig(propertyName);
+                    break;
+                case "agent":
+                    AgentViewModel.executeNavig(propertyName);
+                    break;
+                case "notification":
+                    CurrentViewModel = NotificationViewModel;
+                    break;
+                case "notification-new":
+                    CurrentViewModel = NotificationViewModel;
+                    break;
+                case "notification-detail":
+                    CurrentViewModel = NotificationViewModel;
+                    break;
+                case "option":
+                    ReferentialViewModel.executeNavig(propertyName);
+                    break;
+                case "statistic":
+                    CurrentViewModel = StatisticViewModel;
+                    break;
+                case "back":
+                    Context.Request();
+                    IsThroughContext = true;
+                    break;
+                case "refresh":
+                    onPropertyChange("CurrentViewModel");
+                    IsRefresh = true;
+                    break;
+            }              
         }
 
         private bool canAppNavig(string arg)
@@ -570,7 +590,7 @@ namespace QOBDManagement
                 return false;// securityCheck(QOBDCommon.Enum.EAction.Statistic, QOBDCommon.Enum.ESecurity._Read);
             if (arg.Equals("option"))
                 return securityCheck(QOBDCommon.Enum.EAction.Option, QOBDCommon.Enum.ESecurity._Read);
-            if (arg.Equals("home") || arg.Equals("back"))
+            if (arg.Equals("home") || arg.Equals("back") || arg.Equals("refresh"))
                 return true;
 
             return false;

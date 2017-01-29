@@ -104,7 +104,7 @@ namespace QOBDDAL.Core
                     List<Address> savedAddressList = LoadAddress(addressList.ToList()); // UpdateAddress(addressList.ToList());
                     List<Contact> savedContactList = LoadContact(new NotifyTaskCompletion<List<Contact>>(_gateWayClient.GetContactDataByClientListAsync(clientList.ToList())).Task.Result);
                 }
-                Log.debug("-- Clients loaded --");
+                //Log.debug("-- Clients loaded --");
             }
             catch (Exception ex)
             {
@@ -164,6 +164,63 @@ namespace QOBDDAL.Core
                 gateWayResultList = await _gateWayClient.InsertAddressAsync(listAddress);
                 
                 result = LoadAddress(gateWayResultList);
+            }
+            return result;
+        }
+
+        public async Task<List<Client>> DeleteClientAsync(List<Client> listClient)
+        {
+            List<Client> result = new List<Client>();
+            List<Client> gateWayResultList = new List<Client>();
+            using (clientsTableAdapter _clientsTableAdapter = new clientsTableAdapter())
+            {
+                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                gateWayResultList = await _gateWayClient.DeleteClientAsync(listClient);
+                if (gateWayResultList.Count == 0)
+                    foreach (Client client in listClient)
+                    {
+                        int returnResult = _clientsTableAdapter.Delete1(client.ID);
+                        if (returnResult == 0)
+                            result.Add(client);
+                    }
+            }
+            return result;
+        }
+
+        public async Task<List<Contact>> DeleteContactAsync(List<Contact> listContact)
+        {
+            List<Contact> result = new List<Contact>();
+            List<Contact> gateWayResultList = new List<Contact>();
+            using (contactsTableAdapter _contactsTableAdapter = new contactsTableAdapter())
+            {
+                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                gateWayResultList = await _gateWayClient.DeleteContactAsync(listContact);
+                if (gateWayResultList.Count == 0)
+                    foreach (Contact contact in listContact)
+                    {
+                        int returnResult = _contactsTableAdapter.Delete1(contact.ID);
+                        if (returnResult == 0)
+                            result.Add(contact);
+                    }
+            }
+            return result;
+        }
+
+        public async Task<List<Address>> DeleteAddressAsync(List<Address> listAddress)
+        {
+            List<Address> result = new List<Address>();
+            List<Address> gateWayResultList = new List<Address>();
+            using (addressesTableAdapter _addressesTableAdapter = new addressesTableAdapter())
+            {
+                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                gateWayResultList = await _gateWayClient.DeleteAddressAsync(listAddress);
+                if (gateWayResultList.Count == 0)
+                    foreach (Address address in listAddress)
+                    {
+                        int returnResult = _addressesTableAdapter.Delete1(address.ID);
+                        if (returnResult == 0)
+                            result.Add(address);
+                    }
             }
             return result;
         }
@@ -332,63 +389,6 @@ namespace QOBDDAL.Core
                     if (returnResult > 0)
                         result.Add(address);
                 }
-            }
-            return result;
-        }
-
-        public async Task<List<Client>> DeleteClientAsync(List<Client> listClient)
-        {
-            List<Client> result = listClient;
-            List<Client> gateWayResultList = new List<Client>();
-            using (clientsTableAdapter _clientsTableAdapter = new clientsTableAdapter())
-            {
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                gateWayResultList = await _gateWayClient.DeleteClientAsync(listClient);
-                if (gateWayResultList.Count == 0)
-                    foreach (Client client in listClient)
-                    {
-                        int returnResult = _clientsTableAdapter.Delete1(client.ID);
-                        if (returnResult > 0)
-                            result.Remove(client);
-                    }
-            }
-            return result;
-        }
-
-        public async Task<List<Contact>> DeleteContactAsync(List<Contact> listContact)
-        {
-            List<Contact> result = listContact;
-            List<Contact> gateWayResultList = new List<Contact>();
-            using (contactsTableAdapter _contactsTableAdapter = new contactsTableAdapter())
-            {
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                gateWayResultList = await _gateWayClient.DeleteContactAsync(listContact);
-                if (gateWayResultList.Count == 0)
-                    foreach (Contact contact in listContact)
-                    {
-                        int returnResult = _contactsTableAdapter.Delete1(contact.ID);
-                        if (returnResult > 0)
-                            result.Remove(contact);
-                    }
-            }
-            return result;
-        }
-
-        public async Task<List<Address>> DeleteAddressAsync(List<Address> listAddress)
-        {
-            List<Address> result = listAddress;
-            List<Address> gateWayResultList = new List<Address>();
-            using (addressesTableAdapter _addressesTableAdapter = new addressesTableAdapter())
-            {
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                gateWayResultList = await _gateWayClient.DeleteAddressAsync(listAddress);
-                if (gateWayResultList.Count == 0)
-                    foreach (Address address in listAddress)
-                    {
-                        int returnResult = _addressesTableAdapter.Delete1(address.ID);
-                        if (returnResult > 0)
-                            result.Remove(address);
-                    }
             }
             return result;
         }

@@ -121,7 +121,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Info>> DeleteInfoAsync(List<Info> listInfos)
         {
-            List<Info> result = listInfos;
+            List<Info> result = new List<Info>();
             List<Info> gateWayResultList = new List<Info>();
             using (infosTableAdapter _infosTableAdapter = new infosTableAdapter())
             {
@@ -132,8 +132,8 @@ namespace QOBDDAL.Core
                     foreach (Info infos in listInfos)
                     {
                         int returnValue = _infosTableAdapter.Delete1(infos.ID);
-                        if (returnValue > 0)
-                            result.Remove(infos);
+                        if (returnValue == 0)
+                            result.Add(infos);
                     }
                 }
 
@@ -143,14 +143,14 @@ namespace QOBDDAL.Core
 
         public List<Language> DeleteLanguageInfos(List<Language> languageList)
         {
-            List<Language> result = languageList;
+            List<Language> result = new List<Language>();
             using (LanguagesTableAdapter _languagesTableAdapter = new LanguagesTableAdapter())
             {
                 foreach (Language lang in languageList)
                 {
                     int returnValue = _languagesTableAdapter.Delete1(lang.ID);
-                    if (returnValue > 0)
-                        result.Remove(lang);
+                    if (returnValue == 0)
+                        result.Add(lang);
                 }
             }
             return result;

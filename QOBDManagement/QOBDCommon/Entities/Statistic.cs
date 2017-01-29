@@ -9,9 +9,9 @@ namespace QOBDCommon.Entities
 
         public int ID {get; set;}
 
-        public DateTime Bill_date {get; set;}
+        public DateTime InvoiceDate {get; set;}
 
-        public int BillId {get; set;}
+        public int InvoiceId {get; set;}
 
         public string Company {get; set;}
 

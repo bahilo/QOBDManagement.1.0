@@ -213,7 +213,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item>> DeleteItemAsync(List<Item> listItem)
         {
-            List<Item> result = listItem;
+            List<Item> result = new List<Item>();
             List<Item> gateWayResultList = new List<Item>();
             using (itemsTableAdapter _itemTableAdapter = new itemsTableAdapter())
             {
@@ -223,8 +223,8 @@ namespace QOBDDAL.Core
                     foreach (Item item in listItem)
                     {
                         int returnValue = _itemTableAdapter.Delete1(item.ID);
-                        if (returnValue > 0)
-                            result.Remove(item);
+                        if (returnValue == 0)
+                            result.Add(item);
                     }
             }
             return result;
@@ -232,7 +232,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider>> DeleteProviderAsync(List<Provider> listProvider)
         {
-            List<Provider> result = listProvider;
+            List<Provider> result = new List<Provider>();
             List<Provider> gateWayResultList = new List<Provider>();
             using (providersTableAdapter _providersTableAdapter = new providersTableAdapter())
             {
@@ -242,8 +242,8 @@ namespace QOBDDAL.Core
                     foreach (Provider provider in listProvider)
                     {
                         int returnValue = _providersTableAdapter.Delete1(provider.ID);
-                        if (returnValue > 0)
-                            result.Remove(provider);
+                        if (returnValue == 0)
+                            result.Add(provider);
                     }
             }
             return result;
@@ -251,7 +251,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider_item>> DeleteProvider_itemAsync(List<Provider_item> listProvider_item)
         {
-            List<Provider_item> result = listProvider_item;
+            List<Provider_item> result = new List<Provider_item>();
             List<Provider_item> gateWayResultList = new List<Provider_item>();
             using (provider_itemsTableAdapter _provider_itemsTableAdapter = new provider_itemsTableAdapter())
             {
@@ -261,8 +261,8 @@ namespace QOBDDAL.Core
                     foreach (Provider_item provider_item in listProvider_item)
                     {
                         int returnValue = _provider_itemsTableAdapter.Delete1(provider_item.ID);
-                        if (returnValue > 0)
-                            result.Remove(provider_item);
+                        if (returnValue == 0)
+                            result.Add(provider_item);
                     }
             }
             return result;
@@ -271,7 +271,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item_delivery>> DeleteItem_deliveryAsync(List<Item_delivery> listItem_delivery)
         {
-            List<Item_delivery> result = listItem_delivery;
+            List<Item_delivery> result = new List<Item_delivery>();
             List<Item_delivery> gateWayResultList = new List<Item_delivery>();
             using (item_deliveriesTableAdapter _item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
             {
@@ -281,8 +281,8 @@ namespace QOBDDAL.Core
                     foreach (Item_delivery item_delivery in gateWayResultList)
                     {
                         int returnValue = _item_deliveriesTableAdapter.Delete1(item_delivery.ID);
-                        if (returnValue > 0)
-                            result.Remove(item_delivery);
+                        if (returnValue == 0)
+                            result.Add(item_delivery);
                     }
             }
             return result;
@@ -290,7 +290,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Auto_ref>> DeleteAuto_refAsync(List<Auto_ref> listAuto_ref)
         {
-            List<Auto_ref> result = listAuto_ref;
+            List<Auto_ref> result = new List<Auto_ref>();
             List<Auto_ref> gateWayResultList = new List<Auto_ref>();
             using (auto_refsTableAdapter _auto_refTableAdapter = new auto_refsTableAdapter())
             {
@@ -300,8 +300,8 @@ namespace QOBDDAL.Core
                     foreach (Auto_ref Auto_ref in listAuto_ref)
                     {
                         int returnValue = _auto_refTableAdapter.Delete1(Auto_ref.ID);
-                        if (returnValue > 0)
-                            result.Remove(Auto_ref);
+                        if (returnValue == 0)
+                            result.Add(Auto_ref);
                     }
             }
             return result;
@@ -309,7 +309,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_item>> DeleteTax_itemAsync(List<Tax_item> listTax_item)
         {
-            List<Tax_item> result = listTax_item;
+            List<Tax_item> result = new List<Tax_item>();
             List<Tax_item> gateWayResultList = new List<Tax_item>();
             using (tax_itemsTableAdapter _tax_itemTableAdapter = new tax_itemsTableAdapter())
             {
@@ -319,8 +319,8 @@ namespace QOBDDAL.Core
                     foreach (Tax_item Tax_item in listTax_item)
                     {
                         int returnValue = _tax_itemTableAdapter.Delete1(Tax_item.ID);
-                        if (returnValue > 0)
-                            result.Remove(Tax_item);
+                        if (returnValue == 0)
+                            result.Add(Tax_item);
                     }
             }
             return result;
