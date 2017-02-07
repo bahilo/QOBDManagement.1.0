@@ -23,7 +23,8 @@ namespace QOBDManagement.Classes
                                 new DALOrder(),
                                 new DALSecurity(),
                                 new DALStatisitc(),
-                                new DALReferential());
+                                new DALReferential(),
+                                new DALNotification());
 
             BlSecurity BlSecurity = new BlSecurity(Dal);
 
@@ -37,7 +38,8 @@ namespace QOBDManagement.Classes
                                                 new BLOrder(Dal),
                                                 BlSecurity,
                                                 new BLStatisitc(Dal),
-                                                new BlReferential(Dal));
+                                                new BlReferential(Dal),
+                                                new BlNotification(Dal));
         }
 
     }

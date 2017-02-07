@@ -155,6 +155,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                             table = new QOBDSet.LanguagesDataTable();
                         else if (typeof(T).Equals(typeof(QOBDSet.statisticsDataTable)))
                             table = new QOBDSet.statisticsDataTable();
+                        else if (typeof(T).Equals(typeof(QOBDSet.notificationsDataTable)))
+                            table = new QOBDSet.notificationsDataTable();
 
                         cmd.Connection.Open();
                         cmd.CommandTimeout = 0;
@@ -172,6 +174,7 @@ namespace QOBDDAL.Helper.ChannelHelper
             }
             return table;
         }
+
 
         //====================================================================================
         //===============================[ Auto_ref ]===========================================
@@ -258,6 +261,102 @@ namespace QOBDDAL.Helper.ChannelHelper
 
             }
             return new List<Auto_ref>();
+        }
+
+
+        //====================================================================================
+        //===============================[ Notification ]===========================================
+        //====================================================================================
+
+        public static List<Notification> DataTableTypeToNotification(this QOBDSet.notificationsDataTable NotificationDataTable)
+        {
+            object _lock = new object(); List<Notification> returnList = new List<Notification>();
+
+            foreach (var NotificationQCBD in NotificationDataTable)
+            {
+                Notification Notification = new Notification();
+                Notification.ID = NotificationQCBD.ID;
+                Notification.BillId = NotificationQCBD.BillId;
+                Notification.Reminder1 = NotificationQCBD.Reminder1;
+                Notification.Reminder2 = NotificationQCBD.Reminder2;
+
+                lock (_lock) returnList.Add(Notification);
+            }
+
+            return returnList;
+        }
+
+        public static QOBDSet.notificationsDataTable NotificationTypeToDataTable(this List<Notification> NotificationList)
+        {
+            object _lock = new object();
+            QOBDSet.notificationsDataTable returnQCBDDataTable = new QOBDSet.notificationsDataTable();
+
+            foreach (var Notification in NotificationList)
+            {
+                QOBDSet.notificationsRow NotificationQCBD = returnQCBDDataTable.NewnotificationsRow();
+                NotificationQCBD.ID = Notification.ID;
+                NotificationQCBD.BillId = Notification.BillId;
+                NotificationQCBD.Reminder1 = Notification.Reminder1;
+                NotificationQCBD.Reminder2 = Notification.Reminder2;
+
+                lock (_lock)
+                {
+                    if (!returnQCBDDataTable.Rows.Contains(NotificationQCBD.ID))
+                    {
+                        returnQCBDDataTable.Rows.Add(NotificationQCBD);
+                    }
+                }
+            }
+
+            return returnQCBDDataTable;
+        }
+
+        // update the given dataset 
+        public static QOBDSet.notificationsDataTable NotificationTypeToDataTable(this List<Notification> notificationList, QOBDSet dataSet)
+        {
+            object _lock = new object();
+            if (notificationList != null)
+            {
+                if (dataSet != null && dataSet.notifications.Count > 0)
+                {
+                    foreach (var Notification in notificationList)
+                    {
+                        QOBDSet.notificationsRow NotificationQCBD = dataSet.notifications.Where(x => x.ID == Notification.ID).First();
+                        if(NotificationQCBD.ID != Notification.ID && Notification.ID != 0)
+                            NotificationQCBD.ID = Notification.ID;
+                        NotificationQCBD.BillId = Notification.BillId;
+                        NotificationQCBD.Reminder1 = Notification.Reminder1;
+                        NotificationQCBD.Reminder2 = Notification.Reminder2;
+                    }
+                }
+            }
+
+            return dataSet.notifications;
+        }
+
+        public static List<Notification> NotificationTypeToFilterDataTable(this Notification Notification, ESearchOption filterOperator)
+        {
+            if (Notification != null)
+            {
+                string baseSqlString = "SELECT * FROM Notifications WHERE ";
+                string defaultSqlString = "SELECT * FROM Notifications WHERE 1=0 ";
+                object _lock = new object(); string query = "";
+
+                if (Notification.ID != 0)
+                    query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Notification.ID);
+                if (Notification.BillId != 0)
+                    query = string.Format(query + " {0} BillId LIKE '{1}' ", filterOperator.ToString(), Notification.BillId);
+                
+                lock (_lock)
+                    if (!string.IsNullOrEmpty(query))
+                        baseSqlString = baseSqlString + query.Substring(query.IndexOf(filterOperator.ToString()) + filterOperator.ToString().Length);
+                    else
+                        baseSqlString = defaultSqlString;
+
+                return DataTableTypeToNotification((QOBDSet.notificationsDataTable)getDataTableFromSqlQuery<QOBDSet.notificationsDataTable>(baseSqlString));
+
+            }
+            return new List<Notification>();
         }
 
         //====================================================================================

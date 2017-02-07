@@ -34,7 +34,7 @@ namespace QOBDDAL.Core
     {
         private Func<double, double> _rogressBarFunc;
         public Agent AuthenticatedUser { get; set; }
-        private GateWayClient _gateWayClient;
+        private QOBDCommon.Interfaces.REMOTE.IClientManager _gateWayClient;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -47,7 +47,6 @@ namespace QOBDDAL.Core
             _gateWayClient = new GateWayClient();
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
-            _gateWayClient.PropertyChanged += onCredentialChange_loadClientDataFromWebService;
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -56,7 +55,7 @@ namespace QOBDDAL.Core
             set { _isLodingDataFromWebServiceToLocal = value; }
         }
 
-        public GateWayClient GateWayClient
+        public QOBDCommon.Interfaces.REMOTE.IClientManager GateWayClient
         {
             get { return _gateWayClient; }
         }
@@ -66,20 +65,17 @@ namespace QOBDDAL.Core
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
-                _gateWayClient.initializeCredential(user);
+                _gateWayClient.setServiceCredential(user.Login, user.HashedPassword);
+                retrieveGateWayClientData();
             }
         }
 
-        private void onCredentialChange_loadClientDataFromWebService(object sender, PropertyChangedEventArgs e)
+        public void setServiceCredential(string login, string password)
         {
-            if (e.PropertyName.Equals("Credential"))
-            {
-                retrieveGateWayDataClient();
-                //DALHelper.doActionAsync();                
-            }
+            _gateWayClient.setServiceCredential(login, password);
         }
 
-        private void retrieveGateWayDataClient()
+        private void retrieveGateWayClientData()
         {
             int loadUnit = 500;
 
@@ -431,6 +427,12 @@ namespace QOBDDAL.Core
                 return await _gateWayClient.GetClientDataByBillListAsync(billList);
         }
 
+        public async Task<List<Client>> GetClientMaxCreditOverDataByAgentAsync(int agentId)
+        {
+            _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+            return await _gateWayClient.GetClientMaxCreditOverDataByAgentAsync(agentId);
+        }
+
         public List<Contact> GetContactData(int nbLine)
         {
             List<Contact> result = new List<Contact>();
@@ -598,7 +600,6 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayClient.PropertyChanged -= onCredentialChange_loadClientDataFromWebService;
             _gateWayClient.Dispose();
         }
     } /* end class BlCLient */

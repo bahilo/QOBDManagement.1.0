@@ -4,6 +4,7 @@ using QOBDCommon.Enum;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 /// <summary>
 ///  An interface defining operations expected of ...
@@ -13,9 +14,11 @@ using System.Threading.Tasks;
 /// </summary>
 namespace QOBDCommon.Interfaces.REMOTE
 {
-    public interface IAgentManager : IDisposable
+    public interface IAgentManager : INotifyPropertyChanged, IDisposable
     {
         // Operations
+
+        void setServiceCredential(string login, string password);
 
         Task<List<Agent>> InsertAgentAsync(List<Agent> listAgent);
 

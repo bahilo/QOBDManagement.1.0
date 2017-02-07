@@ -1,9 +1,14 @@
+using QOBDCommon.Classes;
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDCommon.Interfaces.DAC;
+using QOBDDAL.App_Data;
+using QOBDDAL.App_Data.QOBDSetTableAdapters;
+using QOBDDAL.Helper.ChannelHelper;
 using QOBDGateway.Core;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -17,10 +22,15 @@ namespace QOBDDAL.Core
 {
     public class DALNotification : INotificationManager
     {
+        private Func<double, double> _rogressBarFunc;
         public Agent AuthenticatedUser { get; set; }
-        private GateWayNotification _gateWayNotification;
+        private QOBDCommon.Interfaces.REMOTE.INotificationManager _gateWayNotification;
+        private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
+        private object _lock = new object();
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public DALNotification()
         {
@@ -29,55 +39,179 @@ namespace QOBDDAL.Core
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
         }
 
-        public void initializeCredential(Agent user)
+        public bool IsLodingDataFromWebServiceToLocal
         {
-            AuthenticatedUser = user;
-            _gateWayNotification.initializeCredential(user);
+            get { return _isLodingDataFromWebServiceToLocal; }
+            set { _isLodingDataFromWebServiceToLocal = value; }
         }
 
-        public Task<List<Notification>> DeleteNotificationAsync(List<Notification> notificationList)
+
+        public void initializeCredential(Agent user)
         {
-            throw new NotImplementedException();
+            if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
+            {
+                AuthenticatedUser = user;
+                _gateWayNotification.setServiceCredential(user.Login, user.HashedPassword);
+                retrieveGateWayNotificationData();
+            }
+        }
+
+        public void setServiceCredential(string login, string password)
+        {
+            _gateWayNotification.setServiceCredential(login, password);
+        }
+
+        public void retrieveGateWayNotificationData()
+        {
+            try
+            {
+                lock (_lock) _isLodingDataFromWebServiceToLocal = true;
+                var notificationList = new NotifyTaskCompletion<List<Notification>>(_gateWayNotification.GetNotificationDataAsync(_loadSize)).Task.Result;
+                if (notificationList.Count > 0)
+                    LoadNotification(notificationList);
+
+                //Log.debug("-- Notifications loaded --");
+            }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message);
+            }
+            finally
+            {
+                lock (_lock)
+                {
+                    _rogressBarFunc(_rogressBarFunc(0) + 100 / _progressStep);
+                    _isLodingDataFromWebServiceToLocal = false;
+                }
+            }
+        }
+
+        public void progressBarManagement(Func<double, double> progressBarFunc)
+        {
+            _rogressBarFunc = progressBarFunc;
+        }
+
+
+
+        public async Task<List<Notification>> InsertNotificationAsync(List<Notification> listNotification)
+        {
+            List<Notification> result = new List<Notification>();
+            List<Notification> gateWayResultList = new List<Notification>();
+            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
+            {
+                _gateWayNotification.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                gateWayResultList = await _gateWayNotification.InsertNotificationAsync(listNotification);
+
+                result = LoadNotification(gateWayResultList);
+            }
+            return result;
+        }
+
+        public async Task<List<Notification>> DeleteNotificationAsync(List<Notification> listNotification)
+        {
+            List<Notification> result = new List<Notification>();
+            List<Notification> gateWayResultList = new List<Notification>();
+            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
+            {
+                _gateWayNotification.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                gateWayResultList = await _gateWayNotification.DeleteNotificationAsync(listNotification);
+                if (gateWayResultList.Count == 0)
+                    foreach (Notification notification in gateWayResultList)
+                    {
+                        int returnResult = _notificationsTableAdapter.Delete1(notification.ID);
+                        if (returnResult == 0)
+                            result.Add(notification);
+                    }
+            }
+            return result;
+        }
+
+        public async Task<List<Notification>> UpdateNotificationAsync(List<Notification> notificationList)
+        {
+            List<Notification> result = new List<Notification>();
+            List<Notification> gateWayResultList = new List<Notification>();
+            QOBDSet dataSet = new QOBDSet();
+            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
+            {
+                _gateWayNotification.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                gateWayResultList = await _gateWayNotification.UpdateNotificationAsync(notificationList);
+
+                foreach (var notification in gateWayResultList)
+                {
+                    QOBDSet dataSetLocal = new QOBDSet();
+                    _notificationsTableAdapter.FillById(dataSetLocal.notifications, notification.ID);
+                    dataSet.notifications.Merge(dataSetLocal.notifications);
+                }
+
+                if (gateWayResultList.Count > 0)
+                {
+                    int returnValue = _notificationsTableAdapter.Update(gateWayResultList.NotificationTypeToDataTable(dataSet));
+                    if (returnValue == gateWayResultList.Count)
+                        result = gateWayResultList;
+                }
+            }
+            return result;
+        }
+
+        public List<Notification> LoadNotification(List<Notification> notificationsList)
+        {
+            List<Notification> result = new List<Notification>();
+            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
+            {
+                foreach (var notification in notificationsList)
+                {
+                    int returnResult = _notificationsTableAdapter
+                                            .load_data_notification(
+                                                notification.Reminder1,
+                                                notification.Reminder2,
+                                                notification.BillId,
+                                                notification.Date,
+                                                notification.ID);
+                    if (returnResult > 0)
+                        result.Add(notification);
+                }
+            }
+            return result;
         }
 
         public List<Notification> GetNotificationData(int nbLine)
         {
-            throw new NotImplementedException();
+            List<Notification> result = new List<Notification>();
+            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
+                result = _notificationsTableAdapter.GetData().DataTableTypeToNotification();
+
+            if (nbLine.Equals(999) || result.Count == 0)
+                return result;
+
+            return result.GetRange(0, nbLine);
         }
 
-        public Task<List<Notification>> GetNotificationDataAsync(int nbLine)
+        public async Task<List<Notification>> GetNotificationDataAsync(int nbLine)
         {
-            throw new NotImplementedException();
+            _gateWayNotification.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+            return await _gateWayNotification.GetNotificationDataAsync(nbLine);
         }
 
         public List<Notification> GetNotificationDataById(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Notification>> InsertNotificationAsync(List<Notification> notificationList)
-        {
-            throw new NotImplementedException();
+            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
+                return _notificationsTableAdapter.get_notification_by_id(id).DataTableTypeToNotification();
         }
 
         public List<Notification> SearchNotification(Notification notification, ESearchOption filterOperator)
         {
-            throw new NotImplementedException();
+            return notification.NotificationTypeToFilterDataTable(filterOperator);
         }
 
-        public Task<List<Notification>> SearchNotificationAsync(Notification notification, ESearchOption filterOperator)
+        public async Task<List<Notification>> SearchNotificationAsync(Notification notification, ESearchOption filterOperator)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Notification>> UpdateNotificationAsync(List<Notification> notificationList)
-        {
-            throw new NotImplementedException();
+            _gateWayNotification.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+            return await _gateWayNotification.SearchNotificationAsync(notification, filterOperator);
         }
 
         public void Dispose()
         {
-
+            _gateWayNotification.Dispose();
         }
     } /* end class BlNotification */
 }

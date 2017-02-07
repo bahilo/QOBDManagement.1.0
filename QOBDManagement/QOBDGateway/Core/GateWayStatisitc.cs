@@ -28,29 +28,10 @@ namespace QOBDGateway.Core
             _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");// (binding, endPoint);
         }
 
-        public void initializeCredential(Agent user)
-        {
-            Credential = user;
-        }
-
-        public Agent Credential
-        {
-            set
-            {
-                setServiceCredential(value.Login, value.HashedPassword);
-                onPropertyChange("Credential");
-            }
-        }
-
         private void onPropertyChange(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public void progressBarManagement(Func<double, double> progressBarFunc)
-        {
-            throw new NotImplementedException();
         }
 
         public void setServiceCredential(string login, string password)

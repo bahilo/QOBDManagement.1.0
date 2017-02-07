@@ -15,6 +15,7 @@ public class DataAccess: IDataAccessManager
     public IItemManager DALItem { get; set; }
     public IReferentialManager DALReferential { get; set; }
     public ISecurityManager DALSecurity { get; set; }
+    public INotificationManager DALNotification { get; set; }
     public Func<double,double> ProgressBarFunc { get; set; }
 
     public DataAccess(
@@ -24,7 +25,8 @@ public class DataAccess: IDataAccessManager
                         IOrderManager inDALCommande,
                         ISecurityManager inDALSecurity,
                         IStatisticManager inDALStatisitc,
-                        IReferentialManager inDALReferential
+                        IReferentialManager inDALReferential,
+                        INotificationManager inDALNotification
         )    
     {
         this.DALAgent = inDALAgent;
@@ -34,6 +36,7 @@ public class DataAccess: IDataAccessManager
         this.DALStatistic = inDALStatisitc;
         this.DALReferential = inDALReferential;
         this.DALSecurity = inDALSecurity;
+        this.DALNotification = inDALNotification;
     }
 
     public void SetUserCredential(Agent authenticatedUser, bool isNewAgentAuthentication = false)
@@ -82,6 +85,11 @@ public class DataAccess: IDataAccessManager
                 Task tskReferential = Task.Factory.StartNew(() => {
                     DALReferential.progressBarManagement(ProgressBarFunc);
                     DALReferential.initializeCredential(authenticatedUser);
+                });
+
+                Task tskNotification = Task.Factory.StartNew(() => {
+                    DALNotification.progressBarManagement(ProgressBarFunc);
+                    DALNotification.initializeCredential(authenticatedUser);
                 });
 
                 Thread main = new Thread(delegate () {

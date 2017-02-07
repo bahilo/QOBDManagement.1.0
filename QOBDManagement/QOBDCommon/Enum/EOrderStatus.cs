@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QOBDCommon.Enum
 {
-    public enum EStatusOrder
+    public enum EOrderStatus
     {
         Quote,                  //devis
         Pre_Order,             //preco

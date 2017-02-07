@@ -186,7 +186,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <CheckBox IsChecked="{Binding IsRole1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole1AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
                                               Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
                                               CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                     </DataTemplate>
@@ -198,7 +198,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <CheckBox IsChecked="{Binding IsRole2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole2AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
                                               Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
                                               CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                     </DataTemplate>
@@ -210,7 +210,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <CheckBox IsChecked="{Binding IsRole3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole3AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
                                               Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
                                               CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                     </DataTemplate>
@@ -222,7 +222,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <CheckBox IsChecked="{Binding IsRole4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole4AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
                                               Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
                                               CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                     </DataTemplate>
@@ -234,7 +234,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <CheckBox IsChecked="{Binding IsRole5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole5AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
                                               Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
                                               CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                     </DataTemplate>
@@ -246,7 +246,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole6, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <CheckBox IsChecked="{Binding IsRole6, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole6AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
                                               Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
                                               CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                     </DataTemplate>
@@ -258,7 +258,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole7, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <CheckBox IsChecked="{Binding IsRole7, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole7AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
                                               Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
                                               CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                     </DataTemplate>
@@ -270,7 +270,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole8, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <CheckBox IsChecked="{Binding IsRole8, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole8AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
                                               Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
                                               CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                     </DataTemplate>
@@ -282,7 +282,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <CheckBox IsChecked="{Binding IsRole9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole9AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
                                               Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
                                               CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                     </DataTemplate>

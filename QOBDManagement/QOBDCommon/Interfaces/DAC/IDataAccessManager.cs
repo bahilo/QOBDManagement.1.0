@@ -18,6 +18,7 @@ namespace QOBDCommon.Interfaces.DAC
         IItemManager DALItem { get; set; }
         IReferentialManager DALReferential { get; set; }
         ISecurityManager DALSecurity { get; set; }
+        INotificationManager DALNotification { get; set; }
 
         void SetUserCredential(Agent authenticatedUser, bool isNewAgentAuthentication = false);
     } /* end interface IDataAccessManager */

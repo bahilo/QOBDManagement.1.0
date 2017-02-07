@@ -12,6 +12,8 @@ namespace QOBDManagement.Models
     {
         Entity.Action _action;
         PrivilegeModel _privilegeModel;
+        private bool _isModified;
+
         public ActionModel()
         {
             _action = new Entity.Action();
@@ -21,25 +23,31 @@ namespace QOBDManagement.Models
         public Entity.Action Action
         {
             get { return _action; }
-            set { setProperty(ref _action, value, "Action"); }
+            set { setProperty(ref _action, value); }
         }
 
         public string TxtName
         {
             get { return _action.Name; }
-            set { _action.Name = value; onPropertyChange("TxtName"); }
+            set { _action.Name = value; onPropertyChange(); }
         }
 
         public string TxtID
         {
             get { return _action.ID.ToString(); }
-            set { _action.ID = Convert.ToInt32(value); onPropertyChange("TxtID"); }
+            set { _action.ID = Convert.ToInt32(value); onPropertyChange(); }
         }
 
         public PrivilegeModel PrivilegeModel
         {
             get { return _privilegeModel; }
-            set { setProperty(ref _privilegeModel, value, "PrivilegeModel"); }
+            set { setProperty(ref _privilegeModel, value); }
+        }
+
+        public bool IsModified
+        {
+            get { return _isModified; }
+            set { setProperty(ref _isModified, value); }
         }
     }
 }

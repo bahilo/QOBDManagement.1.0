@@ -23,7 +23,7 @@ namespace QOBDDAL.Core
     {
         private Func<double, double> _rogressBarFunc;
         public Agent AuthenticatedUser { get; set; }
-        private GateWayAgent _gateWayAgent;
+        private QOBDCommon.Interfaces.REMOTE.IAgentManager _gateWayAgent;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -36,15 +36,7 @@ namespace QOBDDAL.Core
             _gateWayAgent = new GateWayAgent();
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
-            _gateWayAgent.PropertyChanged += onCredentialChange_loadAgentDataFromWebService;
 
-        }
-
-
-        public GateWayAgent GateWayAgent
-        {
-            get { return _gateWayAgent; }
-            set { _gateWayAgent = value; }
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -53,27 +45,22 @@ namespace QOBDDAL.Core
             set { _isLodingDataFromWebServiceToLocal = value; }
         }
 
-        private void onCredentialChange_loadAgentDataFromWebService(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Credential"))
-            {
-                retrieveGateWayData();
-                //DALHelper.doActionAsync();                
-            }
-        }        
-        
-
         public void initializeCredential(Agent user)
         {
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
-                //_loadSize = (AuthenticatedUser.ListSize > 0) ? AuthenticatedUser.ListSize : _loadSize;
-                _gateWayAgent.initializeCredential(user);
-            }                       
+                _gateWayAgent.setServiceCredential(user.Login, user.HashedPassword);
+                retrieveGateWayAgentData();
+            }
         }
 
-        public void retrieveGateWayData() 
+        public void setServiceCredential(string login, string password)
+        {
+            _gateWayAgent.setServiceCredential(login, password);
+        }
+
+        public void retrieveGateWayAgentData() 
         {
             try
             { 
@@ -248,7 +235,6 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayAgent.PropertyChanged -= onCredentialChange_loadAgentDataFromWebService;
             _gateWayAgent.Dispose();
         }
 

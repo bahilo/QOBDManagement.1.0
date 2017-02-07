@@ -678,7 +678,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockBillListBoxVisibility}">
                                 <TextBlock VerticalAlignment="Center"  Margin="0 0 10 0">Add the Following Invoice</TextBlock>
-                                <ComboBox ItemsSource="{Binding OrderViewModel.OrderDetailViewModel.OrderSelected.BillModelList}" SelectedItem="{Binding OrderViewModel.OrderDetailViewModel.SelectedBillToSend, UpdateSourceTrigger=PropertyChanged}"
+                                <ComboBox Name="cbxInvoiceListToEmail" ItemsSource="{Binding OrderViewModel.OrderDetailViewModel.OrderSelected.BillModelList}" SelectedItem="{Binding OrderViewModel.OrderDetailViewModel.SelectedBillToSend, UpdateSourceTrigger=PropertyChanged}"
                                       IsSynchronizedWithCurrentItem="True" VerticalAlignment="Center">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
@@ -692,7 +692,8 @@
                         </StackPanel>
                         <StackPanel Grid.Row="2" Orientation="Horizontal"  Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockEmailVisibility, UpdateSourceTrigger=PropertyChanged}">
                             <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                Command="{Binding OrderViewModel.OrderDetailViewModel.SendEmailCommand}">
+                                Command="{Binding OrderViewModel.OrderDetailViewModel.SendEmailCommand}"
+                                    CommandParameter="{Binding SelectedItem, ElementName=cbxInvoiceListToEmail}">
                                 Send Email
                             </Button>
                             <TextBlock VerticalAlignment="Center">a Copy will be send to you</TextBlock>

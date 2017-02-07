@@ -4721,7 +4721,7 @@ namespace QOBDDAL.App_Data {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public notificationsRow AddnotificationsRow(string BillId, string Reminder1, string Reminder2, System.DateTime Date) {
+            public notificationsRow AddnotificationsRow(int BillId, System.DateTime Reminder1, System.DateTime Reminder2, System.DateTime Date) {
                 notificationsRow rownotificationsRow = ((notificationsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -4770,11 +4770,11 @@ namespace QOBDDAL.App_Data {
             private void InitClass() {
                 this.columnID = new global::System.Data.DataColumn("ID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID);
-                this.columnBillId = new global::System.Data.DataColumn("BillId", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnBillId = new global::System.Data.DataColumn("BillId", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnBillId);
-                this.columnReminder1 = new global::System.Data.DataColumn("Reminder1", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnReminder1 = new global::System.Data.DataColumn("Reminder1", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnReminder1);
-                this.columnReminder2 = new global::System.Data.DataColumn("Reminder2", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnReminder2 = new global::System.Data.DataColumn("Reminder2", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnReminder2);
                 this.columnDate = new global::System.Data.DataColumn("Date", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDate);
@@ -4787,11 +4787,8 @@ namespace QOBDDAL.App_Data {
                 this.columnID.ReadOnly = true;
                 this.columnID.Unique = true;
                 this.columnBillId.AllowDBNull = false;
-                this.columnBillId.MaxLength = 1;
                 this.columnReminder1.AllowDBNull = false;
-                this.columnReminder1.MaxLength = 1;
                 this.columnReminder2.AllowDBNull = false;
-                this.columnReminder2.MaxLength = 1;
                 this.columnDate.AllowDBNull = false;
             }
             
@@ -10516,9 +10513,9 @@ namespace QOBDDAL.App_Data {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string BillId {
+            public int BillId {
                 get {
-                    return ((string)(this[this.tablenotifications.BillIdColumn]));
+                    return ((int)(this[this.tablenotifications.BillIdColumn]));
                 }
                 set {
                     this[this.tablenotifications.BillIdColumn] = value;
@@ -10527,9 +10524,9 @@ namespace QOBDDAL.App_Data {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Reminder1 {
+            public System.DateTime Reminder1 {
                 get {
-                    return ((string)(this[this.tablenotifications.Reminder1Column]));
+                    return ((global::System.DateTime)(this[this.tablenotifications.Reminder1Column]));
                 }
                 set {
                     this[this.tablenotifications.Reminder1Column] = value;
@@ -10538,9 +10535,9 @@ namespace QOBDDAL.App_Data {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Reminder2 {
+            public System.DateTime Reminder2 {
                 get {
-                    return ((string)(this[this.tablenotifications.Reminder2Column]));
+                    return ((global::System.DateTime)(this[this.tablenotifications.Reminder2Column]));
                 }
                 set {
                     this[this.tablenotifications.Reminder2Column] = value;
@@ -19555,39 +19552,30 @@ SELECT ID, Lang_table, Table_column, ColumnId, Lang, CultureInfo_name, CultureIn
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[notifications] WHERE (([ID] = @Original_ID) AND ([BillId] = @O" +
-                "riginal_BillId) AND ([Reminder1] = @Original_Reminder1) AND ([Reminder2] = @Orig" +
-                "inal_Reminder2) AND ([Date] = @Original_Date))";
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[notifications] WHERE (([ID] = @Original_ID))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_BillId", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BillId", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Reminder1", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder1", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Reminder2", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder2", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Date", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Date", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[notifications] ([BillId], [Reminder1], [Reminder2], [Date]) VA" +
                 "LUES (@BillId, @Reminder1, @Reminder2, @Date);\r\nSELECT ID, BillId, Reminder1, Re" +
                 "minder2, Date FROM notifications WHERE (ID = SCOPE_IDENTITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BillId", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BillId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder1", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder1", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder2", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder2", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BillId", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BillId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder1", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder1", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder2", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder2", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Date", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Date", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[notifications] SET [BillId] = @BillId, [Reminder1] = @Reminder1, [Reminder2] = @Reminder2, [Date] = @Date WHERE (([ID] = @Original_ID) AND ([BillId] = @Original_BillId) AND ([Reminder1] = @Original_Reminder1) AND ([Reminder2] = @Original_Reminder2) AND ([Date] = @Original_Date));
-SELECT ID, BillId, Reminder1, Reminder2, Date FROM notifications WHERE (ID = @ID)";
+            this._adapter.UpdateCommand.CommandText = "UPDATE [dbo].[notifications] SET [BillId] = @BillId, [Reminder1] = @Reminder1, [R" +
+                "eminder2] = @Reminder2, [Date] = @Date WHERE (([ID] = @Original_ID));\r\nSELECT ID" +
+                ", BillId, Reminder1, Reminder2, Date FROM notifications WHERE (ID = @ID)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BillId", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BillId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder1", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder1", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder2", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder2", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BillId", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BillId", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder1", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder1", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder2", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder2", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Date", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Date", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_BillId", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "BillId", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Reminder1", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder1", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Reminder2", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Reminder2", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Date", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Date", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -19613,8 +19601,8 @@ SELECT ID, BillId, Reminder1, Reminder2, Date FROM notifications WHERE (ID = @ID
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._commandCollection[2] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "SELECT ID, BillId, Reminder1, Reminder2, Date FROM dbo.notifications WHERE [ID] =" +
-                " @ID";
+            this._commandCollection[2].CommandText = "SELECT BillId, Date, ID, Reminder1, Reminder2 FROM notifications WHERE (ID = @ID)" +
+                "";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[3] = new global::System.Data.SqlClient.SqlCommand();
@@ -19622,8 +19610,8 @@ SELECT ID, BillId, Reminder1, Reminder2, Date FROM notifications WHERE (ID = @ID
             this._commandCollection[3].CommandText = "dbo.update_data_notification";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.StoredProcedure;
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder1", global::System.Data.SqlDbType.NVarChar, 45, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder2", global::System.Data.SqlDbType.NVarChar, 45, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder1", global::System.Data.SqlDbType.DateTime, 45, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Reminder2", global::System.Data.SqlDbType.DateTime, 45, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@BillId", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Date", global::System.Data.SqlDbType.DateTime, 8, global::System.Data.ParameterDirection.Input, 23, 3, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[3].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -19712,27 +19700,8 @@ SELECT ID, BillId, Reminder1, Reminder2, Date FROM notifications WHERE (ID = @ID
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID, string Original_BillId, string Original_Reminder1, string Original_Reminder2, System.DateTime Original_Date) {
+        public virtual int Delete(int Original_ID) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID));
-            if ((Original_BillId == null)) {
-                throw new global::System.ArgumentNullException("Original_BillId");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_BillId));
-            }
-            if ((Original_Reminder1 == null)) {
-                throw new global::System.ArgumentNullException("Original_Reminder1");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((string)(Original_Reminder1));
-            }
-            if ((Original_Reminder2 == null)) {
-                throw new global::System.ArgumentNullException("Original_Reminder2");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_Reminder2));
-            }
-            this.Adapter.DeleteCommand.Parameters[4].Value = ((System.DateTime)(Original_Date));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -19753,25 +19722,10 @@ SELECT ID, BillId, Reminder1, Reminder2, Date FROM notifications WHERE (ID = @ID
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string BillId, string Reminder1, string Reminder2, System.DateTime Date) {
-            if ((BillId == null)) {
-                throw new global::System.ArgumentNullException("BillId");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(BillId));
-            }
-            if ((Reminder1 == null)) {
-                throw new global::System.ArgumentNullException("Reminder1");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(Reminder1));
-            }
-            if ((Reminder2 == null)) {
-                throw new global::System.ArgumentNullException("Reminder2");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(Reminder2));
-            }
+        public virtual int Insert(int BillId, System.DateTime Reminder1, System.DateTime Reminder2, System.DateTime Date) {
+            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(BillId));
+            this.Adapter.InsertCommand.Parameters[1].Value = ((System.DateTime)(Reminder1));
+            this.Adapter.InsertCommand.Parameters[2].Value = ((System.DateTime)(Reminder2));
             this.Adapter.InsertCommand.Parameters[3].Value = ((System.DateTime)(Date));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -19793,47 +19747,13 @@ SELECT ID, BillId, Reminder1, Reminder2, Date FROM notifications WHERE (ID = @ID
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string BillId, string Reminder1, string Reminder2, System.DateTime Date, int Original_ID, string Original_BillId, string Original_Reminder1, string Original_Reminder2, System.DateTime Original_Date, int ID) {
-            if ((BillId == null)) {
-                throw new global::System.ArgumentNullException("BillId");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(BillId));
-            }
-            if ((Reminder1 == null)) {
-                throw new global::System.ArgumentNullException("Reminder1");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Reminder1));
-            }
-            if ((Reminder2 == null)) {
-                throw new global::System.ArgumentNullException("Reminder2");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(Reminder2));
-            }
+        public virtual int Update(int BillId, System.DateTime Reminder1, System.DateTime Reminder2, System.DateTime Date, int Original_ID, int ID) {
+            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(BillId));
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((System.DateTime)(Reminder1));
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((System.DateTime)(Reminder2));
             this.Adapter.UpdateCommand.Parameters[3].Value = ((System.DateTime)(Date));
             this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_ID));
-            if ((Original_BillId == null)) {
-                throw new global::System.ArgumentNullException("Original_BillId");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(Original_BillId));
-            }
-            if ((Original_Reminder1 == null)) {
-                throw new global::System.ArgumentNullException("Original_Reminder1");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(Original_Reminder1));
-            }
-            if ((Original_Reminder2 == null)) {
-                throw new global::System.ArgumentNullException("Original_Reminder2");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(Original_Reminder2));
-            }
-            this.Adapter.UpdateCommand.Parameters[8].Value = ((System.DateTime)(Original_Date));
-            this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(ID));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(ID));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -19854,8 +19774,8 @@ SELECT ID, BillId, Reminder1, Reminder2, Date FROM notifications WHERE (ID = @ID
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string BillId, string Reminder1, string Reminder2, System.DateTime Date, int Original_ID, string Original_BillId, string Original_Reminder1, string Original_Reminder2, System.DateTime Original_Date) {
-            return this.Update(BillId, Reminder1, Reminder2, Date, Original_ID, Original_BillId, Original_Reminder1, Original_Reminder2, Original_Date, Original_ID);
+        public virtual int Update(int BillId, System.DateTime Reminder1, System.DateTime Reminder2, System.DateTime Date, int Original_ID) {
+            return this.Update(BillId, Reminder1, Reminder2, Date, Original_ID, Original_ID);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -19885,19 +19805,19 @@ SELECT ID, BillId, Reminder1, Reminder2, Date FROM notifications WHERE (ID = @ID
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int load_data_notification(string Reminder1, string Reminder2, global::System.Nullable<int> BillId, global::System.Nullable<global::System.DateTime> Date, global::System.Nullable<int> ID) {
+        public virtual int load_data_notification(global::System.Nullable<global::System.DateTime> Reminder1, global::System.Nullable<global::System.DateTime> Reminder2, global::System.Nullable<int> BillId, global::System.Nullable<global::System.DateTime> Date, global::System.Nullable<int> ID) {
             global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[3];
-            if ((Reminder1 == null)) {
+            if ((Reminder1.HasValue == true)) {
+                command.Parameters[1].Value = ((System.DateTime)(Reminder1.Value));
+            }
+            else {
                 command.Parameters[1].Value = global::System.DBNull.Value;
             }
-            else {
-                command.Parameters[1].Value = ((string)(Reminder1));
+            if ((Reminder2.HasValue == true)) {
+                command.Parameters[2].Value = ((System.DateTime)(Reminder2.Value));
             }
-            if ((Reminder2 == null)) {
+            else {
                 command.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            else {
-                command.Parameters[2].Value = ((string)(Reminder2));
             }
             if ((BillId.HasValue == true)) {
                 command.Parameters[3].Value = ((int)(BillId.Value));

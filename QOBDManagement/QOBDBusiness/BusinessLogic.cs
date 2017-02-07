@@ -23,7 +23,8 @@ namespace QOBDBusiness
         public IItemManager BlItem { get; set; }
         public IReferentialManager BlReferential { get; set; }
         public ISecurityManager BlSecurity { get; set; }
-        public IStatisticManager DALStatisitc { get; set; }
+        public IStatisticManager BlStatisitc { get; set; }
+        public INotificationManager BlNotification { get; set; }
 
         public BusinessLogic(
                             IAgentManager inBlAgent,
@@ -31,8 +32,9 @@ namespace QOBDBusiness
                             IItemManager inBlItem,
                             IOrderManager inBlCommande,
                             ISecurityManager inBlSecurity,
-                            IStatisticManager inDALStatisitc,
-                            IReferentialManager inBlReferential)
+                            IStatisticManager inBlStatisitc,
+                            IReferentialManager inBlReferential,
+                            INotificationManager inBlNotification)
                             
         {
             this.BlAgent = inBlAgent;
@@ -41,7 +43,8 @@ namespace QOBDBusiness
             this.BlItem = inBlItem;
             this.BlReferential = inBlReferential;
             this.BlSecurity = inBlSecurity;
-            this.DALStatisitc = inDALStatisitc;
+            this.BlStatisitc = inBlStatisitc;
+            this.BlNotification = inBlNotification;
         }
         
     } /* end class BusinessLogic */

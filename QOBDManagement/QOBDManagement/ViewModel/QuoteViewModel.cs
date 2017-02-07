@@ -197,7 +197,7 @@ namespace QOBDManagement.ViewModel
         {
             if (e.PropertyName.Equals("OrderModelList"))
             {
-                QuoteModelList = _orderViewModel.OrderModelList.Where(x => x.TxtStatus.Equals(EStatusOrder.Quote.ToString())).ToList();
+                QuoteModelList = _orderViewModel.OrderModelList.Where(x => x.TxtStatus.Equals(EOrderStatus.Quote.ToString())).ToList();
                 Title = _orderViewModel.Title.Replace("Orders", "Quote");
             }
         }
@@ -311,7 +311,7 @@ namespace QOBDManagement.ViewModel
             quote.CLientModel = Cart.Client;
             quote.AgentModel = new AgentModel { Agent = Bl.BlSecurity.GetAuthenticatedUser() };
             quote.TxtDate = DateTime.Now.ToString();
-            quote.TxtStatus = EStatusOrder.Quote.ToString();
+            quote.TxtStatus = EOrderStatus.Quote.ToString();
 
             quoteList.Add(quote.Order);
 

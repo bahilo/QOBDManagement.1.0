@@ -54,6 +54,11 @@ namespace QOBDBusiness.Core
             return Safe.AuthenticatedUser;
         }
 
+        public void setServiceCredential(string login, string password)
+        {
+            DAC.DALSecurity.setServiceCredential(login, password);
+        }
+
         public string CalculateHash(string clearTextPassword)
         {
             // Convert the salted password to a byte array

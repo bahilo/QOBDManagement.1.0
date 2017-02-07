@@ -545,12 +545,6 @@ namespace QOBDManagement
                 case "notification":
                     CurrentViewModel = NotificationViewModel;
                     break;
-                case "notification-new":
-                    CurrentViewModel = NotificationViewModel;
-                    break;
-                case "notification-detail":
-                    CurrentViewModel = NotificationViewModel;
-                    break;
                 case "option":
                     ReferentialViewModel.executeNavig(propertyName);
                     break;
@@ -581,7 +575,7 @@ namespace QOBDManagement
             if (arg.Equals("agent"))
                 return securityCheck(QOBDCommon.Enum.EAction.Agent, QOBDCommon.Enum.ESecurity._Read);
             if (arg.Equals("notification"))
-                return false;// securityCheck(QOBDCommon.Enum.EAction.Notification, QOBDCommon.Enum.ESecurity._Read);
+                return securityCheck(QOBDCommon.Enum.EAction.Notification, QOBDCommon.Enum.ESecurity._Read);
             if (arg.Equals("quote"))
                 return securityCheck(QOBDCommon.Enum.EAction.Quote, QOBDCommon.Enum.ESecurity._Read);
             if (arg.Equals("order"))

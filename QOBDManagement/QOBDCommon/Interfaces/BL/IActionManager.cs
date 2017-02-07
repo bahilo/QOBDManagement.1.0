@@ -21,6 +21,7 @@ namespace QOBDCommon.Interfaces.BL
         IItemManager BlItem { get; set; }
         IReferentialManager BlReferential { get; set; }
         ISecurityManager BlSecurity { get; set; }
-        IStatisticManager DALStatisitc { get; set; }
+        IStatisticManager BlStatisitc { get; set; }
+        INotificationManager BlNotification { get; set; }
     } /* end interface IActionManager */
 }

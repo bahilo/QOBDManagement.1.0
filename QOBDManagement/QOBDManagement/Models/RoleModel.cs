@@ -23,37 +23,37 @@ namespace QOBDManagement.Models
         public bool IsModified
         {
             get { return _isModified; }
-            set { _isModified = value; onPropertyChange("IsModified"); }
+            set {setProperty(ref _isModified, value); }
         }
 
         public Role Role
         {
             get { return _role; }
-            set { _role = value; onPropertyChange("Role"); }
+            set { setProperty(ref _role, value); }
         }
 
         public string TxtID
         {
             get { return _role.ID.ToString(); }
-            set { _role.ID = Convert.ToInt32(value); onPropertyChange("TxtID"); }
+            set { _role.ID = Convert.ToInt32(value); onPropertyChange(); }
         }
 
         public string TxtName
         {
             get { return _role.Name; }
-            set { _role.Name = value; onPropertyChange("TxtName"); }
+            set { _role.Name = value; onPropertyChange(); }
         }
 
         public List<QOBDCommon.Entities.Action> ActionList
         {
             get { return _role.ActionList; }
-            set { _role.ActionList = value; onPropertyChange("ActionList"); }
+            set { _role.ActionList = value; onPropertyChange(); }
         }
 
         public ActionModel ActionModel
         {
             get { return _actionModel; }
-            set { _actionModel = value; onPropertyChange("ActionModel"); }
+            set { _actionModel = value; onPropertyChange(); }
         }
     }
 }

@@ -3,6 +3,7 @@ using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 /// <summary>
 ///  An interface defining operations expected of ...
@@ -12,9 +13,11 @@ using System.Threading.Tasks;
 /// </summary>
 namespace QOBDCommon.Interfaces.REMOTE
 {
-    public interface IClientManager : IContactManager, IAddressManager, IDisposable
+    public interface IClientManager : IContactManager, IAddressManager, INotifyPropertyChanged, IDisposable
     {
         // Operations
+
+        void setServiceCredential(string login, string password);
 
         Task<List<Client>> InsertClientAsync(List<Client> clientList);
 
@@ -25,6 +28,8 @@ namespace QOBDCommon.Interfaces.REMOTE
         Task<List<Client>> GetClientDataAsync(int nbLine);
 
         Task<List<Client>> GetClientDataByBillListAsync(List<Bill> billList);
+
+        Task<List<Client>> GetClientMaxCreditOverDataByAgentAsync(int agentId);
 
         Task<List<Client>> searchClientAsync(Client client, ESearchOption filterOperator);
 

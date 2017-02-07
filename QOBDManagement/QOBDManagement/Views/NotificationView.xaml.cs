@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QOBDManagement.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,16 @@ namespace QOBDManagement.Views
         public NotificationView()
         {
             InitializeComponent();
+        }
+
+        private void NotificationView_Loaded(object sender, RoutedEventArgs e)
+        {
+            DataContext dataContext = new DataContext();
+            if (dataContext.setContext(this) != null)
+            {
+                if (!((MainWindowViewModel)this.DataContext).IsThroughContext)
+                    ((MainWindowViewModel)this.DataContext).NotificationViewModel.load();
+            }
         }
     }
 }

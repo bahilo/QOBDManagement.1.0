@@ -23,7 +23,7 @@ namespace QOBDDAL.Core
     public class DALStatisitc : IStatisticManager
     {
         public Agent AuthenticatedUser { get; set; }
-        private GateWayStatistic _gateWayStatistic;
+        private QOBDCommon.Interfaces.REMOTE.IStatisticManager _gateWayStatistic;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -38,14 +38,18 @@ namespace QOBDDAL.Core
             _gateWayStatistic = new GateWayStatistic();
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
-            _gateWayStatistic.PropertyChanged += onCredentialChange_loadStatisticDataFromWebService;
         }
 
         public void initializeCredential(Agent user)
         {
             AuthenticatedUser = user;
-            //_loadSize = (AuthenticatedUser.ListSize > 0) ? AuthenticatedUser.ListSize : _loadSize;
-            _gateWayStatistic.initializeCredential(AuthenticatedUser);
+            _gateWayStatistic.setServiceCredential(user.Login, user.HashedPassword);
+            retrieveGateWayStatisticData();
+        }
+
+        public void setServiceCredential(string login, string password)
+        {
+            _gateWayStatistic.setServiceCredential(login, password);
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -54,22 +58,13 @@ namespace QOBDDAL.Core
             set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsLodingDataFromWebServiceToLocal"); }
         }
 
-        private void onCredentialChange_loadStatisticDataFromWebService(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Credential"))
-            {
-                retrieveGateWayData();
-                //DALHelper.doActionAsync();                
-            }
-        }
-
         public void onPropertyChange(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void retrieveGateWayData()
+        public void retrieveGateWayStatisticData()
         {
             lock (_lock) _isLodingDataFromWebServiceToLocal = true;
             try
@@ -224,7 +219,6 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayStatistic.PropertyChanged -= onCredentialChange_loadStatisticDataFromWebService;
             _gateWayStatistic.Dispose();
         }
     } /* end class BLStatisitc */

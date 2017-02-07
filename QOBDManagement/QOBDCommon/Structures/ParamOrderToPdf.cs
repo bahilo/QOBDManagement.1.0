@@ -11,9 +11,9 @@ namespace QOBDCommon.Structures
     {
         private int _commandId;
         private int _billId;
-        private EStatusOrder _status;                 // whether it's a command or a quote PDF generation
+        private EOrderStatus _status;                 // whether it's a command or a quote PDF generation
         private int _quoteValidityDay;                  // allow to calculate the quote expire date 
-        private EStatusOrder _typeQuoteOrProformat;   // Whether it's a quote format or pro forma format
+        private EOrderStatus _typeQuoteOrProformat;   // Whether it's a quote format or pro forma format
         private bool _isQuoteConstructorReferencesVisible;
         private bool _isCommandConstructorReferencesVisible;
         private ParamEmail _paramEmail;
@@ -24,9 +24,9 @@ namespace QOBDCommon.Structures
         {
             _commandId = commandId;
             _billId = idBill;
-            _status = EStatusOrder.Order;
+            _status = EOrderStatus.Order;
             _quoteValidityDay = 2;
-            _typeQuoteOrProformat = EStatusOrder.Quote;
+            _typeQuoteOrProformat = EOrderStatus.Quote;
             _isQuoteConstructorReferencesVisible = true;
             _isCommandConstructorReferencesVisible = false;
             _paramEmail = new ParamEmail();
@@ -34,7 +34,7 @@ namespace QOBDCommon.Structures
             _lang = "";
         }
 
-        public ParamOrderToPdf(int commandId, EStatusOrder status)
+        public ParamOrderToPdf(int commandId, EOrderStatus status)
         {
             _commandId = commandId;
             _billId = 0;
@@ -42,7 +42,7 @@ namespace QOBDCommon.Structures
             _quoteValidityDay = 2;
             _currency = "";
             _lang = "";
-            _typeQuoteOrProformat = EStatusOrder.Quote;
+            _typeQuoteOrProformat = EOrderStatus.Quote;
             _isQuoteConstructorReferencesVisible = true;
             _isCommandConstructorReferencesVisible = false;
             _paramEmail = new ParamEmail();
@@ -52,17 +52,17 @@ namespace QOBDCommon.Structures
         {
             _commandId = 0;
             _billId = 0;
-            _status = EStatusOrder.Quote;
+            _status = EOrderStatus.Quote;
             _quoteValidityDay = 2;
             _currency = "";
             _lang = "";
-            _typeQuoteOrProformat = EStatusOrder.Quote;
+            _typeQuoteOrProformat = EOrderStatus.Quote;
             _isQuoteConstructorReferencesVisible = true;
             _isCommandConstructorReferencesVisible = false;
             _paramEmail = new ParamEmail();
         }
 
-        public ParamOrderToPdf(EStatusOrder status)
+        public ParamOrderToPdf(EOrderStatus status)
         {
             _commandId = 0;
             _billId = 0;
@@ -70,13 +70,13 @@ namespace QOBDCommon.Structures
             _quoteValidityDay = 2;
             _currency = "";
             _lang = "";
-            _typeQuoteOrProformat = EStatusOrder.Quote;
+            _typeQuoteOrProformat = EOrderStatus.Quote;
             _isQuoteConstructorReferencesVisible = true;
             _isCommandConstructorReferencesVisible = false;
             _paramEmail = new ParamEmail();
         }
 
-        public ParamOrderToPdf(EStatusOrder status, int quoteValidityDay)
+        public ParamOrderToPdf(EOrderStatus status, int quoteValidityDay)
         {
             _commandId = 0;
             _billId = 0;
@@ -84,19 +84,19 @@ namespace QOBDCommon.Structures
             _currency = "";
             _lang = "";
             _quoteValidityDay = quoteValidityDay;
-            _typeQuoteOrProformat = EStatusOrder.Quote;
+            _typeQuoteOrProformat = EOrderStatus.Quote;
             _isQuoteConstructorReferencesVisible = true;
             _isCommandConstructorReferencesVisible = false;
             _paramEmail = new ParamEmail();
         }
 
-        public ParamOrderToPdf(int commandId, EStatusOrder status, int quoteValidityDay)
+        public ParamOrderToPdf(int commandId, EOrderStatus status, int quoteValidityDay)
             : this(commandId, status)
         {
             _quoteValidityDay = quoteValidityDay;
         }
 
-        public ParamOrderToPdf(int commandId, EStatusOrder status, EStatusOrder typeQuoteOrProformat)
+        public ParamOrderToPdf(int commandId, EOrderStatus status, EOrderStatus typeQuoteOrProformat)
             : this(commandId, status)
         {
             _typeQuoteOrProformat = typeQuoteOrProformat;
@@ -114,7 +114,7 @@ namespace QOBDCommon.Structures
             set { _billId = value; }
         }
 
-        public EStatusOrder Status
+        public EOrderStatus Status
         {
             get { return _status; }
             set { _status = value; }
@@ -126,7 +126,7 @@ namespace QOBDCommon.Structures
             set { _quoteValidityDay = value; }
         }
 
-        public EStatusOrder TypeQuoteOrProformat
+        public EOrderStatus TypeQuoteOrProformat
         {
             get { return _typeQuoteOrProformat; }
             set { _typeQuoteOrProformat = value; }

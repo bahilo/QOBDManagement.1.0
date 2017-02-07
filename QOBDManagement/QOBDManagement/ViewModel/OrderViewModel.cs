@@ -300,19 +300,19 @@ namespace QOBDManagement.ViewModel
                     switch (filterName)
                     {
                         case "WaitValidClientOrderList":
-                            result = new ConcurrentBag<OrderModel>(OrderModelList.Where(x => x.TxtStatus.Equals(EStatusOrder.Pre_Client_Validation.ToString())).ToList());
+                            result = new ConcurrentBag<OrderModel>(OrderModelList.Where(x => x.TxtStatus.Equals(EOrderStatus.Pre_Client_Validation.ToString())).ToList());
                             break;
                         case "InProcessOrderList":
-                            result = new ConcurrentBag<OrderModel>(OrderModelList.Where(x => x.TxtStatus.Equals(EStatusOrder.Order.ToString()) || x.TxtStatus.Equals(EStatusOrder.Credit.ToString())).ToList());
+                            result = new ConcurrentBag<OrderModel>(OrderModelList.Where(x => x.TxtStatus.Equals(EOrderStatus.Order.ToString()) || x.TxtStatus.Equals(EOrderStatus.Credit.ToString())).ToList());
                             break;
                         case "WaitValidOrderList":
-                            result = new ConcurrentBag<OrderModel>(OrderModelList.Where(x => x.TxtStatus.Equals(EStatusOrder.Pre_Order.ToString()) || x.TxtStatus.Equals(EStatusOrder.Pre_Credit.ToString())).ToList());
+                            result = new ConcurrentBag<OrderModel>(OrderModelList.Where(x => x.TxtStatus.Equals(EOrderStatus.Pre_Order.ToString()) || x.TxtStatus.Equals(EOrderStatus.Pre_Credit.ToString())).ToList());
                             break;
                         case "ClosedOrderList":
-                            result = new ConcurrentBag<OrderModel>(OrderModelList.Where(x => x.TxtStatus.Equals(EStatusOrder.Order_Close.ToString()) || x.TxtStatus.Equals(EStatusOrder.Credit_CLose.ToString())).ToList());
+                            result = new ConcurrentBag<OrderModel>(OrderModelList.Where(x => x.TxtStatus.Equals(EOrderStatus.Order_Close.ToString()) || x.TxtStatus.Equals(EOrderStatus.Credit_CLose.ToString())).ToList());
                             break;
                         case "WaitPayOrderList":
-                            result = new ConcurrentBag<OrderModel>(OrderModelList.Where(x => x.TxtStatus.Equals(EStatusOrder.Bill_Order.ToString()) || x.TxtStatus.Equals(EStatusOrder.Bill_Credit.ToString())).ToList());
+                            result = new ConcurrentBag<OrderModel>(OrderModelList.Where(x => x.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()) || x.TxtStatus.Equals(EOrderStatus.Bill_Credit.ToString())).ToList());
                             break;
                     }
                 }

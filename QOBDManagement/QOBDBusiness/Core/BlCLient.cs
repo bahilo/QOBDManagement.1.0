@@ -37,6 +37,12 @@ namespace QOBDBusiness.Core
                 DAC.DALClient.initializeCredential(user);
         }
 
+
+        public void setServiceCredential(string login, string password)
+        {
+            DAC.DALClient.setServiceCredential(login, password);
+        }
+
         public void progressBarManagement(Func<double, double> progressBarFunc)
         {
             if (progressBarFunc != null)
@@ -218,6 +224,17 @@ namespace QOBDBusiness.Core
             try
             {
                 result = await DAC.DALClient.GetClientDataAsync(nbLine);
+            }
+            catch (Exception ex) { Log.error(ex.Message); }
+            return result;
+        }
+
+        public async Task<List<Client>> GetClientMaxCreditOverDataByAgentAsync(int agentId)
+        {
+            List<Client> result = new List<Client>();
+            try
+            {
+                result = await DAC.DALClient.GetClientMaxCreditOverDataByAgentAsync(agentId);
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;

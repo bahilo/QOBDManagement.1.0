@@ -4,6 +4,7 @@ using QOBDCommon.Enum;
 using QOBDCommon.Structures;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 /// <summary>
 ///  An interface defining operations expected of ...
@@ -13,9 +14,11 @@ using System.Threading.Tasks;
 /// </summary>
 namespace QOBDCommon.Interfaces.REMOTE
 {
-    public interface IOrderManager : ITax_orderManager, IOrder_itemManager, ITaxManager, IBillManager, IDeliveryManager, IGeneratePDF, IDisposable
+    public interface IOrderManager : ITax_orderManager, IOrder_itemManager, ITaxManager, IBillManager, IDeliveryManager, IGeneratePDF, IDisposable, INotifyPropertyChanged
     {
         // Operations
+
+        void setServiceCredential(string login, string password);
 
         Task<List<Order>> InsertOrderAsync(List<Order> orderList);
 

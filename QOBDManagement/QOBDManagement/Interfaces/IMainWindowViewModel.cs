@@ -1,5 +1,6 @@
 ﻿using QOBDCommon.Enum;
 using QOBDManagement.Classes;
+using QOBDManagement.Command;
 using QOBDManagement.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace QOBDManagement.Interfaces
         Object CurrentViewModel { get; set; }
         bool isNewAgentAuthentication { get; set; }
         Cart Cart { get; }
+        ButtonCommand<string> CommandNavig { get; set; }
 
         //---------------[ Actions ]---------------------
         object getObject(string objectName);

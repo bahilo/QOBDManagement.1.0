@@ -102,6 +102,54 @@ namespace QOBDGateway.Helper.ChannelHelper
             return agentQCBD;
         }
 
+
+        //====================================================================================
+        //===============================[ Notification ]===========================================
+        //====================================================================================
+
+        public static List<Notification> ArrayTypeToNotification(this NotificationQOBD[] notificationQOBDList)
+        {
+            List<Notification> outputList = notificationQOBDList.AsParallel().Select(x => new Notification
+            {
+                ID = x.ID,
+                BillId = x.BillId,
+                Reminder1 = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Reminder1)),
+                Reminder2 = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Reminder2)),
+                Date = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date)),
+            }).ToList();
+
+            return outputList;
+        }
+
+        public static NotificationQOBD[] NotificationTypeToArray(this List<Notification> notificationList)
+        {
+            NotificationQOBD[] outputArray = notificationList.AsParallel().Select(x => new NotificationQOBD
+            {
+                ID = x.ID,
+                BillId = x.BillId,
+                Reminder1 = Utility.encodeStringToBase64(x.Reminder1.ToString("yyyy-MM-dd H:mm:ss")),
+                Reminder2 = Utility.encodeStringToBase64(x.Reminder2.ToString("yyyy-MM-dd H:mm:ss")),
+                Date = Utility.encodeStringToBase64(x.Date.ToString("yyyy-MM-dd H:mm:ss")),
+            }).ToArray();
+
+            return outputArray;
+        }
+
+        public static NotificationFilterQOBD NotificationTypeToFilterArray(this Notification notification, ESearchOption filterOperator)
+        {
+            NotificationFilterQOBD notificationQCBD = new NotificationFilterQOBD();
+            if (notification != null)
+            {
+                notificationQCBD.ID = notification.ID;
+                notificationQCBD.BillId = notification.BillId;
+                notificationQCBD.Reminder1 = Utility.encodeStringToBase64(notification.Reminder1.ToString("yyyy-MM-dd H:mm:ss"));
+                notificationQCBD.Reminder2 = Utility.encodeStringToBase64(notification.Reminder2.ToString("yyyy-MM-dd H:mm:ss"));
+                notificationQCBD.Date = Utility.encodeStringToBase64(notification.Date.ToString("yyyy-MM-dd H:mm:ss"));
+                notificationQCBD.Operator = filterOperator.ToString();
+            }
+            return notificationQCBD;
+        }
+
         //====================================================================================
         //===============================[ Statistic ]===========================================
         //====================================================================================
@@ -361,12 +409,16 @@ namespace QOBDGateway.Helper.ChannelHelper
 
         public static List<QOBDCommon.Entities.Action> ArrayTypeToAction(this ActionQOBD[] actionQOBDList)
         {
-            List<QOBDCommon.Entities.Action> outputList = actionQOBDList.AsParallel().Select(x => new QOBDCommon.Entities.Action
+            List<QOBDCommon.Entities.Action> outputList = new List<QOBDCommon.Entities.Action>();
+            if(actionQOBDList != null)
             {
-                ID = x.ID,
-                Name = Utility.decodeBase64ToString(x.Name),
-                Right = (new PrivilegeQOBD[] { x.Right }.ArrayTypeToPrivilege().Count > 0) ? new PrivilegeQOBD[] { x.Right }.ArrayTypeToPrivilege().First() : new Privilege(),
-            }).ToList();
+                outputList = actionQOBDList.AsParallel().Select(x => new QOBDCommon.Entities.Action
+                {
+                    ID = x.ID,
+                    Name = Utility.decodeBase64ToString(x.Name),
+                    Right = (new PrivilegeQOBD[] { x.Right }.ArrayTypeToPrivilege().Count > 0) ? new PrivilegeQOBD[] { x.Right }.ArrayTypeToPrivilege().First() : new Privilege(),
+                }).ToList();
+            }           
             
             return outputList;
         }
@@ -448,8 +500,8 @@ namespace QOBDGateway.Helper.ChannelHelper
         {
             List<Privilege> outputList = privilegeQOBDList.AsParallel().Select(x => new Privilege
             {
-                ID = x.ID,
-                Role_actionId = x.Role_actionId,
+                ID = intTryParse(Utility.decodeBase64ToString(x.ID)),
+                Role_actionId = intTryParse(Utility.decodeBase64ToString(x.Role_actionId)),
                 IsWrite = Utility.convertToBoolean(Utility.decodeBase64ToString(x._Write)),
                 IsRead = Utility.convertToBoolean(Utility.decodeBase64ToString(x._Read)),
                 IsDelete = Utility.convertToBoolean(Utility.decodeBase64ToString(x._Delete)),
@@ -465,8 +517,8 @@ namespace QOBDGateway.Helper.ChannelHelper
         {
             PrivilegeQOBD[] outputArray = privilegeList.AsParallel().Select(x => new PrivilegeQOBD
             {
-                ID = x.ID,
-                Role_actionId = x.Role_actionId,
+                ID = Utility.encodeStringToBase64(x.ID.ToString()) ,
+                Role_actionId = Utility.encodeStringToBase64(x.Role_actionId.ToString()),
                 _Write = Utility.encodeStringToBase64((x.IsWrite) ? "1" : "0"),
                 _Read = Utility.encodeStringToBase64((x.IsRead) ? "1" : "0"),
                 _Delete = Utility.encodeStringToBase64((x.IsDelete) ? "1" : "0"),
@@ -483,8 +535,8 @@ namespace QOBDGateway.Helper.ChannelHelper
             PrivilegeFilterQOBD privilegeQCBD = new PrivilegeFilterQOBD();
             if (privilege != null)
             {
-                privilegeQCBD.ID = privilege.ID;
-                privilegeQCBD.Role_actionId = privilege.Role_actionId;
+                privilegeQCBD.ID = Utility.encodeStringToBase64(privilege.ID.ToString());
+                privilegeQCBD.Role_actionId = Utility.encodeStringToBase64(privilege.Role_actionId.ToString());
                 privilegeQCBD._Write = Utility.encodeStringToBase64((privilege.IsWrite) ? "1" : "0");
                 privilegeQCBD._Read = Utility.encodeStringToBase64((privilege.IsRead) ? "1" : "0");
                 privilegeQCBD._Delete = Utility.encodeStringToBase64((privilege.IsDelete) ? "1" : "0");

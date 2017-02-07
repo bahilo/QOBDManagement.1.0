@@ -79,7 +79,7 @@
     <Compile Include="Enum\ESecurityRole.cs" />
     <Compile Include="Enum\EStatus.cs" />
     <Compile Include="Enum\EStatusAddress.cs" />
-    <Compile Include="Enum\EStatusCommand.cs" />
+    <Compile Include="Enum\EOrderStatus.cs" />
     <Compile Include="Interfaces\BL\IActionManager.cs" />
     <Compile Include="Interfaces\BL\IActionRecordManager.cs" />
     <Compile Include="Interfaces\BL\IAddressManager.cs" />

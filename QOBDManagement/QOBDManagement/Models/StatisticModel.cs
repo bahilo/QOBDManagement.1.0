@@ -13,6 +13,7 @@ namespace QOBDManagement.Models
     {
         private Statistic _statistic;
         private Decimal _totalTaxAmount;
+        private int _daysLate;
 
         public StatisticModel()
         {
@@ -103,8 +104,10 @@ namespace QOBDManagement.Models
             set { _statistic.Company = value; onPropertyChange(); }
         }
 
-
-
-
+        public string TxtDaysLate
+        {
+            get { return _daysLate.ToString(); }
+            set { setProperty(ref _daysLate, Convert.ToInt32(value)); }
+        }
     }
 }

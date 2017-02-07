@@ -479,6 +479,29 @@ namespace QOBDGateway.Core
             return result;
         }
 
+        public async Task<Bill> GetLastBillAsync()
+        {
+            List<Bill> result = new List<Bill>();
+            result = await GetBillDataAsync(1);
+            if (result.Count > 0)
+                return result[0];
+
+            return null;
+        }
+
+        public async Task<List<Bill>> GetUnpaidBillDataByAgentAsync(int agentId)
+        {
+            List<Bill> result = new List<Bill>();
+            try
+            {
+                result = (await _channel.get_data_bill_by_unpaidAsync(agentId)).ArrayTypeToBill();
+            }
+            catch (FaultException) { Dispose(); throw; }
+            catch (CommunicationException) { _channel.Abort(); throw; }
+            catch (TimeoutException) { _channel.Abort(); }
+            return result;
+        }
+
         public async Task<List<Delivery>> GetDeliveryDataAsync(int nbLine)
         {
             List<Delivery> result = new List<Delivery>();
@@ -617,28 +640,30 @@ namespace QOBDGateway.Core
             }
         }
 
-        public void GeneratePdfOrder(ParamOrderToPdf paramCommandToPdf)
+        public void GeneratePdfOrder(ParamOrderToPdf paramOrderToPdf)
         {
             WebClient client = new WebClient();
             try
             {
                 client.Credentials = new NetworkCredential(_channel.ClientCredentials.UserName.UserName, _channel.ClientCredentials.UserName.Password);
-                string uri = ConfigurationManager.AppSettings["remote_host"] + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"] + paramCommandToPdf.Lang + "/Facture_Codsimex.php?";
+                string uri = ConfigurationManager.AppSettings["remote_host"] + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"] + paramOrderToPdf.Lang + "/Facture_Codsimex.php?";
 
-                uri += "num_dev=" + paramCommandToPdf.OrderId;
-                uri += "&num_fact=" + paramCommandToPdf.BillId;
-                uri += "&currency=" + paramCommandToPdf.Currency;
-                uri += "&lang=" + paramCommandToPdf.Lang;
+                uri += "num_dev=" + paramOrderToPdf.OrderId;
+                uri += "&num_fact=" + paramOrderToPdf.BillId;
+                uri += "&currency=" + paramOrderToPdf.Currency;
+                uri += "&lang=" + paramOrderToPdf.Lang;
 
-                if (paramCommandToPdf.ParamEmail.IsSendEmail)
+                if (paramOrderToPdf.ParamEmail.IsSendEmail)
                 {
-                    uri += "&relance=" + paramCommandToPdf.ParamEmail.Reminder;
+                    uri += "&remind=" + paramOrderToPdf.ParamEmail.Reminder;
                     uri += "&mail=1";
-                    uri += "&subject=" + paramCommandToPdf.ParamEmail.Subject;
+                    uri += "&subject=" + paramOrderToPdf.ParamEmail.Subject;
+                    if (paramOrderToPdf.ParamEmail.IsCopyToAgent)
+                        uri += "&copyagent=1";
                 }
 
-                if (paramCommandToPdf.IsQuoteConstructorReferencesVisible)
-                    uri += "&refv=" + paramCommandToPdf.IsQuoteConstructorReferencesVisible;
+                if (paramOrderToPdf.IsQuoteConstructorReferencesVisible)
+                    uri += "&refv=" + paramOrderToPdf.IsQuoteConstructorReferencesVisible;
 
                 System.Diagnostics.Process.Start(uri);
             }
@@ -648,28 +673,28 @@ namespace QOBDGateway.Core
             }
         }
 
-        public void GeneratePdfQuote(ParamOrderToPdf paramCommandToPdf)
+        public void GeneratePdfQuote(ParamOrderToPdf paramOrderToPdf)
         {
             WebClient client = new WebClient();
             try
             {
                 client.Credentials = new NetworkCredential(_channel.ClientCredentials.UserName.UserName, _channel.ClientCredentials.UserName.Password);
-                string uri = ConfigurationManager.AppSettings["remote_host"] + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"] + paramCommandToPdf.Lang + "/Devis_Codsimex.php?";
+                string uri = ConfigurationManager.AppSettings["remote_host"] + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"] + paramOrderToPdf.Lang + "/Devis_Codsimex.php?";
 
-                uri += "num_dev=" + paramCommandToPdf.OrderId;
-                uri += "&delay=" + paramCommandToPdf.ValidityDay;
-                uri += "&quote=" + paramCommandToPdf.TypeQuoteOrProformat.ToString();
-                uri += "&currency=" + paramCommandToPdf.Currency;
-                uri += "&lang=" + paramCommandToPdf.Lang;
+                uri += "num_dev=" + paramOrderToPdf.OrderId;
+                uri += "&delay=" + paramOrderToPdf.ValidityDay;
+                uri += "&quote=" + paramOrderToPdf.TypeQuoteOrProformat.ToString();
+                uri += "&currency=" + paramOrderToPdf.Currency;
+                uri += "&lang=" + paramOrderToPdf.Lang;
 
-                if (paramCommandToPdf.ParamEmail.IsSendEmail)
+                if (paramOrderToPdf.ParamEmail.IsSendEmail)
                 {
                     uri += "&mail=1";
-                    uri += "&subject=" + paramCommandToPdf.ParamEmail.Subject;
+                    uri += "&subject=" + paramOrderToPdf.ParamEmail.Subject;
                 }
 
-                if (paramCommandToPdf.IsQuoteConstructorReferencesVisible)
-                    uri += "&refv=" + paramCommandToPdf.IsQuoteConstructorReferencesVisible;
+                if (paramOrderToPdf.IsQuoteConstructorReferencesVisible)
+                    uri += "&refv=" + paramOrderToPdf.IsQuoteConstructorReferencesVisible;
 
                 System.Diagnostics.Process.Start(uri);
             }
@@ -678,7 +703,7 @@ namespace QOBDGateway.Core
                 client.Dispose();
             }
         }
-        
+
 
         public void Dispose()
         {
@@ -686,26 +711,6 @@ namespace QOBDGateway.Core
             _channel.Close();
             //initChannel();
             //setServiceCredential(_authenticatedUser.Login, _authenticatedUser.HashedPassword);
-        }
-
-        public void progressBarManagement(Func<double, double> progressBarFunc)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Bill> GetLastBillAsync()
-        {
-            List<Bill> result = new List<Bill>();
-            result = await GetBillDataAsync(1);
-            if (result.Count > 0)
-                return result[0];
-
-            return null;
-        }
-
-        public void UpdateOrderDependencies(List<Order> orderList, bool activeProgress = false)
-        {
-            throw new NotImplementedException();
         }
     } /* end class BLCommande */
 }

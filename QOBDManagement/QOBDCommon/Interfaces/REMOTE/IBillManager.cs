@@ -20,6 +20,8 @@ namespace QOBDCommon.Interfaces.REMOTE
 
         Task<List<Bill>> GetBillDataByOrderListAsync(List<Order> orderList);
 
+        Task<List<Bill>> GetUnpaidBillDataByAgentAsync(int agentId);
+
         Task<Bill> GetLastBillAsync();
 
         Task<List<Bill>> searchBillAsync(Bill Bill, ESearchOption filterOperator);

@@ -17,16 +17,16 @@ namespace QOBDManagement.Models
         private string _clearPassword;
         private string _clearPasswordVerification;
         private bool _isModified;
-        private List<Role> _roleToAddList;
-        private List<Role> _roleToRemoveList;
+        private List<RoleModel> _roleToAddList;
+        private List<RoleModel> _roleToRemoveList;
         private Dictionary<int, int> _rolePosition = new Dictionary<int, int>();
 
         public AgentModel()
         {
             _agent = new Agent();
             _roleModelList = new List<RoleModel>();
-            _roleToAddList = new List<Role>();
-            _roleToRemoveList = new List<Role>();
+            _roleToAddList = new List<RoleModel>();
+            _roleToRemoveList = new List<RoleModel>();
             _rolePosition = new Dictionary<int, int>();
             _clearPassword = "";
             _clearPasswordVerification = "";
@@ -137,13 +137,13 @@ namespace QOBDManagement.Models
             set { _agent.RoleList = value; onPropertyChange("RoleList"); }
         }
 
-        public List<Role> RoleToAddList
+        public List<RoleModel> RoleToAddList
         {
             get { return _roleToAddList; }
             set { _roleToAddList = value; onPropertyChange("RoleToAddList"); }
         }
 
-        public List<Role> RoleToRemoveList
+        public List<RoleModel> RoleToRemoveList
         {
             get { return _roleToRemoveList; }
             set { _roleToRemoveList = value; onPropertyChange("RoleToRemoveList"); }
@@ -164,55 +164,100 @@ namespace QOBDManagement.Models
         public bool IsRole1
         {
             get { return (RolePositionDisplay.Count > 0) ? getRoleBooleanByID(RolePositionDisplay[0]) : false; }
-            set { if (RolePositionDisplay.Count > 0) { addRoleBy(RolePositionDisplay[0]); onPropertyChange("IsRole1"); } }
+            set { if (RolePositionDisplay.Count > 0) { addRoleBy(RolePositionDisplay[0]); onPropertyChange(); onPropertyChange("IsIsRole1AnonymousEnable"); } }
+        }
+
+        public bool IsIsRole1AnonymousEnable
+        {
+            get { return (RolePositionDisplay.Count > 0 && checkIfRRoleAnonymous(RolePositionDisplay[0])) ? false : true; }            
         }
 
         public bool IsRole2
         {
             get { return (RolePositionDisplay.Count > 1) ? getRoleBooleanByID(RolePositionDisplay[1]) : false; }
-            set { if (RolePositionDisplay.Count > 1) { addRoleBy(RolePositionDisplay[1]); onPropertyChange("IsRole2"); } }
+            set { if (RolePositionDisplay.Count > 1) { addRoleBy(RolePositionDisplay[1]); onPropertyChange(); onPropertyChange("IsIsRole2AnonymousEnable"); } }
+        }
+
+        public bool IsIsRole2AnonymousEnable
+        {
+            get { return (RolePositionDisplay.Count > 1 && checkIfRRoleAnonymous(RolePositionDisplay[1])) ? false : true; }
         }
 
         public bool IsRole3
         {
             get { return (RolePositionDisplay.Count > 2) ? getRoleBooleanByID(RolePositionDisplay[2]) : false; }
-            set { if (RolePositionDisplay.Count > 2) { addRoleBy(RolePositionDisplay[2]); onPropertyChange("IsRole3"); } }
+            set { if (RolePositionDisplay.Count > 2) { addRoleBy(RolePositionDisplay[2]); onPropertyChange(); onPropertyChange("IsIsRole3AnonymousEnable"); } }
+        }
+
+        public bool IsIsRole3AnonymousEnable
+        {
+            get { return (RolePositionDisplay.Count > 2 && checkIfRRoleAnonymous(RolePositionDisplay[2])) ? false : true; }
         }
 
         public bool IsRole4
         {
             get { return (RolePositionDisplay.Count > 3) ? getRoleBooleanByID(RolePositionDisplay[3]) : false; }
-            set { if (RolePositionDisplay.Count > 3) { addRoleBy(RolePositionDisplay[3]); onPropertyChange("IsRole4"); } }
+            set { if (RolePositionDisplay.Count > 3) { addRoleBy(RolePositionDisplay[3]); onPropertyChange(); onPropertyChange("IsIsRole4AnonymousEnable"); } }
+        }
+
+        public bool IsIsRole4AnonymousEnable
+        {
+            get { return (RolePositionDisplay.Count > 3 && checkIfRRoleAnonymous(RolePositionDisplay[3])) ? false : true; }
         }
 
         public bool IsRole5
         {
             get { return (RolePositionDisplay.Count > 4) ? getRoleBooleanByID(RolePositionDisplay[4]) : false; }
-            set { if (RolePositionDisplay.Count > 4) { addRoleBy(RolePositionDisplay[4]); onPropertyChange("IsRole5"); } }
+            set { if (RolePositionDisplay.Count > 4) { addRoleBy(RolePositionDisplay[4]); onPropertyChange(); onPropertyChange("IsIsRole5AnonymousEnable"); } }
+        }
+
+        public bool IsIsRole5AnonymousEnable
+        {
+            get { return (RolePositionDisplay.Count > 4 && checkIfRRoleAnonymous(RolePositionDisplay[4])) ? false : true; }
         }
 
         public bool IsRole6
         {
             get { return (RolePositionDisplay.Count > 5) ? getRoleBooleanByID(RolePositionDisplay[5]) : false; }
-            set { if (RolePositionDisplay.Count > 5) { addRoleBy(RolePositionDisplay[5]); onPropertyChange("IsRole6"); } }
+            set { if (RolePositionDisplay.Count > 5) { addRoleBy(RolePositionDisplay[5]); onPropertyChange(); onPropertyChange("IsIsRole6AnonymousEnable"); } }
+        }
+
+        public bool IsIsRole6AnonymousEnable
+        {
+            get { return (RolePositionDisplay.Count > 5 && checkIfRRoleAnonymous(RolePositionDisplay[5])) ? false : true; }
         }
 
         public bool IsRole7
         {
             get { return (RolePositionDisplay.Count > 6) ? getRoleBooleanByID(RolePositionDisplay[6]) : false; }
-            set { if (RolePositionDisplay.Count > 6) { addRoleBy(RolePositionDisplay[6]); onPropertyChange("IsRole7"); } }
+            set { if (RolePositionDisplay.Count > 6) { addRoleBy(RolePositionDisplay[6]); onPropertyChange(); onPropertyChange("IsIsRole7AnonymousEnable"); } }
+        }
+
+        public bool IsIsRole7AnonymousEnable
+        {
+            get { return (RolePositionDisplay.Count > 6 && checkIfRRoleAnonymous(RolePositionDisplay[6])) ? false : true; }
         }
 
         public bool IsRole8
         {
             get { return (RolePositionDisplay.Count > 7) ? getRoleBooleanByID(RolePositionDisplay[7]) : false; }
-            set { if (RolePositionDisplay.Count > 7) { addRoleBy(RolePositionDisplay[7]); onPropertyChange("IsRole8"); } }
+            set { if (RolePositionDisplay.Count > 7) { addRoleBy(RolePositionDisplay[7]); onPropertyChange(); onPropertyChange("IsIsRole8AnonymousEnable"); } }
+        }
+
+        public bool IsIsRole8AnonymousEnable
+        {
+            get { return (RolePositionDisplay.Count > 7 && checkIfRRoleAnonymous(RolePositionDisplay[7])) ? false : true; }
         }
 
         public bool IsRole9
         {
             get { return (RolePositionDisplay.Count > 8) ? getRoleBooleanByID(RolePositionDisplay[8]) : false; }
-            set { if (RolePositionDisplay.Count > 8) { addRoleBy(RolePositionDisplay[8]); onPropertyChange("IsRole9"); } }
+            set { if (RolePositionDisplay.Count > 8) { addRoleBy(RolePositionDisplay[8]); onPropertyChange(); onPropertyChange("IsIsRole9AnonymousEnable"); } }
+        }
+
+        public bool IsIsRole9AnonymousEnable
+        {
+            get { return (RolePositionDisplay.Count > 8 && checkIfRRoleAnonymous(RolePositionDisplay[8])) ? false : true; }
         }
 
         private bool getRoleBooleanByID(int id)
@@ -224,8 +269,20 @@ namespace QOBDManagement.Models
                 lock (_lock)
                     if (roleFound != null)
                         return true;
+            }            
+            return false;
+        }
+
+        private bool checkIfRRoleAnonymous(int id)
+        {
+            object _lock = new object();
+            if (RoleList != null)
+            {
+                Role roleFound = RoleList.Where(x => x.ID == id && x.Name == "Anonymous").FirstOrDefault();
+                lock (_lock)
+                    if (roleFound != null)
+                        return true;
             }
-            
             return false;
         }
 
@@ -244,12 +301,12 @@ namespace QOBDManagement.Models
                         if (RoleList.Where(x=>x.ID == roleFound.ID).Count() == 0)
                         {
                             RoleList.Add(roleFound);
-                            RoleToAddList.Add(roleFound);
+                            RoleToAddList.Add(new RoleModel { Role = roleFound });
                         }
                         else
                         {
                             RoleList = RoleList.Where(x => x.ID != roleFound.ID).ToList();
-                            RoleToRemoveList.Add(roleFound);
+                            RoleToRemoveList.Add(new RoleModel { Role = roleFound });
                         }                            
                     }                        
             }  

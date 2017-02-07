@@ -7,7 +7,9 @@
 using QOBDCommon;
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 /// <summary>
 ///  An interface defining operations expected of ...
@@ -17,9 +19,11 @@ using System.Threading.Tasks;
 /// </summary>
 namespace QOBDCommon.Interfaces.REMOTE
 {
-    public interface INotificationManager
+    public interface INotificationManager: IDisposable, INotifyPropertyChanged
     {
         // Operations
+
+        void setServiceCredential(string login, string password);
 
         Task<List<Notification>> InsertNotificationAsync(List<Notification> notificationList);
 

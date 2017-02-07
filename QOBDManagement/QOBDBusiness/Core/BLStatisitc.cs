@@ -41,6 +41,11 @@ namespace QOBDBusiness.Core
                 DAC.DALStatistic.initializeCredential(user);
         }
 
+        public void setServiceCredential(string login, string password)
+        {
+            DAC.DALStatistic.setServiceCredential(login, password);
+        }
+
 
         public async Task<List<Statistic>> InsertStatisticAsync(List<Statistic> statisticList)
         {

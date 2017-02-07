@@ -173,7 +173,7 @@ namespace QOBDManagement.ViewModel
         {
             Application.Current.Dispatcher.Invoke(async()=> {
                 Dialog.showSearch("Loading...");
-                StatisticDataList = (await Bl.DALStatisitc.searchStatisticAsync(new Statistic { Option = 1 }, ESearchOption.AND)).Select(x => new StatisticModel { Statistic = x }).ToList();
+                StatisticDataList = (await Bl.BlStatisitc.searchStatisticAsync(new Statistic { Option = 1 }, ESearchOption.AND)).Select(x => new StatisticModel { Statistic = x }).ToList();
                 ToDoList = getToDoTasks();
                 loadUIData();
                 Dialog.IsDialogOpen = false;

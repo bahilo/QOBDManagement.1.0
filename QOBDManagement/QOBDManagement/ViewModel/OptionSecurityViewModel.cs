@@ -155,29 +155,30 @@ namespace QOBDManagement.ViewModel
 
         public async Task<List<RoleModel>> getRoleModelAsync()
         {
+            List<RoleModel> output = new List<RoleModel>();
             List<Role> roleList = await Bl.BlSecurity.GetRoleDataAsync(999);
-            List<RoleModel> roleModelList = new List<RoleModel>();
             int i = 0;
+
+            output = (from ro in roleList
+                      from ac in ro.ActionList
+                      let actionModel = new ActionModel
+                      {
+                          Action = ac,
+                          PrivilegeModel = new PrivilegeModel { Privilege = ac.Right }
+                      }
+                      select new RoleModel
+                      {
+                          Role = ro,
+                          ActionModel = actionModel
+                      }).ToList();
+
             foreach (var role in roleList)
             {
-                if (role.ActionList != null && role.ActionList.Count > 0)
-                {
-                    foreach (var action in role.ActionList)
-                    {
-                        RoleModel roleModel = new RoleModel();
-                        ActionModel actionModel = new ActionModel();
-                        actionModel.Action = action;
-                        actionModel.PrivilegeModel.Privilege = action.Right;
-                        roleModel.Role = role;
-                        roleModel.ActionModel = actionModel;
-                        roleModelList.Add(roleModel);
-                    }
-                }
-
                 _rolePosition[i] = role.ID;
                 i++;
                 AgentCreddentailTableHeaders[role.ID] = role;
             }
+
             onPropertyChange("HeaderRole1");
             onPropertyChange("HeaderRole2");
             onPropertyChange("HeaderRole3");
@@ -187,38 +188,146 @@ namespace QOBDManagement.ViewModel
             onPropertyChange("HeaderRole7");
             onPropertyChange("HeaderRole8");
             onPropertyChange("HeaderRole9");
-            return roleModelList;
+
+            return output;
         }
 
         public async Task<List<AgentModel>> getAgentModelAsync()
         {
             List<Agent> agentList = await Bl.BlAgent.GetAgentDataAsync(999);
-            List<AgentModel> agentModelList = new List<AgentModel>();
-            foreach (var agent in agentList)
-            {
-                AgentModel agentModel = new AgentModel();
-                agentModel.RoleModelList = RoleModelList.OrderBy(x=>x.TxtID).Distinct().ToList();
-                agentModel.Agent = agent;
-                agentModel.RolePositionDisplay = _rolePosition;
-                agentModelList.Add(agentModel); 
-            }
-            return agentModelList;
+            List<AgentModel> output = new List<AgentModel>();
+
+            output = (from ag in agentList
+                      select new AgentModel {
+                          Agent = ag,
+                          RoleModelList = RoleModelList.OrderBy(x => x.TxtID).Distinct().ToList(),
+                          RolePositionDisplay = _rolePosition
+                      }).ToList();
+            
+            return output;
         }
 
         public async void loadData()
         {
             Dialog.showSearch("Security roles loading...");
             RoleModelList = await getRoleModelAsync();
+
             Dialog.showSearch("Agent credentials loading...");
             AgentModelList = await getAgentModelAsync();
+
             Dialog.IsDialogOpen = false;
         }
 
+        private async Task<bool> updateRoleRights(List<RoleModel> roles)
+        {
+            bool isUpdateSuccessful = false;
+            List<Privilege> privilegeToSaveList = new List<Privilege>();
+
+            foreach (var roleModel in roles)
+            {
+                if (roleModel.ActionModel.PrivilegeModel.Privilege.ID != 0)
+                     privilegeToSaveList.Add(roleModel.ActionModel.PrivilegeModel.Privilege);
+                
+            }
+            var savedPrivilegeList = await Bl.BlSecurity.UpdatePrivilegeAsync(privilegeToSaveList);
+            var savedRoleList = await Bl.BlSecurity.UpdateRoleAsync(roles.Where(x => x.Role.Name != "Anonymous").Select(x => x.Role).Distinct().ToList());
+
+            if (savedPrivilegeList.Count > 0 || savedPrivilegeList.Count > 0)
+                isUpdateSuccessful = true;
+
+            return isUpdateSuccessful;
+        }
+
+        private async Task<bool> updateAgentRoles(Agent agent, List<RoleModel> RoleToAddList, List<RoleModel> RoleToRemoveList)
+        {
+            bool isUpdateSuccessful = false;
+
+            List<Agent_role> agent_roleToAddList = new List<Agent_role>();
+            List<Agent_role> agent_roleToRemoveList = new List<Agent_role>();
+
+            // add role to agent
+            foreach (var roleModel in RoleToAddList)
+            {
+                Agent_role agent_role = new Agent_role();
+                agent_role.AgentId = agent.ID;
+                agent_role.RoleId = roleModel.Role.ID;
+                agent_roleToAddList.Add(agent_role);
+            }
+
+            // save new roles
+            var agent_roleSavedList = await Bl.BlSecurity.InsertAgent_roleAsync(agent_roleToAddList);
+            
+            // delete agent role
+            foreach (var roleModel in RoleToRemoveList)
+            {
+                var agent_roleFoundList = await Bl.BlSecurity.searchAgent_roleAsync(new Agent_role { AgentId = agent.ID, RoleId = roleModel.Role.ID }, ESearchOption.AND);
+                agent_roleToRemoveList = new List<Agent_role>(agent_roleToRemoveList.Concat(agent_roleFoundList));
+            }
+            var deletedAgent_roleList = await Bl.BlSecurity.DeleteAgent_roleAsync(agent_roleToRemoveList);
+
+            if (agent_roleSavedList.Count > 0 && deletedAgent_roleList.Count == 0)
+                isUpdateSuccessful = true;
+
+            return isUpdateSuccessful;
+        }
+
+        private bool updateAuthenticatedUserCredentialsOnActions(List<RoleModel> roles)
+        {
+            bool isUpdateSuccessful = false;
+            Agent authenticatedUser = Bl.BlSecurity.GetAuthenticatedUser();
+            
+            foreach (RoleModel roleModel in roles)
+            {
+                Role authenticatedUserRole = authenticatedUser.RoleList.Where(x => x.Name.Equals(roleModel.Role.Name)).FirstOrDefault();
+                if(authenticatedUserRole != null)
+                {
+                    Entity.Action authenticatedUserAction = (from r in authenticatedUser.RoleList.GroupBy(x => x.ActionList.Where(y => y.Name.Equals(roleModel.ActionModel.TxtName)).Count() > 0).Select(x => x.First()).ToList()
+                                                             from a in r.ActionList
+                                                             where a.Name == roleModel.ActionModel.TxtName
+                                                             select a).FirstOrDefault();
+                    if (authenticatedUserAction != null)
+                    {
+                        authenticatedUserAction.Right.IsDelete = roleModel.ActionModel.PrivilegeModel.IsDelete;
+                        authenticatedUserAction.Right.IsRead = roleModel.ActionModel.PrivilegeModel.IsRead;
+                        authenticatedUserAction.Right.IsUpdate = roleModel.ActionModel.PrivilegeModel.IsUpdate;
+                        authenticatedUserAction.Right.IsWrite = roleModel.ActionModel.PrivilegeModel.IsWrite;
+                        isUpdateSuccessful = true;
+                    }
+                }                
+            }
+            return isUpdateSuccessful;
+        }
+
+        private bool updateAuthenticatedUserRoles(List<RoleModel> roles)
+        {
+            bool isUpdateSuccessful = false;
+            Agent authenticatedUser = Bl.BlSecurity.GetAuthenticatedUser();
+           
+            // add role to agent
+            foreach (var roleModel in roles)
+            {
+                Role authenticatedUserRole = authenticatedUser.RoleList.Where(x => x.Name.Equals(roleModel.Role.Name)).FirstOrDefault();
+                if (authenticatedUserRole == null)
+                    authenticatedUser.RoleList.Add(roleModel.Role);
+            }
+
+            // Delete Agent role
+            foreach (var roleModel in roles)
+            {
+                Role authenticatedUserRole = authenticatedUser.RoleList.Where(x => x.Name.Equals(roleModel.Role.Name)).FirstOrDefault();
+                if (authenticatedUserRole != null)
+                    authenticatedUser.RoleList.Remove(roleModel.Role);
+            }
+
+            return isUpdateSuccessful;
+        }
+
         //----------------------------[ Action Commands ]------------------
-        
+
         private void getCurrentRoleModel(RoleModel obj)
         {
             obj.IsModified = true;
+            obj.ActionModel.IsModified = true;
         }
 
         private bool canGetCurrentRoleModel(RoleModel arg)
@@ -231,66 +340,36 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch("Credentials updating...");
 
             // update role right on actions
-            List<Privilege> privilegeToSaveList = new List<Privilege>();
-            List<RoleModel> roleModelModifiedList = RoleModelList.Where(x => x.IsModified).ToList();
-            foreach (var roleModel in roleModelModifiedList)
-            {
-                foreach (Entity.Action action in roleModel.Role.ActionList)
-                {
-                    if (action.Right.ID != 0)
-                        privilegeToSaveList.Add(action.Right);
-                }
-            }
-            var savedPrivilegeList = await Bl.BlSecurity.UpdatePrivilegeAsync(privilegeToSaveList);
-            if (savedPrivilegeList.Count > 0)
-                await Dialog.show("Privileges updated successfully!");
-            var savedRoleList = await Bl.BlSecurity.UpdateRoleAsync(roleModelModifiedList.Where(x => x.Role.Name != "Anonymous").Select(x => x.Role).Distinct().ToList());
-            if (savedRoleList.Count > 0)
-                await Dialog.show("Role updated successfully!");
+            List<RoleModel> roleModifiedList = RoleModelList.Where(x => x.IsModified).ToList();
+            bool isRightsUpdatedSuccessfully = await updateRoleRights(roleModifiedList);
 
+            // updating authenticated user
+            if(isRightsUpdatedSuccessfully)
+                isRightsUpdatedSuccessfully = updateAuthenticatedUserCredentialsOnActions(roleModifiedList);
 
-            // update agent role
-            Dialog.showSearch("Agent roles updating...");
+            // update agent role            
             var agent_roleProcessedList = new List<Agent_role>();
             var agentModifiedList = AgentModelList.Where(x => x.IsModified).ToList();
+            
             foreach (var agentModel in agentModifiedList)
             {
-                List<Agent_role> agent_roleToAddList = new List<Agent_role>();
-                List<Agent_role> agent_roleToRemoveList = new List<Agent_role>();
+                if ( await updateAgentRoles(agentModel.Agent, agentModel.RoleToAddList, agentModel.RoleToRemoveList))
+                    agent_roleProcessedList = agent_roleProcessedList.Concat(agentModel.RoleToAddList.Select(x=>new Agent_role { AgentId = agentModel.Agent.ID, RoleId = x.Role.ID }).ToList()).ToList();
                 
-                // add role to agent
-                foreach (var role in agentModel.RoleToAddList)
-                {
-                    Agent_role agent_role = new Agent_role();
-                    agent_role.AgentId = agentModel.Agent.ID;
-                    agent_role.RoleId = role.ID;
-                    agent_roleToAddList.Add(agent_role);
-                }
-
-                // save new roles
-                var agent_roleSavedList = await Bl.BlSecurity.InsertAgent_roleAsync(agent_roleToAddList);
-                if (agent_roleSavedList.Count > 0)
-                    agent_roleProcessedList = agent_roleProcessedList.Concat(agent_roleSavedList).ToList();
-
-
-                // delete agent role
-                foreach (var role in agentModel.RoleToRemoveList)
-                {
-                    var agent_roleFoundList = await Bl.BlSecurity.searchAgent_roleAsync(new Agent_role { AgentId = agentModel.Agent.ID, RoleId = role.ID }, ESearchOption.AND);
-                    agent_roleToRemoveList = new List<Agent_role>(agent_roleToRemoveList.Concat(agent_roleFoundList));
-                }
-                await Bl.BlSecurity.DeleteAgent_roleAsync(agent_roleToRemoveList);
-
                 agentModel.IsModified = false;
                 agentModel.RoleToAddList.Clear();
                 agentModel.RoleToRemoveList.Clear();
             }
 
-            if (agent_roleProcessedList.Count > 0)
-                await Dialog.show("Agent role has been saved successfuly");
-
+            if (agent_roleProcessedList.Count > 0 || isRightsUpdatedSuccessfully)
+            {
+                updateAuthenticatedUserRoles(agentModifiedList.Where(x => x.Agent.ID == Bl.BlSecurity.GetAuthenticatedUser().ID).SelectMany(x => x.RoleList.Select(y=>new RoleModel { Role = y })).ToList());
+                await Dialog.show("Security updated successfuly!");
+                _main.CommandNavig.raiseCanExecuteActionChanged();
+                //_page(this);
+            }
+            
             Dialog.IsDialogOpen = false;
-            _page(this);
         }
 
         private bool canUpdateSecurityCredential(object arg)

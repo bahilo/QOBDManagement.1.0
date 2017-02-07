@@ -121,6 +121,9 @@
     <None Include="Service References\QOBDServiceReference\QOBDGateway.QOBDServiceReference.Item_deliveryQOBD.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\QOBDServiceReference\QOBDGateway.QOBDServiceReference.NotificationQOBD.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\QOBDServiceReference\QOBDGateway.QOBDServiceReference.PrivilegeQOBD.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

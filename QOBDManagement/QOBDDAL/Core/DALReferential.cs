@@ -24,7 +24,7 @@ namespace QOBDDAL.Core
 {
     public class DALReferential : IReferentialManager
     {
-        private GateWayReferential _gateWayReferential;
+        private QOBDCommon.Interfaces.REMOTE.IReferentialManager _gateWayReferential;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private object _lock = new object();
@@ -41,16 +41,6 @@ namespace QOBDDAL.Core
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
             _gateWayReferential = new GateWayReferential();
-            _gateWayReferential.PropertyChanged += onCredentialChange_loadReferentialDataFromWebService;
-        }
-
-        private void onCredentialChange_loadReferentialDataFromWebService(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Credential"))
-            {
-                retrieveGateWayDataReferential();
-                //DALHelper.doActionAsync();                
-            }
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -64,11 +54,17 @@ namespace QOBDDAL.Core
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
-                _gateWayReferential.initializeCredential(AuthenticatedUser);
+                _gateWayReferential.setServiceCredential(user.Login, user.HashedPassword);
+                retrieveGateWayReferentialData();
             }
         }
 
-        private void retrieveGateWayDataReferential()
+        public void setServiceCredential(string login, string password)
+        {
+            _gateWayReferential.setServiceCredential(login, password);
+        }
+
+        private void retrieveGateWayReferentialData()
         {
             object _lock = new object();
 
@@ -257,7 +253,6 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayReferential.PropertyChanged -= onCredentialChange_loadReferentialDataFromWebService;
             _gateWayReferential.Dispose();
         }
     } /* end class BlReferential */

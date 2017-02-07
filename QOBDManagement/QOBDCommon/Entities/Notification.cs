@@ -21,9 +21,9 @@ namespace QOBDCommon.Entities
 
         public int BillId {get; set;}
 
-        public string Reminder1 {get; set;}
+        public DateTime Reminder1 {get; set;}
 
-        public string Reminder2 {get; set;}
+        public DateTime Reminder2 {get; set;}
 
         public DateTime Date {get; set;}
     } /* end class Notification */

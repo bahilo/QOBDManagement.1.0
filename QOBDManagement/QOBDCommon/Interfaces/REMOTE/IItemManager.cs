@@ -6,13 +6,16 @@ using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace QOBDCommon.Interfaces.REMOTE
 {
-    public interface IItemManager : IProviderManager, IProvider_itemManager, IItem_deliveryManager, ITax_itemManager, IAuto_refManagement, IDisposable
+    public interface IItemManager : IProviderManager, IProvider_itemManager, IItem_deliveryManager, ITax_itemManager, IAuto_refManagement, INotifyPropertyChanged, IDisposable
     {
         // Operations
+
+        void setServiceCredential(string login, string password);
 
         Task<List<Item>> InsertItemAsync(List<Item> itemList);
 

@@ -17,6 +17,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_authenticate_user", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -48,6 +49,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -79,6 +81,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -110,6 +113,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -141,6 +145,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -172,6 +177,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_action_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -203,6 +209,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -234,6 +241,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -265,6 +273,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_agent_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -296,6 +305,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_agent_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -327,6 +337,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_agent_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -358,6 +369,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_role_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -389,6 +401,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_agent_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -420,6 +433,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -451,6 +465,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -482,6 +497,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -513,6 +529,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -544,6 +561,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_role_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -575,6 +593,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -606,6 +625,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_role_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -637,6 +657,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_role_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -668,6 +689,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_role_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -699,6 +721,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_role_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -730,6 +753,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_role_action_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -761,6 +785,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_role_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -792,6 +817,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -823,6 +849,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_bill", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -854,6 +881,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_bill", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -885,6 +913,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_bill", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -916,6 +945,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -947,6 +977,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_bill", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -978,6 +1009,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_command_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1007,8 +1039,41 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_unpaid", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_unpaid(int agent_id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_unpaid", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_unpaidAsync(int agent_id);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1040,6 +1105,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_command", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1071,6 +1137,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_command", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1102,6 +1169,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_command", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1133,6 +1201,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1164,6 +1233,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_command", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1195,6 +1265,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/generate_pdf", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1224,6 +1295,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1255,6 +1327,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_credentail", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1286,6 +1359,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_agent", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1317,6 +1391,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_agent", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1348,6 +1423,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_agent", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1379,6 +1455,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1410,6 +1487,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_agent", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1441,6 +1519,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_by_command_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1472,6 +1551,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_statistic", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1503,6 +1583,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_statistic", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1534,6 +1615,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_statistic", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1565,6 +1647,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_statistic", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1596,6 +1679,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_statistic_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1627,6 +1711,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_statistic", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1658,6 +1743,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1689,6 +1775,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1720,6 +1807,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1751,6 +1839,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1782,6 +1871,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1813,6 +1903,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1844,6 +1935,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_by_command_item_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1875,6 +1967,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1906,6 +1999,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1937,6 +2031,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1968,6 +2063,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -1999,6 +2095,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2030,6 +2127,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_Client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2061,6 +2159,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_quotes_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2092,6 +2191,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_commands_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2123,6 +2223,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/send_email_to_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2154,6 +2255,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client_by_bill_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2183,8 +2285,41 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_bill_listAsync(QOBDGateway.QOBDServiceReference.BillQOBD[] bill_array_list);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client_by_max_credit_over", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_max_credit_over(int agent_id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client_by_max_credit_over", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_max_credit_overAsync(int agent_id);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_actionRecord", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2216,6 +2351,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_actionRecord", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2247,6 +2383,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_actionRecord", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2278,6 +2415,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_actionRecord", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2309,6 +2447,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_actionRecord_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2340,6 +2479,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_actionRecord", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2371,6 +2511,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_address", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2402,6 +2543,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_address", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2433,6 +2575,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_address", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2464,6 +2607,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_address", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2495,6 +2639,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_address_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2526,6 +2671,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_address", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2557,6 +2703,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_address_by_command_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2588,6 +2735,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_address_by_client_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2619,6 +2767,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2650,6 +2799,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_command_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2681,6 +2831,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_command_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2712,6 +2863,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_command_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2743,6 +2895,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_item_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2774,6 +2927,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_command_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2805,6 +2959,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_item_by_command_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2836,6 +2991,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_contact", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2867,6 +3023,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_contact", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2898,6 +3055,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_contact", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2929,6 +3087,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_contact", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2960,6 +3119,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_contact_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -2991,6 +3151,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_contact", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3022,6 +3183,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_contact_by_client_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3053,6 +3215,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3084,6 +3247,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3115,6 +3279,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3146,6 +3311,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3177,6 +3343,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_delivery_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3208,6 +3375,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3239,6 +3407,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_delivery_by_command_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3270,6 +3439,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_infos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3301,6 +3471,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_infos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3332,6 +3503,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_infos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3363,6 +3535,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_infos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3394,6 +3567,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_infos_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3425,6 +3599,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_infos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3456,6 +3631,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_auto_ref", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3487,6 +3663,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_auto_ref", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3518,6 +3695,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_auto_ref", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3549,6 +3727,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_auto_ref", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3580,6 +3759,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_auto_ref_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3611,6 +3791,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_auto_ref", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3642,6 +3823,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3673,6 +3855,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_item_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3704,6 +3887,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_item_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3735,6 +3919,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_item_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3766,6 +3951,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_delivery_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3797,6 +3983,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_item_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3829,6 +4016,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_delivery_by_delivery_lis" +
             "t", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3861,6 +4049,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3892,6 +4081,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_provider_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3923,6 +4113,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_provider_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3954,6 +4145,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_provider_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -3985,6 +4177,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider_item_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4016,6 +4209,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_provider_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4047,6 +4241,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider_item_by_item_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4078,6 +4273,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4109,6 +4305,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_provider", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4140,6 +4337,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_provider", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4171,6 +4369,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_provider", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4202,6 +4401,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4233,6 +4433,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_provider", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4265,6 +4466,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider_by_provider_item_lis" +
             "t", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4297,6 +4499,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_command", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4328,6 +4531,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_tax_command", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4359,6 +4563,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_tax_command", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4390,6 +4595,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_tax_command", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4421,6 +4627,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_command_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4452,6 +4659,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_tax_command", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4483,6 +4691,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_command_by_command_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4514,6 +4723,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4545,6 +4755,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_tax_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4576,6 +4787,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_tax_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4607,6 +4819,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_tax_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4638,6 +4851,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_item_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4669,6 +4883,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_tax_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4700,6 +4915,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_item_by_item_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4731,6 +4947,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4762,6 +4979,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_tax", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4793,6 +5011,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_tax", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4824,6 +5043,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_tax", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4855,6 +5075,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4886,6 +5107,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_tax", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4917,6 +5139,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_privilege", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4948,6 +5171,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_privilege", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -4979,6 +5203,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_privilege", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -5010,6 +5235,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_privilege", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -5041,6 +5267,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_privilege_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -5072,6 +5299,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_privilege", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
@@ -5100,6 +5328,262 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_privilege", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.PrivilegeQOBD[]> get_filter_privilegeAsync(QOBDGateway.QOBDServiceReference.PrivilegeFilterQOBD privilege_array_list_filter);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notificationAsync(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_notification", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.NotificationQOBD[] delete_data_notification(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_notification", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> delete_data_notificationAsync(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_notification", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.NotificationQOBD[] insert_data_notification(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_notification", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> insert_data_notificationAsync(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_notification", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.NotificationQOBD[] update_data_notification(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_notification", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> update_data_notificationAsync(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_id", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_id(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_id", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_idAsync(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_notification", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_filter_notification(QOBDGateway.QOBDServiceReference.NotificationFilterQOBD notification_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_notification", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_filter_notificationAsync(QOBDGateway.QOBDServiceReference.NotificationFilterQOBD notification_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_command_list", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_client_list", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_client_list(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_client_list", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_client_listAsync(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list);
     }
     
     /// <remarks/>
@@ -5398,9 +5882,9 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class PrivilegeQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int role_actionIdField;
+        private string role_actionIdField;
         
         private string _WriteField;
         
@@ -5415,7 +5899,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string dateField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -5426,7 +5910,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Role_actionId {
+        public string Role_actionId {
             get {
                 return this.role_actionIdField;
             }
@@ -5518,21 +6002,15 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
-    public partial class PrivilegeFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class NotificationFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
         private int idField;
         
-        private int role_actionIdField;
+        private int billIdField;
         
-        private string _WriteField;
+        private string reminder1Field;
         
-        private string _ReadField;
-        
-        private string _UpdateField;
-        
-        private string _DeleteField;
-        
-        private string sendEmailField;
+        private string reminder2Field;
         
         private string dateField;
         
@@ -5550,7 +6028,192 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Role_actionId {
+        public int BillId {
+            get {
+                return this.billIdField;
+            }
+            set {
+                this.billIdField = value;
+                this.RaisePropertyChanged("BillId");
+            }
+        }
+        
+        /// <remarks/>
+        public string Reminder1 {
+            get {
+                return this.reminder1Field;
+            }
+            set {
+                this.reminder1Field = value;
+                this.RaisePropertyChanged("Reminder1");
+            }
+        }
+        
+        /// <remarks/>
+        public string Reminder2 {
+            get {
+                return this.reminder2Field;
+            }
+            set {
+                this.reminder2Field = value;
+                this.RaisePropertyChanged("Reminder2");
+            }
+        }
+        
+        /// <remarks/>
+        public string Date {
+            get {
+                return this.dateField;
+            }
+            set {
+                this.dateField = value;
+                this.RaisePropertyChanged("Date");
+            }
+        }
+        
+        /// <remarks/>
+        public string Operator {
+            get {
+                return this.operatorField;
+            }
+            set {
+                this.operatorField = value;
+                this.RaisePropertyChanged("Operator");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class NotificationQOBD : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private int idField;
+        
+        private int billIdField;
+        
+        private string reminder1Field;
+        
+        private string reminder2Field;
+        
+        private string dateField;
+        
+        /// <remarks/>
+        public int ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public int BillId {
+            get {
+                return this.billIdField;
+            }
+            set {
+                this.billIdField = value;
+                this.RaisePropertyChanged("BillId");
+            }
+        }
+        
+        /// <remarks/>
+        public string Reminder1 {
+            get {
+                return this.reminder1Field;
+            }
+            set {
+                this.reminder1Field = value;
+                this.RaisePropertyChanged("Reminder1");
+            }
+        }
+        
+        /// <remarks/>
+        public string Reminder2 {
+            get {
+                return this.reminder2Field;
+            }
+            set {
+                this.reminder2Field = value;
+                this.RaisePropertyChanged("Reminder2");
+            }
+        }
+        
+        /// <remarks/>
+        public string Date {
+            get {
+                return this.dateField;
+            }
+            set {
+                this.dateField = value;
+                this.RaisePropertyChanged("Date");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class PrivilegeFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private string idField;
+        
+        private string role_actionIdField;
+        
+        private string _WriteField;
+        
+        private string _ReadField;
+        
+        private string _UpdateField;
+        
+        private string _DeleteField;
+        
+        private string sendEmailField;
+        
+        private string dateField;
+        
+        private string operatorField;
+        
+        /// <remarks/>
+        public string ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public string Role_actionId {
             get {
                 return this.role_actionIdField;
             }
@@ -11212,6 +11875,14 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_data_bill_by_command_listAsync(command_array_list);
         }
         
+        public QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_unpaid(int agent_id) {
+            return base.Channel.get_data_bill_by_unpaid(agent_id);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_unpaidAsync(int agent_id) {
+            return base.Channel.get_data_bill_by_unpaidAsync(agent_id);
+        }
+        
         public QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_data_command(string nbLine) {
             return base.Channel.get_data_command(nbLine);
         }
@@ -11514,6 +12185,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_bill_listAsync(QOBDGateway.QOBDServiceReference.BillQOBD[] bill_array_list) {
             return base.Channel.get_data_client_by_bill_listAsync(bill_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_max_credit_over(int agent_id) {
+            return base.Channel.get_data_client_by_max_credit_over(agent_id);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_max_credit_overAsync(int agent_id) {
+            return base.Channel.get_data_client_by_max_credit_overAsync(agent_id);
         }
         
         public QOBDGateway.QOBDServiceReference.ActionRecordQOBD[] get_data_actionRecord(string nbLine) {
@@ -12266,6 +12945,70 @@ namespace QOBDGateway.QOBDServiceReference {
         
         public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.PrivilegeQOBD[]> get_filter_privilegeAsync(QOBDGateway.QOBDServiceReference.PrivilegeFilterQOBD privilege_array_list_filter) {
             return base.Channel.get_filter_privilegeAsync(privilege_array_list_filter);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification(string nbLine) {
+            return base.Channel.get_data_notification(nbLine);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notificationAsync(string nbLine) {
+            return base.Channel.get_data_notificationAsync(nbLine);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.NotificationQOBD[] delete_data_notification(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list) {
+            return base.Channel.delete_data_notification(notification_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> delete_data_notificationAsync(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list) {
+            return base.Channel.delete_data_notificationAsync(notification_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.NotificationQOBD[] insert_data_notification(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list) {
+            return base.Channel.insert_data_notification(notification_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> insert_data_notificationAsync(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list) {
+            return base.Channel.insert_data_notificationAsync(notification_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.NotificationQOBD[] update_data_notification(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list) {
+            return base.Channel.update_data_notification(notification_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> update_data_notificationAsync(QOBDGateway.QOBDServiceReference.NotificationQOBD[] notification_array_list) {
+            return base.Channel.update_data_notificationAsync(notification_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_id(string id) {
+            return base.Channel.get_data_notification_by_id(id);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_idAsync(string id) {
+            return base.Channel.get_data_notification_by_idAsync(id);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_filter_notification(QOBDGateway.QOBDServiceReference.NotificationFilterQOBD notification_array_list) {
+            return base.Channel.get_filter_notification(notification_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_filter_notificationAsync(QOBDGateway.QOBDServiceReference.NotificationFilterQOBD notification_array_list) {
+            return base.Channel.get_filter_notificationAsync(notification_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
+            return base.Channel.get_data_notification_by_command_list(command_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
+            return base.Channel.get_data_notification_by_command_listAsync(command_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_client_list(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list) {
+            return base.Channel.get_data_notification_by_client_list(client_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_client_listAsync(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list) {
+            return base.Channel.get_data_notification_by_client_listAsync(client_array_list);
         }
     }
 }

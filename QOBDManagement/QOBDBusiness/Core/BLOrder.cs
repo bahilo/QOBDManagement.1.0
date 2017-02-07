@@ -38,6 +38,12 @@ namespace QOBDBusiness.Core
                 DAC.DALOrder.initializeCredential(user);
         }
 
+
+        public void setServiceCredential(string login, string password)
+        {
+            DAC.DALOrder.setServiceCredential(login, password);
+        }
+
         public void progressBarManagement(Func<double, double> progressBarFunc)
         {
             if (progressBarFunc != null)
@@ -570,6 +576,17 @@ namespace QOBDBusiness.Core
             return result;
         }
 
+        public async Task<List<Bill>> GetUnpaidBillDataByAgentAsync(int agentId)
+        {
+            List<Bill> result = new List<Bill>();
+            try
+            {
+                result = await DAC.DALOrder.GetUnpaidBillDataByAgentAsync(agentId);
+            }
+            catch (Exception ex) { Log.error(ex.Message); }
+            return result;
+        }
+
         public List<Bill> GetBillDataByOrderList(List<Order> orderList)
         {
             List<Bill> result = new List<Bill>();
@@ -836,6 +853,5 @@ namespace QOBDBusiness.Core
         {
             DAC.DALOrder.Dispose();
         }
-        
     } /* end class BLCommande */
 }

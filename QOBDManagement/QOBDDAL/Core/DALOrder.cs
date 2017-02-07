@@ -25,7 +25,7 @@ namespace QOBDDAL.Core
     {
         private Func<double, double> _progressBarFunc;
         public Agent AuthenticatedUser { get; set; }
-        private GateWayOrder _gatewayOrder;
+        private QOBDCommon.Interfaces.REMOTE.IOrderManager _gatewayOrder;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -38,7 +38,6 @@ namespace QOBDDAL.Core
             _gatewayOrder = new GateWayOrder();
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
-            _gatewayOrder.PropertyChanged += onCredentialChange_loadOrderDataFromWebService;
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -47,31 +46,18 @@ namespace QOBDDAL.Core
             set { _isLodingDataFromWebServiceToLocal = value; }
         }
 
-        public GateWayOrder GateWayOrder
-        {
-            get { return _gatewayOrder; }
-        }
-
-        private void onCredentialChange_loadOrderDataFromWebService(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Credential"))
-            {
-                retrieveGateWayDataOrder();
-                //DALHelper.doActionAsync();                
-            }
-        }
-
         public void initializeCredential(Agent user)
         {
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
                 _loadSize = (AuthenticatedUser.ListSize > 0) ? AuthenticatedUser.ListSize : _loadSize;
-                _gatewayOrder.initializeCredential(AuthenticatedUser);
+                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                retrieveGateWayOrderData();
             }
         }
 
-        private void retrieveGateWayDataOrder()
+        private void retrieveGateWayOrderData()
         {
             try
             {
@@ -770,6 +756,17 @@ namespace QOBDDAL.Core
             return result.GetRange(0, nbLine);
         }
 
+        public void setServiceCredential(string login, string password)
+        {
+            _gatewayOrder.setServiceCredential(login, password);
+        }
+
+        public async Task<List<Bill>> GetUnpaidBillDataByAgentAsync(int agentId)
+        {
+            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+            return await _gatewayOrder.GetUnpaidBillDataByAgentAsync(agentId);
+        }
+
         public async Task<List<Bill>> GetBillDataAsync(int nbLine)
         {
             _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
@@ -957,7 +954,7 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gatewayOrder.PropertyChanged -= onCredentialChange_loadOrderDataFromWebService;
+            _gatewayOrder.Dispose();
         }
 
 
@@ -1009,13 +1006,13 @@ namespace QOBDDAL.Core
             // Tax_order Loading
             if (orderList.Count > 0)
             {
-                var tax_orderfoundList = new NotifyTaskCompletion<List<Tax_order>>(GateWayOrder.GetTax_orderDataByOrderListAsync(orderList.ToList())).Task.Result; // await GateWayOrder.GetTax_orderDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
+                var tax_orderfoundList = new NotifyTaskCompletion<List<Tax_order>>(_gatewayOrder.GetTax_orderDataByOrderListAsync(orderList.ToList())).Task.Result; // await GateWayOrder.GetTax_orderDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
                 tax_orderList = new ConcurrentBag<Tax_order>(tax_orderList.Concat(new ConcurrentBag<Tax_order>(tax_orderfoundList)));
                 List<Tax_order> savedTax_orderList = LoadTax_order(tax_orderList.ToList());
             }
 
             // Tax Loading
-            var taxFoundList = new NotifyTaskCompletion<List<Tax>>(GateWayOrder.GetTaxDataAsync(999)).Task.Result; // await GateWayOrder.GetTax_orderDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
+            var taxFoundList = new NotifyTaskCompletion<List<Tax>>(_gatewayOrder.GetTaxDataAsync(999)).Task.Result; // await GateWayOrder.GetTax_orderDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
             taxList = new ConcurrentBag<Tax>(new ConcurrentBag<Tax>(taxFoundList));
             List<Tax> savedTaxList = LoadTax(taxList.ToList());
             if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
@@ -1024,7 +1021,7 @@ namespace QOBDDAL.Core
             // Bills Loading
             if (orderList.Count > 0)
             {
-                List<Bill> billfoundList = new NotifyTaskCompletion<List<Bill>>(GateWayOrder.GetBillDataByOrderListAsync(orderList.ToList())).Task.Result; // await GateWayOrder.GetBillDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
+                List<Bill> billfoundList = new NotifyTaskCompletion<List<Bill>>(_gatewayOrder.GetBillDataByOrderListAsync(orderList.ToList())).Task.Result; // await GateWayOrder.GetBillDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
                 billList = new ConcurrentBag<Bill>(billList.Concat(new ConcurrentBag<Bill>(billfoundList)));
                 List<Bill> savedBillList = LoadBill(billList.ToList());
             }
@@ -1033,7 +1030,7 @@ namespace QOBDDAL.Core
             // Delivery Loading
             if (orderList.Count > 0)
             {
-                List<Delivery> deliveryfoundList = new NotifyTaskCompletion<List<Delivery>>(GateWayOrder.GetDeliveryDataByOrderListAsync(orderList.ToList())).Task.Result; //await GateWayOrder.GetDeliveryDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
+                List<Delivery> deliveryfoundList = new NotifyTaskCompletion<List<Delivery>>(_gatewayOrder.GetDeliveryDataByOrderListAsync(orderList.ToList())).Task.Result; //await GateWayOrder.GetDeliveryDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
                 deliveryList = new ConcurrentBag<Delivery>(deliveryList.Concat(new ConcurrentBag<Delivery>(deliveryfoundList)));
                 List<Delivery> savedDeliveryList = LoadDelivery(deliveryList.ToList());
             }
@@ -1044,7 +1041,7 @@ namespace QOBDDAL.Core
             {
                 for (int i = 0; i < (orderList.Count() / loadUnit) || loadUnit > orderList.Count() && i == 0; i++)
                 {
-                    ConcurrentBag<Order_item> order_itemFoundList = new ConcurrentBag<Order_item>(new NotifyTaskCompletion<List<Order_item>>(GateWayOrder.GetOrder_itemByOrderListAsync(orderList.Skip(i * loadUnit).Take(loadUnit).ToList())).Task.Result); // await GateWayOrder.GetOrder_itemByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
+                    ConcurrentBag<Order_item> order_itemFoundList = new ConcurrentBag<Order_item>(new NotifyTaskCompletion<List<Order_item>>(_gatewayOrder.GetOrder_itemByOrderListAsync(orderList.Skip(i * loadUnit).Take(loadUnit).ToList())).Task.Result); // await GateWayOrder.GetOrder_itemByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
                     order_itemList = new ConcurrentBag<Order_item>(order_itemList.Concat(new ConcurrentBag<Order_item>(order_itemFoundList)));
                 }
                 var savedOrder_itemList = new ConcurrentBag<Order_item>(LoadOrder_item(order_itemList.ToList()));
@@ -1136,6 +1133,5 @@ namespace QOBDDAL.Core
             }
             if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
         }
-
     } /* end class BLOrdere */
 }

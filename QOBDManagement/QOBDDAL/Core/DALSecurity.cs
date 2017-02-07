@@ -20,7 +20,7 @@ namespace QOBDDAL.Core
     public class DALSecurity : ISecurityManager
     {
         public Agent AuthenticatedUser { get; set; }
-        private GateWaySecurity _gateWaySecurity;
+        private QOBDCommon.Interfaces.REMOTE.ISecurityActionManager _gateWaySecurity;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -39,8 +39,13 @@ namespace QOBDDAL.Core
         {
             AuthenticatedUser = user;
             _loadSize = (AuthenticatedUser.ListSize > 0) ? AuthenticatedUser.ListSize : _loadSize;
-            _gateWaySecurity.initializeCredential(AuthenticatedUser);
-               
+            _gateWaySecurity.setServiceCredential(user.Login, user.HashedPassword);
+
+        }
+
+        public void setServiceCredential(string login, string password)
+        {
+            _gateWaySecurity.setServiceCredential(login, password);
         }
 
         public bool IsLodingDataFromWebServiceToLocal

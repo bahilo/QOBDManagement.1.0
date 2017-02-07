@@ -8,6 +8,7 @@ using QOBDCommon;
 using QOBDCommon.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 /// <summary>
 ///  An interface defining operations expected of ...
 /// 
@@ -16,7 +17,9 @@ using System.Collections.Generic;
 /// </summary>
 namespace QOBDCommon.Interfaces.REMOTE
 {
-    public interface IReferentialManager : IInfosManager, IDisposable
+    public interface IReferentialManager : IInfosManager, INotifyPropertyChanged, IDisposable
     {
+        void setServiceCredential(string login, string password);
+
     } /* end interface IReferentialManager */
 }

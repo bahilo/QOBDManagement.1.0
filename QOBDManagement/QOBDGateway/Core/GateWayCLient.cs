@@ -195,6 +195,19 @@ namespace QOBDGateway.Core
             return result;
         }
 
+        public async Task<List<Client>> GetClientMaxCreditOverDataByAgentAsync(int agentId)
+        {
+            List<Client> result = new List<Client>();
+            try
+            {
+                result = (await _channel.get_data_client_by_max_credit_overAsync(agentId)).ArrayTypeToClient();
+            }
+            catch (FaultException) { Dispose(); throw; }
+            catch (CommunicationException) { _channel.Abort(); throw; }
+            catch (TimeoutException) { _channel.Abort(); }
+            return result;
+        }
+
         public async Task<List<Client>> GetClientDataByBillListAsync(List<Bill> billList)
         {
             List<Client> result = new List<Client>();

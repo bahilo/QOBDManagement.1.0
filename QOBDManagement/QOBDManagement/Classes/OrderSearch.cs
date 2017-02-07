@@ -28,18 +28,18 @@ namespace QOBDManagement.Classes
         {
             _statusList = new List<string>
             {
-                EStatusOrder.Quote.ToString(),                  //devis
-                EStatusOrder.Pre_Order.ToString(),             //preco
-                EStatusOrder.Order.ToString(),                //command
-                EStatusOrder.Order_Close.ToString(),           // close
-                EStatusOrder.Pre_Credit.ToString(),              // preavoir
-                EStatusOrder.Credit.ToString(),                 // avoir
-                EStatusOrder.Credit_CLose.ToString(),            // a_close
-                EStatusOrder.Pre_Client_Validation.ToString(),    // revalid
-                EStatusOrder.Bill_Order.ToString(),            // facture
-                EStatusOrder.Bill_Credit.ToString(),              // a_facture
-                EStatusOrder.Billed.ToString(),                    //f
-                EStatusOrder.Not_Billed.ToString()               //nf}
+                EOrderStatus.Quote.ToString(),                  //devis
+                EOrderStatus.Pre_Order.ToString(),             //preco
+                EOrderStatus.Order.ToString(),                //command
+                EOrderStatus.Order_Close.ToString(),           // close
+                EOrderStatus.Pre_Credit.ToString(),              // preavoir
+                EOrderStatus.Credit.ToString(),                 // avoir
+                EOrderStatus.Credit_CLose.ToString(),            // a_close
+                EOrderStatus.Pre_Client_Validation.ToString(),    // revalid
+                EOrderStatus.Bill_Order.ToString(),            // facture
+                EOrderStatus.Bill_Credit.ToString(),              // a_facture
+                EOrderStatus.Billed.ToString(),                    //f
+                EOrderStatus.Not_Billed.ToString()               //nf}
             };
             _startDate = DateTime.Now;
             _endDate = DateTime.Now;

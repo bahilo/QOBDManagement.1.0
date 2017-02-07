@@ -735,8 +735,8 @@
       </xsd:complexType>
       <xsd:complexType name="PrivilegeQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="Role_actionId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="Role_actionId" type="xsd:string" />
           <xsd:element name="_Write" type="xsd:string" />
           <xsd:element name="_Read" type="xsd:string" />
           <xsd:element name="_Update" type="xsd:string" />
@@ -754,13 +754,39 @@
       </xsd:complexType>
       <xsd:complexType name="PrivilegeFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="Role_actionId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="Role_actionId" type="xsd:string" />
           <xsd:element name="_Write" type="xsd:string" />
           <xsd:element name="_Read" type="xsd:string" />
           <xsd:element name="_Update" type="xsd:string" />
           <xsd:element name="_Delete" type="xsd:string" />
           <xsd:element name="SendEmail" type="xsd:string" />
+          <xsd:element name="Date" type="xsd:string" />
+          <xsd:element name="Operator" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="NotificationQOBD">
+        <xsd:all>
+          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="BillId" type="xsd:int" />
+          <xsd:element name="Reminder1" type="xsd:string" />
+          <xsd:element name="Reminder2" type="xsd:string" />
+          <xsd:element name="Date" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="AllNotificationQOBD">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute wsdl:arrayType="tns:NotificationQOBD[]" minOccurs="0" maxOccur="unbounded" ref="SOAP-ENC:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="NotificationFilterQOBD">
+        <xsd:all>
+          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="BillId" type="xsd:int" />
+          <xsd:element name="Reminder1" type="xsd:string" />
+          <xsd:element name="Reminder2" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
@@ -958,6 +984,12 @@
     <wsdl:part name="command_array_list" type="tns:AllCommandQOBD" />
   </wsdl:message>
   <wsdl:message name="get_data_bill_by_command_listResponse">
+    <wsdl:part name="return" type="tns:AllBillQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_bill_by_unpaidRequest">
+    <wsdl:part name="agent_id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="get_data_bill_by_unpaidResponse">
     <wsdl:part name="return" type="tns:AllBillQOBD" />
   </wsdl:message>
   <wsdl:message name="get_data_commandRequest">
@@ -1184,6 +1216,12 @@
     <wsdl:part name="bill_array_list" type="tns:AllBillQOBD" />
   </wsdl:message>
   <wsdl:message name="get_data_client_by_bill_listResponse">
+    <wsdl:part name="return" type="tns:AllClientQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_client_by_max_credit_overRequest">
+    <wsdl:part name="agent_id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="get_data_client_by_max_credit_overResponse">
     <wsdl:part name="return" type="tns:AllClientQOBD" />
   </wsdl:message>
   <wsdl:message name="get_data_actionRecordRequest">
@@ -1750,6 +1788,54 @@
   <wsdl:message name="get_filter_privilegeResponse">
     <wsdl:part name="return" type="tns:AllPrivilegeQOBD" />
   </wsdl:message>
+  <wsdl:message name="get_data_notificationRequest">
+    <wsdl:part name="nbLine" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="get_data_notificationResponse">
+    <wsdl:part name="return" type="tns:AllNotificationQOBD" />
+  </wsdl:message>
+  <wsdl:message name="delete_data_notificationRequest">
+    <wsdl:part name="notification_array_list" type="tns:AllNotificationQOBD" />
+  </wsdl:message>
+  <wsdl:message name="delete_data_notificationResponse">
+    <wsdl:part name="return" type="tns:AllNotificationQOBD" />
+  </wsdl:message>
+  <wsdl:message name="insert_data_notificationRequest">
+    <wsdl:part name="notification_array_list" type="tns:AllNotificationQOBD" />
+  </wsdl:message>
+  <wsdl:message name="insert_data_notificationResponse">
+    <wsdl:part name="return" type="tns:AllNotificationQOBD" />
+  </wsdl:message>
+  <wsdl:message name="update_data_notificationRequest">
+    <wsdl:part name="notification_array_list" type="tns:AllNotificationQOBD" />
+  </wsdl:message>
+  <wsdl:message name="update_data_notificationResponse">
+    <wsdl:part name="return" type="tns:AllNotificationQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_notification_by_idRequest">
+    <wsdl:part name="id" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="get_data_notification_by_idResponse">
+    <wsdl:part name="return" type="tns:AllNotificationQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_filter_notificationRequest">
+    <wsdl:part name="notification_array_list" type="tns:NotificationFilterQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_filter_notificationResponse">
+    <wsdl:part name="return" type="tns:AllNotificationQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_notification_by_command_listRequest">
+    <wsdl:part name="command_array_list" type="tns:AllCommandQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_notification_by_command_listResponse">
+    <wsdl:part name="return" type="tns:AllNotificationQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_notification_by_client_listRequest">
+    <wsdl:part name="client_array_list" type="tns:AllClientQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_notification_by_client_listResponse">
+    <wsdl:part name="return" type="tns:AllNotificationQOBD" />
+  </wsdl:message>
   <wsdl:portType name="QOBDWebServicePortType">
     <wsdl:operation name="get_authenticate_user">
       <documentation>Security handling</documentation>
@@ -1910,6 +1996,11 @@
       <documentation>get result of bill by command list</documentation>
       <wsdl:input message="tns:get_data_bill_by_command_listRequest" />
       <wsdl:output message="tns:get_data_bill_by_command_listResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_data_bill_by_unpaid">
+      <documentation>get result of bill unpaid list</documentation>
+      <wsdl:input message="tns:get_data_bill_by_unpaidRequest" />
+      <wsdl:output message="tns:get_data_bill_by_unpaidResponse" />
     </wsdl:operation>
     <wsdl:operation name="get_data_command">
       <documentation>Get all command data</documentation>
@@ -2100,6 +2191,11 @@
       <documentation>Simple Class methode testing</documentation>
       <wsdl:input message="tns:get_data_client_by_bill_listRequest" />
       <wsdl:output message="tns:get_data_client_by_bill_listResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_data_client_by_max_credit_over">
+      <documentation>get all client over their max credit</documentation>
+      <wsdl:input message="tns:get_data_client_by_max_credit_overRequest" />
+      <wsdl:output message="tns:get_data_client_by_max_credit_overResponse" />
     </wsdl:operation>
     <wsdl:operation name="get_data_actionRecord">
       <documentation>Get all actionRecord data</documentation>
@@ -2571,6 +2667,46 @@
       <wsdl:input message="tns:get_filter_privilegeRequest" />
       <wsdl:output message="tns:get_filter_privilegeResponse" />
     </wsdl:operation>
+    <wsdl:operation name="get_data_notification">
+      <documentation>Get all notification data</documentation>
+      <wsdl:input message="tns:get_data_notificationRequest" />
+      <wsdl:output message="tns:get_data_notificationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="delete_data_notification">
+      <documentation>Delete notifications</documentation>
+      <wsdl:input message="tns:delete_data_notificationRequest" />
+      <wsdl:output message="tns:delete_data_notificationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="insert_data_notification">
+      <documentation>Insert notifications</documentation>
+      <wsdl:input message="tns:insert_data_notificationRequest" />
+      <wsdl:output message="tns:insert_data_notificationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="update_data_notification">
+      <documentation>Update notifications</documentation>
+      <wsdl:input message="tns:update_data_notificationRequest" />
+      <wsdl:output message="tns:update_data_notificationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_data_notification_by_id">
+      <documentation>get an notification by its id</documentation>
+      <wsdl:input message="tns:get_data_notification_by_idRequest" />
+      <wsdl:output message="tns:get_data_notification_by_idResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_filter_notification">
+      <documentation>get result of notification filtering</documentation>
+      <wsdl:input message="tns:get_filter_notificationRequest" />
+      <wsdl:output message="tns:get_filter_notificationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_data_notification_by_command_list">
+      <documentation>get an notification by command list</documentation>
+      <wsdl:input message="tns:get_data_notification_by_command_listRequest" />
+      <wsdl:output message="tns:get_data_notification_by_command_listResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_data_notification_by_client_list">
+      <documentation>get an notification by Client list</documentation>
+      <wsdl:input message="tns:get_data_notification_by_client_listRequest" />
+      <wsdl:output message="tns:get_data_notification_by_client_listResponse" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="QOBDWebServiceBinding" type="tns:QOBDWebServicePortType">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
@@ -2855,6 +2991,15 @@
     </wsdl:operation>
     <wsdl:operation name="get_data_bill_by_command_list">
       <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_command_list" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_data_bill_by_unpaid">
+      <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_unpaid" style="rpc" />
       <wsdl:input>
         <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </wsdl:input>
@@ -3197,6 +3342,15 @@
     </wsdl:operation>
     <wsdl:operation name="get_data_client_by_bill_list">
       <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_data_client_by_bill_list" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_data_client_by_max_credit_over">
+      <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_data_client_by_max_credit_over" style="rpc" />
       <wsdl:input>
         <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </wsdl:input>
@@ -4043,6 +4197,78 @@
     </wsdl:operation>
     <wsdl:operation name="get_filter_privilege">
       <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_filter_privilege" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_data_notification">
+      <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_data_notification" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="delete_data_notification">
+      <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/delete_data_notification" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insert_data_notification">
+      <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/insert_data_notification" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="update_data_notification">
+      <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/update_data_notification" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_data_notification_by_id">
+      <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_id" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_filter_notification">
+      <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_filter_notification" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_data_notification_by_command_list">
+      <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_command_list" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_data_notification_by_client_list">
+      <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_client_list" style="rpc" />
       <wsdl:input>
         <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </wsdl:input>

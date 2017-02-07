@@ -29,7 +29,7 @@ namespace QOBDDAL.Core
     {
         public Agent AuthenticatedUser { get; set; }
         private Func<double, double> _rogressBarFunc;
-        private GateWayItem _gateWayItem;
+        private QOBDCommon.Interfaces.REMOTE.IItemManager _gateWayItem;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -42,7 +42,6 @@ namespace QOBDDAL.Core
             _gateWayItem = new GateWayItem();
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
-            _gateWayItem.PropertyChanged += onCredentialChange_loadItemDataFromWebService;
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -51,24 +50,15 @@ namespace QOBDDAL.Core
             set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsLodingDataFromWebServiceToLocal"); }
         }
 
-        private void onPropertyChange(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public GateWayItem GateWayItem
+        public QOBDCommon.Interfaces.REMOTE.IItemManager GateWayItem
         {
             get { return _gateWayItem; }
         }
 
-        private void onCredentialChange_loadItemDataFromWebService(object sender, PropertyChangedEventArgs e)
+        private void onPropertyChange(string propertyName)
         {
-            if (e.PropertyName.Equals("Credential"))
-            {
-                retrieveGateWayDataItem();
-                //DALHelper.doActionAsync();                
-            }
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void initializeCredential(Agent user)
@@ -76,11 +66,17 @@ namespace QOBDDAL.Core
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
-                _gateWayItem.initializeCredential(AuthenticatedUser);
+                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                retrieveGateWayItemData();
             }
         }
 
-        private void retrieveGateWayDataItem()
+        public void setServiceCredential(string login, string password)
+        {
+            _gateWayItem.setServiceCredential(login, password);
+        }
+
+        private void retrieveGateWayItemData()
         {
             int loadUnit = 50;
 
@@ -923,7 +919,6 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayItem.PropertyChanged -= onCredentialChange_loadItemDataFromWebService;
             _gateWayItem.Dispose();
         }
     } /* end class BLItem */

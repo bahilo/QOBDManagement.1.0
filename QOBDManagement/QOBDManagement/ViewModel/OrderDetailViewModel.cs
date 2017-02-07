@@ -35,7 +35,7 @@ namespace QOBDManagement.ViewModel
         public NotifyTaskCompletion<bool> _updateOrderStatusTask { get; set; }
         private Func<object, object> _page;
         private List<Tax> _taxes;
-        private EStatusOrder _orderStatus;
+        private EOrderStatus _orderStatus;
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace QOBDManagement.ViewModel
         public ButtonCommand<Address> DeliveryAddressSelectionCommand { get; set; }
         public ButtonCommand<Tax> TaxCommand { get; set; }
         public ButtonCommand<object> GeneratePdfCreatedQuoteCommand { get; set; }
-        public ButtonCommand<string> SendEmailCommand { get; set; }
+        public ButtonCommand<BillModel> SendEmailCommand { get; set; }
         public ButtonCommand<BillModel> UpdateBillCommand { get; set; }
         public ButtonCommand<object> UpdateCommentCommand { get; set; }
 
@@ -109,8 +109,8 @@ namespace QOBDManagement.ViewModel
             _selectedBillToSend = new BillModel();
             _updateOrderStatusTask = new NotifyTaskCompletion<bool>();
             _paramDeliveryToPdf = new ParamDeliveryToPdf();
-            _paramQuoteToPdf = new ParamOrderToPdf(EStatusOrder.Quote, 2);
-            _paramOrderToPdf = new ParamOrderToPdf(EStatusOrder.Order);
+            _paramQuoteToPdf = new ParamOrderToPdf(EOrderStatus.Quote, 2);
+            _paramOrderToPdf = new ParamOrderToPdf(EOrderStatus.Order);
             _paramOrderToPdf.Currency = _paramQuoteToPdf.Currency = CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol;
             _paramOrderToPdf.Lang = _paramQuoteToPdf.Lang = _paramDeliveryToPdf.Lang = CultureInfo.CurrentCulture.Name.Split('-').FirstOrDefault() ?? "en";
 
@@ -129,19 +129,19 @@ namespace QOBDManagement.ViewModel
         private void instancesCommand()
         {
             UpdateOrder_itemListCommand = new ButtonCommand<string>(updateOrder_itemData, canUpdateOrder_itemData);
-            CancelDeliveryReceiptCreationCommand = new ButtonCommand<Item_deliveryModel>(cancelDeliveryReceiptInProcess, canCancelDeliveryReceiptInProcess);
+            CancelDeliveryReceiptCreationCommand = new ButtonCommand<Item_deliveryModel>(deleteDeliveryReceiptInProcess, canCancelDeliveryReceiptInProcess);
             GenerateDeliveryReceiptCreatedPdfCommand = new ButtonCommand<DeliveryModel>(generateDeliveryReceiptPdf, canGenerateDeliveryReceiptPdf);
             CancelDeliveryReceiptCreatedCommand = new ButtonCommand<Item_deliveryModel>(cancelDeliveryReceiptCreated, canCancelDeliveryReceiptCreated);
             DeliveryReceiptCreationCommand = new ButtonCommand<Order_itemModel>(createDeliveryReceipt, canCreateDeliveryReceipt);
             BillCreationCommand = new ButtonCommand<Order_itemModel>(createInvoice, canCreateBill);
-            CancelBillCreatedCommand = new ButtonCommand<BillModel>(cancelCreatedInvoice, canCancelCreatedInvoice);
+            CancelBillCreatedCommand = new ButtonCommand<BillModel>(deleteCreatedInvoice, canCancelCreatedInvoice);
             GeneratePdfCreatedBillCommand = new ButtonCommand<BillModel>(generateOrderBillPdf, canGenerateOrderBillPdf);
             DeleteItemCommand = new ButtonCommand<Order_itemModel>(deleteItem, canDeleteItem);
             BilledCommand = new ButtonCommand<object>(billing, canBilling);
             DeliveryAddressSelectionCommand = new ButtonCommand<Address>(selectDeliveryAddress, canSelectDeliveryAddress);
             TaxCommand = new ButtonCommand<Tax>(saveNewTax, canSaveNewTax);
             GeneratePdfCreatedQuoteCommand = new ButtonCommand<object>(generateQuotePdf, canGenerateQuotePdf);
-            SendEmailCommand = new ButtonCommand<string>(sendEmail, canSendEmail);
+            SendEmailCommand = new ButtonCommand<BillModel>(sendEmail, canSendEmail);
             UpdateBillCommand = new ButtonCommand<BillModel>(updateInvoice, canUpdateInvoice);
             UpdateCommentCommand = new ButtonCommand<object>(updateComment, canUpdateComment);
         }
@@ -196,7 +196,7 @@ namespace QOBDManagement.ViewModel
         {
             get
             {
-                if (_paramQuoteToPdf.TypeQuoteOrProformat == EStatusOrder.Quote)
+                if (_paramQuoteToPdf.TypeQuoteOrProformat == EOrderStatus.Quote)
                     return true;
 
                 return false;
@@ -205,7 +205,7 @@ namespace QOBDManagement.ViewModel
             {
                 if (value == true)
                 {
-                    _paramQuoteToPdf.TypeQuoteOrProformat = EStatusOrder.Quote;
+                    _paramQuoteToPdf.TypeQuoteOrProformat = EOrderStatus.Quote;
                     onPropertyChange();
                 }
             }
@@ -215,7 +215,7 @@ namespace QOBDManagement.ViewModel
         {
             get
             {
-                if (_paramQuoteToPdf.TypeQuoteOrProformat == EStatusOrder.Proforma)
+                if (_paramQuoteToPdf.TypeQuoteOrProformat == EOrderStatus.Proforma)
                     return true;
 
                 return false;
@@ -224,7 +224,7 @@ namespace QOBDManagement.ViewModel
             {
                 if (value == true)
                 {
-                    _paramQuoteToPdf.TypeQuoteOrProformat = EStatusOrder.Proforma;
+                    _paramQuoteToPdf.TypeQuoteOrProformat = EOrderStatus.Proforma;
                     onPropertyChange();
                 }
             }
@@ -553,7 +553,7 @@ namespace QOBDManagement.ViewModel
             // get the invoice creation list
             Item_deliveryModelBillingInProcess = (from c in Order_ItemModelList
                                                   from d in c.ItemModel.Item_deliveryModelList
-                                                  where d.DeliveryModel.TxtStatus == EStatusOrder.Not_Billed.ToString()
+                                                  where d.DeliveryModel.TxtStatus == EOrderStatus.Not_Billed.ToString()
                                                   select d).ToList();
 
             // select/unselect all items with the same delivery receipt
@@ -615,33 +615,33 @@ namespace QOBDManagement.ViewModel
             OrderSelected.AddressList = Bl.BlClient.searchAddress(new Address { ClientId = OrderSelected.CLientModel.Client.ID }, ESearchOption.AND);
         }
 
-        public async Task<bool> updateOrderStatusAsync(EStatusOrder status)
+        public async Task<bool> updateOrderStatusAsync(EOrderStatus status)
         {
             bool canChangeStatus = true;
             _orderStatus = status;
             switch (_orderStatus)
             {
-                case EStatusOrder.Order:
+                case EOrderStatus.Order:
                     lockOrder_itemItems();
                     break;
-                case EStatusOrder.Quote:
+                case EOrderStatus.Quote:
                     canChangeStatus = await cleanUpBeforeConvertingToQuoteAsync();
                     break;
-                case EStatusOrder.Billed:
+                case EOrderStatus.Billed:
                     break;
-                case EStatusOrder.Bill_Order:
+                case EOrderStatus.Bill_Order:
                     break;
-                case EStatusOrder.Bill_Credit:
+                case EOrderStatus.Bill_Credit:
                     break;
-                case EStatusOrder.Pre_Order:
+                case EOrderStatus.Pre_Order:
                     break;
-                case EStatusOrder.Pre_Credit:
+                case EOrderStatus.Pre_Credit:
                     createCredit();
                     break;
-                case EStatusOrder.Order_Close:
+                case EOrderStatus.Order_Close:
                     canChangeStatus = await Dialog.show("Order Closing: Be careful as it will not be possible to do any change after.");
                     break;
-                case EStatusOrder.Credit_CLose:
+                case EOrderStatus.Credit_CLose:
                     canChangeStatus = await Dialog.show("Credit CLosing: Be careful as it will not be possible to do any change after.");
                     break;
             }
@@ -695,7 +695,7 @@ namespace QOBDManagement.ViewModel
                 }
                 BillModelList = new List<BillModel>();
                 DeliveryModelList = new List<DeliveryModel>();
-                if (OrderSelected.TxtStatus.Equals(EStatusOrder.Credit.ToString()))
+                if (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
                     createCredit(isReset: true);
 
                 canDelete = true;
@@ -731,7 +731,7 @@ namespace QOBDManagement.ViewModel
         private bool disableUIElementByBoolean([CallerMemberName]string obj = "")
         {
             // Lock order when all invoices have been generated
-            if ((OrderSelected.TxtStatus.Equals(EStatusOrder.Bill_Order.ToString()) || OrderSelected.TxtStatus.Equals(EStatusOrder.Bill_Credit.ToString()))
+            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Credit.ToString()))
                 && (obj.Equals("IsItemListCommentTextBoxEnabled")
                 || obj.Equals("IsItemListQuantityReceivedTextBoxEnabled")
                 || obj.Equals("IsItemListQuantityTextBoxEnable")
@@ -740,7 +740,7 @@ namespace QOBDManagement.ViewModel
                 return false;
 
             // Prevent updating information when the order has been closed
-            if ((OrderSelected.TxtStatus.Equals(EStatusOrder.Order_Close.ToString()) || OrderSelected.TxtStatus.Equals(EStatusOrder.Credit_CLose.ToString()))
+            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Order_Close.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit_CLose.ToString()))
                 && (obj.Equals("IsItemListCommentTextBoxEnabled")
                 || obj.Equals("IsItemListQuantityReceivedTextBoxEnabled")
                 || obj.Equals("IsItemListQuantityTextBoxEnable")
@@ -767,23 +767,23 @@ namespace QOBDManagement.ViewModel
         private string disableUIElementByString([CallerMemberName]string obj = "")
         {
 
-            if (!OrderSelected.TxtStatus.Equals(EStatusOrder.Order.ToString())
+            if (!OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString())
                 && obj.Equals("BlockItemListDetailVisibility"))
                 return "Collapsed";
 
             // Show order details when converted into order
-            else if (OrderSelected.TxtStatus.Equals(EStatusOrder.Order.ToString())
+            else if (OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString())
                 && obj.Equals("BlockItemListDetailVisibility"))
                 return "Visible";
 
-            if ((!OrderSelected.TxtStatus.Equals(EStatusOrder.Order.ToString()) && !OrderSelected.TxtStatus.Equals(EStatusOrder.Credit.ToString()))
+            if ((!OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString()) && !OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
                 && (obj.Equals("BlockDeliveryListToIncludeVisibility")
                 || obj.Equals("BlockStepOneVisibility")
                 || obj.Equals("BlockStepTwoVisibility")
                 || obj.Equals("BlockStepThreeVisibility")))
                 return "Hidden";
 
-            if (OrderSelected.TxtStatus.Equals(EStatusOrder.Quote.ToString())
+            if (OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString())
                 && (obj.Equals("BlockDeliveryReceiptCreatedVisibility")
                 || obj.Equals("BlockDeliveryReceiptCreationVisiblity")
                 || obj.Equals("BlockBillCreationVisibility")
@@ -792,7 +792,7 @@ namespace QOBDManagement.ViewModel
                 ))
                 return "Hidden";
 
-            if ((OrderSelected.TxtStatus.Equals(EStatusOrder.Pre_Order.ToString()) || OrderSelected.TxtStatus.Equals(EStatusOrder.Pre_Credit.ToString()))
+            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Order.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Credit.ToString()))
                 && (obj.Equals("BlockEmailVisibility")
                 || obj.Equals("BlockDeliveryReceiptCreatedVisibility")
                 || obj.Equals("BlockDeliveryReceiptCreationVisiblity")
@@ -801,20 +801,20 @@ namespace QOBDManagement.ViewModel
                 ))
                 return "Hidden";
 
-            if ((OrderSelected.TxtStatus.Equals(EStatusOrder.Order.ToString()) || OrderSelected.TxtStatus.Equals(EStatusOrder.Credit.ToString()))
+            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
                 && (obj.Equals("BlockStepOneVisibility") && Item_ModelDeliveryInProcess.Count == 0
                 || obj.Equals("BlockStepTwoVisibility") && Item_deliveryModelBillingInProcess.Count == 0
                 || obj.Equals("BlockStepThreeVisibility") && OrderSelected.BillModelList.Count == 0
                 ))
                 return "Hidden";
 
-            if ((OrderSelected.TxtStatus.Equals(EStatusOrder.Bill_Order.ToString()) || OrderSelected.TxtStatus.Equals(EStatusOrder.Bill_Credit.ToString()))
+            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Credit.ToString()))
                 && (obj.Equals("BlockStepVisibility")
                 || obj.Equals("BlockDeliveryReceiptCreationVisiblity")
                 || obj.Equals("BlockBillCreationVisibility")))
                 return "Hidden";
 
-            if ((OrderSelected.TxtStatus.Equals(EStatusOrder.Order_Close.ToString()) || OrderSelected.TxtStatus.Equals(EStatusOrder.Credit_CLose.ToString()))
+            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Order_Close.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit_CLose.ToString()))
                 && (obj.Equals("BlockStepVisibility")
                 || obj.Equals("BlockDeliveryReceiptCreationVisiblity")
                 || obj.Equals("BlockBillCreationVisibility")))
@@ -847,7 +847,7 @@ namespace QOBDManagement.ViewModel
             onPropertyChange("IsItemListPurchasePriceTextBoxEnable");
         }
 
-        public void updateOrderStatus(EStatusOrder status)
+        public void updateOrderStatus(EOrderStatus status)
         {
             Dialog.showSearch("Processing...");
             _updateOrderStatusTask.initializeNewTask(updateOrderStatusAsync(status));
@@ -1014,10 +1014,10 @@ namespace QOBDManagement.ViewModel
                 return false;
 
             if (string.IsNullOrEmpty(OrderSelected.TxtStatus)
-                || !OrderSelected.TxtStatus.Equals(EStatusOrder.Order.ToString())
-                && !OrderSelected.TxtStatus.Equals(EStatusOrder.Quote.ToString())
-                && !OrderSelected.TxtStatus.Equals(EStatusOrder.Pre_Order.ToString())
-                && !OrderSelected.TxtStatus.Equals(EStatusOrder.Pre_Credit.ToString()))
+                || !OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString())
+                && !OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString())
+                && !OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Order.ToString())
+                && !OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Credit.ToString()))
                 return false;
 
             return true;
@@ -1073,7 +1073,7 @@ namespace QOBDManagement.ViewModel
                         Delivery delivery = new Delivery();
                         delivery.OrderId = OrderSelected.Order.ID;
                         delivery.Date = DateTime.Now;
-                        delivery.Status = EStatusOrder.Not_Billed.ToString();
+                        delivery.Status = EOrderStatus.Not_Billed.ToString();
                         delivery.Package = item_deliveryModel.DeliveryModel.Delivery.Package;
                         insertNewDeliveryList.Add(delivery);
                         savedDeliveryList = await Bl.BlOrder.InsertDeliveryAsync(insertNewDeliveryList);
@@ -1113,7 +1113,7 @@ namespace QOBDManagement.ViewModel
             return false;
         }
 
-        private async void cancelDeliveryReceiptInProcess(Item_deliveryModel obj)
+        private async void deleteDeliveryReceiptInProcess(Item_deliveryModel obj)
         {
             Dialog.showSearch("Delivery receipt creation cancelling...");
 
@@ -1228,10 +1228,8 @@ namespace QOBDManagement.ViewModel
             searchClient.ID = OrderSelected.CLientModel.Client.ID;
             var foundClients = Bl.BlClient.searchClient(searchClient, ESearchOption.AND);
             int payDelay = (foundClients.Count > 0) ? foundClients[0].PayDelay : 0;
-            int months = (((DateTime.Now.Day + payDelay) / 30) != 0) ? (DateTime.Now.Day + payDelay) / 30 : 1;
-            int days = (((DateTime.Now.Day + payDelay) % 30) != 0) ? (DateTime.Now.Day + payDelay) % 30 : 1;
-            DateTime expire = new DateTime(DateTime.Now.Year, DateTime.Now.Month + months, days, 23, 59, 58);
-
+            DateTime expire = DateTime.Now.AddDays(payDelay);
+            
             int first = 0;
 
             List<Item_deliveryModel> item_deliveryModelToRemoveList = new List<Item_deliveryModel>();
@@ -1270,14 +1268,14 @@ namespace QOBDManagement.ViewModel
                         var deliveryModelFoundList = (from o in Order_itemInProcess
                                                       from i in o.ItemModel.Item_deliveryModelList
                                                       where i.DeliveryModel.Delivery.ID == item_deliveryModel.DeliveryModel.Delivery.ID
-                                                             && i.DeliveryModel.TxtStatus == EStatusOrder.Not_Billed.ToString()
+                                                             && i.DeliveryModel.TxtStatus == EOrderStatus.Not_Billed.ToString()
                                                       select i.DeliveryModel).ToList();
 
                         foreach (DeliveryModel deliveryModel in deliveryModelFoundList)
                         {
                             if (deliveryModel != null)
                             {
-                                deliveryModel.Delivery.Status = EStatusOrder.Billed.ToString();
+                                deliveryModel.Delivery.Status = EOrderStatus.Billed.ToString();
                                 deliveryModel.Delivery.BillId = invoiceSavedList[0].ID;
                                 var savedDeliveryList = await Bl.BlOrder.UpdateDeliveryAsync(new List<Delivery> { deliveryModel.Delivery });
 
@@ -1320,7 +1318,7 @@ namespace QOBDManagement.ViewModel
                 statisticModel.TxtCompanyName = (!string.IsNullOrEmpty(OrderSelected.CLientModel.TxtCompany)) ? OrderSelected.CLientModel.TxtCompany : OrderSelected.CLientModel.TxtCompanyName;
 
                 // statistics saving
-                var savedstatisticsList = await Bl.DALStatisitc.InsertStatisticAsync(new List<Statistic> { statisticModel.Statistic });
+                var savedstatisticsList = await Bl.BlStatisitc.InsertStatisticAsync(new List<Statistic> { statisticModel.Statistic });
             }
 
             // removing processed item from the Qeue
@@ -1342,9 +1340,9 @@ namespace QOBDManagement.ViewModel
             return false;
         }
 
-        private async void cancelCreatedInvoice(BillModel obj)
+        private async void deleteCreatedInvoice(BillModel obj)
         {
-            if (await Dialog.show("do you really want to delete this bill (" + obj.TxtID + ")"))
+            if (await Dialog.show("do you really want to delete this invoice (" + obj.TxtID + ")"))
             {
                 Dialog.showSearch("Invoice cancelling...");
 
@@ -1357,12 +1355,12 @@ namespace QOBDManagement.ViewModel
                     var deliveryModelList = (from c in Order_ItemModelList
                                              from d in c.ItemModel.Item_deliveryModelList
                                              where d.DeliveryModel.TxtBillId == obj.TxtID
-                                                     && d.DeliveryModel.TxtStatus == EStatusOrder.Billed.ToString()
+                                                     && d.DeliveryModel.TxtStatus == EOrderStatus.Billed.ToString()
                                              select d.DeliveryModel).ToList();
 
                     foreach (var deliveryModel in deliveryModelList)
                     {
-                        deliveryModel.TxtStatus = EStatusOrder.Not_Billed.ToString();
+                        deliveryModel.TxtStatus = EOrderStatus.Not_Billed.ToString();
                         deliveryModel.Delivery.BillId = 0;
                         deliveryToUpdateList.Add(deliveryModel.Delivery);
                     }
@@ -1371,9 +1369,9 @@ namespace QOBDManagement.ViewModel
                     await Bl.BlOrder.UpdateDeliveryAsync(deliveryToUpdateList);
 
                     // deleting the related statistics
-                    var statisticsFoundList = await Bl.DALStatisitc.searchStatisticAsync(new Statistic { InvoiceId = obj.Bill.ID }, ESearchOption.AND);
+                    var statisticsFoundList = await Bl.BlStatisitc.searchStatisticAsync(new Statistic { InvoiceId = obj.Bill.ID }, ESearchOption.AND);
                     if (statisticsFoundList.Count > 0)
-                        await Bl.DALStatisitc.DeleteStatisticAsync(new List<Statistic> { statisticsFoundList[0] });
+                        await Bl.BlStatisitc.DeleteStatisticAsync(new List<Statistic> { statisticsFoundList[0] });
 
                     // remove from the list 
                     OrderSelected.BillModelList.Remove(obj);
@@ -1408,7 +1406,7 @@ namespace QOBDManagement.ViewModel
             var savedBillList = await Bl.BlOrder.UpdateBillAsync(new List<Bill> { obj.Bill });
             if (savedBillList.Count > 0)
             {
-                var statisticsFoundList = await Bl.DALStatisitc.searchStatisticAsync(new Statistic { InvoiceId = savedBillList[0].ID }, ESearchOption.AND);
+                var statisticsFoundList = await Bl.BlStatisitc.searchStatisticAsync(new Statistic { InvoiceId = savedBillList[0].ID }, ESearchOption.AND);
                 if (statisticsFoundList.Count > 0)
                 {
                     var order_itemFoundList = Order_ItemModelList.GroupBy(x => x.TxtItem_ref).Select(x => x.First()).Where(x => x.ItemModel.Item_deliveryModelList.Where(y => y.DeliveryModel.Delivery.BillId == savedBillList[0].ID).Count() > 0).ToList();
@@ -1423,7 +1421,7 @@ namespace QOBDManagement.ViewModel
                     statisticsFoundList[0].Total = statisticModel.Statistic.Total;
                     statisticsFoundList[0].Total_tax_included = statisticModel.Statistic.Total_tax_included;
 
-                    var savedStatisticsList = await Bl.DALStatisitc.UpdateStatisticAsync(new List<Statistic> { statisticsFoundList[0] });
+                    var savedStatisticsList = await Bl.BlStatisitc.UpdateStatisticAsync(new List<Statistic> { statisticsFoundList[0] });
                 }
             }
             Dialog.IsDialogOpen = false;
@@ -1465,8 +1463,8 @@ namespace QOBDManagement.ViewModel
         private async void billing(object obj)
         {
             Dialog.showSearch("Billing...");
-            updateOrderStatus(EStatusOrder.Bill_Order);
-            if (OrderSelected.TxtStatus.Equals(EStatusOrder.Bill_Order.ToString()))
+            updateOrderStatus(EOrderStatus.Bill_Order);
+            if (OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()))
             {
                 await Dialog.show("Successfully Billed");
                 _page(this);
@@ -1520,7 +1518,7 @@ namespace QOBDManagement.ViewModel
                 OrderSelected.Tax_order.OrderId = OrderSelected.Order.ID;
                 OrderSelected.Tax_order.TaxId = obj.ID;
                 OrderSelected.Tax_order.Tax_value = obj.Value;
-                OrderSelected.Tax_order.Target = EStatusOrder.Order.ToString();
+                OrderSelected.Tax_order.Target = EOrderStatus.Order.ToString();
                 OrderSelected.Tax_order.Date_insert = DateTime.Now;
 
                 if (OrderSelected.Tax_order.ID == 0)
@@ -1544,7 +1542,7 @@ namespace QOBDManagement.ViewModel
             return false;
         }
 
-        private async void sendEmail(string obj)
+        private async void sendEmail(BillModel obj)
         {
             Dialog.showSearch("Email sending...");
             var paramEmail = new ParamEmail();
@@ -1560,19 +1558,25 @@ namespace QOBDManagement.ViewModel
             }
             else
             {
-                _paramOrderToPdf.BillId = SelectedBillToSend.Bill.ID;
+                _paramOrderToPdf.BillId = obj.Bill.ID;
                 _paramOrderToPdf.OrderId = OrderSelected.Order.ID;
                 paramEmail.Reminder = 0;
                 _paramOrderToPdf.ParamEmail = paramEmail;
 
                 Bl.BlOrder.GeneratePdfOrder(_paramOrderToPdf);
-            }
+
+                var NotificationFoundList = await Bl.BlNotification.SearchNotificationAsync(new Notification { BillId = obj.Bill.ID }, ESearchOption.AND);
+                
+                // create a new notification entry for this invoice
+                if (NotificationFoundList.Count == 0)
+                    await Bl.BlNotification.InsertNotificationAsync(new List<Notification> { new Notification { Date = DateTime.Now, BillId = obj.Bill.ID, Reminder1 = default(DateTime), Reminder2 = default(DateTime) } });
+            }           
 
             Dialog.IsDialogOpen = false;
 
         }
 
-        private bool canSendEmail(string arg)
+        private bool canSendEmail(BillModel arg)
         {
             bool isSendEmailValidOrder = _main.securityCheck(EAction.Order, ESecurity.SendEmail);
             bool isSendEmailValidPreOrder = _main.securityCheck(EAction.Order_Preorder, ESecurity.SendEmail);
@@ -1581,15 +1585,15 @@ namespace QOBDManagement.ViewModel
             if (OrderSelected == null)
                 return false;
 
-            if (isSendEmailValidPreOrder && OrderSelected.TxtStatus.Equals(EStatusOrder.Pre_Order.ToString()))
+            if (isSendEmailValidPreOrder && OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Order.ToString()))
                 return true;
 
-            if (isSendEmailQuote && OrderSelected.TxtStatus.Equals(EStatusOrder.Quote.ToString()))
+            if (isSendEmailQuote && OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString()))
                 return true;
 
             if (isSendEmailValidOrder
-                && (OrderSelected.TxtStatus.Equals(EStatusOrder.Order.ToString())
-                || OrderSelected.TxtStatus.Equals(EStatusOrder.Credit.ToString())))
+                && (OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString())
+                || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())))
                 return true;
 
             return false;

@@ -41,9 +41,6 @@
             <DataTemplate DataType="{x:Type ViewModel:AgentViewModel}">
                 <Views:AgentView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModel:NotificationSideBarViewModel}">
-                <Views:NotificationView/>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type ViewModel:ReferentialViewModel}">
                 <Views:OptionView/>
             </DataTemplate>
@@ -74,6 +71,9 @@
             <DataTemplate DataType="{x:Type ViewModel:ConfirmationViewModel}">
                 <Views:ConfirmationView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:NotificationViewModel}">
+                <Views:NotificationView/>
+            </DataTemplate>
 
             <!-- Detail views -->
             <DataTemplate DataType="{x:Type ViewModel:ItemDetailViewModel}">
@@ -89,7 +89,7 @@
                 <Views:OrderDetailView/>
             </DataTemplate>
 
-            <!-- Side Bar -->
+            <!-- Side Bar --><!--
             <DataTemplate DataType="{x:Type ViewModel:CLientSideBarViewModel}">
                 <Views:CLientSideBarView/>
             </DataTemplate>
@@ -105,6 +105,9 @@
             <DataTemplate DataType="{x:Type ViewModel:ReferentialSideBarViewModel}">
                 <Views:OptionSideBarView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:NotificationSideBarViewModel}">
+                <Views:NotificationView/>
+            </DataTemplate>-->
 
         </ResourceDictionary>
     </Window.Resources>
