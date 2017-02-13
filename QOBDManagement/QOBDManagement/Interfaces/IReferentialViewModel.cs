@@ -8,6 +8,6 @@ namespace QOBDManagement.Interfaces
 {
     public interface IReferentialViewModel
     {
-
+        void Dispose();
     }
 }

@@ -16,10 +16,6 @@ namespace QOBDManagement.ViewModel
         {
             this.mainWindowViewModel = mainWindowViewModel;
         }
-
-        internal void setLogicAccess(BusinessLogic bl)
-        {
-            _bl = bl;
-        }
+        
     }
 }

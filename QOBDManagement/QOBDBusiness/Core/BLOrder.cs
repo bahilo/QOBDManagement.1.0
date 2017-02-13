@@ -693,7 +693,7 @@ namespace QOBDBusiness.Core
             List<Order> result = new List<Order>();
             try
             {
-                result = DAC.DALOrder.searchOrder(order, filterOperator);
+                result = DAC.DALOrder.searchOrder(order, filterOperator);                
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;
@@ -705,6 +705,10 @@ namespace QOBDBusiness.Core
             try
             {
                 result = await DAC.DALOrder.searchOrderAsync(order, filterOperator);
+                await Task.Factory.StartNew(() => {
+                    UpdateOrderDependencies(result);
+                });
+                
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;

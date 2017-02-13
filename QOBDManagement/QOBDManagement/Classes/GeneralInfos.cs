@@ -28,13 +28,13 @@ namespace QOBDManagement.Classes
         public List<int> ListSizeList
         {
             get { return _listSizeList; }
-            set { setProperty(ref _listSizeList, value, "ListSizeList"); }
+            set { setProperty(ref _listSizeList, value); }
         }
         
         public int TxtSelectedListSize
         {
             get { return _SelectedlistSize; }
-            set { setProperty(ref _SelectedlistSize, value, "TxtSelectedListSize"); }
+            set { setProperty(ref _SelectedlistSize, value); }
         }
 
         private void generateListSizeList()

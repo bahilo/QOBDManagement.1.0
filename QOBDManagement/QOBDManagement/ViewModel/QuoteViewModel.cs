@@ -173,7 +173,7 @@ namespace QOBDManagement.ViewModel
             _main.ItemViewModel.loadItems();
 
             //-------[ check cart client ]
-            if (Cart.Client.Client.ID == 0)
+            if (Cart.Client.Client.ID == 0 && (Cart.Client = SelectedClient).Client.ID == 0)
                 MissingCLientMessage = _defaultClientMissingMessage;
             else
                 MissingCLientMessage = "";
@@ -192,34 +192,6 @@ namespace QOBDManagement.ViewModel
                 _orderViewModel.loadOrders();                
             }
        }
-
-        private void onOrderModelChange_loadOrder(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("OrderModelList"))
-            {
-                QuoteModelList = _orderViewModel.OrderModelList.Where(x => x.TxtStatus.Equals(EOrderStatus.Quote.ToString())).ToList();
-                Title = _orderViewModel.Title.Replace("Orders", "Quote");
-            }
-        }
-
-        private List<OrderModel> QuoteListToModelViewList(List<Entity.Order> OrderList)
-        {
-            List<OrderModel> output = new List<OrderModel>();
-            foreach (Entity.Order order in OrderList)
-            {
-                OrderModel cmdvm = new OrderModel();
-
-                var resultAgent = Bl.BlAgent.GetAgentDataById(order.AgentId);
-                cmdvm.AgentModel.Agent = (resultAgent.Count > 0) ? resultAgent[0] : new Entity.Agent();
-                var resultClient = Bl.BlClient.GetClientDataById(order.ClientId);
-                cmdvm.CLientModel.Client = (resultClient.Count > 0) ? resultClient[0] : new Entity.Client();
-
-                cmdvm.Order = order;
-
-                output.Add(cmdvm);
-            }
-            return output;
-        }
 
         public override void Dispose()
         {
@@ -265,6 +237,15 @@ namespace QOBDManagement.ViewModel
             {
                 Dialog = (_main.getObject("main") as BindBase).Dialog;
                 QuoteDetailViewModel.Dialog = Dialog;
+            }
+        }
+
+        private void onOrderModelChange_loadOrder(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("OrderModelList"))
+            {
+                QuoteModelList = _orderViewModel.OrderModelList.Where(x => x.TxtStatus.Equals(EOrderStatus.Quote.ToString())).ToList();
+                Title = _orderViewModel.Title.Replace("Orders", "Quote");
             }
         }
 

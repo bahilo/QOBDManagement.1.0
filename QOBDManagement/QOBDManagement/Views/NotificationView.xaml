@@ -116,16 +116,16 @@
                     <DataGrid Name="dgClient" ItemsSource="{Binding NotificationViewModel.ClientList, UpdateSourceTrigger=PropertyChanged}" 
                           CanUserAddRows="False" AutoGenerateColumns="False" MaxWidth="996">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Client ID" Binding="{Binding TxtClientID}"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding TxtClientLastName}"/>
+                            <DataGridTextColumn Header="Client ID" Binding="{Binding TxtID}"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding TxtLastName}"/>
                             <DataGridTextColumn Header="Comapny Name" Binding="{Binding TxtCompany}"/>
                             <DataGridTextColumn Header="Status" Binding="{Binding TxtStatus}"/>
                             <DataGridTextColumn Header="Used Credit" Binding="{Binding TxtUsedCredit}"/>
-                            <DataGridTextColumn Header="Credit Max" Binding="{Binding TxtCredit}"/>
+                            <DataGridTextColumn Header="Credit Max" Binding="{Binding TxtMaxCredit}"/>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Command="{Binding DataContext.NotificationViewModel.DetailSelectedClientCommand, ElementName=dgClient}"
+                                        <Button Command="{Binding DataContext.ClientViewModel.ClientDetailCommand, ElementName=dgClient}"
                                             CommandParameter="{Binding CurrentItem, ElementName=dgClient}">
                                             <TextBlock>Detail</TextBlock>
                                         </Button>

@@ -12,6 +12,6 @@ namespace QOBDManagement.Interfaces
     {
         void loadItems();
         List<Item_deliveryModel> item_deliveryListToModelList(List<Item_delivery> item_deliveryList);
-
+        void Dispose();
     }
 }

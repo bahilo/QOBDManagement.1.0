@@ -13,6 +13,6 @@ namespace QOBDManagement.Interfaces
         void loadClients();
         List<ClientModel> clientListToModelViewList(List<Client> clientList);
         ClientModel loadContactsAndAddresses(ClientModel cLientViewModel);
-
+        void Dispose();
     }
 }

@@ -17,7 +17,7 @@ using QOBDCommon.Enum;
 
 namespace QOBDManagement.ViewModel
 {
-    public class NotificationViewModel : BindBase
+    public class NotificationViewModel : BindBase, INotificationViewModel
     {
         private Func<Object, Object> _page;
         private Notification _notification;
@@ -133,12 +133,24 @@ namespace QOBDManagement.ViewModel
         {
             Dialog.showSearch("Loading...");
             ClientList = (await Bl.BlClient.GetClientMaxCreditOverDataByAgentAsync(Bl.BlSecurity.GetAuthenticatedUser().ID)).Select(x=> new ClientModel { Client = x }).ToList();
+            ClientList = await getClientBillInfoAsync(ClientList);
             BillNotPaidList = await billListToModelViewList(await Bl.BlOrder.GetUnpaidBillDataByAgentAsync(Bl.BlSecurity.GetAuthenticatedUser().ID));
 
             // getting the orders waiting to be validated for more than a week
             _main.OrderViewModel.loadOrders();
             OrderWaitingValidationList = _main.OrderViewModel.OrderModelList.Where(x=> x.TxtStatus.Equals(EOrderStatus.Pre_Order.ToString()) && x.Order.Date < DateTime.Now.AddDays(-7)).ToList();
             Dialog.IsDialogOpen = false;
+        }
+
+        private async Task<List<ClientModel>> getClientBillInfoAsync(List<ClientModel> clientList)
+        {
+            foreach (ClientModel clientModel in clientList)
+            {
+                var billFoundList = await Bl.BlOrder.searchBillAsync(new Bill { ClientId = clientModel.Client.ID }, ESearchOption.AND);
+                if (billFoundList.Count > 0)
+                    clientModel.TxtUsedCredit = (billFoundList[0].Pay - billFoundList[0].PayReceived).ToString(); 
+            }
+            return clientList;
         }
 
         public async Task<List<BillModel>> billListToModelViewList(List<Bill> billList)
@@ -151,7 +163,11 @@ namespace QOBDManagement.ViewModel
 
                 var clientFound = (await Bl.BlClient.searchClientAsync(new Client { ID = bill.ClientId }, QOBDCommon.Enum.ESearchOption.AND)).FirstOrDefault();
                 if(clientFound != null)
+                {
                     bvm.ClientModel = new ClientModel { Client = clientFound };
+                    bvm.ClientModel.TxtUsedCredit = (bill.Pay - bill.PayReceived).ToString();
+                }
+                    
 
                 var orderFound = (await Bl.BlOrder.searchOrderAsync(new Order { ID = bill.OrderId }, QOBDCommon.Enum.ESearchOption.AND)).FirstOrDefault();
                 if (orderFound != null)

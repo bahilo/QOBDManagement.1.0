@@ -8,9 +8,9 @@ using System.ComponentModel;
 
 namespace QOBDManagement.Classes
 {
-    public class OrderSearch : System.ComponentModel.INotifyPropertyChanged
+    public class OrderSearch 
     {
-        private int _commandId;
+        private int _orderId;
         private int _billId;
         private int _clientId;
         private List<string> _statusList;
@@ -21,101 +21,74 @@ namespace QOBDManagement.Classes
         private DateTime _startDate;
         private DateTime _endDate;
         private bool _isDeepSearch;
+        
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public OrderSearch()
+        public int OrderId
         {
-            _statusList = new List<string>
-            {
-                EOrderStatus.Quote.ToString(),                  //devis
-                EOrderStatus.Pre_Order.ToString(),             //preco
-                EOrderStatus.Order.ToString(),                //command
-                EOrderStatus.Order_Close.ToString(),           // close
-                EOrderStatus.Pre_Credit.ToString(),              // preavoir
-                EOrderStatus.Credit.ToString(),                 // avoir
-                EOrderStatus.Credit_CLose.ToString(),            // a_close
-                EOrderStatus.Pre_Client_Validation.ToString(),    // revalid
-                EOrderStatus.Bill_Order.ToString(),            // facture
-                EOrderStatus.Bill_Credit.ToString(),              // a_facture
-                EOrderStatus.Billed.ToString(),                    //f
-                EOrderStatus.Not_Billed.ToString()               //nf}
-            };
-            _startDate = DateTime.Now;
-            _endDate = DateTime.Now;
-        }
-
-        public int CommandId
-        {
-            get { return _commandId; }
-            set { _commandId = value; onPropertyChange("CommandId"); }
+            get { return _orderId; }
+            set { _orderId = value; }
         }
 
         public int BillId
         {
             get { return _billId; }
-            set { _billId = value; onPropertyChange("BillId"); }
+            set { _billId = value;}
         }
 
         public string SelectedStatus
         {
             get { return _selectedStatus; }
-            set { _selectedStatus = value; onPropertyChange("SelectedStatus"); }
+            set { _selectedStatus = value; }
         }
 
         public List<string> StatusList
         {
             get { return _statusList; }
-            set { _statusList = value; onPropertyChange("StatusList"); }
+            set { _statusList = value; }
         }
 
         public Entity.Agent SelectedAgent
         {
             get { return _selectedAgent; }
-            set { _selectedAgent = value; onPropertyChange("SelectedAgent"); }
+            set { _selectedAgent = value; }
         }
 
         public List<Entity.Agent> AgentList
         {
             get { return _agents; }
-            set { _agents = value; onPropertyChange("AgentList"); }
+            set { _agents = value; }
         }
 
         public string CompanyName
         {
             get { return _companyName; }
-            set { _companyName = value; onPropertyChange("CompanyName"); }
+            set { _companyName = value; }
         }
 
         public int ClientId
         {
             get { return _clientId; }
-            set { _clientId = value; onPropertyChange("ClientId"); }
+            set { _clientId = value; }
         }
 
-        public string StartDate
+        public DateTime StartDate
         {
-            get { return _startDate.ToString(); }
-            set {  _startDate = Utility.convertToDateTime(value, true); onPropertyChange("StartDate"); }
+            get { return _startDate; }
+            set {  _startDate = value; }
         }
 
-        public string EndDate
+        public DateTime EndDate
         {
-            get { return _endDate.ToString(); }
-            set { _endDate = Utility.convertToDateTime(value, true); onPropertyChange("EndDate"); }
+            get { return _endDate; }
+            set { _endDate = value; }
         }
 
         public bool IsDeepSearch
         {
             get { return _isDeepSearch; }
-            set { _isDeepSearch = value; onPropertyChange("IsDeepSearch"); }
+            set { _isDeepSearch = value;  }
         }
-
-        public void onPropertyChange(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
 
     }
 }

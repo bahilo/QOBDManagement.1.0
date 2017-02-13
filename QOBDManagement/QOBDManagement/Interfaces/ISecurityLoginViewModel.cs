@@ -8,5 +8,8 @@ namespace QOBDManagement.Interfaces
 {
     public interface ISecurityLoginViewModel
     {
+        void showLoginView();
+        void startAuthentication();
+        void Dispose();
     }
 }

@@ -16,11 +16,10 @@ namespace QOBDCommon.Classes
         static string _baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         public static DateTime convertToDateTime(string dateString, bool? isFromDatePicker = false)
-        {
-            var listDateElement = dateString.Split('/');
-
+        {          
             try
             {
+                var listDateElement = dateString.Split('/');
                 if (isFromDatePicker == true && listDateElement.Count() > 1)
                 {
                     int day = Convert.ToInt32(listDateElement[1]);
@@ -31,7 +30,7 @@ namespace QOBDCommon.Classes
             }
             catch (Exception)
             {
-                Log.write("Error parsing date " + dateString, "WAR");
+                Log.warning("Error parsing date: '" + dateString + "'");
             }
 
             DateTime outDate = new DateTime();
@@ -48,6 +47,30 @@ namespace QOBDCommon.Classes
                 return outBool;
 
             return false;
+        }
+
+        public static int intTryParse(string input)
+        {
+            int result = 0;
+            if (int.TryParse(input, out result))
+                return result;
+            return result;
+        }
+
+        public static decimal decimalTryParse(string input)
+        {
+            decimal result = 0m;
+            if (decimal.TryParse(input, out result))
+                return result;
+            return result;
+        }
+
+        public static double doubleTryParse(string input)
+        {
+            double result = 0;
+            if (double.TryParse(input, out result))
+                return result;
+            return result;
         }
 
         public static string encodeStringToBase64(string stringToEncode)
@@ -209,7 +232,7 @@ namespace QOBDCommon.Classes
             }
 
             // check if it is a full path file or only directory 
-            var pathChecking = path.Split('.'); 
+            var pathChecking = Path.GetFileName(path).Split('.'); 
 
             if (!Directory.Exists(path) && pathChecking.Count() == 1)
                 Directory.CreateDirectory(path);

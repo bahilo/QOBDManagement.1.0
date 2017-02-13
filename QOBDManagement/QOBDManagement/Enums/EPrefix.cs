@@ -12,5 +12,6 @@ namespace QOBDManagement.Enums
         ORDER,
         CLIENT,
         DELIVERY,
+        ITEM,
     }
 }

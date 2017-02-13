@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QOBDCommon.Entities;
+using QOBDManagement.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,8 @@ namespace QOBDManagement.Interfaces
 {
     public interface INotificationViewModel
     {
+        void load();
+        Task<List<BillModel>> billListToModelViewList(List<Bill> billList);
+        void Dispose();
     }
 }

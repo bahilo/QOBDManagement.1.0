@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace QOBDTest
 {
     [TestClass]
-    public class UnitTest1
+    public class QOBDUnitTest
     {
         [TestMethod]
         public void TestMethod1()

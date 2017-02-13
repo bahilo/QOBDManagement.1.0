@@ -8,5 +8,7 @@ namespace QOBDManagement.Interfaces
 {
     public interface IHomeViewModel
     {
+        void loadData();
+        void getBestSellers();
     }
 }

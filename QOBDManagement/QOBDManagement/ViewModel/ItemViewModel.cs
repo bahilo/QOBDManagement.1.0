@@ -309,19 +309,20 @@ namespace QOBDManagement.ViewModel
         private async void filterItem(string obj)
         {
             Dialog.showSearch("Searching...");
-            Item item = new Item();
+            ItemModel itemModel = new ItemModel();
             List<Item> results = new List<Item>();
             ESearchOption filterOperator;
-            item.Ref = obj;
-            item.Name = ItemModel.TxtName;
-            item.Type = ItemModel.SelectedBrand;
-            item.Type_sub = ItemModel.SelectedFamily;
+            itemModel.TxtID = obj;
+            itemModel.TxtRef = obj;
+            itemModel.TxtName = ItemModel.TxtName;
+            itemModel.TxtType = ItemModel.SelectedBrand;
+            itemModel.TxtType_sub = ItemModel.SelectedFamily;
 
             if (ItemModel.IsExactMatch) { filterOperator = ESearchOption.AND; }
             else { filterOperator = ESearchOption.OR; }
 
-            if (ItemModel.IsDeepSearch) { results = await Bl.BlItem.searchItemAsync(item, filterOperator); }
-            else { results = Bl.BlItem.searchItem(item, filterOperator); }
+            if (ItemModel.IsDeepSearch) { results = await Bl.BlItem.searchItemAsync(itemModel.Item, filterOperator); }
+            else { results = Bl.BlItem.searchItem(itemModel.Item, filterOperator); }
 
             if (ItemModel.IsSearchByItemName) { results = results.Where(x => x.Name.IndexOf(obj, StringComparison.InvariantCultureIgnoreCase) >= 0).ToList(); }
 

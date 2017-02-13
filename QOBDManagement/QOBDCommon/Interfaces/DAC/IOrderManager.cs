@@ -28,5 +28,6 @@ namespace QOBDCommon.Interfaces.DAC
         List<Order> GetOrderDataById(int id);
 
         List<Order> searchOrder(Order order, ESearchOption filterOperator);
+
     } /* end interface ICommandManager */
 }

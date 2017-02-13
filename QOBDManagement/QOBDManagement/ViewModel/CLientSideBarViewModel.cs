@@ -22,7 +22,6 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Models ]------------------
 
         private IMainWindowViewModel _main;
-        private ClientModel _selectedClient;
 
         //----------------------------[ Commands ]------------------
 
@@ -34,7 +33,6 @@ namespace QOBDManagement.ViewModel
         public CLientSideBarViewModel() : base()
         {
             instances();
-            instancesModel();
             instancesCommand();
         }
 
@@ -60,11 +58,6 @@ namespace QOBDManagement.ViewModel
             _cart = new Cart();
         }
 
-        private void instancesModel()
-        {
-            _selectedClient = new ClientModel();
-        }
-
         private void instancesCommand()
         {
             CLientSetupCommand = new ButtonCommand<string>(executeSetupAction, canExecuteSetupAction);
@@ -82,17 +75,12 @@ namespace QOBDManagement.ViewModel
 
         public ClientModel SelectedClient
         {
-            get { return _selectedClient; }
-            set { setProperty(ref _selectedClient, value, "SelectedClient"); }
+            get { return _main.ClientViewModel.SelectedCLientModel; }
+            set { _main.ClientViewModel.SelectedCLientModel = value; onPropertyChange(); }
         }
 
         //----------------------------[ Actions ]------------------
-
-        public void mainNavigObject(Func<Object, Object> navigObject)
-        {
-            _page = navigObject;
-        }
-
+        
         private object getCurrentPage()
         {
             if (_page != null)

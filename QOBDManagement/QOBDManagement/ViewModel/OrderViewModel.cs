@@ -28,7 +28,7 @@ namespace QOBDManagement.ViewModel
         public NotifyTaskCompletion<List<OrderModel>> OrderModelTask { get; set; }
         public NotifyTaskCompletion<List<Entity.Tax>> TaxTask { get; set; }
         private string _title;
-        private OrderSearch _orderSearch;
+        private OrderSearchModel _orderSearchModel;
         private string _blockOrderVisibility;
         private string _blockSearchResultVisibility;
 
@@ -96,7 +96,7 @@ namespace QOBDManagement.ViewModel
             OrderModelTask = new NotifyTaskCompletion<List<OrderModel>>();
             TaxTask = new NotifyTaskCompletion<List<QOBDCommon.Entities.Tax>>();
             _title = "";
-            _orderSearch = new OrderSearch();
+            _orderSearchModel = new OrderSearchModel();
             _blockOrderVisibility = "Visible";
             _blockSearchResultVisibility = "Hidden";
         }
@@ -124,10 +124,10 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Properties ]------------------
 
-        public OrderSearch OrderSearch
+        public OrderSearchModel OrderSearchModel
         {
-            get { return _orderSearch; }
-            set { setProperty(ref _orderSearch, value); }
+            get { return _orderSearchModel; }
+            set { setProperty(ref _orderSearchModel, value); }
         }
 
         public string Title
@@ -223,7 +223,7 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="OrderList"></param>
         /// <returns></returns>
-        private List<OrderModel> OrderListToModelList(List<Entity.Order> OrderList)
+        public List<OrderModel> OrderListToModelList(List<Entity.Order> OrderList)
         {            
                 List<OrderModel> output = new List<OrderModel>();
                 ConcurrentBag<OrderModel> concurrentOrderModelList = new ConcurrentBag<OrderModel>();
@@ -260,7 +260,7 @@ namespace QOBDManagement.ViewModel
             Application.Current.Dispatcher.Invoke(async () => {
                 Dialog.showSearch("Loading...");
                 TaxList = Bl.BlOrder.GetTaxData(999);
-                OrderSearch.AgentList = await Bl.BlAgent.GetAgentDataAsync(-999);
+                OrderSearchModel.AgentList = await Bl.BlAgent.GetAgentDataAsync(-999);
 
                 if (SelectedClient.Client.ID != 0)
                 {
@@ -493,42 +493,45 @@ namespace QOBDManagement.ViewModel
         {
             Dialog.showSearch("Searching...");
 
-            List<Entity.Order> billOrderFoundList = new List<Entity.Order>();
-            List<Entity.Order> CLientOrderFoundList = new List<Entity.Order>();
-            List<Entity.Order> orderFoundTotal = new List<Entity.Order>();
-            List<Entity.Order> orderFoundFilterByDate = new List<Entity.Order>();
-            List<Entity.Order> orderFoundList = new List<Entity.Order>();
+            List<Entity.Order> billOrderList = new List<Entity.Order>();
+            List<Entity.Order> CLientOrderList = new List<Entity.Order>();
+            List<Entity.Order> orderTotal = new List<Entity.Order>();
+            List<Entity.Order> orderFilterByDate = new List<Entity.Order>();
+            List<Entity.Order> orderList = new List<Entity.Order>();
 
-            var billFoundList = (OrderSearch.IsDeepSearch) ? await Bl.BlOrder.searchBillAsync(new Entity.Bill { ID = OrderSearch.BillId }, ESearchOption.AND) : Bl.BlOrder.GetBillDataById(OrderSearch.BillId);
+            orderList = (OrderSearchModel.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { ID = OrderSearchModel.OrderSearch.OrderId }, ESearchOption.AND) : Bl.BlOrder.GetOrderDataById(OrderSearchModel.OrderSearch.OrderId);
+            
+            var billFoundList = (OrderSearchModel.IsDeepSearch) ? await Bl.BlOrder.searchBillAsync(new Entity.Bill { ID = OrderSearchModel.OrderSearch.BillId }, ESearchOption.AND) : Bl.BlOrder.GetBillDataById(OrderSearchModel.OrderSearch.BillId);
             if (billFoundList.Count > 0)
-                billOrderFoundList = (OrderSearch.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { ID = billFoundList[0].OrderId }, ESearchOption.AND) : Bl.BlOrder.searchOrder(new Entity.Order { ID = billFoundList[0].OrderId }, ESearchOption.OR);
+                billOrderList = (OrderSearchModel.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { ID = billFoundList[0].OrderId }, ESearchOption.AND) : Bl.BlOrder.searchOrder(new Entity.Order { ID = billFoundList[0].OrderId }, ESearchOption.OR);
 
-            var clientFoundList = (OrderSearch.IsDeepSearch) ? await Bl.BlClient.searchClientAsync(new Entity.Client { ID = OrderSearch.ClientId, Company = OrderSearch.CompanyName, CompanyName = OrderSearch.CompanyName }, ESearchOption.OR) : Bl.BlClient.searchClient(new Entity.Client { ID = OrderSearch.ClientId, Company = OrderSearch.CompanyName, CompanyName = OrderSearch.CompanyName }, ESearchOption.OR);
+            var clientFoundList = (OrderSearchModel.IsDeepSearch) ? await Bl.BlClient.searchClientAsync(new Entity.Client { ID = OrderSearchModel.OrderSearch.ClientId, Company = OrderSearchModel.TxtCompanyName, CompanyName = OrderSearchModel.TxtCompanyName }, ESearchOption.OR) : Bl.BlClient.searchClient(new Entity.Client { ID = OrderSearchModel.OrderSearch.ClientId, Company = OrderSearchModel.TxtCompanyName, CompanyName = OrderSearchModel.TxtCompanyName }, ESearchOption.OR);
             foreach (var client in clientFoundList)
             {
-                var clientOrderFound = (OrderSearch.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { ClientId = client.ID }, ESearchOption.AND) : Bl.BlOrder.searchOrder(new Entity.Order { ClientId = client.ID }, ESearchOption.OR);
-                CLientOrderFoundList = new List<Entity.Order>(CLientOrderFoundList.Concat(clientOrderFound));
+                var clientOrderFound = (OrderSearchModel.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { ClientId = client.ID }, ESearchOption.AND) : Bl.BlOrder.searchOrder(new Entity.Order { ClientId = client.ID }, ESearchOption.OR);
+                CLientOrderList = new List<Entity.Order>(CLientOrderList.Concat(clientOrderFound));
             }
 
-            if (OrderSearch.SelectedStatus != null && OrderSearch.SelectedAgent != null)
-                orderFoundList = (OrderSearch.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { Status = OrderSearch.SelectedStatus, AgentId = OrderSearch.SelectedAgent.ID }, ESearchOption.OR) : Bl.BlOrder.searchOrder(new Entity.Order { Status = OrderSearch.SelectedStatus, AgentId = OrderSearch.SelectedAgent.ID }, ESearchOption.OR);
-            else if (OrderSearch.SelectedStatus != null)
-                orderFoundList = (OrderSearch.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { Status = OrderSearch.SelectedStatus }, ESearchOption.OR) : Bl.BlOrder.searchOrder(new Entity.Order { Status = OrderSearch.SelectedStatus }, ESearchOption.OR);
-            else if (OrderSearch.SelectedAgent != null)
-                orderFoundList = (OrderSearch.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { AgentId = OrderSearch.SelectedAgent.ID }, ESearchOption.OR) : Bl.BlOrder.searchOrder(new Entity.Order { AgentId = OrderSearch.SelectedAgent.ID }, ESearchOption.OR);
+            List<Order> orderFoundList = new List<Order>();
+            if (!string.IsNullOrEmpty(OrderSearchModel.TxtSelectedStatus) && OrderSearchModel.SelectedAgent != null)
+                orderFoundList = (OrderSearchModel.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { Status = OrderSearchModel.TxtSelectedStatus, AgentId = OrderSearchModel.SelectedAgent.ID }, ESearchOption.OR) : Bl.BlOrder.searchOrder(new Entity.Order { Status = OrderSearchModel.TxtSelectedStatus, AgentId = OrderSearchModel.SelectedAgent.ID }, ESearchOption.OR);
+            else if (!string.IsNullOrEmpty(OrderSearchModel.TxtSelectedStatus))
+                orderFoundList = (OrderSearchModel.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { Status = OrderSearchModel.TxtSelectedStatus }, ESearchOption.OR) : Bl.BlOrder.searchOrder(new Entity.Order { Status = OrderSearchModel.TxtSelectedStatus }, ESearchOption.OR);
+            else if (OrderSearchModel.SelectedAgent != null)
+                orderFoundList = (OrderSearchModel.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { AgentId = OrderSearchModel.SelectedAgent.ID }, ESearchOption.OR) : Bl.BlOrder.searchOrder(new Entity.Order { AgentId = OrderSearchModel.SelectedAgent.ID }, ESearchOption.OR);
 
-            orderFoundTotal = orderFoundList;
-            orderFoundTotal = new List<Entity.Order>(orderFoundTotal.Concat(billOrderFoundList));
-            orderFoundTotal = new List<Entity.Order>(orderFoundTotal.Concat(CLientOrderFoundList));
+            orderTotal = orderList.Concat(orderFoundList).ToList();
+            orderTotal = new List<Entity.Order>(orderTotal.Concat(billOrderList));
+            orderTotal = new List<Entity.Order>(orderTotal.Concat(CLientOrderList));
 
-            orderFoundFilterByDate = orderFoundTotal;
+            orderFilterByDate = orderTotal;
 
-            if (Utility.convertToDateTime(OrderSearch.StartDate) != Utility.DateTimeMinValueInSQL2005)
-                orderFoundFilterByDate = orderFoundFilterByDate.Where(x => x.Date >= Utility.convertToDateTime(OrderSearch.StartDate)).ToList();
-            if (Utility.convertToDateTime(OrderSearch.EndDate) != Utility.DateTimeMinValueInSQL2005)
-                orderFoundFilterByDate = orderFoundFilterByDate.Where(x => x.Date <= Utility.convertToDateTime(OrderSearch.EndDate)).ToList();
+            if (OrderSearchModel.OrderSearch.StartDate != Utility.DateTimeMinValueInSQL2005)
+                orderFilterByDate = orderFilterByDate.Where(x => x.Date >= OrderSearchModel.OrderSearch.StartDate).ToList();
+            if (OrderSearchModel.OrderSearch.EndDate != Utility.DateTimeMinValueInSQL2005)
+                orderFilterByDate = orderFilterByDate.Where(x => x.Date <= OrderSearchModel.OrderSearch.EndDate).ToList();
 
-            OrderModelList = OrderListToModelList(orderFoundFilterByDate);
+            OrderModelList = OrderListToModelList(orderFilterByDate);
 
             BlockSearchResultVisibility = "Visible";
 

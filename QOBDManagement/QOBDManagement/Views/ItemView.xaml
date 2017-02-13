@@ -60,7 +60,7 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <materialDesign:PackIcon Kind="Magnify"/>
-                                    <TextBox x:Name="tbTxtSearch" Text="{Binding ItemViewModel.ItemModel.TxtName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="300" Margin="8 0 0 0"/>
+                                    <TextBox x:Name="tbTxtSearch" Text="{Binding ItemViewModel.ItemModel.TxtName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="300" Margin="8 0 0 0"/>
                                     <Button Command="{Binding ItemViewModel.btnSearchCommand}" CommandParameter="{Binding Path=Text, ElementName=tbTxtSearch}">
                                         <materialDesign:PackIcon Kind="Magnify"/>
                                     </Button>

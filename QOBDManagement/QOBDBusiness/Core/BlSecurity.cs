@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.ServiceModel;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -44,13 +45,25 @@ namespace QOBDBusiness.Core
 
                 Safe.IsAuthenticated = true;
             }
+            catch (CommunicationException ex)
+            {
+                Safe.IsAuthenticated = false;
+                Safe.AuthenticatedUser = new Agent();
+                Log.warning(ex.Message);
+                throw;
+            }
             catch (Exception ex)
             {
-                Log.write(ex.Message, "ERR");
+                Log.error(ex.Message);                
+                Safe.IsAuthenticated = false;                
+            }      
+            
+            if(!Safe.IsAuthenticated)
+            {
                 Safe.AuthenticatedUser = new Agent();
-                Safe.IsAuthenticated = false;
                 return Safe.AuthenticatedUser;
-            }         
+            }
+
             return Safe.AuthenticatedUser;
         }
 

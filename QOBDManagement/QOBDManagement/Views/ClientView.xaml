@@ -115,7 +115,7 @@
                                             <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
                                                   Content="Detail"
-                                                  Command="{Binding DataContext.ClientViewModel.GetCurrentItemCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                  Command="{Binding DataContext.ClientViewModel.ClientDetailCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                                                   CommandParameter="{Binding ElementName=dgSearchResult,Path=CurrentItem}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>

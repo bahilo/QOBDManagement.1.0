@@ -128,13 +128,13 @@ namespace QOBDManagement.ViewModel
         public List<int> ListSizeList
         {
             get { return _generalInfos.ListSizeList; }
-            set { _generalInfos.ListSizeList = value; onPropertyChange("ListSizeList"); }
+            set { _generalInfos.ListSizeList = value; onPropertyChange(); }
         }
 
         public int TxtSelectedListSize
         {
             get { return _generalInfos.TxtSelectedListSize; }
-            set { _generalInfos.TxtSelectedListSize = value; onPropertyChange("TxtListSize"); }
+            set { _generalInfos.TxtSelectedListSize = value; onPropertyChange(); }
         }
 
         public TaxModel TaxModel
@@ -230,7 +230,7 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch("Loading...");
 
             var userListSizeFoundList = _generalInfos.ListSizeList.Where(x => x.Equals(Bl.BlSecurity.GetAuthenticatedUser().ListSize)).ToList();
-            _generalInfos.TxtSelectedListSize = (userListSizeFoundList.Count > 0) ? userListSizeFoundList[0] : 0;
+            TxtSelectedListSize = (userListSizeFoundList.Count > 0) ? userListSizeFoundList[0] : 0;
             TaxList = TaxListToTaxModelList(await Bl.BlOrder.GetTaxDataAsync(999));
 
             var infosFoundList = Bl.BlReferential.GetInfosData(999);

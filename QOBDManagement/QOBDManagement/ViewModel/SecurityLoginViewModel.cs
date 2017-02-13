@@ -18,7 +18,7 @@ using QOBDManagement.Interfaces;
 
 namespace QOBDManagement.ViewModel
 {
-    public class SecurityLoginViewModel : BindBase
+    public class SecurityLoginViewModel : BindBase, ISecurityLoginViewModel
     {
         private Func<Object, Object> _page;
         private string _errorMessage;
@@ -116,25 +116,33 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Actions ]------------------
 
 
-        public void showView()
+        public void showLoginView()
         {
             _DialogtaskCompletion.initializeNewTask(Dialog.show(this));
         }
         
         private async Task<object> authenticateAgent()
         {
-            var agentFound = await Bl.BlSecurity.AuthenticateUserAsync(TxtLogin, TxtClearPassword);
-            if (agentFound != null && agentFound.ID != 0 && agentFound.Status.Equals(EStatus.Active.ToString()))
+            try
             {
-                AgentModel.Agent = agentFound;
-                TxtLogin = "";
-                TxtClearPassword = "";
-                TxtErrorMessage = "";
+                var agentFound = await Bl.BlSecurity.AuthenticateUserAsync(TxtLogin, TxtClearPassword);
+                if (agentFound != null && agentFound.ID != 0 && agentFound.Status.Equals(EStatus.Active.ToString()))
+                {
+                    AgentModel.Agent = agentFound;
+                    TxtLogin = "";
+                    TxtClearPassword = "";
+                    TxtErrorMessage = "";
+                }
+                else
+                {
+                    TxtErrorMessage = "Your User Name or password is incorrect or Deactivated!";
+                }
             }
-            else
+            catch (Exception)
             {
-                TxtErrorMessage = "Your User Name or password is incorrect or Deactivated!";
-            }               
+                await Dialog.show("This application requires internet connection!"+Environment.NewLine 
+                    + "Please check your internet connection." );
+            }             
             
             return null;
         }
@@ -190,11 +198,11 @@ namespace QOBDManagement.ViewModel
                     await authenticateAgent();
                     if (AgentModel.Agent.ID == 0)
                     {
-                        showView();
+                        showLoginView();
                     }
                 }                    
                 else
-                    showView();
+                    showLoginView();
             }
         }
         
@@ -212,7 +220,8 @@ namespace QOBDManagement.ViewModel
             if (e.PropertyName.Equals("Dialog"))
             {
                 Dialog = (_main.getObject("main") as BindBase).Dialog;
-                startAuthentication();
+                showLoginView();
+                //startAuthentication();
             }
         }
 
@@ -221,7 +230,7 @@ namespace QOBDManagement.ViewModel
         private void logOut(object obj)
         {
             AgentModel.Agent = new QOBDCommon.Entities.Agent();
-            showView();
+            showLoginView();
         }
 
         private bool canLogOut(object arg)

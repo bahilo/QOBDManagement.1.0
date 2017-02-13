@@ -8,5 +8,7 @@ namespace QOBDManagement.Interfaces
 {
     public interface IQuoteViewModel
     {
+        void loadQuotations();
+        void Dispose();
     }
 }

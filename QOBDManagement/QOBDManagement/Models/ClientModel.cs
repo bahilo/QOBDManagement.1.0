@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using QOBDManagement.Helper;
 using QOBDManagement.Enums;
+using QOBDCommon.Classes;
 
 namespace QOBDManagement.Models
 {
@@ -24,7 +25,7 @@ namespace QOBDManagement.Models
         private bool _isSearchContactChecked;
         private bool _isSearchClientChecked;
         private bool _isSearchProspectChecked;
-        private object _usedCredit;
+        private decimal _usedCredit;
 
         public ClientModel()
         {
@@ -65,13 +66,13 @@ namespace QOBDManagement.Models
         public string TxtID
         {
             get { return _client.ID.addPrefix(EPrefix.CLIENT); }
-            set { _client.ID = Convert.ToInt32(value.deletePrefix()); onPropertyChange(); }
+            set { _client.ID = Utility.intTryParse(value.deletePrefix()); onPropertyChange(); }
         }
 
         public string TxtAgentId
         {
             get {  return _client.AgentId.ToString(); }
-            set { _client.AgentId = Convert.ToInt32(value); onPropertyChange();  }
+            set { _client.AgentId = Utility.intTryParse(value); onPropertyChange();  }
         }
 
         public string TxtAgentName
@@ -149,13 +150,13 @@ namespace QOBDManagement.Models
         public string TxtMaxCredit
         {
             get { return _client.MaxCredit.ToString(); }
-            set { _client.MaxCredit = Convert.ToInt32(value); onPropertyChange(); }
+            set { _client.MaxCredit = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtUsedCredit
         {
             get { return _usedCredit.ToString(); }
-            set { setProperty(ref _usedCredit, value); }
+            set { setProperty(ref _usedCredit, Utility.decimalTryParse(value)); }
         }
 
         public bool IsProspect

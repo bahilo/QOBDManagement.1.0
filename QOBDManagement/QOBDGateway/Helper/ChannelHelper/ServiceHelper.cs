@@ -15,29 +15,7 @@ namespace QOBDGateway.Helper.ChannelHelper
     public static class ServiceHelper
     {
         
-        private static int intTryParse(string input)
-        {
-            int result = 0;
-            if (int.TryParse(input, out result))
-                return result; 
-            return result;
-        }
-
-        private static decimal decimalTryParse(string input)
-        {
-            decimal result = 0m;
-            if (decimal.TryParse(input, out result))
-                return result;
-            return result;
-        }
-
-        private static double doubleTryParse(string input)
-        {
-            double result = 0;
-            if (double.TryParse(input, out result))
-                return result;
-            return result;
-        }
+        
 
         //====================================================================================
         //===============================[ Agent ]===========================================
@@ -159,18 +137,18 @@ namespace QOBDGateway.Helper.ChannelHelper
             List <Statistic> outputList = statisticQOBDList.AsParallel().Select(x => new Statistic
             {
                 ID = x.ID,
-                InvoiceId = intTryParse(x.BillId),
+                InvoiceId = Utility.intTryParse(x.BillId),
                 InvoiceDate = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Bill_date)),
                 Company = Utility.decodeBase64ToString(x.Company),
                 Date_limit = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date_limit)),
-                Income = decimalTryParse(Utility.decodeBase64ToString(x.Income)),
-                Income_percent =  doubleTryParse(Utility.decodeBase64ToString(x.Income_percent).Replace("%", "")),
+                Income = Utility.decimalTryParse(Utility.decodeBase64ToString(x.Income)),
+                Income_percent = Utility.doubleTryParse(Utility.decodeBase64ToString(x.Income_percent).Replace("%", "")),
                 Pay_date = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Pay_date)),
-                Pay_received = decimalTryParse(Utility.decodeBase64ToString(x.Pay_received).Split(new char[] { ' ' }).FirstOrDefault()),
-                Price_purchase_total = decimalTryParse(Utility.decodeBase64ToString(x.Price_purchase_total)),
+                Pay_received = Utility.decimalTryParse(Utility.decodeBase64ToString(x.Pay_received).Split(new char[] { ' ' }).FirstOrDefault()),
+                Price_purchase_total = Utility.decimalTryParse(Utility.decodeBase64ToString(x.Price_purchase_total)),
                 Tax_value = x.Tax_value,
-                Total = decimalTryParse(Utility.decodeBase64ToString(x.Total)),
-                Total_tax_included = decimalTryParse(Utility.decodeBase64ToString(x.Total_tax_included)),
+                Total = Utility.decimalTryParse(Utility.decodeBase64ToString(x.Total)),
+                Total_tax_included = Utility.decimalTryParse(Utility.decodeBase64ToString(x.Total_tax_included)),
             }).ToList();
 
             return outputList;
@@ -500,8 +478,8 @@ namespace QOBDGateway.Helper.ChannelHelper
         {
             List<Privilege> outputList = privilegeQOBDList.AsParallel().Select(x => new Privilege
             {
-                ID = intTryParse(Utility.decodeBase64ToString(x.ID)),
-                Role_actionId = intTryParse(Utility.decodeBase64ToString(x.Role_actionId)),
+                ID = Utility.intTryParse(Utility.decodeBase64ToString(x.ID)),
+                Role_actionId = Utility.intTryParse(Utility.decodeBase64ToString(x.Role_actionId)),
                 IsWrite = Utility.convertToBoolean(Utility.decodeBase64ToString(x._Write)),
                 IsRead = Utility.convertToBoolean(Utility.decodeBase64ToString(x._Read)),
                 IsDelete = Utility.convertToBoolean(Utility.decodeBase64ToString(x._Delete)),
@@ -1214,7 +1192,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Price_sell = x.Price_sell,
                 Ref = Utility.decodeBase64ToString(x.Ref),
                 Type_sub = Utility.decodeBase64ToString(x.Type_sub),
-                Source = intTryParse(Utility.decodeBase64ToString(x.Source.ToString())),
+                Source = Utility.intTryParse(Utility.decodeBase64ToString(x.Source.ToString())),
                 Type = Utility.decodeBase64ToString(x.Type),
             }).ToList();
             

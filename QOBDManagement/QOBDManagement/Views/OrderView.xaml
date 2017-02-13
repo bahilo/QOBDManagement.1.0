@@ -61,16 +61,17 @@
 
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="400">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="400">
-                        <TextBox Text="{Binding OrderViewModel.OrderSearch.OrderId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" materialDesign:HintAssist.Hint="Order/Credit/Quote ID" x:Name="tbTxtOrderId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                        <TextBox Text="{Binding OrderViewModel.OrderSearch.BillId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" materialDesign:HintAssist.Hint="Bill ID" x:Name="tbTxtBillId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                        <TextBox Text="{Binding OrderViewModel.OrderSearch.CLientId, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" materialDesign:HintAssist.Hint="Client ID" x:Name="tbTxtCLientId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                        <TextBox Text="{Binding OrderViewModel.OrderSearch.CompanyName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" materialDesign:HintAssist.Hint="Company Name" x:Name="tbTxtClientName" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                        <ComboBox ItemsSource="{Binding OrderViewModel.OrderSearch.AgentList, UpdateSourceTrigger=PropertyChanged }" SelectedItem="{Binding OrderViewModel.OrderSearch.SelectedAgent, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtOrderId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Order/Credit/Quote ID" x:Name="tbTxtOrderId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                        <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtBillId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Bill ID" x:Name="tbTxtBillId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                        <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtClientId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Client ID" x:Name="tbTxtCLientId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                        <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtCompanyName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" materialDesign:HintAssist.Hint="Company Name" x:Name="tbTxtClientName" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                        <ComboBox ItemsSource="{Binding OrderViewModel.OrderSearchModel.AgentList, UpdateSourceTrigger=PropertyChanged }" SelectedItem="{Binding OrderViewModel.OrderSearchModel.SelectedAgent, UpdateSourceTrigger=PropertyChanged}"
                                   materialDesign:HintAssist.Hint="Agent in charge" x:Name="tbTxtAgent"  FontSize="16" Margin="0 16 0 0">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding FirstName}"  FontSize="16" Margin="0 16 0 0"/>
+                                        <TextBlock Text=" "/>
                                         <TextBlock Text="{Binding LastName}"  FontSize="16" Margin="0 16 0 0"/>
                                     </StackPanel>
                                 </DataTemplate>
@@ -78,15 +79,15 @@
                         </ComboBox>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock>Start Date</TextBlock>
-                            <DatePicker x:Name="tbTxtStartDate" SelectedDate="{Binding OrderViewModel.OrderSearch.StartDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left"  FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="Start Date" />
+                            <DatePicker x:Name="tbTxtStartDate" SelectedDate="{Binding OrderViewModel.OrderSearchModel.TxtStartDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left"  FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="Start Date" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock>End Date</TextBlock>
-                            <DatePicker x:Name="tbTxtEndDate" SelectedDate="{Binding OrderViewModel.OrderSearch.EndDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left" FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="End Date" />
+                            <DatePicker x:Name="tbTxtEndDate" SelectedDate="{Binding OrderViewModel.OrderSearchModel.TxtEndDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left" FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="End Date" />
                         </StackPanel>
-                        <ComboBox ItemsSource="{Binding OrderViewModel.OrderSearch.StatusList, UpdateSourceTrigger=PropertyChanged }"  SelectedItem="{Binding OrderViewModel.OrderSearch.SelectedStatus, UpdateSourceTrigger=LostFocus}" materialDesign:HintAssist.Hint="Agent in charge" x:Name="tbTxtStatus" Margin="8 0 0 0"/>
+                        <ComboBox ItemsSource="{Binding OrderViewModel.OrderSearchModel.StatusList, UpdateSourceTrigger=PropertyChanged }"  SelectedItem="{Binding OrderViewModel.OrderSearchModel.TxtSelectedStatus, UpdateSourceTrigger=LostFocus}" materialDesign:HintAssist.Hint="Order Status" x:Name="tbTxtStatus" Margin="8 0 0 0"/>
                     </StackPanel>
-                    <CheckBox Content="Deep search" IsChecked="{Binding OrderViewModel.OrderSearch.IsDeepSearch, UpdateSourceTrigger=PropertyChanged}"  FontSize="16" Margin="0 16 0 0"/>
+                    <CheckBox Content="Deep search" IsChecked="{Binding OrderViewModel.OrderSearchModel.IsDeepSearch, UpdateSourceTrigger=PropertyChanged}"  FontSize="16" Margin="0 16 0 0"/>
                     <Button Command="{Binding OrderViewModel.SearchCommand}" HorizontalAlignment="Center">
                         <materialDesign:PackIcon Kind="Magnify"/>
                     </Button>

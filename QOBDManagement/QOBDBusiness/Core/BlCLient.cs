@@ -49,6 +49,12 @@ namespace QOBDBusiness.Core
                 DAC.DALClient.progressBarManagement(progressBarFunc);
         }
 
+        public void UpdateClientDependencies(List<Client> clientList, bool isActiveProgress = false)
+        {
+            if (clientList.Count > 0)
+                DAC.DALClient.UpdateClientDependencies(clientList);
+        }
+
         public async Task<List<Client>> MoveClientAgentBySelection(List<Client> clientList, Agent toAgent)
         {
             List<Client> result = new List<Client>();
@@ -451,6 +457,10 @@ namespace QOBDBusiness.Core
             try
             {
                 result = await DAC.DALClient.searchClientAsync(client, filterOperator);
+                await Task.Factory.StartNew(() => {
+                    UpdateClientDependencies(result);
+                });
+                
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;

@@ -19,7 +19,7 @@ using QOBDCommon.Enum;
 
 namespace QOBDManagement.ViewModel
 {
-    public class HomeViewModel : BindBase
+    public class HomeViewModel : BindBase, IHomeViewModel
     {
         private SeriesCollection _purchaseAndSalePriceseriesCollection;
         private SeriesCollection _payReceivedSeries;
@@ -51,7 +51,7 @@ namespace QOBDManagement.ViewModel
             instancesCommand();
         }
 
-        public HomeViewModel(IMainWindowViewModel mainWindowViewModel)
+        public HomeViewModel(IMainWindowViewModel mainWindowViewModel) : this()
         {
             _main = mainWindowViewModel;
             _page = _main.navigation;

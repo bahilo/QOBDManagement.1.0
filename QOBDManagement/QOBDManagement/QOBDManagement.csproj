@@ -82,7 +82,6 @@
     <Compile Include="Interfaces\IItemViewModel.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
     <Compile Include="Interfaces\INotificationViewModel.cs" />
-    <Compile Include="Interfaces\IOrderSideBarViewModel.cs" />
     <Compile Include="Interfaces\IOrderViewModel.cs" />
     <Compile Include="Interfaces\IQuoteViewModel.cs" />
     <Compile Include="Interfaces\IReferentialViewModel.cs" />
@@ -91,6 +90,7 @@
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Models\AddressModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
+    <Compile Include="Models\OrderSearchModel.cs" />
     <Compile Include="ViewModel\AgentDetailViewModel.cs" />
     <Compile Include="ViewModel\AgentSideBarViewModel.cs" />
     <Compile Include="ViewModel\AgentViewModel.cs" />

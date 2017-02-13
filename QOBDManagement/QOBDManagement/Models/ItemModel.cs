@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using QOBDCommon.Classes;
+using QOBDManagement.Helper;
 
 namespace QOBDManagement.Models
 {
@@ -131,68 +133,68 @@ namespace QOBDManagement.Models
 
         public string TxtID
         {
-            get { return _item.ID.ToString(); }
-            set { if (!string.IsNullOrEmpty(value)) { _item.ID = Convert.ToInt32(value); onPropertyChange("TxtID"); } }
+            get { return _item.ID.addPrefix(Enums.EPrefix.ITEM); }
+            set { _item.ID = Utility.intTryParse(value.deletePrefix()); onPropertyChange(); }
         }
 
         public string TxtRef
         {
             get { return Item.Ref; }
-            set { Item.Ref = value; onPropertyChange("TxtRef"); }
+            set { Item.Ref = value; onPropertyChange(); }
         }
 
         public string TxtName
         {
             get { return Item.Name; }
-            set { Item.Name = value; onPropertyChange("TxtName"); }
+            set { Item.Name = value; onPropertyChange(); }
         }
 
         public string TxtType
         {
             get { return Item.Type; }
-            set { Item.Type = value; onPropertyChange("TxtType"); }
+            set { Item.Type = value; onPropertyChange(); }
         }
 
         public string TxtType_sub
         {
             get { return Item.Type_sub; }
-            set { Item.Type_sub = value; onPropertyChange("TxtType_sub"); }
+            set { Item.Type_sub = value; onPropertyChange(); }
         }
 
         public string TxtPrice_purchase
         {
             get { return Item.Price_purchase.ToString(); }
-            set { if (!string.IsNullOrEmpty(value)) { Item.Price_purchase = Convert.ToDecimal(value); onPropertyChange("TxtPrice_purchase"); } }
+            set { Item.Price_purchase = Utility.decimalTryParse(value); onPropertyChange(); }
         }
 
         public string TxtPrice_sell
         {
             get { return Item.Price_sell.ToString(); }
-            set { if (!string.IsNullOrEmpty(value)) { Item.Price_sell = Convert.ToDecimal(value); onPropertyChange("TxtPrice_sell"); } }
+            set { Item.Price_sell = Utility.decimalTryParse(value); onPropertyChange(); }
         }
 
         public string TxtSource
         {
             get { return Item.Source.ToString(); }
-            set { if (!string.IsNullOrEmpty(value)) { Item.Source = Convert.ToInt32(value); onPropertyChange("TxtSource"); } }
+            set { Item.Source = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtComment
         {
             get { return Item.Comment; }
-            set { Item.Comment = value; onPropertyChange("TxtComment"); }
+            set { Item.Comment = value; onPropertyChange(); }
         }
 
         public string TxtErasable
         {
             get { return Item.Erasable; }
-            set { Item.Erasable = value; onPropertyChange("TxtErasable"); }
+            set { Item.Erasable = value; onPropertyChange(); }
         }
 
         public bool IsItemSelected
         {
             get { return _isSelected; }
-            set { _isSelected = value; onPropertyChange("IsItemSelected"); }
+            set { _isSelected = value; onPropertyChange(); }
         }        
 
     }

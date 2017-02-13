@@ -78,29 +78,12 @@ namespace QOBDDAL.Core
 
         private void retrieveGateWayItemData()
         {
-            int loadUnit = 50;
-
-            List<Provider> providerList = new List<Provider>();
-            List<Provider_item> provider_itemList = new List<Provider_item>();
-
             lock (_lock) _isLodingDataFromWebServiceToLocal = true;
             try
             {
                 var itemList = new NotifyTaskCompletion<List<Item>>(_gateWayItem.GetItemDataAsync(_loadSize)).Task.Result;
                 if (itemList.Count > 0)
-                {
-                    List<Item> savedItemList = LoadItem(itemList);
-
-                    for (int i = 0; i < (savedItemList.Count() / loadUnit) || loadUnit >= savedItemList.Count() && i == 0; i++)
-                    {
-                        lock (_lock)
-                        {
-                            List<Provider_item> savedProvider_itemList = LoadProvider_item(new NotifyTaskCompletion<List<Provider_item>>(_gateWayItem.GetProvider_itemDataByItemListAsync(savedItemList.Skip(i * loadUnit).Take(loadUnit).ToList())).Task.Result);
-                            List<Provider> savedProviderList = LoadProvider(new NotifyTaskCompletion<List<Provider>>(_gateWayItem.GetProviderDataByProvider_itemListAsync(savedProvider_itemList.OrderBy(x => x.Provider_name).Distinct().ToList())).Task.Result);
-                        }
-                    }
-                }
-
+                    UpdateItemDependencies(itemList); 
                 //Log.debug("-- Items loaded --");
             }
             catch (Exception ex)
@@ -920,6 +903,23 @@ namespace QOBDDAL.Core
         public void Dispose()
         {
             _gateWayItem.Dispose();
+        }
+
+        public void UpdateItemDependencies(List<Item> itemList, bool isActiveProgress = false)
+        {
+            int loadUnit = 50;
+            List<Provider> providerList = new List<Provider>();
+            List<Provider_item> provider_itemList = new List<Provider_item>();
+            List<Item> savedItemList = LoadItem(itemList);
+            for (int i = 0; i < (savedItemList.Count() / loadUnit) || loadUnit >= savedItemList.Count() && i == 0; i++)
+            {
+                lock (_lock)
+                {
+                    List<Provider_item> savedProvider_itemList = LoadProvider_item(new NotifyTaskCompletion<List<Provider_item>>(_gateWayItem.GetProvider_itemDataByItemListAsync(savedItemList.Skip(i * loadUnit).Take(loadUnit).ToList())).Task.Result);
+                    List<Provider> savedProviderList = LoadProvider(new NotifyTaskCompletion<List<Provider>>(_gateWayItem.GetProviderDataByProvider_itemListAsync(savedProvider_itemList.OrderBy(x => x.Provider_name).Distinct().ToList())).Task.Result);
+                }
+            }
+
         }
     } /* end class BLItem */
 }

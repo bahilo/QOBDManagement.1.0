@@ -279,8 +279,18 @@ namespace QOBDManagement
         {
             if (centralPageContent != null)
             {
+                // reset the navigation to previous page
+                IsThroughContext = false;
+
+                // reset page refreshing
+                IsRefresh = false;
+
+                // save the previous page for later navigation
                 Context.PreviousState = CurrentViewModel as IState;
+
+                // set the current page 
                 CurrentViewModel = centralPageContent;
+                
                 Context.NextState = centralPageContent as IState;
             }
 
@@ -520,8 +530,7 @@ namespace QOBDManagement
 
         private void appNavig(string propertyName)
         {
-            IsThroughContext = false;
-            IsRefresh = false;
+            
             switch (propertyName)
             {
                 case "home":

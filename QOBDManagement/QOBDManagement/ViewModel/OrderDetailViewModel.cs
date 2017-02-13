@@ -26,6 +26,7 @@ namespace QOBDManagement.ViewModel
     public class OrderDetailViewModel : BindBase
     {
         #region [ Variables ]
+        private string _title;
         private string _incomeHeaderWithCurrency;
         private decimal _totalBeforeTax;
         private GeneralInfos.FileWriter _mailFile;
@@ -103,6 +104,7 @@ namespace QOBDManagement.ViewModel
 
         private void instances()
         {
+            _title = "Order Description";
             _incomeHeaderWithCurrency = "Total Income (" + CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + ")";
             _taxes = new List<Tax>();
             _statistic = new StatisticModel();
@@ -149,6 +151,12 @@ namespace QOBDManagement.ViewModel
 
         #region [ Properties ]
         //----------------------------[ Properties ]------------------        
+        
+        public string Title
+        {
+            get { return _title; }
+            set { setProperty(ref _title, value); }
+        }
 
         public BillModel SelectedBillToSend
         {

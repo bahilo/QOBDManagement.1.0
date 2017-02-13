@@ -12,6 +12,8 @@ namespace QOBDCommon.Interfaces.DAC
 
         void progressBarManagement(Func<double, double> progressBarFunc);
 
+        void UpdateClientDependencies(List<Client> clientList, bool isActiveProgress = false);
+
         List<Client> GetClientData(int nbLine);
 
         List<Client> GetClientDataByBillList(List<Bill> billList);

@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\CustomTextMessageEncoder.cs" />
+    <Compile Include="Classes\CustomTextMessageEncoderFactory.cs" />
     <Compile Include="Classes\InputMessageInspector.cs" />
     <Compile Include="Core\GateWayAgent.cs" />
     <Compile Include="Core\GateWayCLient.cs" />

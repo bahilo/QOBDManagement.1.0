@@ -50,7 +50,7 @@ namespace QOBDManagement.ViewModel
         public ButtonCommand<Agent> btnComboBxCommand { get; set; }
         public ButtonCommand<string> btnSearchCommand { get; set; }
         public ButtonCommand<string> NavigCommand { get; set; }
-        public ButtonCommand<ClientModel> GetCurrentItemCommand { get; set; }
+        public ButtonCommand<ClientModel> ClientDetailCommand { get; set; }
                 
 
         public ClientViewModel()
@@ -111,7 +111,7 @@ namespace QOBDManagement.ViewModel
             btnComboBxCommand = new ButtonCommand<Agent>(moveCLientAgent, canMoveClientAgent);
             btnSearchCommand = new ButtonCommand<string>(filterClient, canFilterClient);
             NavigCommand = new ButtonCommand<string>(executeNavig, canExecuteNavig);
-            GetCurrentItemCommand = new ButtonCommand<ClientModel>(selectCurrentClient, canSelectedCurrentClient);
+            ClientDetailCommand = new ButtonCommand<ClientModel>(selectCurrentClient, canSelectedCurrentClient);
 
         }
         
@@ -181,11 +181,11 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Actions ]------------------
 
-        public async void loadClients()
+        public void loadClients()
         {
             Dialog.showSearch("Loading...");
-            AgentList = await Bl.BlAgent.GetAgentDataAsync(-999); // -999 =>  get the agent list without their roles
-            ClientModelList = clientListToModelViewList(Bl.BlClient.GetClientData(999));
+            AgentList = Bl.BlAgent.GetAgentData(999);
+            ClientModelList = clientListToModelViewList(Bl.BlClient.searchClient(new Client { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND));
             Dialog.IsDialogOpen = false;
         }
 
@@ -308,7 +308,7 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch("Moving clients...");
             var movedClientList = await Bl.BlClient.MoveClientAgentBySelection(_saveResultParametersList, obj);
             if (movedClientList.Count > 0)
-                await Dialog.show(movedClientList.Count +" have been moved to "+obj.LastName+" successfully!");
+                await Dialog.show(movedClientList.Count +" client(s) have been moved to "+obj.LastName+" successfully!");
 
             _saveResultParametersList.Clear();
             Dialog.IsDialogOpen = false;
@@ -322,33 +322,31 @@ namespace QOBDManagement.ViewModel
 
         private async void filterClient(string obj)
         {
-            Client client = new Client();
+            ClientModel clientModel = new ClientModel();
             string restrict = "";
             bool isDeep = false;
             Dialog.showSearch("Searching...");
-            //new Thread(delegate ()
-            //{
-            //    Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
-            //     {
+
+            clientModel.TxtID = obj;
             foreach (string checkedValue in _saveSearchParametersList)
             {
                 switch (checkedValue)
                 {
                     case "cbContact":
-                        client.FirstName = obj;
-                        client.LastName = obj;
+                        clientModel.TxtFirstName = obj;
+                        clientModel.TxtLastName = obj;
                         break;
                     case "cbCompany":
-                        client.Company = obj;
+                        clientModel.TxtCompany = clientModel.TxtCompanyName = obj;
                         //client.CompanyName = obj;
                         break;
                     case "Client":
                         restrict = EStatus.Client.ToString();
-                        client.Status = EStatus.Client.ToString();
+                        clientModel.TxtStatus = EStatus.Client.ToString();
                         break;
                     case "Prospect":
                         restrict = EStatus.Prospect.ToString();
-                        client.Status = EStatus.Prospect.ToString();
+                        clientModel.TxtStatus = EStatus.Prospect.ToString();
                         break;
                     case "cbDeep":
                         isDeep = true;
@@ -360,9 +358,12 @@ namespace QOBDManagement.ViewModel
             List<Client> resultBeforeFilter = new List<Client>();
 
             if(isDeep)
-                resultBeforeFilter = await Bl.BlClient.searchClientAsync(client, ESearchOption.AND);
+                resultBeforeFilter = await Bl.BlClient.searchClientAsync(clientModel.Client, ESearchOption.AND);
             else
-                resultBeforeFilter = Bl.BlClient.searchClient(client, ESearchOption.AND);
+                resultBeforeFilter = Bl.BlClient.searchClient(clientModel.Client, ESearchOption.AND);
+
+            // getting only clients created by the authenticated agent.
+            resultBeforeFilter = resultBeforeFilter.Where(x=>x.AgentId == Bl.BlSecurity.GetAuthenticatedUser().ID).ToList();
 
             if (string.Equals(restrict, EStatus.Client.ToString()))
             {
