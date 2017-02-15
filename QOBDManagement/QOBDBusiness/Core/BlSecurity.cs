@@ -67,9 +67,9 @@ namespace QOBDBusiness.Core
             return Safe.AuthenticatedUser;
         }
 
-        public void setServiceCredential(string login, string password)
+        public void setServiceCredential(object channel)
         {
-            DAC.DALSecurity.setServiceCredential(login, password);
+            DAC.DALSecurity.setServiceCredential(channel);
         }
 
         public string CalculateHash(string clearTextPassword)

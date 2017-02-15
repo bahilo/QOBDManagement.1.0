@@ -6,6 +6,7 @@ using QOBDDAL.App_Data;
 using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDDAL.Helper.ChannelHelper;
 using QOBDGateway.Core;
+using QOBDGateway.QOBDServiceReference;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,6 +26,7 @@ namespace QOBDDAL.Core
         private Func<double, double> _rogressBarFunc;
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.INotificationManager _gateWayNotification;
+        private QOBDWebServicePortTypeClient _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -32,9 +34,10 @@ namespace QOBDDAL.Core
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALNotification()
+        public DALNotification(QOBDWebServicePortTypeClient servicePort)
         {
-            _gateWayNotification = new GateWayNotification();
+            _servicePortType = servicePort;
+            _gateWayNotification = new GateWayNotification(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
         }
@@ -51,14 +54,20 @@ namespace QOBDDAL.Core
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
-                _gateWayNotification.setServiceCredential(user.Login, user.HashedPassword);
+                _gateWayNotification.setServiceCredential(_servicePortType);
                 retrieveGateWayNotificationData();
             }
         }
 
-        public void setServiceCredential(string login, string password)
+        public void setServiceCredential(object channel)
         {
-            _gateWayNotification.setServiceCredential(login, password);
+            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
+            {
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
+            }
+            _gateWayNotification.setServiceCredential(_servicePortType);
         }
 
         public void retrieveGateWayNotificationData()
@@ -99,7 +108,6 @@ namespace QOBDDAL.Core
             List<Notification> gateWayResultList = new List<Notification>();
             using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
             {
-                _gateWayNotification.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayNotification.InsertNotificationAsync(listNotification);
 
                 result = LoadNotification(gateWayResultList);
@@ -113,7 +121,6 @@ namespace QOBDDAL.Core
             List<Notification> gateWayResultList = new List<Notification>();
             using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
             {
-                _gateWayNotification.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayNotification.DeleteNotificationAsync(listNotification);
                 if (gateWayResultList.Count == 0)
                     foreach (Notification notification in gateWayResultList)
@@ -133,7 +140,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
             {
-                _gateWayNotification.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayNotification.UpdateNotificationAsync(notificationList);
 
                 foreach (var notification in gateWayResultList)
@@ -188,7 +194,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Notification>> GetNotificationDataAsync(int nbLine)
         {
-            _gateWayNotification.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayNotification.GetNotificationDataAsync(nbLine);
         }
 
@@ -205,7 +210,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Notification>> SearchNotificationAsync(Notification notification, ESearchOption filterOperator)
         {
-            _gateWayNotification.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayNotification.SearchNotificationAsync(notification, filterOperator);
         }
 

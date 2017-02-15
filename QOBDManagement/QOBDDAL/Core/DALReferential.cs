@@ -14,6 +14,7 @@ using System.Collections.Concurrent;
 using QOBDCommon.Classes;
 using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDCommon.Enum;
+using QOBDGateway.QOBDServiceReference;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -25,6 +26,7 @@ namespace QOBDDAL.Core
     public class DALReferential : IReferentialManager
     {
         private QOBDCommon.Interfaces.REMOTE.IReferentialManager _gateWayReferential;
+        private QOBDWebServicePortTypeClient _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private object _lock = new object();
@@ -36,11 +38,12 @@ namespace QOBDDAL.Core
         public Agent AuthenticatedUser { get; set; }
 
 
-        public DALReferential()
+        public DALReferential(QOBDWebServicePortTypeClient servicePort)
         {
+            _servicePortType = servicePort;
+            _gateWayReferential = new GateWayReferential(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
-            _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
-            _gateWayReferential = new GateWayReferential();
+            _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);            
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -54,14 +57,20 @@ namespace QOBDDAL.Core
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
-                _gateWayReferential.setServiceCredential(user.Login, user.HashedPassword);
+                _gateWayReferential.setServiceCredential(_servicePortType);
                 retrieveGateWayReferentialData();
             }
         }
 
-        public void setServiceCredential(string login, string password)
+        public void setServiceCredential(object channel)
         {
-            _gateWayReferential.setServiceCredential(login, password);
+            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
+            {
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
+            }
+            _gateWayReferential.setServiceCredential(_servicePortType);
         }
 
         private void retrieveGateWayReferentialData()
@@ -107,7 +116,6 @@ namespace QOBDDAL.Core
             List<Info> gateWayResultList = new List<Info>();
             using (infosTableAdapter _infossTableAdapter = new infosTableAdapter())
             {
-                _gateWayReferential.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayReferential.InsertInfoAsync(listInfos);
                 
                 result = LoadInfos(gateWayResultList);
@@ -121,7 +129,6 @@ namespace QOBDDAL.Core
             List<Info> gateWayResultList = new List<Info>();
             using (infosTableAdapter _infosTableAdapter = new infosTableAdapter())
             {
-                _gateWayReferential.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayReferential.DeleteInfoAsync(listInfos);
                 if (gateWayResultList.Count == 0)
                 {
@@ -159,7 +166,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (infosTableAdapter _InfosTableAdapter = new infosTableAdapter())
             {
-                _gateWayReferential.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayReferential.UpdateInfoAsync(infoList);
 
                 foreach (var info in gateWayResultList)
@@ -225,7 +231,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Info>> GetInfoDataAsync(int nbLine)
         {
-            _gateWayReferential.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayReferential.GetInfoDataAsync(nbLine);
         }
 
@@ -242,7 +247,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Info>> searchInfosAsync(Info Infos, ESearchOption filterOperator)
         {
-            _gateWayReferential.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayReferential.searchInfosAsync(Infos, filterOperator);
         }
 

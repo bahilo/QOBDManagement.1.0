@@ -220,8 +220,8 @@ namespace QOBDManagement.ViewModel
             if (e.PropertyName.Equals("Dialog"))
             {
                 Dialog = (_main.getObject("main") as BindBase).Dialog;
-                showLoginView();
-                //startAuthentication();
+                //showLoginView();
+                startAuthentication();
             }
         }
 

@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,11 +51,38 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Classes\QOBDClient.cs" />
+    <Compile Include="Gateway\FakeCLientGateway.cs" />
     <Compile Include="QOBDUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Classes\" />
+    <Folder Include="Business\" />
+    <Folder Include="DAC\" />
+    <Folder Include="GUI\" />
+    <Folder Include="Tests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QOBDBusiness\QOBDBusiness.csproj">
+      <Project>{9d526cca-4e4d-493f-8394-d4179f994b48}</Project>
+      <Name>QOBDBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QOBDCommon\QOBDCommon.csproj">
+      <Project>{c5b0bb32-2dc4-45d9-a997-1985576eed9c}</Project>
+      <Name>QOBDCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QOBDDAL\QOBDDAL.csproj">
+      <Project>{591bf3a0-fb05-4806-b736-6915744e80a7}</Project>
+      <Name>QOBDDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QOBDGateway\QOBDGateway.csproj">
+      <Project>{d9b061d1-9b66-4d20-a5a5-92ae1d1de408}</Project>
+      <Name>QOBDGateway</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QOBDManagement\QOBDManagement.csproj">
+      <Project>{80087a17-8762-4ecf-8b5b-b747f29015ff}</Project>
+      <Name>QOBDManagement</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

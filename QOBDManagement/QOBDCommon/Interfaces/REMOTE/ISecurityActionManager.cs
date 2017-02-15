@@ -10,10 +10,6 @@ namespace QOBDCommon.Interfaces.REMOTE
 {
     public interface ISecurityActionManager: IActionRecordManager, IRoleManager, IAgent_roleManager, IRole_actionManager, IPrivilegeManager, IDisposable
     {
-        void setServiceCredential(string login, string password);
-
-        Task<Agent> AuthenticateUserAsync(string username, string password, bool isClearPassword = true);
-
         Task<List<Entities.Action>> InsertActionAsync(List<Entities.Action> listAction);
 
         Task<List<Entities.Action>> UpdateActionAsync(List<Entities.Action> listAction);

@@ -26,24 +26,9 @@ namespace QOBDGateway.Core
 
         public Agent _authenticatedUser;
 
-        public GateWaySecurity()
+        public GateWaySecurity(QOBDWebServicePortTypeClient servicePort)
         {
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");// (binding, endPoint);
-        }
-
-        public void initializeCredential(Agent user)
-        {
-            Credential = user;
-        }
-
-        public Agent Credential
-        {
-            set
-            {
-                setServiceCredential(value.Login, value.HashedPassword);
-                _authenticatedUser = value;
-                onPropertyChange("Credential");
-            }
+            _channel = servicePort;
         }
 
         private void onPropertyChange(string propertyName)
@@ -52,12 +37,9 @@ namespace QOBDGateway.Core
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void setServiceCredential(string login, string password)
+        public void setServiceCredential(object channel)
         {
-            _channel.Close();
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");
-            _channel.ClientCredentials.UserName.UserName = login;
-            _channel.ClientCredentials.UserName.Password = password;
+            _channel = (QOBDWebServicePortTypeClient)channel;
         }
 
         public async Task<Agent> AuthenticateUserAsync(string username, string password, bool isClearPassword = true)
@@ -65,7 +47,6 @@ namespace QOBDGateway.Core
             Agent agentFound = new Agent();
             try
             {
-                setServiceCredential(username, password);
                 AgentQOBD agentArray = await _channel.get_authenticate_userAsync(username, password);
                 agentFound = new AgentQOBD[] { agentArray}.ArrayTypeToAgent().FirstOrDefault();
                 if (agentFound == null || agentFound.ID == 0)

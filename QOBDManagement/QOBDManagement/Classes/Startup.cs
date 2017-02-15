@@ -2,6 +2,7 @@
 using QOBDBusiness.Core;
 using QOBDCommon.Entities;
 using QOBDDAL.Core;
+using QOBDGateway.QOBDServiceReference;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,38 +13,56 @@ namespace QOBDManagement.Classes
 {
     public class Startup
     {
-        public BusinessLogic Bl { get; set; }
-        public DataAccess Dal { get; set; }
+        private BusinessLogic _bl { get; set; }
+        private DataAccess _dal { get; set; }
+        private QOBDWebServicePortTypeClient _proxyClient;
 
         public Startup() {
-            Dal = new DataAccess(
-                                new DALAgent(),
-                                new DALClient(),
-                                new DALItem(),
-                                new DALOrder(),
-                                new DALSecurity(),
-                                new DALStatisitc(),
-                                new DALReferential(),
-                                new DALNotification());
-
-            BlSecurity BlSecurity = new BlSecurity(Dal);
-
-            //Agent authenticatedUser = BlSecurity.AuthenticateUser("codsimex212", "e6299fbfe0ebe192cf9acf3975a3d087");
-            //Dal.SetUserCredential(authenticatedUser);
-
-                Bl = new BusinessLogic(
-                                                new BLAgent(Dal),
-                                                new BlCLient(Dal),
-                                                new BLItem(Dal),
-                                                new BLOrder(Dal),
-                                                BlSecurity,
-                                                new BLStatisitc(Dal),
-                                                new BlReferential(Dal),
-                                                new BlNotification(Dal));
+            initialize();
         }
 
+        public QOBDWebServicePortTypeClient ProxyClient
+        {
+            get { return _proxyClient; }
+        }
+
+        public DataAccess Dal
+        {
+            get { return _dal; }
+        }
+
+        public BusinessLogic Bl
+        {
+            get { return _bl; }
+            set { Bl = value; }
+        }
+
+        public void initialize()
+        {
+            _proxyClient = new QOBDWebServicePortTypeClient("QOBDWebServicePort"); ;
+            _dal = new DataAccess(
+                                new DALAgent(_proxyClient),
+                                new DALClient(_proxyClient),
+                                new DALItem(_proxyClient),
+                                new DALOrder(_proxyClient),
+                                new DALSecurity(_proxyClient),
+                                new DALStatisitc(_proxyClient),
+                                new DALReferential(_proxyClient),
+                                new DALNotification(_proxyClient));
+            
+            _bl = new BusinessLogic(
+                                    new BLAgent(_dal),
+                                    new BlCLient(_dal),
+                                    new BLItem(_dal),
+                                    new BLOrder(_dal),
+                                    new BlSecurity(_dal),
+                                    new BLStatisitc(_dal),
+                                    new BlReferential(_dal),
+                                    new BlNotification(_dal));
+        }
+
+
+
     }
-
-
 
 }

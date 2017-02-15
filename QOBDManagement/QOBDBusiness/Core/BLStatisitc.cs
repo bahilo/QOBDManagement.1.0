@@ -41,9 +41,9 @@ namespace QOBDBusiness.Core
                 DAC.DALStatistic.initializeCredential(user);
         }
 
-        public void setServiceCredential(string login, string password)
+        public void setServiceCredential(object channel)
         {
-            DAC.DALStatistic.setServiceCredential(login, password);
+            DAC.DALStatistic.setServiceCredential(channel);
         }
 
 

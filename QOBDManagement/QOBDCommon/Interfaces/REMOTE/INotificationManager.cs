@@ -23,7 +23,7 @@ namespace QOBDCommon.Interfaces.REMOTE
     {
         // Operations
 
-        void setServiceCredential(string login, string password);
+        void setServiceCredential(object channel);
 
         Task<List<Notification>> InsertNotificationAsync(List<Notification> notificationList);
 

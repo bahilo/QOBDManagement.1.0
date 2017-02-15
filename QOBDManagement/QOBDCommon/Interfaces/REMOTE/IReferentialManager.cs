@@ -19,7 +19,7 @@ namespace QOBDCommon.Interfaces.REMOTE
 {
     public interface IReferentialManager : IInfosManager, INotifyPropertyChanged, IDisposable
     {
-        void setServiceCredential(string login, string password);
+        void setServiceCredential(object channel);
 
     } /* end interface IReferentialManager */
 }

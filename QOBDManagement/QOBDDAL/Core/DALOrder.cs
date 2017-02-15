@@ -18,6 +18,7 @@ using System.Collections.Concurrent;
 using QOBDCommon.Classes;
 using QOBDGateway.Core;
 using QOBDCommon.Enum;
+using QOBDGateway.QOBDServiceReference;
 
 namespace QOBDDAL.Core
 {
@@ -26,6 +27,7 @@ namespace QOBDDAL.Core
         private Func<double, double> _progressBarFunc;
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.IOrderManager _gatewayOrder;
+        private QOBDWebServicePortTypeClient _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -33,9 +35,10 @@ namespace QOBDDAL.Core
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALOrder()
+        public DALOrder(QOBDWebServicePortTypeClient servicePort)
         {
-            _gatewayOrder = new GateWayOrder();
+            _servicePortType = servicePort;
+            _gatewayOrder = new GateWayOrder(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
         }
@@ -52,9 +55,20 @@ namespace QOBDDAL.Core
             {
                 AuthenticatedUser = user;
                 _loadSize = (AuthenticatedUser.ListSize > 0) ? AuthenticatedUser.ListSize : _loadSize;
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                _gatewayOrder.setServiceCredential(_servicePortType);
                 retrieveGateWayOrderData();
             }
+        }
+
+        public void setServiceCredential(object channel)
+        {
+            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
+            {
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
+            }
+            _gatewayOrder.setServiceCredential(_servicePortType);
         }
 
         private void retrieveGateWayOrderData()
@@ -67,7 +81,7 @@ namespace QOBDDAL.Core
             }
             catch (Exception ex) { Log.error(ex.Message); }
             finally { lock (_lock) IsLodingDataFromWebServiceToLocal = true; }
-            
+
         }
 
         public void progressBarManagement(Func<double, double> progressBarFunc)
@@ -82,9 +96,8 @@ namespace QOBDDAL.Core
             List<Order> gateWayResultList = new List<Order>();
             using (ordersTableAdapter _ordersTableAdapter = new ordersTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.InsertOrderAsync(listOrder);
-                
+
                 result = LoadOrder(gateWayResultList);
             }
             return result;
@@ -96,9 +109,8 @@ namespace QOBDDAL.Core
             List<Tax_order> gateWayResultList = new List<Tax_order>();
             using (tax_ordersTableAdapter _tax_ordersTableAdapter = new tax_ordersTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.InsertTax_orderAsync(listTax_order);
-                
+
                 result = LoadTax_order(gateWayResultList);
             }
             return result;
@@ -110,9 +122,8 @@ namespace QOBDDAL.Core
             List<Order_item> gateWayResultList = new List<Order_item>();
             using (order_itemsTableAdapter _order_itemsTableAdapter = new order_itemsTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.InsertOrder_itemAsync(listOrder_item);
-                
+
                 result = LoadOrder_item(gateWayResultList);
             }
             return result;
@@ -124,9 +135,8 @@ namespace QOBDDAL.Core
             List<Tax> gateWayResultList = new List<Tax>();
             using (taxesTableAdapter _taxesTableAdapter = new taxesTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.InsertTaxAsync(listTax);
-                
+
                 result = LoadTax(gateWayResultList);
             }
             return result;
@@ -138,9 +148,8 @@ namespace QOBDDAL.Core
             List<Bill> gateWayResultList = new List<Bill>();
             using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                gateWayResultList = await _gatewayOrder.InsertBillAsync(listBill) ;
-                
+                gateWayResultList = await _gatewayOrder.InsertBillAsync(listBill);
+
                 result = LoadBill(gateWayResultList);
             }
             return result;
@@ -152,9 +161,8 @@ namespace QOBDDAL.Core
             List<Delivery> gateWayResultList = new List<Delivery>();
             using (deliveriesTableAdapter _deliveriesTableAdapter = new deliveriesTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.InsertDeliveryAsync(listDelivery);
-                
+
                 result = LoadDelivery(gateWayResultList);
             }
             return result;
@@ -167,7 +175,6 @@ namespace QOBDDAL.Core
             List<Order> gateWayResultList = new List<Order>();
             using (ordersTableAdapter _ordersTableAdapter = new ordersTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.DeleteOrderAsync(listOrder);
                 if (gateWayResultList.Count == 0)
                     foreach (Order order in listOrder)
@@ -186,13 +193,12 @@ namespace QOBDDAL.Core
             List<Tax_order> gateWayResultList = new List<Tax_order>();
             using (tax_ordersTableAdapter _tax_ordersTableAdapter = new tax_ordersTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.DeleteTax_orderAsync(listTax_order);
                 if (gateWayResultList.Count == 0)
                     foreach (Tax_order tax_order in listTax_order)
                     {
                         int returnValue = _tax_ordersTableAdapter.Delete1(tax_order.ID);
-                        if(returnValue == 0)
+                        if (returnValue == 0)
                             result.Add(tax_order);
                     }
             }
@@ -205,8 +211,7 @@ namespace QOBDDAL.Core
             List<Order_item> gateWayResultList = new List<Order_item>();
             using (order_itemsTableAdapter _order_itemsTableAdapter = new order_itemsTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                gateWayResultList = await _gatewayOrder.DeleteOrder_itemAsync(listOrder_item) ;
+                gateWayResultList = await _gatewayOrder.DeleteOrder_itemAsync(listOrder_item);
                 if (gateWayResultList.Count == 0)
                     foreach (Order_item order_item in listOrder_item)
                     {
@@ -224,7 +229,6 @@ namespace QOBDDAL.Core
             List<Tax> gateWayResultList = new List<Tax>();
             using (taxesTableAdapter _taxesTableAdapter = new taxesTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.DeleteTaxAsync(listTax);
                 if (gateWayResultList.Count == 0)
                     foreach (Tax tax in listTax)
@@ -243,7 +247,6 @@ namespace QOBDDAL.Core
             List<Bill> gateWayResultList = new List<Bill>();
             using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.DeleteBillAsync(listBill);
                 if (gateWayResultList.Count == 0)
                     foreach (Bill bill in listBill)
@@ -262,7 +265,6 @@ namespace QOBDDAL.Core
             List<Delivery> gateWayResultList = new List<Delivery>();
             using (deliveriesTableAdapter _deliveriesTableAdapter = new deliveriesTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.DeleteDeliveryAsync(listDelivery);
                 if (gateWayResultList.Count == 0)
                     foreach (Delivery delivery in listDelivery)
@@ -282,7 +284,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (ordersTableAdapter _ordersTableAdapter = new ordersTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.UpdateOrderAsync(ordersList);
 
                 foreach (var order in gateWayResultList)
@@ -322,7 +323,7 @@ namespace QOBDDAL.Core
                                                     order.Date,
                                                     order.Tax,
                                                     order.ID);
-                        if (returnResult > 0)
+                    if (returnResult > 0)
                         result.Add(order);
                 }
             }
@@ -336,7 +337,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (tax_ordersTableAdapter _tax_ordersTableAdapter = new tax_ordersTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.UpdateTax_orderAsync(tax_orderList);
 
                 foreach (var tax_order in gateWayResultList)
@@ -385,8 +385,7 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (order_itemsTableAdapter _order_itemsTableAdapter = new order_itemsTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                gateWayResultList = await _gatewayOrder.UpdateOrder_itemAsync(order_itemList) ;
+                gateWayResultList = await _gatewayOrder.UpdateOrder_itemAsync(order_itemList);
 
                 foreach (var order_item in gateWayResultList)
                 {
@@ -439,7 +438,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (taxesTableAdapter _taxesTableAdapter = new taxesTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.UpdateTaxAsync(taxesList);
 
                 foreach (var tax in gateWayResultList)
@@ -488,7 +486,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.UpdateBillAsync(billList);
 
                 foreach (var bill in gateWayResultList)
@@ -542,12 +539,11 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (deliveriesTableAdapter _deliveriesTableAdapter = new deliveriesTableAdapter())
             {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gatewayOrder.UpdateDeliveryAsync(deliveryList);
 
                 foreach (var delivery in gateWayResultList)
                 {
-                    int returnValue = _deliveriesTableAdapter.Update1(  delivery.OrderId,
+                    int returnValue = _deliveriesTableAdapter.Update1(delivery.OrderId,
                                                                         delivery.BillId,
                                                                         delivery.Package,
                                                                         delivery.Date,
@@ -555,17 +551,7 @@ namespace QOBDDAL.Core
                                                                         delivery.ID);
                     if (returnValue >= gateWayResultList.Count)
                         result.Add(delivery);
-                    //QOBDSet dataSetLocal = new QOBDSet();
-                    //_deliveriesTableAdapter.FillById(dataSetLocal.deliveries, delivery.ID);
-                    //dataSet.deliveries.Merge(dataSetLocal.deliveries);
                 }
-
-                //if (gateWayResultList.Count > 0)
-                //{
-                //    int returnValue = _deliveriesTableAdapter.Update(gateWayResultList.DeliveryTypeToDataTable(dataSet));
-                //    if (returnValue == gateWayResultList.Count)
-                //        result = gateWayResultList;
-                //}
             }
             return result;
         }
@@ -608,10 +594,9 @@ namespace QOBDDAL.Core
 
         public async Task<List<Order>> GetOrderDataAsync(int nbLine)
         {
-            List<Order> result = new List<Order>();            
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+            List<Order> result = new List<Order>();
             return await _gatewayOrder.GetOrderDataAsync(nbLine);
-                         
+
         }
 
         public List<Order> GetOrderDataById(int id)
@@ -636,9 +621,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_order>> GetTax_orderDataAsync(int nbLine)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gatewayOrder.GetTax_orderDataAsync(nbLine);
-                       
+
         }
 
         public List<Tax_order> GetTax_orderDataByOrderList(List<Order> orderList)
@@ -655,8 +639,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_order>> GetTax_orderDataByOrderListAsync(List<Order> orderList)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            return await _gatewayOrder.GetTax_orderDataByOrderListAsync(orderList);                                      
+            return await _gatewayOrder.GetTax_orderDataByOrderListAsync(orderList);
         }
 
         public List<Tax_order> GetTax_orderByOrderId(int orderId)
@@ -685,14 +668,12 @@ namespace QOBDDAL.Core
 
         public async Task<List<Order_item>> GetOrder_itemDataAsync(int nbLine)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            return await _gatewayOrder.GetOrder_itemDataAsync(nbLine);                      
+            return await _gatewayOrder.GetOrder_itemDataAsync(nbLine);
         }
 
         public async Task<List<Order_item>> GetOrder_itemByOrderListAsync(List<Order> ordersList)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            return await _gatewayOrder.GetOrder_itemByOrderListAsync(ordersList);                    
+            return await _gatewayOrder.GetOrder_itemByOrderListAsync(ordersList);
         }
 
         public List<Order_item> GetOrder_itemByOrderList(List<Order> ordersList)
@@ -724,7 +705,7 @@ namespace QOBDDAL.Core
         {
             List<Tax> result = new List<Tax>();
             using (taxesTableAdapter _taxesTableAdapter = new taxesTableAdapter())
-                result =  _taxesTableAdapter.GetData().DataTableTypeToTax(); 
+                result = _taxesTableAdapter.GetData().DataTableTypeToTax();
 
             if (nbLine.Equals(999) || result.Count == 0)
                 return result;
@@ -734,8 +715,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax>> GetTaxDataAsync(int nbLine)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            return await _gatewayOrder.GetTaxDataAsync(nbLine);           
+            return await _gatewayOrder.GetTaxDataAsync(nbLine);
         }
 
         public List<Tax> GetTaxDataById(int id)
@@ -756,20 +736,13 @@ namespace QOBDDAL.Core
             return result.GetRange(0, nbLine);
         }
 
-        public void setServiceCredential(string login, string password)
-        {
-            _gatewayOrder.setServiceCredential(login, password);
-        }
-
         public async Task<List<Bill>> GetUnpaidBillDataByAgentAsync(int agentId)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gatewayOrder.GetUnpaidBillDataByAgentAsync(agentId);
         }
 
         public async Task<List<Bill>> GetBillDataAsync(int nbLine)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gatewayOrder.GetBillDataAsync(nbLine);
         }
 
@@ -787,9 +760,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Bill>> GetBillDataByOrderListAsync(List<Order> orderList)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gatewayOrder.GetBillDataByOrderListAsync(orderList);
-                     
+
         }
 
         public List<Bill> GetBillDataByOrderId(int orderId)
@@ -801,13 +773,12 @@ namespace QOBDDAL.Core
         public List<Bill> GetBillDataById(int id)
         {
             using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
-                return _billsTableAdapter.get_bill_by_id(id).DataTableTypeToBill(); 
+                return _billsTableAdapter.get_bill_by_id(id).DataTableTypeToBill();
         }
 
         public async Task<Bill> GetLastBillAsync()
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            return await _gatewayOrder.GetLastBillAsync();            
+            return await _gatewayOrder.GetLastBillAsync();
         }
 
         public List<Delivery> GetDeliveryData(int nbLine)
@@ -824,8 +795,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Delivery>> GetDeliveryDataAsync(int nbLine)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            return await _gatewayOrder.GetDeliveryDataAsync(nbLine);                     
+            return await _gatewayOrder.GetDeliveryDataAsync(nbLine);
         }
 
         public List<Delivery> GetDeliveryDataByOrderList(List<Order> orderList)
@@ -842,8 +812,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Delivery>> GetDeliveryDataByOrderListAsync(List<Order> orderList)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            return await _gatewayOrder.GetDeliveryDataByOrderListAsync(orderList);                  
+            return await _gatewayOrder.GetDeliveryDataByOrderListAsync(orderList);
         }
 
         public List<Delivery> GetDeliveryDataByOrderId(int orderId)
@@ -865,8 +834,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Order>> searchOrderAsync(Order order, ESearchOption filterOperator)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            return await _gatewayOrder.searchOrderAsync(order, filterOperator);                
+            return await _gatewayOrder.searchOrderAsync(order, filterOperator);
         }
 
         public List<Tax_order> searchTax_order(Tax_order Tax_order, ESearchOption filterOperator)
@@ -876,20 +844,18 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_order>> searchTax_orderAsync(Tax_order Tax_order, ESearchOption filterOperator)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            return await _gatewayOrder.searchTax_orderAsync(Tax_order, filterOperator);                   
+            return await _gatewayOrder.searchTax_orderAsync(Tax_order, filterOperator);
         }
 
         public List<Order_item> searchOrder_item(Order_item order_item, ESearchOption filterOperator)
         {
-            return  order_item.order_itemTypeToFilterDataTable(filterOperator);
+            return order_item.order_itemTypeToFilterDataTable(filterOperator);
 
         }
 
         public async Task<List<Order_item>> searchOrder_itemAsync(Order_item order_item, ESearchOption filterOperator)
         {
-             _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-             return await _gatewayOrder.searchOrder_itemAsync(order_item, filterOperator);                      
+            return await _gatewayOrder.searchOrder_itemAsync(order_item, filterOperator);
         }
 
         public List<Tax> searchTax(Tax Tax, ESearchOption filterOperator)
@@ -899,8 +865,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax>> searchTaxAsync(Tax Tax, ESearchOption filterOperator)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            return await _gatewayOrder.searchTaxAsync(Tax, filterOperator);                    
+            return await _gatewayOrder.searchTaxAsync(Tax, filterOperator);
         }
 
         public List<Bill> searchBill(Bill Bill, ESearchOption filterOperator)
@@ -910,8 +875,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Bill>> searchBillAsync(Bill Bill, ESearchOption filterOperator)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            return await _gatewayOrder.searchBillAsync(Bill, filterOperator);                       
+            return await _gatewayOrder.searchBillAsync(Bill, filterOperator);
         }
 
         public List<Delivery> searchDelivery(Delivery Delivery, ESearchOption filterOperator)
@@ -921,35 +885,22 @@ namespace QOBDDAL.Core
 
         public async Task<List<Delivery>> searchDeliveryAsync(Delivery Delivery, ESearchOption filterOperator)
         {
-            using (GateWayOrder _gatewayOrder = new GateWayOrder())
-            {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gatewayOrder.searchDeliveryAsync(Delivery, filterOperator);
-            }            
+            return await _gatewayOrder.searchDeliveryAsync(Delivery, filterOperator);
         }
 
         public void GeneratePdfOrder(ParamOrderToPdf paramOrderToPdf)
         {
-            using (GateWayOrder _gatewayOrder = new GateWayOrder())
-            {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                _gatewayOrder.GeneratePdfOrder(paramOrderToPdf);
-            }            
+            _gatewayOrder.GeneratePdfOrder(paramOrderToPdf);
         }
 
         public void GeneratePdfQuote(ParamOrderToPdf paramOrderToPdf)
         {
-            using (GateWayOrder _gatewayOrder = new GateWayOrder())
-            {
-                _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                _gatewayOrder.GeneratePdfQuote(paramOrderToPdf);
-            }
+            _gatewayOrder.GeneratePdfQuote(paramOrderToPdf);
         }
 
         public void GeneratePdfDelivery(ParamDeliveryToPdf paramDeliveryToPdf)
         {
-            _gatewayOrder.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-            _gatewayOrder.GeneratePdfDelivery(paramDeliveryToPdf);            
+            _gatewayOrder.GeneratePdfDelivery(paramDeliveryToPdf);
         }
 
         public void Dispose()
@@ -982,18 +933,18 @@ namespace QOBDDAL.Core
 
             int step = 100 / _progressStep;
 
-            DALItem dalItem = new DALItem();
+            DALItem dalItem = new DALItem(_servicePortType);
             dalItem.AuthenticatedUser = AuthenticatedUser;
-            dalItem.GateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+            dalItem.GateWayItem.setServiceCredential(_servicePortType);
             dalItem.IsLodingDataFromWebServiceToLocal = true;
-
-            DALClient dalClient = new DALClient();
+            
+            DALClient dalClient = new DALClient(_servicePortType);
             dalClient.AuthenticatedUser = AuthenticatedUser;
-            dalClient.GateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+            dalClient.setServiceCredential(_servicePortType);
             dalClient.IsLodingDataFromWebServiceToLocal = true;
-                        
+
             orderList = new ConcurrentBag<Order>(orders);
-              
+
             // Address loading
             if (orderList.Count > 0)
             {
@@ -1116,7 +1067,7 @@ namespace QOBDDAL.Core
                 List<Client> savedClientList = dalClient.LoadClient(clientList.ToList());
             }
             if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
-            
+
             // Contacts Loading
             if (clientList.Count > 0)
             {

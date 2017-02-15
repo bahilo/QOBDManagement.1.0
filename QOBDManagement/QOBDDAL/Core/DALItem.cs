@@ -6,6 +6,7 @@ using QOBDDAL.App_Data;
 using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDDAL.Helper.ChannelHelper;
 using QOBDGateway.Core;
+using QOBDGateway.QOBDServiceReference;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace QOBDDAL.Core
         public Agent AuthenticatedUser { get; set; }
         private Func<double, double> _rogressBarFunc;
         private QOBDCommon.Interfaces.REMOTE.IItemManager _gateWayItem;
+        private QOBDWebServicePortTypeClient _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -37,9 +39,10 @@ namespace QOBDDAL.Core
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALItem()
+        public DALItem(QOBDWebServicePortTypeClient servicePort)
         {
-            _gateWayItem = new GateWayItem();
+            _servicePortType = servicePort;
+            _gateWayItem = new GateWayItem(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
         }
@@ -66,14 +69,20 @@ namespace QOBDDAL.Core
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                _gateWayItem.setServiceCredential(_servicePortType);
                 retrieveGateWayItemData();
             }
         }
 
-        public void setServiceCredential(string login, string password)
+        public void setServiceCredential(object channel)
         {
-            _gateWayItem.setServiceCredential(login, password);
+            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
+            {
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
+            }
+            _gateWayItem.setServiceCredential(_servicePortType);
         }
 
         private void retrieveGateWayItemData()
@@ -111,7 +120,6 @@ namespace QOBDDAL.Core
             List<Item> gateWayResultList = new List<Item>();
             using (itemsTableAdapter _itemTableAdapter = new itemsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.InsertItemAsync(itemList);
                 
                 result = LoadItem(gateWayResultList);
@@ -125,7 +133,6 @@ namespace QOBDDAL.Core
             List<Provider> gateWayResultList = new List<Provider>();
             using (providersTableAdapter _providersTableAdapter = new providersTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.InsertProviderAsync(listProvider);
                 
                 result = LoadProvider(gateWayResultList);
@@ -139,7 +146,6 @@ namespace QOBDDAL.Core
             List<Provider_item> gateWayResultList = new List<Provider_item>();
             using (provider_itemsTableAdapter _provider_itemsTableAdapter = new provider_itemsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.InsertProvider_itemAsync(listProvider_item);
                                 
                 result = LoadProvider_item(gateWayResultList);
@@ -154,7 +160,6 @@ namespace QOBDDAL.Core
             List<Item_delivery> gateWayResultList = new List<Item_delivery>();
             using (item_deliveriesTableAdapter _item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.InsertItem_deliveryAsync(listItem_delivery);
                 
                 result = LoadItem_delivery(gateWayResultList);
@@ -168,7 +173,6 @@ namespace QOBDDAL.Core
             List<Auto_ref> gateWayResultList = new List<Auto_ref>();
             using (auto_refsTableAdapter _auto_refTableAdapter = new auto_refsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.InsertAuto_refAsync(listAuto_ref);
                 
                 result = LoadAuto_ref(gateWayResultList);
@@ -182,7 +186,6 @@ namespace QOBDDAL.Core
             List<Tax_item> gateWayResultList = new List<Tax_item>();
             using (tax_itemsTableAdapter _tax_itemTableAdapter = new tax_itemsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.InsertTax_itemAsync(listTax_item);
                 
                 result = LoadTax_item(gateWayResultList);
@@ -196,7 +199,6 @@ namespace QOBDDAL.Core
             List<Item> gateWayResultList = new List<Item>();
             using (itemsTableAdapter _itemTableAdapter = new itemsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.DeleteItemAsync(listItem);
                 if (gateWayResultList.Count == 0)
                     foreach (Item item in listItem)
@@ -215,7 +217,6 @@ namespace QOBDDAL.Core
             List<Provider> gateWayResultList = new List<Provider>();
             using (providersTableAdapter _providersTableAdapter = new providersTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.DeleteProviderAsync(listProvider);
                 if (gateWayResultList.Count == 0)
                     foreach (Provider provider in listProvider)
@@ -234,7 +235,6 @@ namespace QOBDDAL.Core
             List<Provider_item> gateWayResultList = new List<Provider_item>();
             using (provider_itemsTableAdapter _provider_itemsTableAdapter = new provider_itemsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.DeleteProvider_itemAsync(listProvider_item);
                 if (gateWayResultList.Count == 0)
                     foreach (Provider_item provider_item in listProvider_item)
@@ -254,7 +254,6 @@ namespace QOBDDAL.Core
             List<Item_delivery> gateWayResultList = new List<Item_delivery>();
             using (item_deliveriesTableAdapter _item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.DeleteItem_deliveryAsync(listItem_delivery);
                 if (gateWayResultList.Count == 0)
                     foreach (Item_delivery item_delivery in gateWayResultList)
@@ -273,7 +272,6 @@ namespace QOBDDAL.Core
             List<Auto_ref> gateWayResultList = new List<Auto_ref>();
             using (auto_refsTableAdapter _auto_refTableAdapter = new auto_refsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.DeleteAuto_refAsync(listAuto_ref);
                 if (gateWayResultList.Count == 0)
                     foreach (Auto_ref Auto_ref in listAuto_ref)
@@ -292,7 +290,6 @@ namespace QOBDDAL.Core
             List<Tax_item> gateWayResultList = new List<Tax_item>();
             using (tax_itemsTableAdapter _tax_itemTableAdapter = new tax_itemsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.DeleteTax_itemAsync(listTax_item);
                 if (gateWayResultList.Count == 0)
                     foreach (Tax_item Tax_item in listTax_item)
@@ -313,7 +310,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (itemsTableAdapter _itemTableAdapter = new itemsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.UpdateItemAsync(itemList);
 
                 foreach (var item in gateWayResultList)
@@ -369,7 +365,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (providersTableAdapter _providersTableAdapter = new providersTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.UpdateProviderAsync(providerList);
 
                 foreach (var provider in gateWayResultList)
@@ -415,7 +410,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (provider_itemsTableAdapter _provider_itemsTableAdapter = new provider_itemsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.UpdateProvider_itemAsync(provider_itemList);
 
                 foreach (var provider_item in gateWayResultList)
@@ -462,7 +456,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (item_deliveriesTableAdapter _item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.UpdateItem_deliveryAsync(item_deliveryList);
 
                 foreach (var item_delivery in gateWayResultList)
@@ -510,7 +503,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (auto_refsTableAdapter _auto_refTableAdapter = new auto_refsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.UpdateAuto_refAsync(auto_refList);
 
                 foreach (var auto_ref in gateWayResultList)
@@ -558,7 +550,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (tax_itemsTableAdapter _tax_itemTableAdapter = new tax_itemsTableAdapter())
             {
-                _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayItem.UpdateTax_itemAsync(tax_itemList);
 
                 foreach (var tax_item in gateWayResultList)
@@ -615,7 +606,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item>> GetItemDataAsync(int nbLine)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.GetItemDataAsync(nbLine);
         }
 
@@ -633,8 +623,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item>> GetItemDataByOrder_itemListAsync(List<Order_item> order_itemList)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayItem.GetItemDataByOrder_itemListAsync(order_itemList);
+            return await _gateWayItem.GetItemDataByOrder_itemListAsync(order_itemList);
         }
 
         public List<Item> GetItemDataById(int id)
@@ -657,7 +646,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider>> GetProviderDataAsync(int nbLine)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.GetProviderDataAsync(nbLine);
         }
 
@@ -675,7 +663,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider>> GetProviderDataByProvider_itemListAsync(List<Provider_item> provider_itemList)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.GetProviderDataByProvider_itemListAsync(provider_itemList);
         }
 
@@ -700,7 +687,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider_item>> GetProvider_itemDataAsync(int nbLine)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.GetProvider_itemDataAsync(nbLine);
         }
 
@@ -718,7 +704,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider_item>> GetProvider_itemDataByItemListAsync(List<Item> itemList)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.GetProvider_itemDataByItemListAsync(itemList);
         }
 
@@ -742,7 +727,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item_delivery>> GetItem_deliveryDataAsync(int nbLine)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.GetItem_deliveryDataAsync(nbLine);
         }
 
@@ -760,7 +744,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item_delivery>> GetItem_deliveryDataByDeliveryListAsync(List<Delivery> deliveryList)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.GetItem_deliveryDataByDeliveryListAsync(deliveryList);
         }
 
@@ -784,7 +767,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Auto_ref>> GetAuto_refDataAsync(int nbLine)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.GetAuto_refDataAsync(nbLine);
         }
 
@@ -807,7 +789,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_item>> GetTax_itemDataAsync(int nbLine)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.GetTax_itemDataAsync(nbLine);
         }
 
@@ -825,7 +806,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_item>> GetTax_itemDataByItemListAsync(List<Item> itemList)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.GetTax_itemDataByItemListAsync(itemList);
         }
 
@@ -841,7 +821,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item>> searchItemAsync(Item item, ESearchOption filterOperator)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.searchItemAsync(item, filterOperator);
         }
 
@@ -852,7 +831,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider>> searchProviderAsync(Provider Provider, ESearchOption filterOperator)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.searchProviderAsync(Provider, filterOperator);
         }
 
@@ -863,7 +841,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider_item>> searchProvider_itemAsync(Provider_item Provider_item, ESearchOption filterOperator)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.searchProvider_itemAsync(Provider_item, filterOperator);
         }
 
@@ -874,7 +851,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item_delivery>> searchItem_deliveryAsync(Item_delivery Item_delivery, ESearchOption filterOperator)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.searchItem_deliveryAsync(Item_delivery, filterOperator);
         }
 
@@ -885,7 +861,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Auto_ref>> searchAuto_refAsync(Auto_ref Auto_ref, ESearchOption filterOperator)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.searchAuto_refAsync(Auto_ref, filterOperator);
         }
 
@@ -896,7 +871,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_item>> searchTax_itemAsync(Tax_item Tax_item, ESearchOption filterOperator)
         {
-            _gateWayItem.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayItem.searchTax_itemAsync(Tax_item, filterOperator);
         }        
 

@@ -23,32 +23,14 @@ namespace QOBDGateway.Core
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public GateWayNotification()
+        public GateWayNotification(QOBDWebServicePortTypeClient servicePort)
         {
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");// (binding, endPoint);
+            _channel = servicePort;
         }
-
-        public void initializeCredential(Agent user)
+        
+        public void setServiceCredential(object channel)
         {
-            Credential = user;
-        }
-
-        public Agent Credential
-        {
-            set
-            {
-                setServiceCredential(value.Login, value.HashedPassword);
-                onPropertyChange("Credential");
-            }
-        }
-
-
-        public void setServiceCredential(string login, string password)
-        {
-            _channel.Close();
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");
-            _channel.ClientCredentials.UserName.UserName = login;
-            _channel.ClientCredentials.UserName.Password = password;
+            _channel = (QOBDWebServicePortTypeClient)channel;
         }
 
         private void onPropertyChange(string propertyName)

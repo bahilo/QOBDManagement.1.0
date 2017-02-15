@@ -39,9 +39,9 @@ namespace QOBDBusiness.Core
         }
 
 
-        public void setServiceCredential(string login, string password)
+        public void setServiceCredential(object channel)
         {
-            DAC.DALOrder.setServiceCredential(login, password);
+            DAC.DALOrder.setServiceCredential(channel);
         }
 
         public void progressBarManagement(Func<double, double> progressBarFunc)

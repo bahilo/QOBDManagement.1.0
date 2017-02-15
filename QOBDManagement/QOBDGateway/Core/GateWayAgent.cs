@@ -24,32 +24,14 @@ namespace QOBDGateway.Core
         public event PropertyChangedEventHandler PropertyChanged;
         
 
-        public GateWayAgent()
+        public GateWayAgent(QOBDWebServicePortTypeClient servicePort)
         {
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");// (binding, endPoint);
+            _channel = servicePort;
         }
 
-        public void initializeCredential(Agent user)
-        {
-            Credential = user;
-        }
-
-        public Agent Credential
-        {
-            set
-            {
-                setServiceCredential(value.Login, value.HashedPassword);
-                onPropertyChange("Credential");
-            }
-        }
-
-
-        public void setServiceCredential(string login, string password)
-        {
-            _channel.Close();
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");
-            _channel.ClientCredentials.UserName.UserName = login;
-            _channel.ClientCredentials.UserName.Password = password;
+        public void setServiceCredential(object channel)
+        {            
+            _channel = (QOBDWebServicePortTypeClient)channel;
         }
 
         private void onPropertyChange(string propertyName)
@@ -83,8 +65,9 @@ namespace QOBDGateway.Core
         {
             List<Agent> result = new List<Agent>();
             try
-            {                
-                result = (await _channel.get_data_agentAsync(nbLine.ToString())).ArrayTypeToAgent().OrderBy(x=>x.ID).ToList();
+            {
+                var test = await _channel.get_data_agentAsync(nbLine.ToString());
+                result = (test).ArrayTypeToAgent().OrderBy(x=>x.ID).ToList();
              }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }

@@ -15,7 +15,7 @@ namespace QOBDCommon.Interfaces.REMOTE
     {
         // Operations        
 
-        void setServiceCredential(string login, string password);
+        void setServiceCredential(object channel);
 
         Task<Agent> AuthenticateUserAsync(string username, string password, bool isClearPassword = true);
              

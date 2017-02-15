@@ -6,6 +6,7 @@ using QOBDDAL.App_Data;
 using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDDAL.Helper.ChannelHelper;
 using QOBDGateway.Core;
+using QOBDGateway.QOBDServiceReference;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,7 @@ namespace QOBDDAL.Core
     {
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.IStatisticManager _gateWayStatistic;
+        private QOBDWebServicePortTypeClient _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -32,10 +34,11 @@ namespace QOBDDAL.Core
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALStatisitc()
+        public DALStatisitc(QOBDWebServicePortTypeClient servicePort)
         {
             _lock = new object();
-            _gateWayStatistic = new GateWayStatistic();
+            _servicePortType = servicePort;
+            _gateWayStatistic = new GateWayStatistic(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
         }
@@ -43,13 +46,19 @@ namespace QOBDDAL.Core
         public void initializeCredential(Agent user)
         {
             AuthenticatedUser = user;
-            _gateWayStatistic.setServiceCredential(user.Login, user.HashedPassword);
+            _gateWayStatistic.setServiceCredential(_servicePortType);
             retrieveGateWayStatisticData();
         }
 
-        public void setServiceCredential(string login, string password)
+        public void setServiceCredential(object channel)
         {
-            _gateWayStatistic.setServiceCredential(login, password);
+            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
+            {
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
+            }
+            _gateWayStatistic.setServiceCredential(_servicePortType);
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -100,7 +109,6 @@ namespace QOBDDAL.Core
             List<Statistic> gateWayResultList = new List<Statistic>();
             using (statisticsTableAdapter _statisticsTableAdapter = new statisticsTableAdapter())
             {
-                _gateWayStatistic.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayStatistic.InsertStatisticAsync(statisticList);
                 
                 result = LoadStatistic(gateWayResultList);
@@ -115,7 +123,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (statisticsTableAdapter _statisticsTableAdapter = new statisticsTableAdapter())
             {
-                _gateWayStatistic.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = (!_isLodingDataFromWebServiceToLocal) ? await _gateWayStatistic.UpdateStatisticAsync(statisticList) : statisticList;
 
                 foreach (var statistic in gateWayResultList)
@@ -170,7 +177,6 @@ namespace QOBDDAL.Core
             List<Statistic> gateWayResultList = new List<Statistic>();
             using (statisticsTableAdapter _statisticsTableAdapter = new statisticsTableAdapter())
             {
-                _gateWayStatistic.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayStatistic.DeleteStatisticAsync(statisticList);
                 if (gateWayResultList.Count == 0)
                     foreach (Statistic statistic in gateWayResultList)
@@ -196,7 +202,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Statistic>> GetStatisticDataAsync(int nbLine)
         {
-            _gateWayStatistic.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayStatistic.GetStatisticDataAsync(nbLine);
         }
 
@@ -213,7 +218,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Statistic>> searchStatisticAsync(Statistic statistic, ESearchOption filterOperator)
         {
-            _gateWayStatistic.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayStatistic.searchStatisticAsync(statistic, filterOperator);
         }
 

@@ -6,6 +6,7 @@ using QOBDDAL.App_Data;
 using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDDAL.Helper.ChannelHelper;
 using QOBDGateway.Core;
+using QOBDGateway.QOBDServiceReference;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,7 @@ namespace QOBDDAL.Core
         private Func<double, double> _rogressBarFunc;
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.IAgentManager _gateWayAgent;
+        private QOBDWebServicePortTypeClient _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -31,9 +33,10 @@ namespace QOBDDAL.Core
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALAgent()
+        public DALAgent(QOBDWebServicePortTypeClient servicePort)
         {
-            _gateWayAgent = new GateWayAgent();
+            _servicePortType = servicePort;
+            _gateWayAgent = new GateWayAgent(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
 
@@ -50,27 +53,33 @@ namespace QOBDDAL.Core
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
-                _gateWayAgent.setServiceCredential(user.Login, user.HashedPassword);
+                _gateWayAgent.setServiceCredential(_servicePortType);
                 retrieveGateWayAgentData();
             }
         }
 
-        public void setServiceCredential(string login, string password)
+        public void setServiceCredential(object channel)
         {
-            _gateWayAgent.setServiceCredential(login, password);
+            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
+            {
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
+            }
+            _gateWayAgent.setServiceCredential(_servicePortType);
         }
 
-        public void retrieveGateWayAgentData() 
+        public async void retrieveGateWayAgentData() 
         {
             try
             { 
                 lock (_lock) _isLodingDataFromWebServiceToLocal = true;
+
                 // getting agents without their credentials (_loadSize < 0)
-                var agentList = new NotifyTaskCompletion<List<Agent>>(_gateWayAgent.GetAgentDataAsync(-1 * _loadSize)).Task.Result;
+                var agentList = await _gateWayAgent.GetAgentDataAsync(-1 * _loadSize);
+                //var agentList = new NotifyTaskCompletion<List<Agent>>(test).Task.Result;
                 if (agentList.Count > 0)
                     LoadAgent(agentList);
-
-                //Log.debug("-- Agents loaded --");
             }
             catch (Exception ex)
             {
@@ -99,7 +108,6 @@ namespace QOBDDAL.Core
             List<Agent> gateWayResultList = new List<Agent>();
             using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
             {
-                _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayAgent.InsertAgentAsync(listAgent);
 
                 result = LoadAgent(gateWayResultList);
@@ -113,7 +121,6 @@ namespace QOBDDAL.Core
             List<Agent> gateWayResultList = new List<Agent>();
             using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
             {
-                _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayAgent.DeleteAgentAsync(listAgent);
                 if (gateWayResultList.Count == 0)
                     foreach (Agent agent in gateWayResultList)
@@ -133,7 +140,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
             {
-                _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayAgent.UpdateAgentAsync(agentList);
 
                 foreach (var agent in gateWayResultList)
@@ -194,7 +200,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Agent>> GetAgentDataAsync(int nbLine)
         {
-            _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayAgent.GetAgentDataAsync(nbLine);
         }
 
@@ -218,7 +223,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Agent>> GetAgentDataByOrderListAsync(List<Order> orderList)
         {
-            _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
             return await _gateWayAgent.GetAgentDataByOrderListAsync(orderList);
         }
 
@@ -229,8 +233,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Agent>> searchAgentAsync(Agent agent, ESearchOption filterOperator)
         {
-            _gateWayAgent.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayAgent.searchAgentAsync(agent, filterOperator);
+            return await _gateWayAgent.searchAgentAsync(agent, filterOperator);
         }
 
         public void Dispose()

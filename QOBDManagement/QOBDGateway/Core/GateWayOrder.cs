@@ -28,40 +28,16 @@ namespace QOBDGateway.Core
     public class GateWayOrder : IOrderManager, INotifyPropertyChanged
     {
         private QOBDWebServicePortTypeClient _channel;
-        private Agent _authenticatedUser;
         public event PropertyChangedEventHandler PropertyChanged;
         
-        public GateWayOrder()
+        public GateWayOrder(QOBDWebServicePortTypeClient servicePort)
         {
-            initChannel();
+            _channel = servicePort;
         }
 
-        private void initChannel()
+        public void setServiceCredential(object channel)
         {
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");
-        }
-
-        public void initializeCredential(Agent user)
-        {
-            Credential = user;
-        }
-
-        public Agent Credential
-        {
-            set
-            {
-                setServiceCredential(value.Login, value.HashedPassword);
-                _authenticatedUser = value;
-                onPropertyChange("Credential");
-            }
-        }
-
-        public void setServiceCredential(string login, string password)
-        {
-            _channel.Close();
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");
-            _channel.ClientCredentials.UserName.UserName = login;
-            _channel.ClientCredentials.UserName.Password = password;
+            _channel = (QOBDWebServicePortTypeClient)channel;
         }
 
         private void onPropertyChange(string propertyName)

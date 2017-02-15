@@ -23,9 +23,9 @@ namespace QOBDGateway.Core
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public GateWayStatistic()
+        public GateWayStatistic(QOBDWebServicePortTypeClient servicePort)
         {
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");// (binding, endPoint);
+            _channel = servicePort;
         }
 
         private void onPropertyChange(string propertyName)
@@ -34,12 +34,9 @@ namespace QOBDGateway.Core
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void setServiceCredential(string login, string password)
+        public void setServiceCredential(object channel)
         {
-            _channel.Close();
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");
-            _channel.ClientCredentials.UserName.UserName = login;
-            _channel.ClientCredentials.UserName.Password = password;
+            _channel = (QOBDWebServicePortTypeClient)channel;
         }
 
         public  async Task<List<Statistic>> InsertStatisticAsync(List<Statistic> statisticList)

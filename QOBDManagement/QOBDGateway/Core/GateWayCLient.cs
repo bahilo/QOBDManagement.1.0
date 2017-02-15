@@ -30,32 +30,15 @@ namespace QOBDGateway.Core
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public GateWayClient()
+        public GateWayClient(QOBDWebServicePortTypeClient servicePortType)
         {
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");
+            _channel = servicePortType;
         }
 
-        public void initializeCredential(Agent user)
+        public void setServiceCredential(object channel)
         {
-            Credential = user;
-        }
-
-        public Agent Credential
-        {
-            set
-            {
-                setServiceCredential(value.Login, value.HashedPassword);
-                onPropertyChange("Credential");
-            }
-        }
-
-
-        public void setServiceCredential(string login, string password)
-        {
-            _channel.Close();
-            _channel = new QOBDWebServicePortTypeClient("QOBDWebServicePort");
-            _channel.ClientCredentials.UserName.UserName = login;
-            _channel.ClientCredentials.UserName.Password = password;
+            //_channel.Close();
+            _channel = (QOBDWebServicePortTypeClient)channel; //new QOBDWebServicePortTypeClient("QOBDWebServicePort");
         }
 
         private void onPropertyChange(string propertyName)

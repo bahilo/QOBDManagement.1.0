@@ -22,6 +22,7 @@ using System.Threading;
 using System.Collections.Concurrent;
 using QOBDCommon.Classes;
 using QOBDDAL.App_Data.QOBDSetTableAdapters;
+using QOBDGateway.QOBDServiceReference;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -35,6 +36,7 @@ namespace QOBDDAL.Core
         private Func<double, double> _rogressBarFunc;
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.IClientManager _gateWayClient;
+        private QOBDWebServicePortTypeClient _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
@@ -42,9 +44,10 @@ namespace QOBDDAL.Core
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALClient()
+        public DALClient(QOBDWebServicePortTypeClient servicePort)
         {
-            _gateWayClient = new GateWayClient();
+            _servicePortType = servicePort;
+            _gateWayClient = new GateWayClient(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
         }
@@ -65,14 +68,20 @@ namespace QOBDDAL.Core
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
-                _gateWayClient.setServiceCredential(user.Login, user.HashedPassword);
+                setServiceCredential(_servicePortType);
                 retrieveGateWayClientData();
             }
         }
 
-        public void setServiceCredential(string login, string password)
+        public void setServiceCredential(object channel)
         {
-            _gateWayClient.setServiceCredential(login, password);
+            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
+            {
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
+            }
+            _gateWayClient.setServiceCredential(_servicePortType);
         }
 
         private void retrieveGateWayClientData()
@@ -112,7 +121,8 @@ namespace QOBDDAL.Core
             List<Client> gateWayResultList = new List<Client>();
             using (clientsTableAdapter _clientsTableAdapter = new clientsTableAdapter())
             {
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                //_gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                //_servicePortType.Open();
                 gateWayResultList = await _gateWayClient.InsertClientAsync(listClient);
 
                 result = LoadClient(gateWayResultList);
@@ -126,7 +136,7 @@ namespace QOBDDAL.Core
             List<Contact> gateWayResultList = new List<Contact>();
             using (contactsTableAdapter _contactsTableAdapter = new contactsTableAdapter())
             {
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                //_servicePortType.Open();
                 gateWayResultList = await _gateWayClient.InsertContactAsync(listContact);
                 
                 result = LoadContact(gateWayResultList);
@@ -140,7 +150,7 @@ namespace QOBDDAL.Core
             List<Address> gateWayResultList = new List<Address>();
             using (addressesTableAdapter _addressesTableAdapter = new addressesTableAdapter())
             {
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                //_servicePortType.Open();
                 gateWayResultList = await _gateWayClient.InsertAddressAsync(listAddress);
                 
                 result = LoadAddress(gateWayResultList);
@@ -154,7 +164,7 @@ namespace QOBDDAL.Core
             List<Client> gateWayResultList = new List<Client>();
             using (clientsTableAdapter _clientsTableAdapter = new clientsTableAdapter())
             {
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                //_servicePortType.Open();
                 gateWayResultList = await _gateWayClient.DeleteClientAsync(listClient);
                 if (gateWayResultList.Count == 0)
                     foreach (Client client in listClient)
@@ -173,7 +183,7 @@ namespace QOBDDAL.Core
             List<Contact> gateWayResultList = new List<Contact>();
             using (contactsTableAdapter _contactsTableAdapter = new contactsTableAdapter())
             {
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                //_servicePortType.Open();
                 gateWayResultList = await _gateWayClient.DeleteContactAsync(listContact);
                 if (gateWayResultList.Count == 0)
                     foreach (Contact contact in listContact)
@@ -192,7 +202,7 @@ namespace QOBDDAL.Core
             List<Address> gateWayResultList = new List<Address>();
             using (addressesTableAdapter _addressesTableAdapter = new addressesTableAdapter())
             {
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                //_servicePortType.Open();
                 gateWayResultList = await _gateWayClient.DeleteAddressAsync(listAddress);
                 if (gateWayResultList.Count == 0)
                     foreach (Address address in listAddress)
@@ -212,7 +222,7 @@ namespace QOBDDAL.Core
             using (clientsTableAdapter _clientsTableAdapter = new clientsTableAdapter())
             {
                 QOBDSet dataSet = new QOBDSet();
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+                //_servicePortType.Open();
                 gateWayResultList = await _gateWayClient.UpdateClientAsync(clientList);
 
                 foreach (var client in gateWayResultList)
@@ -271,7 +281,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (contactsTableAdapter _contactsTableAdapter = new contactsTableAdapter())
             {
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayClient.UpdateContactAsync(contactList);
 
                 foreach (var contact in gateWayResultList)
@@ -324,7 +333,6 @@ namespace QOBDDAL.Core
             QOBDSet dataSet = new QOBDSet();
             using (addressesTableAdapter _addressesTableAdapter = new addressesTableAdapter())
             {
-                _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
                 gateWayResultList = await _gateWayClient.UpdateAddressAsync(addressList);
 
                 foreach (var address in gateWayResultList)
@@ -389,8 +397,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Client>> GetClientDataAsync(int nbLine)
         {
-            _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayClient.GetClientDataAsync(nbLine);
+            //_servicePortType.Open();
+            return await _gateWayClient.GetClientDataAsync(nbLine);
         }
 
         public List<Client> GetClientDataByBillList(List<Bill> billList)
@@ -407,13 +415,13 @@ namespace QOBDDAL.Core
 
         public async Task<List<Client>> GetClientDataByBillListAsync(List<Bill> billList)
         {
-             _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayClient.GetClientDataByBillListAsync(billList);
+            //_servicePortType.Open();
+            return await _gateWayClient.GetClientDataByBillListAsync(billList);
         }
 
         public async Task<List<Client>> GetClientMaxCreditOverDataByAgentAsync(int agentId)
         {
-            _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
+            //_servicePortType.Open();
             return await _gateWayClient.GetClientMaxCreditOverDataByAgentAsync(agentId);
         }
 
@@ -431,8 +439,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Contact>> GetContactDataAsync(int nbLine)
         {
-            _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayClient.GetContactDataAsync(nbLine);
+            //_servicePortType.Open();
+            return await _gateWayClient.GetContactDataAsync(nbLine);
         }
 
         public List<Contact> GetContactDataByClientList(List<Client> clientList)
@@ -449,8 +457,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Contact>> GetContactDataByClientListAsync(List<Client> clientList)
         {
-            _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayClient.GetContactDataByClientListAsync(clientList);
+            //_servicePortType.Open();
+            return await _gateWayClient.GetContactDataByClientListAsync(clientList);
         }
 
         public List<Address> GetAddressData(int nbLine)
@@ -467,8 +475,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> GetAddressDataAsync(int nbLine)
         {
-            _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayClient.GetAddressDataAsync(nbLine);
+            //_servicePortType.Open();
+            return await _gateWayClient.GetAddressDataAsync(nbLine);
         }
 
         public List<Address> GetAddressDataByOrderList(List<Order> orderList)
@@ -496,8 +504,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> GetAddressDataByOrderListAsync(List<Order> orderList)
         {
-            _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayClient.GetAddressDataByOrderListAsync(orderList);
+            //_servicePortType.Open();
+            return await _gateWayClient.GetAddressDataByOrderListAsync(orderList);
         }
 
         public List<Address> GetAddressDataByClientList(List<Client> clientList)
@@ -515,8 +523,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> GetAddressDataByClientListAsync(List<Client> clientList)
         {
-            _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayClient.GetAddressDataByClientListAsync(clientList);
+            //_servicePortType.Open();
+            return await _gateWayClient.GetAddressDataByClientListAsync(clientList);
         }
 
         public List<Order> GetOrderClient(int id)
@@ -556,8 +564,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Client>> searchClientAsync(Client client, ESearchOption filterOperator)
         {
-            _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayClient.searchClientAsync(client, filterOperator);
+            //_servicePortType.Open();
+            return await _gateWayClient.searchClientAsync(client, filterOperator);
         }
 
         public List<Contact> searchContact(Contact Contact, ESearchOption filterOperator)
@@ -567,8 +575,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Contact>> searchContactAsync(Contact Contact, ESearchOption filterOperator)
         {
-             _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayClient.searchContactAsync(Contact, filterOperator);
+            //_servicePortType.Open();
+            return await _gateWayClient.searchContactAsync(Contact, filterOperator);
         }
 
         public List<Address> searchAddress(Address Address, ESearchOption filterOperator)
@@ -578,8 +586,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> searchAddressAsync(Address Address, ESearchOption filterOperator)
         {
-            _gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                return await _gateWayClient.searchAddressAsync(Address, filterOperator);
+            //_servicePortType.Open();
+            return await _gateWayClient.searchAddressAsync(Address, filterOperator);
         }
 
         public void Dispose()
