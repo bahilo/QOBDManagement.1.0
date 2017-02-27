@@ -52,11 +52,11 @@ namespace QOBDDAL.Core
             this._dataSet = _dataSet;
         }
 
-        public void initializeCredential(Agent user)
+        public async void initializeCredential(Agent user)
         {
             AuthenticatedUser = user;
             _gateWayStatistic.setServiceCredential(_servicePortType);
-            retrieveGateWayStatisticData();
+            await retrieveGateWayStatisticDataAsync();
         }
 
         public void setServiceCredential(object channel)
@@ -82,15 +82,14 @@ namespace QOBDDAL.Core
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void retrieveGateWayStatisticData()
+        public async Task retrieveGateWayStatisticDataAsync()
         {
             lock (_lock) _isLodingDataFromWebServiceToLocal = true;
             try
             {
-                var statisticList = new NotifyTaskCompletion<List<Statistic>>(_gateWayStatistic.GetStatisticDataAsync(_loadSize)).Task.Result;
+                var statisticList = await _gateWayStatistic.GetStatisticDataAsync(_loadSize);
                 if (statisticList.Count > 0)
                     LoadStatistic(statisticList);
-                //Log.debug("-- Statistics loaded --");
             }
             catch (Exception ex)
             {

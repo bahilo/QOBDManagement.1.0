@@ -58,13 +58,13 @@ namespace QOBDDAL.Core
         }
 
 
-        public void initializeCredential(Agent user)
+        public async void initializeCredential(Agent user)
         {
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
                 _gateWayNotification.setServiceCredential(_servicePortType);
-                retrieveGateWayNotificationData();
+                await retrieveGateWayNotificationDataAsync();
             }
         }
 
@@ -79,16 +79,14 @@ namespace QOBDDAL.Core
             _gateWayNotification.setServiceCredential(_servicePortType);
         }
 
-        public void retrieveGateWayNotificationData()
+        public async Task retrieveGateWayNotificationDataAsync()
         {
             try
             {
                 lock (_lock) _isLodingDataFromWebServiceToLocal = true;
-                var notificationList = new NotifyTaskCompletion<List<Notification>>(_gateWayNotification.GetNotificationDataAsync(_loadSize)).Task.Result;
+                var notificationList = await _gateWayNotification.GetNotificationDataAsync(_loadSize);
                 if (notificationList.Count > 0)
                     LoadNotification(notificationList);
-
-                //Log.debug("-- Notifications loaded --");
             }
             catch (Exception ex)
             {

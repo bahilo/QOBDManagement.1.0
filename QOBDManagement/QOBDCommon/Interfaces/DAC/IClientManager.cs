@@ -3,6 +3,7 @@ using QOBDCommon.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace QOBDCommon.Interfaces.DAC
 {
@@ -12,7 +13,7 @@ namespace QOBDCommon.Interfaces.DAC
 
         void progressBarManagement(Func<double, double> progressBarFunc);
 
-        void UpdateClientDependencies(List<Client> clientList, bool isActiveProgress = false);
+        Task UpdateClientDependenciesAsync(List<Client> clientList, bool isActiveProgress = false);
 
         List<Client> GetClientData(int nbLine);
 

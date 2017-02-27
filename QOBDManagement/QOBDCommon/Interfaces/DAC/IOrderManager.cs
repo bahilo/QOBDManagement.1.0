@@ -19,7 +19,7 @@ namespace QOBDCommon.Interfaces.DAC
 
         void initializeCredential(Agent user);
 
-        void UpdateOrderDependencies(List<Order> orderList, bool isActiveProgress = false);
+        Task UpdateOrderDependenciesAsync(List<Order> orderList, bool isActiveProgress = false);
 
         void progressBarManagement(Func<double, double> progressBarFunc);
 

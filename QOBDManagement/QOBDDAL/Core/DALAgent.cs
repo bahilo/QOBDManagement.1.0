@@ -56,13 +56,13 @@ namespace QOBDDAL.Core
             set { _isLodingDataFromWebServiceToLocal = value; }
         }
 
-        public void initializeCredential(Agent user)
+        public async void initializeCredential(Agent user)
         {
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
                 _gateWayAgent.setServiceCredential(_servicePortType);
-                retrieveGateWayAgentData();
+                await retrieveGateWayAgentDataAsync();
             }
         }
 
@@ -77,15 +77,14 @@ namespace QOBDDAL.Core
             _gateWayAgent.setServiceCredential(_servicePortType);
         }
 
-        public async void retrieveGateWayAgentData()
+        public async Task retrieveGateWayAgentDataAsync()
         {
             try
             {
                 lock (_lock) _isLodingDataFromWebServiceToLocal = true;
 
                 // getting agents without their credentials (_loadSize < 0)
-                var agentList = await _gateWayAgent.GetAgentDataAsync(-1 * _loadSize);
-                
+                var agentList = await _gateWayAgent.GetAgentDataAsync(-1 * _loadSize);                
 
                 if (agentList.Count > 0)
                     LoadAgent(agentList);

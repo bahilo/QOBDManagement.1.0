@@ -48,10 +48,10 @@ namespace QOBDBusiness.Core
                 DAC.DALItem.progressBarManagement(progressBarFunc);
         }
 
-        public void UpdateItemDependencies(List<Item> itemList, bool isActiveProgress = false)
+        public async Task UpdateItemDependenciesAsync(List<Item> itemList, bool isActiveProgress = false)
         {
             if (itemList.Count > 0)
-                DAC.DALItem.UpdateItemDependencies(itemList);
+                await DAC.DALItem.UpdateItemDependenciesAsync(itemList);
         }
 
         public async Task<List<Item>> InsertItemAsync(List<Item> itemList)
@@ -670,10 +670,7 @@ namespace QOBDBusiness.Core
             try
             {
                 result = await DAC.DALItem.searchItemAsync(item, filterOperator);
-                await Task.Factory.StartNew(()=> {
-                    UpdateItemDependencies(result);
-                });
-                
+                await UpdateItemDependenciesAsync(result);                
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;

@@ -326,9 +326,7 @@ namespace QOBDManagement.ViewModel
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-
-            //if (!File.Exists(fullFileName))
-            //    File.Create(fullFileName);
+            
             if (taskList.Count == 0)
                 return;
 

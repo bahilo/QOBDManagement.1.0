@@ -58,14 +58,14 @@ namespace QOBDDAL.Core
             set { _isLodingDataFromWebServiceToLocal = value; }
         }
 
-        public void initializeCredential(Agent user)
+        public async void initializeCredential(Agent user)
         {
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
                 _loadSize = (AuthenticatedUser.ListSize > 0) ? AuthenticatedUser.ListSize : _loadSize;
                 _gatewayOrder.setServiceCredential(_servicePortType);
-                retrieveGateWayOrderData();
+                await retrieveGateWayOrderDataAsync();
             }
         }
 
@@ -80,13 +80,12 @@ namespace QOBDDAL.Core
             _gatewayOrder.setServiceCredential(_servicePortType);
         }
 
-        private void retrieveGateWayOrderData()
+        private async Task retrieveGateWayOrderDataAsync()
         {
             try
             {
                 lock (_lock) _isLodingDataFromWebServiceToLocal = true;
-                UpdateOrderDependencies(new NotifyTaskCompletion<List<Order>>(_gatewayOrder.searchOrderAsync(new Order { AgentId = AuthenticatedUser.ID }, ESearchOption.AND)).Task.Result.Take(_loadSize).ToList(), true);
-                //Log.debug("-- Orders loaded --");
+                await UpdateOrderDependenciesAsync((await _gatewayOrder.searchOrderAsync(new Order { AgentId = AuthenticatedUser.ID }, ESearchOption.AND)).Take(_loadSize).ToList(), true);
             }
             catch (Exception ex) { Log.error(ex.Message); }
             finally { lock (_lock) IsLodingDataFromWebServiceToLocal = true; }
@@ -718,7 +717,7 @@ namespace QOBDDAL.Core
         //----------------------------------------------------------------------------------------//
         //----------------------------------------------------------------------------------------//
 
-        public void UpdateOrderDependencies(List<Order> orders, bool isActiveProgress = false)
+        public async Task UpdateOrderDependenciesAsync(List<Order> orders, bool isActiveProgress = false)
         {
             int loadUnit = 25;
 
@@ -754,7 +753,7 @@ namespace QOBDDAL.Core
             // Address loading
             if (orderList.Count > 0)
             {
-                var addressfoundList = new NotifyTaskCompletion<List<Address>>(dalClient.GateWayClient.GetAddressDataByOrderListAsync(orderList.ToList())).Task.Result;
+                var addressfoundList = await dalClient.GateWayClient.GetAddressDataByOrderListAsync(orderList.ToList());
                 addressList = new ConcurrentBag<Address>(addressList.Concat(new ConcurrentBag<Address>(addressfoundList)));
                 var savedAddressList = dalClient.LoadAddress(addressList.ToList());
             }
@@ -763,13 +762,13 @@ namespace QOBDDAL.Core
             // Tax_order Loading
             if (orderList.Count > 0)
             {
-                var tax_orderfoundList = new NotifyTaskCompletion<List<Tax_order>>(_gatewayOrder.GetTax_orderDataByOrderListAsync(orderList.ToList())).Task.Result; // await GateWayOrder.GetTax_orderDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
+                var tax_orderfoundList = await _gatewayOrder.GetTax_orderDataByOrderListAsync(orderList.ToList());
                 tax_orderList = new ConcurrentBag<Tax_order>(tax_orderList.Concat(new ConcurrentBag<Tax_order>(tax_orderfoundList)));
                 List<Tax_order> savedTax_orderList = LoadTax_order(tax_orderList.ToList());
             }
 
             // Tax Loading
-            var taxFoundList = new NotifyTaskCompletion<List<Tax>>(_gatewayOrder.GetTaxDataAsync(999)).Task.Result; // await GateWayOrder.GetTax_orderDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
+            var taxFoundList = await _gatewayOrder.GetTaxDataAsync(999); 
             taxList = new ConcurrentBag<Tax>(new ConcurrentBag<Tax>(taxFoundList));
             List<Tax> savedTaxList = LoadTax(taxList.ToList());
             if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
@@ -778,7 +777,7 @@ namespace QOBDDAL.Core
             // Bills Loading
             if (orderList.Count > 0)
             {
-                List<Bill> billfoundList = new NotifyTaskCompletion<List<Bill>>(_gatewayOrder.GetBillDataByOrderListAsync(orderList.ToList())).Task.Result; // await GateWayOrder.GetBillDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
+                List<Bill> billfoundList = await _gatewayOrder.GetBillDataByOrderListAsync(orderList.ToList());
                 billList = new ConcurrentBag<Bill>(billList.Concat(new ConcurrentBag<Bill>(billfoundList)));
                 List<Bill> savedBillList = LoadBill(billList.ToList());
             }
@@ -787,7 +786,7 @@ namespace QOBDDAL.Core
             // Delivery Loading
             if (orderList.Count > 0)
             {
-                List<Delivery> deliveryfoundList = new NotifyTaskCompletion<List<Delivery>>(_gatewayOrder.GetDeliveryDataByOrderListAsync(orderList.ToList())).Task.Result; //await GateWayOrder.GetDeliveryDataByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
+                List<Delivery> deliveryfoundList = await _gatewayOrder.GetDeliveryDataByOrderListAsync(orderList.ToList());
                 deliveryList = new ConcurrentBag<Delivery>(deliveryList.Concat(new ConcurrentBag<Delivery>(deliveryfoundList)));
                 List<Delivery> savedDeliveryList = LoadDelivery(deliveryList.ToList());
             }
@@ -798,7 +797,7 @@ namespace QOBDDAL.Core
             {
                 for (int i = 0; i < (orderList.Count() / loadUnit) || loadUnit > orderList.Count() && i == 0; i++)
                 {
-                    ConcurrentBag<Order_item> order_itemFoundList = new ConcurrentBag<Order_item>(new NotifyTaskCompletion<List<Order_item>>(_gatewayOrder.GetOrder_itemByOrderListAsync(orderList.Skip(i * loadUnit).Take(loadUnit).ToList())).Task.Result); // await GateWayOrder.GetOrder_itemByOrderList(new List<Order>(orderList.Skip(i * loadUnit).Take(loadUnit)));
+                    ConcurrentBag<Order_item> order_itemFoundList = new ConcurrentBag<Order_item>(await _gatewayOrder.GetOrder_itemByOrderListAsync(orderList.Skip(i * loadUnit).Take(loadUnit).ToList()));
                     order_itemList = new ConcurrentBag<Order_item>(order_itemList.Concat(new ConcurrentBag<Order_item>(order_itemFoundList)));
                 }
                 var savedOrder_itemList = new ConcurrentBag<Order_item>(LoadOrder_item(order_itemList.ToList()));
@@ -811,7 +810,7 @@ namespace QOBDDAL.Core
             {
                 for (int i = 0; i < (order_itemList.Count() / loadUnit) || loadUnit > order_itemList.Count() && i == 0; i++)
                 {
-                    ConcurrentBag<Item> itemFoundList = new ConcurrentBag<Item>(new NotifyTaskCompletion<List<Item>>(dalItem.GateWayItem.GetItemDataByOrder_itemListAsync(order_itemList.Skip(i * loadUnit).Take(loadUnit).ToList())).Task.Result); // await dalItem.GateWayItem.GetItemDataByOrder_itemList(new List<Order_item>(order_itemList.Skip(i * loadUnit).Take(loadUnit)));
+                    ConcurrentBag<Item> itemFoundList = new ConcurrentBag<Item>(await dalItem.GateWayItem.GetItemDataByOrder_itemListAsync(order_itemList.Skip(i * loadUnit).Take(loadUnit).ToList()));
                     itemList = new ConcurrentBag<Item>(itemList.Concat(new ConcurrentBag<Item>(itemFoundList)));
                 }
                 var savedItemList = new ConcurrentBag<Item>(dalItem.LoadItem(itemList.ToList()));
@@ -824,7 +823,7 @@ namespace QOBDDAL.Core
             {
                 for (int i = 0; i < (itemList.Count() / loadUnit) || loadUnit > itemList.Count() && i == 0; i++)
                 {
-                    ConcurrentBag<Provider_item> provider_itemFoundList = new ConcurrentBag<Provider_item>(new NotifyTaskCompletion<List<Provider_item>>(dalItem.GateWayItem.GetProvider_itemDataByItemListAsync(itemList.Skip(i * loadUnit).Take(loadUnit).ToList())).Task.Result); // await dalItem.GateWayItem.GetProvider_itemDataByItemList(new List<Item>(itemList.Skip(i * loadUnit).Take(loadUnit)));
+                    ConcurrentBag<Provider_item> provider_itemFoundList = new ConcurrentBag<Provider_item>(await dalItem.GateWayItem.GetProvider_itemDataByItemListAsync(itemList.Skip(i * loadUnit).Take(loadUnit).ToList()));
                     provider_itemList = new ConcurrentBag<Provider_item>(provider_itemList.Concat(new ConcurrentBag<Provider_item>(provider_itemFoundList)).OrderBy(x => x.Provider_name).Distinct());
                 }
                 var savedProvider_itemList = new ConcurrentBag<Provider_item>(dalItem.LoadProvider_item(provider_itemList.ToList()));
@@ -835,7 +834,7 @@ namespace QOBDDAL.Core
             // Provider Loading
             if (provider_itemList.Count > 0)
             {
-                List<Provider> providerFoundList = new NotifyTaskCompletion<List<Provider>>(dalItem.GateWayItem.GetProviderDataByProvider_itemListAsync(provider_itemList.ToList())).Task.Result; // await dalItem.GateWayItem.GetProviderDataByProvider_itemList(new List<Provider_item>(provider_itemList.Skip(i * loadUnit).Take(loadUnit)));
+                List<Provider> providerFoundList = await dalItem.GateWayItem.GetProviderDataByProvider_itemListAsync(provider_itemList.ToList());
                 providerList = new ConcurrentBag<Provider>(providerList.Concat(new ConcurrentBag<Provider>(providerFoundList)).OrderBy(x => x.Name).Distinct());
                 List<Provider> savedProviderList = dalItem.LoadProvider(providerList.ToList());
             }
@@ -845,7 +844,7 @@ namespace QOBDDAL.Core
             // Item_delivery Loading
             if (deliveryList.Count > 0)
             {
-                List<Item_delivery> item_deliveryFoundList = new NotifyTaskCompletion<List<Item_delivery>>(dalItem.GateWayItem.GetItem_deliveryDataByDeliveryListAsync(deliveryList.ToList())).Task.Result; // await dalItem.GateWayItem.GetItem_deliveryDataByDeliveryList(new List<Delivery>(deliveryList.Skip(i * loadUnit).Take(loadUnit)));
+                List<Item_delivery> item_deliveryFoundList = await dalItem.GateWayItem.GetItem_deliveryDataByDeliveryListAsync(deliveryList.ToList());
                 item_deliveryList = new ConcurrentBag<Item_delivery>(item_deliveryList.Concat(new ConcurrentBag<Item_delivery>(item_deliveryFoundList)));
                 List<Item_delivery> savedItem_deliveryList = dalItem.LoadItem_delivery(item_deliveryList.ToList());
             }
@@ -856,7 +855,7 @@ namespace QOBDDAL.Core
             {
                 for (int i = 0; i < (itemList.Count() / loadUnit) || loadUnit > itemList.Count() && i == 0; i++)
                 {
-                    ConcurrentBag<Tax_item> tax_itemFoundList = new ConcurrentBag<Tax_item>(new NotifyTaskCompletion<List<Tax_item>>(dalItem.GateWayItem.GetTax_itemDataByItemListAsync(itemList.Skip(i * loadUnit).Take(loadUnit).ToList())).Task.Result); // await dalItem.GateWayItem.GetTax_itemDataByItemList(new List<Item>(itemList.Skip(i * loadUnit).Take(loadUnit)));
+                    ConcurrentBag<Tax_item> tax_itemFoundList = new ConcurrentBag<Tax_item>(await dalItem.GateWayItem.GetTax_itemDataByItemListAsync(itemList.Skip(i * loadUnit).Take(loadUnit).ToList())); // await dalItem.GateWayItem.GetTax_itemDataByItemList(new List<Item>(itemList.Skip(i * loadUnit).Take(loadUnit)));
                     tax_itemList = new ConcurrentBag<Tax_item>(tax_itemList.Concat(new ConcurrentBag<Tax_item>(tax_itemFoundList)));
                 }
                 var savedTax_itemList = new ConcurrentBag<Tax_item>(dalItem.LoadTax_item(tax_itemList.ToList()));
@@ -868,7 +867,7 @@ namespace QOBDDAL.Core
             // Client Loading
             if (billList.Count > 0)
             {
-                List<Client> clientFoundList = new NotifyTaskCompletion<List<Client>>(dalClient.GateWayClient.GetClientDataByBillListAsync(billList.ToList())).Task.Result; // await dalClient.GateWayClient.GetClientDataByBillList(new List<Bill>(billList.Skip(i * loadUnit).Take(loadUnit)));
+                List<Client> clientFoundList = await dalClient.GateWayClient.GetClientDataByBillListAsync(billList.ToList());
                 clientList = new ConcurrentBag<Client>(clientList.Concat(new ConcurrentBag<Client>(clientFoundList)));
                 List<Client> savedClientList = dalClient.LoadClient(clientList.ToList());
             }
@@ -877,7 +876,7 @@ namespace QOBDDAL.Core
             // Contacts Loading
             if (clientList.Count > 0)
             {
-                List<Contact> contactFoundList = new NotifyTaskCompletion<List<Contact>>(dalClient.GateWayClient.GetContactDataByClientListAsync(clientList.ToList())).Task.Result; // await dalClient.GateWayClient.GetContactDataByClientList(new List<Client>(clientList.Skip(i * loadUnit).Take(loadUnit)));
+                List<Contact> contactFoundList = await dalClient.GateWayClient.GetContactDataByClientListAsync(clientList.ToList()); // await dalClient.GateWayClient.GetContactDataByClientList(new List<Client>(clientList.Skip(i * loadUnit).Take(loadUnit)));
                 contactList = new ConcurrentBag<Contact>(contactList.Concat(new ConcurrentBag<Contact>(contactFoundList)));
                 List<Contact> savedContactList = dalClient.LoadContact(contactList.ToList());
             }

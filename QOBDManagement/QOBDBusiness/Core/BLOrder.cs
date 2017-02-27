@@ -50,10 +50,10 @@ namespace QOBDBusiness.Core
                 DAC.DALOrder.progressBarManagement(progressBarFunc);
         }
 
-        public void UpdateOrderDependencies(List<Order> orderList, bool isActiveProgress = false)
+        public async Task UpdateOrderDependenciesAsync(List<Order> orderList, bool isActiveProgress = false)
         {
             if (orderList != null)
-                DAC.DALOrder.UpdateOrderDependencies(orderList, isActiveProgress);
+                await DAC.DALOrder.UpdateOrderDependenciesAsync(orderList, isActiveProgress);            
         }
 
 
@@ -705,9 +705,7 @@ namespace QOBDBusiness.Core
             try
             {
                 result = await DAC.DALOrder.searchOrderAsync(order, filterOperator);
-                await Task.Factory.StartNew(() => {
-                    UpdateOrderDependencies(result);
-                });
+                await UpdateOrderDependenciesAsync(result);
                 
             }
             catch (Exception ex) { Log.error(ex.Message); }

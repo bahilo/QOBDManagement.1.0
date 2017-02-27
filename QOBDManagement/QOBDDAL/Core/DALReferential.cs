@@ -61,13 +61,13 @@ namespace QOBDDAL.Core
             set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsLodingDataFromWebServiceToLocal"); }
         }
 
-        public void initializeCredential(Agent user)
+        public async void initializeCredential(Agent user)
         {
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
                 _gateWayReferential.setServiceCredential(_servicePortType);
-                retrieveGateWayReferentialData();
+                await retrieveGateWayReferentialDataAsync();
             }
         }
 
@@ -82,17 +82,15 @@ namespace QOBDDAL.Core
             _gateWayReferential.setServiceCredential(_servicePortType);
         }
 
-        private void retrieveGateWayReferentialData()
+        private async Task retrieveGateWayReferentialDataAsync()
         {
             object _lock = new object();
 
             lock (_lock) _isLodingDataFromWebServiceToLocal = true;
             try
             {
-                ConcurrentBag<Info> infosList = new ConcurrentBag<Info>(new NotifyTaskCompletion<List<Info>>(_gateWayReferential.GetInfoDataAsync(_loadSize)).Task.Result);
+                ConcurrentBag<Info> infosList = new ConcurrentBag<Info>(await _gateWayReferential.GetInfoDataAsync(_loadSize));
                 List<Info> savedInfosList = LoadInfos(infosList.ToList());
-
-                //Log.debug("-- Referentials loaded --");
             }
             catch (Exception ex)
             {

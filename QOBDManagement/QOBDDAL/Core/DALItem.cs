@@ -73,13 +73,13 @@ namespace QOBDDAL.Core
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void initializeCredential(Agent user)
+        public async void initializeCredential(Agent user)
         {
             if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
                 _gateWayItem.setServiceCredential(_servicePortType);
-                retrieveGateWayItemData();
+                await retrieveGateWayItemDataAsync();
             }
         }
 
@@ -94,15 +94,14 @@ namespace QOBDDAL.Core
             _gateWayItem.setServiceCredential(_servicePortType);
         }
 
-        private void retrieveGateWayItemData()
+        private async Task retrieveGateWayItemDataAsync()
         {
             lock (_lock) _isLodingDataFromWebServiceToLocal = true;
             try
             {
-                var itemList = new NotifyTaskCompletion<List<Item>>(_gateWayItem.GetItemDataAsync(_loadSize)).Task.Result;
+                var itemList = await _gateWayItem.GetItemDataAsync(_loadSize);
                 if (itemList.Count > 0)
-                    UpdateItemDependencies(itemList);
-                //Log.debug("-- Items loaded --");
+                    await UpdateItemDependenciesAsync(itemList);
             }
             catch (Exception ex)
             {
@@ -460,7 +459,7 @@ namespace QOBDDAL.Core
         public List<Item> GetItemData(int nbLine)
         {
             List<Item> result = _dataSet.GetItemData();
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
             return result.GetRange(0, nbLine);
         }
@@ -495,7 +494,7 @@ namespace QOBDDAL.Core
         public List<Provider> GetProviderData(int nbLine)
         {
             List<Provider> result = _dataSet.GetProviderData();
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
             return result.GetRange(0, nbLine);
         }
@@ -531,7 +530,7 @@ namespace QOBDDAL.Core
         {
             List<Provider_item> result = new List<Provider_item>();
             result = _dataSet.GetProvider_itemData();
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
             return result.GetRange(0, nbLine);
         }
@@ -566,7 +565,7 @@ namespace QOBDDAL.Core
         public List<Item_delivery> GetItem_deliveryData(int nbLine)
         {
             List<Item_delivery> result = _dataSet.GetItem_deliveryData();
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
             return result.GetRange(0, nbLine);
         }
@@ -601,7 +600,7 @@ namespace QOBDDAL.Core
         public List<Auto_ref> GetAuto_refData(int nbLine)
         {
             List<Auto_ref> result = _dataSet.GetAuto_refData();
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
             return result.GetRange(0, nbLine);
         }
@@ -619,7 +618,7 @@ namespace QOBDDAL.Core
         public List<Tax_item> GetTax_itemData(int nbLine)
         {
             List<Tax_item> result = _dataSet.GetTax_itemData();
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
             return result.GetRange(0, nbLine);
         }
@@ -717,7 +716,7 @@ namespace QOBDDAL.Core
             _dataSet.Dispose();
         }
 
-        public void UpdateItemDependencies(List<Item> itemList, bool isActiveProgress = false)
+        public async Task UpdateItemDependenciesAsync(List<Item> itemList, bool isActiveProgress = false)
         {
             int loadUnit = 50;
             List<Provider> providerList = new List<Provider>();
@@ -725,11 +724,8 @@ namespace QOBDDAL.Core
             List<Item> savedItemList = LoadItem(itemList);
             for (int i = 0; i < (savedItemList.Count() / loadUnit) || loadUnit >= savedItemList.Count() && i == 0; i++)
             {
-                lock (_lock)
-                {
-                    List<Provider_item> savedProvider_itemList = LoadProvider_item(new NotifyTaskCompletion<List<Provider_item>>(_gateWayItem.GetProvider_itemDataByItemListAsync(savedItemList.Skip(i * loadUnit).Take(loadUnit).ToList())).Task.Result);
-                    List<Provider> savedProviderList = LoadProvider(new NotifyTaskCompletion<List<Provider>>(_gateWayItem.GetProviderDataByProvider_itemListAsync(savedProvider_itemList.OrderBy(x => x.Provider_name).Distinct().ToList())).Task.Result);
-                }
+                List<Provider_item> savedProvider_itemList = LoadProvider_item(await _gateWayItem.GetProvider_itemDataByItemListAsync(savedItemList.Skip(i * loadUnit).Take(loadUnit).ToList()));
+                List<Provider> savedProviderList = LoadProvider(await _gateWayItem.GetProviderDataByProvider_itemListAsync(savedProvider_itemList.OrderBy(x => x.Provider_name).Distinct().ToList()));
             }
 
         }
