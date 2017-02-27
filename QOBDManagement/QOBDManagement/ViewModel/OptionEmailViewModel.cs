@@ -60,7 +60,6 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
-            set { _startup.Bl = value; onPropertyChange("Bl"); }
         }
 
         public string Title
@@ -105,8 +104,8 @@ namespace QOBDManagement.ViewModel
         {
             Dialog.showSearch("Loading...");
             
-            string login = (_startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
-            string password = ( _startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+            string login = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+            string password = ( _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
 
             foreach (var email in _emails)
             {

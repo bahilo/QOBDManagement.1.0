@@ -17,6 +17,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using QOBDDAL.Classes;
+using QOBDGateway.Classes;
 
 namespace QOBDDAL.Core
 {
@@ -25,21 +27,27 @@ namespace QOBDDAL.Core
         private Func<double, double> _rogressBarFunc;
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.IAgentManager _gateWayAgent;
-        private QOBDWebServicePortTypeClient _servicePortType;
+        private ClientProxy _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
         private object _lock = new object();
+        private Interfaces.IQOBDSet _dataSet;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALAgent(QOBDWebServicePortTypeClient servicePort)
+        public DALAgent(ClientProxy servicePort)
         {
             _servicePortType = servicePort;
             _gateWayAgent = new GateWayAgent(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
 
+        }
+
+        public DALAgent(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
+        {
+            this._dataSet = _dataSet;
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -60,7 +68,7 @@ namespace QOBDDAL.Core
 
         public void setServiceCredential(object channel)
         {
-            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
                 _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
@@ -69,15 +77,16 @@ namespace QOBDDAL.Core
             _gateWayAgent.setServiceCredential(_servicePortType);
         }
 
-        public async void retrieveGateWayAgentData() 
+        public async void retrieveGateWayAgentData()
         {
             try
-            { 
+            {
                 lock (_lock) _isLodingDataFromWebServiceToLocal = true;
 
                 // getting agents without their credentials (_loadSize < 0)
                 var agentList = await _gateWayAgent.GetAgentDataAsync(-1 * _loadSize);
-                //var agentList = new NotifyTaskCompletion<List<Agent>>(test).Task.Result;
+                
+
                 if (agentList.Count > 0)
                     LoadAgent(agentList);
             }
@@ -92,69 +101,54 @@ namespace QOBDDAL.Core
                     _rogressBarFunc(_rogressBarFunc(0) + 100 / _progressStep);
                     _isLodingDataFromWebServiceToLocal = false;
                 }
-            }          
+            }
         }
 
         public void progressBarManagement(Func<double, double> progressBarFunc)
         {
             _rogressBarFunc = progressBarFunc;
         }
-
-
-
+        
         public async Task<List<Agent>> InsertAgentAsync(List<Agent> listAgent)
         {
-            List<Agent> result = new List<Agent>();
-            List<Agent> gateWayResultList = new List<Agent>();
-            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
-            {
-                gateWayResultList = await _gateWayAgent.InsertAgentAsync(listAgent);
-
-                result = LoadAgent(gateWayResultList);
-            }
-            return result;
+            List<Agent> gateWayResultList = await _gateWayAgent.InsertAgentAsync(listAgent);
+            return LoadAgent(gateWayResultList);
         }
 
         public async Task<List<Agent>> DeleteAgentAsync(List<Agent> listAgent)
         {
             List<Agent> result = new List<Agent>();
-            List<Agent> gateWayResultList = new List<Agent>();
-            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
-            {
-                gateWayResultList = await _gateWayAgent.DeleteAgentAsync(listAgent);
-                if (gateWayResultList.Count == 0)
-                    foreach (Agent agent in gateWayResultList)
-                    {
-                        int returnResult = _agentsTableAdapter.Delete1(agent.ID);
-                        if (returnResult == 0)
-                            result.Add(agent);
-                    }
-            }
+            List<Agent> gateWayResultList = await _gateWayAgent.DeleteAgentAsync(listAgent);
+            if (gateWayResultList.Count == 0)
+                foreach (Agent agent in gateWayResultList)
+                {
+                    int returnResult = _dataSet.DeleteAgent(agent.ID);
+                    if (returnResult == 0)
+                        result.Add(agent);
+                }
+
             return result;
         }
 
         public async Task<List<Agent>> UpdateAgentAsync(List<Agent> agentList)
         {
             List<Agent> result = new List<Agent>();
-            List<Agent> gateWayResultList = new List<Agent>();
             QOBDSet dataSet = new QOBDSet();
-            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
+
+            List<Agent> gateWayResultList = await _gateWayAgent.UpdateAgentAsync(agentList);
+
+            foreach (var agent in gateWayResultList)
             {
-                gateWayResultList = await _gateWayAgent.UpdateAgentAsync(agentList);
+                QOBDSet dataSetLocal = new QOBDSet();
+                _dataSet.FillAgentDataTableById(dataSetLocal.agents, agent.ID);
+                dataSet.agents.Merge(dataSetLocal.agents);
+            }
 
-                foreach (var agent in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _agentsTableAdapter.FillById(dataSetLocal.agents, agent.ID);
-                    dataSet.agents.Merge(dataSetLocal.agents);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _agentsTableAdapter.Update(gateWayResultList.AgentTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
+            if (gateWayResultList.Count > 0)
+            {
+                int returnValue = _dataSet.UpdateAgent(gateWayResultList.AgentTypeToDataTable(dataSet));
+                if (returnValue == gateWayResultList.Count)
+                    result = gateWayResultList;
             }
             return result;
         }
@@ -162,37 +156,24 @@ namespace QOBDDAL.Core
         public List<Agent> LoadAgent(List<Agent> agentsList)
         {
             List<Agent> result = new List<Agent>();
-            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
+
+            foreach (var agent in agentsList)
             {
-                foreach (var agent in agentsList)
-                {
-                    int returnResult = _agentsTableAdapter
-                                            .load_data_agent(
-                                                agent.LastName,
-                                                agent.FirstName,
-                                                agent.Phone,
-                                                agent.Fax,
-                                                agent.Email,
-                                                agent.Login,
-                                                agent.HashedPassword,
-                                                agent.Admin,
-                                                agent.Status,
-                                                agent.ListSize,
-                                                agent.ID);
-                    if (returnResult > 0)
-                        result.Add(agent);
-                }
+                int returnResult = _dataSet.LoadAgent(agent);
+                if (returnResult > 0)
+                    result.Add(agent);
             }
+
             return result;
         }
 
         public List<Agent> GetAgentData(int nbLine)
         {
             List<Agent> result = new List<Agent>();
-            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
-                result = _agentsTableAdapter.GetData().DataTableTypeToAgent();
 
-            if (nbLine.Equals(999) || result.Count == 0)
+            result = _dataSet.GetAgentData();
+
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
@@ -205,8 +186,7 @@ namespace QOBDDAL.Core
 
         public List<Agent> GetAgentDataById(int id)
         {
-            using (agentsTableAdapter _agentsTableAdapter = new agentsTableAdapter())
-                return _agentsTableAdapter.get_agent_by_id(id).DataTableTypeToAgent();
+            return _dataSet.GetAgentDataById(id);
         }
 
         public List<Agent> GetAgentDataByOrderList(List<Order> orderList)
@@ -228,7 +208,7 @@ namespace QOBDDAL.Core
 
         public List<Agent> searchAgent(Agent agent, ESearchOption filterOperator)
         {
-            return agent.AgentTypeToFilterDataTable(filterOperator);
+            return _dataSet.searchAgent(agent, filterOperator);
         }
 
         public async Task<List<Agent>> searchAgentAsync(Agent agent, ESearchOption filterOperator)
@@ -239,6 +219,7 @@ namespace QOBDDAL.Core
         public void Dispose()
         {
             _gateWayAgent.Dispose();
+            _dataSet.Dispose();
         }
 
     } /* end class BLAgent */

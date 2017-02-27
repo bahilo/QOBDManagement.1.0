@@ -672,7 +672,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Fax = Utility.decodeBase64ToString(x.Fax),
                 CompanyName = Utility.decodeBase64ToString(x.CompanyName),
                 CRN = Utility.decodeBase64ToString(x.CRN),
-                MaxCredit = Convert.ToDecimal(x.MaxCredit),
+                MaxCredit = Utility.decimalTryParse(x.MaxCredit),
                 Rib = Utility.decodeBase64ToString(x.Rib),
                 PayDelay = x.PayDelay,
             }).ToList();

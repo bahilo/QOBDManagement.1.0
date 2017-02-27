@@ -35,7 +35,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.5.30.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.5.30\lib\net45\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <Choose>
@@ -51,17 +61,21 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Classes\QOBDClient.cs" />
-    <Compile Include="Gateway\FakeCLientGateway.cs" />
+    <Compile Include="Classes\MockClient.cs" />
+    <Compile Include="Classes\MockStartup.cs" />
+    <Compile Include="DAC\MockDataSet.cs" />
     <Compile Include="QOBDUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\AgentUnitTest.cs" />
+    <Compile Include="Tests\ClientUnitTest.cs" />
+    <Compile Include="Tests\ItemUnitTest.cs" />
+    <Compile Include="Tests\NotificationUnitTest.cs" />
+    <Compile Include="Tests\OrderUnitTest.cs" />
+    <Compile Include="Tests\ReferentialUnitTest.cs" />
+    <Compile Include="Tests\SecurityUnitTest.cs" />
+    <Compile Include="Tests\StatisticUnitTest.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Business\" />
-    <Folder Include="DAC\" />
-    <Folder Include="GUI\" />
-    <Folder Include="Tests\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\QOBDBusiness\QOBDBusiness.csproj">
       <Project>{9d526cca-4e4d-493f-8394-d4179f994b48}</Project>
@@ -83,6 +97,12 @@
       <Project>{80087a17-8762-4ecf-8b5b-b747f29015ff}</Project>
       <Name>QOBDManagement</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

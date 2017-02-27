@@ -23,14 +23,10 @@ namespace QOBDManagement.ViewModel
 {
     public class ClientViewModel : BindBase, IClientViewModel
     {
-        private List<string> _idList;
         private List<string> _saveSearchParametersList;
-        private List<string> _companyList;
         private Func<Object, Object> _page;
-        //private NotifyTaskCompletion<ClientModel> _selectedCLientTask;
         private string _title;
         private List<Agent> _agentList;
-        private List<Address> _addressList;
         private List<Client> _clientList;
         private List<Client> _saveResultParametersList;
 
@@ -72,9 +68,6 @@ namespace QOBDManagement.ViewModel
 
         private void initEvents()
         {
-            //_selectedCLientTask.PropertyChanged += onSelectedCLientTaskCompletion_saveSelectedClient;
-            _clientDetailViewModel.PropertyChanged += onSelectedClientChange;
-
             if ((_main.getObject("main") as BindBase) != null)
             {
                 (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
@@ -85,14 +78,10 @@ namespace QOBDManagement.ViewModel
         private void instances()
         {
             _title = "Client Management";
-            _idList = new List<string>();
-            _companyList = new List<string>();
             _saveSearchParametersList = new List<string>();
             _saveResultParametersList = new List<Client>();
-            //_selectedCLientTask = new NotifyTaskCompletion<ClientModel>();
             _agentList = new List<Agent>();
             _clientList = new List<Client>();
-            _addressList = new List<Address>();
         }
 
         private void instancesModel(IMainWindowViewModel main)
@@ -120,7 +109,6 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
-            set { _startup.Bl = value;  }
         }
 
         public string Title
@@ -159,14 +147,7 @@ namespace QOBDManagement.ViewModel
             set { _clientModel = value; onPropertyChange("ClientModel"); }
         }
 
-
-        public List<string> IdList
-        {
-            get { return _idList; }
-            set { _idList = value; onPropertyChange("IdList"); }
-        }
-
-        public List<string> CompanyList
+        /*public List<string> CompanyList
         {
             get { return _companyList; }
             set { _companyList = value; onPropertyChange("CompanyList"); }
@@ -176,7 +157,7 @@ namespace QOBDManagement.ViewModel
         {
             get { return _addressList; }
             set { _addressList = value; onPropertyChange("AddressList"); }
-        }
+        }*/
 
 
         //----------------------------[ Actions ]------------------
@@ -207,20 +188,8 @@ namespace QOBDManagement.ViewModel
             return output;
         }
 
-        public ClientModel loadContactsAndAddresses(ClientModel cLientViewModel)
-        {
-            cLientViewModel.AddressList = Bl.BlClient.searchAddress(new Address { ClientId = cLientViewModel.Client.ID }, ESearchOption.AND);
-            cLientViewModel.Address = (cLientViewModel.AddressList.Count() > 0) ? cLientViewModel.AddressList.OrderBy(x => x.ID).Last() : new Address();
-            cLientViewModel.ContactList = Bl.BlClient.GetContactDataByClientList(new List<Client> { new Client { ID = cLientViewModel.Client.ID } });
-            cLientViewModel.Contact = (cLientViewModel.ContactList.Count() > 0) ? cLientViewModel.ContactList.OrderBy(x => x.ID).Last() : new Contact();
-
-            return cLientViewModel;
-        }
-
         public override void Dispose()
         {
-            _clientDetailViewModel.PropertyChanged -= onSelectedClientChange;
-            //_selectedCLientTask.PropertyChanged -= onSelectedCLientTaskCompletion_saveSelectedClient;
             ClientDetailViewModel.Dispose();
             ClientSideBarViewModel.Dispose();
             if ((_main.getObject("main") as BindBase) != null)
@@ -232,22 +201,6 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Event Handler ]------------------
         
-        private void onSelectedClientChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (string.Equals(e.PropertyName, "SelectedCLientModel"))
-            {
-                executeNavig("client-detail");
-            }
-        }
-
-        //private void onSelectedCLientTaskCompletion_saveSelectedClient(object sender, PropertyChangedEventArgs e)
-        //{
-        //    if (string.Equals(e.PropertyName, "IsSuccessfullyCompleted"))
-        //    {
-        //        SelectedCLientModel = _selectedCLientTask.Result;
-        //    }
-        //}
-
         private void onStartupChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Startup"))
@@ -268,10 +221,10 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Action Commands ]------------------
 
-        private void selectCurrentClient(ClientModel obj)
+        public void selectCurrentClient(ClientModel obj)
         {
-            SelectedCLientModel = loadContactsAndAddresses(obj);
-            //_selectedCLientTask.initializeNewTask();            
+            SelectedCLientModel = ClientDetailViewModel.loadContactsAndAddresses(obj);
+            executeNavig("client-detail");
         }
 
         private bool canSelectedCurrentClient(ClientModel arg)

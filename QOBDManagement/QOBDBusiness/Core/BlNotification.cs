@@ -133,23 +133,23 @@ namespace QOBDBusiness.Core
             DAC.DALNotification.Dispose();
         }
 
-        public List<Notification> SearchNotification(Notification notification, ESearchOption filterOperator)
+        public List<Notification> searchNotification(Notification notification, ESearchOption filterOperator)
         {
             List<Notification> result = new List<Notification>();
             try
             {
-                result = DAC.DALNotification.SearchNotification(notification, filterOperator);
+                result = DAC.DALNotification.searchNotification(notification, filterOperator);
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;
         }
 
-        public async Task<List<Notification>> SearchNotificationAsync(Notification notification, ESearchOption filterOperator)
+        public async Task<List<Notification>> searchNotificationAsync(Notification notification, ESearchOption filterOperator)
         {
             List<Notification> result = new List<Notification>();
             try
             {
-                result = await DAC.DALNotification.SearchNotificationAsync(notification, filterOperator);
+                result = await DAC.DALNotification.searchNotificationAsync(notification, filterOperator);
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;

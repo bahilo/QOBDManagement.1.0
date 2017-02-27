@@ -330,7 +330,7 @@ namespace QOBDBusiness.Core
 
         public async Task<List<Tax_item>> UpdateTax_itemAsync(List<Tax_item> listTax_item)
         {
-            if (listTax_item != null || listTax_item.Count == 0)
+            if (listTax_item == null || listTax_item.Count == 0)
                 return new List<Tax_item>();
 
             if (listTax_item.Where(x => x.ID == 0).Count() > 0)

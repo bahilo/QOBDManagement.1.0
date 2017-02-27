@@ -33,7 +33,7 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Models ]------------------
 
         private ItemModel _itemModel;
-        private IEnumerable<ItemModel> _itemsModel;
+        private List<ItemModel> _itemsModel;
         private ItemDetailViewModel _itemDetailViewModel;
         private ItemSideBarViewModel _itemSideBarViewModel;
         private IMainWindowViewModel _main;
@@ -116,7 +116,6 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
-            set { _startup.Bl = value; onPropertyChange("Bl"); }
         }
 
         public string Title
@@ -149,7 +148,7 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _items, value); }
         }
 
-        public IEnumerable<ItemModel> ItemModelList
+        public List<ItemModel> ItemModelList
         {
             get { return _itemsModel; }
             set { setProperty(ref _itemsModel, value); }
@@ -232,7 +231,7 @@ namespace QOBDManagement.ViewModel
                 // getting all providers for each item
                 ivm.ProviderList = loadProviderFromProvider_item(provider_itemFoundList, item.Source);
 
-                if (ivm.ProviderList.Count > 0)
+                if (ivm.ProviderList.Count > 0 && ivm.ProviderList.Count > 0 && ItemDetailViewModel.AllProviderList.Where(x => x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).Count() > 0)
                     ivm.SelectedProvider = ItemDetailViewModel.AllProviderList.Where(x=> x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).First();
                 
                 familyList.Add(item.Type_sub);
@@ -391,7 +390,7 @@ namespace QOBDManagement.ViewModel
             GoToQuoteCommand.raiseCanExecuteActionChanged();
         }
 
-        private void saveSelectedItem(ItemModel obj)
+        public void saveSelectedItem(ItemModel obj)
         {
             SelectedItemModel = obj;
         }

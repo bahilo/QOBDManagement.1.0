@@ -51,7 +51,12 @@ namespace QOBDManagement.ViewModel
         {
             IsDialogOpen = false;
             TxtMessage = message;
-            object result = await DialogHost.Show(this, "RootDialog");
+            object result = new object();
+#if DEBUG
+            result = await Task.Factory.StartNew(()=> { return true; });
+#else
+            result = await DialogHost.Show(this, "RootDialog");
+#endif
             if ((result as bool?) != null)
                 Response = (bool)result;
             return Response;
@@ -61,13 +66,23 @@ namespace QOBDManagement.ViewModel
         {
             TxtMessage = message;
             IsDialogOpen = false;
-            object result = await DialogHost.Show(new Views.SearchConfirmationView(), "RootDialog");
+#if DEBUG
+            await Task.Factory.StartNew(() => { return true; });
+#else
+            await DialogHost.Show(new Views.SearchConfirmationView(), "RootDialog");
+#endif
+            
         }
 
         public async Task<bool> show(object viewModel)
         {
             IsDialogOpen = false;
-            object result = await DialogHost.Show(viewModel, "RootDialog");
+            object result = new object();
+#if DEBUG
+            result = await Task.Factory.StartNew(() => { return true; });
+#else
+            result = await DialogHost.Show(viewModel, "RootDialog");
+#endif
             if ((result as bool?) != null)
                 Response = (bool)result;
 

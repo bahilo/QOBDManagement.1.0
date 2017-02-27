@@ -20,7 +20,7 @@ namespace QOBDManagement.Classes
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected ConfirmationViewModel _dialog;
-        protected Startup _startup;
+        protected IStartup _startup;
         
         protected virtual void setProperty<P>(
             ref P member,
@@ -36,7 +36,7 @@ namespace QOBDManagement.Classes
             onPropertyChange(propertyName);
         }
 
-        public Startup Startup
+        public IStartup Startup
         {
             get { return _startup; }
             set { setProperty(ref _startup, value); }

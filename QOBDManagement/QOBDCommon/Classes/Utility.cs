@@ -91,12 +91,15 @@ namespace QOBDCommon.Classes
             string returnValue = "";
             try
             {
-                byte[] encodedDataAsBytes = System.Convert.FromBase64String(encodedString);
-                returnValue = System.Text.Encoding.UTF8.GetString(encodedDataAsBytes);
+                if (!string.IsNullOrEmpty(encodedString))
+                {
+                    byte[] encodedDataAsBytes = System.Convert.FromBase64String(encodedString);
+                    returnValue = System.Text.Encoding.UTF8.GetString(encodedDataAsBytes);
+                }                
             }
             catch (Exception)
             {
-                Debug.WriteLine(string.Format("[Warning] - decode base64 of not encoded variable ({0})", encodedString));
+                //Debug.WriteLine(string.Format("[Warning] - decode base64 of not encoded variable ({0})", encodedString));
                 return encodedString;
             }
             return returnValue;

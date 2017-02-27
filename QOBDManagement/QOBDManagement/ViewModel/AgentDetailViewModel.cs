@@ -26,7 +26,7 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Models ]------------------
 
         private AgentModel _selectedAgentModel;
-        private IEnumerable<AgentModel> _agentsViewModel;
+        private List<AgentModel> _agentsViewModel;
 
         public AgentSideBarViewModel AgentSideBarViewModel { get; set; }
 
@@ -75,6 +75,7 @@ namespace QOBDManagement.ViewModel
         private void instancesModel()
         {
             _selectedAgentModel = new AgentModel();
+            _agentsViewModel = new List<AgentModel>();
         }
 
         private void instancesCommand()
@@ -96,7 +97,6 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
-            set { _startup.Bl = value; onPropertyChange("Bl"); }
         }
 
         public string Title
@@ -105,7 +105,7 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _title, value, "Title"); }
         }
 
-        public IEnumerable<AgentModel> AgentModelList
+        public List<AgentModel> AgentModelList
         {
             get { return _agentsViewModel; }
             set { _agentsViewModel = value; onPropertyChange("AgentModelList"); }

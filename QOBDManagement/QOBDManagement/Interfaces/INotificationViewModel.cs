@@ -10,7 +10,7 @@ namespace QOBDManagement.Interfaces
 {
     public interface INotificationViewModel
     {
-        void load();
+        Task loadNotifications();
         Task<List<BillModel>> billListToModelViewList(List<Bill> billList);
         void Dispose();
     }

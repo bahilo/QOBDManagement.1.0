@@ -1,6 +1,7 @@
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDCommon.Interfaces.REMOTE;
+using QOBDGateway.Classes;
 using QOBDGateway.Helper.ChannelHelper;
 using QOBDGateway.QOBDServiceReference;
 using System;
@@ -19,18 +20,18 @@ namespace QOBDGateway.Core
 {
     public class GateWayNotification : INotificationManager, INotifyPropertyChanged
     {
-        private QOBDWebServicePortTypeClient _channel;
+        private ClientProxy _channel;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public GateWayNotification(QOBDWebServicePortTypeClient servicePort)
+        public GateWayNotification(ClientProxy servicePort)
         {
             _channel = servicePort;
         }
         
         public void setServiceCredential(object channel)
         {
-            _channel = (QOBDWebServicePortTypeClient)channel;
+            _channel = (ClientProxy)channel;
         }
 
         private void onPropertyChange(string propertyName)
@@ -39,7 +40,7 @@ namespace QOBDGateway.Core
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public QOBDWebServicePortTypeClient NotificationGatWayChannel
+        public ClientProxy NotificationGatWayChannel
         {
             get
             {
@@ -126,7 +127,7 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Notification>> SearchNotificationAsync(Notification notification, ESearchOption filterOperator)
+        public async Task<List<Notification>> searchNotificationAsync(Notification notification, ESearchOption filterOperator)
         {
             List<Notification> result = new List<Notification>();
             try

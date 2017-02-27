@@ -1,6 +1,7 @@
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDCommon.Interfaces.REMOTE;
+using QOBDGateway.Classes;
 using QOBDGateway.Helper.ChannelHelper;
 using QOBDGateway.QOBDServiceReference;
 using System;
@@ -20,13 +21,13 @@ namespace QOBDGateway.Core
 {
     public class GateWaySecurity : ISecurityManager
     {
-        private QOBDWebServicePortTypeClient _channel;
+        private ClientProxy _channel;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Agent _authenticatedUser;
 
-        public GateWaySecurity(QOBDWebServicePortTypeClient servicePort)
+        public GateWaySecurity(ClientProxy servicePort)
         {
             _channel = servicePort;
         }
@@ -39,7 +40,7 @@ namespace QOBDGateway.Core
 
         public void setServiceCredential(object channel)
         {
-            _channel = (QOBDWebServicePortTypeClient)channel;
+            _channel = (ClientProxy)channel;
         }
 
         public async Task<Agent> AuthenticateUserAsync(string username, string password, bool isClearPassword = true)

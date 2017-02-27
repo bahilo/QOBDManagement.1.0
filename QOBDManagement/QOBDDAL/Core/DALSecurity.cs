@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Threading.Tasks;
+using QOBDDAL.Classes;
+using QOBDGateway.Classes;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -22,20 +24,26 @@ namespace QOBDDAL.Core
     {
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.ISecurityManager _gateWaySecurity;
-        private QOBDWebServicePortTypeClient _servicePortType;
+        private ClientProxy _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
         private Func<double, double> _progressBarFunc;
+        private Interfaces.IQOBDSet _dataSet;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALSecurity(QOBDWebServicePortTypeClient servicePort)
+        public DALSecurity(ClientProxy servicePort)
         {
             _servicePortType = servicePort;
             _gateWaySecurity = new GateWaySecurity(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
+        }
+
+        public DALSecurity(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
+        {
+            this._dataSet = _dataSet;
         }
 
         public void initializeCredential(Agent user)
@@ -48,7 +56,7 @@ namespace QOBDDAL.Core
 
         public void setServiceCredential(object channel)
         {
-            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
                 _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;

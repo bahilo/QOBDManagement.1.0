@@ -13,6 +13,9 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using QOBDDAL.Classes;
+using QOBDDAL.Interfaces;
+using QOBDGateway.Classes;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -26,20 +29,26 @@ namespace QOBDDAL.Core
         private Func<double, double> _rogressBarFunc;
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.INotificationManager _gateWayNotification;
-        private QOBDWebServicePortTypeClient _servicePortType;
+        private ClientProxy _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
         private object _lock = new object();
+        private Interfaces.IQOBDSet _dataSet;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALNotification(QOBDWebServicePortTypeClient servicePort)
+        public DALNotification(ClientProxy servicePort)
         {
             _servicePortType = servicePort;
             _gateWayNotification = new GateWayNotification(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
+        }
+
+        public DALNotification(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
+        {
+            this._dataSet = _dataSet;
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -61,7 +70,7 @@ namespace QOBDDAL.Core
 
         public void setServiceCredential(object channel)
         {
-            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
                 _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
@@ -105,56 +114,43 @@ namespace QOBDDAL.Core
         public async Task<List<Notification>> InsertNotificationAsync(List<Notification> listNotification)
         {
             List<Notification> result = new List<Notification>();
-            List<Notification> gateWayResultList = new List<Notification>();
-            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
-            {
-                gateWayResultList = await _gateWayNotification.InsertNotificationAsync(listNotification);
-
-                result = LoadNotification(gateWayResultList);
-            }
+            List<Notification> gateWayResultList = await _gateWayNotification.InsertNotificationAsync(listNotification);
+            result = LoadNotification(gateWayResultList);
             return result;
         }
 
         public async Task<List<Notification>> DeleteNotificationAsync(List<Notification> listNotification)
         {
             List<Notification> result = new List<Notification>();
-            List<Notification> gateWayResultList = new List<Notification>();
-            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
-            {
-                gateWayResultList = await _gateWayNotification.DeleteNotificationAsync(listNotification);
-                if (gateWayResultList.Count == 0)
-                    foreach (Notification notification in gateWayResultList)
-                    {
-                        int returnResult = _notificationsTableAdapter.Delete1(notification.ID);
-                        if (returnResult == 0)
-                            result.Add(notification);
-                    }
-            }
+            List<Notification> gateWayResultList = await _gateWayNotification.DeleteNotificationAsync(listNotification);
+            if (gateWayResultList.Count == 0)
+                foreach (Notification notification in gateWayResultList)
+                {
+                    int returnResult = _dataSet.DeleteNotification(notification.ID);
+                    if (returnResult == 0)
+                        result.Add(notification);
+                }
             return result;
         }
 
         public async Task<List<Notification>> UpdateNotificationAsync(List<Notification> notificationList)
         {
             List<Notification> result = new List<Notification>();
-            List<Notification> gateWayResultList = new List<Notification>();
             QOBDSet dataSet = new QOBDSet();
-            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
+            List<Notification> gateWayResultList = await _gateWayNotification.UpdateNotificationAsync(notificationList);
+
+            foreach (var notification in gateWayResultList)
             {
-                gateWayResultList = await _gateWayNotification.UpdateNotificationAsync(notificationList);
+                QOBDSet dataSetLocal = new QOBDSet();
+                _dataSet.FillNotificationDataTableById(dataSetLocal.notifications, notification.ID);
+                dataSet.notifications.Merge(dataSetLocal.notifications);
+            }
 
-                foreach (var notification in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _notificationsTableAdapter.FillById(dataSetLocal.notifications, notification.ID);
-                    dataSet.notifications.Merge(dataSetLocal.notifications);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _notificationsTableAdapter.Update(gateWayResultList.NotificationTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
+            if (gateWayResultList.Count > 0)
+            {
+                int returnValue = _dataSet.UpdateNotification(gateWayResultList.NotificationTypeToDataTable(dataSet));
+                if (returnValue == gateWayResultList.Count)
+                    result = gateWayResultList;
             }
             return result;
         }
@@ -162,33 +158,20 @@ namespace QOBDDAL.Core
         public List<Notification> LoadNotification(List<Notification> notificationsList)
         {
             List<Notification> result = new List<Notification>();
-            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
+            foreach (var notification in notificationsList)
             {
-                foreach (var notification in notificationsList)
-                {
-                    int returnResult = _notificationsTableAdapter
-                                            .load_data_notification(
-                                                notification.Reminder1,
-                                                notification.Reminder2,
-                                                notification.BillId,
-                                                notification.Date,
-                                                notification.ID);
-                    if (returnResult > 0)
-                        result.Add(notification);
-                }
+                int returnResult = _dataSet.LoadNotification(notification);
+                if (returnResult > 0)
+                    result.Add(notification);
             }
             return result;
         }
 
         public List<Notification> GetNotificationData(int nbLine)
         {
-            List<Notification> result = new List<Notification>();
-            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
-                result = _notificationsTableAdapter.GetData().DataTableTypeToNotification();
-
-            if (nbLine.Equals(999) || result.Count == 0)
+            List<Notification> result = _dataSet.GetNotificationData();
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
-
             return result.GetRange(0, nbLine);
         }
 
@@ -199,23 +182,23 @@ namespace QOBDDAL.Core
 
         public List<Notification> GetNotificationDataById(int id)
         {
-            using (notificationsTableAdapter _notificationsTableAdapter = new notificationsTableAdapter())
-                return _notificationsTableAdapter.get_notification_by_id(id).DataTableTypeToNotification();
+            return _dataSet.GetNotificationDataById(id);
         }
 
-        public List<Notification> SearchNotification(Notification notification, ESearchOption filterOperator)
+        public List<Notification> searchNotification(Notification notification, ESearchOption filterOperator)
         {
-            return notification.NotificationTypeToFilterDataTable(filterOperator);
+            return _dataSet.searchNotification(notification, filterOperator);
         }
 
-        public async Task<List<Notification>> SearchNotificationAsync(Notification notification, ESearchOption filterOperator)
+        public async Task<List<Notification>> searchNotificationAsync(Notification notification, ESearchOption filterOperator)
         {
-            return await _gateWayNotification.SearchNotificationAsync(notification, filterOperator);
+            return await _gateWayNotification.searchNotificationAsync(notification, filterOperator);
         }
 
         public void Dispose()
         {
             _gateWayNotification.Dispose();
+            _dataSet.Dispose();
         }
     } /* end class BlNotification */
 }

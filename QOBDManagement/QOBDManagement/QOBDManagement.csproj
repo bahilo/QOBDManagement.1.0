@@ -54,6 +54,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -86,6 +87,7 @@
     <Compile Include="Interfaces\IQuoteViewModel.cs" />
     <Compile Include="Interfaces\IReferentialViewModel.cs" />
     <Compile Include="Interfaces\ISecurityLoginViewModel.cs" />
+    <Compile Include="Interfaces\IStartup.cs" />
     <Compile Include="Interfaces\IStatisticViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Models\AddressModel.cs" />

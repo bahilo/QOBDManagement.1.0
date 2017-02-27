@@ -90,7 +90,6 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return Startup.Bl; }
-            set { Startup.Bl = value; onPropertyChange("Bl"); }
         }
 
         public List<StatisticModel> StatisticDataList

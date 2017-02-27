@@ -94,12 +94,12 @@ namespace QOBDBusiness.Core
             return result;
         }
 
-        public List<Info> GetInfosData(int nbLine)
+        public List<Info> GetInfoData(int nbLine)
         {
             List<Info> result = new List<Info>();
             try
             {
-                result = DAC.DALReferential.GetInfosData(nbLine);
+                result = DAC.DALReferential.GetInfoData(nbLine);
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;
@@ -127,23 +127,23 @@ namespace QOBDBusiness.Core
             return result;
         }
 
-        public async Task<List<Info>> searchInfosAsync(Info infos, ESearchOption filterOperator)
+        public async Task<List<Info>> searchInfoAsync(Info infos, ESearchOption filterOperator)
         {
             List<Info> result = new List<Info>();
             try
             {
-                result = await DAC.DALReferential.searchInfosAsync(infos, filterOperator);
+                result = await DAC.DALReferential.searchInfoAsync(infos, filterOperator);
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;
         }
 
-        public List<Info> searchInfos(Info Infos, ESearchOption filterOperator)
+        public List<Info> searchInfo(Info Infos, ESearchOption filterOperator)
         {
             List<Info> result = new List<Info>();
             try
             {
-                result = DAC.DALReferential.searchInfos(Infos, filterOperator);
+                result = DAC.DALReferential.searchInfo(Infos, filterOperator);
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;

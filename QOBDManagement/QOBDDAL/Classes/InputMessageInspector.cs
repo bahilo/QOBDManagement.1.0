@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace QOBDGateway.Classes
+namespace QOBDDAL.Classes
 {
     public class InputMessageInspector : IClientMessageInspector
     {

@@ -68,7 +68,7 @@
     <Compile Include="Entities\Role_action.cs" />
     <Compile Include="Entities\SendEmail.cs" />
     <Compile Include="Entities\Statistic.cs" />
-    <Compile Include="Entities\StrongBox.cs" />
+    <Compile Include="Entities\Safe.cs" />
     <Compile Include="Entities\Tax.cs" />
     <Compile Include="Entities\Tax_item.cs" />
     <Compile Include="Entities\Tax_order.cs" />

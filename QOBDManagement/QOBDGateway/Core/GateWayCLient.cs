@@ -26,11 +26,11 @@ namespace QOBDGateway.Core
 {
     public class GateWayClient : IClientManager, INotifyPropertyChanged
     {
-        private QOBDWebServicePortTypeClient _channel;
+        private ClientProxy _channel;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public GateWayClient(QOBDWebServicePortTypeClient servicePortType)
+        public GateWayClient(ClientProxy servicePortType)
         {
             _channel = servicePortType;
         }
@@ -38,7 +38,7 @@ namespace QOBDGateway.Core
         public void setServiceCredential(object channel)
         {
             //_channel.Close();
-            _channel = (QOBDWebServicePortTypeClient)channel; //new QOBDWebServicePortTypeClient("QOBDWebServicePort");
+            _channel = (ClientProxy)channel; //new QOBDWebServicePortTypeClient("QOBDWebServicePort");
         }
 
         private void onPropertyChange(string propertyName)

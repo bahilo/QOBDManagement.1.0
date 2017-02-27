@@ -27,17 +27,17 @@ namespace QOBDGateway.Core
 {
     public class GateWayOrder : IOrderManager, INotifyPropertyChanged
     {
-        private QOBDWebServicePortTypeClient _channel;
+        private ClientProxy _channel;
         public event PropertyChangedEventHandler PropertyChanged;
         
-        public GateWayOrder(QOBDWebServicePortTypeClient servicePort)
+        public GateWayOrder(ClientProxy servicePort)
         {
             _channel = servicePort;
         }
 
         public void setServiceCredential(object channel)
         {
-            _channel = (QOBDWebServicePortTypeClient)channel;
+            _channel = (ClientProxy)channel;
         }
 
         private void onPropertyChange(string propertyName)

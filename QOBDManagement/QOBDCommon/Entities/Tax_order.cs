@@ -22,9 +22,7 @@ namespace QOBDCommon.Entities
         public int OrderId {get; set; }
 
         public int TaxId { get; set; }
-
-        public int CommandId { get; set; }
-
+        
         public DateTime Date_insert {get; set;}
 
         public double Tax_value {get; set;}

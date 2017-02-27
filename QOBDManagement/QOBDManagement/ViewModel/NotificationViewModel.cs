@@ -129,7 +129,7 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Actions ]------------------
 
-        public async void load()
+        public async Task loadNotifications()
         {
             Dialog.showSearch("Loading...");
             ClientList = (await Bl.BlClient.GetClientMaxCreditOverDataByAgentAsync(Bl.BlSecurity.GetAuthenticatedUser().ID)).Select(x=> new ClientModel { Client = x }).ToList();
@@ -173,7 +173,7 @@ namespace QOBDManagement.ViewModel
                 if (orderFound != null)
                     bvm.OrderModel = new OrderModel { Order = orderFound };
 
-                var notificationFound = (await Bl.BlNotification.SearchNotificationAsync(new Notification { BillId = bill.ID }, QOBDCommon.Enum.ESearchOption.AND)).FirstOrDefault();
+                var notificationFound = (await Bl.BlNotification.searchNotificationAsync(new Notification { BillId = bill.ID }, QOBDCommon.Enum.ESearchOption.AND)).FirstOrDefault();
                 if (notificationFound != null)
                     bvm.NotificationModel = new NotificationModel { Notification = notificationFound };
 
@@ -238,7 +238,7 @@ namespace QOBDManagement.ViewModel
             paramOrderToPdf.ParamEmail = paramEmail;
 
             var billNotPaidFoundList = BillNotPaidList.Where(x => x.Bill.ID == obj.Bill.ID).ToList();
-            var notificationFoundList = await Bl.BlNotification.SearchNotificationAsync(new Notification { BillId = obj.Bill.ID }, QOBDCommon.Enum.ESearchOption.AND) ;
+            var notificationFoundList = await Bl.BlNotification.searchNotificationAsync(new Notification { BillId = obj.Bill.ID }, QOBDCommon.Enum.ESearchOption.AND) ;
             if(notificationFoundList.Count > 0)
             {
                 // the first reminder of unpaid invoice

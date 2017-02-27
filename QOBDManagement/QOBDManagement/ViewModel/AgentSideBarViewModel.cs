@@ -62,7 +62,6 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
-            set { _startup.Bl = value; onPropertyChange("Bl"); }
         }
 
         public AgentModel SelectedAgentModel

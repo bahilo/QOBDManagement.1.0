@@ -1,6 +1,7 @@
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDCommon.Interfaces.REMOTE;
+using QOBDGateway.Classes;
 using QOBDGateway.Helper.ChannelHelper;
 using QOBDGateway.QOBDServiceReference;
 using System;
@@ -18,18 +19,18 @@ namespace QOBDGateway.Core
 {
     public class GateWayItem : IItemManager, INotifyPropertyChanged
     {
-        private QOBDWebServicePortTypeClient _channel;
+        private ClientProxy _channel;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public GateWayItem(QOBDWebServicePortTypeClient servicePort)
+        public GateWayItem(ClientProxy servicePort)
         {
             _channel = servicePort;
         }
 
         public void setServiceCredential(object channel)
         {
-            _channel = (QOBDWebServicePortTypeClient)channel;
+            _channel = (ClientProxy)channel;
         }
 
         private void onPropertyChange(string propertyName)

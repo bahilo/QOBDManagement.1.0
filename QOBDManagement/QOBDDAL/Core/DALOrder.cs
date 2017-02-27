@@ -19,6 +19,9 @@ using QOBDCommon.Classes;
 using QOBDGateway.Core;
 using QOBDCommon.Enum;
 using QOBDGateway.QOBDServiceReference;
+using QOBDDAL.Classes;
+using QOBDDAL.Interfaces;
+using QOBDGateway.Classes;
 
 namespace QOBDDAL.Core
 {
@@ -27,20 +30,26 @@ namespace QOBDDAL.Core
         private Func<double, double> _progressBarFunc;
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.IOrderManager _gatewayOrder;
-        private QOBDWebServicePortTypeClient _servicePortType;
+        private ClientProxy _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
         private object _lock = new object();
+        private Interfaces.IQOBDSet _dataSet;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALOrder(QOBDWebServicePortTypeClient servicePort)
+        public DALOrder(ClientProxy servicePort)
         {
             _servicePortType = servicePort;
             _gatewayOrder = new GateWayOrder(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
+        }
+
+        public DALOrder(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
+        {
+            this._dataSet = _dataSet;
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -62,7 +71,7 @@ namespace QOBDDAL.Core
 
         public void setServiceCredential(object channel)
         {
-            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
                 _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
@@ -92,213 +101,143 @@ namespace QOBDDAL.Core
 
         public async Task<List<Order>> InsertOrderAsync(List<Order> listOrder)
         {
-            List<Order> result = new List<Order>();
-            List<Order> gateWayResultList = new List<Order>();
-            using (ordersTableAdapter _ordersTableAdapter = new ordersTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.InsertOrderAsync(listOrder);
-
-                result = LoadOrder(gateWayResultList);
-            }
-            return result;
+            List<Order> gateWayResultList = await _gatewayOrder.InsertOrderAsync(listOrder);
+            return LoadOrder(gateWayResultList);
         }
 
         public async Task<List<Tax_order>> InsertTax_orderAsync(List<Tax_order> listTax_order)
         {
-            List<Tax_order> result = new List<Tax_order>();
-            List<Tax_order> gateWayResultList = new List<Tax_order>();
-            using (tax_ordersTableAdapter _tax_ordersTableAdapter = new tax_ordersTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.InsertTax_orderAsync(listTax_order);
-
-                result = LoadTax_order(gateWayResultList);
-            }
-            return result;
+            List<Tax_order> gateWayResultList = await _gatewayOrder.InsertTax_orderAsync(listTax_order);
+            return LoadTax_order(gateWayResultList);
         }
 
         public async Task<List<Order_item>> InsertOrder_itemAsync(List<Order_item> listOrder_item)
         {
-            List<Order_item> result = new List<Order_item>();
-            List<Order_item> gateWayResultList = new List<Order_item>();
-            using (order_itemsTableAdapter _order_itemsTableAdapter = new order_itemsTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.InsertOrder_itemAsync(listOrder_item);
-
-                result = LoadOrder_item(gateWayResultList);
-            }
-            return result;
+            List<Order_item> gateWayResultList = await _gatewayOrder.InsertOrder_itemAsync(listOrder_item);
+            return LoadOrder_item(gateWayResultList);
         }
 
         public async Task<List<Tax>> InsertTaxAsync(List<Tax> listTax)
         {
-            List<Tax> result = new List<Tax>();
-            List<Tax> gateWayResultList = new List<Tax>();
-            using (taxesTableAdapter _taxesTableAdapter = new taxesTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.InsertTaxAsync(listTax);
-
-                result = LoadTax(gateWayResultList);
-            }
-            return result;
+            List<Tax> gateWayResultList = await _gatewayOrder.InsertTaxAsync(listTax);
+            return LoadTax(gateWayResultList);
         }
 
         public async Task<List<Bill>> InsertBillAsync(List<Bill> listBill)
         {
-            List<Bill> result = new List<Bill>();
-            List<Bill> gateWayResultList = new List<Bill>();
-            using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.InsertBillAsync(listBill);
-
-                result = LoadBill(gateWayResultList);
-            }
-            return result;
+            List<Bill> gateWayResultList = await _gatewayOrder.InsertBillAsync(listBill);
+            return LoadBill(gateWayResultList);
         }
 
         public async Task<List<Delivery>> InsertDeliveryAsync(List<Delivery> listDelivery)
         {
-            List<Delivery> result = new List<Delivery>();
-            List<Delivery> gateWayResultList = new List<Delivery>();
-            using (deliveriesTableAdapter _deliveriesTableAdapter = new deliveriesTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.InsertDeliveryAsync(listDelivery);
-
-                result = LoadDelivery(gateWayResultList);
-            }
-            return result;
+            List<Delivery> gateWayResultList = await _gatewayOrder.InsertDeliveryAsync(listDelivery);
+            return LoadDelivery(gateWayResultList);
         }
 
 
         public async Task<List<Order>> DeleteOrderAsync(List<Order> listOrder)
         {
             List<Order> result = new List<Order>();
-            List<Order> gateWayResultList = new List<Order>();
-            using (ordersTableAdapter _ordersTableAdapter = new ordersTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.DeleteOrderAsync(listOrder);
-                if (gateWayResultList.Count == 0)
-                    foreach (Order order in listOrder)
-                    {
-                        int returnValue = _ordersTableAdapter.Delete1(order.ID);
-                        if (returnValue == 0)
-                            result.Add(order);
-                    }
-            }
+            List<Order> gateWayResultList = await _gatewayOrder.DeleteOrderAsync(listOrder);
+            if (gateWayResultList.Count == 0)
+                foreach (Order order in listOrder)
+                {
+                    int returnValue = _dataSet.DeleteOrder(order.ID);
+                    if (returnValue == 0)
+                        result.Add(order);
+                }
             return result;
         }
 
         public async Task<List<Tax_order>> DeleteTax_orderAsync(List<Tax_order> listTax_order)
         {
             List<Tax_order> result = new List<Tax_order>();
-            List<Tax_order> gateWayResultList = new List<Tax_order>();
-            using (tax_ordersTableAdapter _tax_ordersTableAdapter = new tax_ordersTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.DeleteTax_orderAsync(listTax_order);
-                if (gateWayResultList.Count == 0)
-                    foreach (Tax_order tax_order in listTax_order)
-                    {
-                        int returnValue = _tax_ordersTableAdapter.Delete1(tax_order.ID);
-                        if (returnValue == 0)
-                            result.Add(tax_order);
-                    }
-            }
+            List<Tax_order> gateWayResultList = await _gatewayOrder.DeleteTax_orderAsync(listTax_order);
+            if (gateWayResultList.Count == 0)
+                foreach (Tax_order tax_order in listTax_order)
+                {
+                    int returnValue = _dataSet.DeleteTax_order(tax_order.ID);
+                    if (returnValue == 0)
+                        result.Add(tax_order);
+                }
             return result;
         }
 
         public async Task<List<Order_item>> DeleteOrder_itemAsync(List<Order_item> listOrder_item)
         {
             List<Order_item> result = new List<Order_item>();
-            List<Order_item> gateWayResultList = new List<Order_item>();
-            using (order_itemsTableAdapter _order_itemsTableAdapter = new order_itemsTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.DeleteOrder_itemAsync(listOrder_item);
-                if (gateWayResultList.Count == 0)
-                    foreach (Order_item order_item in listOrder_item)
-                    {
-                        int returnValue = _order_itemsTableAdapter.Delete1(order_item.ID);
-                        if (returnValue == 0)
-                            result.Add(order_item);
-                    }
-            }
+            List<Order_item> gateWayResultList = await _gatewayOrder.DeleteOrder_itemAsync(listOrder_item);
+            if (gateWayResultList.Count == 0)
+                foreach (Order_item order_item in listOrder_item)
+                {
+                    int returnValue = _dataSet.DeleteOrder_item(order_item.ID);
+                    if (returnValue == 0)
+                        result.Add(order_item);
+                }
             return result;
         }
 
         public async Task<List<Tax>> DeleteTaxAsync(List<Tax> listTax)
         {
             List<Tax> result = new List<Tax>();
-            List<Tax> gateWayResultList = new List<Tax>();
-            using (taxesTableAdapter _taxesTableAdapter = new taxesTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.DeleteTaxAsync(listTax);
-                if (gateWayResultList.Count == 0)
-                    foreach (Tax tax in listTax)
-                    {
-                        int returnValue = _taxesTableAdapter.Delete1(tax.ID);
-                        if (returnValue == 0)
-                            result.Add(tax);
-                    }
-            }
+            List<Tax> gateWayResultList = await _gatewayOrder.DeleteTaxAsync(listTax);
+            if (gateWayResultList.Count == 0)
+                foreach (Tax tax in listTax)
+                {
+                    int returnValue = _dataSet.DeleteTax(tax.ID);
+                    if (returnValue == 0)
+                        result.Add(tax);
+                }
             return result;
         }
 
         public async Task<List<Bill>> DeleteBillAsync(List<Bill> listBill)
         {
             List<Bill> result = new List<Bill>();
-            List<Bill> gateWayResultList = new List<Bill>();
-            using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.DeleteBillAsync(listBill);
-                if (gateWayResultList.Count == 0)
-                    foreach (Bill bill in listBill)
-                    {
-                        int returnValue = _billsTableAdapter.Delete1(bill.ID);
-                        if (returnValue == 0)
-                            result.Add(bill);
-                    }
-            }
+            List<Bill> gateWayResultList = await _gatewayOrder.DeleteBillAsync(listBill);
+            if (gateWayResultList.Count == 0)
+                foreach (Bill bill in listBill)
+                {
+                    int returnValue = _dataSet.DeleteBill(bill.ID);
+                    if (returnValue == 0)
+                        result.Add(bill);
+                }
             return result;
         }
 
         public async Task<List<Delivery>> DeleteDeliveryAsync(List<Delivery> listDelivery)
         {
             List<Delivery> result = new List<Delivery>();
-            List<Delivery> gateWayResultList = new List<Delivery>();
-            using (deliveriesTableAdapter _deliveriesTableAdapter = new deliveriesTableAdapter())
-            {
-                gateWayResultList = await _gatewayOrder.DeleteDeliveryAsync(listDelivery);
-                if (gateWayResultList.Count == 0)
-                    foreach (Delivery delivery in listDelivery)
-                    {
-                        int returnValue = _deliveriesTableAdapter.Delete1(delivery.ID);
-                        if (returnValue == 0)
-                            result.Add(delivery);
-                    }
-            }
+            List<Delivery> gateWayResultList = await _gatewayOrder.DeleteDeliveryAsync(listDelivery);
+            if (gateWayResultList.Count == 0)
+                foreach (Delivery delivery in listDelivery)
+                {
+                    int returnValue = _dataSet.DeleteDelivery(delivery.ID);
+                    if (returnValue == 0)
+                        result.Add(delivery);
+                }
             return result;
         }
 
         public async Task<List<Order>> UpdateOrderAsync(List<Order> ordersList)
         {
             List<Order> result = new List<Order>();
-            List<Order> gateWayResultList = new List<Order>();
             QOBDSet dataSet = new QOBDSet();
-            using (ordersTableAdapter _ordersTableAdapter = new ordersTableAdapter())
+            List<Order> gateWayResultList = await _gatewayOrder.UpdateOrderAsync(ordersList);
+
+            foreach (var order in gateWayResultList)
             {
-                gateWayResultList = await _gatewayOrder.UpdateOrderAsync(ordersList);
+                QOBDSet dataSetLocal = new QOBDSet();
+                _dataSet.FillOrderDataTableById(dataSetLocal.commands, order.ID);
+                dataSet.commands.Merge(dataSetLocal.commands);
+            }
 
-                foreach (var order in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _ordersTableAdapter.FillById(dataSetLocal.commands, order.ID);
-                    dataSet.commands.Merge(dataSetLocal.commands);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _ordersTableAdapter.Update(gateWayResultList.OrderTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
+            if (gateWayResultList.Count > 0)
+            {
+                int returnValue = _dataSet.UpdateOrder(gateWayResultList.OrderTypeToDataTable(dataSet));
+                if (returnValue == gateWayResultList.Count)
+                    result = gateWayResultList;
             }
             return result;
         }
@@ -306,26 +245,11 @@ namespace QOBDDAL.Core
         public List<Order> LoadOrder(List<Order> ordersList)
         {
             List<Order> result = new List<Order>();
-            using (ordersTableAdapter _ordersTableAdapter = new ordersTableAdapter())
+            foreach (var order in ordersList)
             {
-                foreach (var order in ordersList)
-                {
-                    int returnResult = _ordersTableAdapter
-                                            .load_data_order(
-                                                    order.AgentId,
-                                                    order.ClientId,
-                                                    order.Comment1,
-                                                    order.Comment2,
-                                                    order.Comment3,
-                                                    order.BillAddress,
-                                                    order.DeliveryAddress,
-                                                    order.Status,
-                                                    order.Date,
-                                                    order.Tax,
-                                                    order.ID);
-                    if (returnResult > 0)
-                        result.Add(order);
-                }
+                int returnResult = _dataSet.LoadOrder(order);
+                if (returnResult > 0)
+                    result.Add(order);
             }
             return result;
         }
@@ -333,25 +257,20 @@ namespace QOBDDAL.Core
         public async Task<List<Tax_order>> UpdateTax_orderAsync(List<Tax_order> tax_orderList)
         {
             List<Tax_order> result = new List<Tax_order>();
-            List<Tax_order> gateWayResultList = new List<Tax_order>();
             QOBDSet dataSet = new QOBDSet();
-            using (tax_ordersTableAdapter _tax_ordersTableAdapter = new tax_ordersTableAdapter())
+            List<Tax_order> gateWayResultList = await _gatewayOrder.UpdateTax_orderAsync(tax_orderList);
+            foreach (var tax_order in gateWayResultList)
             {
-                gateWayResultList = await _gatewayOrder.UpdateTax_orderAsync(tax_orderList);
+                QOBDSet dataSetLocal = new QOBDSet();
+                _dataSet.FillTax_orderDataTableById(dataSetLocal.tax_commands, tax_order.ID);
+                dataSet.tax_commands.Merge(dataSetLocal.tax_commands);
+            }
 
-                foreach (var tax_order in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _tax_ordersTableAdapter.FillById(dataSetLocal.tax_commands, tax_order.ID);
-                    dataSet.tax_commands.Merge(dataSetLocal.tax_commands);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _tax_ordersTableAdapter.Update(gateWayResultList.Tax_orderTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
+            if (gateWayResultList.Count > 0)
+            {
+                int returnValue = _dataSet.UpdateTax_order(gateWayResultList.Tax_orderTypeToDataTable(dataSet));
+                if (returnValue == gateWayResultList.Count)
+                    result = gateWayResultList;
             }
             return result;
         }
@@ -359,21 +278,11 @@ namespace QOBDDAL.Core
         public List<Tax_order> LoadTax_order(List<Tax_order> tax_ordersList)
         {
             List<Tax_order> result = new List<Tax_order>();
-            using (tax_ordersTableAdapter _tax_ordersTableAdapter = new tax_ordersTableAdapter())
+            foreach (var tax_order in tax_ordersList)
             {
-                foreach (var tax_order in tax_ordersList)
-                {
-                    int returnResult = _tax_ordersTableAdapter
-                                            .load_data_tax_order(
-                                                    tax_order.OrderId,
-                                                    tax_order.TaxId,
-                                                    tax_order.Date_insert,
-                                                    tax_order.Tax_value.ToString(),
-                                                    tax_order.Target,
-                                                    tax_order.ID);
-                    if (returnResult > 0)
-                        result.Add(tax_order);
-                }
+                int returnResult = _dataSet.LoadTax_order(tax_order);
+                if (returnResult > 0)
+                    result.Add(tax_order);
             }
             return result;
         }
@@ -381,25 +290,20 @@ namespace QOBDDAL.Core
         public async Task<List<Order_item>> UpdateOrder_itemAsync(List<Order_item> order_itemList)
         {
             List<Order_item> result = new List<Order_item>();
-            List<Order_item> gateWayResultList = new List<Order_item>();
             QOBDSet dataSet = new QOBDSet();
-            using (order_itemsTableAdapter _order_itemsTableAdapter = new order_itemsTableAdapter())
+            List<Order_item> gateWayResultList = await _gatewayOrder.UpdateOrder_itemAsync(order_itemList);
+            foreach (var order_item in gateWayResultList)
             {
-                gateWayResultList = await _gatewayOrder.UpdateOrder_itemAsync(order_itemList);
+                QOBDSet dataSetLocal = new QOBDSet();
+                _dataSet.FillOrder_itemDataTableById(dataSetLocal.command_items, order_item.ID);
+                dataSet.command_items.Merge(dataSetLocal.command_items);
+            }
 
-                foreach (var order_item in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _order_itemsTableAdapter.FillById(dataSetLocal.command_items, order_item.ID);
-                    dataSet.command_items.Merge(dataSetLocal.command_items);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _order_itemsTableAdapter.Update(gateWayResultList.Order_itemTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
+            if (gateWayResultList.Count > 0)
+            {
+                int returnValue = _dataSet.UpdateOrder_item(gateWayResultList.Order_itemTypeToDataTable(dataSet));
+                if (returnValue == gateWayResultList.Count)
+                    result = gateWayResultList;
             }
             return result;
         }
@@ -407,26 +311,11 @@ namespace QOBDDAL.Core
         public List<Order_item> LoadOrder_item(List<Order_item> order_itemsList)
         {
             List<Order_item> result = new List<Order_item>();
-            using (order_itemsTableAdapter _order_itemsTableAdapter = new order_itemsTableAdapter())
+            foreach (var order_item in order_itemsList)
             {
-                foreach (var order_item in order_itemsList)
-                {
-                    int returnResult = _order_itemsTableAdapter
-                                            .load_order_item(
-                                                    order_item.OrderId,
-                                                    order_item.ItemId,
-                                                    order_item.Item_ref,
-                                                    order_item.Quantity,
-                                                    order_item.Quantity_delivery,
-                                                    order_item.Quantity_current,
-                                                    order_item.Comment_Purchase_Price,
-                                                    order_item.Price,
-                                                    order_item.Price_purchase,
-                                                    order_item.Order,
-                                                    order_item.ID);
-                    if (returnResult > 0)
-                        result.Add(order_item);
-                }
+                int returnResult = _dataSet.LoadOrder_item(order_item);
+                if (returnResult > 0)
+                    result.Add(order_item);
             }
             return result;
         }
@@ -434,25 +323,20 @@ namespace QOBDDAL.Core
         public async Task<List<Tax>> UpdateTaxAsync(List<Tax> taxesList)
         {
             List<Tax> result = new List<Tax>();
-            List<Tax> gateWayResultList = new List<Tax>();
             QOBDSet dataSet = new QOBDSet();
-            using (taxesTableAdapter _taxesTableAdapter = new taxesTableAdapter())
+            List<Tax> gateWayResultList = await _gatewayOrder.UpdateTaxAsync(taxesList);
+            foreach (var tax in gateWayResultList)
             {
-                gateWayResultList = await _gatewayOrder.UpdateTaxAsync(taxesList);
+                QOBDSet dataSetLocal = new QOBDSet();
+                _dataSet.FillTaxDataTableById(dataSetLocal.taxes, tax.ID);
+                dataSet.taxes.Merge(dataSetLocal.taxes);
+            }
 
-                foreach (var tax in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _taxesTableAdapter.FillById(dataSetLocal.taxes, tax.ID);
-                    dataSet.taxes.Merge(dataSetLocal.taxes);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _taxesTableAdapter.Update(gateWayResultList.TaxTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
+            if (gateWayResultList.Count > 0)
+            {
+                int returnValue = _dataSet.UpdateTax(gateWayResultList.TaxTypeToDataTable(dataSet));
+                if (returnValue == gateWayResultList.Count)
+                    result = gateWayResultList;
             }
             return result;
         }
@@ -460,21 +344,11 @@ namespace QOBDDAL.Core
         public List<Tax> LoadTax(List<Tax> taxesList)
         {
             List<Tax> result = new List<Tax>();
-            using (taxesTableAdapter _taxesTableAdapter = new taxesTableAdapter())
+            foreach (var tax in taxesList)
             {
-                foreach (var tax in taxesList)
-                {
-                    int returnResult = _taxesTableAdapter
-                                            .load_data_tax(
-                                                tax.Type,
-                                                tax.Date_insert,
-                                                tax.Value.ToString(),
-                                                tax.Comment,
-                                                tax.Tax_current,
-                                                tax.ID);
-                    if (returnResult > 0)
-                        result.Add(tax);
-                }
+                int returnResult = _dataSet.LoadTax(tax);
+                if (returnResult > 0)
+                    result.Add(tax);
             }
             return result;
         }
@@ -482,25 +356,21 @@ namespace QOBDDAL.Core
         public async Task<List<Bill>> UpdateBillAsync(List<Bill> billList)
         {
             List<Bill> result = new List<Bill>();
-            List<Bill> gateWayResultList = new List<Bill>();
             QOBDSet dataSet = new QOBDSet();
-            using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
+            List<Bill> gateWayResultList = await _gatewayOrder.UpdateBillAsync(billList);
+
+            foreach (var bill in gateWayResultList)
             {
-                gateWayResultList = await _gatewayOrder.UpdateBillAsync(billList);
+                QOBDSet dataSetLocal = new QOBDSet();
+                _dataSet.FillBillDataTableById(dataSetLocal.bills, bill.ID);
+                dataSet.bills.Merge(dataSetLocal.bills);
+            }
 
-                foreach (var bill in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _billsTableAdapter.FillById(dataSetLocal.bills, bill.ID);
-                    dataSet.bills.Merge(dataSetLocal.bills);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _billsTableAdapter.Update(gateWayResultList.BillTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
+            if (gateWayResultList.Count > 0)
+            {
+                int returnValue = _dataSet.UpdateBill(gateWayResultList.BillTypeToDataTable(dataSet));
+                if (returnValue == gateWayResultList.Count)
+                    result = gateWayResultList;
             }
             return result;
         }
@@ -508,26 +378,11 @@ namespace QOBDDAL.Core
         public List<Bill> LoadBill(List<Bill> billList)
         {
             List<Bill> result = new List<Bill>();
-            using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
+            foreach (var bill in billList)
             {
-                foreach (var bill in billList)
-                {
-                    int returnResult = _billsTableAdapter
-                                            .load_data_bill(
-                                                bill.ClientId,
-                                                bill.OrderId,
-                                                bill.PayMod,
-                                                bill.Pay,
-                                                bill.PayReceived,
-                                                bill.Comment1,
-                                                bill.Comment2,
-                                                bill.Date,
-                                                bill.DateLimit,
-                                                bill.PayDate,
-                                                bill.ID);
-                    if (returnResult > 0)
-                        result.Add(bill);
-                }
+                int returnResult = _dataSet.LoadBill(bill);
+                if (returnResult > 0)
+                    result.Add(bill);
             }
             return result;
         }
@@ -535,23 +390,13 @@ namespace QOBDDAL.Core
         public async Task<List<Delivery>> UpdateDeliveryAsync(List<Delivery> deliveryList)
         {
             List<Delivery> result = new List<Delivery>();
-            List<Delivery> gateWayResultList = new List<Delivery>();
             QOBDSet dataSet = new QOBDSet();
-            using (deliveriesTableAdapter _deliveriesTableAdapter = new deliveriesTableAdapter())
+            List<Delivery> gateWayResultList = await _gatewayOrder.UpdateDeliveryAsync(deliveryList);
+            foreach (var delivery in gateWayResultList)
             {
-                gateWayResultList = await _gatewayOrder.UpdateDeliveryAsync(deliveryList);
-
-                foreach (var delivery in gateWayResultList)
-                {
-                    int returnValue = _deliveriesTableAdapter.Update1(delivery.OrderId,
-                                                                        delivery.BillId,
-                                                                        delivery.Package,
-                                                                        delivery.Date,
-                                                                        delivery.Status,
-                                                                        delivery.ID);
-                    if (returnValue >= gateWayResultList.Count)
-                        result.Add(delivery);
-                }
+                int returnValue = _dataSet.UpdateDelivery(delivery);
+                if (returnValue >= gateWayResultList.Count)
+                    result.Add(delivery);
             }
             return result;
         }
@@ -559,21 +404,11 @@ namespace QOBDDAL.Core
         public List<Delivery> LoadDelivery(List<Delivery> deliveryList)
         {
             List<Delivery> result = new List<Delivery>();
-            using (deliveriesTableAdapter _deliveriesTableAdapter = new deliveriesTableAdapter())
+            foreach (var delivery in deliveryList)
             {
-                foreach (var delivery in deliveryList)
-                {
-                    int returnResult = _deliveriesTableAdapter
-                                            .load_data_delivery(
-                                                delivery.OrderId,
-                                                delivery.BillId,
-                                                delivery.Package,
-                                                delivery.Date,
-                                                delivery.Status,
-                                                delivery.ID);
-                    if (returnResult > 0)
-                        result.Add(delivery);
-                }
+                int returnResult = _dataSet.LoadDelivery(delivery);
+                if (returnResult > 0)
+                    result.Add(delivery);
             }
             return result;
         }
@@ -581,38 +416,28 @@ namespace QOBDDAL.Core
 
         public List<Order> GetOrderData(int nbLine)
         {
-            List<Order> result = new List<Order>();
-            using (ordersTableAdapter _ordersTableAdapter = new ordersTableAdapter())
-                result = _ordersTableAdapter.GetData().DataTableTypeToOrder();
-
-            if (nbLine.Equals(999) || result.Count == 0)
+            List<Order> result = _dataSet.GetOrderData();
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
         }
-
-
+        
         public async Task<List<Order>> GetOrderDataAsync(int nbLine)
         {
-            List<Order> result = new List<Order>();
             return await _gatewayOrder.GetOrderDataAsync(nbLine);
-
         }
 
         public List<Order> GetOrderDataById(int id)
         {
-            using (ordersTableAdapter _ordersTableAdapter = new ordersTableAdapter())
-                return _ordersTableAdapter.get_order_by_id(id).DataTableTypeToOrder();
+            return _dataSet.GetOrderDataById(id);
         }
 
 
         public List<Tax_order> GetTax_orderData(int nbLine)
         {
-            List<Tax_order> result = new List<Tax_order>();
-            using (tax_ordersTableAdapter _tax_ordersTableAdapter = new tax_ordersTableAdapter())
-                result = _tax_ordersTableAdapter.GetData().DataTableTypeToTax_order();
-
-            if (nbLine.Equals(999) || result.Count == 0)
+            List<Tax_order> result = _dataSet.GetTax_orderData();
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
@@ -644,23 +469,18 @@ namespace QOBDDAL.Core
 
         public List<Tax_order> GetTax_orderByOrderId(int orderId)
         {
-            using (tax_ordersTableAdapter _tax_ordersTableAdapter = new tax_ordersTableAdapter())
-                return _tax_ordersTableAdapter.get_tax_order_by_id(orderId).DataTableTypeToTax_order();
+            return _dataSet.GetTax_orderByOrderId(orderId);
         }
 
         public List<Tax_order> GetTax_orderDataById(int id)
         {
-            using (tax_ordersTableAdapter _tax_ordersTableAdapter = new tax_ordersTableAdapter())
-                return _tax_ordersTableAdapter.get_tax_order_by_id(id).DataTableTypeToTax_order();
+            return _dataSet.GetTax_orderDataById(id);
         }
 
         public List<Order_item> GetOrder_itemData(int nbLine)
         {
-            List<Order_item> result = new List<Order_item>();
-            using (order_itemsTableAdapter _order_itemsTableAdapter = new order_itemsTableAdapter())
-                result = _order_itemsTableAdapter.GetData().DataTableTypeToOrder_item();
-
-            if (nbLine.Equals(999) || result.Count == 0)
+            List<Order_item> result = _dataSet.GetOrder_itemData();
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
@@ -691,23 +511,19 @@ namespace QOBDDAL.Core
 
         public List<Order_item> GetOrder_itemDataById(int id)
         {
-            using (order_itemsTableAdapter _order_itemsTableAdapter = new order_itemsTableAdapter())
-                return _order_itemsTableAdapter.get_order_item_by_id(id).DataTableTypeToOrder_item();
+            return _dataSet.GetOrder_itemDataById(id);
         }
 
         public List<Order_item> GetOrder_itemDataByOrderId(int orderId)
         {
-            using (order_itemsTableAdapter _order_itemsTableAdapter = new order_itemsTableAdapter())
-                return _order_itemsTableAdapter.get_order_item_by_order_id(orderId).DataTableTypeToOrder_item();
+            return _dataSet.GetOrder_itemDataByOrderId(orderId);
         }
 
         public List<Tax> GetTaxData(int nbLine)
         {
-            List<Tax> result = new List<Tax>();
-            using (taxesTableAdapter _taxesTableAdapter = new taxesTableAdapter())
-                result = _taxesTableAdapter.GetData().DataTableTypeToTax();
+            List<Tax> result = _dataSet.GetTaxData();
 
-            if (nbLine.Equals(999) || result.Count == 0)
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
@@ -720,17 +536,14 @@ namespace QOBDDAL.Core
 
         public List<Tax> GetTaxDataById(int id)
         {
-            using (taxesTableAdapter _taxesTableAdapter = new taxesTableAdapter())
-                return _taxesTableAdapter.get_tax_by_id(id).DataTableTypeToTax();
+            return _dataSet.GetTaxDataById(id);
         }
 
         public List<Bill> GetBillData(int nbLine)
         {
-            List<Bill> result = new List<Bill>();
-            using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
-                result = _billsTableAdapter.GetData().DataTableTypeToBill();
+            List<Bill> result = _dataSet.GetBillData();
 
-            if (nbLine.Equals(999) || result.Count == 0)
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
@@ -766,14 +579,12 @@ namespace QOBDDAL.Core
 
         public List<Bill> GetBillDataByOrderId(int orderId)
         {
-            using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
-                return _billsTableAdapter.get_bill_by_order_id(orderId).DataTableTypeToBill();
+            return _dataSet.GetBillDataByOrderId(orderId);
         }
 
         public List<Bill> GetBillDataById(int id)
         {
-            using (billsTableAdapter _billsTableAdapter = new billsTableAdapter())
-                return _billsTableAdapter.get_bill_by_id(id).DataTableTypeToBill();
+            return _dataSet.GetBillDataById(id);
         }
 
         public async Task<Bill> GetLastBillAsync()
@@ -783,11 +594,8 @@ namespace QOBDDAL.Core
 
         public List<Delivery> GetDeliveryData(int nbLine)
         {
-            List<Delivery> result = new List<Delivery>();
-            using (deliveriesTableAdapter _deliveriesTableAdapter = new deliveriesTableAdapter())
-                result = _deliveriesTableAdapter.GetData().DataTableTypeToDelivery();
-
-            if (nbLine.Equals(999) || result.Count == 0)
+            List<Delivery> result = _dataSet.GetDeliveryData();
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
@@ -817,19 +625,17 @@ namespace QOBDDAL.Core
 
         public List<Delivery> GetDeliveryDataByOrderId(int orderId)
         {
-            using (deliveriesTableAdapter _deliveriesTableAdapter = new deliveriesTableAdapter())
-                return _deliveriesTableAdapter.get_delivery_by_order_id(orderId).DataTableTypeToDelivery();
+            return _dataSet.GetDeliveryDataByOrderId(orderId);
         }
 
         public List<Delivery> GetDeliveryDataById(int id)
         {
-            using (deliveriesTableAdapter _deliveriesTableAdapter = new deliveriesTableAdapter())
-                return _deliveriesTableAdapter.get_delivery_by_id(id).DataTableTypeToDelivery();
+            return _dataSet.GetDeliveryDataById(id);
         }
 
         public List<Order> searchOrder(Order order, ESearchOption filterOperator)
         {
-            return order.orderTypeToFilterDataTable(filterOperator);
+            return _dataSet.searchOrder(order, filterOperator);
         }
 
         public async Task<List<Order>> searchOrderAsync(Order order, ESearchOption filterOperator)
@@ -839,7 +645,7 @@ namespace QOBDDAL.Core
 
         public List<Tax_order> searchTax_order(Tax_order Tax_order, ESearchOption filterOperator)
         {
-            return Tax_order.Tax_orderTypeToFilterDataTable(filterOperator);
+            return _dataSet.searchTax_order(Tax_order, filterOperator);
         }
 
         public async Task<List<Tax_order>> searchTax_orderAsync(Tax_order Tax_order, ESearchOption filterOperator)
@@ -849,8 +655,7 @@ namespace QOBDDAL.Core
 
         public List<Order_item> searchOrder_item(Order_item order_item, ESearchOption filterOperator)
         {
-            return order_item.order_itemTypeToFilterDataTable(filterOperator);
-
+            return _dataSet.searchOrder_item(order_item, filterOperator);
         }
 
         public async Task<List<Order_item>> searchOrder_itemAsync(Order_item order_item, ESearchOption filterOperator)
@@ -860,7 +665,7 @@ namespace QOBDDAL.Core
 
         public List<Tax> searchTax(Tax Tax, ESearchOption filterOperator)
         {
-            return Tax.TaxTypeToFilterDataTable(filterOperator);
+            return _dataSet.searchTax(Tax, filterOperator);
         }
 
         public async Task<List<Tax>> searchTaxAsync(Tax Tax, ESearchOption filterOperator)
@@ -870,7 +675,7 @@ namespace QOBDDAL.Core
 
         public List<Bill> searchBill(Bill Bill, ESearchOption filterOperator)
         {
-            return Bill.BillTypeToFilterDataTable(filterOperator);
+            return _dataSet.searchBill(Bill, filterOperator);
         }
 
         public async Task<List<Bill>> searchBillAsync(Bill Bill, ESearchOption filterOperator)
@@ -880,7 +685,7 @@ namespace QOBDDAL.Core
 
         public List<Delivery> searchDelivery(Delivery Delivery, ESearchOption filterOperator)
         {
-            return Delivery.DeliveryTypeToFilterDataTable(filterOperator);
+            return _dataSet.searchDelivery(Delivery, filterOperator);
         }
 
         public async Task<List<Delivery>> searchDeliveryAsync(Delivery Delivery, ESearchOption filterOperator)
@@ -906,6 +711,7 @@ namespace QOBDDAL.Core
         public void Dispose()
         {
             _gatewayOrder.Dispose();
+            _dataSet.Dispose();
         }
 
 
@@ -933,12 +739,12 @@ namespace QOBDDAL.Core
 
             int step = 100 / _progressStep;
 
-            DALItem dalItem = new DALItem(_servicePortType);
+            DALItem dalItem = new DALItem(_servicePortType, _dataSet);
             dalItem.AuthenticatedUser = AuthenticatedUser;
             dalItem.GateWayItem.setServiceCredential(_servicePortType);
             dalItem.IsLodingDataFromWebServiceToLocal = true;
-            
-            DALClient dalClient = new DALClient(_servicePortType);
+
+            DALClient dalClient = new DALClient(_servicePortType, _dataSet);
             dalClient.AuthenticatedUser = AuthenticatedUser;
             dalClient.setServiceCredential(_servicePortType);
             dalClient.IsLodingDataFromWebServiceToLocal = true;

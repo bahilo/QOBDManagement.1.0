@@ -185,7 +185,6 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
-            set { _startup.Bl = value; onPropertyChange(); }
         }
 
         public OrderModel OrderSelected
@@ -501,8 +500,8 @@ namespace QOBDManagement.ViewModel
         {
             if (OrderSelected != null)
             {
-                var infos = Bl.BlReferential.searchInfos(new Info { Name = "Company_name" }, ESearchOption.AND).FirstOrDefault();
-                var infosFTP = Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_" }, ESearchOption.AND).ToList();
+                var infos = Bl.BlReferential.searchInfo(new Info { Name = "Company_name" }, ESearchOption.AND).FirstOrDefault();
+                var infosFTP = Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_" }, ESearchOption.AND).ToList();
                 string login = infosFTP.Where(x => x.Name == "ftp_login").Select(x => x.Value).FirstOrDefault() ?? "";
                 string password = infosFTP.Where(x => x.Name == "ftp_password").Select(x => x.Value).FirstOrDefault() ?? "";
                 switch (OrderSelected.TxtStatus)
@@ -1573,7 +1572,7 @@ namespace QOBDManagement.ViewModel
 
                 Bl.BlOrder.GeneratePdfOrder(_paramOrderToPdf);
 
-                var NotificationFoundList = await Bl.BlNotification.SearchNotificationAsync(new Notification { BillId = obj.Bill.ID }, ESearchOption.AND);
+                var NotificationFoundList = await Bl.BlNotification.searchNotificationAsync(new Notification { BillId = obj.Bill.ID }, ESearchOption.AND);
                 
                 // create a new notification entry for this invoice
                 if (NotificationFoundList.Count == 0)

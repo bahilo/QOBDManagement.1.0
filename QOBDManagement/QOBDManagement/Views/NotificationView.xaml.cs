@@ -26,13 +26,13 @@ namespace QOBDManagement.Views
             InitializeComponent();
         }
 
-        private void NotificationView_Loaded(object sender, RoutedEventArgs e)
+        private async void NotificationView_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext dataContext = new DataContext();
             if (dataContext.setContext(this) != null)
             {
                 if (!((MainWindowViewModel)this.DataContext).IsThroughContext)
-                    ((MainWindowViewModel)this.DataContext).NotificationViewModel.load();
+                    await ((MainWindowViewModel)this.DataContext).NotificationViewModel.loadNotifications();
             }
         }
     }

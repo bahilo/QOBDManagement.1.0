@@ -33,6 +33,6 @@ namespace QOBDCommon.Interfaces.REMOTE
 
         Task<List<Notification>> GetNotificationDataAsync(int nbLine);
 
-        Task<List<Notification>> SearchNotificationAsync(Notification notification, ESearchOption filterOperator);
+        Task<List<Notification>> searchNotificationAsync(Notification notification, ESearchOption filterOperator);
     } /* end interface INotificationManager */
 }

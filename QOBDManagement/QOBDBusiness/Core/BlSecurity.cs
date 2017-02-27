@@ -43,24 +43,23 @@ namespace QOBDBusiness.Core
                 else
                     Safe.AuthenticatedUser = await DAC.DALSecurity.AuthenticateUserAsync(username, password);  //DAC.DALSecurity.AuthenticateUser(username, CalculateHash(password));
 
-                Safe.IsAuthenticated = true;
+                if(Safe.AuthenticatedUser.ID != 0)
+                    Safe.IsAuthenticated = true;
             }
             catch (CommunicationException ex)
             {
                 Safe.IsAuthenticated = false;
-                Safe.AuthenticatedUser = new Agent();
                 Log.warning(ex.Message);
-                throw;
+                throw new ApplicationException("Remote communication error.");
             }
             catch (Exception ex)
-            {
-                Log.error(ex.Message);                
-                Safe.IsAuthenticated = false;                
+            {                                
+                Safe.IsAuthenticated = false;
+                Log.error(ex.Message);              
             }      
             
             if(!Safe.IsAuthenticated)
             {
-                Safe.AuthenticatedUser = new Agent();
                 return Safe.AuthenticatedUser;
             }
 
@@ -363,6 +362,11 @@ namespace QOBDBusiness.Core
         public Agent GetAuthenticatedUser()
         {
             return Safe.AuthenticatedUser;
+        }
+
+        public bool IsUserAuthenticated()
+        {
+            return Safe.IsAuthenticated;
         }
 
         public async Task<List<Role>> GetRoleDataAsync(int nbLine)

@@ -9,6 +9,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Linq;
 using QOBDCommon.Enum;
+using QOBDGateway.Classes;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -19,19 +20,19 @@ namespace QOBDGateway.Core
 {
     public class GateWayAgent : IAgentManager
     {
-        private QOBDWebServicePortTypeClient _channel;
+        private ClientProxy _channel;
 
         public event PropertyChangedEventHandler PropertyChanged;
         
 
-        public GateWayAgent(QOBDWebServicePortTypeClient servicePort)
+        public GateWayAgent(ClientProxy servicePort)
         {
             _channel = servicePort;
         }
 
         public void setServiceCredential(object channel)
         {            
-            _channel = (QOBDWebServicePortTypeClient)channel;
+            _channel = (ClientProxy)channel;
         }
 
         private void onPropertyChange(string propertyName)
@@ -40,7 +41,7 @@ namespace QOBDGateway.Core
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public QOBDWebServicePortTypeClient AgentGatWayChannel
+        public ClientProxy AgentGatWayChannel
         {
             get
             {
@@ -66,9 +67,8 @@ namespace QOBDGateway.Core
             List<Agent> result = new List<Agent>();
             try
             {
-                var test = await _channel.get_data_agentAsync(nbLine.ToString());
-                result = (test).ArrayTypeToAgent().OrderBy(x=>x.ID).ToList();
-             }
+                result = (await _channel.get_data_agentAsync(nbLine.ToString())).ArrayTypeToAgent().OrderBy(x=>x.ID).ToList();
+            }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
             catch (TimeoutException) { _channel.Abort(); }

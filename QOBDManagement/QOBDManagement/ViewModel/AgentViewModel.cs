@@ -18,7 +18,6 @@ namespace QOBDManagement.ViewModel
 {
     public class AgentViewModel : BindBase, IAgentViewModel
     {
-        private string _navigTo;
         private List<string> _saveSearchParametersList;
         private Func<Object, Object> _page;    
         private List<Agent> _agents;
@@ -28,8 +27,8 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Models ]------------------
 
         private AgentModel _agentModel;
-        private IEnumerable<AgentModel> _activeAgentsViewModel;
-        private IEnumerable<AgentModel> _deactivedAgentsViewModel;
+        private List<AgentModel> _activeAgentsViewModel;
+        private List<AgentModel> _deactivedAgentsViewModel;
         private AgentDetailViewModel _agentDetailViewModel;
         private IMainWindowViewModel _main;
 
@@ -45,7 +44,6 @@ namespace QOBDManagement.ViewModel
         {
             instances();
             instancesCommand();
-            initEvents();
         }
 
         public AgentViewModel(IMainWindowViewModel mainWindowViewModel): this()
@@ -61,17 +59,10 @@ namespace QOBDManagement.ViewModel
         }
 
         //----------------------------[ Initialization ]------------------
-
-        private void initEvents()
-        {
-            PropertyChanged += onSelectedAgentChange;
-            PropertyChanged += onNavigToChange;            
-        }
-
+        
         private void instances()
         {
             _title = "Agent Management";
-            _navigTo = "client";
             _saveSearchParametersList = new List<string>();
             _deactivedAgentsViewModel = new List<AgentModel>();
             _activeAgentsViewModel = new List<AgentModel>();
@@ -102,7 +93,6 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
-            set { _startup.Bl = value; onPropertyChange("Bl"); }
         }
 
         public string Title
@@ -111,31 +101,25 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _title, value); }
         }
 
-        public string NavigTo
-        {
-            get { return _navigTo; }
-            set { _navigTo = value; onPropertyChange("NavigTo"); }
-        }
-
         public AgentModel AgentModel
         {
             get { return _agentModel; }
-            set { _agentModel = value; onPropertyChange("AgentModel"); }
+            set { _agentModel = value; onPropertyChange(); }
         }
 
-        public IEnumerable<AgentModel> AgentModelList
+        public List<AgentModel> AgentModelList
         {
             get { return _agentDetailViewModel.AgentModelList; }
-            set { _agentDetailViewModel.AgentModelList = value; onPropertyChange("AgentModelList"); }
+            set { _agentDetailViewModel.AgentModelList = value; onPropertyChange(); }
         }
 
-        public IEnumerable<AgentModel> ActiveAgentModelList
+        public List<AgentModel> ActiveAgentModelList
         {
             get { return _activeAgentsViewModel; }
-            set { _activeAgentsViewModel = value; onPropertyChange("ActiveAgentModelList"); }
+            set { _activeAgentsViewModel = value; onPropertyChange(); }
         }
 
-        public IEnumerable<AgentModel> DeactivatedAgentModelList
+        public List<AgentModel> DeactivatedAgentModelList
         {
             get { return _deactivedAgentsViewModel; }
             set { _deactivedAgentsViewModel = value; onPropertyChange("DeactivatedAgentModelList"); }
@@ -185,12 +169,12 @@ namespace QOBDManagement.ViewModel
         /// <summary>
         /// initialize the agent view (called by the view code behind)
         /// </summary>
-        public async void loadAgents()
+        public void loadAgents()
         {
             Dialog.showSearch("loading...");
-            AgentModelList = agentListToModelViewList(await Bl.BlAgent.GetAgentDataAsync(-999));
-            ActiveAgentModelList = AgentModelList.Where(x => x.TxtStatus.Equals(EStatus.Active.ToString()));
-            DeactivatedAgentModelList = AgentModelList.Where(x => x.TxtStatus.Equals(EStatus.Deactivated.ToString()));
+            AgentModelList = agentListToModelViewList(Bl.BlAgent.GetAgentData(999));
+            ActiveAgentModelList = AgentModelList.Where(x => x.TxtStatus.Equals(EStatus.Active.ToString())).ToList();
+            DeactivatedAgentModelList = AgentModelList.Where(x => x.TxtStatus.Equals(EStatus.Deactivated.ToString())).ToList();
             Dialog.IsDialogOpen = false;
         }        
 
@@ -201,8 +185,7 @@ namespace QOBDManagement.ViewModel
                 (_main.getObject("main") as BindBase).PropertyChanged -= onStartupChange;
                 (_main.getObject("main") as BindBase).PropertyChanged -= onDialogChange;
             }
-            PropertyChanged -= onSelectedAgentChange;
-            PropertyChanged -= onNavigToChange;
+
             Bl.BlAgent.Dispose();
             AgentDetailViewModel.Dispose();
             AgentSideBarViewModel.Dispose();
@@ -230,26 +213,11 @@ namespace QOBDManagement.ViewModel
                 AgentSideBarViewModel.Dialog= Dialog;
             }
         }
-
-        private void onNavigToChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (string.Equals(e.PropertyName, "NavigTo"))
-            {
-                executeNavig(NavigTo);
-            }
-        }
-
-        private void onSelectedAgentChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("SelectedAgentModel"))
-            {
-                NavigTo = "agent-detail";
-            }
-        }
+        
 
         //----------------------------[ Action Commands ]------------------
 
-        private async void moveAgentCLient(AgentModel obj)
+        public async void moveAgentCLient(AgentModel obj)
         {
             Dialog.showSearch("Moving CLients to "+obj.TxtLastName+" in progress...");
             List<Client> clientMovedList = new List<Client>();
@@ -292,9 +260,10 @@ namespace QOBDManagement.ViewModel
             return true;
         }
         
-        private void selectAgent(AgentModel obj)
+        public void selectAgent(AgentModel obj)
         {
             SelectedAgentModel = obj;
+            executeNavig("agent-detail");
         }
 
         private bool canSelectAgent(AgentModel arg)

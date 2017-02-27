@@ -9,6 +9,7 @@ using System.ServiceModel;
 using System.Linq;
 using QOBDGateway.QOBDServiceReference;
 using QOBDCommon.Enum;
+using QOBDGateway.Classes;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -19,18 +20,18 @@ namespace QOBDGateway.Core
 {
     public class GateWayReferential : IReferentialManager, INotifyPropertyChanged
     {
-        private QOBDWebServicePortTypeClient _channel;
+        private ClientProxy _channel;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public GateWayReferential(QOBDWebServicePortTypeClient servicePort)
+        public GateWayReferential(ClientProxy servicePort)
         {
             _channel = servicePort;
         }
 
         public void setServiceCredential(object channel)
         {
-            _channel = (QOBDWebServicePortTypeClient)channel;
+            _channel = (ClientProxy)channel;
         }
 
         private void onPropertyChange(string propertyName)
@@ -104,7 +105,7 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Info>> searchInfosAsync(Info Infos, ESearchOption filterOperator)
+        public async Task<List<Info>> searchInfoAsync(Info Infos, ESearchOption filterOperator)
         {
             List<Info> result = new List<Info>();
             try
@@ -119,7 +120,7 @@ namespace QOBDGateway.Core
 
         public async Task<List<Info>> searchInfosFromWebServiceAsync(Info infos, ESearchOption filterOperator)
         {
-            return await searchInfosAsync(infos, filterOperator);
+            return await searchInfoAsync(infos, filterOperator);
         }
 
         public void Dispose()

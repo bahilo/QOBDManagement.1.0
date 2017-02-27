@@ -104,7 +104,6 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
-            set { _startup.Bl = value; onPropertyChange("Bl"); }
         }
 
         public string Title
@@ -233,14 +232,14 @@ namespace QOBDManagement.ViewModel
             TxtSelectedListSize = (userListSizeFoundList.Count > 0) ? userListSizeFoundList[0] : 0;
             TaxList = TaxListToTaxModelList(await Bl.BlOrder.GetTaxDataAsync(999));
 
-            var infosFoundList = Bl.BlReferential.GetInfosData(999);
+            var infosFoundList = Bl.BlReferential.GetInfoData(999);
             BankDetailList = new List<GeneralInfos.Bank> { new GeneralInfos.Bank(infosFoundList) };
             AddressList = new List<GeneralInfos.Contact> { new GeneralInfos.Contact(infosFoundList) };
 
             LoadEmail();
 
-            string login = (_startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
-            string password = (_startup.Bl.BlReferential.searchInfos(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+            string login = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+            string password = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
 
             SaleGeneralConditionFileManagement.TxtLogin = LegalInformationFileManagement.TxtLogin = login;
             SaleGeneralConditionFileManagement.TxtPassword = LegalInformationFileManagement.TxtPassword = password;
@@ -256,7 +255,7 @@ namespace QOBDManagement.ViewModel
             List<Info> insertList = new List<Info>();
             foreach (string filter in _emailfilterList)
             {
-                var infosFoundList = Bl.BlReferential.searchInfos(new Info { Name = filter }, ESearchOption.AND);
+                var infosFoundList = Bl.BlReferential.searchInfo(new Info { Name = filter }, ESearchOption.AND);
                 if (infosFoundList.Count > 0)
                 {
                     switch (filter)
@@ -458,7 +457,7 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch("Updating email...");
             foreach (string filter in _emailfilterList)
             {
-                var infosFoundList = Bl.BlReferential.searchInfos(new Info { Name = filter }, ESearchOption.AND);
+                var infosFoundList = Bl.BlReferential.searchInfo(new Info { Name = filter }, ESearchOption.AND);
                 if (infosFoundList.Count > 0)
                 {
                     switch (filter)

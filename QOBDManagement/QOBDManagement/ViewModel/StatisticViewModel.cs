@@ -10,7 +10,6 @@ namespace QOBDManagement.ViewModel
     public class StatisticViewModel
     {
         private MainWindowViewModel mainWindowViewModel;
-        private BusinessLogic _bl;
 
         public StatisticViewModel(MainWindowViewModel mainWindowViewModel)
         {

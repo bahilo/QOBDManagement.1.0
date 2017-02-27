@@ -65,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QOBDSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Classes\QOBDDataSet.cs" />
     <Compile Include="Core\DALAgent.cs" />
     <Compile Include="Core\DALCLient.cs" />
     <Compile Include="Core\DALOrder.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="DataAccess.cs" />
     <Compile Include="Helper\ChannelHelper\DALHelper.cs" />
     <Compile Include="Helper\TableAdapterHelper.cs" />
+    <Compile Include="Interfaces\IQOBDSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -84,7 +86,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Classes\" />
     <Folder Include="Logs\" />
   </ItemGroup>
   <ItemGroup>

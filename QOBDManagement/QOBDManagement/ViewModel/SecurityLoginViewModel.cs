@@ -54,7 +54,6 @@ namespace QOBDManagement.ViewModel
 
         private void initEvents()
         {
-            AgentModel.PropertyChanged += onAgentChange;
             AgentModel.PropertyChanged += onAgentChange_goToHomePage;
             _DialogtaskCompletion.PropertyChanged += onDialogDisplayTaskComplete_authenticateUser;
 
@@ -92,7 +91,6 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
-            set { _startup.Bl = value; onPropertyChange("Bl"); }
         }
 
         public string TxtErrorMessage
@@ -126,21 +124,24 @@ namespace QOBDManagement.ViewModel
             try
             {
                 var agentFound = await Bl.BlSecurity.AuthenticateUserAsync(TxtLogin, TxtClearPassword);
-                if (agentFound != null && agentFound.ID != 0 && agentFound.Status.Equals(EStatus.Active.ToString()))
+                if (Bl.BlSecurity.IsUserAuthenticated())
                 {
-                    AgentModel.Agent = agentFound;
-                    TxtLogin = "";
-                    TxtClearPassword = "";
-                    TxtErrorMessage = "";
+                    if(agentFound.Status.Equals(EStatus.Active.ToString()))
+                    {
+                        AgentModel.Agent = agentFound;
+                        TxtLogin = "";
+                        TxtClearPassword = "";
+                        TxtErrorMessage = "";
+                    }
+                    else
+                        TxtErrorMessage = "Your profile has been Deactivated!";
                 }
                 else
-                {
-                    TxtErrorMessage = "Your User Name or password is incorrect or Deactivated!";
-                }
+                    TxtErrorMessage = "Your User Name or password is incorrect!";
             }
-            catch (Exception)
+            catch (ApplicationException)
             {
-                await Dialog.show("This application requires internet connection!"+Environment.NewLine 
+                await Dialog.show("This application requires an internet connection!"+Environment.NewLine 
                     + "Please check your internet connection." );
             }             
             
@@ -161,26 +162,28 @@ namespace QOBDManagement.ViewModel
                 (_main.getObject("main") as BindBase).PropertyChanged -= onStartupChange;
                 (_main.getObject("main") as BindBase).PropertyChanged -= onDialogChange;
             }
-            AgentModel.PropertyChanged -= onAgentChange;
+
             AgentModel.PropertyChanged -= onAgentChange_goToHomePage;
             _DialogtaskCompletion.PropertyChanged -= onDialogDisplayTaskComplete_authenticateUser;
         }
 
         //----------------------------[ Event Handler ]------------------
-
-        private void onAgentChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Agent"))
-            {
-                _page(new HomeViewModel());
-            }
-        }
-
+        
+        /// <summary>
+        /// get the password from the authentication dialog box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         internal void onPwdBoxPasswordChange_updateTxtClearPassword(object sender, RoutedEventArgs e)
         {
             TxtClearPassword = ((PasswordBox)sender).Password;
         }
 
+        /// <summary>
+        /// Display the home page if the user is authenticated 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onAgentChange_goToHomePage(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Agent"))

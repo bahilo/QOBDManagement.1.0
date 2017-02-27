@@ -13,6 +13,9 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using QOBDDAL.Classes;
+using QOBDDAL.Interfaces;
+using QOBDGateway.Classes;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -25,22 +28,28 @@ namespace QOBDDAL.Core
     {
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.IStatisticManager _gateWayStatistic;
-        private QOBDWebServicePortTypeClient _servicePortType;
+        private ClientProxy _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
         private Func<double, double> _rogressBarFunc;
         private object _lock;
+        private Interfaces.IQOBDSet _dataSet;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALStatisitc(QOBDWebServicePortTypeClient servicePort)
+        public DALStatisitc(ClientProxy servicePort)
         {
             _lock = new object();
             _servicePortType = servicePort;
             _gateWayStatistic = new GateWayStatistic(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
+        }
+
+        public DALStatisitc(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
+        {
+            this._dataSet = _dataSet;
         }
 
         public void initializeCredential(Agent user)
@@ -52,7 +61,7 @@ namespace QOBDDAL.Core
 
         public void setServiceCredential(object channel)
         {
-            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
                 _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
@@ -95,7 +104,7 @@ namespace QOBDDAL.Core
                     IsLodingDataFromWebServiceToLocal = false;
                 }
             }
-            
+
         }
 
         public void progressBarManagement(Func<double, double> progressBarFunc)
@@ -105,39 +114,30 @@ namespace QOBDDAL.Core
 
         public async Task<List<Statistic>> InsertStatisticAsync(List<Statistic> statisticList)
         {
-            List<Statistic> result = new List<Statistic>();
             List<Statistic> gateWayResultList = new List<Statistic>();
-            using (statisticsTableAdapter _statisticsTableAdapter = new statisticsTableAdapter())
-            {
-                gateWayResultList = await _gateWayStatistic.InsertStatisticAsync(statisticList);
-                
-                result = LoadStatistic(gateWayResultList);
-            }
+            gateWayResultList = await _gateWayStatistic.InsertStatisticAsync(statisticList);
+            List<Statistic> result = LoadStatistic(gateWayResultList);
             return result;
         }
 
         public async Task<List<Statistic>> UpdateStatisticAsync(List<Statistic> statisticList)
         {
             List<Statistic> result = new List<Statistic>();
-            List<Statistic> gateWayResultList = new List<Statistic>();
             QOBDSet dataSet = new QOBDSet();
-            using (statisticsTableAdapter _statisticsTableAdapter = new statisticsTableAdapter())
+            List<Statistic> gateWayResultList = await _gateWayStatistic.UpdateStatisticAsync(statisticList);
+
+            foreach (var statistic in gateWayResultList)
             {
-                gateWayResultList = (!_isLodingDataFromWebServiceToLocal) ? await _gateWayStatistic.UpdateStatisticAsync(statisticList) : statisticList;
+                QOBDSet dataSetLocal = new QOBDSet();
+                _dataSet.FillStatisticDataTableById(dataSetLocal.statistics, statistic.ID);
+                dataSet.statistics.Merge(dataSetLocal.statistics);
+            }
 
-                foreach (var statistic in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _statisticsTableAdapter.FillById(dataSetLocal.statistics, statistic.ID);
-                    dataSet.statistics.Merge(dataSetLocal.statistics);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _statisticsTableAdapter.Update(gateWayResultList.StatisticTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
+            if (gateWayResultList.Count > 0)
+            {
+                int returnValue = _dataSet.UpdateStatistic(gateWayResultList.StatisticTypeToDataTable(dataSet));
+                if (returnValue == gateWayResultList.Count)
+                    result = gateWayResultList;
             }
             return result;
         }
@@ -145,28 +145,11 @@ namespace QOBDDAL.Core
         public List<Statistic> LoadStatistic(List<Statistic> statisticList)
         {
             List<Statistic> result = new List<Statistic>();
-            using (statisticsTableAdapter _statisticsTableAdapter = new statisticsTableAdapter())
+            foreach (var statistic in statisticList)
             {
-                foreach (var statistic in statisticList)
-                {
-                    int returnResult = _statisticsTableAdapter
-                                            .load_data_statistic(
-                                                statistic.InvoiceDate,
-                                                statistic.InvoiceId,
-                                                statistic.Company,
-                                                statistic.Price_purchase_total,
-                                                statistic.Total,
-                                                statistic.Total_tax_included,
-                                                statistic.Income_percent,
-                                                statistic.Income,
-                                                statistic.Pay_received,
-                                                statistic.Date_limit,
-                                                statistic.Pay_date,
-                                                statistic.Tax_value,
-                                                statistic.ID);
-                    if (returnResult > 0)
-                        result.Add(statistic);
-                }
+                int returnResult = _dataSet.LoadStatistic(statistic);
+                if (returnResult > 0)
+                    result.Add(statistic);
             }
             return result;
         }
@@ -174,29 +157,23 @@ namespace QOBDDAL.Core
         public async Task<List<Statistic>> DeleteStatisticAsync(List<Statistic> statisticList)
         {
             List<Statistic> result = new List<Statistic>();
-            List<Statistic> gateWayResultList = new List<Statistic>();
-            using (statisticsTableAdapter _statisticsTableAdapter = new statisticsTableAdapter())
-            {
-                gateWayResultList = await _gateWayStatistic.DeleteStatisticAsync(statisticList);
-                if (gateWayResultList.Count == 0)
-                    foreach (Statistic statistic in gateWayResultList)
-                    {
-                        int returnResult = _statisticsTableAdapter.Delete1(statistic.ID);
-                        if (returnResult == 0)
-                            result.Add(statistic);
-                    }
-            }
+            List<Statistic> gateWayResultList = await _gateWayStatistic.DeleteStatisticAsync(statisticList);
+            if (gateWayResultList.Count == 0)
+                foreach (Statistic statistic in gateWayResultList)
+                {
+                    int returnResult = _dataSet.DeleteStatistic(statistic.ID);
+                    if (returnResult == 0)
+                        result.Add(statistic);
+                }
             return result;
         }
 
         public List<Statistic> GetStatisticData(int nbLine)
         {
             List<Statistic> result = new List<Statistic>();
-            using (statisticsTableAdapter _statisticsTableAdapter = new statisticsTableAdapter())
-                result = _statisticsTableAdapter.GetData().DataTableTypeToStatistic();
-            if (nbLine == 999 || result.Count < nbLine)
+            result = _dataSet.GetStatisticData();
+            if (nbLine == 999 || result.Count == 0  || result.Count < nbLine)
                 return result;
-
             return result.GetRange(0, nbLine);
         }
 
@@ -207,13 +184,12 @@ namespace QOBDDAL.Core
 
         public List<Statistic> GetStatisticDataById(int id)
         {
-            using (statisticsTableAdapter _statisticsTableAdapter = new statisticsTableAdapter())
-                return _statisticsTableAdapter.get_statistic_by_id(id).DataTableTypeToStatistic();
+            return _dataSet.GetStatisticDataById(id);
         }
 
         public List<Statistic> searchStatistic(Statistic statistic, ESearchOption filterOperator)
         {
-            return statistic.FilterDataTableToStatisticType(filterOperator);
+            return _dataSet.searchStatistic(statistic, filterOperator);
         }
 
         public async Task<List<Statistic>> searchStatisticAsync(Statistic statistic, ESearchOption filterOperator)

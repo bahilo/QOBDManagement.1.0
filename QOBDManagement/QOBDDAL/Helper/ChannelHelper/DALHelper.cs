@@ -151,8 +151,6 @@ namespace QOBDDAL.Helper.ChannelHelper
                             table = new QOBDSet.actionRecordsDataTable();
                         else if (typeof(T).Equals(typeof(QOBDSet.infosDataTable)))
                             table = new QOBDSet.infosDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.LanguagesDataTable)))
-                            table = new QOBDSet.LanguagesDataTable();
                         else if (typeof(T).Equals(typeof(QOBDSet.statisticsDataTable)))
                             table = new QOBDSet.statisticsDataTable();
                         else if (typeof(T).Equals(typeof(QOBDSet.notificationsDataTable)))
@@ -590,116 +588,7 @@ namespace QOBDDAL.Helper.ChannelHelper
             return new List<Info>();
         }
 
-        //====================================================================================
-        //===============================[ Language ]===========================================
-        //====================================================================================
-
-        public static List<Language> DataTableTypeToLanguage(this QOBDSet.LanguagesDataTable LanguageDataTable)
-        {
-            object _lock = new object(); List<Language> returnList = new List<Language>();
-
-            foreach (var LanguageQCBD in LanguageDataTable)
-            {
-                Language Language = new Language();
-                Language.ID = LanguageQCBD.ID;
-                Language.Lang_table = LanguageQCBD.Lang_table;
-                Language.Table_column = LanguageQCBD.Table_column;
-                Language.ColumnId = LanguageQCBD.ColumnId;
-                Language.Lang = LanguageQCBD.Lang;
-                Language.CultureInfo_name = LanguageQCBD.CultureInfo_name;
-                Language.CultureInfo_fullName = LanguageQCBD.CultureInfo_fullName;
-                Language.Content = LanguageQCBD.Content;
-
-                lock (_lock) returnList.Add(Language);
-            }
-
-            return returnList;
-        }
-
-        public static QOBDSet.LanguagesDataTable LanguageTypeToDataTable(this List<Language> LanguageList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.LanguagesDataTable returnQCBDDataTable = new QOBDSet.LanguagesDataTable();
-
-            foreach (var Language in LanguageList)
-            {
-                QOBDSet.LanguagesRow LanguageQCBD = returnQCBDDataTable.NewLanguagesRow();
-                LanguageQCBD.ID = Language.ID;
-                LanguageQCBD.Lang_table = Language.Lang_table;
-                LanguageQCBD.Table_column = Language.Table_column;
-                LanguageQCBD.ColumnId = Language.ColumnId;
-                LanguageQCBD.Lang = Language.Lang;
-                LanguageQCBD.Content = Language.Content;
-
-                lock (_lock)
-                {
-                    if (!returnQCBDDataTable.Rows.Contains(LanguageQCBD.ID))
-                    {
-                        returnQCBDDataTable.Rows.Add(LanguageQCBD);
-                        idList.Add(LanguageQCBD.ID);
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.LanguagesDataTable LanguageTypeToDataTable(this List<Language> languagesList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (languagesList != null)
-            {
-                if (dataSet != null && dataSet.Languages.Count > 0)
-                {
-                    foreach (var Language in languagesList)
-                    {
-                        QOBDSet.LanguagesRow LanguageQCBD = dataSet.Languages.Where(x => x.ID == Language.ID).First();
-                        LanguageQCBD.Lang_table = Language.Lang_table;
-                        LanguageQCBD.Table_column = Language.Table_column;
-                        LanguageQCBD.ColumnId = Language.ColumnId;
-                        LanguageQCBD.Lang = Language.Lang;
-                        LanguageQCBD.Content = Language.Content;
-                    }
-                }
-            }
-            return dataSet.Languages;
-        }
-
-        public static List<Language> langauageTypeToFilterDataTable(this Language language, ESearchOption filterOperator)
-        {
-            if (language != null)
-            {
-                string baseSqlString = "SELECT * FROM Languages WHERE ";
-                string defaultSqlString = "SELECT * FROM Languages WHERE 1=0 ";
-                object _lock = new object(); string query = "";
-
-                if (language.ID != 0)
-                    query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), language.ID);
-                if (!string.IsNullOrEmpty(language.Lang_table))
-                    query = string.Format(query + " {0} Lang_Table LIKE '{1}' ", filterOperator.ToString(), language.Lang_table);
-                if (!string.IsNullOrEmpty(language.Table_column))
-                    query = string.Format(query + " {0} Table_column LIKE '{1}' ", filterOperator.ToString(), language.Table_column);
-                if (!string.IsNullOrEmpty(language.ColumnId))
-                    query = string.Format(query + " {0} ColumnId LIKE '{1}' ", filterOperator.ToString(), language.ColumnId);
-                if (!string.IsNullOrEmpty(language.Lang))
-                    query = string.Format(query + " {0} Lang LIKE '{1}' ", filterOperator.ToString(), language.Lang);
-                if (!string.IsNullOrEmpty(language.Content))
-                    query = string.Format(query + " {0} Content LIKE '{1}' ", filterOperator.ToString(), language.Content);
-
-                lock (_lock)
-                    if (!string.IsNullOrEmpty(query))
-                        baseSqlString = baseSqlString + query.Substring(query.IndexOf(filterOperator.ToString()) + filterOperator.ToString().Length);
-                    else
-                        baseSqlString = defaultSqlString;
-
-                return DataTableTypeToLanguage((QOBDSet.LanguagesDataTable)getDataTableFromSqlQuery<QOBDSet.LanguagesDataTable>(baseSqlString));
-
-            }
-            return new List<Language>();
-        }
-
-
+        
         //====================================================================================
         //===============================[ ActionRecord ]===========================================
         //====================================================================================

@@ -18,6 +18,6 @@ namespace QOBDCommon.Interfaces.REMOTE
 
         Task<List<Info>> GetInfoDataAsync(int nbLine);
 
-        Task<List<Info>> searchInfosAsync(Info Infos, ESearchOption filterOperator);
+        Task<List<Info>> searchInfoAsync(Info Infos, ESearchOption filterOperator);
     }
 }

@@ -15,6 +15,9 @@ using QOBDCommon.Classes;
 using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDCommon.Enum;
 using QOBDGateway.QOBDServiceReference;
+using QOBDDAL.Classes;
+using QOBDDAL.Interfaces;
+using QOBDGateway.Classes;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -26,24 +29,30 @@ namespace QOBDDAL.Core
     public class DALReferential : IReferentialManager
     {
         private QOBDCommon.Interfaces.REMOTE.IReferentialManager _gateWayReferential;
-        private QOBDWebServicePortTypeClient _servicePortType;
+        private ClientProxy _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private object _lock = new object();
         private int _progressStep;
         private Func<double, double> _rogressBarFunc;
+        private Interfaces.IQOBDSet _dataSet;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Agent AuthenticatedUser { get; set; }
 
 
-        public DALReferential(QOBDWebServicePortTypeClient servicePort)
+        public DALReferential(ClientProxy servicePort)
         {
             _servicePortType = servicePort;
             _gateWayReferential = new GateWayReferential(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);            
+        }
+
+        public DALReferential(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
+        {
+            this._dataSet = _dataSet;
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -64,7 +73,7 @@ namespace QOBDDAL.Core
 
         public void setServiceCredential(object channel)
         {
-            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
                 _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
@@ -113,119 +122,66 @@ namespace QOBDDAL.Core
         public async Task<List<Info>> InsertInfoAsync(List<Info> listInfos)
         {
             List<Info> result = new List<Info>();
-            List<Info> gateWayResultList = new List<Info>();
-            using (infosTableAdapter _infossTableAdapter = new infosTableAdapter())
-            {
-                gateWayResultList = await _gateWayReferential.InsertInfoAsync(listInfos);
-                
+            List<Info> gateWayResultList = await _gateWayReferential.InsertInfoAsync(listInfos);                
                 result = LoadInfos(gateWayResultList);
-            }
             return result;
         }
 
         public async Task<List<Info>> DeleteInfoAsync(List<Info> listInfos)
         {
             List<Info> result = new List<Info>();
-            List<Info> gateWayResultList = new List<Info>();
-            using (infosTableAdapter _infosTableAdapter = new infosTableAdapter())
-            {
-                gateWayResultList = await _gateWayReferential.DeleteInfoAsync(listInfos);
+            List<Info> gateWayResultList = await _gateWayReferential.DeleteInfoAsync(listInfos);
                 if (gateWayResultList.Count == 0)
                 {
                     foreach (Info infos in listInfos)
                     {
-                        int returnValue = _infosTableAdapter.Delete1(infos.ID);
+                        int returnValue = _dataSet.DeleteInfo(infos.ID);
                         if (returnValue == 0)
                             result.Add(infos);
                     }
                 }
-
-            }
             return result;
         }
-
-        public List<Language> DeleteLanguageInfos(List<Language> languageList)
-        {
-            List<Language> result = new List<Language>();
-            using (LanguagesTableAdapter _languagesTableAdapter = new LanguagesTableAdapter())
-            {
-                foreach (Language lang in languageList)
-                {
-                    int returnValue = _languagesTableAdapter.Delete1(lang.ID);
-                    if (returnValue == 0)
-                        result.Add(lang);
-                }
-            }
-            return result;
-        }
-
+        
         public async Task<List<Info>> UpdateInfoAsync(List<Info> infoList)
         {
             List<Info> result = new List<Info>();
-            List<Info> gateWayResultList = new List<Info>();
             QOBDSet dataSet = new QOBDSet();
-            using (infosTableAdapter _InfosTableAdapter = new infosTableAdapter())
-            {
-                gateWayResultList = await _gateWayReferential.UpdateInfoAsync(infoList);
+            List<Info> gateWayResultList = await _gateWayReferential.UpdateInfoAsync(infoList);
 
                 foreach (var info in gateWayResultList)
                 {
                     QOBDSet dataSetLocal = new QOBDSet();
-                    _InfosTableAdapter.FillById(dataSetLocal.infos, info.ID);
+                    _dataSet.FillInfoDataTableById(dataSetLocal.infos, info.ID);
                     dataSet.infos.Merge(dataSetLocal.infos);
                 }
 
                 if (gateWayResultList.Count > 0)
                 {
-                    int returnValue = _InfosTableAdapter.Update(gateWayResultList.InfosTypeToDataTable(dataSet));
+                    int returnValue = _dataSet.UpdateInfo(gateWayResultList.InfosTypeToDataTable(dataSet));
                     if (returnValue == gateWayResultList.Count)
                         result = gateWayResultList;
                 }
-            }
             return result;
         }
 
         public List<Info> LoadInfos(List<Info> infoList)
         {
             List<Info> result = new List<Info>();
-            using (infosTableAdapter _InfosTableAdapter = new infosTableAdapter())
-            {
-                foreach (var Infos in infoList)
+            foreach (var Info in infoList)
                 {
-                    int returnValue = _InfosTableAdapter
-                            .load_data_infos(
-                                Infos.Name,
-                                Infos.Value,
-                                Infos.ID);
-
+                    int returnValue = _dataSet.LoadInfo(Info);
                     if (returnValue > 0)
-                        result.Add(Infos);
+                        result.Add(Info);
                 }
-            }
             return result;
         }
 
-        public List<Language> UpdateLanguageInfos(List<Language> languageList)
+        public List<Info> GetInfoData(int nbLine)
         {
-            List<Language> result = new List<Language>();
-            using (LanguagesTableAdapter _languagesTableAdapter = new LanguagesTableAdapter())
-            {
-                int returnValue = _languagesTableAdapter.Update(languageList.LanguageTypeToDataTable());
-                if (returnValue == languageList.Count)
-                    result = languageList;
-            }
-            return result;
-        }
-
-        public List<Info> GetInfosData(int nbLine)
-        {
-            List<Info> result = new List<Info>();
-            using (infosTableAdapter _infosTableAdapter = new infosTableAdapter())
-                result = _infosTableAdapter.GetData().DataTableTypeToInfos();
-
-            if (nbLine.Equals(999) || result.Count == 0)
+            List<Info> result =_dataSet.GetInfosData();
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
-
             return result.GetRange(0, nbLine);
         }
 
@@ -236,23 +192,17 @@ namespace QOBDDAL.Core
 
         public List<Info> GetInfosDataById(int id)
         {
-            using (infosTableAdapter _infosTableAdapter = new infosTableAdapter())
-                return _infosTableAdapter.get_infos_by_id(id).DataTableTypeToInfos();
+            return _dataSet.GetInfosDataById(id);
         }
 
-        public List<Info> searchInfos(Info Infos, ESearchOption filterOperator)
+        public List<Info> searchInfo(Info Info, ESearchOption filterOperator)
         {
-            return Infos.FilterDataTableToInfoType(filterOperator);
+            return _dataSet.searchInfo(Info, filterOperator);
         }
 
-        public async Task<List<Info>> searchInfosAsync(Info Infos, ESearchOption filterOperator)
+        public async Task<List<Info>> searchInfoAsync(Info Infos, ESearchOption filterOperator)
         {
-            return await _gateWayReferential.searchInfosAsync(Infos, filterOperator);
-        }
-
-        public List<Language> searchLanguageInfos(Language language, ESearchOption filterOperator)
-        {
-            return language.langauageTypeToFilterDataTable(filterOperator);
+            return await _gateWayReferential.searchInfoAsync(Infos, filterOperator);
         }
 
         public void Dispose()

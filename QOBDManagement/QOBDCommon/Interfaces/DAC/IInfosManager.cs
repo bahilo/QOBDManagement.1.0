@@ -7,9 +7,9 @@ namespace QOBDCommon.Interfaces.DAC
 {
     public interface IInfosManager: REMOTE.IInfosManager
     {
-        List<Info> GetInfosData(int nbLine);
+        List<Info> GetInfoData(int nbLine);
 
-        List<Info> searchInfos(Info Infos, ESearchOption filterOperator);
+        List<Info> searchInfo(Info Infos, ESearchOption filterOperator);
         
         List<Info> GetInfosDataById(int id);
     }

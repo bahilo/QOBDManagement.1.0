@@ -23,6 +23,9 @@ using System.Collections.Concurrent;
 using QOBDCommon.Classes;
 using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDGateway.QOBDServiceReference;
+using QOBDDAL.Classes;
+using QOBDDAL.Interfaces;
+using QOBDGateway.Classes;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -36,20 +39,26 @@ namespace QOBDDAL.Core
         private Func<double, double> _rogressBarFunc;
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.IClientManager _gateWayClient;
-        private QOBDWebServicePortTypeClient _servicePortType;
+        private ClientProxy _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
         private object _lock = new object();
+        private Interfaces.IQOBDSet _dataSet;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DALClient(QOBDWebServicePortTypeClient servicePort)
+        public DALClient(ClientProxy servicePort)
         {
             _servicePortType = servicePort;
             _gateWayClient = new GateWayClient(_servicePortType);
             _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
             _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
+        }
+
+        public DALClient(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
+        {
+            this._dataSet = _dataSet;
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -75,7 +84,7 @@ namespace QOBDDAL.Core
 
         public void setServiceCredential(object channel)
         {
-            _servicePortType = (QOBDWebServicePortTypeClient)channel;
+            _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
                 _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
@@ -117,287 +126,181 @@ namespace QOBDDAL.Core
 
         public async Task<List<Client>> InsertClientAsync(List<Client> listClient)
         {
-            List<Client> result = new List<Client>();
-            List<Client> gateWayResultList = new List<Client>();
-            using (clientsTableAdapter _clientsTableAdapter = new clientsTableAdapter())
-            {
-                //_gateWayClient.setServiceCredential(AuthenticatedUser.Login, AuthenticatedUser.HashedPassword);
-                //_servicePortType.Open();
-                gateWayResultList = await _gateWayClient.InsertClientAsync(listClient);
-
-                result = LoadClient(gateWayResultList);
-            }
+            List<Client> gateWayResultList = await _gateWayClient.InsertClientAsync(listClient);
+            List<Client> result = LoadClient(gateWayResultList);
             return result;
         }
 
         public async Task<List<Contact>> InsertContactAsync(List<Contact> listContact)
         {
-            List<Contact> result = new List<Contact>();
-            List<Contact> gateWayResultList = new List<Contact>();
-            using (contactsTableAdapter _contactsTableAdapter = new contactsTableAdapter())
-            {
-                //_servicePortType.Open();
-                gateWayResultList = await _gateWayClient.InsertContactAsync(listContact);
-                
-                result = LoadContact(gateWayResultList);
-            }
+            List<Contact> gateWayResultList = await _gateWayClient.InsertContactAsync(listContact);
+            List<Contact> result = LoadContact(gateWayResultList);
             return result;
         }
 
         public async Task<List<Address>> InsertAddressAsync(List<Address> listAddress)
         {
-            List<Address> result = new List<Address>();
-            List<Address> gateWayResultList = new List<Address>();
-            using (addressesTableAdapter _addressesTableAdapter = new addressesTableAdapter())
-            {
-                //_servicePortType.Open();
-                gateWayResultList = await _gateWayClient.InsertAddressAsync(listAddress);
-                
-                result = LoadAddress(gateWayResultList);
-            }
+            List<Address> gateWayResultList = await _gateWayClient.InsertAddressAsync(listAddress);
+            List<Address> result = LoadAddress(gateWayResultList);
             return result;
         }
 
         public async Task<List<Client>> DeleteClientAsync(List<Client> listClient)
         {
             List<Client> result = new List<Client>();
-            List<Client> gateWayResultList = new List<Client>();
-            using (clientsTableAdapter _clientsTableAdapter = new clientsTableAdapter())
-            {
-                //_servicePortType.Open();
-                gateWayResultList = await _gateWayClient.DeleteClientAsync(listClient);
+            List<Client> gateWayResultList = await _gateWayClient.DeleteClientAsync(listClient);
                 if (gateWayResultList.Count == 0)
                     foreach (Client client in listClient)
                     {
-                        int returnResult = _clientsTableAdapter.Delete1(client.ID);
+                        int returnResult = _dataSet.DeleteClient(client.ID);
                         if (returnResult == 0)
                             result.Add(client);
                     }
-            }
             return result;
         }
 
         public async Task<List<Contact>> DeleteContactAsync(List<Contact> listContact)
         {
             List<Contact> result = new List<Contact>();
-            List<Contact> gateWayResultList = new List<Contact>();
-            using (contactsTableAdapter _contactsTableAdapter = new contactsTableAdapter())
-            {
-                //_servicePortType.Open();
-                gateWayResultList = await _gateWayClient.DeleteContactAsync(listContact);
+            List<Contact> gateWayResultList = await _gateWayClient.DeleteContactAsync(listContact);
                 if (gateWayResultList.Count == 0)
                     foreach (Contact contact in listContact)
                     {
-                        int returnResult = _contactsTableAdapter.Delete1(contact.ID);
+                        int returnResult = _dataSet.DeleteContact(contact.ID);
                         if (returnResult == 0)
                             result.Add(contact);
                     }
-            }
             return result;
         }
 
         public async Task<List<Address>> DeleteAddressAsync(List<Address> listAddress)
         {
             List<Address> result = new List<Address>();
-            List<Address> gateWayResultList = new List<Address>();
-            using (addressesTableAdapter _addressesTableAdapter = new addressesTableAdapter())
-            {
-                //_servicePortType.Open();
-                gateWayResultList = await _gateWayClient.DeleteAddressAsync(listAddress);
+            List<Address> gateWayResultList = await _gateWayClient.DeleteAddressAsync(listAddress);
                 if (gateWayResultList.Count == 0)
                     foreach (Address address in listAddress)
                     {
-                        int returnResult = _addressesTableAdapter.Delete1(address.ID);
+                        int returnResult = _dataSet.DeleteAddress(address.ID);
                         if (returnResult == 0)
                             result.Add(address);
                     }
-            }
             return result;
         }
 
         public async Task<List<Client>> UpdateClientAsync(List<Client> clientList)
         {
             List<Client> result = new List<Client>();
-            List<Client> gateWayResultList = new List<Client>();
-            using (clientsTableAdapter _clientsTableAdapter = new clientsTableAdapter())
-            {
-                QOBDSet dataSet = new QOBDSet();
-                //_servicePortType.Open();
-                gateWayResultList = await _gateWayClient.UpdateClientAsync(clientList);
+            QOBDSet dataSet = new QOBDSet();
+            List<Client> gateWayResultList = await _gateWayClient.UpdateClientAsync(clientList);
 
                 foreach (var client in gateWayResultList)
                 {
                     QOBDSet dataSetLocal = new QOBDSet();
-                    _clientsTableAdapter.FillById(dataSetLocal.clients, client.ID);
+                    _dataSet.FillClientDataTableById(dataSetLocal.clients, client.ID);
                     dataSet.clients.Merge(dataSetLocal.clients);
                 }
 
                 if (gateWayResultList.Count > 0)
                 {
-                    int returnValue = _clientsTableAdapter.Update(gateWayResultList.ClientTypeToDataTable(dataSet));
+                    int returnValue = _dataSet.UpdateClient(gateWayResultList.ClientTypeToDataTable(dataSet));
                     if (returnValue == gateWayResultList.Count)
                         result = gateWayResultList;
                 }
-            }
             return result;
         }
 
         public List<Client> LoadClient(List<Client> clientList)
         {
             List<Client> result = new List<Client>();
-            using (clientsTableAdapter _clientsTableAdapter = new clientsTableAdapter())
-            {
-                foreach (var client in clientList)
+            foreach (var client in clientList)
                 {
-                    var returnResult = _clientsTableAdapter
-                                            .load_data_client(
-                                                    client.AgentId,
-                                                    client.FirstName,
-                                                    client.LastName,
-                                                    client.Company,
-                                                    client.Email,
-                                                    client.Phone,
-                                                    client.Fax,
-                                                    client.Rib,
-                                                    client.CRN,
-                                                    client.PayDelay,
-                                                    client.Comment,
-                                                    client.Status,
-                                                    client.MaxCredit,
-                                                    client.CompanyName,
-                                                    client.ID);
+                    var returnResult = _dataSet.LoadClient(client);
                     if (returnResult > 0)
                         result.Add(client);
                 }
-
-            }
             return result;
         }
 
         public async Task<List<Contact>> UpdateContactAsync(List<Contact> contactList)
         {
             List<Contact> result = new List<Contact>();
-            List<Contact> gateWayResultList = new List<Contact>();
             QOBDSet dataSet = new QOBDSet();
-            using (contactsTableAdapter _contactsTableAdapter = new contactsTableAdapter())
-            {
-                gateWayResultList = await _gateWayClient.UpdateContactAsync(contactList);
+            List<Contact> gateWayResultList = await _gateWayClient.UpdateContactAsync(contactList);
 
                 foreach (var contact in gateWayResultList)
                 {
                     QOBDSet dataSetLocal = new QOBDSet();
-                    _contactsTableAdapter.FillById(dataSetLocal.contacts, contact.ID);
+                    _dataSet.FillContactDataTableById(dataSetLocal.contacts, contact.ID);
                     dataSet.contacts.Merge(dataSetLocal.contacts);
                 }
 
                 if (gateWayResultList.Count > 0)
                 {
-                    int returnValue = _contactsTableAdapter.Update(gateWayResultList.ContactTypeToDataTable(dataSet));
+                    int returnValue = _dataSet.UpdateContact(gateWayResultList.ContactTypeToDataTable(dataSet));
                     if (returnValue == gateWayResultList.Count)
                         result = gateWayResultList;
                 }
-            }
             return result;
         }
 
         public List<Contact> LoadContact(List<Contact> contactList)
         {
             List<Contact> result = new List<Contact>();
-            using (contactsTableAdapter _contactsTableAdapter = new contactsTableAdapter())
-            {
-                foreach (var contact in contactList)
+            foreach (var contact in contactList)
                 {
-                    int returnResult = _contactsTableAdapter
-                                            .load_data_contact(
-                                                    contact.ClientId,
-                                                    contact.LastName,
-                                                    contact.Firstname,
-                                                    contact.Position,
-                                                    contact.Email,
-                                                    contact.Phone,
-                                                    contact.Cellphone,
-                                                    contact.Fax,
-                                                    contact.Comment,
-                                                    contact.ID);
+                    int returnResult = _dataSet.LoadContact(contact);
                     if (returnResult > 0)
                         result.Add(contact);
                 }
-            }
             return result;
         }
 
         public async Task<List<Address>> UpdateAddressAsync(List<Address> addressList)
         {
             List<Address> result = new List<Address>();
-            List<Address> gateWayResultList = new List<Address>();
             QOBDSet dataSet = new QOBDSet();
-            using (addressesTableAdapter _addressesTableAdapter = new addressesTableAdapter())
-            {
-                gateWayResultList = await _gateWayClient.UpdateAddressAsync(addressList);
+            List<Address> gateWayResultList = await _gateWayClient.UpdateAddressAsync(addressList);
 
                 foreach (var address in gateWayResultList)
                 {
                     QOBDSet dataSetLocal = new QOBDSet();
-                    _addressesTableAdapter.FillById(dataSetLocal.addresses, address.ID);
+                    _dataSet.FilladdressDataTableById(dataSetLocal.addresses, address.ID);
                     dataSet.addresses.Merge(dataSetLocal.addresses);
                 }
 
                 if (gateWayResultList.Count > 0)
                 {
-                    int returnValue = _addressesTableAdapter.Update(gateWayResultList.AddressTypeToDataTable(dataSet));
+                    int returnValue = _dataSet.UpdateAddress(gateWayResultList.AddressTypeToDataTable(dataSet));
                     if (returnValue == gateWayResultList.Count)
                         result = gateWayResultList;
                 }
-            }
             return result;
         }
 
         public List<Address> LoadAddress(List<Address> addressList)
         {
             List<Address> result = new List<Address>();
-            using (addressesTableAdapter _addressesTableAdapter = new addressesTableAdapter())
-            {
-                foreach (var address in addressList)
+            foreach (var address in addressList)
                 {
-                    int returnResult = _addressesTableAdapter
-                                            .load_data_address(
-                                                    address.ClientId,
-                                                    address.Name,
-                                                    address.Name2,
-                                                    address.CityName,
-                                                    address.AddressName,
-                                                    address.Postcode,
-                                                    address.Country,
-                                                    address.Comment,
-                                                    address.FirstName,
-                                                    address.LastName,
-                                                    address.Phone,
-                                                    address.Email,
-                                                    address.ID);
+                    int returnResult = _dataSet.LoadAddress(address);
                     if (returnResult > 0)
                         result.Add(address);
                 }
-            }
             return result;
         }
 
 
         public List<Client> GetClientData(int nbLine)
         {
-            List<Client> result = new List<Client>();
-            using (clientsTableAdapter _clientsTableAdapter = new clientsTableAdapter())
-                result = _clientsTableAdapter.GetData().DataTableTypeToClient();
-
-            if (nbLine.Equals(999) || result.Count == 0)
+            List<Client> result = _dataSet.GetClientData();
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
-
             return result.GetRange(0, nbLine);
         }
 
 
         public async Task<List<Client>> GetClientDataAsync(int nbLine)
         {
-            //_servicePortType.Open();
             return await _gateWayClient.GetClientDataAsync(nbLine);
         }
 
@@ -415,31 +318,24 @@ namespace QOBDDAL.Core
 
         public async Task<List<Client>> GetClientDataByBillListAsync(List<Bill> billList)
         {
-            //_servicePortType.Open();
             return await _gateWayClient.GetClientDataByBillListAsync(billList);
         }
 
         public async Task<List<Client>> GetClientMaxCreditOverDataByAgentAsync(int agentId)
         {
-            //_servicePortType.Open();
             return await _gateWayClient.GetClientMaxCreditOverDataByAgentAsync(agentId);
         }
 
         public List<Contact> GetContactData(int nbLine)
         {
-            List<Contact> result = new List<Contact>();
-            using (contactsTableAdapter _contactsTableAdapter = new contactsTableAdapter())
-                result = _contactsTableAdapter.GetData().DataTableTypeToContact();
-
-            if (nbLine.Equals(999) || result.Count == 0)
+            List<Contact> result = _dataSet.GetContactData();
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
-
             return result.GetRange(0, nbLine);
         }
 
         public async Task<List<Contact>> GetContactDataAsync(int nbLine)
         {
-            //_servicePortType.Open();
             return await _gateWayClient.GetContactDataAsync(nbLine);
         }
 
@@ -457,25 +353,19 @@ namespace QOBDDAL.Core
 
         public async Task<List<Contact>> GetContactDataByClientListAsync(List<Client> clientList)
         {
-            //_servicePortType.Open();
             return await _gateWayClient.GetContactDataByClientListAsync(clientList);
         }
 
         public List<Address> GetAddressData(int nbLine)
         {
-            List<Address> result = new List<Address>();
-            using (addressesTableAdapter _addressesTableAdapter = new addressesTableAdapter())
-                result = _addressesTableAdapter.GetData().DataTableTypeToAddress();
-
-            if (nbLine.Equals(999) || result.Count == 0)
+            List<Address> result = _dataSet.GetAddressData();
+            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
                 return result;
-
             return result.GetRange(0, nbLine);
         }
 
         public async Task<List<Address>> GetAddressDataAsync(int nbLine)
         {
-            //_servicePortType.Open();
             return await _gateWayClient.GetAddressDataAsync(nbLine);
         }
 
@@ -504,7 +394,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> GetAddressDataByOrderListAsync(List<Order> orderList)
         {
-            //_servicePortType.Open();
             return await _gateWayClient.GetAddressDataByOrderListAsync(orderList);
         }
 
@@ -523,7 +412,6 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> GetAddressDataByClientListAsync(List<Client> clientList)
         {
-            //_servicePortType.Open();
             return await _gateWayClient.GetAddressDataByClientListAsync(clientList);
         }
 
@@ -541,58 +429,53 @@ namespace QOBDDAL.Core
 
         public List<Client> GetClientDataById(int id)
         {
-            using (clientsTableAdapter _clientsTableAdapter = new clientsTableAdapter())
-                return _clientsTableAdapter.get_client_by_id(id).DataTableTypeToClient();
+            return _dataSet.GetClientDataById(id);
         }
 
         public List<Contact> GetContactDataById(int id)
         {
-            using (contactsTableAdapter _contactsTableAdapter = new contactsTableAdapter())
-                return _contactsTableAdapter.get_contact_by_id(id).DataTableTypeToContact();
+            return _dataSet.GetContactDataById(id);
         }
 
         public List<Address> GetAddressDataById(int id)
         {
-            using (addressesTableAdapter _addressesTableAdapter = new addressesTableAdapter())
-                return _addressesTableAdapter.get_address_by_id(id).DataTableTypeToAddress();
+            return _dataSet.GetAddressDataById(id);
         }
 
         public List<Client> searchClient(Client client, ESearchOption filterOperator)
         {
-            return client.ClientTypeToFilterDataTable(filterOperator);
+            return _dataSet.searchClient(client, filterOperator);
         }
 
         public async Task<List<Client>> searchClientAsync(Client client, ESearchOption filterOperator)
         {
-            //_servicePortType.Open();
             return await _gateWayClient.searchClientAsync(client, filterOperator);
         }
 
         public List<Contact> searchContact(Contact Contact, ESearchOption filterOperator)
         {
-            return Contact.ContactTypeToFilterDataTable(filterOperator);
+            return _dataSet.searchContact(Contact, filterOperator);
         }
 
         public async Task<List<Contact>> searchContactAsync(Contact Contact, ESearchOption filterOperator)
         {
-            //_servicePortType.Open();
             return await _gateWayClient.searchContactAsync(Contact, filterOperator);
         }
 
         public List<Address> searchAddress(Address Address, ESearchOption filterOperator)
         {
-            return Address.AddressTypeToFilterDataTable(filterOperator);
+            return _dataSet.searchAddress(Address, filterOperator);
         }
 
         public async Task<List<Address>> searchAddressAsync(Address Address, ESearchOption filterOperator)
         {
-            //_servicePortType.Open();
             return await _gateWayClient.searchAddressAsync(Address, filterOperator);
         }
 
         public void Dispose()
         {
             _gateWayClient.Dispose();
+            _dataSet.Dispose();
         }
 
         public void UpdateClientDependencies(List<Client> clientList, bool isActiveProgress = false)
