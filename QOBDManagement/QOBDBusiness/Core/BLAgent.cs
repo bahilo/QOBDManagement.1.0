@@ -36,6 +36,11 @@ namespace QOBDBusiness.Core
                 DAC.DALAgent.initializeCredential(user);
         }
 
+        public void cacheWebServiceData()
+        {
+            DAC.DALAgent.cacheWebServiceData();
+        }
+
 
         public void setServiceCredential(object channel)
         {
@@ -174,11 +179,6 @@ namespace QOBDBusiness.Core
             return result;
         }
 
-        public void Dispose()
-        {
-            DAC.DALAgent.Dispose();
-        }
-
         public List<Agent> searchAgent(Agent agent, ESearchOption filterOperator)
         {
             List<Agent> result = new List<Agent>();
@@ -199,6 +199,11 @@ namespace QOBDBusiness.Core
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;
+        }
+
+        public void Dispose()
+        {
+            DAC.DALAgent.Dispose();
         }
     } /* end class BLAgent */
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QOBDManagement.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace QOBDManagement.Classes
 {
     class DataContext
     {
-        public object setContext(UserControl view)
+        public object setWindowContext(UserControl view)
         {
             view.DataContext = null;
             var parent = FindParent.FindChildParent<Window>(view);
@@ -18,6 +19,15 @@ namespace QOBDManagement.Classes
             {
                 view.DataContext = (MainWindowViewModel)parent.DataContext;
             }
+            return view.DataContext;
+        }
+
+        public object setChatWindowContext(UserControl view)
+        {
+            object result = setWindowContext(view);
+            if(result != null)
+                view.DataContext = ((MainWindowViewModel)result).ChatRoomViewModel;           
+
             return view.DataContext;
         }
     }

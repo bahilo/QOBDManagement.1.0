@@ -15,9 +15,9 @@ namespace QOBDCommon.Interfaces.DAC
 {
     public interface IOrderManager : REMOTE.IOrderManager, ITax_orderManager, IOrder_itemManager, ITaxManager, IBillManager, IDeliveryManager, IGeneratePDF , INotifyPropertyChanged, IDisposable
     {
-        //Agent AuthenticatedUser { get; set; }
-
         void initializeCredential(Agent user);
+
+        void cacheWebServiceData();
 
         Task UpdateOrderDependenciesAsync(List<Order> orderList, bool isActiveProgress = false);
 

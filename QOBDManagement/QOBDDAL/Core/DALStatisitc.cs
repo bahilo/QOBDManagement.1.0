@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using QOBDDAL.Classes;
 using QOBDDAL.Interfaces;
 using QOBDGateway.Classes;
+using QOBDGateway.Interfaces;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -35,6 +36,7 @@ namespace QOBDDAL.Core
         private Func<double, double> _rogressBarFunc;
         private object _lock;
         private Interfaces.IQOBDSet _dataSet;
+        private ICommunication _serviceCommunication;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -52,10 +54,19 @@ namespace QOBDDAL.Core
             this._dataSet = _dataSet;
         }
 
-        public async void initializeCredential(Agent user)
+        public DALStatisitc(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet, ICommunication serviceCommunication) : this(servicePort, _dataSet)
+        {
+            _serviceCommunication = serviceCommunication;
+        }
+
+        public void initializeCredential(Agent user)
         {
             AuthenticatedUser = user;
             _gateWayStatistic.setServiceCredential(_servicePortType);
+        }
+
+        public async void cacheWebServiceData()
+        {
             await retrieveGateWayStatisticDataAsync();
         }
 
@@ -64,7 +75,7 @@ namespace QOBDDAL.Core
             _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
-                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.UserName;
                 _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
             }
             _gateWayStatistic.setServiceCredential(_servicePortType);
@@ -87,6 +98,7 @@ namespace QOBDDAL.Core
             lock (_lock) _isLodingDataFromWebServiceToLocal = true;
             try
             {
+                checkServiceCommunication();
                 var statisticList = await _gateWayStatistic.GetStatisticDataAsync(_loadSize);
                 if (statisticList.Count > 0)
                     LoadStatistic(statisticList);
@@ -111,9 +123,18 @@ namespace QOBDDAL.Core
             _rogressBarFunc = progressBarFunc;
         }
 
+        private void checkServiceCommunication()
+        {
+            if (_servicePortType.State == System.ServiceModel.CommunicationState.Closed || _servicePortType.State == System.ServiceModel.CommunicationState.Faulted)
+                _serviceCommunication.resetCommunication();
+        }
+
+        #region [ Actions ]
+        //=================================[ Actions ]================================================
         public async Task<List<Statistic>> InsertStatisticAsync(List<Statistic> statisticList)
         {
             List<Statistic> gateWayResultList = new List<Statistic>();
+            checkServiceCommunication();
             gateWayResultList = await _gateWayStatistic.InsertStatisticAsync(statisticList);
             List<Statistic> result = LoadStatistic(gateWayResultList);
             return result;
@@ -123,6 +144,7 @@ namespace QOBDDAL.Core
         {
             List<Statistic> result = new List<Statistic>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Statistic> gateWayResultList = await _gateWayStatistic.UpdateStatisticAsync(statisticList);
 
             foreach (var statistic in gateWayResultList)
@@ -156,6 +178,7 @@ namespace QOBDDAL.Core
         public async Task<List<Statistic>> DeleteStatisticAsync(List<Statistic> statisticList)
         {
             List<Statistic> result = new List<Statistic>();
+            checkServiceCommunication();
             List<Statistic> gateWayResultList = await _gateWayStatistic.DeleteStatisticAsync(statisticList);
             if (gateWayResultList.Count == 0)
                 foreach (Statistic statistic in gateWayResultList)
@@ -178,6 +201,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Statistic>> GetStatisticDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gateWayStatistic.GetStatisticDataAsync(nbLine);
         }
 
@@ -193,8 +217,10 @@ namespace QOBDDAL.Core
 
         public async Task<List<Statistic>> searchStatisticAsync(Statistic statistic, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gateWayStatistic.searchStatisticAsync(statistic, filterOperator);
         }
+        #endregion
 
         public void Dispose()
         {

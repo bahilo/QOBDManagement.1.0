@@ -317,7 +317,7 @@ namespace QOBDManagement.ViewModel
             Cart.CartItemList.Clear();
             Cart.Client.Client = new QOBDCommon.Entities.Client();
             if (savedQuoteList.Count > 0)
-                await Dialog.show("Quote ID("+new OrderModel { Order = savedQuoteList[0] }.TxtID+") has been created successfully!");
+                await Dialog.showAsync("Quote ID("+new OrderModel { Order = savedQuoteList[0] }.TxtID+") has been created successfully!");
             Dialog.IsDialogOpen = false;
             _page(new QuoteViewModel());
         }

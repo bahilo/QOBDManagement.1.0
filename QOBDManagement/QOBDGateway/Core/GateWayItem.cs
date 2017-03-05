@@ -79,12 +79,12 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Order_item>> InsertCommand_itemAsync(List<Order_item> listCommand_item)
+        public async Task<List<Order_item>> InsertOrder_itemAsync(List<Order_item> listOrder_item)
         {
             List<Order_item> result = new List<Order_item>();
             try
             {                
-                result = (await _channel.insert_data_command_itemAsync(listCommand_item.order_itemTypeToArray())).ArrayTypeToOrder_item();
+                result = (await _channel.insert_data_order_itemAsync(listOrder_item.order_itemTypeToArray())).ArrayTypeToOrder_item();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -171,12 +171,12 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Order_item>> DeleteCommand_itemAsync(List<Order_item> listCommand_item)
+        public async Task<List<Order_item>> DeleteOrder_itemAsync(List<Order_item> listOrder_item)
         {
             List<Order_item> result = new List<Order_item>();
             try
             {                
-                result = (await _channel.delete_data_command_itemAsync(listCommand_item.order_itemTypeToArray())).ArrayTypeToOrder_item();
+                result = (await _channel.delete_data_order_itemAsync(listOrder_item.order_itemTypeToArray())).ArrayTypeToOrder_item();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -263,12 +263,12 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Order_item>> UpdateCommand_itemAsync(List<Order_item> listCommand_item)
+        public async Task<List<Order_item>> UpdateOrder_itemAsync(List<Order_item> listOrder_item)
         {
             List<Order_item> result = new List<Order_item>();
             try
             {                
-                result = (await _channel.update_data_command_itemAsync(listCommand_item.order_itemTypeToArray())).ArrayTypeToOrder_item();
+                result = (await _channel.update_data_order_itemAsync(listOrder_item.order_itemTypeToArray())).ArrayTypeToOrder_item();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -328,12 +328,12 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Item>> GetItemDataByOrder_itemListAsync(List<Order_item> command_itemList)
+        public async Task<List<Item>> GetItemDataByOrder_itemListAsync(List<Order_item> order_itemList)
         {
             List<Item> result = new List<Item>();
             try
             {
-                result = (await _channel.get_data_item_by_command_item_listAsync(command_itemList.order_itemTypeToArray())).ArrayTypeToItem();
+                result = (await _channel.get_data_item_by_order_item_listAsync(order_itemList.order_itemTypeToArray())).ArrayTypeToItem();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -433,12 +433,12 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Order_item>> GetCommand_itemDataAsync(int nbLine)
+        public async Task<List<Order_item>> GetOrder_itemDataAsync(int nbLine)
         {
             List<Order_item> result = new List<Order_item>();
             try
             {                
-                result = (await _channel.get_data_command_itemAsync(nbLine.ToString())).ArrayTypeToOrder_item();
+                result = (await _channel.get_data_order_itemAsync(nbLine.ToString())).ArrayTypeToOrder_item();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -446,12 +446,12 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Order_item>> GetCommand_itemDataByIdAsync(int id)
+        public async Task<List<Order_item>> GetOrder_itemDataByIdAsync(int id)
         {
             List<Order_item> result = new List<Order_item>();
             try
             {                
-                result = (await _channel.get_data_command_item_by_idAsync(id.ToString())).ArrayTypeToOrder_item();
+                result = (await _channel.get_data_order_item_by_idAsync(id.ToString())).ArrayTypeToOrder_item();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -603,12 +603,12 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Order_item>> searchCommand_itemAsync(Order_item Command_item, ESearchOption filterOperator)
+        public async Task<List<Order_item>> searchOrder_itemAsync(Order_item Order_item, ESearchOption filterOperator)
         {
             List<Order_item> result = new List<Order_item>();
             try
             {                
-                result = (await _channel.get_filter_command_itemAsync(Command_item.Order_itemTypeToFilterArray(filterOperator))).ArrayTypeToOrder_item();
+                result = (await _channel.get_filter_order_itemAsync(Order_item.Order_itemTypeToFilterArray(filterOperator))).ArrayTypeToOrder_item();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -677,7 +677,8 @@ namespace QOBDGateway.Core
 
         public void Dispose()
         {
-            _channel.Close();
+            if (_channel.State == CommunicationState.Opened)
+                _channel.Close();
         }
     } /* end class BLItem */
 }

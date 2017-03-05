@@ -42,117 +42,123 @@ namespace QOBDManagement.Models
         public Dictionary<int, int> RolePositionDisplay
         {
             get { return _rolePosition; }
-            set { _rolePosition = value; onPropertyChange("RoleDisplayPosition"); }
+            set { _rolePosition = value; onPropertyChange(); }
         }
 
         public List<RoleModel> RoleModelList
         {
             get { return _roleModelList; }
-            set { _roleModelList = value; onPropertyChange("RoleModelList"); }
+            set { _roleModelList = value; onPropertyChange(); }
         }
 
         public string TxtClearPassword
         {
             get { return _clearPassword; }
-            set { setProperty(ref _clearPassword, value, "TxtClearPassword"); }
+            set { setProperty(ref _clearPassword, value); }
         }
 
         public string TxtClearPasswordVerification
         {
             get { return _clearPasswordVerification; }
-            set { _clearPasswordVerification = value; onPropertyChange("TxtClearPasswordVerification"); }
+            set { _clearPasswordVerification = value; onPropertyChange(); }
         }
 
         public string TxtAdmin
         {
             get { return _agent.Admin; }
-            set { _agent.Admin = value; onPropertyChange("TxtAdmin"); }
+            set { _agent.Admin = value; onPropertyChange(); }
         }
 
         public bool IsModified
         {
             get { return _isModified; }
-            set { setProperty(ref _isModified, value, "IsModified"); }
+            set { setProperty(ref _isModified, value); }
         }
 
         public Agent Agent
         {
             get { return _agent; }
             set {
-                _agent = value; onPropertyChange("Agent");
+                _agent = value; onPropertyChange();
                 /*setProperty(ref _agent, value, "Agent");*/ }
         }
 
         public string TxtID
         {
             get { return _agent.ID.ToString(); }
-            set { _agent.ID = Convert.ToInt32(value); onPropertyChange("TxtID"); }
+            set { _agent.ID = Convert.ToInt32(value); onPropertyChange(); }
         }
 
         public string TxtFirstName
         {
             get { return _agent.FirstName; }
-            set { _agent.FirstName = value; onPropertyChange("TxtFirstName"); }
+            set { _agent.FirstName = value; onPropertyChange(); }
         }
 
         public string TxtLastName
         {
             get { return _agent.LastName; }
-            set { _agent.LastName = value; onPropertyChange("TxtLastName"); }
+            set { _agent.LastName = value; onPropertyChange(); }
         }
 
         public string TxtPhone
         {
             get { return _agent.Phone; }
-            set { _agent.Phone = value; onPropertyChange("TxtPhone"); }
+            set { _agent.Phone = value; onPropertyChange(); }
         }
 
         public string TxtFax
         {
             get { return _agent.Fax; }
-            set { _agent.Fax = value; onPropertyChange("TxtFax"); }
+            set { _agent.Fax = value; onPropertyChange(); }
         }
 
         public string TxtEmail
         {
             get { return _agent.Email; }
-            set { _agent.Email = value; onPropertyChange("TxtEmail"); }
+            set { _agent.Email = value; onPropertyChange(); }
         }
 
         public string TxtLogin
         {
-            get { return _agent.Login; }
-            set { _agent.Login = value; onPropertyChange("TxtLogin"); }
+            get { return _agent.UserName; }
+            set { _agent.UserName = value; onPropertyChange(); }
         }
 
         public string TxtHashedPassword
         {
             get { return _agent.HashedPassword; }
-            set { _agent.HashedPassword = value; onPropertyChange("TxtHashedPassword"); }
+            set { _agent.HashedPassword = value; onPropertyChange(); }
         }
 
         public List<Role> RoleList
         {
             get { return _agent.RoleList; }
-            set { _agent.RoleList = value; onPropertyChange("RoleList"); }
+            set { _agent.RoleList = value; onPropertyChange(); }
         }
 
         public List<RoleModel> RoleToAddList
         {
             get { return _roleToAddList; }
-            set { _roleToAddList = value; onPropertyChange("RoleToAddList"); }
+            set { _roleToAddList = value; onPropertyChange(); }
         }
 
         public List<RoleModel> RoleToRemoveList
         {
             get { return _roleToRemoveList; }
-            set { _roleToRemoveList = value; onPropertyChange("RoleToRemoveList"); }
+            set { _roleToRemoveList = value; onPropertyChange(); }
         }
 
         public string TxtStatus
         {
             get { return _agent.Status; }
-            set { _agent.Status = value; onPropertyChange("TxtStatus"); }
+            set { _agent.Status = value; onPropertyChange(); }
+        }
+
+        public bool IsOnline
+        {
+            get { return _agent.IsOnline; }
+            set { _agent.IsOnline = value; onPropertyChange(); }
         }
 
         public string TxtListSize

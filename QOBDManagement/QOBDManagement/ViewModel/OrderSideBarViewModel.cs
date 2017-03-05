@@ -261,7 +261,7 @@ namespace QOBDManagement.ViewModel
                     //Dialog.IsDialogOpen = false;
                     break;
                 case "valid-credit":
-                    if (await Dialog.show("Do you really want to validate this credit?"))
+                    if (await Dialog.showAsync("Do you really want to validate this credit?"))
                     {
                         //Dialog.showSearch("Processing...");
                         orderDetail.updateOrderStatus(EOrderStatus.Credit);
@@ -269,7 +269,7 @@ namespace QOBDManagement.ViewModel
                     }
                     break;
                 case "convert-orderToQuote":
-                    if (await Dialog.show("Do you really want to convert into quote?"))
+                    if (await Dialog.showAsync("Do you really want to convert into quote?"))
                     {
                        //Dialog.showSearch("Processing...");
                         orderDetail.updateOrderStatus(EOrderStatus.Quote);
@@ -278,7 +278,7 @@ namespace QOBDManagement.ViewModel
                         
                     break;
                 case "convert-quoteToCredit":
-                    if (await Dialog.show("Do you really want to convert into credit?"))
+                    if (await Dialog.showAsync("Do you really want to convert into credit?"))
                     {
                         //Dialog.showSearch("Processing...");
                         orderDetail.updateOrderStatus(EOrderStatus.Pre_Credit);
@@ -286,7 +286,7 @@ namespace QOBDManagement.ViewModel
                     }
                     break;
                 case "close-order":
-                    if (await Dialog.show("Do you really want to close this order?"))
+                    if (await Dialog.showAsync("Do you really want to close this order?"))
                     {
                         //Dialog.showSearch("Processing...");
                         orderDetail.updateOrderStatus(EOrderStatus.Order_Close);
@@ -294,7 +294,7 @@ namespace QOBDManagement.ViewModel
                     }
                     break;
                 case "close-credit":
-                    if (await Dialog.show("Do you really want to close this credit?"))
+                    if (await Dialog.showAsync("Do you really want to close this credit?"))
                     {
                         //Dialog.showSearch("Processing...");
                         orderDetail.updateOrderStatus(EOrderStatus.Credit_CLose);

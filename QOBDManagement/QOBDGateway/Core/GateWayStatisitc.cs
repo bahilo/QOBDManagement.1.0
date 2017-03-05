@@ -125,7 +125,8 @@ namespace QOBDGateway.Core
 
         public void Dispose()
         {
-            
+            if (_channel.State == CommunicationState.Opened)
+                _channel.Close();
         }
     } /* end class BLStatisitc */
 }

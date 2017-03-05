@@ -87,12 +87,12 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Notification>> GetNotificationDataByOrderListAsync(List<Order> commandList)
+        public async Task<List<Notification>> GetNotificationDataByOrderListAsync(List<Order> orderList)
         {
             List<Notification> result = new List<Notification>();
             try
             {
-                result = (await _channel.get_data_notification_by_command_listAsync(commandList.OrderTypeToArray())).ArrayTypeToNotification();
+                result = (await _channel.get_data_notification_by_order_listAsync(orderList.OrderTypeToArray())).ArrayTypeToNotification();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -142,7 +142,8 @@ namespace QOBDGateway.Core
 
         public void Dispose()
         {
-            _channel.Close();
+            if (_channel.State == CommunicationState.Opened)
+                _channel.Close();
         }
     } /* end class BlNotification */
 }

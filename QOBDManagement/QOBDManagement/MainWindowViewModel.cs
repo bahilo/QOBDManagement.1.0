@@ -23,6 +23,7 @@ namespace QOBDManagement
     {
         public bool isNewAgentAuthentication { get; set; }
         private Object _currentViewModel;
+        private object _chatRoomCurrentView;
         private Cart _cart;
         private double _progressBarPercentValue;
         private string _searchProgressVisibolity;
@@ -45,11 +46,13 @@ namespace QOBDManagement
         public StatisticViewModel StatisticViewModel { get; set; }
         public QuoteViewModel QuoteViewModel { get; set; }
         public SecurityLoginViewModel SecurityLoginViewModel { get; set; }
+        public ChatRoomViewModel ChatRoomViewModel { get; set; }
 
 
         //----------------------------[ Orders ]------------------        
 
         public ButtonCommand<string> CommandNavig { get; set; }
+        public ButtonCommand<string> NewMessageHomePageCommand { get; set; }
 
 
         public MainWindowViewModel(IStartup startup) : base()
@@ -82,28 +85,31 @@ namespace QOBDManagement
             //------[ ViewModel ]
             ItemViewModel = new ItemViewModel(this);
             ClientViewModel = new ClientViewModel(this);
-            AgentViewModel = new AgentViewModel(this);
+            ChatRoomViewModel = new ChatRoomViewModel(this);
+            AgentViewModel = new AgentViewModel(this, ChatRoomViewModel.DiscussionViewModel);
             HomeViewModel = new HomeViewModel(this);
             NotificationViewModel = new NotificationViewModel(this);
             ReferentialViewModel = new ReferentialViewModel(this);
             StatisticViewModel = new StatisticViewModel(this);
             OrderViewModel = new OrderViewModel(this);
-            QuoteViewModel = new QuoteViewModel(this);
+            QuoteViewModel = new QuoteViewModel(this);            
 
             SecurityLoginViewModel = new SecurityLoginViewModel(this);
 
             Startup = startup;
-            Dialog = new ConfirmationViewModel();
+            Dialog = new ConfirmationViewModel();            
         }
 
         private void instancesOrder()
         {
             CommandNavig = new ButtonCommand<string>(appNavig, canAppNavig);
+            NewMessageHomePageCommand = new ButtonCommand<string>(goToMessageHome, canGoToMessageHome);
         }
 
         private void setInitEvents()
         {
             SecurityLoginViewModel.AgentModel.PropertyChanged += onAuthenticatedAgentChange;
+            ChatRoomViewModel.DiscussionViewModel.PropertyChanged += onNewMessageReceived;
         }
 
         //----------------------------[ Properties ]------------------
@@ -180,13 +186,27 @@ namespace QOBDManagement
         public Object CurrentViewModel
         {
             get { return _currentViewModel; }
-            set {
-                if(Application.Current != null)
+            set
+            {
+                if (Application.Current != null)
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         setProperty(ref _currentViewModel, value);
                     });
-             }
+            }
+        }
+
+        public Object ChatRoomCurrentView
+        {
+            get { return _chatRoomCurrentView; }
+            set
+            {
+                if (Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        setProperty(ref _chatRoomCurrentView, value);
+                    });
+            }
         }
 
         public double ProgressBarPercentValue
@@ -416,6 +436,17 @@ namespace QOBDManagement
                 }
                 CommandNavig.raiseCanExecuteActionChanged();
                 onPropertyChange("TxtUserName");
+
+                //========================= [ Chat Room ]====================
+
+                // load chat user
+                //AgentViewModel.loadAgents();
+
+                // display the chat view
+                ChatRoomCurrentView = ChatRoomViewModel;
+
+                // connect user to the chat server
+                ChatRoomViewModel.connectToServer();
             });
         }
 
@@ -466,12 +497,13 @@ namespace QOBDManagement
         {
             SecurityLoginViewModel.AgentModel.PropertyChanged -= onAuthenticatedAgentChange;
             _startup.Dal.DALReferential.PropertyChanged -= onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage;
-
+            ChatRoomViewModel.DiscussionViewModel.PropertyChanged -= onNewMessageReceived;
         }
 
         public override void Dispose()
         {
-            _startup.Dal.Dispose();
+            Dialog.showSearch("Closing...");
+            unsubscribeEvents();
             ItemViewModel.Dispose();
             ClientViewModel.Dispose();
             QuoteViewModel.Dispose();
@@ -480,8 +512,9 @@ namespace QOBDManagement
             AgentViewModel.Dispose();
             NotificationViewModel.Dispose();
             SecurityLoginViewModel.Dispose();
-            HomeViewModel.Dispose();
-            unsubscribeEvents();
+            HomeViewModel.Dispose();            
+            ChatRoomViewModel.Dispose();
+            _startup.Dal.Dispose();
             GC.Collect();
         }
 
@@ -492,6 +525,7 @@ namespace QOBDManagement
             if (e.PropertyName.Equals("Agent"))
             {
                 loadUIData();
+
             }
         }
 
@@ -517,8 +551,31 @@ namespace QOBDManagement
             }
         }
 
+        private void onNewMessageReceived(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("TxtNbNewMessage"))
+            {
+                Application.Current.Dispatcher.Invoke(()=> {
+                    NewMessageHomePageCommand.raiseCanExecuteActionChanged();
+                });                
+            }                
+        }
 
-        //----------------------------[ Action Orders ]------------------
+
+        //----------------------------[ Action Commands ]------------------
+
+        private void goToMessageHome(string obj)
+        {
+            appNavig("home");
+            ChatRoomViewModel.DiscussionViewModel.readNewMessages(null);
+        }
+
+        private bool canGoToMessageHome(string arg)
+        {
+            if (ChatRoomViewModel.DiscussionViewModel.TxtNbNewMessage != "0")
+                return true;
+            return false;
+        }
 
         private void appNavig(string propertyName)
         {

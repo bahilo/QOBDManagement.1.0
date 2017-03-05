@@ -27,7 +27,7 @@ namespace QOBDManagement.ViewModel
             switch (obj)
             {
                 case "email-unpaid":
-                    await Dialog.show("Send email for unpaid bill");
+                    await Dialog.showAsync("Send email for unpaid bill");
                     break;
             }
         }

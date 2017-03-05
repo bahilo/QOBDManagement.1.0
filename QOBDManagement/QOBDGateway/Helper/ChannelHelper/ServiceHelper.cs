@@ -14,8 +14,188 @@ namespace QOBDGateway.Helper.ChannelHelper
 {
     public static class ServiceHelper
     {
-        
-        
+
+        #region [ ChatRoom ]
+        //====================================================================================
+        //===============================[ Discussion ]===========================================
+        //====================================================================================
+
+        public static List<Discussion> ArrayTypeToDiscussion(this DiscussionChatRoom[] discussionChatRoomList)
+        {
+            object _lock = new object(); List<Discussion> returnList = new List<Discussion>();
+            if (discussionChatRoomList != null)
+            {
+                //Parallel.ForEach(discussionChatRoomList, (discussionChat) =>
+                foreach (var discussionChat in discussionChatRoomList)
+                {
+                    Discussion discussion = new Discussion();
+                    discussion.ID = discussionChat.ID;
+                    discussion.Date = Utility.convertToDateTime(Utility.decodeBase64ToString(discussionChat.Date));
+
+                    lock (_lock) returnList.Add(discussion);
+                }
+                //);
+            }
+            return returnList;
+        }
+
+        public static DiscussionChatRoom[] DiscussionTypeToArray(this List<Discussion> discussionList)
+        {
+            int i = 0;
+            DiscussionChatRoom[] returnChatArray = new DiscussionChatRoom[discussionList.Count];
+            if (discussionList != null)
+            {
+                Parallel.ForEach(discussionList, (discussion) =>
+                {
+                    DiscussionChatRoom discussionChat = new DiscussionChatRoom();
+                    discussionChat.ID = discussion.ID;
+                    discussionChat.Date = Utility.encodeStringToBase64(discussion.Date.ToString("yyyy-MM-dd H:mm:ss"));
+
+                    returnChatArray[i] = discussionChat;
+                    i++;
+                });
+            }
+            return returnChatArray;
+        }
+
+        public static DiscussionFilterChatRoom DiscussionTypeToFilterArray(this Discussion discussion, string filterOperator)
+        {
+            DiscussionFilterChatRoom discussionChat = new DiscussionFilterChatRoom();
+            if (discussion != null)
+            {
+                discussionChat.ID = discussion.ID;
+                discussionChat.Date = Utility.encodeStringToBase64(discussion.Date.ToString("yyyy-MM-dd H:mm:ss"));
+                discussionChat.Operator = Utility.encodeStringToBase64(filterOperator);
+            }
+            return discussionChat;
+        }
+
+        //====================================================================================
+        //===============================[ Message ]===========================================
+        //====================================================================================
+
+        public static List<Message> ArrayTypeToMessage(this MessageChatRoom[] messageChatRoomList)
+        {
+            object _lock = new object(); List<Message> returnList = new List<Message>();
+            if (messageChatRoomList != null)
+            {
+                //Parallel.ForEach(messageChatRoomList, (messageChat) =>
+                foreach (var messageChat in messageChatRoomList)
+                {
+                    Message message = new Message();
+                    message.ID = messageChat.ID;
+                    message.Status = messageChat.Status;
+                    message.UserId = messageChat.UserId;
+                    message.DiscussionId = messageChat.DiscussionId;
+                    message.Date = Utility.convertToDateTime(Utility.decodeBase64ToString(messageChat.Date));
+                    message.Content = Utility.decodeBase64ToString(messageChat.Content);
+
+                    lock (_lock) returnList.Add(message);
+                }
+                //);
+            }
+            return returnList;
+        }
+
+        public static MessageChatRoom[] MessageTypeToArray(this List<Message> messageList)
+        {
+            int i = 0;
+            MessageChatRoom[] returnChatArray = new MessageChatRoom[messageList.Count];
+            if (messageList != null)
+            {
+                Parallel.ForEach(messageList, (message) =>
+                {
+                    MessageChatRoom messageChat = new MessageChatRoom();
+                    messageChat.ID = message.ID;
+                    messageChat.Status = message.Status;
+                    messageChat.UserId = message.UserId;
+                    messageChat.DiscussionId = message.DiscussionId;
+                    messageChat.Date = Utility.encodeStringToBase64(message.Date.ToString("yyyy-MM-dd H:mm:ss"));
+                    messageChat.Content = Utility.encodeStringToBase64(message.Content);
+
+                    returnChatArray[i] = messageChat;
+                    i++;
+                });
+            }
+            return returnChatArray;
+        }
+
+        public static MessageFilterChatRoom MessageTypeToFilterArray(this Message message, string filterOperator)
+        {
+            MessageFilterChatRoom messageChat = new MessageFilterChatRoom();
+            if (message != null)
+            {
+                messageChat.ID = message.ID;
+                messageChat.Status = message.Status;
+                messageChat.UserId = message.UserId;
+                messageChat.DiscussionId = message.DiscussionId;
+                messageChat.Date = Utility.encodeStringToBase64(message.Date.ToString("yyyy-MM-dd H:mm:ss"));
+                messageChat.Content = Utility.encodeStringToBase64(message.Content);
+                messageChat.Operator = Utility.encodeStringToBase64(filterOperator);
+            }
+            return messageChat;
+        }
+
+        //====================================================================================
+        //===============================[ User_discussion ]===========================================
+        //====================================================================================
+
+        public static List<User_discussion> ArrayTypeToUser_discussion(this User_discussionChatRoom[] user_discussionChatRoomList)
+        {
+            object _lock = new object(); List<User_discussion> returnList = new List<User_discussion>();
+            if (user_discussionChatRoomList != null)
+            {
+                //Parallel.ForEach(user_discussionChatRoomList, (user_discussionChat) =>
+                foreach (var user_discussionChat in user_discussionChatRoomList)
+                {
+                    User_discussion user_discussion = new User_discussion();
+                    user_discussion.ID = user_discussionChat.ID;
+                    user_discussion.UserId = user_discussionChat.UserId;
+                    user_discussion.DiscussionId = user_discussionChat.DiscussionId;
+                    user_discussion.Status = user_discussionChat.Status;
+
+                    lock (_lock) returnList.Add(user_discussion);
+                }
+                //);
+            }
+            return returnList;
+        }
+
+        public static User_discussionChatRoom[] User_discussionTypeToArray(this List<User_discussion> user_discussionList)
+        {
+            int i = 0;
+            User_discussionChatRoom[] returnChatArray = new User_discussionChatRoom[user_discussionList.Count];
+            if (user_discussionList != null)
+            {
+                Parallel.ForEach(user_discussionList, (user_discussion) =>
+                {
+                    User_discussionChatRoom user_discussionChat = new User_discussionChatRoom();
+                    user_discussionChat.ID = user_discussion.ID;
+                    user_discussionChat.UserId = user_discussion.UserId;
+                    user_discussionChat.DiscussionId = user_discussion.DiscussionId;
+                    user_discussionChat.Status = user_discussion.Status;
+
+                    returnChatArray[i] = user_discussionChat;
+                    i++;
+                });
+            }
+            return returnChatArray;
+        }
+
+        public static User_discussionFilterChatRoom User_discussionTypeToFilterArray(this User_discussion user_discussion, string filterOperator)
+        {
+            User_discussionFilterChatRoom user_discussionChat = new User_discussionFilterChatRoom();
+            if (user_discussion != null)
+            {
+                user_discussionChat.ID = user_discussion.ID;
+                user_discussionChat.UserId = user_discussion.UserId;
+                user_discussionChat.DiscussionId = user_discussion.DiscussionId;
+                user_discussionChat.Status = user_discussion.Status;
+                user_discussionChat.Operator = Utility.encodeStringToBase64(filterOperator);
+            }
+            return user_discussionChat;
+        }
+        #endregion
 
         //====================================================================================
         //===============================[ Agent ]===========================================
@@ -28,10 +208,11 @@ namespace QOBDGateway.Helper.ChannelHelper
                 ID = x.ID,
                 FirstName = Utility.decodeBase64ToString(x.FirstName),
                 LastName = Utility.decodeBase64ToString(x.LastName),
-                Login = Utility.decodeBase64ToString(x.Login),
+                UserName = Utility.decodeBase64ToString(x.UserName),
                 HashedPassword = Utility.decodeBase64ToString(x.Password),
                 Phone = Utility.decodeBase64ToString(x.Phone),
                 Status = Utility.decodeBase64ToString(x.Status),
+                IsOnline = (x.IsOnline == 1) ? true : false,
                 ListSize = x.ListSize,
                 Email = Utility.decodeBase64ToString(x.Email),
                 Fax = Utility.decodeBase64ToString(x.Fax),
@@ -48,10 +229,11 @@ namespace QOBDGateway.Helper.ChannelHelper
                 ID = x.ID,
                 FirstName = Utility.encodeStringToBase64(x.FirstName),
                 LastName = Utility.encodeStringToBase64(x.LastName),
-                Login = Utility.encodeStringToBase64(x.Login),
+                UserName = Utility.encodeStringToBase64(x.UserName),
                 Password = Utility.encodeStringToBase64(x.HashedPassword),
                 Phone = Utility.encodeStringToBase64(x.Phone),
                 Status = Utility.encodeStringToBase64(x.Status),
+                IsOnline = (x.IsOnline) ? 1 : 0,
                 ListSize = x.ListSize,
                 Email = Utility.encodeStringToBase64(x.Email),
                 Fax = Utility.encodeStringToBase64(x.Fax),
@@ -68,11 +250,12 @@ namespace QOBDGateway.Helper.ChannelHelper
                 agentQCBD.ID = agent.ID;
                 agentQCBD.FirstName = Utility.encodeStringToBase64(agent.FirstName);
                 agentQCBD.LastName = Utility.encodeStringToBase64(agent.LastName);
-                agentQCBD.Login = Utility.encodeStringToBase64(agent.Login);
+                agentQCBD.UserName = Utility.encodeStringToBase64(agent.UserName);
                 agentQCBD.Password = Utility.encodeStringToBase64(agent.HashedPassword);
                 agentQCBD.Phone = Utility.encodeStringToBase64(agent.Phone);
                 agentQCBD.Status = Utility.encodeStringToBase64(agent.Status);
                 agentQCBD.ListSize = agent.ListSize;
+                agentQCBD.IsOnline = (agent.IsOnline) ? 1 : 0;
                 agentQCBD.Email = Utility.encodeStringToBase64(agent.Email);
                 agentQCBD.Fax = Utility.encodeStringToBase64(agent.Fax);
                 agentQCBD.Operator = filterOperator.ToString();
@@ -531,7 +714,7 @@ namespace QOBDGateway.Helper.ChannelHelper
         //===============================[ Order ]===========================================
         //====================================================================================
 
-        public static List<Order> ArrayTypeToOrder(this CommandsQOBD[] OrderQOBDList)
+        public static List<Order> ArrayTypeToOrder(this OrdersQOBD[] OrderQOBDList)
         {
             List<Order> outputList = OrderQOBDList.AsParallel().Select(x => new Order
             {
@@ -551,9 +734,9 @@ namespace QOBDGateway.Helper.ChannelHelper
             return outputList;
         }
 
-        public static CommandsQOBD[] OrderTypeToArray(this List<Order> orderList)
+        public static OrdersQOBD[] OrderTypeToArray(this List<Order> orderList)
         {
-            CommandsQOBD[] outputArray = orderList.AsParallel().Select(x => new CommandsQOBD
+            OrdersQOBD[] outputArray = orderList.AsParallel().Select(x => new OrdersQOBD
             {
                 ID = x.ID,
                 AgentId = x.AgentId,
@@ -571,9 +754,9 @@ namespace QOBDGateway.Helper.ChannelHelper
             return outputArray;
         }
 
-        public static CommandFilterQOBD CommandTypeToFilterArray(this Order order, ESearchOption filterOperator)
+        public static OrderFilterQOBD OrderTypeToFilterArray(this Order order, ESearchOption filterOperator)
         {
-            CommandFilterQOBD orderQCBD = new CommandFilterQOBD();
+            OrderFilterQOBD orderQCBD = new OrderFilterQOBD();
             if (order != null)
             {
                 orderQCBD.ID = order.ID;
@@ -591,13 +774,13 @@ namespace QOBDGateway.Helper.ChannelHelper
             return orderQCBD;
         }
 
-        public static PdfQOBD ParamCommandPdfTypeToArray(this ParamOrderToPdf paramOrderToPdf)
+        public static PdfQOBD ParamOrderPdfTypeToArray(this ParamOrderToPdf paramOrderToPdf)
         {
             PdfQOBD outputArray = new PdfQOBD();
             if (!paramOrderToPdf.Equals(null))
             {
                 outputArray.BillId = paramOrderToPdf.BillId;
-                outputArray.CommandId = paramOrderToPdf.OrderId;                
+                outputArray.OrderId = paramOrderToPdf.OrderId;                
             }
             return outputArray;
         }
@@ -606,12 +789,12 @@ namespace QOBDGateway.Helper.ChannelHelper
         //===============================[ Tax_order ]======================================
         //====================================================================================
 
-        public static List<Tax_order> ArrayTypeToTax_order(this Tax_commandQOBD[] Tax_orderQOBDList)
+        public static List<Tax_order> ArrayTypeToTax_order(this Tax_orderQOBD[] Tax_orderQOBDList)
         {
             List<Tax_order> outputList = Tax_orderQOBDList.AsParallel().Select(x => new Tax_order
             {
                 ID = x.ID,
-                OrderId = x.CommandId,
+                OrderId = x.OrderId,
                 Date_insert = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date_insert)),
                 Target = Utility.decodeBase64ToString(x.Target),
                 Tax_value = Convert.ToDouble(x.Tax_value),
@@ -621,12 +804,12 @@ namespace QOBDGateway.Helper.ChannelHelper
             return outputList;
         }
 
-        public static Tax_commandQOBD[] Tax_orderTypeToArray(this List<Tax_order> Tax_orderList)
+        public static Tax_orderQOBD[] Tax_orderTypeToArray(this List<Tax_order> Tax_orderList)
         {
-            Tax_commandQOBD[] outputArray = Tax_orderList.AsParallel().Select(x => new Tax_commandQOBD
+            Tax_orderQOBD[] outputArray = Tax_orderList.AsParallel().Select(x => new Tax_orderQOBD
             {
                 ID = x.ID,
-                CommandId = x.OrderId,
+                OrderId = x.OrderId,
                 Date_insert = Utility.encodeStringToBase64(x.Date_insert.ToString("yyy-MM-dd H:mm:ss")),
                 Target = Utility.encodeStringToBase64(x.Target),
                 Tax_value = x.Tax_value,
@@ -636,20 +819,20 @@ namespace QOBDGateway.Helper.ChannelHelper
             return outputArray;
         }
 
-        public static Tax_commandFilterQOBD Tax_commandTypeToFilterArray(this Tax_order Tax_command, ESearchOption filterOperator)
+        public static Tax_orderFilterQOBD Tax_orderTypeToFilterArray(this Tax_order Tax_order, ESearchOption filterOperator)
         {
-            Tax_commandFilterQOBD Tax_commandQCBD = new Tax_commandFilterQOBD();
-            if (Tax_command != null)
+            Tax_orderFilterQOBD Tax_orderQCBD = new Tax_orderFilterQOBD();
+            if (Tax_order != null)
             {
-                Tax_commandQCBD.ID = Tax_command.ID;
-                Tax_commandQCBD.CommandId = Tax_command.OrderId;
-                Tax_commandQCBD.Date_insert = Utility.encodeStringToBase64(Tax_command.Date_insert.ToString("yyy-MM-dd H:mm:ss"));
-                Tax_commandQCBD.Target = Utility.encodeStringToBase64(Tax_command.Target);
-                Tax_commandQCBD.Tax_value = Tax_command.Tax_value;
-                Tax_commandQCBD.TaxId = Tax_command.TaxId;
-                Tax_commandQCBD.Operator = filterOperator.ToString();
+                Tax_orderQCBD.ID = Tax_order.ID;
+                Tax_orderQCBD.OrderId = Tax_order.OrderId;
+                Tax_orderQCBD.Date_insert = Utility.encodeStringToBase64(Tax_order.Date_insert.ToString("yyy-MM-dd H:mm:ss"));
+                Tax_orderQCBD.Target = Utility.encodeStringToBase64(Tax_order.Target);
+                Tax_orderQCBD.Tax_value = Tax_order.Tax_value;
+                Tax_orderQCBD.TaxId = Tax_order.TaxId;
+                Tax_orderQCBD.Operator = filterOperator.ToString();
             }
-            return Tax_commandQCBD;
+            return Tax_orderQCBD;
         }
 
         //====================================================================================
@@ -873,7 +1056,7 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 ID = x.ID,
                 ClientId = x.ClientId,
-                OrderId = x.CommandId,
+                OrderId = x.OrderId,
                 Comment1 = Utility.decodeBase64ToString(x.Comment1),
                 Comment2 = Utility.decodeBase64ToString(x.Comment2),
                 Date = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date)),
@@ -893,7 +1076,7 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 ID = x.ID,
                 ClientId = x.ClientId,
-                CommandId = x.OrderId,
+                OrderId = x.OrderId,
                 Comment1 = Utility.encodeStringToBase64(x.Comment1),
                 Comment2 = Utility.encodeStringToBase64(x.Comment2),
                 Date = Utility.encodeStringToBase64(x.Date.ToString("yyyy-MM-dd H:mm:ss")),
@@ -914,7 +1097,7 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 BillQCBD.ID = Bill.ID;
                 BillQCBD.ClientId = Bill.ClientId;
-                BillQCBD.CommandId = Bill.OrderId;
+                BillQCBD.OrderId = Bill.OrderId;
                 BillQCBD.Comment1 = Utility.encodeStringToBase64(Bill.Comment1);
                 BillQCBD.Comment2 = Utility.encodeStringToBase64(Bill.Comment2);
                 BillQCBD.Date = Utility.encodeStringToBase64(Bill.Date.ToString("yyyy-MM-dd H:mm:ss"));
@@ -938,7 +1121,7 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 ID = x.ID,
                 BillId = x.BillId,
-                OrderId = x.CommandId,
+                OrderId = x.OrderId,
                 Date = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date)),
                 Package = x.Package,
                 Status = Utility.decodeBase64ToString(x.Status),
@@ -953,7 +1136,7 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 ID = x.ID,
                 BillId = x.BillId,
-                CommandId = x.OrderId,
+                OrderId = x.OrderId,
                 Date = Utility.encodeStringToBase64(x.Date.ToString("yyyy-MM-dd H:mm:ss")),
                 Package = x.Package,
                 Status = Utility.encodeStringToBase64(x.Status),
@@ -969,7 +1152,7 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 DeliveryQCBD.ID = Delivery.ID;
                 DeliveryQCBD.BillId = Delivery.BillId;
-                DeliveryQCBD.CommandId = Delivery.OrderId;
+                DeliveryQCBD.OrderId = Delivery.OrderId;
                 DeliveryQCBD.Date = Utility.encodeStringToBase64(Delivery.Date.ToString("yyyy-MM-dd H:mm:ss"));
                 DeliveryQCBD.Package = Delivery.Package;
                 DeliveryQCBD.Status = Utility.encodeStringToBase64(Delivery.Status);
@@ -982,12 +1165,12 @@ namespace QOBDGateway.Helper.ChannelHelper
         //================================[ order_item ]====================================
         //====================================================================================
 
-        public static List<Order_item> ArrayTypeToOrder_item(this Command_itemQOBD[] order_itemQOBDList)
+        public static List<Order_item> ArrayTypeToOrder_item(this Order_itemQOBD[] order_itemQOBDList)
         {
             List<Order_item> outputList = order_itemQOBDList.AsParallel().Select(x => new Order_item
             {
                 ID = x.ID,
-                OrderId = x.CommandId,
+                OrderId = x.OrderId,
                 Comment_Purchase_Price = Utility.decodeBase64ToString(x.Comment_Purchase_Price),
                 Item_ref = Utility.decodeBase64ToString(x.Item_ref),
                 Order = x.Order,
@@ -1001,12 +1184,12 @@ namespace QOBDGateway.Helper.ChannelHelper
             return outputList;
         }
 
-        public static Command_itemQOBD[] order_itemTypeToArray(this List<Order_item> Command_itemList)
+        public static Order_itemQOBD[] order_itemTypeToArray(this List<Order_item> Order_itemList)
         {
-            Command_itemQOBD[] outputArray = Command_itemList.AsParallel().Select(x => new Command_itemQOBD
+            Order_itemQOBD[] outputArray = Order_itemList.AsParallel().Select(x => new Order_itemQOBD
             {
                 ID = x.ID,
-                CommandId = x.OrderId,
+                OrderId = x.OrderId,
                 Comment_Purchase_Price = Utility.encodeStringToBase64(x.Comment_Purchase_Price),
                 Item_ref = Utility.encodeStringToBase64(x.Item_ref),
                 Order = x.Order,
@@ -1020,13 +1203,13 @@ namespace QOBDGateway.Helper.ChannelHelper
             return outputArray;
         }
 
-        public static Command_itemFilterQOBD Order_itemTypeToFilterArray(this Order_item order_item, ESearchOption filterOperator)
+        public static Order_itemFilterQOBD Order_itemTypeToFilterArray(this Order_item order_item, ESearchOption filterOperator)
         {
-            Command_itemFilterQOBD order_itemQCBD = new Command_itemFilterQOBD();
+            Order_itemFilterQOBD order_itemQCBD = new Order_itemFilterQOBD();
             if (order_item != null)
             {
                 order_itemQCBD.ID = order_item.ID;
-                order_itemQCBD.CommandId = order_item.OrderId;
+                order_itemQCBD.OrderId = order_item.OrderId;
                 order_itemQCBD.Comment_Purchase_Price = Utility.encodeStringToBase64(order_item.Comment_Purchase_Price);
                 order_itemQCBD.Item_ref = Utility.encodeStringToBase64(order_item.Item_ref);
                 order_itemQCBD.Order = order_item.Order;

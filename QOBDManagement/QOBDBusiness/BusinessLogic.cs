@@ -25,6 +25,7 @@ namespace QOBDBusiness
         public ISecurityManager BlSecurity { get; set; }
         public IStatisticManager BlStatisitc { get; set; }
         public INotificationManager BlNotification { get; set; }
+        public IChatRoomManager BlChatRoom { get; set; }
 
         public BusinessLogic(
                             IAgentManager inBlAgent,
@@ -34,7 +35,8 @@ namespace QOBDBusiness
                             ISecurityManager inBlSecurity,
                             IStatisticManager inBlStatisitc,
                             IReferentialManager inBlReferential,
-                            INotificationManager inBlNotification)
+                            INotificationManager inBlNotification,
+                            IChatRoomManager inBlChatRoom)
                             
         {
             this.BlAgent = inBlAgent;
@@ -45,6 +47,7 @@ namespace QOBDBusiness
             this.BlSecurity = inBlSecurity;
             this.BlStatisitc = inBlStatisitc;
             this.BlNotification = inBlNotification;
+            this.BlChatRoom = inBlChatRoom;
         }
         
     } /* end class BusinessLogic */

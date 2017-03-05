@@ -38,6 +38,11 @@ namespace QOBDBusiness.Core
                 DAC.DALOrder.initializeCredential(user);
         }
 
+        public void cacheWebServiceData()
+        {
+            DAC.DALOrder.cacheWebServiceData();
+        }
+
 
         public void setServiceCredential(object channel)
         {

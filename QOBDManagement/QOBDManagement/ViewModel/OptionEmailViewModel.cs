@@ -156,23 +156,23 @@ namespace QOBDManagement.ViewModel
             {
                 case "bill":
                     if (_emails["bill"].save())
-                        await Dialog.show("Email Bill saved Successfully!");
+                        await Dialog.showAsync("Email Bill saved Successfully!");
                     break;
                 case "reminder-2":
                     if (_emails["reminder_2"].save())
-                        await Dialog.show("Email first Bill reminder saved Successfully!");
+                        await Dialog.showAsync("Email first Bill reminder saved Successfully!");
                     break;
                 case "reminder-1":
                     if (_emails["reminder_1"].save())
-                        await Dialog.show("Email second Bill reminder saved Successfully!");
+                        await Dialog.showAsync("Email second Bill reminder saved Successfully!");
                     break;
                 case "order-confirmation":
                     if (_emails["order_confirmation"].save())
-                        await Dialog.show("Email validation Order confirmation saved Successfully!");
+                        await Dialog.showAsync("Email validation Order confirmation saved Successfully!");
                     break;
                 case "quote":
                     if (_emails["quote"].save())
-                        await Dialog.show("Email Quote saved Successfully!");
+                        await Dialog.showAsync("Email Quote saved Successfully!");
                     break;
             }
         }

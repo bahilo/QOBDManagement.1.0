@@ -3,6 +3,7 @@ using QOBDCommon.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 /// <summary>
 ///  An interface defining operations expected of ...
 /// 

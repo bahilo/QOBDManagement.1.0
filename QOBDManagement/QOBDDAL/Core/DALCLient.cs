@@ -26,6 +26,7 @@ using QOBDGateway.QOBDServiceReference;
 using QOBDDAL.Classes;
 using QOBDDAL.Interfaces;
 using QOBDGateway.Classes;
+using QOBDGateway.Interfaces;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -45,6 +46,7 @@ namespace QOBDDAL.Core
         private int _progressStep;
         private object _lock = new object();
         private Interfaces.IQOBDSet _dataSet;
+        private ICommunication _serviceCommunication;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -61,6 +63,11 @@ namespace QOBDDAL.Core
             this._dataSet = _dataSet;
         }
 
+        public DALClient(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet, ICommunication serviceCommunication) : this(servicePort, _dataSet)
+        {
+            _serviceCommunication = serviceCommunication;
+        }
+
         public bool IsLodingDataFromWebServiceToLocal
         {
             get { return _isLodingDataFromWebServiceToLocal; }
@@ -72,14 +79,18 @@ namespace QOBDDAL.Core
             get { return _gateWayClient; }
         }
 
-        public async void initializeCredential(Agent user)
+        public void initializeCredential(Agent user)
         {
-            if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
+            if (!string.IsNullOrEmpty(user.UserName) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
                 setServiceCredential(_servicePortType);
-                await retrieveGateWayClientDataAsync();
             }
+        }
+
+        public async void cacheWebServiceData()
+        {
+            await retrieveGateWayClientDataAsync();
         }
 
         public void setServiceCredential(object channel)
@@ -87,7 +98,7 @@ namespace QOBDDAL.Core
             _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
-                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.UserName;
                 _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
             }
             _gateWayClient.setServiceCredential(_servicePortType);
@@ -98,7 +109,8 @@ namespace QOBDDAL.Core
             lock (_lock) _isLodingDataFromWebServiceToLocal = true;
             try
             {
-                ConcurrentBag<Client> clientList = new ConcurrentBag<Client>(await _gateWayClient.GetClientDataAsync(_loadSize));
+                checkServiceCommunication();
+                ConcurrentBag<Client> clientList = new ConcurrentBag<Client>(await _gateWayClient.searchClientAsync(new Client { AgentId = AuthenticatedUser.ID }, ESearchOption.AND));
 
                 if (clientList.Count > 0)
                     await UpdateClientDependenciesAsync(clientList.ToList());
@@ -124,8 +136,18 @@ namespace QOBDDAL.Core
             _rogressBarFunc = progressBarFunc;
         }
 
+        private void checkServiceCommunication()
+        {
+            if (_servicePortType.State == System.ServiceModel.CommunicationState.Closed || _servicePortType.State == System.ServiceModel.CommunicationState.Faulted)
+                _serviceCommunication.resetCommunication();
+        }
+
+        #region [ Actions ]
+        //=================================[ Actions ]================================================
+
         public async Task<List<Client>> InsertClientAsync(List<Client> listClient)
         {
+            checkServiceCommunication();
             List<Client> gateWayResultList = await _gateWayClient.InsertClientAsync(listClient);
             List<Client> result = LoadClient(gateWayResultList);
             return result;
@@ -133,6 +155,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Contact>> InsertContactAsync(List<Contact> listContact)
         {
+            checkServiceCommunication();
             List<Contact> gateWayResultList = await _gateWayClient.InsertContactAsync(listContact);
             List<Contact> result = LoadContact(gateWayResultList);
             return result;
@@ -140,6 +163,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> InsertAddressAsync(List<Address> listAddress)
         {
+            checkServiceCommunication();
             List<Address> gateWayResultList = await _gateWayClient.InsertAddressAsync(listAddress);
             List<Address> result = LoadAddress(gateWayResultList);
             return result;
@@ -148,6 +172,7 @@ namespace QOBDDAL.Core
         public async Task<List<Client>> DeleteClientAsync(List<Client> listClient)
         {
             List<Client> result = new List<Client>();
+            checkServiceCommunication();
             List<Client> gateWayResultList = await _gateWayClient.DeleteClientAsync(listClient);
                 if (gateWayResultList.Count == 0)
                     foreach (Client client in listClient)
@@ -162,6 +187,7 @@ namespace QOBDDAL.Core
         public async Task<List<Contact>> DeleteContactAsync(List<Contact> listContact)
         {
             List<Contact> result = new List<Contact>();
+            checkServiceCommunication();
             List<Contact> gateWayResultList = await _gateWayClient.DeleteContactAsync(listContact);
                 if (gateWayResultList.Count == 0)
                     foreach (Contact contact in listContact)
@@ -176,6 +202,7 @@ namespace QOBDDAL.Core
         public async Task<List<Address>> DeleteAddressAsync(List<Address> listAddress)
         {
             List<Address> result = new List<Address>();
+            checkServiceCommunication();
             List<Address> gateWayResultList = await _gateWayClient.DeleteAddressAsync(listAddress);
                 if (gateWayResultList.Count == 0)
                     foreach (Address address in listAddress)
@@ -191,6 +218,7 @@ namespace QOBDDAL.Core
         {
             List<Client> result = new List<Client>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Client> gateWayResultList = await _gateWayClient.UpdateClientAsync(clientList);
 
                 foreach (var client in gateWayResultList)
@@ -225,6 +253,7 @@ namespace QOBDDAL.Core
         {
             List<Contact> result = new List<Contact>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Contact> gateWayResultList = await _gateWayClient.UpdateContactAsync(contactList);
 
                 foreach (var contact in gateWayResultList)
@@ -259,6 +288,7 @@ namespace QOBDDAL.Core
         {
             List<Address> result = new List<Address>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Address> gateWayResultList = await _gateWayClient.UpdateAddressAsync(addressList);
 
                 foreach (var address in gateWayResultList)
@@ -301,6 +331,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Client>> GetClientDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gateWayClient.GetClientDataAsync(nbLine);
         }
 
@@ -318,11 +349,13 @@ namespace QOBDDAL.Core
 
         public async Task<List<Client>> GetClientDataByBillListAsync(List<Bill> billList)
         {
+            checkServiceCommunication();
             return await _gateWayClient.GetClientDataByBillListAsync(billList);
         }
 
         public async Task<List<Client>> GetClientMaxCreditOverDataByAgentAsync(int agentId)
         {
+            checkServiceCommunication();
             return await _gateWayClient.GetClientMaxCreditOverDataByAgentAsync(agentId);
         }
 
@@ -336,6 +369,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Contact>> GetContactDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gateWayClient.GetContactDataAsync(nbLine);
         }
 
@@ -353,6 +387,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Contact>> GetContactDataByClientListAsync(List<Client> clientList)
         {
+            checkServiceCommunication();
             return await _gateWayClient.GetContactDataByClientListAsync(clientList);
         }
 
@@ -366,6 +401,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> GetAddressDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gateWayClient.GetAddressDataAsync(nbLine);
         }
 
@@ -394,6 +430,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> GetAddressDataByOrderListAsync(List<Order> orderList)
         {
+            checkServiceCommunication();
             return await _gateWayClient.GetAddressDataByOrderListAsync(orderList);
         }
 
@@ -412,6 +449,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> GetAddressDataByClientListAsync(List<Client> clientList)
         {
+            checkServiceCommunication();
             return await _gateWayClient.GetAddressDataByClientListAsync(clientList);
         }
 
@@ -449,6 +487,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Client>> searchClientAsync(Client client, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gateWayClient.searchClientAsync(client, filterOperator);
         }
 
@@ -459,6 +498,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Contact>> searchContactAsync(Contact Contact, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gateWayClient.searchContactAsync(Contact, filterOperator);
         }
 
@@ -469,13 +509,14 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> searchAddressAsync(Address Address, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gateWayClient.searchAddressAsync(Address, filterOperator);
         }
+        #endregion
 
         public void Dispose()
         {
             _gateWayClient.Dispose();
-            _dataSet.Dispose();
         }
 
         public async Task UpdateClientDependenciesAsync(List<Client> clientList, bool isActiveProgress = false)

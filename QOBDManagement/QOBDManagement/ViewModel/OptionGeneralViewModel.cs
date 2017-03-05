@@ -306,7 +306,7 @@ namespace QOBDManagement.ViewModel
             var NotDeletedTax = await Bl.BlOrder.DeleteTaxAsync(new List<QOBDCommon.Entities.Tax> { obj.Tax });
             if (NotDeletedTax.Count == 0)
             {
-                await Dialog.show("Tax Deleted Successfully!");
+                await Dialog.showAsync("Tax Deleted Successfully!");
                 TaxList.Remove(obj);
                 TaxList = new List<TaxModel>(TaxList);
             }
@@ -325,7 +325,7 @@ namespace QOBDManagement.ViewModel
             var savedTaxList = await Bl.BlOrder.InsertTaxAsync(new List<QOBDCommon.Entities.Tax> { TaxModel.Tax });
             if (savedTaxList.Count > 0)
             {
-                await Dialog.show("Tax added Successfully!");
+                await Dialog.showAsync("Tax added Successfully!");
                 TaxList = new List<TaxModel>(TaxList.Concat(TaxListToTaxModelList(savedTaxList)));
             }
             Dialog.IsDialogOpen = false;
@@ -343,7 +343,7 @@ namespace QOBDManagement.ViewModel
             authenticatedUser.ListSize = Convert.ToInt32(_generalInfos.TxtSelectedListSize);
             var savedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
             if (savedAgentList.Count > 0)
-                await Dialog.show("List Size saved Successfully!");
+                await Dialog.showAsync("List Size saved Successfully!");
             Dialog.IsDialogOpen = false;
         }
 
@@ -356,7 +356,7 @@ namespace QOBDManagement.ViewModel
         {
             LegalInformationFileManagement.TxtContent = "";
             LegalInformationFileManagement.save();
-            await Dialog.show("Legal Information content has been erased Successfully!");
+            await Dialog.showAsync("Legal Information content has been erased Successfully!");
         }
 
         private bool canEraseLegalInformation(object arg)
@@ -368,7 +368,7 @@ namespace QOBDManagement.ViewModel
         {
             SaleGeneralConditionFileManagement.TxtContent = "";
             SaleGeneralConditionFileManagement.save();
-            await Dialog.show("Sale General Condition content has been erased Successfully!");
+            await Dialog.showAsync("Sale General Condition content has been erased Successfully!");
         }
 
         private bool canEraseSaleGeneralCondition(object arg)
@@ -381,7 +381,7 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch("Legal information updating...");
             bool isSuccessful = LegalInformationFileManagement.save();
             if (isSuccessful)
-                await Dialog.show("Legal Information content has been saved Successfully!");
+                await Dialog.showAsync("Legal Information content has been saved Successfully!");
             Dialog.IsDialogOpen = false;
         }
 
@@ -395,7 +395,7 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch("Sale General Condition updating...");
             bool isSuccessful = SaleGeneralConditionFileManagement.save();
             if (isSuccessful)
-                await Dialog.show("Sale General Condition content has been saved Successfully!");
+                await Dialog.showAsync("Sale General Condition content has been saved Successfully!");
             Dialog.IsDialogOpen = false;
         }
 
@@ -414,7 +414,7 @@ namespace QOBDManagement.ViewModel
             var infosCreatedList = await Bl.BlReferential.InsertInfoAsync(infosToCreateList);
             if (infosUpdatedList.Count > 0 || infosCreatedList.Count > 0)
             {
-                await Dialog.show("Bank Detail saved Successfully!");
+                await Dialog.showAsync("Bank Detail saved Successfully!");
                 List<Info> savedInfosList = new List<Info>(infosUpdatedList);
                 savedInfosList = new List<Info>(savedInfosList.Concat(infosCreatedList));
                 BankDetailList = new List<GeneralInfos.Bank> { new GeneralInfos.Bank(savedInfosList) };
@@ -438,7 +438,7 @@ namespace QOBDManagement.ViewModel
             var infosCreatedList = await Bl.BlReferential.InsertInfoAsync(infosToCreateList);
             if (infosUpdatedList.Count > 0 || infosCreatedList.Count > 0)
             {
-                await Dialog.show("Address Detail saved Successfully!");
+                await Dialog.showAsync("Address Detail saved Successfully!");
                 List<Info> savedInfosList = new List<Info>(infosUpdatedList);
                 savedInfosList = new List<Info>(savedInfosList.Concat(infosCreatedList));
                 AddressList = new List<GeneralInfos.Contact> { new GeneralInfos.Contact(savedInfosList) };
@@ -483,7 +483,7 @@ namespace QOBDManagement.ViewModel
             }
             var infosUpdatedList = await Bl.BlReferential.UpdateInfoAsync(updateList);
             if (infosUpdatedList.Count > 0)
-                await Dialog.show("Email updated successfully!");
+                await Dialog.showAsync("Email updated successfully!");
             Dialog.IsDialogOpen = false;
         }
 

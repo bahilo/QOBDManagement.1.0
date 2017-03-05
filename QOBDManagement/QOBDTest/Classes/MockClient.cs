@@ -59,11 +59,11 @@ namespace QOBDTest.Classes
             _mock.Setup(s => s.get_data_agent_credentail(It.IsAny<string>()))
                .Returns((string nbLine) => get_data_agent_credentail(nbLine));
 
-            // get_data_agent_by_command_list
-            _mock.Setup(s => s.get_data_agent_by_command_listAsync(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orderList) => get_data_agent_by_command_listAsync(orderList));
-            _mock.Setup(s => s.get_data_agent_by_command_list(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orderList) => get_data_agent_by_command_list(orderList));
+            // get_data_agent_by_order_list
+            _mock.Setup(s => s.get_data_agent_by_order_listAsync(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orderList) => get_data_agent_by_order_listAsync(orderList));
+            _mock.Setup(s => s.get_data_agent_by_order_list(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orderList) => get_data_agent_by_order_list(orderList));
 
             // update_data_agent
             _mock.Setup(s => s.update_data_agentAsync(It.IsAny<AgentQOBD[]>()))
@@ -237,80 +237,80 @@ namespace QOBDTest.Classes
             #region [ Mock Order ]
             //================================[ Order ]===================================================
 
-            // insert_data_command
-            _mock.Setup(s => s.insert_data_commandAsync(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orderList) => insert_data_commandAsync(orderList));
-            _mock.Setup(s => s.insert_data_command(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orderList) => insert_data_command(orderList));
+            // insert_data_order
+            _mock.Setup(s => s.insert_data_orderAsync(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orderList) => insert_data_orderAsync(orderList));
+            _mock.Setup(s => s.insert_data_order(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orderList) => insert_data_order(orderList));
 
-            // delete_data_command
-            _mock.Setup(s => s.delete_data_commandAsync(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] commands) => delete_data_commandAsync(commands));
-            _mock.Setup(s => s.delete_data_command(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] commands) => delete_data_command(commands));
+            // delete_data_order
+            _mock.Setup(s => s.delete_data_orderAsync(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orders) => delete_data_orderAsync(orders));
+            _mock.Setup(s => s.delete_data_order(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orders) => delete_data_order(orders));
 
-            // get_data_command
-            _mock.Setup(s => s.get_data_commandAsync(It.IsAny<string>()))
-               .Returns((string nbLine) => get_data_commandAsync(nbLine));
-            _mock.Setup(s => s.get_data_command(It.IsAny<string>()))
-               .Returns((string nbLine) => get_data_command(nbLine));
+            // get_data_order
+            _mock.Setup(s => s.get_data_orderAsync(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_orderAsync(nbLine));
+            _mock.Setup(s => s.get_data_order(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_order(nbLine));
 
-            // get_data_command_by_id
-            _mock.Setup(s => s.get_data_command_by_idAsync(It.IsAny<string>()))
-               .Returns((string id) => get_data_command_by_idAsync(id));
-            _mock.Setup(s => s.get_data_command_by_id(It.IsAny<string>()))
-               .Returns((string id) => get_data_command_by_id(id));
+            // get_data_order_by_id
+            _mock.Setup(s => s.get_data_order_by_idAsync(It.IsAny<string>()))
+               .Returns((string id) => get_data_order_by_idAsync(id));
+            _mock.Setup(s => s.get_data_order_by_id(It.IsAny<string>()))
+               .Returns((string id) => get_data_order_by_id(id));
             
-            // get_filter_Command
-            _mock.Setup(s => s.get_filter_commandAsync(It.IsAny<CommandFilterQOBD>()))
-               .Returns((CommandFilterQOBD commandFilter) => get_filter_commandAsync(commandFilter));
-            _mock.Setup(s => s.get_filter_command(It.IsAny<CommandFilterQOBD>()))
-               .Returns((CommandFilterQOBD agentFilter) => get_filter_command(agentFilter));
+            // get_filter_Order
+            _mock.Setup(s => s.get_filter_orderAsync(It.IsAny<OrderFilterQOBD>()))
+               .Returns((OrderFilterQOBD orderFilter) => get_filter_orderAsync(orderFilter));
+            _mock.Setup(s => s.get_filter_order(It.IsAny<OrderFilterQOBD>()))
+               .Returns((OrderFilterQOBD agentFilter) => get_filter_order(agentFilter));
 
-            // update_data_command
-            _mock.Setup(s => s.update_data_commandAsync(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] commands) => update_data_commandAsync(commands));
-            _mock.Setup(s => s.update_data_command(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] commands) => update_data_command(commands));
+            // update_data_order
+            _mock.Setup(s => s.update_data_orderAsync(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orders) => update_data_orderAsync(orders));
+            _mock.Setup(s => s.update_data_order(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orders) => update_data_order(orders));
             
             #region [ Order_item ]
             //----------------[ Order_item ]
 
-            // insert_data_command_item
-            _mock.Setup(s => s.insert_data_command_itemAsync(It.IsAny<Command_itemQOBD[]>()))
-               .Returns((Command_itemQOBD[] order_itemList) => insert_data_command_itemAsync(order_itemList));
-            _mock.Setup(s => s.insert_data_command_item(It.IsAny<Command_itemQOBD[]>()))
-               .Returns((Command_itemQOBD[] order_itemList) => insert_data_command_item(order_itemList));
+            // insert_data_order_item
+            _mock.Setup(s => s.insert_data_order_itemAsync(It.IsAny<Order_itemQOBD[]>()))
+               .Returns((Order_itemQOBD[] order_itemList) => insert_data_order_itemAsync(order_itemList));
+            _mock.Setup(s => s.insert_data_order_item(It.IsAny<Order_itemQOBD[]>()))
+               .Returns((Order_itemQOBD[] order_itemList) => insert_data_order_item(order_itemList));
 
-            // delete_data_command_item
-            _mock.Setup(s => s.delete_data_command_itemAsync(It.IsAny<Command_itemQOBD[]>()))
-               .Returns((Command_itemQOBD[] command_items) => delete_data_command_itemAsync(command_items));
-            _mock.Setup(s => s.delete_data_command_item(It.IsAny<Command_itemQOBD[]>()))
-               .Returns((Command_itemQOBD[] command_items) => delete_data_command_item(command_items));
+            // delete_data_order_item
+            _mock.Setup(s => s.delete_data_order_itemAsync(It.IsAny<Order_itemQOBD[]>()))
+               .Returns((Order_itemQOBD[] order_items) => delete_data_order_itemAsync(order_items));
+            _mock.Setup(s => s.delete_data_order_item(It.IsAny<Order_itemQOBD[]>()))
+               .Returns((Order_itemQOBD[] order_items) => delete_data_order_item(order_items));
 
-            // get_data_command_item
-            _mock.Setup(s => s.get_data_command_itemAsync(It.IsAny<string>()))
-               .Returns((string nbLine) => get_data_command_itemAsync(nbLine));
-            _mock.Setup(s => s.get_data_command_item(It.IsAny<string>()))
-               .Returns((string nbLine) => get_data_command_item(nbLine));
+            // get_data_order_item
+            _mock.Setup(s => s.get_data_order_itemAsync(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_order_itemAsync(nbLine));
+            _mock.Setup(s => s.get_data_order_item(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_order_item(nbLine));
 
-            // get_data_command_itemt_by_id
-            _mock.Setup(s => s.get_data_command_item_by_idAsync(It.IsAny<string>()))
-               .Returns((string id) => get_data_command_item_by_idAsync(id));
-            _mock.Setup(s => s.get_data_command_item_by_id(It.IsAny<string>()))
-               .Returns((string id) => get_data_command_item_by_id(id));
+            // get_data_order_itemt_by_id
+            _mock.Setup(s => s.get_data_order_item_by_idAsync(It.IsAny<string>()))
+               .Returns((string id) => get_data_order_item_by_idAsync(id));
+            _mock.Setup(s => s.get_data_order_item_by_id(It.IsAny<string>()))
+               .Returns((string id) => get_data_order_item_by_id(id));
             
-            // get_filter_command_item
-            _mock.Setup(s => s.get_filter_command_itemAsync(It.IsAny<Command_itemFilterQOBD>()))
-               .Returns((Command_itemFilterQOBD command_item) => get_filter_command_itemAsync(command_item));
-            _mock.Setup(s => s.get_filter_command_item(It.IsAny<Command_itemFilterQOBD>()))
-               .Returns((Command_itemFilterQOBD command_item) => get_filter_command_item(command_item));
+            // get_filter_order_item
+            _mock.Setup(s => s.get_filter_order_itemAsync(It.IsAny<Order_itemFilterQOBD>()))
+               .Returns((Order_itemFilterQOBD order_item) => get_filter_order_itemAsync(order_item));
+            _mock.Setup(s => s.get_filter_order_item(It.IsAny<Order_itemFilterQOBD>()))
+               .Returns((Order_itemFilterQOBD order_item) => get_filter_order_item(order_item));
 
-            // update_data_command_item
-            _mock.Setup(s => s.update_data_command_itemAsync(It.IsAny<Command_itemQOBD[]>()))
-               .Returns((Command_itemQOBD[] command_items) => update_data_command_itemAsync(command_items));
-            _mock.Setup(s => s.update_data_command_item(It.IsAny<Command_itemQOBD[]>()))
-               .Returns((Command_itemQOBD[] command_items) => update_data_command_item(command_items));
+            // update_data_order_item
+            _mock.Setup(s => s.update_data_order_itemAsync(It.IsAny<Order_itemQOBD[]>()))
+               .Returns((Order_itemQOBD[] order_items) => update_data_order_itemAsync(order_items));
+            _mock.Setup(s => s.update_data_order_item(It.IsAny<Order_itemQOBD[]>()))
+               .Returns((Order_itemQOBD[] order_items) => update_data_order_item(order_items));
             #endregion
             #region [ Bill ]
             //----------------[ Bill ]
@@ -339,11 +339,11 @@ namespace QOBDTest.Classes
             _mock.Setup(s => s.get_data_bill_by_id(It.IsAny<string>()))
                .Returns((string id) => get_data_bill_by_id(id));
 
-            // get_data_bill_by_command_list
-            _mock.Setup(s => s.get_data_bill_by_command_listAsync(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orders) => get_data_bill_by_command_listAsync(orders));
-            _mock.Setup(s => s.get_data_bill_by_command_list(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orders) => get_data_bill_by_command_list(orders));
+            // get_data_bill_by_order_list
+            _mock.Setup(s => s.get_data_bill_by_order_listAsync(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orders) => get_data_bill_by_order_listAsync(orders));
+            _mock.Setup(s => s.get_data_bill_by_order_list(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orders) => get_data_bill_by_order_list(orders));
 
             // get_data_bill_by_unpaid
             _mock.Setup(s => s.get_data_bill_by_unpaidAsync(It.IsAny<int>()))
@@ -407,47 +407,47 @@ namespace QOBDTest.Classes
             #region [ Tax_order ]
             //----------------[ Tax_order ]
 
-            // insert_data_tax_command
-            _mock.Setup(s => s.insert_data_tax_commandAsync(It.IsAny<Tax_commandQOBD[]>()))
-               .Returns((Tax_commandQOBD[] tax_commandList) => insert_data_tax_commandAsync(tax_commandList));
-            _mock.Setup(s => s.insert_data_tax_command(It.IsAny<Tax_commandQOBD[]>()))
-               .Returns((Tax_commandQOBD[] tax_commandList) => insert_data_tax_command(tax_commandList));
+            // insert_data_tax_order
+            _mock.Setup(s => s.insert_data_tax_orderAsync(It.IsAny<Tax_orderQOBD[]>()))
+               .Returns((Tax_orderQOBD[] tax_orderList) => insert_data_tax_orderAsync(tax_orderList));
+            _mock.Setup(s => s.insert_data_tax_order(It.IsAny<Tax_orderQOBD[]>()))
+               .Returns((Tax_orderQOBD[] tax_orderList) => insert_data_tax_order(tax_orderList));
 
-            // delete_data_tax_command
-            _mock.Setup(s => s.delete_data_tax_commandAsync(It.IsAny<Tax_commandQOBD[]>()))
-               .Returns((Tax_commandQOBD[] tax_commands) => delete_data_tax_commandAsync(tax_commands));
-            _mock.Setup(s => s.delete_data_tax_command(It.IsAny<Tax_commandQOBD[]>()))
-               .Returns((Tax_commandQOBD[] tax_commands) => delete_data_tax_command(tax_commands));
+            // delete_data_tax_order
+            _mock.Setup(s => s.delete_data_tax_orderAsync(It.IsAny<Tax_orderQOBD[]>()))
+               .Returns((Tax_orderQOBD[] tax_orders) => delete_data_tax_orderAsync(tax_orders));
+            _mock.Setup(s => s.delete_data_tax_order(It.IsAny<Tax_orderQOBD[]>()))
+               .Returns((Tax_orderQOBD[] tax_orders) => delete_data_tax_order(tax_orders));
 
-            // get_data_tax_command
-            _mock.Setup(s => s.get_data_tax_commandAsync(It.IsAny<string>()))
-               .Returns((string nbLine) => get_data_tax_commandAsync(nbLine));
-            _mock.Setup(s => s.get_data_tax_command(It.IsAny<string>()))
-               .Returns((string nbLine) => get_data_tax_command(nbLine));
+            // get_data_tax_order
+            _mock.Setup(s => s.get_data_tax_orderAsync(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_tax_orderAsync(nbLine));
+            _mock.Setup(s => s.get_data_tax_order(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_tax_order(nbLine));
 
-            // get_data_tax_commandt_by_id
-            _mock.Setup(s => s.get_data_tax_command_by_idAsync(It.IsAny<string>()))
-               .Returns((string id) => get_data_tax_command_by_idAsync(id));
-            _mock.Setup(s => s.get_data_tax_command_by_id(It.IsAny<string>()))
-               .Returns((string id) => get_data_tax_command_by_id(id));
+            // get_data_tax_ordert_by_id
+            _mock.Setup(s => s.get_data_tax_order_by_idAsync(It.IsAny<string>()))
+               .Returns((string id) => get_data_tax_order_by_idAsync(id));
+            _mock.Setup(s => s.get_data_tax_order_by_id(It.IsAny<string>()))
+               .Returns((string id) => get_data_tax_order_by_id(id));
 
-            // get_data_tax_command_by_command_list
-            _mock.Setup(s => s.get_data_tax_command_by_command_listAsync(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orders) => get_data_tax_command_by_command_listAsync(orders));
-            _mock.Setup(s => s.get_data_tax_command_by_command_list(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orders) => get_data_tax_command_by_command_list(orders));
+            // get_data_tax_order_by_order_list
+            _mock.Setup(s => s.get_data_tax_order_by_order_listAsync(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orders) => get_data_tax_order_by_order_listAsync(orders));
+            _mock.Setup(s => s.get_data_tax_order_by_order_list(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orders) => get_data_tax_order_by_order_list(orders));
             
-            // get_filter_tax_command
-            _mock.Setup(s => s.get_filter_tax_commandAsync(It.IsAny<Tax_commandFilterQOBD>()))
-               .Returns((Tax_commandFilterQOBD tax_command) => get_filter_tax_commandAsync(tax_command));
-            _mock.Setup(s => s.get_filter_tax_command(It.IsAny<Tax_commandFilterQOBD>()))
-               .Returns((Tax_commandFilterQOBD tax_command) => get_filter_tax_command(tax_command));
+            // get_filter_tax_order
+            _mock.Setup(s => s.get_filter_tax_orderAsync(It.IsAny<Tax_orderFilterQOBD>()))
+               .Returns((Tax_orderFilterQOBD tax_order) => get_filter_tax_orderAsync(tax_order));
+            _mock.Setup(s => s.get_filter_tax_order(It.IsAny<Tax_orderFilterQOBD>()))
+               .Returns((Tax_orderFilterQOBD tax_order) => get_filter_tax_order(tax_order));
 
-            // update_data_tax_command
-            _mock.Setup(s => s.update_data_tax_commandAsync(It.IsAny<Tax_commandQOBD[]>()))
-               .Returns((Tax_commandQOBD[] tax_commands) => update_data_tax_commandAsync(tax_commands));
-            _mock.Setup(s => s.update_data_tax_command(It.IsAny<Tax_commandQOBD[]>()))
-               .Returns((Tax_commandQOBD[] tax_commands) => update_data_tax_command(tax_commands));
+            // update_data_tax_order
+            _mock.Setup(s => s.update_data_tax_orderAsync(It.IsAny<Tax_orderQOBD[]>()))
+               .Returns((Tax_orderQOBD[] tax_orders) => update_data_tax_orderAsync(tax_orders));
+            _mock.Setup(s => s.update_data_tax_order(It.IsAny<Tax_orderQOBD[]>()))
+               .Returns((Tax_orderQOBD[] tax_orders) => update_data_tax_order(tax_orders));
 
             #endregion
             #region [ Delivery ]
@@ -477,11 +477,11 @@ namespace QOBDTest.Classes
             _mock.Setup(s => s.get_data_delivery_by_id(It.IsAny<string>()))
                .Returns((string id) => get_data_delivery_by_id(id));
 
-            // get_data_delivery_by_command_list
-            _mock.Setup(s => s.get_data_delivery_by_command_listAsync(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orders) => get_data_delivery_by_command_listAsync(orders));
-            _mock.Setup(s => s.get_data_delivery_by_command_list(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orders) => get_data_delivery_by_command_list(orders));
+            // get_data_delivery_by_order_list
+            _mock.Setup(s => s.get_data_delivery_by_order_listAsync(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orders) => get_data_delivery_by_order_listAsync(orders));
+            _mock.Setup(s => s.get_data_delivery_by_order_list(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orders) => get_data_delivery_by_order_list(orders));
             
             // get_filter_delivery
             _mock.Setup(s => s.get_filter_deliveryAsync(It.IsAny<DeliveryFilterQOBD>()))
@@ -723,11 +723,11 @@ namespace QOBDTest.Classes
             _mock.Setup(s => s.get_data_notification_by_id(It.IsAny<string>()))
                .Returns((string id) => get_data_notification_by_id(id));
             
-            // get_data_notification_by_command_list
-            _mock.Setup(s => s.get_data_notification_by_command_listAsync(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orderList) => get_data_notification_by_command_listAsync(orderList));
-            _mock.Setup(s => s.get_data_notification_by_command_list(It.IsAny<CommandsQOBD[]>()))
-               .Returns((CommandsQOBD[] orderList) => get_data_notification_by_command_list(orderList));
+            // get_data_notification_by_order_list
+            _mock.Setup(s => s.get_data_notification_by_order_listAsync(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orderList) => get_data_notification_by_order_listAsync(orderList));
+            _mock.Setup(s => s.get_data_notification_by_order_list(It.IsAny<OrdersQOBD[]>()))
+               .Returns((OrdersQOBD[] orderList) => get_data_notification_by_order_list(orderList));
 
             // update_data_notification
             _mock.Setup(s => s.update_data_notificationAsync(It.IsAny<NotificationQOBD[]>()))
@@ -1127,7 +1127,7 @@ namespace QOBDTest.Classes
                 AgentQOBD[] output = new AgentQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, Login = Utility.encodeStringToBase64("user name"), Password = "password" };
+                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
                     output[i-1] = AgentQOBD;
                 }
                 return output;
@@ -1135,22 +1135,22 @@ namespace QOBDTest.Classes
         }
 
         
-        public AgentQOBD[] get_data_agent_by_command_list(CommandsQOBD[] command_array_list)
+        public AgentQOBD[] get_data_agent_by_order_list(OrdersQOBD[] order_array_list)
         {
-            return get_data_agent(command_array_list.Count().ToString());
+            return get_data_agent(order_array_list.Count().ToString());
         }
 
         
-        public Task<AgentQOBD[]> get_data_agent_by_command_listAsync(CommandsQOBD[] command_array_list)
+        public Task<AgentQOBD[]> get_data_agent_by_order_listAsync(OrdersQOBD[] order_array_list)
         {
-            return get_data_agentAsync(command_array_list.Count().ToString());
+            return get_data_agentAsync(order_array_list.Count().ToString());
         }
 
         
         public AgentQOBD[] get_data_agent_by_id(string id)
         {
             AgentQOBD[] output = new AgentQOBD[1];
-            AgentQOBD AgentQOBD = new AgentQOBD { ID = Convert.ToInt32(id), Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, Login = Utility.encodeStringToBase64("user name"), Password = "password" };
+            AgentQOBD AgentQOBD = new AgentQOBD { ID = Convert.ToInt32(id), Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
             output[0] = AgentQOBD;
 
             return output;
@@ -1161,7 +1161,7 @@ namespace QOBDTest.Classes
         {
             return Task.Factory.StartNew(() => {
                 AgentQOBD[] output = new AgentQOBD[1];
-                AgentQOBD AgentQOBD = new AgentQOBD { ID = Convert.ToInt32(id), Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, Login = Utility.encodeStringToBase64("user name"), Password = "password" };
+                AgentQOBD AgentQOBD = new AgentQOBD { ID = Convert.ToInt32(id), Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
                 output[0] = AgentQOBD;
 
                 return output;
@@ -1174,7 +1174,7 @@ namespace QOBDTest.Classes
             AgentQOBD[] output = new AgentQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, Login = Utility.encodeStringToBase64("user name"), Password = "password" };
+                AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
                 output[i-1] = AgentQOBD;
             }
             return output;
@@ -1187,7 +1187,7 @@ namespace QOBDTest.Classes
                 AgentQOBD[] output = new AgentQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, Login = Utility.encodeStringToBase64("user name"), Password = "password" };
+                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
                     output[i-1] = AgentQOBD;
                 }
                 return output;
@@ -1197,14 +1197,14 @@ namespace QOBDTest.Classes
         
         public AgentQOBD[] get_filter_agent(AgentFilterQOBD agent_array_list_filter)
         {
-            return new AgentQOBD[1] { new AgentQOBD { ID = agent_array_list_filter.ID, Login = agent_array_list_filter.Login, Password = agent_array_list_filter.Password, ListSize = agent_array_list_filter.ListSize, FirstName = agent_array_list_filter.FirstName, LastName = agent_array_list_filter.LastName } };
+            return new AgentQOBD[1] { new AgentQOBD { ID = agent_array_list_filter.ID, UserName = agent_array_list_filter.UserName, Password = agent_array_list_filter.Password, ListSize = agent_array_list_filter.ListSize, FirstName = agent_array_list_filter.FirstName, LastName = agent_array_list_filter.LastName } };
         }
 
         
         public Task<AgentQOBD[]> get_filter_agentAsync(AgentFilterQOBD agent_array_list_filter)
         {
             return Task.Factory.StartNew(() => {
-                return new AgentQOBD[1] { new AgentQOBD { ID = agent_array_list_filter.ID, Login = agent_array_list_filter.Login, Password = agent_array_list_filter.Password, ListSize = agent_array_list_filter.ListSize, FirstName = agent_array_list_filter.FirstName, LastName = agent_array_list_filter.LastName } };
+                return new AgentQOBD[1] { new AgentQOBD { ID = agent_array_list_filter.ID, UserName = agent_array_list_filter.UserName, Password = agent_array_list_filter.Password, ListSize = agent_array_list_filter.ListSize, FirstName = agent_array_list_filter.FirstName, LastName = agent_array_list_filter.LastName } };
             });
         }
 
@@ -1301,14 +1301,14 @@ namespace QOBDTest.Classes
             return get_data_addressAsync(client_array_list.Count().ToString());
         }
         
-        public AddressQOBD[] get_data_address_by_command_list(CommandsQOBD[] command_array_list)
+        public AddressQOBD[] get_data_address_by_order_list(OrdersQOBD[] order_array_list)
         {
-            return get_data_address(command_array_list.Count().ToString());
+            return get_data_address(order_array_list.Count().ToString());
         }
         
-        public Task<AddressQOBD[]> get_data_address_by_command_listAsync(CommandsQOBD[] command_array_list)
+        public Task<AddressQOBD[]> get_data_address_by_order_listAsync(OrdersQOBD[] order_array_list)
         {
-            return get_data_addressAsync(command_array_list.Count().ToString());
+            return get_data_addressAsync(order_array_list.Count().ToString());
         }
         
         public AddressQOBD[] get_data_address_by_id(string id)
@@ -1591,27 +1591,27 @@ namespace QOBDTest.Classes
         }
 
         
-        public CommandsQOBD[] delete_data_command(CommandsQOBD[] command_array_list)
+        public OrdersQOBD[] delete_data_order(OrdersQOBD[] order_array_list)
         {
-            return new CommandsQOBD[0];
+            return new OrdersQOBD[0];
         }
 
         
-        public Task<CommandsQOBD[]> delete_data_commandAsync(CommandsQOBD[] command_array_list)
+        public Task<OrdersQOBD[]> delete_data_orderAsync(OrdersQOBD[] order_array_list)
         {
-            return Task.Factory.StartNew(() => { return new CommandsQOBD[0]; });
+            return Task.Factory.StartNew(() => { return new OrdersQOBD[0]; });
         }
 
         
-        public Command_itemQOBD[] delete_data_command_item(Command_itemQOBD[] command_item_array_list)
+        public Order_itemQOBD[] delete_data_order_item(Order_itemQOBD[] order_item_array_list)
         {
-            return new Command_itemQOBD[0];
+            return new Order_itemQOBD[0];
         }
 
         
-        public Task<Command_itemQOBD[]> delete_data_command_itemAsync(Command_itemQOBD[] command_item_array_list)
+        public Task<Order_itemQOBD[]> delete_data_order_itemAsync(Order_itemQOBD[] order_item_array_list)
         {
-            return Task.Factory.StartNew(() => { return new Command_itemQOBD[0]; });
+            return Task.Factory.StartNew(() => { return new Order_itemQOBD[0]; });
         }
 
         
@@ -1639,46 +1639,46 @@ namespace QOBDTest.Classes
         }
 
         
-        public Tax_commandQOBD[] delete_data_tax_command(Tax_commandQOBD[] tax_command_array_list)
+        public Tax_orderQOBD[] delete_data_tax_order(Tax_orderQOBD[] tax_order_array_list)
         {
-            return new Tax_commandQOBD[0];
+            return new Tax_orderQOBD[0];
         }
 
         
-        public Task<Tax_commandQOBD[]> delete_data_tax_commandAsync(Tax_commandQOBD[] tax_command_array_list)
+        public Task<Tax_orderQOBD[]> delete_data_tax_orderAsync(Tax_orderQOBD[] tax_order_array_list)
         {
-            return Task.Factory.StartNew(() => { return new Tax_commandQOBD[0]; });
+            return Task.Factory.StartNew(() => { return new Tax_orderQOBD[0]; });
         }
 
-        public void generate_pdf(PdfQOBD command_array)
+        public void generate_pdf(PdfQOBD order_array)
         {
 
         }
 
-        public Task generate_pdfAsync(PdfQOBD command_array)
+        public Task generate_pdfAsync(PdfQOBD order_array)
         {
             return Task.Factory.StartNew(() => { });
         }
 
         
-        public CommandsQOBD[] get_commands_client(string id)
+        public OrdersQOBD[] get_orders_client(string id)
         {
-            CommandsQOBD[] output = new CommandsQOBD[1];
+            OrdersQOBD[] output = new OrdersQOBD[1];
             int i = 1;
-            CommandsQOBD CommandsQOBD = new CommandsQOBD { ID = Convert.ToInt32(id), AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("status"), Date = Utility.encodeStringToBase64(DateTime.Now+""), BillAddress = 1, DeliveryAddress = 1 };
-            output[i-1] = CommandsQOBD;
+            OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = Convert.ToInt32(id), AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("status"), Date = Utility.encodeStringToBase64(DateTime.Now+""), BillAddress = 1, DeliveryAddress = 1 };
+            output[i-1] = OrdersQOBD;
 
             return output;
         }
 
         
-        public Task<CommandsQOBD[]> get_commands_clientAsync(string id)
+        public Task<OrdersQOBD[]> get_orders_clientAsync(string id)
         {
             return Task.Factory.StartNew(() => {
-                CommandsQOBD[] output = new CommandsQOBD[1];
+                OrdersQOBD[] output = new OrdersQOBD[1];
                 int i = 1;
-                CommandsQOBD CommandsQOBD = new CommandsQOBD { ID = Convert.ToInt32(id), AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("status"), Date = Utility.encodeStringToBase64(DateTime.Now + ""), BillAddress = 1, DeliveryAddress = 1 };
-                output[i-1] = CommandsQOBD;
+                OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = Convert.ToInt32(id), AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("status"), Date = Utility.encodeStringToBase64(DateTime.Now + ""), BillAddress = 1, DeliveryAddress = 1 };
+                output[i-1] = OrdersQOBD;
 
                 return output;
             });
@@ -1690,7 +1690,7 @@ namespace QOBDTest.Classes
             BillQOBD[] output = new BillQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                BillQOBD BillQOBD = new BillQOBD { ID = i, ClientId = i, CommandId = i };
+                BillQOBD BillQOBD = new BillQOBD { ID = i, ClientId = i, OrderId = i };
                 output[i-1] = BillQOBD;
             }
             return output;
@@ -1703,7 +1703,7 @@ namespace QOBDTest.Classes
                 BillQOBD[] output = new BillQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    BillQOBD BillQOBD = new BillQOBD { ID = i, ClientId = i, CommandId = i, Date = Utility.encodeStringToBase64(DateTime.Now+""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
+                    BillQOBD BillQOBD = new BillQOBD { ID = i, ClientId = i, OrderId = i, Date = Utility.encodeStringToBase64(DateTime.Now+""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
                     output[i-1] = BillQOBD;
                 }
                 return output;
@@ -1711,15 +1711,15 @@ namespace QOBDTest.Classes
         }
 
         
-        public BillQOBD[] get_data_bill_by_command_list(CommandsQOBD[] command_array_list)
+        public BillQOBD[] get_data_bill_by_order_list(OrdersQOBD[] order_array_list)
         {
-            return get_data_bill(command_array_list.Count().ToString());
+            return get_data_bill(order_array_list.Count().ToString());
         }
 
         
-        public Task<BillQOBD[]> get_data_bill_by_command_listAsync(CommandsQOBD[] command_array_list)
+        public Task<BillQOBD[]> get_data_bill_by_order_listAsync(OrdersQOBD[] order_array_list)
         {
-            return get_data_billAsync(command_array_list.Count().ToString());
+            return get_data_billAsync(order_array_list.Count().ToString());
         }
 
         
@@ -1727,7 +1727,7 @@ namespace QOBDTest.Classes
         {
             BillQOBD[] output = new BillQOBD[1];
             int i = 1;
-            BillQOBD BillQOBD = new BillQOBD { ID = Convert.ToInt32(id), ClientId = i, CommandId = i, Date = Utility.encodeStringToBase64(DateTime.Now + ""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
+            BillQOBD BillQOBD = new BillQOBD { ID = Convert.ToInt32(id), ClientId = i, OrderId = i, Date = Utility.encodeStringToBase64(DateTime.Now + ""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
             output[i-1] = BillQOBD;
 
             return output;
@@ -1739,7 +1739,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 BillQOBD[] output = new BillQOBD[1];
                 int i = 1;
-                BillQOBD BillQOBD = new BillQOBD { ID = Convert.ToInt32(id), ClientId = i, CommandId = i, Date = Utility.encodeStringToBase64(DateTime.Now + ""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
+                BillQOBD BillQOBD = new BillQOBD { ID = Convert.ToInt32(id), ClientId = i, OrderId = i, Date = Utility.encodeStringToBase64(DateTime.Now + ""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
                 output[i-1] = BillQOBD;
 
                 return output;
@@ -1759,111 +1759,111 @@ namespace QOBDTest.Classes
         }
 
         
-        public CommandsQOBD[] get_data_command(string nbLine)
+        public OrdersQOBD[] get_data_order(string nbLine)
         {
-            CommandsQOBD[] output = new CommandsQOBD[Convert.ToInt32(nbLine)];
+            OrdersQOBD[] output = new OrdersQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                CommandsQOBD CommandsQOBD = new CommandsQOBD { ID = i, AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
-                output[i-1] = CommandsQOBD;
+                OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = i, AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                output[i-1] = OrdersQOBD;
             }
             return output;
         }
 
         
-        public Task<CommandsQOBD[]> get_data_commandAsync(string nbLine)
+        public Task<OrdersQOBD[]> get_data_orderAsync(string nbLine)
         {
             return Task.Factory.StartNew(() => {
-                CommandsQOBD[] output = new CommandsQOBD[Convert.ToInt32(nbLine)];
+                OrdersQOBD[] output = new OrdersQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    output[i-1] = new CommandsQOBD { ID = i, AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                    output[i-1] = new OrdersQOBD { ID = i, AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
                 }
                 return output;
             });
         }
 
         
-        public CommandsQOBD[] get_data_command_by_id(string id)
+        public OrdersQOBD[] get_data_order_by_id(string id)
         {
-            CommandsQOBD[] output = new CommandsQOBD[1];
+            OrdersQOBD[] output = new OrdersQOBD[1];
             int i = 1;
-            CommandsQOBD CommandsQOBD = new CommandsQOBD { ID = Convert.ToInt32(id), AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
-            output[i-1] = CommandsQOBD;
+            OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = Convert.ToInt32(id), AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+            output[i-1] = OrdersQOBD;
 
             return output;
         }
 
         
-        public Task<CommandsQOBD[]> get_data_command_by_idAsync(string id)
+        public Task<OrdersQOBD[]> get_data_order_by_idAsync(string id)
         {
             return Task.Factory.StartNew(() => {
-                CommandsQOBD[] output = new CommandsQOBD[1];
+                OrdersQOBD[] output = new OrdersQOBD[1];
                 int i = 1;
-                CommandsQOBD CommandsQOBD = new CommandsQOBD { ID = Convert.ToInt32(id), AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now+"") };
-                output[i-1] = CommandsQOBD;
+                OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = Convert.ToInt32(id), AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now+"") };
+                output[i-1] = OrdersQOBD;
 
                 return output;
             });
         }
 
         
-        public Command_itemQOBD[] get_data_command_item(string nbLine)
+        public Order_itemQOBD[] get_data_order_item(string nbLine)
         {
-            Command_itemQOBD[] output = new Command_itemQOBD[Convert.ToInt32(nbLine)];
+            Order_itemQOBD[] output = new Order_itemQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                Command_itemQOBD Command_itemQOBD = new Command_itemQOBD { ID = i, CommandId = i, Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1, Price = 10, Price_purchase = 5 };
-                output[i-1] = Command_itemQOBD;
+                Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = i, OrderId = i, Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1, Price = 10, Price_purchase = 5 };
+                output[i-1] = Order_itemQOBD;
             }
             return output;
         }
 
         
-        public Task<Command_itemQOBD[]> get_data_command_itemAsync(string nbLine)
+        public Task<Order_itemQOBD[]> get_data_order_itemAsync(string nbLine)
         {
             return Task.Factory.StartNew(() => {
-                Command_itemQOBD[] output = new Command_itemQOBD[Convert.ToInt32(nbLine)];
+                Order_itemQOBD[] output = new Order_itemQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    Command_itemQOBD Command_itemQOBD = new Command_itemQOBD { ID = i, CommandId = i, Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1, Price = 10, Price_purchase = 5 };
-                    output[i-1] = Command_itemQOBD;
+                    Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = i, OrderId = i, Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1, Price = 10, Price_purchase = 5 };
+                    output[i-1] = Order_itemQOBD;
                 }
                 return output;
             });
         }
 
         
-        public Command_itemQOBD[] get_data_command_item_by_command_list(CommandsQOBD[] command_array_list)
+        public Order_itemQOBD[] get_data_order_item_by_order_list(OrdersQOBD[] order_array_list)
         {
-            return get_data_command_item(command_array_list.Count().ToString());
+            return get_data_order_item(order_array_list.Count().ToString());
         }
 
         
-        public Task<Command_itemQOBD[]> get_data_command_item_by_command_listAsync(CommandsQOBD[] command_array_list)
+        public Task<Order_itemQOBD[]> get_data_order_item_by_order_listAsync(OrdersQOBD[] order_array_list)
         {
-            return get_data_command_itemAsync(command_array_list.Count().ToString());
+            return get_data_order_itemAsync(order_array_list.Count().ToString());
         }
 
         
-        public Command_itemQOBD[] get_data_command_item_by_id(string id)
+        public Order_itemQOBD[] get_data_order_item_by_id(string id)
         {
-            Command_itemQOBD[] output = new Command_itemQOBD[1];
+            Order_itemQOBD[] output = new Order_itemQOBD[1];
             int i = 1;
-            Command_itemQOBD Command_itemQOBD = new Command_itemQOBD { ID = Convert.ToInt32(id), CommandId = i, Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1, Price = 10, Price_purchase = 5 };
-            output[i-1] = Command_itemQOBD;
+            Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = Convert.ToInt32(id), OrderId = i, Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1, Price = 10, Price_purchase = 5 };
+            output[i-1] = Order_itemQOBD;
 
             return output;
         }
 
         
-        public Task<Command_itemQOBD[]> get_data_command_item_by_idAsync(string id)
+        public Task<Order_itemQOBD[]> get_data_order_item_by_idAsync(string id)
         {
             return Task.Factory.StartNew(() => {
-                Command_itemQOBD[] output = new Command_itemQOBD[1];
+                Order_itemQOBD[] output = new Order_itemQOBD[1];
                 int i = 1;
-                Command_itemQOBD Command_itemQOBD = new Command_itemQOBD { ID = Convert.ToInt32(id), CommandId = i, Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1, Price = 10, Price_purchase = 5 };
-                output[i-1] = Command_itemQOBD;
+                Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = Convert.ToInt32(id), OrderId = i, Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1, Price = 10, Price_purchase = 5 };
+                output[i-1] = Order_itemQOBD;
 
                 return output;
             });
@@ -1875,7 +1875,7 @@ namespace QOBDTest.Classes
             DeliveryQOBD[] output = new DeliveryQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = i, BillId = i, CommandId = i, Date = Utility.encodeStringToBase64(DateTime.Now+"") };
+                DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = i, BillId = i, OrderId = i, Date = Utility.encodeStringToBase64(DateTime.Now+"") };
                 output[i-1] = DeliveryQOBD;
             }
             return output;
@@ -1888,7 +1888,7 @@ namespace QOBDTest.Classes
                 DeliveryQOBD[] output = new DeliveryQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = i, BillId = i, CommandId = i, Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                    DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = i, BillId = i, OrderId = i, Date = Utility.encodeStringToBase64(DateTime.Now + "") };
                     output[i-1] = DeliveryQOBD;
                 }
                 return output;
@@ -1896,15 +1896,15 @@ namespace QOBDTest.Classes
         }
 
         
-        public DeliveryQOBD[] get_data_delivery_by_command_list(CommandsQOBD[] command_array_list)
+        public DeliveryQOBD[] get_data_delivery_by_order_list(OrdersQOBD[] order_array_list)
         {
-            return get_data_delivery(command_array_list.Count().ToString());
+            return get_data_delivery(order_array_list.Count().ToString());
         }
 
         
-        public Task<DeliveryQOBD[]> get_data_delivery_by_command_listAsync(CommandsQOBD[] command_array_list)
+        public Task<DeliveryQOBD[]> get_data_delivery_by_order_listAsync(OrdersQOBD[] order_array_list)
         {
-            return get_data_deliveryAsync(command_array_list.Count().ToString());
+            return get_data_deliveryAsync(order_array_list.Count().ToString());
         }
 
         
@@ -1912,7 +1912,7 @@ namespace QOBDTest.Classes
         {
             DeliveryQOBD[] output = new DeliveryQOBD[1];
             int i = 1;
-            DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = Convert.ToInt32(id), BillId = i, CommandId = i, Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+            DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = Convert.ToInt32(id), BillId = i, OrderId = i, Date = Utility.encodeStringToBase64(DateTime.Now + "") };
             output[i-1] = DeliveryQOBD;
 
             return output;
@@ -1924,7 +1924,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 DeliveryQOBD[] output = new DeliveryQOBD[1];
                 int i = 1;
-                DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = Convert.ToInt32(id), BillId = i, CommandId = i, Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = Convert.ToInt32(id), BillId = i, OrderId = i, Date = Utility.encodeStringToBase64(DateTime.Now + "") };
                 output[i-1] = DeliveryQOBD;
 
                 return output;
@@ -1982,62 +1982,62 @@ namespace QOBDTest.Classes
         }
 
         
-        public Tax_commandQOBD[] get_data_tax_command(string nbLine)
+        public Tax_orderQOBD[] get_data_tax_order(string nbLine)
         {
-            Tax_commandQOBD[] output = new Tax_commandQOBD[Convert.ToInt32(nbLine)];
+            Tax_orderQOBD[] output = new Tax_orderQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                Tax_commandQOBD Tax_commandQOBD = new Tax_commandQOBD { ID = i, CommandId = i, Target = Utility.encodeStringToBase64("target ") + i, TaxId = i, Date_insert = Utility.encodeStringToBase64(DateTime.Now+""), Tax_value = 20 };
-                output[i-1] = Tax_commandQOBD;
+                Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = i, OrderId = i, Target = Utility.encodeStringToBase64("target ") + i, TaxId = i, Date_insert = Utility.encodeStringToBase64(DateTime.Now+""), Tax_value = 20 };
+                output[i-1] = Tax_orderQOBD;
             }
             return output;
         }
 
         
-        public Task<Tax_commandQOBD[]> get_data_tax_commandAsync(string nbLine)
+        public Task<Tax_orderQOBD[]> get_data_tax_orderAsync(string nbLine)
         {
             return Task.Factory.StartNew(() => {
-                Tax_commandQOBD[] output = new Tax_commandQOBD[Convert.ToInt32(nbLine)];
+                Tax_orderQOBD[] output = new Tax_orderQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    Tax_commandQOBD Tax_commandQOBD = new Tax_commandQOBD { ID = i, CommandId = i, Target = Utility.encodeStringToBase64("target ") + i, TaxId = i, Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
-                    output[i-1] = Tax_commandQOBD;
+                    Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = i, OrderId = i, Target = Utility.encodeStringToBase64("target ") + i, TaxId = i, Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
+                    output[i-1] = Tax_orderQOBD;
                 }
                 return output;
             });
         }
 
         
-        public Tax_commandQOBD[] get_data_tax_command_by_command_list(CommandsQOBD[] command_array_list)
+        public Tax_orderQOBD[] get_data_tax_order_by_order_list(OrdersQOBD[] order_array_list)
         {
-            return get_data_tax_command(command_array_list.Count().ToString());
+            return get_data_tax_order(order_array_list.Count().ToString());
         }
 
         
-        public Task<Tax_commandQOBD[]> get_data_tax_command_by_command_listAsync(CommandsQOBD[] command_array_list)
+        public Task<Tax_orderQOBD[]> get_data_tax_order_by_order_listAsync(OrdersQOBD[] order_array_list)
         {
-            return get_data_tax_commandAsync(command_array_list.Count().ToString());
+            return get_data_tax_orderAsync(order_array_list.Count().ToString());
         }
 
         
-        public Tax_commandQOBD[] get_data_tax_command_by_id(string id)
+        public Tax_orderQOBD[] get_data_tax_order_by_id(string id)
         {
-            Tax_commandQOBD[] output = new Tax_commandQOBD[1];
+            Tax_orderQOBD[] output = new Tax_orderQOBD[1];
             int i = 1;
-            Tax_commandQOBD Tax_commandQOBD = new Tax_commandQOBD { ID = Convert.ToInt32(id), CommandId = i, Target = Utility.encodeStringToBase64("target ") + i, TaxId = i, Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
-            output[i-1] = Tax_commandQOBD;
+            Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = Convert.ToInt32(id), OrderId = i, Target = Utility.encodeStringToBase64("target ") + i, TaxId = i, Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
+            output[i-1] = Tax_orderQOBD;
 
             return output;
         }
 
         
-        public Task<Tax_commandQOBD[]> get_data_tax_command_by_idAsync(string id)
+        public Task<Tax_orderQOBD[]> get_data_tax_order_by_idAsync(string id)
         {
             return Task.Factory.StartNew(() => {
-                Tax_commandQOBD[] output = new Tax_commandQOBD[1];
+                Tax_orderQOBD[] output = new Tax_orderQOBD[1];
                 int i = 1;
-                Tax_commandQOBD Tax_commandQOBD = new Tax_commandQOBD { ID = Convert.ToInt32(id), CommandId = i, Target = Utility.encodeStringToBase64("target ") + i, TaxId = i, Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
-                output[i-1] = Tax_commandQOBD;
+                Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = Convert.ToInt32(id), OrderId = i, Target = Utility.encodeStringToBase64("target ") + i, TaxId = i, Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
+                output[i-1] = Tax_orderQOBD;
 
                 return output;
             });
@@ -2046,56 +2046,56 @@ namespace QOBDTest.Classes
         
         public BillQOBD[] get_filter_bill(BillFilterQOBD bill_array_list)
         {
-            return new BillQOBD[1] { new BillQOBD { ID = bill_array_list.ID, ClientId = bill_array_list.ClientId, CommandId = bill_array_list.CommandId, Date = bill_array_list.Date, DateLimit = bill_array_list.DateLimit, DatePay = bill_array_list.DatePay, Pay = bill_array_list.Pay } };
+            return new BillQOBD[1] { new BillQOBD { ID = bill_array_list.ID, ClientId = bill_array_list.ClientId, OrderId = bill_array_list.OrderId, Date = bill_array_list.Date, DateLimit = bill_array_list.DateLimit, DatePay = bill_array_list.DatePay, Pay = bill_array_list.Pay } };
         }
 
         
         public Task<BillQOBD[]> get_filter_billAsync(BillFilterQOBD bill_array_list)
         {
             return Task.Factory.StartNew(() => {
-                return new BillQOBD[1] { new BillQOBD { ID = bill_array_list.ID, ClientId = bill_array_list.ClientId, CommandId = bill_array_list.CommandId, Date = bill_array_list.Date, DateLimit = bill_array_list.DateLimit, DatePay = bill_array_list.DatePay, Pay = bill_array_list.Pay } };
+                return new BillQOBD[1] { new BillQOBD { ID = bill_array_list.ID, ClientId = bill_array_list.ClientId, OrderId = bill_array_list.OrderId, Date = bill_array_list.Date, DateLimit = bill_array_list.DateLimit, DatePay = bill_array_list.DatePay, Pay = bill_array_list.Pay } };
             });
         }
 
         
-        public CommandsQOBD[] get_filter_command(CommandFilterQOBD command_array_list_filter)
+        public OrdersQOBD[] get_filter_order(OrderFilterQOBD order_array_list_filter)
         {
-            return new CommandsQOBD[1] { new CommandsQOBD { ID = command_array_list_filter.ID, AgentId = command_array_list_filter.AgentId, ClientId = command_array_list_filter.ClientId, Date = command_array_list_filter.Date, Status = command_array_list_filter.Status, BillAddress = command_array_list_filter.BillAddress, DeliveryAddress = command_array_list_filter.DeliveryAddress } };
+            return new OrdersQOBD[1] { new OrdersQOBD { ID = order_array_list_filter.ID, AgentId = order_array_list_filter.AgentId, ClientId = order_array_list_filter.ClientId, Date = order_array_list_filter.Date, Status = order_array_list_filter.Status, BillAddress = order_array_list_filter.BillAddress, DeliveryAddress = order_array_list_filter.DeliveryAddress } };
         }
 
         
-        public Task<CommandsQOBD[]> get_filter_commandAsync(CommandFilterQOBD command_array_list_filter)
+        public Task<OrdersQOBD[]> get_filter_orderAsync(OrderFilterQOBD order_array_list_filter)
         {
             return Task.Factory.StartNew(() => {
-                return new CommandsQOBD[1] { new CommandsQOBD { ID = command_array_list_filter.ID, AgentId = command_array_list_filter.AgentId, ClientId = command_array_list_filter.ClientId, Date = command_array_list_filter.Date, Status = command_array_list_filter.Status, BillAddress = command_array_list_filter.BillAddress, DeliveryAddress = command_array_list_filter.DeliveryAddress } };
+                return new OrdersQOBD[1] { new OrdersQOBD { ID = order_array_list_filter.ID, AgentId = order_array_list_filter.AgentId, ClientId = order_array_list_filter.ClientId, Date = order_array_list_filter.Date, Status = order_array_list_filter.Status, BillAddress = order_array_list_filter.BillAddress, DeliveryAddress = order_array_list_filter.DeliveryAddress } };
             });
         }
 
         
-        public Command_itemQOBD[] get_filter_command_item(Command_itemFilterQOBD command_item_array_list_filter)
+        public Order_itemQOBD[] get_filter_order_item(Order_itemFilterQOBD order_item_array_list_filter)
         {
-            return new Command_itemQOBD[1] { new Command_itemQOBD { ID = command_item_array_list_filter.ID, CommandId = command_item_array_list_filter.CommandId, Item_ref = command_item_array_list_filter.Item_ref, ItemId = command_item_array_list_filter.ItemId, Price = command_item_array_list_filter.Price, Price_purchase = command_item_array_list_filter.Price_purchase, Quantity = command_item_array_list_filter.Quantity } };
+            return new Order_itemQOBD[1] { new Order_itemQOBD { ID = order_item_array_list_filter.ID, OrderId = order_item_array_list_filter.OrderId, Item_ref = order_item_array_list_filter.Item_ref, ItemId = order_item_array_list_filter.ItemId, Price = order_item_array_list_filter.Price, Price_purchase = order_item_array_list_filter.Price_purchase, Quantity = order_item_array_list_filter.Quantity } };
         }
 
         
-        public Task<Command_itemQOBD[]> get_filter_command_itemAsync(Command_itemFilterQOBD command_item_array_list_filter)
+        public Task<Order_itemQOBD[]> get_filter_order_itemAsync(Order_itemFilterQOBD order_item_array_list_filter)
         {
             return Task.Factory.StartNew(() => {
-                return new Command_itemQOBD[1] { new Command_itemQOBD { ID = command_item_array_list_filter.ID, CommandId = command_item_array_list_filter.CommandId, Item_ref = command_item_array_list_filter.Item_ref, ItemId = command_item_array_list_filter.ItemId, Price = command_item_array_list_filter.Price, Price_purchase = command_item_array_list_filter.Price_purchase, Quantity = command_item_array_list_filter.Quantity } };
+                return new Order_itemQOBD[1] { new Order_itemQOBD { ID = order_item_array_list_filter.ID, OrderId = order_item_array_list_filter.OrderId, Item_ref = order_item_array_list_filter.Item_ref, ItemId = order_item_array_list_filter.ItemId, Price = order_item_array_list_filter.Price, Price_purchase = order_item_array_list_filter.Price_purchase, Quantity = order_item_array_list_filter.Quantity } };
             });
         }
 
         
         public DeliveryQOBD[] get_filter_delivery(DeliveryFilterQOBD delivery_array_list_filter)
         {
-            return new DeliveryQOBD[1] { new DeliveryQOBD { ID = delivery_array_list_filter.ID, BillId = delivery_array_list_filter.BillId, CommandId = delivery_array_list_filter.CommandId, Date = delivery_array_list_filter.Date } };
+            return new DeliveryQOBD[1] { new DeliveryQOBD { ID = delivery_array_list_filter.ID, BillId = delivery_array_list_filter.BillId, OrderId = delivery_array_list_filter.OrderId, Date = delivery_array_list_filter.Date } };
         }
 
         
         public Task<DeliveryQOBD[]> get_filter_deliveryAsync(DeliveryFilterQOBD delivery_array_list_filter)
         {
             return Task.Factory.StartNew(() => {
-                return new DeliveryQOBD[1] { new DeliveryQOBD { ID = delivery_array_list_filter.ID, BillId = delivery_array_list_filter.BillId, CommandId = delivery_array_list_filter.CommandId, Date = delivery_array_list_filter.Date } };
+                return new DeliveryQOBD[1] { new DeliveryQOBD { ID = delivery_array_list_filter.ID, BillId = delivery_array_list_filter.BillId, OrderId = delivery_array_list_filter.OrderId, Date = delivery_array_list_filter.Date } };
             });
         }
 
@@ -2114,31 +2114,31 @@ namespace QOBDTest.Classes
         }
 
         
-        public Tax_commandQOBD[] get_filter_tax_command(Tax_commandFilterQOBD tax_command_array_list_filter)
+        public Tax_orderQOBD[] get_filter_tax_order(Tax_orderFilterQOBD tax_order_array_list_filter)
         {
-            return new Tax_commandQOBD[1] { new Tax_commandQOBD { ID = tax_command_array_list_filter.ID, CommandId = tax_command_array_list_filter.CommandId, TaxId = tax_command_array_list_filter.TaxId, Date_insert = tax_command_array_list_filter.Date_insert, Target = tax_command_array_list_filter.Target } };
+            return new Tax_orderQOBD[1] { new Tax_orderQOBD { ID = tax_order_array_list_filter.ID, OrderId = tax_order_array_list_filter.OrderId, TaxId = tax_order_array_list_filter.TaxId, Date_insert = tax_order_array_list_filter.Date_insert, Target = tax_order_array_list_filter.Target } };
         }
 
         
-        public Task<Tax_commandQOBD[]> get_filter_tax_commandAsync(Tax_commandFilterQOBD tax_command_array_list_filter)
+        public Task<Tax_orderQOBD[]> get_filter_tax_orderAsync(Tax_orderFilterQOBD tax_order_array_list_filter)
         {
             return Task.Factory.StartNew(() => {
-                return new Tax_commandQOBD[1] { new Tax_commandQOBD { ID = tax_command_array_list_filter.ID, CommandId = tax_command_array_list_filter.CommandId, TaxId = tax_command_array_list_filter.TaxId, Date_insert = tax_command_array_list_filter.Date_insert, Target = tax_command_array_list_filter.Target } };
+                return new Tax_orderQOBD[1] { new Tax_orderQOBD { ID = tax_order_array_list_filter.ID, OrderId = tax_order_array_list_filter.OrderId, TaxId = tax_order_array_list_filter.TaxId, Date_insert = tax_order_array_list_filter.Date_insert, Target = tax_order_array_list_filter.Target } };
             });
         }
 
         
-        public CommandsQOBD[] get_quotes_client(string id)
+        public OrdersQOBD[] get_quotes_client(string id)
         {
-            return new CommandsQOBD[1] { new CommandsQOBD { ClientId = Convert.ToInt32(id), AgentId = 1, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") } };
+            return new OrdersQOBD[1] { new OrdersQOBD { ClientId = Convert.ToInt32(id), AgentId = 1, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") } };
         }
 
         
-        public Task<CommandsQOBD[]> get_quotes_clientAsync(string id)
+        public Task<OrdersQOBD[]> get_quotes_clientAsync(string id)
         {
             return Task.Factory.StartNew(() => {
 
-                return new CommandsQOBD[1] { new CommandsQOBD { ClientId = Convert.ToInt32(id), AgentId = 1, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") } };
+                return new OrdersQOBD[1] { new OrdersQOBD { ClientId = Convert.ToInt32(id), AgentId = 1, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") } };
             });
         }
 
@@ -2155,27 +2155,27 @@ namespace QOBDTest.Classes
         }
 
         
-        public CommandsQOBD[] insert_data_command(CommandsQOBD[] command_array_list)
+        public OrdersQOBD[] insert_data_order(OrdersQOBD[] order_array_list)
         {
-            return get_data_command(command_array_list.Count().ToString());
+            return get_data_order(order_array_list.Count().ToString());
         }
 
         
-        public Task<CommandsQOBD[]> insert_data_commandAsync(CommandsQOBD[] command_array_list)
+        public Task<OrdersQOBD[]> insert_data_orderAsync(OrdersQOBD[] order_array_list)
         {
-            return get_data_commandAsync(command_array_list.Count().ToString());
+            return get_data_orderAsync(order_array_list.Count().ToString());
         }
 
         
-        public Command_itemQOBD[] insert_data_command_item(Command_itemQOBD[] command_item_array_list)
+        public Order_itemQOBD[] insert_data_order_item(Order_itemQOBD[] order_item_array_list)
         {
-            return get_data_command_item(command_item_array_list.Count().ToString());
+            return get_data_order_item(order_item_array_list.Count().ToString());
         }
 
         
-        public Task<Command_itemQOBD[]> insert_data_command_itemAsync(Command_itemQOBD[] command_item_array_list)
+        public Task<Order_itemQOBD[]> insert_data_order_itemAsync(Order_itemQOBD[] order_item_array_list)
         {
-            return get_data_command_itemAsync(command_item_array_list.Count().ToString());
+            return get_data_order_itemAsync(order_item_array_list.Count().ToString());
         }
 
         
@@ -2203,15 +2203,15 @@ namespace QOBDTest.Classes
         }
 
         
-        public Tax_commandQOBD[] insert_data_tax_command(Tax_commandQOBD[] tax_command_array_list)
+        public Tax_orderQOBD[] insert_data_tax_order(Tax_orderQOBD[] tax_order_array_list)
         {
-            return get_data_tax_command(tax_command_array_list.Count().ToString());
+            return get_data_tax_order(tax_order_array_list.Count().ToString());
         }
 
         
-        public Task<Tax_commandQOBD[]> insert_data_tax_commandAsync(Tax_commandQOBD[] tax_command_array_list)
+        public Task<Tax_orderQOBD[]> insert_data_tax_orderAsync(Tax_orderQOBD[] tax_order_array_list)
         {
-            return get_data_tax_commandAsync(tax_command_array_list.Count().ToString());
+            return get_data_tax_orderAsync(tax_order_array_list.Count().ToString());
         }
 
         
@@ -2227,27 +2227,27 @@ namespace QOBDTest.Classes
         }
 
         
-        public CommandsQOBD[] update_data_command(CommandsQOBD[] command_array_list)
+        public OrdersQOBD[] update_data_order(OrdersQOBD[] order_array_list)
         {
-            return get_data_command(command_array_list.Count().ToString());
+            return get_data_order(order_array_list.Count().ToString());
         }
 
         
-        public Task<CommandsQOBD[]> update_data_commandAsync(CommandsQOBD[] command_array_list)
+        public Task<OrdersQOBD[]> update_data_orderAsync(OrdersQOBD[] order_array_list)
         {
-            return get_data_commandAsync(command_array_list.Count().ToString());
+            return get_data_orderAsync(order_array_list.Count().ToString());
         }
 
         
-        public Command_itemQOBD[] update_data_command_item(Command_itemQOBD[] command_item_array_list)
+        public Order_itemQOBD[] update_data_order_item(Order_itemQOBD[] order_item_array_list)
         {
-            return get_data_command_item(command_item_array_list.Count().ToString());
+            return get_data_order_item(order_item_array_list.Count().ToString());
         }
 
         
-        public Task<Command_itemQOBD[]> update_data_command_itemAsync(Command_itemQOBD[] command_item_array_list)
+        public Task<Order_itemQOBD[]> update_data_order_itemAsync(Order_itemQOBD[] order_item_array_list)
         {
-            return get_data_command_itemAsync(command_item_array_list.Count().ToString());
+            return get_data_order_itemAsync(order_item_array_list.Count().ToString());
         }
 
         
@@ -2275,15 +2275,15 @@ namespace QOBDTest.Classes
         }
 
         
-        public Tax_commandQOBD[] update_data_tax_command(Tax_commandQOBD[] tax_command_array_list)
+        public Tax_orderQOBD[] update_data_tax_order(Tax_orderQOBD[] tax_order_array_list)
         {
-            return get_data_tax_command(tax_command_array_list.Count().ToString());
+            return get_data_tax_order(tax_order_array_list.Count().ToString());
         }
 
         
-        public Task<Tax_commandQOBD[]> update_data_tax_commandAsync(Tax_commandQOBD[] tax_command_array_list)
+        public Task<Tax_orderQOBD[]> update_data_tax_orderAsync(Tax_orderQOBD[] tax_order_array_list)
         {
-            return get_data_tax_commandAsync(tax_command_array_list.Count().ToString());
+            return get_data_tax_orderAsync(tax_order_array_list.Count().ToString());
         }
 
         #endregion
@@ -2439,15 +2439,15 @@ namespace QOBDTest.Classes
         }
 
         
-        public ItemQOBD[] get_data_item_by_command_item_list(Command_itemQOBD[] command_item_array_list)
+        public ItemQOBD[] get_data_item_by_order_item_list(Order_itemQOBD[] order_item_array_list)
         {
-            return get_data_item(command_item_array_list.Count().ToString());
+            return get_data_item(order_item_array_list.Count().ToString());
         }
 
         
-        public Task<ItemQOBD[]> get_data_item_by_command_item_listAsync(Command_itemQOBD[] command_item_array_list)
+        public Task<ItemQOBD[]> get_data_item_by_order_item_listAsync(Order_itemQOBD[] order_item_array_list)
         {
-            return get_data_itemAsync(command_item_array_list.Count().ToString());
+            return get_data_itemAsync(order_item_array_list.Count().ToString());
         }
 
         
@@ -3004,15 +3004,15 @@ namespace QOBDTest.Classes
         }
 
         
-        public NotificationQOBD[] get_data_notification_by_command_list(CommandsQOBD[] command_array_list)
+        public NotificationQOBD[] get_data_notification_by_order_list(OrdersQOBD[] order_array_list)
         {
-            return get_data_notification(command_array_list.Count().ToString());
+            return get_data_notification(order_array_list.Count().ToString());
         }
 
         
-        public Task<NotificationQOBD[]> get_data_notification_by_command_listAsync(CommandsQOBD[] command_array_list)
+        public Task<NotificationQOBD[]> get_data_notification_by_order_listAsync(OrdersQOBD[] order_array_list)
         {
-            return get_data_notificationAsync(command_array_list.Count().ToString());
+            return get_data_notificationAsync(order_array_list.Count().ToString());
         }
 
         
@@ -3789,8 +3789,7 @@ namespace QOBDTest.Classes
 
         #region [ Mock Statistic implementation ]
         //================================[ Statistic ]===================================================
-
-        
+                
         public StatisticQOBD[] delete_data_statistic(StatisticQOBD[] statistic_array_list)
         {
             return new StatisticQOBD[0];
@@ -3890,6 +3889,347 @@ namespace QOBDTest.Classes
             return get_data_statisticAsync(statistic_array_list.Count().ToString());
         }
 
+        #endregion
+
+        #region [ Mock UserChatRoom implementation ]
+        //================================[ UserChatRoom ]===================================================
+
+        [return: MessageParameter(Name = "return")]
+        public UserChatRoom[] get_data_user(string nbLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<UserChatRoom[]> get_data_userAsync(string nbLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public UserChatRoom[] delete_data_user(UserChatRoom[] user_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<UserChatRoom[]> delete_data_userAsync(UserChatRoom[] user_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public UserChatRoom[] insert_data_user(UserChatRoom[] user_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<UserChatRoom[]> insert_data_userAsync(UserChatRoom[] user_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public UserChatRoom[] update_data_user(UserChatRoom[] user_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<UserChatRoom[]> update_data_userAsync(UserChatRoom[] user_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public UserChatRoom[] get_data_user_by_id(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<UserChatRoom[]> get_data_user_by_idAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public UserChatRoom[] get_filter_user(UserFilterChatRoom user_array_list_filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<UserChatRoom[]> get_filter_userAsync(UserFilterChatRoom user_array_list_filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public UserChatRoom[] get_data_user_by_user_discussion_list(User_discussionChatRoom[] user_discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<UserChatRoom[]> get_data_user_by_user_discussion_listAsync(User_discussionChatRoom[] user_discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region [ Mock User_discussionChatRoom implementation ]
+
+
+        [return: MessageParameter(Name = "return")]
+        public User_discussionChatRoom[] get_data_user_discussion(string nbLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<User_discussionChatRoom[]> get_data_user_discussionAsync(string nbLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public User_discussionChatRoom[] delete_data_user_discussion(User_discussionChatRoom[] user_discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<User_discussionChatRoom[]> delete_data_user_discussionAsync(User_discussionChatRoom[] user_discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public User_discussionChatRoom[] insert_data_user_discussion(User_discussionChatRoom[] user_discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<User_discussionChatRoom[]> insert_data_user_discussionAsync(User_discussionChatRoom[] user_discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public User_discussionChatRoom[] update_data_user_discussion(User_discussionChatRoom[] user_discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<User_discussionChatRoom[]> update_data_user_discussionAsync(User_discussionChatRoom[] user_discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public User_discussionChatRoom[] get_data_user_discussion_by_id(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<User_discussionChatRoom[]> get_data_user_discussion_by_idAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public User_discussionChatRoom[] get_filter_user_discussion(User_discussionFilterChatRoom user_discussion_array_list_filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<User_discussionChatRoom[]> get_filter_user_discussionAsync(User_discussionFilterChatRoom user_discussion_array_list_filter)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region [ Mock MessageChatRoom implementation ]
+        //================================[ MessageChatRoom ]===================================================
+
+        [return: MessageParameter(Name = "return")]
+        public MessageChatRoom[] get_data_message(string nbLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<MessageChatRoom[]> get_data_messageAsync(string nbLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public MessageChatRoom[] delete_data_message(MessageChatRoom[] message_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<MessageChatRoom[]> delete_data_messageAsync(MessageChatRoom[] message_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public MessageChatRoom[] insert_data_message(MessageChatRoom[] message_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<MessageChatRoom[]> insert_data_messageAsync(MessageChatRoom[] message_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public MessageChatRoom[] update_data_message(MessageChatRoom[] message_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<MessageChatRoom[]> update_data_messageAsync(MessageChatRoom[] message_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public MessageChatRoom[] get_data_message_by_id(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<MessageChatRoom[]> get_data_message_by_idAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public MessageChatRoom[] get_filter_message(MessageFilterChatRoom message_array_list_filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<MessageChatRoom[]> get_filter_messageAsync(MessageFilterChatRoom message_array_list_filter)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region [ DiscussionChatRoom ]
+        //================================[ MessageChatRoom ]===================================================
+
+        [return: MessageParameter(Name = "return")]
+        public DiscussionChatRoom[] get_data_discussion(string nbLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<DiscussionChatRoom[]> get_data_discussionAsync(string nbLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public DiscussionChatRoom[] delete_data_discussion(DiscussionChatRoom[] discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<DiscussionChatRoom[]> delete_data_discussionAsync(DiscussionChatRoom[] discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public DiscussionChatRoom[] insert_data_discussion(DiscussionChatRoom[] discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<DiscussionChatRoom[]> insert_data_discussionAsync(DiscussionChatRoom[] discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public DiscussionChatRoom[] update_data_discussion(DiscussionChatRoom[] discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<DiscussionChatRoom[]> update_data_discussionAsync(DiscussionChatRoom[] discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public DiscussionChatRoom[] get_data_discussion_by_id(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<DiscussionChatRoom[]> get_data_discussion_by_idAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public DiscussionChatRoom[] get_filter_discussion(DiscussionFilterChatRoom discussion_array_list_filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<DiscussionChatRoom[]> get_filter_discussionAsync(DiscussionFilterChatRoom discussion_array_list_filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public DiscussionChatRoom[] get_data_discussion_by_user_discussion_list(User_discussionChatRoom[] user_discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<DiscussionChatRoom[]> get_data_discussion_by_user_discussion_listAsync(User_discussionChatRoom[] user_discussion_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public DiscussionChatRoom[] get_data_discussion_by_message_list(MessageChatRoom[] message_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        [return: MessageParameter(Name = "return")]
+        public Task<DiscussionChatRoom[]> get_data_discussion_by_message_listAsync(MessageChatRoom[] message_array_list)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
         
     }

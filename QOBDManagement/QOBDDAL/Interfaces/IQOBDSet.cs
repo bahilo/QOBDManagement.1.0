@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace QOBDDAL.Interfaces
 {
-    public interface IQOBDSet: IDisposable
+    public interface IQOBDSet
     {
         
         //----------------------------[ Actions ]------------------

@@ -88,12 +88,12 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Agent>> GetAgentDataByOrderListAsync(List<Order> commandList)
+        public async Task<List<Agent>> GetAgentDataByOrderListAsync(List<Order> orderList)
         {
             List<Agent> result = new List<Agent>();
             try
             {
-                result = (await _channel.get_data_agent_by_command_listAsync(commandList.OrderTypeToArray())).ArrayTypeToAgent();
+                result = (await _channel.get_data_agent_by_order_listAsync(orderList.OrderTypeToArray())).ArrayTypeToAgent();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -143,6 +143,7 @@ namespace QOBDGateway.Core
 
         public void Dispose()
         {
+            if(_channel.State == CommunicationState.Opened)
             _channel.Close();
         }
     } /* end class BLAgent */

@@ -41,6 +41,11 @@ namespace QOBDBusiness.Core
             DAC.DALNotification.setServiceCredential(channel);
         }
 
+        public void cacheWebServiceData()
+        {
+            DAC.DALNotification.cacheWebServiceData();
+        }
+
         public void progressBarManagement(Func<double, double> progressBarFunc)
         {
             if (progressBarFunc != null)

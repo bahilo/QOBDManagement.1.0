@@ -3,6 +3,7 @@ using QOBDBusiness.Core;
 using QOBDCommon.Entities;
 using QOBDDAL.Core;
 using QOBDGateway.Classes;
+using QOBDGateway.Interfaces;
 using QOBDGateway.QOBDServiceReference;
 using QOBDManagement.Interfaces;
 using System;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace QOBDManagement.Classes
 {
-    public class Startup: IStartup
+    public class Startup: IStartup, ICommunication
     {
         private BusinessLogic _bl { get; set; }
         private DataAccess _dal { get; set; }
@@ -22,6 +23,33 @@ namespace QOBDManagement.Classes
 
         public Startup() {
             initialize();
+        }
+
+        public void initialize()
+        {
+            _dataSet = new QOBDDAL.Classes.QOBDDataSet();
+            _proxyClient = new ClientProxy("QOBDWebServicePort");
+            _dal = new DataAccess(
+                                new DALAgent(_proxyClient, _dataSet, this),
+                                new DALClient(_proxyClient, _dataSet, this),
+                                new DALItem(_proxyClient, _dataSet, this),
+                                new DALOrder(_proxyClient, _dataSet, this),
+                                new DALSecurity(_proxyClient, _dataSet, this),
+                                new DALStatisitc(_proxyClient, _dataSet, this),
+                                new DALReferential(_proxyClient, _dataSet, this),
+                                new DALNotification(_proxyClient, _dataSet, this),
+                                new DALChatRoom(_proxyClient, _dataSet, this));
+
+            _bl = new BusinessLogic(
+                                    new BLAgent(_dal),
+                                    new BlCLient(_dal),
+                                    new BLItem(_dal),
+                                    new BLOrder(_dal),
+                                    new BlSecurity(_dal),
+                                    new BLStatisitc(_dal),
+                                    new BlReferential(_dal),
+                                    new BlNotification(_dal),
+                                    new BLChatRoom(_dal));
         }
 
         public QOBDDAL.Interfaces.IQOBDSet DataSet
@@ -45,33 +73,19 @@ namespace QOBDManagement.Classes
             set { _bl = value; }
         }
 
-        public void initialize()
+        public void resetCommunication()
         {
-            _dataSet = new QOBDDAL.Classes.QOBDDataSet();
-            _proxyClient = new ClientProxy("QOBDWebServicePort");
-            _dal = new DataAccess(
-                                new DALAgent(_proxyClient, _dataSet),
-                                new DALClient(_proxyClient, _dataSet),
-                                new DALItem(_proxyClient, _dataSet),
-                                new DALOrder(_proxyClient, _dataSet),
-                                new DALSecurity(_proxyClient, _dataSet),
-                                new DALStatisitc(_proxyClient, _dataSet),
-                                new DALReferential(_proxyClient, _dataSet),
-                                new DALNotification(_proxyClient, _dataSet));
-            
-            _bl = new BusinessLogic(
-                                    new BLAgent(_dal),
-                                    new BlCLient(_dal),
-                                    new BLItem(_dal),
-                                    new BLOrder(_dal),
-                                    new BlSecurity(_dal),
-                                    new BLStatisitc(_dal),
-                                    new BlReferential(_dal),
-                                    new BlNotification(_dal));
+            var newProxyClient = new ClientProxy("QOBDWebServicePort");
+            Bl.BlAgent.setServiceCredential(newProxyClient);
+            Bl.BlChatRoom.setServiceCredential(newProxyClient);
+            Bl.BlClient.setServiceCredential(newProxyClient);
+            Bl.BlItem.setServiceCredential(newProxyClient);
+            Bl.BlNotification.setServiceCredential(newProxyClient);
+            Bl.BlOrder.setServiceCredential(newProxyClient);
+            Bl.BlReferential.setServiceCredential(newProxyClient);
+            Bl.BlSecurity.setServiceCredential(newProxyClient);
+            Bl.BlStatisitc.setServiceCredential(newProxyClient);
         }
-
-
-
     }
 
 }

@@ -17,10 +17,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_authenticate_user", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -31,10 +35,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -49,10 +53,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -63,10 +71,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -81,10 +89,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -95,10 +107,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -113,10 +125,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -127,10 +143,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -145,10 +161,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -159,10 +179,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -177,10 +197,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_action_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -191,10 +215,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -209,10 +233,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -223,10 +251,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -241,10 +269,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -255,10 +287,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -273,10 +305,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_agent_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -287,10 +323,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -305,10 +341,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_agent_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -319,10 +359,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -337,10 +377,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_agent_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -351,10 +395,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -369,10 +413,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_role_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -383,10 +431,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -401,10 +449,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_agent_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -415,10 +467,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -433,10 +485,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -447,10 +503,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -465,10 +521,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -479,10 +539,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -497,10 +557,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -511,10 +575,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -529,10 +593,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -543,10 +611,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -561,10 +629,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_role_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -575,10 +647,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -593,10 +665,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_role", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -607,10 +683,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -625,10 +701,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_role_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -639,10 +719,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -657,10 +737,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_role_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -671,10 +755,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -689,10 +773,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_role_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -703,10 +791,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -721,10 +809,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_role_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -735,10 +827,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -753,10 +845,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_role_action_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -767,10 +863,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -785,10 +881,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_role_action", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -799,10 +899,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -817,10 +917,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -831,10 +935,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -849,10 +953,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_bill", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -863,10 +971,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -881,10 +989,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_bill", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -895,10 +1007,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -913,10 +1025,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_bill", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -927,10 +1043,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -945,10 +1061,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -959,10 +1079,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -977,10 +1097,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_bill", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -991,10 +1115,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1007,12 +1131,16 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_filter_billAsync(QOBDGateway.QOBDServiceReference.BillFilterQOBD bill_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_order_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1023,28 +1151,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_order_list", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_unpaid", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1055,10 +1187,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1071,12 +1203,16 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_unpaidAsync(int agent_id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_order", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1087,28 +1223,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_data_command(string nbLine);
+        QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_data_order(string nbLine);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_order", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_data_commandAsync(string nbLine);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_data_orderAsync(string nbLine);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_order", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1119,28 +1259,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.CommandsQOBD[] delete_data_command(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        QOBDGateway.QOBDServiceReference.OrdersQOBD[] delete_data_order(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_order", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> delete_data_commandAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> delete_data_orderAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_order", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1151,28 +1295,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.CommandsQOBD[] insert_data_command(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        QOBDGateway.QOBDServiceReference.OrdersQOBD[] insert_data_order(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_order", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> insert_data_commandAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> insert_data_orderAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_order", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1183,28 +1331,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.CommandsQOBD[] update_data_command(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        QOBDGateway.QOBDServiceReference.OrdersQOBD[] update_data_order(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_order", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> update_data_commandAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> update_data_orderAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_by_id", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_order_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1215,28 +1367,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_data_command_by_id(string id);
+        QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_data_order_by_id(string id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_by_id", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_order_by_id", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_data_command_by_idAsync(string id);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_data_order_by_idAsync(string id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_order", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1247,28 +1403,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_filter_command(QOBDGateway.QOBDServiceReference.CommandFilterQOBD command_array_list_filter);
+        QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_filter_order(QOBDGateway.QOBDServiceReference.OrderFilterQOBD order_array_list_filter);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_order", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_filter_commandAsync(QOBDGateway.QOBDServiceReference.CommandFilterQOBD command_array_list_filter);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_filter_orderAsync(QOBDGateway.QOBDServiceReference.OrderFilterQOBD order_array_list_filter);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/generate_pdf", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1279,26 +1439,30 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
-        void generate_pdf(QOBDGateway.QOBDServiceReference.PdfQOBD command_array);
+        void generate_pdf(QOBDGateway.QOBDServiceReference.PdfQOBD order_array);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/generate_pdf", ReplyAction="*")]
-        System.Threading.Tasks.Task generate_pdfAsync(QOBDGateway.QOBDServiceReference.PdfQOBD command_array);
+        System.Threading.Tasks.Task generate_pdfAsync(QOBDGateway.QOBDServiceReference.PdfQOBD order_array);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1309,10 +1473,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1327,10 +1491,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_credentail", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1341,10 +1509,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1359,10 +1527,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_agent", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1373,10 +1545,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1391,10 +1563,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_agent", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1405,10 +1581,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1423,10 +1599,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_agent", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1437,10 +1617,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1455,10 +1635,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1469,10 +1653,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1487,10 +1671,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_agent", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1501,10 +1689,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1517,12 +1705,16 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AgentQOBD[]> get_filter_agentAsync(QOBDGateway.QOBDServiceReference.AgentFilterQOBD agent_array_list_filter);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_by_order_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1533,28 +1725,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.AgentQOBD[] get_data_agent_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        QOBDGateway.QOBDServiceReference.AgentQOBD[] get_data_agent_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_agent_by_order_list", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AgentQOBD[]> get_data_agent_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AgentQOBD[]> get_data_agent_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_statistic", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1565,10 +1761,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1583,10 +1779,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_statistic", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1597,10 +1797,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1615,10 +1815,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_statistic", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1629,10 +1833,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1647,10 +1851,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_statistic", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1661,10 +1869,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1679,10 +1887,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_statistic_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1693,10 +1905,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1711,10 +1923,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_statistic", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1725,10 +1941,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1743,10 +1959,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1757,10 +1977,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1775,10 +1995,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1789,10 +2013,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1807,10 +2031,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1821,10 +2049,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1839,10 +2067,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1853,10 +2085,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1871,10 +2103,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1885,10 +2121,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1903,10 +2139,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1917,10 +2157,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1933,12 +2173,16 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ItemQOBD[]> get_filter_itemAsync(QOBDGateway.QOBDServiceReference.ItemFilterQOBD item_array_list_filter);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_by_command_item_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_by_order_item_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1949,28 +2193,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.ItemQOBD[] get_data_item_by_command_item_list(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list);
+        QOBDGateway.QOBDServiceReference.ItemQOBD[] get_data_item_by_order_item_list(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_by_command_item_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_by_order_item_list", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ItemQOBD[]> get_data_item_by_command_item_listAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ItemQOBD[]> get_data_item_by_order_item_listAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -1981,10 +2229,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -1999,10 +2247,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2013,10 +2265,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2031,10 +2283,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2045,10 +2301,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2063,10 +2319,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2077,10 +2337,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2095,10 +2355,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2109,10 +2373,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2127,10 +2391,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_Client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2141,10 +2409,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2159,10 +2427,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_quotes_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2173,28 +2445,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_quotes_client(string id);
+        QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_quotes_client(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_quotes_client", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_quotes_clientAsync(string id);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_quotes_clientAsync(string id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_commands_client", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_orders_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2205,28 +2481,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_commands_client(string id);
+        QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_orders_client(string id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_commands_client", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_orders_client", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_commands_clientAsync(string id);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_orders_clientAsync(string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/send_email_to_client", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2237,10 +2517,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2255,10 +2535,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client_by_bill_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2269,10 +2553,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2287,10 +2571,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client_by_max_credit_over", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2301,10 +2589,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2319,10 +2607,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_actionRecord", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2333,10 +2625,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2351,10 +2643,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_actionRecord", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2365,10 +2661,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2383,10 +2679,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_actionRecord", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2397,10 +2697,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2415,10 +2715,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_actionRecord", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2429,10 +2733,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2447,10 +2751,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_actionRecord_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2461,10 +2769,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2479,10 +2787,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_actionRecord", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2493,10 +2805,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2511,10 +2823,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_address", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2525,10 +2841,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2543,10 +2859,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_address", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2557,10 +2877,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2575,10 +2895,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_address", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2589,10 +2913,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2607,10 +2931,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_address", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2621,10 +2949,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2639,10 +2967,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_address_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2653,10 +2985,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2671,10 +3003,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_address", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2685,10 +3021,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2701,12 +3037,16 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AddressQOBD[]> get_filter_addressAsync(QOBDGateway.QOBDServiceReference.AddressFilterQOBD address_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_address_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_address_by_order_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2717,28 +3057,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.AddressQOBD[] get_data_address_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        QOBDGateway.QOBDServiceReference.AddressQOBD[] get_data_address_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_address_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_address_by_order_list", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AddressQOBD[]> get_data_address_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AddressQOBD[]> get_data_address_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_address_by_client_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2749,10 +3093,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -2765,12 +3109,16 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AddressQOBD[]> get_data_address_by_client_listAsync(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_item", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_order_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2781,28 +3129,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_data_command_item(string nbLine);
+        QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_data_order_item(string nbLine);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_item", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_order_item", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_data_command_itemAsync(string nbLine);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_data_order_itemAsync(string nbLine);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_command_item", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_order_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2813,28 +3165,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Command_itemQOBD[] delete_data_command_item(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list);
+        QOBDGateway.QOBDServiceReference.Order_itemQOBD[] delete_data_order_item(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_command_item", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_order_item", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> delete_data_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> delete_data_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_command_item", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_order_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2845,28 +3201,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Command_itemQOBD[] insert_data_command_item(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list);
+        QOBDGateway.QOBDServiceReference.Order_itemQOBD[] insert_data_order_item(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_command_item", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_order_item", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> insert_data_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> insert_data_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_command_item", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_order_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2877,28 +3237,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Command_itemQOBD[] update_data_command_item(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list);
+        QOBDGateway.QOBDServiceReference.Order_itemQOBD[] update_data_order_item(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_command_item", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_order_item", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> update_data_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> update_data_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_item_by_id", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_order_item_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2909,28 +3273,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_data_command_item_by_id(string id);
+        QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_data_order_item_by_id(string id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_item_by_id", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_order_item_by_id", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_data_command_item_by_idAsync(string id);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_data_order_item_by_idAsync(string id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_command_item", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_order_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2941,28 +3309,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_filter_command_item(QOBDGateway.QOBDServiceReference.Command_itemFilterQOBD command_item_array_list_filter);
+        QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_filter_order_item(QOBDGateway.QOBDServiceReference.Order_itemFilterQOBD order_item_array_list_filter);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_command_item", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_order_item", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_filter_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemFilterQOBD command_item_array_list_filter);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_filter_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemFilterQOBD order_item_array_list_filter);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_item_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_order_item_by_order_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -2973,28 +3345,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_data_command_item_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_data_order_item_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_command_item_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_order_item_by_order_list", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_data_command_item_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_data_order_item_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_contact", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3005,10 +3381,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3023,10 +3399,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_contact", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3037,10 +3417,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3055,10 +3435,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_contact", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3069,10 +3453,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3087,10 +3471,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_contact", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3101,10 +3489,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3119,10 +3507,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_contact_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3133,10 +3525,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3151,10 +3543,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_contact", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3165,10 +3561,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3183,10 +3579,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_contact_by_client_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3197,10 +3597,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3215,10 +3615,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3229,10 +3633,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3247,10 +3651,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3261,10 +3669,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3279,10 +3687,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3293,10 +3705,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3311,10 +3723,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3325,10 +3741,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3343,10 +3759,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_delivery_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3357,10 +3777,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3375,10 +3795,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3389,10 +3813,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3405,12 +3829,16 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DeliveryQOBD[]> get_filter_deliveryAsync(QOBDGateway.QOBDServiceReference.DeliveryFilterQOBD delivery_array_list_filter);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_delivery_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_delivery_by_order_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3421,28 +3849,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.DeliveryQOBD[] get_data_delivery_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        QOBDGateway.QOBDServiceReference.DeliveryQOBD[] get_data_delivery_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_delivery_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_delivery_by_order_list", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DeliveryQOBD[]> get_data_delivery_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DeliveryQOBD[]> get_data_delivery_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_infos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3453,10 +3885,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3471,10 +3903,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_infos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3485,10 +3921,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3503,10 +3939,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_infos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3517,10 +3957,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3535,10 +3975,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_infos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3549,10 +3993,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3567,10 +4011,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_infos_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3581,10 +4029,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3599,10 +4047,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_infos", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3613,10 +4065,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3631,10 +4083,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_auto_ref", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3645,10 +4101,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3663,10 +4119,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_auto_ref", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3677,10 +4137,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3695,10 +4155,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_auto_ref", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3709,10 +4173,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3727,10 +4191,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_auto_ref", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3741,10 +4209,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3759,10 +4227,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_auto_ref_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3773,10 +4245,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3791,10 +4263,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_auto_ref", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3805,10 +4281,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3823,10 +4299,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3837,10 +4317,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3855,10 +4335,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_item_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3869,10 +4353,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3887,10 +4371,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_item_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3901,10 +4389,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3919,10 +4407,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_item_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3933,10 +4425,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3951,10 +4443,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_delivery_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3965,10 +4461,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -3983,10 +4479,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_item_delivery", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -3997,10 +4497,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4016,10 +4516,14 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_item_delivery_by_delivery_lis" +
             "t", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4030,10 +4534,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4049,10 +4553,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4063,10 +4571,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4081,10 +4589,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_provider_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4095,10 +4607,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4113,10 +4625,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_provider_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4127,10 +4643,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4145,10 +4661,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_provider_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4159,10 +4679,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4177,10 +4697,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider_item_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4191,10 +4715,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4209,10 +4733,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_provider_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4223,10 +4751,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4241,10 +4769,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider_item_by_item_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4255,10 +4787,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4273,10 +4805,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4287,10 +4823,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4305,10 +4841,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_provider", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4319,10 +4859,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4337,10 +4877,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_provider", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4351,10 +4895,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4369,10 +4913,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_provider", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4383,10 +4931,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4401,10 +4949,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4415,10 +4967,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4433,10 +4985,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_provider", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4447,10 +5003,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4466,10 +5022,14 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_provider_by_provider_item_lis" +
             "t", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4480,10 +5040,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4497,12 +5057,16 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ProviderQOBD[]> get_data_provider_by_provider_item_listAsync(QOBDGateway.QOBDServiceReference.Provider_itemQOBD[] provider_item_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_order", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4513,28 +5077,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_data_tax_command(string nbLine);
+        QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_data_tax_order(string nbLine);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_order", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_data_tax_commandAsync(string nbLine);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_data_tax_orderAsync(string nbLine);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_tax_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_tax_order", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4545,28 +5113,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] delete_data_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list);
+        QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] delete_data_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_tax_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_tax_order", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> delete_data_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> delete_data_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_tax_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_tax_order", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4577,28 +5149,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] insert_data_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list);
+        QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] insert_data_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_tax_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_tax_order", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> insert_data_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> insert_data_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_tax_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_tax_order", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4609,28 +5185,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] update_data_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list);
+        QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] update_data_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_tax_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_tax_order", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> update_data_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> update_data_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_command_by_id", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_order_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4641,28 +5221,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_data_tax_command_by_id(string id);
+        QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_data_tax_order_by_id(string id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_command_by_id", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_order_by_id", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_data_tax_command_by_idAsync(string id);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_data_tax_order_by_idAsync(string id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_tax_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_tax_order", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4673,28 +5257,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_filter_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandFilterQOBD tax_command_array_list_filter);
+        QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_filter_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderFilterQOBD tax_order_array_list_filter);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_tax_command", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_tax_order", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_filter_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandFilterQOBD tax_command_array_list_filter);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_filter_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderFilterQOBD tax_order_array_list_filter);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_command_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_order_by_order_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4705,28 +5293,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_data_tax_command_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_data_tax_order_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_command_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_order_by_order_list", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_data_tax_command_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_data_tax_order_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4737,10 +5329,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4755,10 +5347,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_tax_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4769,10 +5365,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4787,10 +5383,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_tax_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4801,10 +5401,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4819,10 +5419,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_tax_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4833,10 +5437,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4851,10 +5455,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_item_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4865,10 +5473,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4883,10 +5491,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_tax_item", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4897,10 +5509,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4915,10 +5527,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_item_by_item_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4929,10 +5545,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4947,10 +5563,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4961,10 +5581,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -4979,10 +5599,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_tax", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -4993,10 +5617,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5011,10 +5635,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_tax", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5025,10 +5653,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5043,10 +5671,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_tax", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5057,10 +5689,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5075,10 +5707,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_tax_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5089,10 +5725,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5107,10 +5743,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_tax", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5121,10 +5761,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5139,10 +5779,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_privilege", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5153,10 +5797,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5171,10 +5815,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_privilege", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5185,10 +5833,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5203,10 +5851,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_privilege", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5217,10 +5869,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5235,10 +5887,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_privilege", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5249,10 +5905,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5267,10 +5923,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_privilege_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5281,10 +5941,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5299,10 +5959,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_privilege", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5313,10 +5977,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5331,10 +5995,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5345,10 +6013,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5363,10 +6031,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_notification", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5377,10 +6049,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5395,10 +6067,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_notification", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5409,10 +6085,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5427,10 +6103,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_notification", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5441,10 +6121,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5459,10 +6139,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_id", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5473,10 +6157,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5491,10 +6175,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_notification", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5505,10 +6193,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5521,12 +6209,16 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_filter_notificationAsync(QOBDGateway.QOBDServiceReference.NotificationFilterQOBD notification_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_order_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5537,28 +6229,32 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_command_list", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_order_list", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_client_list", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_commandQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
@@ -5569,10 +6265,10 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Command_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CommandsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
@@ -5584,6 +6280,980 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_notification_by_client_list", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_client_listAsync(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_user", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_user", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_userAsync(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_user", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.UserChatRoom[] delete_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_user", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> delete_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_user", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.UserChatRoom[] insert_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_user", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> insert_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_user", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.UserChatRoom[] update_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_user", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> update_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_user_by_id", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user_by_id(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_user_by_id", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_user_by_idAsync(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_user", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.UserChatRoom[] get_filter_user(QOBDGateway.QOBDServiceReference.UserFilterChatRoom user_array_list_filter);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_user", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_filter_userAsync(QOBDGateway.QOBDServiceReference.UserFilterChatRoom user_array_list_filter);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_user_by_user_discussion_list", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user_by_user_discussion_list(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_user_by_user_discussion_list", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_user_by_user_discussion_listAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_message", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_data_message(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_message", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_data_messageAsync(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_message", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.MessageChatRoom[] delete_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_message", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> delete_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_message", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.MessageChatRoom[] insert_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_message", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> insert_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_message", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.MessageChatRoom[] update_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_message", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> update_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_message_by_id", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_data_message_by_id(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_message_by_id", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_data_message_by_idAsync(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_message", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_filter_message(QOBDGateway.QOBDServiceReference.MessageFilterChatRoom message_array_list_filter);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_message", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_filter_messageAsync(QOBDGateway.QOBDServiceReference.MessageFilterChatRoom message_array_list_filter);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_discussion", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_discussion", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussionAsync(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_discussion", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] delete_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_discussion", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> delete_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_discussion", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] insert_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_discussion", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> insert_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_discussion", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] update_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_discussion", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> update_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_discussion_by_id", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_id(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_discussion_by_id", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_idAsync(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_discussion", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_filter_discussion(QOBDGateway.QOBDServiceReference.DiscussionFilterChatRoom discussion_array_list_filter);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_discussion", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_filter_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionFilterChatRoom discussion_array_list_filter);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_discussion_by_user_discussion" +
+            "_list", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_user_discussion_list(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_discussion_by_user_discussion" +
+            "_list", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_user_discussion_listAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_discussion_by_message_list", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_message_list(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_discussion_by_message_list", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_message_listAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_user_discussion", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_data_user_discussion(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_user_discussion", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_data_user_discussionAsync(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_user_discussion", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] delete_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/delete_data_user_discussion", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> delete_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_user_discussion", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] insert_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/insert_data_user_discussion", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> insert_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_user_discussion", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] update_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/update_data_user_discussion", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> update_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_user_discussion_by_id", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_data_user_discussion_by_id(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_user_discussion_by_id", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_data_user_discussion_by_idAsync(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_user_discussion", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_filter_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionFilterChatRoom user_discussion_array_list_filter);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_filter_user_discussion", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_filter_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionFilterChatRoom user_discussion_array_list_filter);
     }
     
     /// <remarks/>
@@ -5606,13 +7276,15 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string emailField;
         
-        private string loginField;
+        private string userNameField;
         
         private string passwordField;
         
         private string adminField;
         
         private string statusField;
+        
+        private int isOnlineField;
         
         private int listSizeField;
         
@@ -5685,13 +7357,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public string Login {
+        public string UserName {
             get {
-                return this.loginField;
+                return this.userNameField;
             }
             set {
-                this.loginField = value;
-                this.RaisePropertyChanged("Login");
+                this.userNameField = value;
+                this.RaisePropertyChanged("UserName");
             }
         }
         
@@ -5725,6 +7397,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.statusField = value;
                 this.RaisePropertyChanged("Status");
+            }
+        }
+        
+        /// <remarks/>
+        public int IsOnline {
+            get {
+                return this.isOnlineField;
+            }
+            set {
+                this.isOnlineField = value;
+                this.RaisePropertyChanged("IsOnline");
             }
         }
         
@@ -5983,6 +7666,696 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.dateField = value;
                 this.RaisePropertyChanged("Date");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class User_discussionFilterChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private int idField;
+        
+        private int userIdField;
+        
+        private int discussionIdField;
+        
+        private int statusField;
+        
+        private string operatorField;
+        
+        /// <remarks/>
+        public int ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public int UserId {
+            get {
+                return this.userIdField;
+            }
+            set {
+                this.userIdField = value;
+                this.RaisePropertyChanged("UserId");
+            }
+        }
+        
+        /// <remarks/>
+        public int DiscussionId {
+            get {
+                return this.discussionIdField;
+            }
+            set {
+                this.discussionIdField = value;
+                this.RaisePropertyChanged("DiscussionId");
+            }
+        }
+        
+        /// <remarks/>
+        public int Status {
+            get {
+                return this.statusField;
+            }
+            set {
+                this.statusField = value;
+                this.RaisePropertyChanged("Status");
+            }
+        }
+        
+        /// <remarks/>
+        public string Operator {
+            get {
+                return this.operatorField;
+            }
+            set {
+                this.operatorField = value;
+                this.RaisePropertyChanged("Operator");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class DiscussionFilterChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private int idField;
+        
+        private string dateField;
+        
+        private string operatorField;
+        
+        /// <remarks/>
+        public int ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public string Date {
+            get {
+                return this.dateField;
+            }
+            set {
+                this.dateField = value;
+                this.RaisePropertyChanged("Date");
+            }
+        }
+        
+        /// <remarks/>
+        public string Operator {
+            get {
+                return this.operatorField;
+            }
+            set {
+                this.operatorField = value;
+                this.RaisePropertyChanged("Operator");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class DiscussionChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private int idField;
+        
+        private string dateField;
+        
+        /// <remarks/>
+        public int ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public string Date {
+            get {
+                return this.dateField;
+            }
+            set {
+                this.dateField = value;
+                this.RaisePropertyChanged("Date");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class MessageFilterChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private int idField;
+        
+        private int discussionIdField;
+        
+        private int userIdField;
+        
+        private string dateField;
+        
+        private string contentField;
+        
+        private int statusField;
+        
+        private string operatorField;
+        
+        /// <remarks/>
+        public int ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public int DiscussionId {
+            get {
+                return this.discussionIdField;
+            }
+            set {
+                this.discussionIdField = value;
+                this.RaisePropertyChanged("DiscussionId");
+            }
+        }
+        
+        /// <remarks/>
+        public int UserId {
+            get {
+                return this.userIdField;
+            }
+            set {
+                this.userIdField = value;
+                this.RaisePropertyChanged("UserId");
+            }
+        }
+        
+        /// <remarks/>
+        public string Date {
+            get {
+                return this.dateField;
+            }
+            set {
+                this.dateField = value;
+                this.RaisePropertyChanged("Date");
+            }
+        }
+        
+        /// <remarks/>
+        public string Content {
+            get {
+                return this.contentField;
+            }
+            set {
+                this.contentField = value;
+                this.RaisePropertyChanged("Content");
+            }
+        }
+        
+        /// <remarks/>
+        public int Status {
+            get {
+                return this.statusField;
+            }
+            set {
+                this.statusField = value;
+                this.RaisePropertyChanged("Status");
+            }
+        }
+        
+        /// <remarks/>
+        public string Operator {
+            get {
+                return this.operatorField;
+            }
+            set {
+                this.operatorField = value;
+                this.RaisePropertyChanged("Operator");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class MessageChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private int idField;
+        
+        private int discussionIdField;
+        
+        private int userIdField;
+        
+        private string dateField;
+        
+        private int statusField;
+        
+        private string contentField;
+        
+        /// <remarks/>
+        public int ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public int DiscussionId {
+            get {
+                return this.discussionIdField;
+            }
+            set {
+                this.discussionIdField = value;
+                this.RaisePropertyChanged("DiscussionId");
+            }
+        }
+        
+        /// <remarks/>
+        public int UserId {
+            get {
+                return this.userIdField;
+            }
+            set {
+                this.userIdField = value;
+                this.RaisePropertyChanged("UserId");
+            }
+        }
+        
+        /// <remarks/>
+        public string Date {
+            get {
+                return this.dateField;
+            }
+            set {
+                this.dateField = value;
+                this.RaisePropertyChanged("Date");
+            }
+        }
+        
+        /// <remarks/>
+        public int Status {
+            get {
+                return this.statusField;
+            }
+            set {
+                this.statusField = value;
+                this.RaisePropertyChanged("Status");
+            }
+        }
+        
+        /// <remarks/>
+        public string Content {
+            get {
+                return this.contentField;
+            }
+            set {
+                this.contentField = value;
+                this.RaisePropertyChanged("Content");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class User_discussionChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private int idField;
+        
+        private int userIdField;
+        
+        private int discussionIdField;
+        
+        private int statusField;
+        
+        /// <remarks/>
+        public int ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public int UserId {
+            get {
+                return this.userIdField;
+            }
+            set {
+                this.userIdField = value;
+                this.RaisePropertyChanged("UserId");
+            }
+        }
+        
+        /// <remarks/>
+        public int DiscussionId {
+            get {
+                return this.discussionIdField;
+            }
+            set {
+                this.discussionIdField = value;
+                this.RaisePropertyChanged("DiscussionId");
+            }
+        }
+        
+        /// <remarks/>
+        public int Status {
+            get {
+                return this.statusField;
+            }
+            set {
+                this.statusField = value;
+                this.RaisePropertyChanged("Status");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class UserFilterChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private int idField;
+        
+        private string firstNameField;
+        
+        private string lastNameField;
+        
+        private string emailField;
+        
+        private string usernameField;
+        
+        private string passwordField;
+        
+        private int statusField;
+        
+        private string operatorField;
+        
+        /// <remarks/>
+        public int ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public string FirstName {
+            get {
+                return this.firstNameField;
+            }
+            set {
+                this.firstNameField = value;
+                this.RaisePropertyChanged("FirstName");
+            }
+        }
+        
+        /// <remarks/>
+        public string LastName {
+            get {
+                return this.lastNameField;
+            }
+            set {
+                this.lastNameField = value;
+                this.RaisePropertyChanged("LastName");
+            }
+        }
+        
+        /// <remarks/>
+        public string Email {
+            get {
+                return this.emailField;
+            }
+            set {
+                this.emailField = value;
+                this.RaisePropertyChanged("Email");
+            }
+        }
+        
+        /// <remarks/>
+        public string Username {
+            get {
+                return this.usernameField;
+            }
+            set {
+                this.usernameField = value;
+                this.RaisePropertyChanged("Username");
+            }
+        }
+        
+        /// <remarks/>
+        public string Password {
+            get {
+                return this.passwordField;
+            }
+            set {
+                this.passwordField = value;
+                this.RaisePropertyChanged("Password");
+            }
+        }
+        
+        /// <remarks/>
+        public int Status {
+            get {
+                return this.statusField;
+            }
+            set {
+                this.statusField = value;
+                this.RaisePropertyChanged("Status");
+            }
+        }
+        
+        /// <remarks/>
+        public string Operator {
+            get {
+                return this.operatorField;
+            }
+            set {
+                this.operatorField = value;
+                this.RaisePropertyChanged("Operator");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class UserChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private int idField;
+        
+        private string firstNameField;
+        
+        private string lastNameField;
+        
+        private string emailField;
+        
+        private string usernameField;
+        
+        private string passwordField;
+        
+        private int statusField;
+        
+        /// <remarks/>
+        public int ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public string FirstName {
+            get {
+                return this.firstNameField;
+            }
+            set {
+                this.firstNameField = value;
+                this.RaisePropertyChanged("FirstName");
+            }
+        }
+        
+        /// <remarks/>
+        public string LastName {
+            get {
+                return this.lastNameField;
+            }
+            set {
+                this.lastNameField = value;
+                this.RaisePropertyChanged("LastName");
+            }
+        }
+        
+        /// <remarks/>
+        public string Email {
+            get {
+                return this.emailField;
+            }
+            set {
+                this.emailField = value;
+                this.RaisePropertyChanged("Email");
+            }
+        }
+        
+        /// <remarks/>
+        public string Username {
+            get {
+                return this.usernameField;
+            }
+            set {
+                this.usernameField = value;
+                this.RaisePropertyChanged("Username");
+            }
+        }
+        
+        /// <remarks/>
+        public string Password {
+            get {
+                return this.passwordField;
+            }
+            set {
+                this.passwordField = value;
+                this.RaisePropertyChanged("Password");
+            }
+        }
+        
+        /// <remarks/>
+        public int Status {
+            get {
+                return this.statusField;
+            }
+            set {
+                this.statusField = value;
+                this.RaisePropertyChanged("Status");
             }
         }
         
@@ -6700,11 +9073,11 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
-    public partial class Tax_commandFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Tax_orderFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
         private int idField;
         
-        private int commandIdField;
+        private int orderIdField;
         
         private int taxIdField;
         
@@ -6728,13 +9101,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int CommandId {
+        public int OrderId {
             get {
-                return this.commandIdField;
+                return this.orderIdField;
             }
             set {
-                this.commandIdField = value;
-                this.RaisePropertyChanged("CommandId");
+                this.orderIdField = value;
+                this.RaisePropertyChanged("OrderId");
             }
         }
         
@@ -6809,11 +9182,11 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
-    public partial class Tax_commandQOBD : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Tax_orderQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
         private int idField;
         
-        private int commandIdField;
+        private int orderIdField;
         
         private int taxIdField;
         
@@ -6835,13 +9208,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int CommandId {
+        public int OrderId {
             get {
-                return this.commandIdField;
+                return this.orderIdField;
             }
             set {
-                this.commandIdField = value;
-                this.RaisePropertyChanged("CommandId");
+                this.orderIdField = value;
+                this.RaisePropertyChanged("OrderId");
             }
         }
         
@@ -7557,7 +9930,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private int idField;
         
-        private int commandIdField;
+        private int orderIdField;
         
         private int billIdField;
         
@@ -7581,13 +9954,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int CommandId {
+        public int OrderId {
             get {
-                return this.commandIdField;
+                return this.orderIdField;
             }
             set {
-                this.commandIdField = value;
-                this.RaisePropertyChanged("CommandId");
+                this.orderIdField = value;
+                this.RaisePropertyChanged("OrderId");
             }
         }
         
@@ -7666,7 +10039,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private int idField;
         
-        private int commandIdField;
+        private int orderIdField;
         
         private int billIdField;
         
@@ -7688,13 +10061,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int CommandId {
+        public int OrderId {
             get {
-                return this.commandIdField;
+                return this.orderIdField;
             }
             set {
-                this.commandIdField = value;
-                this.RaisePropertyChanged("CommandId");
+                this.orderIdField = value;
+                this.RaisePropertyChanged("OrderId");
             }
         }
         
@@ -8067,11 +10440,11 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
-    public partial class Command_itemFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Order_itemFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
         private int idField;
         
-        private int commandIdField;
+        private int orderIdField;
         
         private int itemIdField;
         
@@ -8105,13 +10478,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int CommandId {
+        public int OrderId {
             get {
-                return this.commandIdField;
+                return this.orderIdField;
             }
             set {
-                this.commandIdField = value;
-                this.RaisePropertyChanged("CommandId");
+                this.orderIdField = value;
+                this.RaisePropertyChanged("OrderId");
             }
         }
         
@@ -9381,11 +11754,11 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
-    public partial class Command_itemQOBD : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Order_itemQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
         private int idField;
         
-        private int commandIdField;
+        private int orderIdField;
         
         private int itemIdField;
         
@@ -9417,13 +11790,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int CommandId {
+        public int OrderId {
             get {
-                return this.commandIdField;
+                return this.orderIdField;
             }
             set {
-                this.commandIdField = value;
-                this.RaisePropertyChanged("CommandId");
+                this.orderIdField = value;
+                this.RaisePropertyChanged("OrderId");
             }
         }
         
@@ -10304,13 +12677,15 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string emailField;
         
-        private string loginField;
+        private string userNameField;
         
         private string passwordField;
         
         private string adminField;
         
         private string statusField;
+        
+        private int isOnlineField;
         
         private int listSizeField;
         
@@ -10383,13 +12758,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public string Login {
+        public string UserName {
             get {
-                return this.loginField;
+                return this.userNameField;
             }
             set {
-                this.loginField = value;
-                this.RaisePropertyChanged("Login");
+                this.userNameField = value;
+                this.RaisePropertyChanged("UserName");
             }
         }
         
@@ -10423,6 +12798,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.statusField = value;
                 this.RaisePropertyChanged("Status");
+            }
+        }
+        
+        /// <remarks/>
+        public int IsOnline {
+            get {
+                return this.isOnlineField;
+            }
+            set {
+                this.isOnlineField = value;
+                this.RaisePropertyChanged("IsOnline");
             }
         }
         
@@ -10466,18 +12852,18 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class PdfQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int commandIdField;
+        private int orderIdField;
         
         private int billIdField;
         
         /// <remarks/>
-        public int CommandId {
+        public int OrderId {
             get {
-                return this.commandIdField;
+                return this.orderIdField;
             }
             set {
-                this.commandIdField = value;
-                this.RaisePropertyChanged("CommandId");
+                this.orderIdField = value;
+                this.RaisePropertyChanged("OrderId");
             }
         }
         
@@ -10508,7 +12894,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
-    public partial class CommandFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class OrderFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
         private int idField;
         
@@ -10682,7 +13068,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
-    public partial class CommandsQOBD : object, System.ComponentModel.INotifyPropertyChanged {
+    public partial class OrdersQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
         private int idField;
         
@@ -10849,7 +13235,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private int clientIdField;
         
-        private int commandIdField;
+        private int orderIdField;
         
         private string payModField;
         
@@ -10892,13 +13278,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int CommandId {
+        public int OrderId {
             get {
-                return this.commandIdField;
+                return this.orderIdField;
             }
             set {
-                this.commandIdField = value;
-                this.RaisePropertyChanged("CommandId");
+                this.orderIdField = value;
+                this.RaisePropertyChanged("OrderId");
             }
         }
         
@@ -11023,7 +13409,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private int clientIdField;
         
-        private int commandIdField;
+        private int orderIdField;
         
         private string payModField;
         
@@ -11064,13 +13450,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int CommandId {
+        public int OrderId {
             get {
-                return this.commandIdField;
+                return this.orderIdField;
             }
             set {
-                this.commandIdField = value;
-                this.RaisePropertyChanged("CommandId");
+                this.orderIdField = value;
+                this.RaisePropertyChanged("OrderId");
             }
         }
         
@@ -11867,12 +14253,12 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_filter_billAsync(bill_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_bill_by_command_list(command_array_list);
+        public QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_bill_by_order_list(order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_bill_by_command_listAsync(command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_bill_by_order_listAsync(order_array_list);
         }
         
         public QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_unpaid(int agent_id) {
@@ -11883,60 +14269,60 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_data_bill_by_unpaidAsync(agent_id);
         }
         
-        public QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_data_command(string nbLine) {
-            return base.Channel.get_data_command(nbLine);
+        public QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_data_order(string nbLine) {
+            return base.Channel.get_data_order(nbLine);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_data_commandAsync(string nbLine) {
-            return base.Channel.get_data_commandAsync(nbLine);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_data_orderAsync(string nbLine) {
+            return base.Channel.get_data_orderAsync(nbLine);
         }
         
-        public QOBDGateway.QOBDServiceReference.CommandsQOBD[] delete_data_command(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.delete_data_command(command_array_list);
+        public QOBDGateway.QOBDServiceReference.OrdersQOBD[] delete_data_order(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.delete_data_order(order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> delete_data_commandAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.delete_data_commandAsync(command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> delete_data_orderAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.delete_data_orderAsync(order_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.CommandsQOBD[] insert_data_command(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.insert_data_command(command_array_list);
+        public QOBDGateway.QOBDServiceReference.OrdersQOBD[] insert_data_order(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.insert_data_order(order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> insert_data_commandAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.insert_data_commandAsync(command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> insert_data_orderAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.insert_data_orderAsync(order_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.CommandsQOBD[] update_data_command(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.update_data_command(command_array_list);
+        public QOBDGateway.QOBDServiceReference.OrdersQOBD[] update_data_order(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.update_data_order(order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> update_data_commandAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.update_data_commandAsync(command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> update_data_orderAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.update_data_orderAsync(order_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_data_command_by_id(string id) {
-            return base.Channel.get_data_command_by_id(id);
+        public QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_data_order_by_id(string id) {
+            return base.Channel.get_data_order_by_id(id);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_data_command_by_idAsync(string id) {
-            return base.Channel.get_data_command_by_idAsync(id);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_data_order_by_idAsync(string id) {
+            return base.Channel.get_data_order_by_idAsync(id);
         }
         
-        public QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_filter_command(QOBDGateway.QOBDServiceReference.CommandFilterQOBD command_array_list_filter) {
-            return base.Channel.get_filter_command(command_array_list_filter);
+        public QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_filter_order(QOBDGateway.QOBDServiceReference.OrderFilterQOBD order_array_list_filter) {
+            return base.Channel.get_filter_order(order_array_list_filter);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_filter_commandAsync(QOBDGateway.QOBDServiceReference.CommandFilterQOBD command_array_list_filter) {
-            return base.Channel.get_filter_commandAsync(command_array_list_filter);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_filter_orderAsync(QOBDGateway.QOBDServiceReference.OrderFilterQOBD order_array_list_filter) {
+            return base.Channel.get_filter_orderAsync(order_array_list_filter);
         }
         
-        public void generate_pdf(QOBDGateway.QOBDServiceReference.PdfQOBD command_array) {
-            base.Channel.generate_pdf(command_array);
+        public void generate_pdf(QOBDGateway.QOBDServiceReference.PdfQOBD order_array) {
+            base.Channel.generate_pdf(order_array);
         }
         
-        public System.Threading.Tasks.Task generate_pdfAsync(QOBDGateway.QOBDServiceReference.PdfQOBD command_array) {
-            return base.Channel.generate_pdfAsync(command_array);
+        public System.Threading.Tasks.Task generate_pdfAsync(QOBDGateway.QOBDServiceReference.PdfQOBD order_array) {
+            return base.Channel.generate_pdfAsync(order_array);
         }
         
         public QOBDGateway.QOBDServiceReference.AgentQOBD[] get_data_agent(string nbLine) {
@@ -11995,12 +14381,12 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_filter_agentAsync(agent_array_list_filter);
         }
         
-        public QOBDGateway.QOBDServiceReference.AgentQOBD[] get_data_agent_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_agent_by_command_list(command_array_list);
+        public QOBDGateway.QOBDServiceReference.AgentQOBD[] get_data_agent_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_agent_by_order_list(order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AgentQOBD[]> get_data_agent_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_agent_by_command_listAsync(command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AgentQOBD[]> get_data_agent_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_agent_by_order_listAsync(order_array_list);
         }
         
         public QOBDGateway.QOBDServiceReference.StatisticQOBD[] get_data_statistic(string nbLine) {
@@ -12099,12 +14485,12 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_filter_itemAsync(item_array_list_filter);
         }
         
-        public QOBDGateway.QOBDServiceReference.ItemQOBD[] get_data_item_by_command_item_list(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list) {
-            return base.Channel.get_data_item_by_command_item_list(command_item_array_list);
+        public QOBDGateway.QOBDServiceReference.ItemQOBD[] get_data_item_by_order_item_list(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list) {
+            return base.Channel.get_data_item_by_order_item_list(order_item_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ItemQOBD[]> get_data_item_by_command_item_listAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list) {
-            return base.Channel.get_data_item_by_command_item_listAsync(command_item_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ItemQOBD[]> get_data_item_by_order_item_listAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list) {
+            return base.Channel.get_data_item_by_order_item_listAsync(order_item_array_list);
         }
         
         public QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client(string nbLine) {
@@ -12155,20 +14541,20 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_filter_ClientAsync(client_array_list_filter);
         }
         
-        public QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_quotes_client(string id) {
+        public QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_quotes_client(string id) {
             return base.Channel.get_quotes_client(id);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_quotes_clientAsync(string id) {
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_quotes_clientAsync(string id) {
             return base.Channel.get_quotes_clientAsync(id);
         }
         
-        public QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_commands_client(string id) {
-            return base.Channel.get_commands_client(id);
+        public QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_orders_client(string id) {
+            return base.Channel.get_orders_client(id);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_commands_clientAsync(string id) {
-            return base.Channel.get_commands_clientAsync(id);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_orders_clientAsync(string id) {
+            return base.Channel.get_orders_clientAsync(id);
         }
         
         public string send_email_to_client(QOBDGateway.QOBDServiceReference.EmailQOBD client_email) {
@@ -12291,12 +14677,12 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_filter_addressAsync(address_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.AddressQOBD[] get_data_address_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_address_by_command_list(command_array_list);
+        public QOBDGateway.QOBDServiceReference.AddressQOBD[] get_data_address_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_address_by_order_list(order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AddressQOBD[]> get_data_address_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_address_by_command_listAsync(command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AddressQOBD[]> get_data_address_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_address_by_order_listAsync(order_array_list);
         }
         
         public QOBDGateway.QOBDServiceReference.AddressQOBD[] get_data_address_by_client_list(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list) {
@@ -12307,60 +14693,60 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_data_address_by_client_listAsync(client_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_data_command_item(string nbLine) {
-            return base.Channel.get_data_command_item(nbLine);
+        public QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_data_order_item(string nbLine) {
+            return base.Channel.get_data_order_item(nbLine);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_data_command_itemAsync(string nbLine) {
-            return base.Channel.get_data_command_itemAsync(nbLine);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_data_order_itemAsync(string nbLine) {
+            return base.Channel.get_data_order_itemAsync(nbLine);
         }
         
-        public QOBDGateway.QOBDServiceReference.Command_itemQOBD[] delete_data_command_item(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list) {
-            return base.Channel.delete_data_command_item(command_item_array_list);
+        public QOBDGateway.QOBDServiceReference.Order_itemQOBD[] delete_data_order_item(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list) {
+            return base.Channel.delete_data_order_item(order_item_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> delete_data_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list) {
-            return base.Channel.delete_data_command_itemAsync(command_item_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> delete_data_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list) {
+            return base.Channel.delete_data_order_itemAsync(order_item_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.Command_itemQOBD[] insert_data_command_item(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list) {
-            return base.Channel.insert_data_command_item(command_item_array_list);
+        public QOBDGateway.QOBDServiceReference.Order_itemQOBD[] insert_data_order_item(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list) {
+            return base.Channel.insert_data_order_item(order_item_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> insert_data_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list) {
-            return base.Channel.insert_data_command_itemAsync(command_item_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> insert_data_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list) {
+            return base.Channel.insert_data_order_itemAsync(order_item_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.Command_itemQOBD[] update_data_command_item(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list) {
-            return base.Channel.update_data_command_item(command_item_array_list);
+        public QOBDGateway.QOBDServiceReference.Order_itemQOBD[] update_data_order_item(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list) {
+            return base.Channel.update_data_order_item(order_item_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> update_data_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list) {
-            return base.Channel.update_data_command_itemAsync(command_item_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> update_data_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list) {
+            return base.Channel.update_data_order_itemAsync(order_item_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_data_command_item_by_id(string id) {
-            return base.Channel.get_data_command_item_by_id(id);
+        public QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_data_order_item_by_id(string id) {
+            return base.Channel.get_data_order_item_by_id(id);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_data_command_item_by_idAsync(string id) {
-            return base.Channel.get_data_command_item_by_idAsync(id);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_data_order_item_by_idAsync(string id) {
+            return base.Channel.get_data_order_item_by_idAsync(id);
         }
         
-        public QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_filter_command_item(QOBDGateway.QOBDServiceReference.Command_itemFilterQOBD command_item_array_list_filter) {
-            return base.Channel.get_filter_command_item(command_item_array_list_filter);
+        public QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_filter_order_item(QOBDGateway.QOBDServiceReference.Order_itemFilterQOBD order_item_array_list_filter) {
+            return base.Channel.get_filter_order_item(order_item_array_list_filter);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_filter_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemFilterQOBD command_item_array_list_filter) {
-            return base.Channel.get_filter_command_itemAsync(command_item_array_list_filter);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_filter_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemFilterQOBD order_item_array_list_filter) {
+            return base.Channel.get_filter_order_itemAsync(order_item_array_list_filter);
         }
         
-        public QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_data_command_item_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_command_item_by_command_list(command_array_list);
+        public QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_data_order_item_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_order_item_by_order_list(order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_data_command_item_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_command_item_by_command_listAsync(command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_data_order_item_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_order_item_by_order_listAsync(order_array_list);
         }
         
         public QOBDGateway.QOBDServiceReference.ContactQOBD[] get_data_contact(string nbLine) {
@@ -12467,12 +14853,12 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_filter_deliveryAsync(delivery_array_list_filter);
         }
         
-        public QOBDGateway.QOBDServiceReference.DeliveryQOBD[] get_data_delivery_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_delivery_by_command_list(command_array_list);
+        public QOBDGateway.QOBDServiceReference.DeliveryQOBD[] get_data_delivery_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_delivery_by_order_list(order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DeliveryQOBD[]> get_data_delivery_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_delivery_by_command_listAsync(command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DeliveryQOBD[]> get_data_delivery_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_delivery_by_order_listAsync(order_array_list);
         }
         
         public QOBDGateway.QOBDServiceReference.InfosQOBD[] get_data_infos(string nbLine) {
@@ -12739,60 +15125,60 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_data_provider_by_provider_item_listAsync(provider_item_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_data_tax_command(string nbLine) {
-            return base.Channel.get_data_tax_command(nbLine);
+        public QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_data_tax_order(string nbLine) {
+            return base.Channel.get_data_tax_order(nbLine);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_data_tax_commandAsync(string nbLine) {
-            return base.Channel.get_data_tax_commandAsync(nbLine);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_data_tax_orderAsync(string nbLine) {
+            return base.Channel.get_data_tax_orderAsync(nbLine);
         }
         
-        public QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] delete_data_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list) {
-            return base.Channel.delete_data_tax_command(tax_command_array_list);
+        public QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] delete_data_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list) {
+            return base.Channel.delete_data_tax_order(tax_order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> delete_data_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list) {
-            return base.Channel.delete_data_tax_commandAsync(tax_command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> delete_data_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list) {
+            return base.Channel.delete_data_tax_orderAsync(tax_order_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] insert_data_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list) {
-            return base.Channel.insert_data_tax_command(tax_command_array_list);
+        public QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] insert_data_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list) {
+            return base.Channel.insert_data_tax_order(tax_order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> insert_data_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list) {
-            return base.Channel.insert_data_tax_commandAsync(tax_command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> insert_data_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list) {
+            return base.Channel.insert_data_tax_orderAsync(tax_order_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] update_data_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list) {
-            return base.Channel.update_data_tax_command(tax_command_array_list);
+        public QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] update_data_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list) {
+            return base.Channel.update_data_tax_order(tax_order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> update_data_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list) {
-            return base.Channel.update_data_tax_commandAsync(tax_command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> update_data_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list) {
+            return base.Channel.update_data_tax_orderAsync(tax_order_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_data_tax_command_by_id(string id) {
-            return base.Channel.get_data_tax_command_by_id(id);
+        public QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_data_tax_order_by_id(string id) {
+            return base.Channel.get_data_tax_order_by_id(id);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_data_tax_command_by_idAsync(string id) {
-            return base.Channel.get_data_tax_command_by_idAsync(id);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_data_tax_order_by_idAsync(string id) {
+            return base.Channel.get_data_tax_order_by_idAsync(id);
         }
         
-        public QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_filter_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandFilterQOBD tax_command_array_list_filter) {
-            return base.Channel.get_filter_tax_command(tax_command_array_list_filter);
+        public QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_filter_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderFilterQOBD tax_order_array_list_filter) {
+            return base.Channel.get_filter_tax_order(tax_order_array_list_filter);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_filter_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandFilterQOBD tax_command_array_list_filter) {
-            return base.Channel.get_filter_tax_commandAsync(tax_command_array_list_filter);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_filter_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderFilterQOBD tax_order_array_list_filter) {
+            return base.Channel.get_filter_tax_orderAsync(tax_order_array_list_filter);
         }
         
-        public QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_data_tax_command_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_tax_command_by_command_list(command_array_list);
+        public QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_data_tax_order_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_tax_order_by_order_list(order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_data_tax_command_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_tax_command_by_command_listAsync(command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_data_tax_order_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_tax_order_by_order_listAsync(order_array_list);
         }
         
         public QOBDGateway.QOBDServiceReference.Tax_itemQOBD[] get_data_tax_item(string nbLine) {
@@ -12995,12 +15381,12 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_filter_notificationAsync(notification_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_notification_by_command_list(command_array_list);
+        public QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_notification_by_order_list(order_array_list);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list) {
-            return base.Channel.get_data_notification_by_command_listAsync(command_array_list);
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_notification_by_order_listAsync(order_array_list);
         }
         
         public QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_client_list(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list) {
@@ -13009,6 +15395,222 @@ namespace QOBDGateway.QOBDServiceReference {
         
         public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_client_listAsync(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list) {
             return base.Channel.get_data_notification_by_client_listAsync(client_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user(string nbLine) {
+            return base.Channel.get_data_user(nbLine);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_userAsync(string nbLine) {
+            return base.Channel.get_data_userAsync(nbLine);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] delete_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list) {
+            return base.Channel.delete_data_user(user_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> delete_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list) {
+            return base.Channel.delete_data_userAsync(user_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] insert_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list) {
+            return base.Channel.insert_data_user(user_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> insert_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list) {
+            return base.Channel.insert_data_userAsync(user_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] update_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list) {
+            return base.Channel.update_data_user(user_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> update_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list) {
+            return base.Channel.update_data_userAsync(user_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user_by_id(string id) {
+            return base.Channel.get_data_user_by_id(id);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_user_by_idAsync(string id) {
+            return base.Channel.get_data_user_by_idAsync(id);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_filter_user(QOBDGateway.QOBDServiceReference.UserFilterChatRoom user_array_list_filter) {
+            return base.Channel.get_filter_user(user_array_list_filter);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_filter_userAsync(QOBDGateway.QOBDServiceReference.UserFilterChatRoom user_array_list_filter) {
+            return base.Channel.get_filter_userAsync(user_array_list_filter);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user_by_user_discussion_list(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list) {
+            return base.Channel.get_data_user_by_user_discussion_list(user_discussion_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_user_by_user_discussion_listAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list) {
+            return base.Channel.get_data_user_by_user_discussion_listAsync(user_discussion_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_data_message(string nbLine) {
+            return base.Channel.get_data_message(nbLine);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_data_messageAsync(string nbLine) {
+            return base.Channel.get_data_messageAsync(nbLine);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] delete_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list) {
+            return base.Channel.delete_data_message(message_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> delete_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list) {
+            return base.Channel.delete_data_messageAsync(message_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] insert_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list) {
+            return base.Channel.insert_data_message(message_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> insert_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list) {
+            return base.Channel.insert_data_messageAsync(message_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] update_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list) {
+            return base.Channel.update_data_message(message_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> update_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list) {
+            return base.Channel.update_data_messageAsync(message_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_data_message_by_id(string id) {
+            return base.Channel.get_data_message_by_id(id);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_data_message_by_idAsync(string id) {
+            return base.Channel.get_data_message_by_idAsync(id);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_filter_message(QOBDGateway.QOBDServiceReference.MessageFilterChatRoom message_array_list_filter) {
+            return base.Channel.get_filter_message(message_array_list_filter);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_filter_messageAsync(QOBDGateway.QOBDServiceReference.MessageFilterChatRoom message_array_list_filter) {
+            return base.Channel.get_filter_messageAsync(message_array_list_filter);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion(string nbLine) {
+            return base.Channel.get_data_discussion(nbLine);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussionAsync(string nbLine) {
+            return base.Channel.get_data_discussionAsync(nbLine);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] delete_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list) {
+            return base.Channel.delete_data_discussion(discussion_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> delete_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list) {
+            return base.Channel.delete_data_discussionAsync(discussion_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] insert_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list) {
+            return base.Channel.insert_data_discussion(discussion_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> insert_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list) {
+            return base.Channel.insert_data_discussionAsync(discussion_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] update_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list) {
+            return base.Channel.update_data_discussion(discussion_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> update_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list) {
+            return base.Channel.update_data_discussionAsync(discussion_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_id(string id) {
+            return base.Channel.get_data_discussion_by_id(id);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_idAsync(string id) {
+            return base.Channel.get_data_discussion_by_idAsync(id);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_filter_discussion(QOBDGateway.QOBDServiceReference.DiscussionFilterChatRoom discussion_array_list_filter) {
+            return base.Channel.get_filter_discussion(discussion_array_list_filter);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_filter_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionFilterChatRoom discussion_array_list_filter) {
+            return base.Channel.get_filter_discussionAsync(discussion_array_list_filter);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_user_discussion_list(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list) {
+            return base.Channel.get_data_discussion_by_user_discussion_list(user_discussion_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_user_discussion_listAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list) {
+            return base.Channel.get_data_discussion_by_user_discussion_listAsync(user_discussion_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_message_list(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list) {
+            return base.Channel.get_data_discussion_by_message_list(message_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_message_listAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list) {
+            return base.Channel.get_data_discussion_by_message_listAsync(message_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_data_user_discussion(string nbLine) {
+            return base.Channel.get_data_user_discussion(nbLine);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_data_user_discussionAsync(string nbLine) {
+            return base.Channel.get_data_user_discussionAsync(nbLine);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] delete_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list) {
+            return base.Channel.delete_data_user_discussion(user_discussion_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> delete_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list) {
+            return base.Channel.delete_data_user_discussionAsync(user_discussion_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] insert_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list) {
+            return base.Channel.insert_data_user_discussion(user_discussion_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> insert_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list) {
+            return base.Channel.insert_data_user_discussionAsync(user_discussion_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] update_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list) {
+            return base.Channel.update_data_user_discussion(user_discussion_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> update_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list) {
+            return base.Channel.update_data_user_discussionAsync(user_discussion_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_data_user_discussion_by_id(string id) {
+            return base.Channel.get_data_user_discussion_by_id(id);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_data_user_discussion_by_idAsync(string id) {
+            return base.Channel.get_data_user_discussion_by_idAsync(id);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_filter_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionFilterChatRoom user_discussion_array_list_filter) {
+            return base.Channel.get_filter_user_discussion(user_discussion_array_list_filter);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_filter_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionFilterChatRoom user_discussion_array_list_filter) {
+            return base.Channel.get_filter_user_discussionAsync(user_discussion_array_list_filter);
         }
     }
 }

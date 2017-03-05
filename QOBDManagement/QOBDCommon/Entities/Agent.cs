@@ -30,7 +30,7 @@ namespace QOBDCommon.Entities
 
         public string Email {get; set;}
 
-        public string Login {get; set;}
+        public string UserName {get; set;}
 
         public string HashedPassword { get; set;}
 
@@ -38,7 +38,9 @@ namespace QOBDCommon.Entities
 
         public string Status {get; set;}
 
-        public int ListSize {get; set;}
+        public int ListSize { get; set; }
+
+        public bool IsOnline { get; set; }
 
         public List<Role> RoleList { get; set; }
 

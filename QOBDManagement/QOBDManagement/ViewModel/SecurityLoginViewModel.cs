@@ -22,7 +22,6 @@ namespace QOBDManagement.ViewModel
     {
         private Func<Object, Object> _page;
         private string _errorMessage;
-        private NotifyTaskCompletion<bool> _DialogtaskCompletion;
         private string _clearPassword;
         private string _login;
 
@@ -55,7 +54,6 @@ namespace QOBDManagement.ViewModel
         private void initEvents()
         {
             AgentModel.PropertyChanged += onAgentChange_goToHomePage;
-            _DialogtaskCompletion.PropertyChanged += onDialogDisplayTaskComplete_authenticateUser;
 
             if ((_main.getObject("main") as BindBase) != null)
             {
@@ -67,7 +65,6 @@ namespace QOBDManagement.ViewModel
         private void instances()
         {
             _errorMessage = "";
-            _DialogtaskCompletion = new NotifyTaskCompletion<bool>();
             LogoutCommand = new ButtonCommand<object>(logOut, canLogOut);
         }
 
@@ -113,12 +110,21 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Actions ]------------------
 
-
-        public void showLoginView()
+        public async Task showLoginView()
         {
-            _DialogtaskCompletion.initializeNewTask(Dialog.show(this));
+            bool result = await Dialog.showAsync(this);
+            if (!string.IsNullOrEmpty(TxtLogin) && !string.IsNullOrEmpty(TxtClearPassword) && result)
+            {
+                await authenticateAgent();
+                if (AgentModel.Agent.ID == 0)
+                {
+                    await showLoginView();
+                }
+            }
+            else
+                await showLoginView();
         }
-        
+
         private async Task<object> authenticateAgent()
         {
             try
@@ -141,14 +147,15 @@ namespace QOBDManagement.ViewModel
             }
             catch (ApplicationException)
             {
-                await Dialog.show("This application requires an internet connection!"+Environment.NewLine 
+                await Dialog.showAsync("This application requires an internet connection!"+Environment.NewLine 
                     + "Please check your internet connection." );
+                await showLoginView();
             }             
             
             return null;
         }
 
-        public async void startAuthentication()
+        public async Task startAuthentication()
         {
             TxtLogin = "demo";// "<< Login here for dev mode >>";
             TxtClearPassword = "demo"; //"<< Password here for dev mode >>";
@@ -164,7 +171,6 @@ namespace QOBDManagement.ViewModel
             }
 
             AgentModel.PropertyChanged -= onAgentChange_goToHomePage;
-            _DialogtaskCompletion.PropertyChanged -= onDialogDisplayTaskComplete_authenticateUser;
         }
 
         //----------------------------[ Event Handler ]------------------
@@ -188,28 +194,13 @@ namespace QOBDManagement.ViewModel
         {
             if (e.PropertyName.Equals("Agent"))
                 _page(new HomeViewModel());
-        }
+        }        
 
-        private async void onDialogDisplayTaskComplete_authenticateUser(object sender, PropertyChangedEventArgs e)
-        {
-
-            if (e.PropertyName.Equals("IsSuccessfullyCompleted"))
-            {
-                bool result = _DialogtaskCompletion.Result;
-                if (!string.IsNullOrEmpty(TxtLogin) && !string.IsNullOrEmpty(TxtClearPassword) && result)
-                {
-                    await authenticateAgent();
-                    if (AgentModel.Agent.ID == 0)
-                    {
-                        showLoginView();
-                    }
-                }                    
-                else
-                    showLoginView();
-            }
-        }
-        
-
+        /// <summary>
+        /// Initialize the business logic
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onStartupChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Startup"))
@@ -218,22 +209,30 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        private void onDialogChange(object sender, PropertyChangedEventArgs e)
+        /// <summary>
+        /// Show the login page when the Dialog box is ready
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void onDialogChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Dialog"))
             {
                 Dialog = (_main.getObject("main") as BindBase).Dialog;
-                //showLoginView();
-                startAuthentication();
+                if (Application.Current != null)
+                    await Application.Current.Dispatcher.Invoke(async ()=> {
+                        await showLoginView();
+                        //await startAuthentication();
+                    });  
             }
         }
 
         //----------------------------[ Action Commands ]------------------
 
-        private void logOut(object obj)
+        private async void logOut(object obj)
         {
             AgentModel.Agent = new QOBDCommon.Entities.Agent();
-            showLoginView();
+            await showLoginView();
         }
 
         private bool canLogOut(object arg)

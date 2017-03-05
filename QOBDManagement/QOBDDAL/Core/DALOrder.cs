@@ -22,6 +22,7 @@ using QOBDGateway.QOBDServiceReference;
 using QOBDDAL.Classes;
 using QOBDDAL.Interfaces;
 using QOBDGateway.Classes;
+using QOBDGateway.Interfaces;
 
 namespace QOBDDAL.Core
 {
@@ -36,6 +37,7 @@ namespace QOBDDAL.Core
         private int _progressStep;
         private object _lock = new object();
         private Interfaces.IQOBDSet _dataSet;
+        private ICommunication _serviceCommunication;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -52,21 +54,30 @@ namespace QOBDDAL.Core
             this._dataSet = _dataSet;
         }
 
+        public DALOrder(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet, ICommunication serviceCommunication) : this(servicePort, _dataSet)
+        {
+            _serviceCommunication = serviceCommunication;
+        }
+
         public bool IsLodingDataFromWebServiceToLocal
         {
             get { return _isLodingDataFromWebServiceToLocal; }
             set { _isLodingDataFromWebServiceToLocal = value; }
         }
 
-        public async void initializeCredential(Agent user)
+        public void initializeCredential(Agent user)
         {
-            if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
+            if (!string.IsNullOrEmpty(user.UserName) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
                 _loadSize = (AuthenticatedUser.ListSize > 0) ? AuthenticatedUser.ListSize : _loadSize;
                 _gatewayOrder.setServiceCredential(_servicePortType);
-                await retrieveGateWayOrderDataAsync();
             }
+        }
+
+        public async void cacheWebServiceData()
+        {
+            await retrieveGateWayOrderDataAsync();
         }
 
         public void setServiceCredential(object channel)
@@ -74,7 +85,7 @@ namespace QOBDDAL.Core
             _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
-                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.UserName;
                 _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
             }
             _gatewayOrder.setServiceCredential(_servicePortType);
@@ -97,39 +108,53 @@ namespace QOBDDAL.Core
             _progressBarFunc = progressBarFunc;
         }
 
+        private void checkServiceCommunication()
+        {
+            if (_servicePortType.State == System.ServiceModel.CommunicationState.Closed || _servicePortType.State == System.ServiceModel.CommunicationState.Faulted)
+                _serviceCommunication.resetCommunication();
+        }
+
+        #region [ Actions ]
+        //=================================[ Actions ]================================================
 
         public async Task<List<Order>> InsertOrderAsync(List<Order> listOrder)
         {
+            checkServiceCommunication();
             List<Order> gateWayResultList = await _gatewayOrder.InsertOrderAsync(listOrder);
             return LoadOrder(gateWayResultList);
         }
 
         public async Task<List<Tax_order>> InsertTax_orderAsync(List<Tax_order> listTax_order)
         {
+            checkServiceCommunication();
             List<Tax_order> gateWayResultList = await _gatewayOrder.InsertTax_orderAsync(listTax_order);
             return LoadTax_order(gateWayResultList);
         }
 
         public async Task<List<Order_item>> InsertOrder_itemAsync(List<Order_item> listOrder_item)
         {
+            checkServiceCommunication();
             List<Order_item> gateWayResultList = await _gatewayOrder.InsertOrder_itemAsync(listOrder_item);
             return LoadOrder_item(gateWayResultList);
         }
 
         public async Task<List<Tax>> InsertTaxAsync(List<Tax> listTax)
         {
+            checkServiceCommunication();
             List<Tax> gateWayResultList = await _gatewayOrder.InsertTaxAsync(listTax);
             return LoadTax(gateWayResultList);
         }
 
         public async Task<List<Bill>> InsertBillAsync(List<Bill> listBill)
         {
+            checkServiceCommunication();
             List<Bill> gateWayResultList = await _gatewayOrder.InsertBillAsync(listBill);
             return LoadBill(gateWayResultList);
         }
 
         public async Task<List<Delivery>> InsertDeliveryAsync(List<Delivery> listDelivery)
         {
+            checkServiceCommunication();
             List<Delivery> gateWayResultList = await _gatewayOrder.InsertDeliveryAsync(listDelivery);
             return LoadDelivery(gateWayResultList);
         }
@@ -138,6 +163,7 @@ namespace QOBDDAL.Core
         public async Task<List<Order>> DeleteOrderAsync(List<Order> listOrder)
         {
             List<Order> result = new List<Order>();
+            checkServiceCommunication();
             List<Order> gateWayResultList = await _gatewayOrder.DeleteOrderAsync(listOrder);
             if (gateWayResultList.Count == 0)
                 foreach (Order order in listOrder)
@@ -152,6 +178,7 @@ namespace QOBDDAL.Core
         public async Task<List<Tax_order>> DeleteTax_orderAsync(List<Tax_order> listTax_order)
         {
             List<Tax_order> result = new List<Tax_order>();
+            checkServiceCommunication();
             List<Tax_order> gateWayResultList = await _gatewayOrder.DeleteTax_orderAsync(listTax_order);
             if (gateWayResultList.Count == 0)
                 foreach (Tax_order tax_order in listTax_order)
@@ -166,6 +193,7 @@ namespace QOBDDAL.Core
         public async Task<List<Order_item>> DeleteOrder_itemAsync(List<Order_item> listOrder_item)
         {
             List<Order_item> result = new List<Order_item>();
+            checkServiceCommunication();
             List<Order_item> gateWayResultList = await _gatewayOrder.DeleteOrder_itemAsync(listOrder_item);
             if (gateWayResultList.Count == 0)
                 foreach (Order_item order_item in listOrder_item)
@@ -180,6 +208,7 @@ namespace QOBDDAL.Core
         public async Task<List<Tax>> DeleteTaxAsync(List<Tax> listTax)
         {
             List<Tax> result = new List<Tax>();
+            checkServiceCommunication();
             List<Tax> gateWayResultList = await _gatewayOrder.DeleteTaxAsync(listTax);
             if (gateWayResultList.Count == 0)
                 foreach (Tax tax in listTax)
@@ -194,6 +223,7 @@ namespace QOBDDAL.Core
         public async Task<List<Bill>> DeleteBillAsync(List<Bill> listBill)
         {
             List<Bill> result = new List<Bill>();
+            checkServiceCommunication();
             List<Bill> gateWayResultList = await _gatewayOrder.DeleteBillAsync(listBill);
             if (gateWayResultList.Count == 0)
                 foreach (Bill bill in listBill)
@@ -208,6 +238,7 @@ namespace QOBDDAL.Core
         public async Task<List<Delivery>> DeleteDeliveryAsync(List<Delivery> listDelivery)
         {
             List<Delivery> result = new List<Delivery>();
+            checkServiceCommunication();
             List<Delivery> gateWayResultList = await _gatewayOrder.DeleteDeliveryAsync(listDelivery);
             if (gateWayResultList.Count == 0)
                 foreach (Delivery delivery in listDelivery)
@@ -223,6 +254,7 @@ namespace QOBDDAL.Core
         {
             List<Order> result = new List<Order>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Order> gateWayResultList = await _gatewayOrder.UpdateOrderAsync(ordersList);
 
             foreach (var order in gateWayResultList)
@@ -257,6 +289,7 @@ namespace QOBDDAL.Core
         {
             List<Tax_order> result = new List<Tax_order>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Tax_order> gateWayResultList = await _gatewayOrder.UpdateTax_orderAsync(tax_orderList);
             foreach (var tax_order in gateWayResultList)
             {
@@ -290,6 +323,7 @@ namespace QOBDDAL.Core
         {
             List<Order_item> result = new List<Order_item>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Order_item> gateWayResultList = await _gatewayOrder.UpdateOrder_itemAsync(order_itemList);
             foreach (var order_item in gateWayResultList)
             {
@@ -323,6 +357,7 @@ namespace QOBDDAL.Core
         {
             List<Tax> result = new List<Tax>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Tax> gateWayResultList = await _gatewayOrder.UpdateTaxAsync(taxesList);
             foreach (var tax in gateWayResultList)
             {
@@ -356,6 +391,7 @@ namespace QOBDDAL.Core
         {
             List<Bill> result = new List<Bill>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Bill> gateWayResultList = await _gatewayOrder.UpdateBillAsync(billList);
 
             foreach (var bill in gateWayResultList)
@@ -390,6 +426,7 @@ namespace QOBDDAL.Core
         {
             List<Delivery> result = new List<Delivery>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Delivery> gateWayResultList = await _gatewayOrder.UpdateDeliveryAsync(deliveryList);
             foreach (var delivery in gateWayResultList)
             {
@@ -424,6 +461,7 @@ namespace QOBDDAL.Core
         
         public async Task<List<Order>> GetOrderDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetOrderDataAsync(nbLine);
         }
 
@@ -445,8 +483,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_order>> GetTax_orderDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetTax_orderDataAsync(nbLine);
-
         }
 
         public List<Tax_order> GetTax_orderDataByOrderList(List<Order> orderList)
@@ -463,6 +501,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_order>> GetTax_orderDataByOrderListAsync(List<Order> orderList)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetTax_orderDataByOrderListAsync(orderList);
         }
 
@@ -487,11 +526,13 @@ namespace QOBDDAL.Core
 
         public async Task<List<Order_item>> GetOrder_itemDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetOrder_itemDataAsync(nbLine);
         }
 
         public async Task<List<Order_item>> GetOrder_itemByOrderListAsync(List<Order> ordersList)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetOrder_itemByOrderListAsync(ordersList);
         }
 
@@ -530,6 +571,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax>> GetTaxDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetTaxDataAsync(nbLine);
         }
 
@@ -550,11 +592,13 @@ namespace QOBDDAL.Core
 
         public async Task<List<Bill>> GetUnpaidBillDataByAgentAsync(int agentId)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetUnpaidBillDataByAgentAsync(agentId);
         }
 
         public async Task<List<Bill>> GetBillDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetBillDataAsync(nbLine);
         }
 
@@ -572,8 +616,8 @@ namespace QOBDDAL.Core
 
         public async Task<List<Bill>> GetBillDataByOrderListAsync(List<Order> orderList)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetBillDataByOrderListAsync(orderList);
-
         }
 
         public List<Bill> GetBillDataByOrderId(int orderId)
@@ -588,6 +632,7 @@ namespace QOBDDAL.Core
 
         public async Task<Bill> GetLastBillAsync()
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetLastBillAsync();
         }
 
@@ -602,6 +647,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Delivery>> GetDeliveryDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetDeliveryDataAsync(nbLine);
         }
 
@@ -619,6 +665,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Delivery>> GetDeliveryDataByOrderListAsync(List<Order> orderList)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.GetDeliveryDataByOrderListAsync(orderList);
         }
 
@@ -639,6 +686,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Order>> searchOrderAsync(Order order, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.searchOrderAsync(order, filterOperator);
         }
 
@@ -649,6 +697,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_order>> searchTax_orderAsync(Tax_order Tax_order, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.searchTax_orderAsync(Tax_order, filterOperator);
         }
 
@@ -659,6 +708,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Order_item>> searchOrder_itemAsync(Order_item order_item, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.searchOrder_itemAsync(order_item, filterOperator);
         }
 
@@ -669,6 +719,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax>> searchTaxAsync(Tax Tax, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.searchTaxAsync(Tax, filterOperator);
         }
 
@@ -679,6 +730,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Bill>> searchBillAsync(Bill Bill, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.searchBillAsync(Bill, filterOperator);
         }
 
@@ -689,6 +741,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Delivery>> searchDeliveryAsync(Delivery Delivery, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gatewayOrder.searchDeliveryAsync(Delivery, filterOperator);
         }
 
@@ -706,11 +759,11 @@ namespace QOBDDAL.Core
         {
             _gatewayOrder.GeneratePdfDelivery(paramDeliveryToPdf);
         }
+        #endregion
 
         public void Dispose()
         {
             _gatewayOrder.Dispose();
-            _dataSet.Dispose();
         }
 
 

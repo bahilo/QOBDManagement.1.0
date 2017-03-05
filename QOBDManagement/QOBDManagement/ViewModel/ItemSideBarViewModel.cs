@@ -74,7 +74,7 @@ namespace QOBDManagement.ViewModel
             switch (obj)
             {
                 case "update-item":
-                    await Dialog.show("Update Item");
+                    await Dialog.showAsync("Update Item");
                     break;
             }
         }

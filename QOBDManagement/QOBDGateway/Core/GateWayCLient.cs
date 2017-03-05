@@ -243,12 +243,12 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Address>> GetAddressDataByOrderListAsync(List<Order> commandList)
+        public async Task<List<Address>> GetAddressDataByOrderListAsync(List<Order> orderList)
         {
             List<Address> result = new List<Address>();
             try
             {
-                result = (await _channel.get_data_address_by_command_listAsync(commandList.OrderTypeToArray())).ArrayTypeToAddress();
+                result = (await _channel.get_data_address_by_order_listAsync(orderList.OrderTypeToArray())).ArrayTypeToAddress();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -274,7 +274,7 @@ namespace QOBDGateway.Core
             List<Order> result = new List<Order>();
             try
             {                
-                result = (await _channel.get_commands_clientAsync(id.ToString())).ArrayTypeToOrder();
+                result = (await _channel.get_orders_clientAsync(id.ToString())).ArrayTypeToOrder();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -392,7 +392,8 @@ namespace QOBDGateway.Core
 
         public void Dispose()
         {
-            _channel.Close();
+            if (_channel.State == CommunicationState.Opened)
+                _channel.Close();
         }
     } /* end class BlCLient */
 }

@@ -29,7 +29,7 @@ namespace QOBDManagement.Views
         private void OptionSecurityView_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext dataContext = new DataContext();
-            if (dataContext.setContext(this) != null)
+            if (dataContext.setWindowContext(this) != null)
             {
                 if (!((MainWindowViewModel)this.DataContext).IsThroughContext)
                     ((MainWindowViewModel)this.DataContext).ReferentialViewModel.OptionSecurityViewModel.loadData();

@@ -125,12 +125,8 @@ namespace QOBDGateway.Core
 
         public void Dispose()
         {
-            
-        }
-
-        public void progressBarManagement(Func<double, double> progressBarFunc)
-        {
-            throw new NotImplementedException();
+            if (_channel.State == CommunicationState.Opened)
+                _channel.Close();
         }
     } /* end class BlReferential */
 }

@@ -16,6 +16,8 @@ namespace QOBDCommon.Interfaces.DAC
     {
         void initializeCredential(Agent user);
 
+        void cacheWebServiceData();
+
         void progressBarManagement(Func<double, double> progressBarFunc);
 
         List<Notification> searchNotification(Notification notification, ESearchOption filterOperator);

@@ -340,14 +340,14 @@ namespace QOBDGateway.Classes
             return base.Channel.get_filter_billAsync(bill_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_bill_by_command_list(command_array_list);
+            return base.Channel.get_data_bill_by_order_list(order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_bill_by_command_listAsync(command_array_list);
+            return base.Channel.get_data_bill_by_order_listAsync(order_array_list);
         }
 
         public virtual QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_unpaid(int agent_id)
@@ -360,74 +360,74 @@ namespace QOBDGateway.Classes
             return base.Channel.get_data_bill_by_unpaidAsync(agent_id);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_data_command(string nbLine)
+        public virtual QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_data_order(string nbLine)
         {
-            return base.Channel.get_data_command(nbLine);
+            return base.Channel.get_data_order(nbLine);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_data_commandAsync(string nbLine)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_data_orderAsync(string nbLine)
         {
-            return base.Channel.get_data_commandAsync(nbLine);
+            return base.Channel.get_data_orderAsync(nbLine);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.CommandsQOBD[] delete_data_command(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.OrdersQOBD[] delete_data_order(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.delete_data_command(command_array_list);
+            return base.Channel.delete_data_order(order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> delete_data_commandAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> delete_data_orderAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.delete_data_commandAsync(command_array_list);
+            return base.Channel.delete_data_orderAsync(order_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.CommandsQOBD[] insert_data_command(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.OrdersQOBD[] insert_data_order(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.insert_data_command(command_array_list);
+            return base.Channel.insert_data_order(order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> insert_data_commandAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> insert_data_orderAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.insert_data_commandAsync(command_array_list);
+            return base.Channel.insert_data_orderAsync(order_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.CommandsQOBD[] update_data_command(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.OrdersQOBD[] update_data_order(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.update_data_command(command_array_list);
+            return base.Channel.update_data_order(order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> update_data_commandAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> update_data_orderAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.update_data_commandAsync(command_array_list);
+            return base.Channel.update_data_orderAsync(order_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_data_command_by_id(string id)
+        public virtual QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_data_order_by_id(string id)
         {
-            return base.Channel.get_data_command_by_id(id);
+            return base.Channel.get_data_order_by_id(id);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_data_command_by_idAsync(string id)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_data_order_by_idAsync(string id)
         {
-            return base.Channel.get_data_command_by_idAsync(id);
+            return base.Channel.get_data_order_by_idAsync(id);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_filter_command(QOBDGateway.QOBDServiceReference.CommandFilterQOBD command_array_list_filter)
+        public virtual QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_filter_order(QOBDGateway.QOBDServiceReference.OrderFilterQOBD order_array_list_filter)
         {
-            return base.Channel.get_filter_command(command_array_list_filter);
+            return base.Channel.get_filter_order(order_array_list_filter);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_filter_commandAsync(QOBDGateway.QOBDServiceReference.CommandFilterQOBD command_array_list_filter)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_filter_orderAsync(QOBDGateway.QOBDServiceReference.OrderFilterQOBD order_array_list_filter)
         {
-            return base.Channel.get_filter_commandAsync(command_array_list_filter);
+            return base.Channel.get_filter_orderAsync(order_array_list_filter);
         }
 
-        public virtual void generate_pdf(QOBDGateway.QOBDServiceReference.PdfQOBD command_array)
+        public virtual void generate_pdf(QOBDGateway.QOBDServiceReference.PdfQOBD order_array)
         {
-            base.Channel.generate_pdf(command_array);
+            base.Channel.generate_pdf(order_array);
         }
 
-        public virtual System.Threading.Tasks.Task generate_pdfAsync(QOBDGateway.QOBDServiceReference.PdfQOBD command_array)
+        public virtual System.Threading.Tasks.Task generate_pdfAsync(QOBDGateway.QOBDServiceReference.PdfQOBD order_array)
         {
-            return base.Channel.generate_pdfAsync(command_array);
+            return base.Channel.generate_pdfAsync(order_array);
         }
 
         public virtual QOBDGateway.QOBDServiceReference.AgentQOBD[] get_data_agent(string nbLine)
@@ -500,14 +500,14 @@ namespace QOBDGateway.Classes
             return base.Channel.get_filter_agentAsync(agent_array_list_filter);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.AgentQOBD[] get_data_agent_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.AgentQOBD[] get_data_agent_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_agent_by_command_list(command_array_list);
+            return base.Channel.get_data_agent_by_order_list(order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AgentQOBD[]> get_data_agent_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AgentQOBD[]> get_data_agent_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_agent_by_command_listAsync(command_array_list);
+            return base.Channel.get_data_agent_by_order_listAsync(order_array_list);
         }
 
         public virtual QOBDGateway.QOBDServiceReference.StatisticQOBD[] get_data_statistic(string nbLine)
@@ -630,14 +630,14 @@ namespace QOBDGateway.Classes
             return base.Channel.get_filter_itemAsync(item_array_list_filter);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.ItemQOBD[] get_data_item_by_command_item_list(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.ItemQOBD[] get_data_item_by_order_item_list(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list)
         {
-            return base.Channel.get_data_item_by_command_item_list(command_item_array_list);
+            return base.Channel.get_data_item_by_order_item_list(order_item_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ItemQOBD[]> get_data_item_by_command_item_listAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ItemQOBD[]> get_data_item_by_order_item_listAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list)
         {
-            return base.Channel.get_data_item_by_command_item_listAsync(command_item_array_list);
+            return base.Channel.get_data_item_by_order_item_listAsync(order_item_array_list);
         }
 
         public virtual QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client(string nbLine)
@@ -700,24 +700,24 @@ namespace QOBDGateway.Classes
             return base.Channel.get_filter_ClientAsync(client_array_list_filter);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_quotes_client(string id)
+        public virtual QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_quotes_client(string id)
         {
             return base.Channel.get_quotes_client(id);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_quotes_clientAsync(string id)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_quotes_clientAsync(string id)
         {
             return base.Channel.get_quotes_clientAsync(id);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.CommandsQOBD[] get_commands_client(string id)
+        public virtual QOBDGateway.QOBDServiceReference.OrdersQOBD[] get_orders_client(string id)
         {
-            return base.Channel.get_commands_client(id);
+            return base.Channel.get_orders_client(id);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CommandsQOBD[]> get_commands_clientAsync(string id)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.OrdersQOBD[]> get_orders_clientAsync(string id)
         {
-            return base.Channel.get_commands_clientAsync(id);
+            return base.Channel.get_orders_clientAsync(id);
         }
 
         public virtual string send_email_to_client(QOBDGateway.QOBDServiceReference.EmailQOBD client_email)
@@ -870,14 +870,14 @@ namespace QOBDGateway.Classes
             return base.Channel.get_filter_addressAsync(address_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.AddressQOBD[] get_data_address_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.AddressQOBD[] get_data_address_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_address_by_command_list(command_array_list);
+            return base.Channel.get_data_address_by_order_list(order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AddressQOBD[]> get_data_address_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.AddressQOBD[]> get_data_address_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_address_by_command_listAsync(command_array_list);
+            return base.Channel.get_data_address_by_order_listAsync(order_array_list);
         }
 
         public virtual QOBDGateway.QOBDServiceReference.AddressQOBD[] get_data_address_by_client_list(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list)
@@ -890,74 +890,74 @@ namespace QOBDGateway.Classes
             return base.Channel.get_data_address_by_client_listAsync(client_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_data_command_item(string nbLine)
+        public virtual QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_data_order_item(string nbLine)
         {
-            return base.Channel.get_data_command_item(nbLine);
+            return base.Channel.get_data_order_item(nbLine);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_data_command_itemAsync(string nbLine)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_data_order_itemAsync(string nbLine)
         {
-            return base.Channel.get_data_command_itemAsync(nbLine);
+            return base.Channel.get_data_order_itemAsync(nbLine);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Command_itemQOBD[] delete_data_command_item(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.Order_itemQOBD[] delete_data_order_item(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list)
         {
-            return base.Channel.delete_data_command_item(command_item_array_list);
+            return base.Channel.delete_data_order_item(order_item_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> delete_data_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> delete_data_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list)
         {
-            return base.Channel.delete_data_command_itemAsync(command_item_array_list);
+            return base.Channel.delete_data_order_itemAsync(order_item_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Command_itemQOBD[] insert_data_command_item(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.Order_itemQOBD[] insert_data_order_item(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list)
         {
-            return base.Channel.insert_data_command_item(command_item_array_list);
+            return base.Channel.insert_data_order_item(order_item_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> insert_data_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> insert_data_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list)
         {
-            return base.Channel.insert_data_command_itemAsync(command_item_array_list);
+            return base.Channel.insert_data_order_itemAsync(order_item_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Command_itemQOBD[] update_data_command_item(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.Order_itemQOBD[] update_data_order_item(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list)
         {
-            return base.Channel.update_data_command_item(command_item_array_list);
+            return base.Channel.update_data_order_item(order_item_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> update_data_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemQOBD[] command_item_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> update_data_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemQOBD[] order_item_array_list)
         {
-            return base.Channel.update_data_command_itemAsync(command_item_array_list);
+            return base.Channel.update_data_order_itemAsync(order_item_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_data_command_item_by_id(string id)
+        public virtual QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_data_order_item_by_id(string id)
         {
-            return base.Channel.get_data_command_item_by_id(id);
+            return base.Channel.get_data_order_item_by_id(id);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_data_command_item_by_idAsync(string id)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_data_order_item_by_idAsync(string id)
         {
-            return base.Channel.get_data_command_item_by_idAsync(id);
+            return base.Channel.get_data_order_item_by_idAsync(id);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_filter_command_item(QOBDGateway.QOBDServiceReference.Command_itemFilterQOBD command_item_array_list_filter)
+        public virtual QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_filter_order_item(QOBDGateway.QOBDServiceReference.Order_itemFilterQOBD order_item_array_list_filter)
         {
-            return base.Channel.get_filter_command_item(command_item_array_list_filter);
+            return base.Channel.get_filter_order_item(order_item_array_list_filter);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_filter_command_itemAsync(QOBDGateway.QOBDServiceReference.Command_itemFilterQOBD command_item_array_list_filter)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_filter_order_itemAsync(QOBDGateway.QOBDServiceReference.Order_itemFilterQOBD order_item_array_list_filter)
         {
-            return base.Channel.get_filter_command_itemAsync(command_item_array_list_filter);
+            return base.Channel.get_filter_order_itemAsync(order_item_array_list_filter);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Command_itemQOBD[] get_data_command_item_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.Order_itemQOBD[] get_data_order_item_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_command_item_by_command_list(command_array_list);
+            return base.Channel.get_data_order_item_by_order_list(order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Command_itemQOBD[]> get_data_command_item_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Order_itemQOBD[]> get_data_order_item_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_command_item_by_command_listAsync(command_array_list);
+            return base.Channel.get_data_order_item_by_order_listAsync(order_array_list);
         }
 
         public virtual QOBDGateway.QOBDServiceReference.ContactQOBD[] get_data_contact(string nbLine)
@@ -1090,14 +1090,14 @@ namespace QOBDGateway.Classes
             return base.Channel.get_filter_deliveryAsync(delivery_array_list_filter);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.DeliveryQOBD[] get_data_delivery_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.DeliveryQOBD[] get_data_delivery_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_delivery_by_command_list(command_array_list);
+            return base.Channel.get_data_delivery_by_order_list(order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DeliveryQOBD[]> get_data_delivery_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DeliveryQOBD[]> get_data_delivery_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_delivery_by_command_listAsync(command_array_list);
+            return base.Channel.get_data_delivery_by_order_listAsync(order_array_list);
         }
 
         public virtual QOBDGateway.QOBDServiceReference.InfosQOBD[] get_data_infos(string nbLine)
@@ -1430,74 +1430,74 @@ namespace QOBDGateway.Classes
             return base.Channel.get_data_provider_by_provider_item_listAsync(provider_item_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_data_tax_command(string nbLine)
+        public virtual QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_data_tax_order(string nbLine)
         {
-            return base.Channel.get_data_tax_command(nbLine);
+            return base.Channel.get_data_tax_order(nbLine);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_data_tax_commandAsync(string nbLine)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_data_tax_orderAsync(string nbLine)
         {
-            return base.Channel.get_data_tax_commandAsync(nbLine);
+            return base.Channel.get_data_tax_orderAsync(nbLine);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] delete_data_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] delete_data_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list)
         {
-            return base.Channel.delete_data_tax_command(tax_command_array_list);
+            return base.Channel.delete_data_tax_order(tax_order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> delete_data_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> delete_data_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list)
         {
-            return base.Channel.delete_data_tax_commandAsync(tax_command_array_list);
+            return base.Channel.delete_data_tax_orderAsync(tax_order_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] insert_data_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] insert_data_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list)
         {
-            return base.Channel.insert_data_tax_command(tax_command_array_list);
+            return base.Channel.insert_data_tax_order(tax_order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> insert_data_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> insert_data_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list)
         {
-            return base.Channel.insert_data_tax_commandAsync(tax_command_array_list);
+            return base.Channel.insert_data_tax_orderAsync(tax_order_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] update_data_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] update_data_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list)
         {
-            return base.Channel.update_data_tax_command(tax_command_array_list);
+            return base.Channel.update_data_tax_order(tax_order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> update_data_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] tax_command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> update_data_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] tax_order_array_list)
         {
-            return base.Channel.update_data_tax_commandAsync(tax_command_array_list);
+            return base.Channel.update_data_tax_orderAsync(tax_order_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_data_tax_command_by_id(string id)
+        public virtual QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_data_tax_order_by_id(string id)
         {
-            return base.Channel.get_data_tax_command_by_id(id);
+            return base.Channel.get_data_tax_order_by_id(id);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_data_tax_command_by_idAsync(string id)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_data_tax_order_by_idAsync(string id)
         {
-            return base.Channel.get_data_tax_command_by_idAsync(id);
+            return base.Channel.get_data_tax_order_by_idAsync(id);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_filter_tax_command(QOBDGateway.QOBDServiceReference.Tax_commandFilterQOBD tax_command_array_list_filter)
+        public virtual QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_filter_tax_order(QOBDGateway.QOBDServiceReference.Tax_orderFilterQOBD tax_order_array_list_filter)
         {
-            return base.Channel.get_filter_tax_command(tax_command_array_list_filter);
+            return base.Channel.get_filter_tax_order(tax_order_array_list_filter);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_filter_tax_commandAsync(QOBDGateway.QOBDServiceReference.Tax_commandFilterQOBD tax_command_array_list_filter)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_filter_tax_orderAsync(QOBDGateway.QOBDServiceReference.Tax_orderFilterQOBD tax_order_array_list_filter)
         {
-            return base.Channel.get_filter_tax_commandAsync(tax_command_array_list_filter);
+            return base.Channel.get_filter_tax_orderAsync(tax_order_array_list_filter);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.Tax_commandQOBD[] get_data_tax_command_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.Tax_orderQOBD[] get_data_tax_order_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_tax_command_by_command_list(command_array_list);
+            return base.Channel.get_data_tax_order_by_order_list(order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_commandQOBD[]> get_data_tax_command_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Tax_orderQOBD[]> get_data_tax_order_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_tax_command_by_command_listAsync(command_array_list);
+            return base.Channel.get_data_tax_order_by_order_listAsync(order_array_list);
         }
 
         public virtual QOBDGateway.QOBDServiceReference.Tax_itemQOBD[] get_data_tax_item(string nbLine)
@@ -1750,14 +1750,14 @@ namespace QOBDGateway.Classes
             return base.Channel.get_filter_notificationAsync(notification_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_command_list(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_notification_by_command_list(command_array_list);
+            return base.Channel.get_data_notification_by_order_list(order_array_list);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_command_listAsync(QOBDGateway.QOBDServiceReference.CommandsQOBD[] command_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list)
         {
-            return base.Channel.get_data_notification_by_command_listAsync(command_array_list);
+            return base.Channel.get_data_notification_by_order_listAsync(order_array_list);
         }
 
         public virtual QOBDGateway.QOBDServiceReference.NotificationQOBD[] get_data_notification_by_client_list(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list)
@@ -1768,6 +1768,276 @@ namespace QOBDGateway.Classes
         public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.NotificationQOBD[]> get_data_notification_by_client_listAsync(QOBDGateway.QOBDServiceReference.ClientQOBD[] client_array_list)
         {
             return base.Channel.get_data_notification_by_client_listAsync(client_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user(string nbLine)
+        {
+            return base.Channel.get_data_user(nbLine);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_userAsync(string nbLine)
+        {
+            return base.Channel.get_data_userAsync(nbLine);
+        }
+
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] delete_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        {
+            return base.Channel.delete_data_user(user_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> delete_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        {
+            return base.Channel.delete_data_userAsync(user_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] insert_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        {
+            return base.Channel.insert_data_user(user_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> insert_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        {
+            return base.Channel.insert_data_userAsync(user_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] update_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        {
+            return base.Channel.update_data_user(user_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> update_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        {
+            return base.Channel.update_data_userAsync(user_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user_by_id(string id)
+        {
+            return base.Channel.get_data_user_by_id(id);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_user_by_idAsync(string id)
+        {
+            return base.Channel.get_data_user_by_idAsync(id);
+        }
+
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_filter_user(QOBDGateway.QOBDServiceReference.UserFilterChatRoom user_array_list_filter)
+        {
+            return base.Channel.get_filter_user(user_array_list_filter);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_filter_userAsync(QOBDGateway.QOBDServiceReference.UserFilterChatRoom user_array_list_filter)
+        {
+            return base.Channel.get_filter_userAsync(user_array_list_filter);
+        }
+
+        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user_by_user_discussion_list(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        {
+            return base.Channel.get_data_user_by_user_discussion_list(user_discussion_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_user_by_user_discussion_listAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        {
+            return base.Channel.get_data_user_by_user_discussion_listAsync(user_discussion_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_data_message(string nbLine)
+        {
+            return base.Channel.get_data_message(nbLine);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_data_messageAsync(string nbLine)
+        {
+            return base.Channel.get_data_messageAsync(nbLine);
+        }
+
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] delete_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        {
+            return base.Channel.delete_data_message(message_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> delete_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        {
+            return base.Channel.delete_data_messageAsync(message_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] insert_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        {
+            return base.Channel.insert_data_message(message_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> insert_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        {
+            return base.Channel.insert_data_messageAsync(message_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] update_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        {
+            return base.Channel.update_data_message(message_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> update_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        {
+            return base.Channel.update_data_messageAsync(message_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_data_message_by_id(string id)
+        {
+            return base.Channel.get_data_message_by_id(id);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_data_message_by_idAsync(string id)
+        {
+            return base.Channel.get_data_message_by_idAsync(id);
+        }
+
+        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_filter_message(QOBDGateway.QOBDServiceReference.MessageFilterChatRoom message_array_list_filter)
+        {
+            return base.Channel.get_filter_message(message_array_list_filter);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_filter_messageAsync(QOBDGateway.QOBDServiceReference.MessageFilterChatRoom message_array_list_filter)
+        {
+            return base.Channel.get_filter_messageAsync(message_array_list_filter);
+        }
+
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion(string nbLine)
+        {
+            return base.Channel.get_data_discussion(nbLine);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussionAsync(string nbLine)
+        {
+            return base.Channel.get_data_discussionAsync(nbLine);
+        }
+
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] delete_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        {
+            return base.Channel.delete_data_discussion(discussion_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> delete_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        {
+            return base.Channel.delete_data_discussionAsync(discussion_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] insert_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        {
+            return base.Channel.insert_data_discussion(discussion_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> insert_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        {
+            return base.Channel.insert_data_discussionAsync(discussion_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] update_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        {
+            return base.Channel.update_data_discussion(discussion_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> update_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        {
+            return base.Channel.update_data_discussionAsync(discussion_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_id(string id)
+        {
+            return base.Channel.get_data_discussion_by_id(id);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_idAsync(string id)
+        {
+            return base.Channel.get_data_discussion_by_idAsync(id);
+        }
+
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_filter_discussion(QOBDGateway.QOBDServiceReference.DiscussionFilterChatRoom discussion_array_list_filter)
+        {
+            return base.Channel.get_filter_discussion(discussion_array_list_filter);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_filter_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionFilterChatRoom discussion_array_list_filter)
+        {
+            return base.Channel.get_filter_discussionAsync(discussion_array_list_filter);
+        }
+
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_user_discussion_list(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        {
+            return base.Channel.get_data_discussion_by_user_discussion_list(user_discussion_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_user_discussion_listAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        {
+            return base.Channel.get_data_discussion_by_user_discussion_listAsync(user_discussion_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_message_list(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        {
+            return base.Channel.get_data_discussion_by_message_list(message_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_message_listAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        {
+            return base.Channel.get_data_discussion_by_message_listAsync(message_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_data_user_discussion(string nbLine)
+        {
+            return base.Channel.get_data_user_discussion(nbLine);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_data_user_discussionAsync(string nbLine)
+        {
+            return base.Channel.get_data_user_discussionAsync(nbLine);
+        }
+
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] delete_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        {
+            return base.Channel.delete_data_user_discussion(user_discussion_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> delete_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        {
+            return base.Channel.delete_data_user_discussionAsync(user_discussion_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] insert_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        {
+            return base.Channel.insert_data_user_discussion(user_discussion_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> insert_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        {
+            return base.Channel.insert_data_user_discussionAsync(user_discussion_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] update_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        {
+            return base.Channel.update_data_user_discussion(user_discussion_array_list);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> update_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        {
+            return base.Channel.update_data_user_discussionAsync(user_discussion_array_list);
+        }
+
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_data_user_discussion_by_id(string id)
+        {
+            return base.Channel.get_data_user_discussion_by_id(id);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_data_user_discussion_by_idAsync(string id)
+        {
+            return base.Channel.get_data_user_discussion_by_idAsync(id);
+        }
+
+        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_filter_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionFilterChatRoom user_discussion_array_list_filter)
+        {
+            return base.Channel.get_filter_user_discussion(user_discussion_array_list_filter);
+        }
+
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_filter_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionFilterChatRoom user_discussion_array_list_filter)
+        {
+            return base.Channel.get_filter_user_discussionAsync(user_discussion_array_list_filter);
         }
     }
 }

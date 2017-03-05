@@ -125,7 +125,7 @@ namespace QOBDManagement.ViewModel
                 SelectedAgentModel.TxtClearPasswordVerification = pwd.Password;
                 if (!SelectedAgentModel.TxtClearPassword.Equals(SelectedAgentModel.TxtClearPasswordVerification))
                 {
-                    await Dialog.show("Password are not Identical!");
+                    await Dialog.showAsync("Password are not Identical!");
                 }
             }
         }
@@ -162,11 +162,11 @@ namespace QOBDManagement.ViewModel
                     SelectedAgentModel.Agent.Status = EStatus.Deactivated.ToString();
                     var insertedAgentList = await Bl.BlAgent.InsertAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
                     if (insertedAgentList.Count > 0)
-                        await Dialog.show("Agent " + SelectedAgentModel.Agent.LastName + " Successfully Created!");
+                        await Dialog.showAsync("Agent " + SelectedAgentModel.Agent.LastName + " Successfully Created!");
                     Dialog.IsDialogOpen = false;
                 }
                 else
-                    await Dialog.show("Password are not Identical!");
+                    await Dialog.showAsync("Password are not Identical!");
             }
             else
             {
@@ -175,10 +175,10 @@ namespace QOBDManagement.ViewModel
                     Dialog.showSearch("Updating Agent " + SelectedAgentModel.Agent.LastName + "...");
                     var updatedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
                     if (updatedAgentList.Count > 0)
-                        await Dialog.show("Agent " + SelectedAgentModel.Agent.LastName + " Successfully Updated!");
+                        await Dialog.showAsync("Agent " + SelectedAgentModel.Agent.LastName + " Successfully Updated!");
                     Dialog.IsDialogOpen = false;
                 }else
-                    await Dialog.show("Password are not Identical!");                
+                    await Dialog.showAsync("Password are not Identical!");                
             }
             isPasswordIdentical = false;
         }

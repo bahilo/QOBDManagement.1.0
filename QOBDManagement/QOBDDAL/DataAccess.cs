@@ -5,18 +5,19 @@ using QOBDCommon.Entities;
 using System.Threading.Tasks;
 using System.Threading;
 
-public class DataAccess: IDataAccessManager
+public class DataAccess : IDataAccessManager
 {
-    
+
     public IAgentManager DALAgent { get; set; }
     public IStatisticManager DALStatistic { get; set; }
-    public IOrderManager DALOrder {get; set;}
+    public IOrderManager DALOrder { get; set; }
     public IClientManager DALClient { get; set; }
     public IItemManager DALItem { get; set; }
     public IReferentialManager DALReferential { get; set; }
     public ISecurityManager DALSecurity { get; set; }
     public INotificationManager DALNotification { get; set; }
-    public Func<double,double> ProgressBarFunc { get; set; }
+    public IChatRoomManager DALChatRoom { get; set; }
+    public Func<double, double> ProgressBarFunc { get; set; }
 
     public DataAccess(
                         IAgentManager inDALAgent,
@@ -24,83 +25,81 @@ public class DataAccess: IDataAccessManager
                         IItemManager inDALItem,
                         IOrderManager inDALCommande,
                         ISecurityManager inDALSecurity,
-                        IStatisticManager inDALStatisitc,
+                        IStatisticManager inDALStatistic,
                         IReferentialManager inDALReferential,
-                        INotificationManager inDALNotification
-        )    
+                        INotificationManager inDALNotification,
+                        IChatRoomManager inDALChatRoom
+        )
     {
         this.DALAgent = inDALAgent;
         this.DALClient = inDALClient;
         this.DALOrder = inDALCommande;
         this.DALItem = inDALItem;
-        this.DALStatistic = inDALStatisitc;
+        this.DALStatistic = inDALStatistic;
         this.DALReferential = inDALReferential;
         this.DALSecurity = inDALSecurity;
         this.DALNotification = inDALNotification;
+        this.DALChatRoom = inDALChatRoom;
     }
 
     public void SetUserCredential(Agent authenticatedUser, bool isNewAgentAuthentication = false)
     {
-        //ProgressBarFunc(-1);
-        
         if (isNewAgentAuthentication)
         {
-            Task.Factory.StartNew(() => {
-                DALOrder.progressBarManagement(ProgressBarFunc);
-                DALOrder.initializeCredential(authenticatedUser);
-                //ProgressBarFunc(100);
-            });
+            // Order
+            DALOrder.progressBarManagement(ProgressBarFunc);
+            DALOrder.initializeCredential(authenticatedUser);
+            DALOrder.cacheWebServiceData();
+
+            // Client
+            DALClient.progressBarManagement(ProgressBarFunc);
+            DALClient.initializeCredential(authenticatedUser);
+            DALClient.cacheWebServiceData();            
         }
         else
         {
-            Task.Factory.StartNew(() =>
-            {
-                DALOrder.progressBarManagement(ProgressBarFunc);
-                DALOrder.initializeCredential(authenticatedUser);
-            }).ContinueWith((tsk)=> {
-                Task.Factory.StartNew(() =>
-                {
-                    DALAgent.progressBarManagement(ProgressBarFunc);
-                    DALAgent.initializeCredential(authenticatedUser);
-                });
+            // Order
+            DALOrder.progressBarManagement(ProgressBarFunc);
+            DALOrder.initializeCredential(authenticatedUser);
+            DALOrder.cacheWebServiceData();
 
-                Task.Factory.StartNew(() =>
-                {
-                    DALClient.progressBarManagement(ProgressBarFunc);
-                    DALClient.initializeCredential(authenticatedUser);
-                });
+            // Agent
+            DALAgent.progressBarManagement(ProgressBarFunc);
+            DALAgent.initializeCredential(authenticatedUser);
+            DALAgent.cacheWebServiceData();
 
-                Task.Factory.StartNew(() =>
-                {
-                    DALSecurity.progressBarManagement(ProgressBarFunc);
-                    DALSecurity.initializeCredential(authenticatedUser);
-                });
+            // Client 
+            DALClient.progressBarManagement(ProgressBarFunc);
+            DALClient.initializeCredential(authenticatedUser);
+            DALClient.cacheWebServiceData();
 
-                Task.Factory.StartNew(() =>
-                {
-                    DALItem.progressBarManagement(ProgressBarFunc);
-                    DALItem.initializeCredential(authenticatedUser);
-                });
+            // Security
+            DALSecurity.progressBarManagement(ProgressBarFunc);
+            DALSecurity.initializeCredential(authenticatedUser);
 
-                Task tskReferential = Task.Factory.StartNew(() => {
-                    DALReferential.progressBarManagement(ProgressBarFunc);
-                    DALReferential.initializeCredential(authenticatedUser);
-                });
+            // Item 
+            DALItem.progressBarManagement(ProgressBarFunc);
+            DALItem.initializeCredential(authenticatedUser);
+            DALItem.cacheWebServiceData();
 
-                Task tskNotification = Task.Factory.StartNew(() => {
-                    DALNotification.progressBarManagement(ProgressBarFunc);
-                    DALNotification.initializeCredential(authenticatedUser);
-                });
+            // Referential
+            DALReferential.progressBarManagement(ProgressBarFunc);
+            DALReferential.initializeCredential(authenticatedUser);
+            DALReferential.cacheWebServiceData();
 
-                Thread main = new Thread(delegate () {
-                    DALStatistic.progressBarManagement(ProgressBarFunc);
-                    DALStatistic.initializeCredential(authenticatedUser);
-                });
-                main.SetApartmentState(ApartmentState.STA);
-                main.Start();
-            });
-            
+            // Notification
+            DALNotification.progressBarManagement(ProgressBarFunc);
+            DALNotification.initializeCredential(authenticatedUser);
+            DALNotification.cacheWebServiceData();
+
+            // Statistic
+            DALStatistic.progressBarManagement(ProgressBarFunc);
+            DALStatistic.initializeCredential(authenticatedUser);
+            DALStatistic.cacheWebServiceData();           
         }
+
+        // ChatRoom
+        DALChatRoom.initializeCredential(authenticatedUser);
     }
 
     public void Dispose()

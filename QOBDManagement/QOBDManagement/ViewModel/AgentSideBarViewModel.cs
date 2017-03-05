@@ -164,20 +164,20 @@ namespace QOBDManagement.ViewModel
                     SelectedAgentModel.TxtStatus = EStatus.Active.ToString();
                     updatedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
                     if (updatedAgentList.Count > 0)
-                        await Dialog.show("The Agent " + updatedAgentList[0].LastName + "has been successfully activated!");
+                        await Dialog.showAsync("The Agent " + updatedAgentList[0].LastName + "has been successfully activated!");
                     break;
                 case "deactivate": // change the agent status to deactivated
                     Dialog.showSearch("Deactivating Status...");
                     SelectedAgentModel.TxtStatus = EStatus.Deactivated.ToString();
                     updatedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
                     if (updatedAgentList.Count > 0)
-                        await Dialog.show("The Agent " + updatedAgentList[0].LastName + " has been successfully deactivated!");
+                        await Dialog.showAsync("The Agent " + updatedAgentList[0].LastName + " has been successfully deactivated!");
                     break;
                 case "use": // connect a new user
                     Dialog.showSearch("Please wait while we are dealing with your request...");
-                    var newAgent = await loadNewUser(SelectedAgentModel.Agent.Login, SelectedAgentModel.Agent.HashedPassword);
+                    var newAgent = await loadNewUser(SelectedAgentModel.Agent.UserName, SelectedAgentModel.Agent.HashedPassword);
                     if (newAgent.ID != 0)
-                        await Dialog.show("Your are successfully connected as " + newAgent.FirstName + " " + newAgent.LastName);
+                        await Dialog.showAsync("Your are successfully connected as " + newAgent.FirstName + " " + newAgent.LastName);
                    break;
             }
             Dialog.IsDialogOpen = false;

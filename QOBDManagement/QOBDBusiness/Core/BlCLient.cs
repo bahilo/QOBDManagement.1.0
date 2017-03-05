@@ -37,6 +37,11 @@ namespace QOBDBusiness.Core
                 DAC.DALClient.initializeCredential(user);
         }
 
+        public void cacheWebServiceData()
+        {
+            DAC.DALClient.cacheWebServiceData();
+        }
+
 
         public void setServiceCredential(object channel)
         {

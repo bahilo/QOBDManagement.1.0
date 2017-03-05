@@ -29,7 +29,7 @@ namespace QOBDManagement.Views
         private void AgentDetailView_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext dataContext = new DataContext();
-            if (dataContext.setContext(this) != null)
+            if (dataContext.setWindowContext(this) != null)
             {
                 pwdBox.Password = ((MainWindowViewModel)this.DataContext).AgentViewModel.AgentDetailViewModel.SelectedAgentModel.TxtHashedPassword;
                 pwdBoxVerification.Password = ((MainWindowViewModel)this.DataContext).AgentViewModel.AgentDetailViewModel.SelectedAgentModel.TxtHashedPassword;

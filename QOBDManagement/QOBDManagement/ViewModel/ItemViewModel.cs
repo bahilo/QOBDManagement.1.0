@@ -206,7 +206,6 @@ namespace QOBDManagement.ViewModel
                 var deliveryList = new DeliveryModel().DeliveryListToModelViewList(Bl.BlOrder.searchDelivery(new Delivery { ID = item_delivery.DeliveryId }, ESearchOption.AND));
                 idm.DeliveryModel = (deliveryList.Count > 0) ? deliveryList[0] : new DeliveryModel();
                 output.Add(idm);
-
             }
             return output;
         }

@@ -29,7 +29,7 @@ namespace QOBDManagement.Views
         private async void NotificationView_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext dataContext = new DataContext();
-            if (dataContext.setContext(this) != null)
+            if (dataContext.setWindowContext(this) != null)
             {
                 if (!((MainWindowViewModel)this.DataContext).IsThroughContext)
                     await ((MainWindowViewModel)this.DataContext).NotificationViewModel.loadNotifications();

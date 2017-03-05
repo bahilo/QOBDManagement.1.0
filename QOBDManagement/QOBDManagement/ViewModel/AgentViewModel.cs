@@ -21,16 +21,16 @@ namespace QOBDManagement.ViewModel
         private List<string> _saveSearchParametersList;
         private Func<Object, Object> _page;    
         private List<Agent> _agents;
+        private List<string> _chatUserGroupList;
         private List<Agent> _clientAgentToMoveList;
         private string _title;
 
         //----------------------------[ Models ]------------------
 
         private AgentModel _agentModel;
-        private List<AgentModel> _activeAgentsViewModel;
-        private List<AgentModel> _deactivedAgentsViewModel;
         private AgentDetailViewModel _agentDetailViewModel;
         private IMainWindowViewModel _main;
+        public IDiscussionViewModel _chatDiscussionViewModel;
 
         //----------------------------[ Commands ]------------------
 
@@ -58,14 +58,17 @@ namespace QOBDManagement.ViewModel
             }
         }
 
+        public AgentViewModel(IMainWindowViewModel mainWindowViewModel, IDiscussionViewModel discussion) : this(mainWindowViewModel)
+        {
+            _chatDiscussionViewModel = discussion;
+        }
+
         //----------------------------[ Initialization ]------------------
-        
+
         private void instances()
         {
             _title = "Agent Management";
             _saveSearchParametersList = new List<string>();
-            _deactivedAgentsViewModel = new List<AgentModel>();
-            _activeAgentsViewModel = new List<AgentModel>();
             _clientAgentToMoveList = new List<Agent>();
             _agents = new List<Agent>();
         }
@@ -110,19 +113,17 @@ namespace QOBDManagement.ViewModel
         public List<AgentModel> AgentModelList
         {
             get { return _agentDetailViewModel.AgentModelList; }
-            set { _agentDetailViewModel.AgentModelList = value; onPropertyChange(); }
+            set { _agentDetailViewModel.AgentModelList = value; onPropertyChange(); onPropertyChange("UserModelList"); onPropertyChange("ActiveAgentModelList"); onPropertyChange("DeactivatedAgentModelList"); }
         }
 
         public List<AgentModel> ActiveAgentModelList
         {
-            get { return _activeAgentsViewModel; }
-            set { _activeAgentsViewModel = value; onPropertyChange(); }
+            get { return AgentModelList.Where(x => x.TxtStatus.Equals(EStatus.Active.ToString())).ToList(); }
         }
 
         public List<AgentModel> DeactivatedAgentModelList
         {
-            get { return _deactivedAgentsViewModel; }
-            set { _deactivedAgentsViewModel = value; onPropertyChange("DeactivatedAgentModelList"); }
+            get { return AgentModelList.Where(x => x.TxtStatus.Equals(EStatus.Deactivated.ToString())).ToList(); }
         }
 
         public AgentModel SelectedAgentModel
@@ -142,7 +143,18 @@ namespace QOBDManagement.ViewModel
             get { return _agentDetailViewModel.AgentSideBarViewModel; }
             set { _agentDetailViewModel.AgentSideBarViewModel = value; onPropertyChange("AgentSideBarViewModel"); }
         }
-        
+
+        public List<AgentModel> UserModelList
+        {
+            get { return AgentModelList.Where(x => x.Agent.ID != Bl.BlSecurity.GetAuthenticatedUser().ID).OrderBy(x => x.Agent.IsOnline).ToList(); }
+        }
+
+        public List<string> UserGroupList
+        {
+            get { return _chatUserGroupList; }
+            set { setProperty(ref _chatUserGroupList, value); }
+        }
+
 
 
         //----------------------------[ Actions ]------------------
@@ -173,10 +185,14 @@ namespace QOBDManagement.ViewModel
         {
             Dialog.showSearch("loading...");
             AgentModelList = agentListToModelViewList(Bl.BlAgent.GetAgentData(999));
-            ActiveAgentModelList = AgentModelList.Where(x => x.TxtStatus.Equals(EStatus.Active.ToString())).ToList();
-            DeactivatedAgentModelList = AgentModelList.Where(x => x.TxtStatus.Equals(EStatus.Deactivated.ToString())).ToList();
             Dialog.IsDialogOpen = false;
-        }        
+        } 
+        
+        public async void getAgentOnlineStatus()
+        {
+            // getting the agents from the web service
+            AgentModelList = agentListToModelViewList(await Bl.BlAgent.GetAgentDataAsync(-999));
+        }       
 
         public override void Dispose()
         {
@@ -227,7 +243,7 @@ namespace QOBDManagement.ViewModel
                     clientMovedList = clientMovedList.Concat( await Bl.BlAgent.MoveAgentClient(fromAgent, obj.Agent)).ToList();
                 }
             if (clientMovedList.Count > 0)
-                await Dialog.show(string.Format("CLients moved successfully to {0}.", obj.TxtLastName));
+                await Dialog.showAsync(string.Format("CLients moved successfully to {0}.", obj.TxtLastName));
             _clientAgentToMoveList.Clear();
             Dialog.IsDialogOpen = false;
             _page(this);

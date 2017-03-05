@@ -261,7 +261,7 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch("Moving clients...");
             var movedClientList = await Bl.BlClient.MoveClientAgentBySelection(_saveResultParametersList, obj);
             if (movedClientList.Count > 0)
-                await Dialog.show(movedClientList.Count +" client(s) have been moved to "+obj.LastName+" successfully!");
+                await Dialog.showAsync(movedClientList.Count +" client(s) have been moved to "+obj.LastName+" successfully!");
 
             _saveResultParametersList.Clear();
             Dialog.IsDialogOpen = false;

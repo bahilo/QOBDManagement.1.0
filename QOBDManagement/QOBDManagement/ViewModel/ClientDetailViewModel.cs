@@ -122,7 +122,7 @@ namespace QOBDManagement.ViewModel
         
         public async Task<bool> confirmDelting(string obj)
         {
-            return await Dialog.show(string.Format("Do you want to delete the {0}? ", obj));
+            return await Dialog.showAsync(string.Format("Do you want to delete the {0}? ", obj));
         }
 
         public ClientModel loadContactsAndAddresses(ClientModel cLientModel)
@@ -242,18 +242,18 @@ namespace QOBDManagement.ViewModel
                 }
 
                 if (updateCount > 0)
-                    await Dialog.show("Client has been successfully updated!");
+                    await Dialog.showAsync("Client has been successfully updated!");
                 else if(createCount > 0)
-                    await Dialog.show("Client has been successfully created!");
+                    await Dialog.showAsync("Client has been successfully created!");
             }
             else
             {
                 if (!isClientMandatoryFieldEmpty)
-                    await Dialog.show("Please fill up mandatory Main detail fields.");
+                    await Dialog.showAsync("Please fill up mandatory Main detail fields.");
                 if (!isAddressMandatoryFieldEmpty)
-                    await Dialog.show("Please fill up mandatory Address detail fields.");
+                    await Dialog.showAsync("Please fill up mandatory Address detail fields.");
                 if (!isContactMandatoryFieldEmpty)
-                    await Dialog.show("Please fill up mandatory Contact detail fields.");
+                    await Dialog.showAsync("Please fill up mandatory Contact detail fields.");
             }
 
             Dialog.IsDialogOpen = false;       

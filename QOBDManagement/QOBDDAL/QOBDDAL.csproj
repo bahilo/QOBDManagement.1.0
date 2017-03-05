@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="Classes\QOBDDataSet.cs" />
     <Compile Include="Core\DALAgent.cs" />
+    <Compile Include="Core\DALChatRoom.cs" />
     <Compile Include="Core\DALCLient.cs" />
     <Compile Include="Core\DALOrder.cs" />
     <Compile Include="Core\DALItem.cs" />

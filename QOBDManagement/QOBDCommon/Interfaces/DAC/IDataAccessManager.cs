@@ -1,6 +1,7 @@
 
 using QOBDCommon.Entities;
 using System;
+using System.Threading.Tasks;
 /// <summary>
 ///  An interface defining operations expected of ...
 /// 
@@ -19,6 +20,7 @@ namespace QOBDCommon.Interfaces.DAC
         IReferentialManager DALReferential { get; set; }
         ISecurityManager DALSecurity { get; set; }
         INotificationManager DALNotification { get; set; }
+        IChatRoomManager DALChatRoom { get; set; }
 
         void SetUserCredential(Agent authenticatedUser, bool isNewAgentAuthentication = false);
     } /* end interface IDataAccessManager */

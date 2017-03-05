@@ -243,7 +243,7 @@ namespace QOBDManagement.ViewModel
             await Bl.BlItem.DeleteProviderAsync(SelectedItemModel.ProviderList);
             var notSavedList =  await Bl.BlItem.DeleteItemAsync(new List<Item> { SelectedItemModel.Item  });
             if (notSavedList.Count > 0)
-                await Dialog.show("Item deleted successfully!");
+                await Dialog.showAsync("Item deleted successfully!");
             Dialog.IsDialogOpen = false;
             _page(new ItemViewModel());
         }
@@ -297,7 +297,7 @@ namespace QOBDManagement.ViewModel
                 SelectedItemModel.ProviderList = retrieveProviderFromProvider_item(provider_itemResultList, SelectedItemModel.Item.Source);
 
                 if (itemSavedList.Count > 0)
-                    await Dialog.show("Item has been created successfully!");
+                    await Dialog.showAsync("Item has been created successfully!");
             }
 
             // Otherwise update the current item
@@ -311,7 +311,7 @@ namespace QOBDManagement.ViewModel
                 SelectedItemModel.ProviderList = retrieveProviderFromProvider_item(savedProvider_itemList, SelectedItemModel.Item.Source);
 
                 if (savedItemList.Count > 0)
-                    await Dialog.show("Item has been updated successfully!");
+                    await Dialog.showAsync("Item has been updated successfully!");
             }
 
             Dialog.IsDialogOpen = false;

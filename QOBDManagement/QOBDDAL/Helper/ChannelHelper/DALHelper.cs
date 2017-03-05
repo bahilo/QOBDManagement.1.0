@@ -15,7 +15,7 @@ namespace QOBDDAL.Helper.ChannelHelper
 
     public static class DALHelper
     {
-        
+
         public static Task<TResult> doActionAsync<TInput, TResult>(this Func<TInput, TResult> func, TInput param, [CallerMemberName] string callerName = null) where TResult : new()
         {
             TResult result = new TResult();
@@ -41,7 +41,7 @@ namespace QOBDDAL.Helper.ChannelHelper
 
             ntc.initializeNewTask(taskCompletionSource.Task);
             return ntc.Task;
-         }
+        }
 
         public static Task<TResult> doActionAsync<TResult>(this Func<TResult> func, [CallerMemberName] string callerName = null) where TResult : new()
         {
@@ -68,7 +68,7 @@ namespace QOBDDAL.Helper.ChannelHelper
 
             ntc.initializeNewTask(taskCompletionSource.Task);
             return ntc.Task;
-         }
+        }
 
         public static void doActionAsync(this System.Action action, [CallerMemberName]string callerName = null)
         {
@@ -84,7 +84,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 }
                 catch (Exception ex)
                 {
-                    string ErrorMessage = string.Format("Custom [{0}]: One Error occured - {1}", callerName, (ex.InnerException != null)? ex.InnerException.Message : ex.Message);
+                    string ErrorMessage = string.Format("Custom [{0}]: One Error occured - {1}", callerName, (ex.InnerException != null) ? ex.InnerException.Message : ex.Message);
                     taskCompletionSource.SetException(new Exception(ErrorMessage));
                     Log.error(ErrorMessage);
                 }
@@ -106,12 +106,13 @@ namespace QOBDDAL.Helper.ChannelHelper
             string _constr = "";
             SqlCommand cmd = new SqlCommand();
 
-            lock (_lock)
-            {
-                _constr = System.Configuration.ConfigurationManager.ConnectionStrings["QOBDDAL.Properties.Settings.QCBDDatabaseConnectionString"].ConnectionString;
-                try
+            _constr = System.Configuration.ConfigurationManager.ConnectionStrings["QOBDDAL.Properties.Settings.QCBDDatabaseConnectionString"].ConnectionString;
+
+            using (var connection = new SqlConnection(_constr))
+            {         
+                using (cmd = new SqlCommand(sql, connection))
                 {
-                    using (cmd = new SqlCommand(sql, new SqlConnection(_constr)))
+                    try
                     {
                         if (typeof(T).Equals(typeof(QOBDSet.billsDataTable)))
                             table = new QOBDSet.billsDataTable();
@@ -160,14 +161,10 @@ namespace QOBDDAL.Helper.ChannelHelper
                         cmd.CommandTimeout = 0;
                         table.Load(cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection));
                     }
-                }
-                catch (Exception ex)
-                {
-                    Log.error(ex.Message);
-                }
-                finally
-                {
-                    cmd.Connection.Close();
+                    catch (Exception ex)
+                    {
+                        Log.error(ex.Message);
+                    }
                 }
             }
             return table;
@@ -320,7 +317,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     foreach (var Notification in notificationList)
                     {
                         QOBDSet.notificationsRow NotificationQCBD = dataSet.notifications.Where(x => x.ID == Notification.ID).First();
-                        if(NotificationQCBD.ID != Notification.ID && Notification.ID != 0)
+                        if (NotificationQCBD.ID != Notification.ID && Notification.ID != 0)
                             NotificationQCBD.ID = Notification.ID;
                         NotificationQCBD.BillId = Notification.BillId;
                         NotificationQCBD.Reminder1 = Notification.Reminder1;
@@ -344,7 +341,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Notification.ID);
                 if (Notification.BillId != 0)
                     query = string.Format(query + " {0} BillId LIKE '{1}' ", filterOperator.ToString(), Notification.BillId);
-                
+
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))
                         baseSqlString = baseSqlString + query.Substring(query.IndexOf(filterOperator.ToString()) + filterOperator.ToString().Length);
@@ -588,7 +585,7 @@ namespace QOBDDAL.Helper.ChannelHelper
             return new List<Info>();
         }
 
-        
+
         //====================================================================================
         //===============================[ ActionRecord ]===========================================
         //====================================================================================
@@ -644,7 +641,7 @@ namespace QOBDDAL.Helper.ChannelHelper
         public static QOBDSet.actionRecordsDataTable ActionRecordTypeToDataTable(this List<ActionRecord> actionRecordsList, QOBDSet dataSet)
         {
             object _lock = new object();
-            if (actionRecordsList!= null)
+            if (actionRecordsList != null)
             {
                 if (dataSet != null && dataSet.actionRecords.Count > 0)
                 {
@@ -706,7 +703,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 agent.ID = agentQCBD.ID;
                 agent.FirstName = agentQCBD.FirstName;
                 agent.LastName = agentQCBD.LastName;
-                agent.Login = agentQCBD.Login;
+                agent.UserName = agentQCBD.Login;
                 agent.HashedPassword = agentQCBD.Password;
                 agent.Phone = agentQCBD.Phone;
                 agent.Status = agentQCBD.Status;
@@ -721,11 +718,6 @@ namespace QOBDDAL.Helper.ChannelHelper
             return returnList;
         }
 
-        internal static object NotificationTypeToDataTable(this object listNotification)
-        {
-            throw new NotImplementedException();
-        }
-
         public static QOBDSet.agentsDataTable AgentTypeToDataTable(this List<Agent> agentList)
         {
             object _lock = new object();
@@ -738,7 +730,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     QOBDSet.agentsRow agentQCBD = outputQCBDDataTable.NewagentsRow();
                     agentQCBD.FirstName = agent.FirstName;
                     agentQCBD.LastName = agent.LastName;
-                    agentQCBD.Login = agent.Login;
+                    agentQCBD.Login = agent.UserName;
                     agentQCBD.Password = agent.HashedPassword;
                     agentQCBD.Phone = agent.Phone;
                     agentQCBD.Status = agent.Status;
@@ -746,7 +738,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     agentQCBD.Email = agent.Email;
                     agentQCBD.Fax = agent.Fax;
                     agentQCBD.ListSize = agent.ListSize;
-                    
+
                     lock (_lock)
                     {
                         if (!idList.Contains(agentQCBD.ID))
@@ -773,7 +765,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                         QOBDSet.agentsRow agentQCBD = dataSet.agents.Where(x => x.ID == agent.ID).First();
                         agentQCBD.FirstName = agent.FirstName;
                         agentQCBD.LastName = agent.LastName;
-                        agentQCBD.Login = agent.Login;
+                        agentQCBD.Login = agent.UserName;
                         agentQCBD.Password = agent.HashedPassword;
                         agentQCBD.Phone = agent.Phone;
                         agentQCBD.Status = agent.Status;
@@ -809,8 +801,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} Fax LIKE '{1}' ", filterOperator.ToString(), agent.Fax.Replace("'", "''"));
                 if (!string.IsNullOrEmpty(agent.Email))
                     query = string.Format(query + " {0} Email LIKE '{1}' ", filterOperator.ToString(), agent.Email.Replace("'", "''"));
-                if (!string.IsNullOrEmpty(agent.Login))
-                    query = string.Format(query + " {0} Login LIKE '{1}' ", filterOperator.ToString(), agent.Login.Replace("'", "''"));
+                if (!string.IsNullOrEmpty(agent.UserName))
+                    query = string.Format(query + " {0} Login LIKE '{1}' ", filterOperator.ToString(), agent.UserName.Replace("'", "''"));
                 if (!string.IsNullOrEmpty(agent.HashedPassword))
                     query = string.Format(query + " {0} Password LIKE '{1}' ", filterOperator.ToString(), agent.HashedPassword.Replace("'", "''"));
                 if (!string.IsNullOrEmpty(agent.Admin))
@@ -829,8 +821,8 @@ namespace QOBDDAL.Helper.ChannelHelper
             }
             return new List<Agent>();
         }
-                
-        
+
+
         //====================================================================================
         //===============================[ Order ]===========================================
         //====================================================================================
@@ -1057,7 +1049,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} Tax_value LIKE '{1}' ", filterOperator.ToString(), Tax_command.Tax_value);
                 if (!string.IsNullOrEmpty(Tax_command.Target))
                     query = string.Format(query + " {0} Target LIKE '{1}' ", filterOperator.ToString(), Tax_command.Target);
-                
+
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))
                         baseSqlString = baseSqlString + query.Substring(query.IndexOf(filterOperator.ToString()) + filterOperator.ToString().Length);
@@ -1132,7 +1124,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     ClientQCBD.MaxCredit = Client.MaxCredit;
                     ClientQCBD.Rib = Client.Rib;
                     ClientQCBD.PayDelay = Client.PayDelay;
-                    
+
                     lock (_lock)
                     {
                         if (!idList.Contains(ClientQCBD.ID))
@@ -1627,7 +1619,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} Comment2 LIKE '{1}' ", filterOperator.ToString(), Bill.Comment2.Replace("'", "''"));
                 if (!string.IsNullOrEmpty(Bill.Comment1))
                     query = string.Format(query + " {0} Comment1 LIKE '{1}' ", filterOperator.ToString(), Bill.Comment1.Replace("'", "''"));
-                
+
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))
                         baseSqlString = baseSqlString + query.Substring(query.IndexOf(filterOperator.ToString()) + filterOperator.ToString().Length);
@@ -1747,7 +1739,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} BillId LIKE '{1}' ", filterOperator.ToString(), Delivery.BillId);
                 if (Delivery.Package != 0)
                     query = string.Format(query + " {0} Package LIKE '{1}' ", filterOperator.ToString(), Delivery.Package);
-                
+
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))
                         baseSqlString = baseSqlString + query.Substring(query.IndexOf(filterOperator.ToString()) + filterOperator.ToString().Length);
@@ -2519,7 +2511,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 string baseSqlString = "SELECT * FROM tax_items WHERE ";
                 string defaultSqlString = "SELECT * FROM tax_items WHERE 1=0 ";
                 object _lock = new object(); string query = "";
-                
+
                 if (Tax_item.ID != 0)
                     query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Tax_item.ID);
                 if (Tax_item.Tax_value != 0)

@@ -363,7 +363,7 @@ namespace QOBDManagement.ViewModel
             if (agent_roleProcessedList.Count > 0 || isRightsUpdatedSuccessfully)
             {
                 updateAuthenticatedUserRoles(agentModifiedList.Where(x => x.Agent.ID == Bl.BlSecurity.GetAuthenticatedUser().ID).SelectMany(x => x.RoleList.Select(y=>new RoleModel { Role = y })).ToList());
-                await Dialog.show("Security updated successfuly!");
+                await Dialog.showAsync("Security updated successfuly!");
                 _main.CommandNavig.raiseCanExecuteActionChanged();
                 //_page(this);
             }

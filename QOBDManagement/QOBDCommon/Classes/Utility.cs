@@ -237,13 +237,31 @@ namespace QOBDCommon.Classes
             // check if it is a full path file or only directory 
             var pathChecking = Path.GetFileName(path).Split('.'); 
 
-            if (!Directory.Exists(path) && pathChecking.Count() == 1)
-                Directory.CreateDirectory(path);
-            else if (!Directory.Exists(path) && pathChecking.Count() > 1)
+            if (!Directory.Exists(path) && pathChecking.Count() > 1)
                 Directory.CreateDirectory(pathChecking[0]);
 
 
             return Path.GetFullPath(path);
+        }
+
+        public static Dictionary<T, P> concat<T, P>(Dictionary<T, P> dictTarget, Dictionary<T, P> dictSource)
+        {
+            foreach (var dict in dictSource)
+            {
+                dictTarget.Add(dict.Key, dict.Value);
+            }
+
+            return dictTarget;
+        }
+
+        public static List<T> concat<T>(List<T> Target, List<T> Source)
+        {
+            foreach (var value in Source)
+            {
+                Target.Add(value);
+            }
+
+            return Target;
         }
 
 

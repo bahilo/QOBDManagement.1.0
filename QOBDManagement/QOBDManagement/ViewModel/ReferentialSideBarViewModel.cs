@@ -71,7 +71,7 @@ namespace QOBDManagement.ViewModel
             switch (obj.ToLower())
             {
                 case "monitoring":
-                    await Dialog.show("Navig to Monitoring");
+                    await Dialog.showAsync("Navig to Monitoring");
                     break;
                 case "credential":
                     _page(new OptionSecurityViewModel());

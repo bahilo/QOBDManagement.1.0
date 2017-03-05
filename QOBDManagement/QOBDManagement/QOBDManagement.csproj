@@ -51,6 +51,10 @@
       <HintPath>..\packages\MaterialDesignThemes.2.2.1.750\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Expression.Drawing.3.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -74,11 +78,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\DataContext.cs" />
+    <Compile Include="Classes\DiscussionGroupNameConverter.cs" />
     <Compile Include="Classes\TriggerConverter.cs" />
     <Compile Include="Enums\EPrefix.cs" />
+    <Compile Include="Enums\EServiceCommunication.cs" />
     <Compile Include="Interfaces\IAgentViewModel.cs" />
     <Compile Include="Interfaces\ICart.cs" />
+    <Compile Include="Interfaces\IChatRoom.cs" />
     <Compile Include="Interfaces\IClientViewModel.cs" />
+    <Compile Include="Interfaces\IDiscussionViewModel.cs" />
     <Compile Include="Interfaces\IHomeViewModel.cs" />
     <Compile Include="Interfaces\IItemViewModel.cs" />
     <Compile Include="Interfaces\IMainWindowViewModel.cs" />
@@ -91,19 +99,24 @@
     <Compile Include="Interfaces\IStatisticViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Models\AddressModel.cs" />
+    <Compile Include="Models\DiscussionModel.cs" />
+    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\OrderSearchModel.cs" />
     <Compile Include="ViewModel\AgentDetailViewModel.cs" />
     <Compile Include="ViewModel\AgentSideBarViewModel.cs" />
     <Compile Include="ViewModel\AgentViewModel.cs" />
+    <Compile Include="ViewModel\ChatRoomViewModel.cs" />
     <Compile Include="ViewModel\ClientDetailViewModel.cs" />
     <Compile Include="ViewModel\CLientSideBarViewModel.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Compile Include="ViewModel\ConfirmationViewModel.cs" />
+    <Compile Include="ViewModel\DiscussionViewModel.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\ItemDetailViewModel.cs" />
     <Compile Include="ViewModel\ItemSideBarViewModel.cs" />
     <Compile Include="ViewModel\ItemViewModel.cs" />
+    <Compile Include="ViewModel\MessageViewModel.cs" />
     <Compile Include="ViewModel\NotificationSideBarViewModel.cs" />
     <Compile Include="ViewModel\NotificationViewModel.cs" />
     <Compile Include="ViewModel\OptionDataAndDisplayViewModel.cs" />
@@ -126,6 +139,15 @@
     </Compile>
     <Compile Include="Views\AgentView.xaml.cs">
       <DependentUpon>AgentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChatGroup.xaml.cs">
+      <DependentUpon>ChatGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChatHistoryView.xaml.cs">
+      <DependentUpon>ChatHistoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChatRoomView.xaml.cs">
+      <DependentUpon>ChatRoomView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ClientDetailView.xaml.cs">
       <DependentUpon>ClientDetailView.xaml</DependentUpon>
@@ -150,6 +172,9 @@
     </Compile>
     <Compile Include="Views\ItemView.xaml.cs">
       <DependentUpon>ItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainChatRoomWindow.xaml.cs">
+      <DependentUpon>MainChatRoomWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NotificationSideBarView.xaml.cs">
       <DependentUpon>NotificationSideBarView.xaml</DependentUpon>
@@ -235,6 +260,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ChatGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChatHistoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChatRoomView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ClientDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -264,6 +301,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainChatRoomWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

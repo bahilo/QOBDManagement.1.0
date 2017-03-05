@@ -19,6 +19,8 @@ namespace QOBDCommon.Interfaces.DAC
 
         void initializeCredential(Agent user);
 
+        void cacheWebServiceData();
+
         List<Statistic> GetStatisticData(int nbLine);
 
         List<Statistic> searchStatistic(Statistic statistic, ESearchOption filterOperator);

@@ -89,26 +89,6 @@
                 <Views:OrderDetailView/>
             </DataTemplate>
 
-            <!-- Side Bar --><!--
-            <DataTemplate DataType="{x:Type ViewModel:CLientSideBarViewModel}">
-                <Views:CLientSideBarView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModel:AgentSideBarViewModel}">
-                <Views:AgentSideBarView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModel:OrderSideBarViewModel}">
-                <Views:OrderSideBarView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModel:ItemSideBarViewModel}">
-                <Views:ItemSideBarView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModel:ReferentialSideBarViewModel}">
-                <Views:OptionSideBarView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModel:NotificationSideBarViewModel}">
-                <Views:NotificationView/>
-            </DataTemplate>-->
-
         </ResourceDictionary>
     </Window.Resources>
 
@@ -142,8 +122,12 @@
                            Height="{Binding DataContext.HeaderImageDisplay.TxtHeight, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1"  HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnEmail" ToolTip="Send Email">
-                            <materialDesign:PackIcon Kind="Email" />
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnEmail" ToolTip="New Messages"
+                                        Command="{Binding NewMessageHomePageCommand}">
+                            <WrapPanel>
+                                <TextBlock Text="{Binding ChatRoomViewModel.DiscussionViewModel.TxtNbNewMessage, UpdateSourceTrigger=PropertyChanged}" Foreground="Black"/>
+                                <materialDesign:PackIcon Kind="MessageAlert" />
+                            </WrapPanel>
                         </Button>
                         <Separator Margin="10 0 10 0" />
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">

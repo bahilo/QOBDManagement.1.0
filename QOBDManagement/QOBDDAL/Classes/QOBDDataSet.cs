@@ -14,320 +14,8 @@ namespace QOBDDAL.Classes
 {
     public class QOBDDataSet : IQOBDSet
     {
-        private QOBDSet _dataSet;
-        private agentsTableAdapter _agentsTableAdapter;
-        private clientsTableAdapter _clientsTableAdapter;
-        private itemsTableAdapter _itemsTableAdapter;
-        private billsTableAdapter _billsTableAdapter;
-        private actionRecordsTableAdapter _actionRecordsTableAdapter;
-        private addressesTableAdapter _addressesTableAdapter;
-        private auto_refsTableAdapter _auto_refsTableAdapter;
-        private contactsTableAdapter _contactsTableAdapter;
-        private deliveriesTableAdapter _deliveriesTableAdapter;
-        private infosTableAdapter _infosTableAdapter;
-        private item_deliveriesTableAdapter _item_deliveriesTableAdapter;
-        private notificationsTableAdapter _notificationsTableAdapter;
-        private provider_itemsTableAdapter _provider_itemsTableAdapter;
-        private providersTableAdapter _providersTableAdapter;
-        private statisticsTableAdapter _statisticsTableAdapter;
-        private order_itemsTableAdapter _order_itemsTableAdapter;
-        private taxesTableAdapter _taxesTableAdapter;
-        private ordersTableAdapter _ordersTableAdapter;
-        private tax_ordersTableAdapter _tax_ordersTableAdapter;
-        private tax_itemsTableAdapter _tax_itemsTableAdapter;
-
-        public QOBDDataSet()
-        {
-            _dataSet = new QOBDSet();
-            _agentsTableAdapter = new agentsTableAdapter();
-            _clientsTableAdapter = new clientsTableAdapter();
-            _itemsTableAdapter = new itemsTableAdapter();
-            _billsTableAdapter = new billsTableAdapter();
-            _actionRecordsTableAdapter = new actionRecordsTableAdapter();
-            _addressesTableAdapter = new addressesTableAdapter();
-            _auto_refsTableAdapter = new auto_refsTableAdapter();
-            _contactsTableAdapter = new contactsTableAdapter();
-            _deliveriesTableAdapter = new deliveriesTableAdapter();
-            _infosTableAdapter = new infosTableAdapter();
-            _item_deliveriesTableAdapter = new item_deliveriesTableAdapter();
-            _notificationsTableAdapter = new notificationsTableAdapter();
-            _provider_itemsTableAdapter = new provider_itemsTableAdapter();
-            _providersTableAdapter = new providersTableAdapter();
-            _statisticsTableAdapter = new statisticsTableAdapter();
-            _order_itemsTableAdapter = new order_itemsTableAdapter();
-            _taxesTableAdapter = new taxesTableAdapter();
-            _ordersTableAdapter = new ordersTableAdapter();
-            _tax_ordersTableAdapter = new tax_ordersTableAdapter();
-            _tax_itemsTableAdapter = new tax_itemsTableAdapter();
-        }
+                       
         
-
-        //----------------------------[ Properties ]------------------
-
-        #region[ Properties ]
-
-        public actionRecordsTableAdapter actionRecordsTableAdapter
-        {
-            get
-            {
-                return _actionRecordsTableAdapter;
-            }
-
-            set
-            {
-                _actionRecordsTableAdapter = value;
-            }
-        }
-
-        public addressesTableAdapter addressesTableAdapter
-        {
-            get
-            {
-                return _addressesTableAdapter;
-            }
-
-            set
-            {
-                _addressesTableAdapter = value;
-            }
-        }
-
-        public agentsTableAdapter agentsTableAdapter
-        {
-            get
-            {
-                return _agentsTableAdapter;
-            }
-
-            set
-            {
-                _agentsTableAdapter = value;
-            }
-        }
-
-        public auto_refsTableAdapter auto_refsTableAdapter
-        {
-            get
-            {
-                return _auto_refsTableAdapter;
-            }
-
-            set
-            {
-                _auto_refsTableAdapter = value;
-            }
-        }
-
-        public billsTableAdapter billsTableAdapter
-        {
-            get
-            {
-                return _billsTableAdapter;
-            }
-
-            set
-            {
-                _billsTableAdapter = value;
-            }
-        }
-
-        public clientsTableAdapter clientsTableAdapter
-        {
-            get
-            {
-                return _clientsTableAdapter;
-            }
-
-            set
-            {
-                _clientsTableAdapter = value;
-            }
-        }
-
-        public contactsTableAdapter contactsTableAdapter
-        {
-            get
-            {
-                return _contactsTableAdapter;
-            }
-
-            set
-            {
-                _contactsTableAdapter = value;
-            }
-        }
-
-        public deliveriesTableAdapter deliveriesTableAdapter
-        {
-            get
-            {
-                return _deliveriesTableAdapter;
-            }
-
-            set
-            {
-                _deliveriesTableAdapter = value;
-            }
-        }
-
-        public infosTableAdapter infosTableAdapter
-        {
-            get
-            {
-                return _infosTableAdapter;
-            }
-
-            set
-            {
-                _infosTableAdapter = value;
-            }
-        }
-
-        public itemsTableAdapter itemsTableAdapter
-        {
-            get
-            {
-                return _itemsTableAdapter;
-            }
-
-            set
-            {
-                _itemsTableAdapter = value;
-            }
-        }
-
-        public item_deliveriesTableAdapter item_deliveriesTableAdapter
-        {
-            get
-            {
-                return _item_deliveriesTableAdapter;
-            }
-
-            set
-            {
-                _item_deliveriesTableAdapter = value;
-            }
-        }
-
-        public notificationsTableAdapter notificationsTableAdapter
-        {
-            get
-            {
-                return _notificationsTableAdapter;
-            }
-
-            set
-            {
-                _notificationsTableAdapter = value;
-            }
-        }
-
-        public ordersTableAdapter ordersTableAdapter
-        {
-            get
-            {
-                return _ordersTableAdapter;
-            }
-
-            set
-            {
-                _ordersTableAdapter = value;
-            }
-        }
-
-        public order_itemsTableAdapter order_itemsTableAdapter
-        {
-            get
-            {
-                return _order_itemsTableAdapter;
-            }
-
-            set
-            {
-                _order_itemsTableAdapter = value;
-            }
-        }
-
-        public providersTableAdapter providersTableAdapter
-        {
-            get
-            {
-                return _providersTableAdapter;
-            }
-
-            set
-            {
-                _providersTableAdapter = value;
-            }
-        }
-
-        public provider_itemsTableAdapter provider_itemsTableAdapter
-        {
-            get
-            {
-                return _provider_itemsTableAdapter;
-            }
-
-            set
-            {
-                _provider_itemsTableAdapter = value;
-            }
-        }
-
-        public statisticsTableAdapter statisticsTableAdapter
-        {
-            get
-            {
-                return _statisticsTableAdapter;
-            }
-
-            set
-            {
-                _statisticsTableAdapter = value;
-            }
-        }
-
-        public taxesTableAdapter taxesTableAdapter
-        {
-            get
-            {
-                return _taxesTableAdapter;
-            }
-
-            set
-            {
-                _taxesTableAdapter = value;
-            }
-        }
-
-        public tax_itemsTableAdapter tax_itemsTableAdapter
-        {
-            get
-            {
-                return _tax_itemsTableAdapter;
-            }
-
-            set
-            {
-                _tax_itemsTableAdapter = value;
-            }
-        }
-
-        public tax_ordersTableAdapter tax_ordersTableAdapter
-        {
-            get
-            {
-                return _tax_ordersTableAdapter;
-            }
-
-            set
-            {
-                _tax_ordersTableAdapter = value;
-            }
-        }
-
-        #endregion
-
         //----------------------------[ Actions ]------------------
 
         #region[ Order Commands ]
@@ -336,32 +24,38 @@ namespace QOBDDAL.Classes
 
         public int DeleteOrder(int orderId)
         {
-            return _ordersTableAdapter.Delete1(orderId);
+            using (var ordersTableAdapter = new ordersTableAdapter())
+                return ordersTableAdapter.Delete1(orderId);
         }
 
         public int DeleteTax_order(int tax_orderId)
         {
-            return tax_ordersTableAdapter.Delete1(tax_orderId);
+            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
+                return tax_ordersTableAdapter.Delete1(tax_orderId);
         }
 
         public int DeleteOrder_item(int order_itemId)
         {
-            return order_itemsTableAdapter.Delete1(order_itemId);
+            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
+                return order_itemsTableAdapter.Delete1(order_itemId);
         }
 
         public int DeleteTax(int taxId)
         {
-            return taxesTableAdapter.Delete1(taxId);
+            using (var taxesTableAdapter = new taxesTableAdapter())
+                return taxesTableAdapter.Delete1(taxId);
         }
 
         public int DeleteBill(int billId)
         {
-            return billsTableAdapter.Delete1(billId);
+            using (var billsTableAdapter = new billsTableAdapter())
+                return billsTableAdapter.Delete1(billId);
         }
 
         public int DeleteDelivery(int deliveryId)
         {
-            return deliveriesTableAdapter.Delete1(deliveryId);
+            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
+                return deliveriesTableAdapter.Delete1(deliveryId);
         }
 
 
@@ -369,37 +63,44 @@ namespace QOBDDAL.Classes
 
         public int UpdateOrder(QOBDSet.commandsDataTable orderDataTable)
         {
-            return _ordersTableAdapter.Update(orderDataTable);
+            using (var ordersTableAdapter = new ordersTableAdapter())
+                return ordersTableAdapter.Update(orderDataTable);
         }
 
         public int UpdateTax_order(QOBDSet.tax_commandsDataTable tax_orderDataTable)
         {
-            return tax_ordersTableAdapter.Update(tax_orderDataTable);
+            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
+                return tax_ordersTableAdapter.Update(tax_orderDataTable);
         }
 
         public int UpdateOrder_item(QOBDSet.command_itemsDataTable order_itemDataTable)
         {
-            return order_itemsTableAdapter.Update(order_itemDataTable);
+            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
+                return order_itemsTableAdapter.Update(order_itemDataTable);
         }
 
         public int UpdateTax(QOBDSet.taxesDataTable taxDataTable)
         {
-            return taxesTableAdapter.Update(taxDataTable);
+            using (var taxesTableAdapter = new taxesTableAdapter())
+                return taxesTableAdapter.Update(taxDataTable);
         }
 
         public int UpdateBill(QOBDSet.billsDataTable billDataTable)
         {
-            return billsTableAdapter.Update(billDataTable);
+            using (var billsTableAdapter = new billsTableAdapter())
+                return billsTableAdapter.Update(billDataTable);
         }
 
         public int UpdateDelivery(QOBDSet.deliveriesDataTable deliveryDataTable)
         {
-            return deliveriesTableAdapter.Update(deliveryDataTable);
+            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
+                return deliveriesTableAdapter.Update(deliveryDataTable);
         }
 
         public int UpdateDelivery(Delivery delivery)
         {
-            return deliveriesTableAdapter.Update1(
+            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
+                return deliveriesTableAdapter.Update1(
                                                 delivery.OrderId,
                                                 delivery.BillId,
                                                 delivery.Package,
@@ -410,7 +111,8 @@ namespace QOBDDAL.Classes
 
         public int LoadOrder(Order order)
         {
-            return ordersTableAdapter.load_data_order(
+            using (var ordersTableAdapter = new ordersTableAdapter())
+                return ordersTableAdapter.load_data_order(
                                                 order.AgentId,
                                                 order.ClientId,
                                                 order.Comment1,
@@ -426,7 +128,8 @@ namespace QOBDDAL.Classes
 
         public int LoadTax_order(Tax_order tax_order)
         {
-            return tax_ordersTableAdapter.load_data_tax_order(
+            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
+                return tax_ordersTableAdapter.load_data_tax_order(
                                                 tax_order.OrderId,
                                                 tax_order.TaxId,
                                                 tax_order.Date_insert,
@@ -437,7 +140,8 @@ namespace QOBDDAL.Classes
 
         public int LoadOrder_item(Order_item order_item)
         {
-            return order_itemsTableAdapter.load_order_item(
+            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
+                return order_itemsTableAdapter.load_order_item(
                                                 order_item.OrderId,
                                                 order_item.ItemId,
                                                 order_item.Item_ref,
@@ -453,7 +157,8 @@ namespace QOBDDAL.Classes
 
         public int LoadTax(Tax tax)
         {
-            return taxesTableAdapter.load_data_tax(
+            using (var taxesTableAdapter = new taxesTableAdapter())
+                return taxesTableAdapter.load_data_tax(
                                             tax.Type,
                                             tax.Date_insert,
                                             tax.Value.ToString(),
@@ -464,7 +169,8 @@ namespace QOBDDAL.Classes
 
         public int LoadBill(Bill bill)
         {
-            return billsTableAdapter.load_data_bill(
+            using (var billsTableAdapter = new billsTableAdapter())
+                return billsTableAdapter.load_data_bill(
                                             bill.ClientId,
                                             bill.OrderId,
                                             bill.PayMod,
@@ -480,7 +186,8 @@ namespace QOBDDAL.Classes
 
         public int LoadDelivery(Delivery delivery)
         {
-            return deliveriesTableAdapter.load_data_delivery(
+            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
+                return deliveriesTableAdapter.load_data_delivery(
                                             delivery.OrderId,
                                             delivery.BillId,
                                             delivery.Package,
@@ -494,112 +201,134 @@ namespace QOBDDAL.Classes
 
         public List<Order> GetOrderData()
         {
-            return _ordersTableAdapter.GetData().DataTableTypeToOrder();
+            using (var ordersTableAdapter = new ordersTableAdapter())
+                return ordersTableAdapter.GetData().DataTableTypeToOrder();
         }
 
         public List<Order> GetOrderDataById(int id)
         {
-            return _ordersTableAdapter.get_order_by_id(id).DataTableTypeToOrder();
+            using (var ordersTableAdapter = new ordersTableAdapter())
+                return ordersTableAdapter.get_order_by_id(id).DataTableTypeToOrder();
         }
 
         public List<Tax_order> GetTax_orderData()
         {
-            return tax_ordersTableAdapter.GetData().DataTableTypeToTax_order();
+            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
+                return tax_ordersTableAdapter.GetData().DataTableTypeToTax_order();
         }
 
         public List<Tax_order> GetTax_orderByOrderId(int orderId)
         {
-            return tax_ordersTableAdapter.get_tax_order_by_order_id(orderId).DataTableTypeToTax_order();
+            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
+                return tax_ordersTableAdapter.get_tax_order_by_order_id(orderId).DataTableTypeToTax_order();
         }
 
         public List<Tax_order> GetTax_orderDataById(int id)
         {
-            return tax_ordersTableAdapter.get_tax_order_by_id(id).DataTableTypeToTax_order();
+            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
+                return tax_ordersTableAdapter.get_tax_order_by_id(id).DataTableTypeToTax_order();
         }
 
         public List<Order_item> GetOrder_itemData()
         {
-            return order_itemsTableAdapter.GetData().DataTableTypeToOrder_item();
+            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
+                return order_itemsTableAdapter.GetData().DataTableTypeToOrder_item();
         }
 
         public List<Order_item> GetOrder_itemDataById(int id)
         {
-            return order_itemsTableAdapter.get_order_item_by_id(id).DataTableTypeToOrder_item();
+            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
+                return order_itemsTableAdapter.get_order_item_by_id(id).DataTableTypeToOrder_item();
         }
 
         public List<Order_item> GetOrder_itemDataByOrderId(int orderId)
         {
-            return order_itemsTableAdapter.get_order_item_by_order_id(orderId).DataTableTypeToOrder_item();
+            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
+                return order_itemsTableAdapter.get_order_item_by_order_id(orderId).DataTableTypeToOrder_item();
         }
 
         public List<Tax> GetTaxData()
         {
-            return taxesTableAdapter.GetData().DataTableTypeToTax();
+            using (var taxesTableAdapter = new taxesTableAdapter())
+                return taxesTableAdapter.GetData().DataTableTypeToTax();
         }
 
         public List<Tax> GetTaxDataById(int id)
         {
-            return taxesTableAdapter.get_tax_by_id(id).DataTableTypeToTax();
+            using (var taxesTableAdapter = new taxesTableAdapter())
+                return taxesTableAdapter.get_tax_by_id(id).DataTableTypeToTax();
         }
 
         public List<Bill> GetBillData()
         {
-            return billsTableAdapter.GetData().DataTableTypeToBill();
+            using (var billsTableAdapter = new billsTableAdapter())
+                return billsTableAdapter.GetData().DataTableTypeToBill();
         }
 
         public List<Bill> GetBillDataById(int id)
         {
-            return billsTableAdapter.get_bill_by_id(id).DataTableTypeToBill();
+            using (var billsTableAdapter = new billsTableAdapter())
+                return billsTableAdapter.get_bill_by_id(id).DataTableTypeToBill();
         }
 
         public List<Bill> GetBillDataByOrderId(int orderId)
         {
-            return billsTableAdapter.get_bill_by_order_id(orderId).DataTableTypeToBill();
+            using (var billsTableAdapter = new billsTableAdapter())
+                return billsTableAdapter.get_bill_by_order_id(orderId).DataTableTypeToBill();
         }
 
         public List<Delivery> GetDeliveryData()
         {
-            return deliveriesTableAdapter.GetData().DataTableTypeToDelivery();
+            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
+                return deliveriesTableAdapter.GetData().DataTableTypeToDelivery();
         }
 
         public List<Delivery> GetDeliveryDataById(int id)
         {
-            return deliveriesTableAdapter.get_delivery_by_id(id).DataTableTypeToDelivery();
+            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
+                return deliveriesTableAdapter.get_delivery_by_id(id).DataTableTypeToDelivery();
         }
 
         public List<Delivery> GetDeliveryDataByOrderId(int orderId)
         {
-            return _deliveriesTableAdapter.get_delivery_by_order_id(orderId).DataTableTypeToDelivery();
+            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
+                return deliveriesTableAdapter.get_delivery_by_order_id(orderId).DataTableTypeToDelivery();
         }
 
         public void FillOrderDataTableById(QOBDSet.commandsDataTable irderDataTable, int id)
         {
-            throw new NotImplementedException();
+            using (var ordersTableAdapter = new ordersTableAdapter())
+                ordersTableAdapter.FillById(irderDataTable, id);
         }
 
         public void FillTax_orderDataTableById(QOBDSet.tax_commandsDataTable taxOrderDataTable, int id)
         {
-            tax_ordersTableAdapter.FillById(taxOrderDataTable, id);
+            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
+                tax_ordersTableAdapter.FillById(taxOrderDataTable, id);
         }
 
         public void FillOrder_itemDataTableById(QOBDSet.command_itemsDataTable orderItemDataTable, int id)
         {
-            order_itemsTableAdapter.FillById(orderItemDataTable, id);
+            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
+                order_itemsTableAdapter.FillById(orderItemDataTable, id);
         }
 
         public void FillTaxDataTableById(QOBDSet.taxesDataTable taxDataTable, int id)
         {
-            taxesTableAdapter.FillById(taxDataTable, id);
+            using (var taxesTableAdapter = new taxesTableAdapter())
+                taxesTableAdapter.FillById(taxDataTable, id);
         }
 
         public void FillBillDataTableById(QOBDSet.billsDataTable billDataTable, int id)
         {
-            billsTableAdapter.FillById(billDataTable, id);
+            using (var billsTableAdapter = new billsTableAdapter())
+                billsTableAdapter.FillById(billDataTable, id);
         }
 
         public void FillDeliveryDataTableById(QOBDSet.deliveriesDataTable deliveryDataTable, int id)
         {
-            throw new NotImplementedException();
+            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
+                deliveriesTableAdapter.FillById(deliveryDataTable, id);
         }
 
         // search
@@ -642,69 +371,82 @@ namespace QOBDDAL.Classes
 
         public int DeleteItem(int itemId)
         {
-            return _itemsTableAdapter.Delete1(itemId);
+            using (var itemsTableAdapter = new itemsTableAdapter())
+                return itemsTableAdapter.Delete1(itemId);
         }
 
         public int DeleteProvider(int providerId)
         {
-            return _providersTableAdapter.Delete1(providerId);
+            using (var providersTableAdapter = new providersTableAdapter())
+                return providersTableAdapter.Delete1(providerId);
         }
 
         public int DeleteProvider_item(int provider_itemId)
         {
-            return _provider_itemsTableAdapter.Delete1(provider_itemId);
+            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
+                return provider_itemsTableAdapter.Delete1(provider_itemId);
         }
 
         public int DeleteItem_delivery(int item_deliveryId)
         {
-            return _item_deliveriesTableAdapter.Delete1(item_deliveryId);
+            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
+                return item_deliveriesTableAdapter.Delete1(item_deliveryId);
         }
 
         public int DeleteAuto_ref(int auto_refId)
         {
-            return _auto_refsTableAdapter.Delete1(auto_refId);
+            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
+                return auto_refsTableAdapter.Delete1(auto_refId);
         }
 
         public int DeleteTax_item(int tax_itemId)
         {
-            return _tax_itemsTableAdapter.Delete1(tax_itemId);
+            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
+                return tax_itemsTableAdapter.Delete1(tax_itemId);
         }
 
         // update
 
         public int UpdateItem(QOBDSet.itemsDataTable itemDataTable)
         {
-            return _itemsTableAdapter.Update(itemDataTable);
+            using (var itemsTableAdapter = new itemsTableAdapter())
+                return itemsTableAdapter.Update(itemDataTable);
         }
 
         public int UpdateProvider(QOBDSet.providersDataTable providerDataTable)
         {
-            return _providersTableAdapter.Update(providerDataTable);
+            using (var providersTableAdapter = new providersTableAdapter())
+                return providersTableAdapter.Update(providerDataTable);
         }
 
         public int UpdateProvider_item(QOBDSet.provider_itemsDataTable provider_itemDataTable)
         {
-            return _provider_itemsTableAdapter.Update(provider_itemDataTable);
+            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
+                return provider_itemsTableAdapter.Update(provider_itemDataTable);
         }
 
         public int UpdateItem_delivery(QOBDSet.item_deliveriesDataTable item_deliveryDataTable)
         {
-            return item_deliveriesTableAdapter.Update(item_deliveryDataTable);
+            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
+                return item_deliveriesTableAdapter.Update(item_deliveryDataTable);
         }
 
         public int UpdateAuto_ref(QOBDSet.auto_refsDataTable auto_refDataTable)
         {
-            return _auto_refsTableAdapter.Update(auto_refDataTable);
+            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
+                return auto_refsTableAdapter.Update(auto_refDataTable);
         }
 
         public int UpdateTax_item(QOBDSet.tax_itemsDataTable tax_itemDataTable)
         {
-            return _tax_itemsTableAdapter.Update(tax_itemDataTable);
+            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
+                return tax_itemsTableAdapter.Update(tax_itemDataTable);
         }
 
         public int LoadItem(Item item)
         {
-            return itemsTableAdapter.load_data_item(
+            using (var itemsTableAdapter = new itemsTableAdapter())
+                return itemsTableAdapter.load_data_item(
                                                 item.Ref,
                                                 item.Name,
                                                 item.Type,
@@ -719,7 +461,8 @@ namespace QOBDDAL.Classes
 
         public int LoadProvider(Provider provider)
         {
-            return providersTableAdapter.load_data_provider(
+            using (var providersTableAdapter = new providersTableAdapter())
+                return providersTableAdapter.load_data_provider(
                                                 provider.Name,
                                                 provider.Source,
                                                 provider.ID);
@@ -727,7 +470,8 @@ namespace QOBDDAL.Classes
 
         public int LoadProvider_item(Provider_item provider_item)
         {
-            return provider_itemsTableAdapter.load_data_provider_item(
+            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
+                return provider_itemsTableAdapter.load_data_provider_item(
                                                 provider_item.Provider_name,
                                                 provider_item.Item_ref,
                                                 provider_item.ID);
@@ -735,7 +479,8 @@ namespace QOBDDAL.Classes
 
         public int LoadItem_delivery(Item_delivery item_delivery)
         {
-            return item_deliveriesTableAdapter.load_data_item_delivery(
+            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
+                return item_deliveriesTableAdapter.load_data_item_delivery(
                                         item_delivery.DeliveryId,
                                         item_delivery.Item_ref,
                                         item_delivery.Quantity_delivery,
@@ -744,14 +489,16 @@ namespace QOBDDAL.Classes
 
         public int LoadAuto_ref(Auto_ref auto_ref)
         {
-            return auto_refsTableAdapter.load_auto_ref(
+            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
+                return auto_refsTableAdapter.load_auto_ref(
                                                         auto_ref.RefId,
                                                         auto_ref.ID);
         }
 
         public int LoadTax_item(Tax_item tax_item)
         {
-            return tax_itemsTableAdapter.load_data_tax_item(
+            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
+                return tax_itemsTableAdapter.load_data_tax_item(
                                                             tax_item.TaxId,
                                                             tax_item.Item_ref,
                                                             tax_item.Tax_value,
@@ -763,102 +510,122 @@ namespace QOBDDAL.Classes
 
         public List<Item> GetItemData()
         {
-            return _itemsTableAdapter.GetData().DataTableTypeToItem();
+            using (var itemsTableAdapter = new itemsTableAdapter())
+                return itemsTableAdapter.GetData().DataTableTypeToItem();
         }
 
         public List<Item> GetItemDataById(int id)
         {
-            return _itemsTableAdapter.get_item_by_id(id).DataTableTypeToItem();
+            using (var itemsTableAdapter = new itemsTableAdapter())
+                return itemsTableAdapter.get_item_by_id(id).DataTableTypeToItem();
         }
 
         public List<Provider> GetProviderData()
         {
-            return _providersTableAdapter.GetData().DataTableTypeToProvider();
+            using (var providersTableAdapter = new providersTableAdapter())
+                return providersTableAdapter.GetData().DataTableTypeToProvider();
         }
 
         public List<Provider> GetProviderDataById(int id)
         {
-            return _providersTableAdapter.get_provider_by_id(id).DataTableTypeToProvider();
+            using (var providersTableAdapter = new providersTableAdapter())
+                return providersTableAdapter.get_provider_by_id(id).DataTableTypeToProvider();
         }
 
         public List<Provider_item> GetProvider_itemData()
         {
-            return _provider_itemsTableAdapter.GetData().DataTableTypeToProvider_item();
+            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
+                return provider_itemsTableAdapter.GetData().DataTableTypeToProvider_item();
         }
 
         public List<Provider_item> GetProvider_itemDataById(int id)
         {
-            return _provider_itemsTableAdapter.get_provider_item_by_id(id).DataTableTypeToProvider_item();
+            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
+                return provider_itemsTableAdapter.get_provider_item_by_id(id).DataTableTypeToProvider_item();
         }
 
         public List<Item_delivery> GetItem_deliveryData()
         {
-            return _item_deliveriesTableAdapter.GetData().DataTableTypeToItem_delivery();
+            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
+                return item_deliveriesTableAdapter.GetData().DataTableTypeToItem_delivery();
         }
 
         public List<Item_delivery> GetItem_deliveryDataById(int id)
         {
-            return _item_deliveriesTableAdapter.get_item_delivery_by_id(id).DataTableTypeToItem_delivery();
+            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
+                return item_deliveriesTableAdapter.get_item_delivery_by_id(id).DataTableTypeToItem_delivery();
         }
 
         public List<Item_delivery> GetItem_deliveryDataByItemRefId(string itemRef)
         {
-            return _item_deliveriesTableAdapter.get_item_delivery_by_item_ref(itemRef).DataTableTypeToItem_delivery();
+            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
+                return item_deliveriesTableAdapter.get_item_delivery_by_item_ref(itemRef).DataTableTypeToItem_delivery();
         }
 
         public List<Item_delivery> GetItem_deliveryDataByDeliveryId(int deliveryId)
         {
-            return _item_deliveriesTableAdapter.get_item_delivery_by_delivery_id(deliveryId).DataTableTypeToItem_delivery();
+            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
+                return item_deliveriesTableAdapter.get_item_delivery_by_delivery_id(deliveryId).DataTableTypeToItem_delivery();
         }
 
         public List<Auto_ref> GetAuto_refData()
         {
-            return _auto_refsTableAdapter.GetData().DataTableTypeToAuto_ref();
+            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
+                return auto_refsTableAdapter.GetData().DataTableTypeToAuto_ref();
         }
 
         public List<Auto_ref> GetAuto_refDataById(int id)
         {
-            return _auto_refsTableAdapter.get_auto_ref_by_id(id).DataTableTypeToAuto_ref();
+            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
+                return auto_refsTableAdapter.get_auto_ref_by_id(id).DataTableTypeToAuto_ref();
         }
 
         public List<Tax_item> GetTax_itemData()
         {
-            return _tax_itemsTableAdapter.GetData().DataTableTypeToTax_item();
+            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
+                return tax_itemsTableAdapter.GetData().DataTableTypeToTax_item();
         }
 
         public List<Tax_item> GetTax_itemDataById(int id)
         {
-            return _tax_itemsTableAdapter.get_tax_item_by_id(id).DataTableTypeToTax_item();
+            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
+                return tax_itemsTableAdapter.get_tax_item_by_id(id).DataTableTypeToTax_item();
         }
 
         public void FillItemDataTableById(QOBDSet.itemsDataTable itemDataTable, int id)
         {
-            itemsTableAdapter.FillById(itemDataTable, id);
+            using (var itemsTableAdapter = new itemsTableAdapter())
+                itemsTableAdapter.FillById(itemDataTable, id);
         }
 
         public void FillProviderDataTableById(QOBDSet.providersDataTable providerDataTable, int id)
         {
-            providersTableAdapter.FillById(providerDataTable, id);
+            using (var providersTableAdapter = new providersTableAdapter())
+                providersTableAdapter.FillById(providerDataTable, id);
         }
 
         public void FillProvider_itemDataTableById(QOBDSet.provider_itemsDataTable provider_itemDataTable, int id)
         {
-            provider_itemsTableAdapter.FillById(provider_itemDataTable, id);
+            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
+                provider_itemsTableAdapter.FillById(provider_itemDataTable, id);
         }
 
         public void FillItem_deliveryDataTableById(QOBDSet.item_deliveriesDataTable item_deliveryDataTable, int id)
         {
-            item_deliveriesTableAdapter.FillById(item_deliveryDataTable, id);
+            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
+                item_deliveriesTableAdapter.FillById(item_deliveryDataTable, id);
         }
 
         public void FillAuto_refDataTableById(QOBDSet.auto_refsDataTable auto_refDataTable, int id)
         {
-            auto_refsTableAdapter.FillById(auto_refDataTable, id);
+            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
+                auto_refsTableAdapter.FillById(auto_refDataTable, id);
         }
         
         public void FillTax_itemDataTableById(QOBDSet.tax_itemsDataTable tax_itemDataTable, int id)
         {
-            tax_itemsTableAdapter.FillById(tax_itemDataTable, id);
+            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
+                tax_itemsTableAdapter.FillById(tax_itemDataTable, id);
         }
 
 
@@ -902,39 +669,46 @@ namespace QOBDDAL.Classes
 
         public int DeleteClient(int clientId)
         {
-            return _clientsTableAdapter.Delete1(clientId);
+            using (var clientsTableAdapter = new clientsTableAdapter())
+                return clientsTableAdapter.Delete1(clientId);
         }
 
         public int DeleteContact(int contactId)
         {
-            return _contactsTableAdapter.Delete1(contactId);
+            using (var contactsTableAdapter = new contactsTableAdapter())
+                return contactsTableAdapter.Delete1(contactId);
         }
 
         public int DeleteAddress(int addressId)
         {
-            return _addressesTableAdapter.Delete1(addressId);
+            using (var addressesTableAdapter = new addressesTableAdapter())
+                return addressesTableAdapter.Delete1(addressId);
         }
 
         // update
 
         public int UpdateClient(QOBDSet.clientsDataTable clientDataTable)
         {
-            return _clientsTableAdapter.Update(clientDataTable);
+            using (var clientsTableAdapter = new clientsTableAdapter())
+                return clientsTableAdapter.Update(clientDataTable);
         }
 
         public int UpdateContact(QOBDSet.contactsDataTable contactDataTable)
         {
-            return _contactsTableAdapter.Update(contactDataTable);
+            using (var contactsTableAdapter = new contactsTableAdapter())
+                return contactsTableAdapter.Update(contactDataTable);
         }
 
         public int UpdateAddress(QOBDSet.addressesDataTable addressDataTable)
         {
-            return _addressesTableAdapter.Update(addressDataTable);
+            using (var addressesTableAdapter = new addressesTableAdapter())
+                return addressesTableAdapter.Update(addressDataTable);
         }
 
         public int LoadClient(Client client)
         {
-            return clientsTableAdapter.load_data_client(
+            using (var clientsTableAdapter = new clientsTableAdapter())
+                return clientsTableAdapter.load_data_client(
                                                     client.AgentId,
                                                     client.FirstName,
                                                     client.LastName,
@@ -954,7 +728,8 @@ namespace QOBDDAL.Classes
 
         public int LoadContact(Contact contact)
         {
-            return contactsTableAdapter.load_data_contact(
+            using (var contactsTableAdapter = new contactsTableAdapter())
+                return contactsTableAdapter.load_data_contact(
                                                     contact.ClientId,
                                                     contact.LastName,
                                                     contact.Firstname,
@@ -969,7 +744,8 @@ namespace QOBDDAL.Classes
 
         public int LoadAddress(Address address)
         {
-            return addressesTableAdapter.load_data_address(
+            using (var addressesTableAdapter = new addressesTableAdapter())
+                return addressesTableAdapter.load_data_address(
                                                     address.ClientId,
                                                     address.Name,
                                                     address.Name2,
@@ -989,47 +765,56 @@ namespace QOBDDAL.Classes
 
         public List<Client>  GetClientData()
         {
-            return _clientsTableAdapter.GetData().DataTableTypeToClient();
+            using (var clientsTableAdapter = new clientsTableAdapter())
+                return clientsTableAdapter.GetData().DataTableTypeToClient();
         }
 
         public List<Contact> GetContactData()
         {
-            return _contactsTableAdapter.GetData().DataTableTypeToContact();
+            using (var contactsTableAdapter = new contactsTableAdapter())
+                return contactsTableAdapter.GetData().DataTableTypeToContact();
         }
 
         public List<Address> GetAddressData()
         {
-            return _addressesTableAdapter.GetData().DataTableTypeToAddress();
+            using (var addressesTableAdapter = new addressesTableAdapter())
+                return addressesTableAdapter.GetData().DataTableTypeToAddress();
         }
 
         public List<Client> GetClientDataById(int id)
         {
-            return _clientsTableAdapter.get_client_by_id(id).DataTableTypeToClient();
+            using (var clientsTableAdapter = new clientsTableAdapter())
+                return clientsTableAdapter.get_client_by_id(id).DataTableTypeToClient();
         }
 
         public List<Contact> GetContactDataById(int id)
         {
-            return _contactsTableAdapter.get_contact_by_id(id).DataTableTypeToContact();
+            using (var contactsTableAdapter = new contactsTableAdapter())
+                return contactsTableAdapter.get_contact_by_id(id).DataTableTypeToContact();
         }
 
         public List<Address> GetAddressDataById(int id)
         {
-            return _addressesTableAdapter.get_address_by_id(id).DataTableTypeToAddress();
+            using (var addressesTableAdapter = new addressesTableAdapter())
+                return addressesTableAdapter.get_address_by_id(id).DataTableTypeToAddress();
         }
 
         public void FillClientDataTableById(QOBDSet.clientsDataTable clientDataTable, int id)
         {
-            clientsTableAdapter.FillById(clientDataTable, id);
+            using (var clientsTableAdapter = new clientsTableAdapter())
+                clientsTableAdapter.FillById(clientDataTable, id);
         }
 
         public void FillContactDataTableById(QOBDSet.contactsDataTable contactDataTable, int id)
         {
-            contactsTableAdapter.FillById(contactDataTable, id);
+            using (var contactsTableAdapter = new contactsTableAdapter())
+                contactsTableAdapter.FillById(contactDataTable, id);
         }
 
         public void FilladdressDataTableById(QOBDSet.addressesDataTable addressDataTable, int id)
         {
-            addressesTableAdapter.FillById(addressDataTable, id);
+            using (var addressesTableAdapter = new addressesTableAdapter())
+                addressesTableAdapter.FillById(addressDataTable, id);
         }
 
 
@@ -1058,25 +843,28 @@ namespace QOBDDAL.Classes
 
         public int DeleteAgent(int agentId)
         {
-            return _ordersTableAdapter.Delete1(agentId);
+            using (var agentsTableAdapter = new agentsTableAdapter())
+                return agentsTableAdapter.Delete1(agentId);
         }
 
         // update
 
         public int UpdateAgent(QOBDSet.agentsDataTable agentDataTable)
         {
-            return _agentsTableAdapter.Update(agentDataTable);
+            using (var agentsTableAdapter = new agentsTableAdapter())
+                return agentsTableAdapter.Update(agentDataTable);
         }
 
         public int LoadAgent(Agent agent)
         {
-            return agentsTableAdapter.load_data_agent(
+            using (var agentsTableAdapter = new agentsTableAdapter())
+                return agentsTableAdapter.load_data_agent(
                                             agent.LastName,
                                             agent.FirstName,
                                             agent.Phone,
                                             agent.Fax,
                                             agent.Email,
-                                            agent.Login,
+                                            agent.UserName,
                                             agent.HashedPassword,
                                             agent.Admin,
                                             agent.Status,
@@ -1088,17 +876,20 @@ namespace QOBDDAL.Classes
 
         public List<Agent> GetAgentData()
         {
-            return _agentsTableAdapter.GetData().DataTableTypeToAgent();
+            using (var agentsTableAdapter = new agentsTableAdapter())
+                return agentsTableAdapter.GetData().DataTableTypeToAgent();
         }
 
         public List<Agent> GetAgentDataById(int id)
         {
-            return _agentsTableAdapter.get_agent_by_id(id).DataTableTypeToAgent();
+            using (var agentsTableAdapter = new agentsTableAdapter())
+                return agentsTableAdapter.get_agent_by_id(id).DataTableTypeToAgent();
         }
 
         public void FillAgentDataTableById(QOBDSet.agentsDataTable agentDataTable, int id)
         {
-            agentsTableAdapter.FillById(agentDataTable, id);
+            using (var agentsTableAdapter = new agentsTableAdapter())
+                agentsTableAdapter.FillById(agentDataTable, id);
         }
 
         // search
@@ -1116,19 +907,22 @@ namespace QOBDDAL.Classes
 
         public int DeleteNotification(int notificationId)
         {
-            return _notificationsTableAdapter.Delete1(notificationId);
+            using (var notificationsTableAdapter = new notificationsTableAdapter())
+                return notificationsTableAdapter.Delete1(notificationId);
         }
 
         // update
 
         public int UpdateNotification(QOBDSet.notificationsDataTable notificationDataTable)
         {
-            return _notificationsTableAdapter.Update(notificationDataTable);
+            using (var notificationsTableAdapter = new notificationsTableAdapter())
+                return notificationsTableAdapter.Update(notificationDataTable);
         }
 
         public int LoadNotification(Notification notification)
         {
-            return notificationsTableAdapter.load_data_notification(
+            using (var notificationsTableAdapter = new notificationsTableAdapter())
+                return notificationsTableAdapter.load_data_notification(
                                             notification.Reminder1,
                                             notification.Reminder2,
                                             notification.BillId,
@@ -1140,17 +934,20 @@ namespace QOBDDAL.Classes
 
         public List<Notification> GetNotificationData()
         {
-            return _notificationsTableAdapter.GetData().DataTableTypeToNotification();
+            using (var notificationsTableAdapter = new notificationsTableAdapter())
+                return notificationsTableAdapter.GetData().DataTableTypeToNotification();
         }
 
         public List<Notification> GetNotificationDataById(int id)
         {
-            return _notificationsTableAdapter.get_notification_by_id(id).DataTableTypeToNotification();
+            using (var notificationsTableAdapter = new notificationsTableAdapter())
+                return notificationsTableAdapter.get_notification_by_id(id).DataTableTypeToNotification();
         }
 
         public void FillNotificationDataTableById(QOBDSet.notificationsDataTable notificationDataTable, int id)
         {
-            _notificationsTableAdapter.FillById(notificationDataTable,id);
+            using (var notificationsTableAdapter = new notificationsTableAdapter())
+                notificationsTableAdapter.FillById(notificationDataTable,id);
         }
 
         // search
@@ -1168,19 +965,22 @@ namespace QOBDDAL.Classes
 
         public int DeleteInfo(int infoId)
         {
-            return _infosTableAdapter.Delete1(infoId);
+            using (var infosTableAdapter = new infosTableAdapter())
+                return infosTableAdapter.Delete1(infoId);
         }
 
         // update
 
         public int UpdateInfo(QOBDSet.infosDataTable infoDataTable)
         {
-            return _infosTableAdapter.Update(infoDataTable);
+            using (var infosTableAdapter = new infosTableAdapter())
+                return infosTableAdapter.Update(infoDataTable);
         }
 
         public int LoadInfo(Info info)
         {
-            return _infosTableAdapter.load_data_infos(
+            using (var infosTableAdapter = new infosTableAdapter())
+                return infosTableAdapter.load_data_infos(
                                                         info.Name,
                                                         info.Value,
                                                         info.ID);
@@ -1190,17 +990,20 @@ namespace QOBDDAL.Classes
 
         public List<Info> GetInfosData()
         {
-            return _infosTableAdapter.GetData().DataTableTypeToInfos();
+            using (var infosTableAdapter = new infosTableAdapter())
+                return infosTableAdapter.GetData().DataTableTypeToInfos();
         }
 
         public List<Info> GetInfosDataById(int id)
         {
-            return _infosTableAdapter.get_infos_by_id(id).DataTableTypeToInfos();
+            using (var infosTableAdapter = new infosTableAdapter())
+                return infosTableAdapter.get_infos_by_id(id).DataTableTypeToInfos();
         }   
         
         public void FillInfoDataTableById(QOBDSet.infosDataTable infoDataTable, int id)
         {
-            _infosTableAdapter.FillById(infoDataTable, id);
+            using (var infosTableAdapter = new infosTableAdapter())
+                infosTableAdapter.FillById(infoDataTable, id);
         }
 
         // search
@@ -1218,19 +1021,22 @@ namespace QOBDDAL.Classes
 
         public int DeleteStatistic(int statisticId)
         {
-            return _statisticsTableAdapter.Delete1(statisticId);
+            using (var statisticsTableAdapter = new statisticsTableAdapter())
+                return statisticsTableAdapter.Delete1(statisticId);
         }
 
         // update
 
         public int UpdateStatistic(QOBDSet.statisticsDataTable statisticDataTable)
         {
-            return _statisticsTableAdapter.Update(statisticDataTable);
+            using (var statisticsTableAdapter = new statisticsTableAdapter())
+                return statisticsTableAdapter.Update(statisticDataTable);
         }
 
         public int LoadStatistic(Statistic statistic)
         {
-            return statisticsTableAdapter
+            using (var statisticsTableAdapter = new statisticsTableAdapter())
+                return statisticsTableAdapter
                                         .load_data_statistic(
                                             statistic.InvoiceDate,
                                             statistic.InvoiceId,
@@ -1251,17 +1057,20 @@ namespace QOBDDAL.Classes
 
         public List<Statistic> GetStatisticData()
         {
-            return statisticsTableAdapter.GetData().DataTableTypeToStatistic(); ;
+            using (var statisticsTableAdapter = new statisticsTableAdapter())
+                return statisticsTableAdapter.GetData().DataTableTypeToStatistic(); ;
         }
 
         public void FillStatisticDataTableById(QOBDSet.statisticsDataTable statisticDataTable, int id)
         {
-            statisticsTableAdapter.FillById(statisticDataTable, id);
+            using (var statisticsTableAdapter = new statisticsTableAdapter())
+                statisticsTableAdapter.FillById(statisticDataTable, id);
         }
 
         public List<Statistic> GetStatisticDataById(int id)
         {
-            return _statisticsTableAdapter.get_statistic_by_id(id).DataTableTypeToStatistic();
+            using (var statisticsTableAdapter = new statisticsTableAdapter())
+                return statisticsTableAdapter.get_statistic_by_id(id).DataTableTypeToStatistic();
         }
 
         //search
@@ -1272,31 +1081,6 @@ namespace QOBDDAL.Classes
         }
 
         #endregion
-
-
-
-        public void Dispose()
-        {
-            _agentsTableAdapter.Dispose();
-            _clientsTableAdapter.Dispose();
-            _itemsTableAdapter.Dispose();
-            _billsTableAdapter.Dispose();
-            _actionRecordsTableAdapter.Dispose();
-            _addressesTableAdapter.Dispose();
-            _auto_refsTableAdapter.Dispose();
-            _contactsTableAdapter.Dispose();
-            _deliveriesTableAdapter.Dispose();
-            _infosTableAdapter.Dispose();
-            _item_deliveriesTableAdapter.Dispose();
-            _notificationsTableAdapter.Dispose();
-            _provider_itemsTableAdapter.Dispose();
-            _providersTableAdapter.Dispose();
-            _statisticsTableAdapter.Dispose();
-            _order_itemsTableAdapter.Dispose();
-            _taxesTableAdapter.Dispose();
-            _ordersTableAdapter.Dispose();
-            _tax_ordersTableAdapter.Dispose();
-            _tax_itemsTableAdapter.Dispose();
-        }
+        
     }
 }

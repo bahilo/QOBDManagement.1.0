@@ -646,10 +646,10 @@ namespace QOBDManagement.ViewModel
                     createCredit();
                     break;
                 case EOrderStatus.Order_Close:
-                    canChangeStatus = await Dialog.show("Order Closing: Be careful as it will not be possible to do any change after.");
+                    canChangeStatus = await Dialog.showAsync("Order Closing: Be careful as it will not be possible to do any change after.");
                     break;
                 case EOrderStatus.Credit_CLose:
-                    canChangeStatus = await Dialog.show("Credit CLosing: Be careful as it will not be possible to do any change after.");
+                    canChangeStatus = await Dialog.showAsync("Credit CLosing: Be careful as it will not be possible to do any change after.");
                     break;
             }
             return canChangeStatus;
@@ -931,15 +931,15 @@ namespace QOBDManagement.ViewModel
                     if (savedOrderList.Count > 0 && oldStatus != OrderSelected.TxtStatus)
                     {
                         OrderSelected.Order = savedOrderList[0];
-                        await Dialog.show(oldStatus + " successfully Converted to " + OrderSelected.TxtStatus);
+                        await Dialog.showAsync(oldStatus + " successfully Converted to " + OrderSelected.TxtStatus);
                         loadEmail();
                         _page(this);
                     }
                     else
-                        await Dialog.show("Convertion to " + OrderSelected.TxtStatus + " Failed!");
+                        await Dialog.showAsync("Convertion to " + OrderSelected.TxtStatus + " Failed!");
                 }
                 else
-                    await Dialog.show("Convertion to " + _orderStatus + " Failed! " +
+                    await Dialog.showAsync("Convertion to " + _orderStatus + " Failed! " +
                         Environment.NewLine + "Please make sure that this order bill is the latest.");
                 Dialog.IsDialogOpen = false;
             }
@@ -1062,7 +1062,7 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
-        private async void createDeliveryReceipt(Order_itemModel obj)
+        public async void createDeliveryReceipt(Order_itemModel obj)
         {
             Dialog.showSearch("Delivery receipt creation...");
             int first = 0;
@@ -1349,7 +1349,7 @@ namespace QOBDManagement.ViewModel
 
         private async void deleteCreatedInvoice(BillModel obj)
         {
-            if (await Dialog.show("do you really want to delete this invoice (" + obj.TxtID + ")"))
+            if (await Dialog.showAsync("do you really want to delete this invoice (" + obj.TxtID + ")"))
             {
                 Dialog.showSearch("Invoice cancelling...");
 
@@ -1387,7 +1387,7 @@ namespace QOBDManagement.ViewModel
                     refreshBindings();
                 }
                 else
-                    await Dialog.show("Cancellation Failed! Order invoice is not the latest.");
+                    await Dialog.showAsync("Cancellation Failed! Order invoice is not the latest.");
                 Dialog.IsDialogOpen = false;
 
                 refreshBindings();
@@ -1473,7 +1473,7 @@ namespace QOBDManagement.ViewModel
             updateOrderStatus(EOrderStatus.Bill_Order);
             if (OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()))
             {
-                await Dialog.show("Successfully Billed");
+                await Dialog.showAsync("Successfully Billed");
                 _page(this);
             }
             Dialog.IsDialogOpen = false;
@@ -1500,7 +1500,7 @@ namespace QOBDManagement.ViewModel
                 {
                     var deliveryAddressFoundList = OrderSelected.AddressList.Where(x => x.ID == savedOrderList[0].DeliveryAddress).ToList();
                     OrderSelected.DeliveryAddress = (deliveryAddressFoundList.Count() > 0) ? deliveryAddressFoundList[0] : new Address();
-                    await Dialog.show("Delivery Address Successfully Saved!");
+                    await Dialog.showAsync("Delivery Address Successfully Saved!");
                 }
                 Dialog.IsDialogOpen = false;
             }
@@ -1553,7 +1553,7 @@ namespace QOBDManagement.ViewModel
         {
             Dialog.showSearch("Email sending...");
             var paramEmail = new ParamEmail();
-            paramEmail.IsCopyToAgent = await Dialog.show("Do you want to receive an copy of the email?");
+            paramEmail.IsCopyToAgent = await Dialog.showAsync("Do you want to receive an copy of the email?");
             paramEmail.Subject = EmailFile.TxtSubject;
             paramEmail.IsSendEmail = true;
 
@@ -1611,7 +1611,7 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch("Comment updating...");
             var savedOrderList = await Bl.BlOrder.UpdateOrderAsync(new List<QOBDCommon.Entities.Order> { OrderSelected.Order });
             if (savedOrderList.Count > 0)
-                await Dialog.show("Comment updated successfully!");
+                await Dialog.showAsync("Comment updated successfully!");
             Dialog.IsDialogOpen = false;
         }
 

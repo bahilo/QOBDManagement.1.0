@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="BusinessLogic.cs" />
     <Compile Include="Core\BLAgent.cs" />
+    <Compile Include="Core\BLChatRoom.cs" />
     <Compile Include="Core\BlCLient.cs" />
     <Compile Include="Core\BLItem.cs" />
     <Compile Include="Core\BlNotification.cs" />

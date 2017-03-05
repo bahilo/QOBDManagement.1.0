@@ -29,7 +29,7 @@ namespace QOBDManagement.Views
         private void OptionView_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext dataContex = new DataContext();
-            dataContex.setContext(this);
+            dataContex.setWindowContext(this);
         }
     }
 }

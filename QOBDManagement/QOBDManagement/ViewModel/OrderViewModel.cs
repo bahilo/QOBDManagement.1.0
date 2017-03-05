@@ -76,8 +76,6 @@ namespace QOBDManagement.ViewModel
 
         private void initEvents()
         {
-            PropertyChanged += onSelectedOrderChange;
-            PropertyChanged += onNavigToChange;
             PropertyChanged += onBlockSearchResultVisibilityChange;            
             TaxTask.PropertyChanged += onTaxTaskCompletion_getTax;
 
@@ -256,27 +254,34 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         public void loadOrders()
         {
-            Application.Current.Dispatcher.Invoke(async () => {
-                Dialog.showSearch("Loading...");
-                TaxList = Bl.BlOrder.GetTaxData(999);
-                OrderSearchModel.AgentList = await Bl.BlAgent.GetAgentDataAsync(-999);
+            if(Application.Current != null)
+                Application.Current.Dispatcher.Invoke(() => {
+                    load();
+                });
+            else
+                load();
+        }
 
-                if (SelectedClient.Client.ID != 0)
-                {
-                    Title = string.Format("Orders for the Company {0}", SelectedClient.Client.Company);
+        private void load()
+        {
+            Dialog.showSearch("Loading...");
+            TaxList = Bl.BlOrder.GetTaxData(999);
+            OrderSearchModel.AgentList = Bl.BlAgent.GetAgentData(999);
 
-                    OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new Entity.Order { ClientId = SelectedClient.Client.ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
-                    SelectedClient = new ClientModel();
-                }
-                else
-                {
-                    Title = "Orders Management";
-                    OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new QOBDCommon.Entities.Order { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
-                }
-                BlockSearchResultVisibility = "Hidden";
-                Dialog.IsDialogOpen = false;
-            });            
+            if (SelectedClient.Client.ID != 0)
+            {
+                Title = string.Format("Orders for the Company {0}", SelectedClient.Client.Company);
 
+                OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new Entity.Order { ClientId = SelectedClient.Client.ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
+                SelectedClient = new ClientModel();
+            }
+            else
+            {
+                Title = "Orders Management";
+                OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new QOBDCommon.Entities.Order { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
+            }
+            BlockSearchResultVisibility = "Hidden";
+            Dialog.IsDialogOpen = false;
         }
 
         
@@ -326,8 +331,6 @@ namespace QOBDManagement.ViewModel
                 (_main.getObject("main") as BindBase).PropertyChanged -= onStartupChange;
                 (_main.getObject("main") as BindBase).PropertyChanged -= onDialogChange;
             }
-            PropertyChanged -= onSelectedOrderChange;
-            PropertyChanged -= onNavigToChange;
             PropertyChanged -= onBlockSearchResultVisibilityChange;
             TaxTask.PropertyChanged -= onTaxTaskCompletion_getTax;
             Bl.BlOrder.Dispose();
@@ -357,32 +360,6 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        /// <summary>
-        /// Navigate to the next page
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void onNavigToChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (string.Equals(e.PropertyName, "NavigTo"))
-            {
-                executeNavig(NavigTo);
-            }
-        }
-
-        /// <summary>
-        /// Navigating to order detail when the button detail has been clicked
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void onSelectedOrderChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (string.Equals(e.PropertyName, "SelectedOrderModel"))
-            {
-                NavigTo = "order-detail";
-            }
-        }
-
         private void onTaxTaskCompletion_getTax(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("IsSuccessfullyCompleted"))
@@ -409,9 +386,10 @@ namespace QOBDManagement.ViewModel
         /// Save the selected order
         /// </summary>
         /// <param name="obj"></param>
-        private void saveSelectedOrder(OrderModel obj)
+        public void saveSelectedOrder(OrderModel obj)
         {
             SelectedOrderModel = obj;
+            executeNavig("order-detail");
         }
 
         private bool canSaveSelectedOrder(OrderModel arg)
@@ -444,7 +422,7 @@ namespace QOBDManagement.ViewModel
 
         public async void deleteOrder(OrderModel obj)
         {
-            if(await Dialog.show("do you really want to delete this bill (" + obj.TxtID + ")"))
+            if(await Dialog.showAsync("do you really want to delete this bill (" + obj.TxtID + ")"))
             {
                 Bill lastBill = new Bill();
                 lastBill = await Bl.BlOrder.GetLastBillAsync();
@@ -471,7 +449,7 @@ namespace QOBDManagement.ViewModel
                     Dialog.IsDialogOpen = false;
                 }
                 else
-                    await Dialog.show("Order invoice is not the latest.");
+                    await Dialog.showAsync("Order invoice is not the latest.");
 
             }
         }

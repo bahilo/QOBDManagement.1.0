@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using QOBDDAL.Classes;
 using QOBDDAL.Interfaces;
 using QOBDGateway.Classes;
+using QOBDGateway.Interfaces;
 /// <summary>
 ///  A class that represents ...
 /// 
@@ -35,6 +36,7 @@ namespace QOBDDAL.Core
         private int _progressStep;
         private object _lock = new object();
         private Interfaces.IQOBDSet _dataSet;
+        private ICommunication _serviceCommunication;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -51,6 +53,11 @@ namespace QOBDDAL.Core
             this._dataSet = _dataSet;
         }
 
+        public DALNotification(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet, ICommunication serviceCommunication) : this(servicePort, _dataSet)
+        {
+            _serviceCommunication = serviceCommunication;
+        }
+
         public bool IsLodingDataFromWebServiceToLocal
         {
             get { return _isLodingDataFromWebServiceToLocal; }
@@ -58,14 +65,18 @@ namespace QOBDDAL.Core
         }
 
 
-        public async void initializeCredential(Agent user)
+        public void initializeCredential(Agent user)
         {
-            if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
+            if (!string.IsNullOrEmpty(user.UserName) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
                 _gateWayNotification.setServiceCredential(_servicePortType);
-                await retrieveGateWayNotificationDataAsync();
             }
+        }
+
+        public async void cacheWebServiceData()
+        {
+            await retrieveGateWayNotificationDataAsync();
         }
 
         public void setServiceCredential(object channel)
@@ -73,7 +84,7 @@ namespace QOBDDAL.Core
             _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
-                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.UserName;
                 _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
             }
             _gateWayNotification.setServiceCredential(_servicePortType);
@@ -107,11 +118,19 @@ namespace QOBDDAL.Core
             _rogressBarFunc = progressBarFunc;
         }
 
+        private void checkServiceCommunication()
+        {
+            if (_servicePortType.State == System.ServiceModel.CommunicationState.Closed || _servicePortType.State == System.ServiceModel.CommunicationState.Faulted)
+                _serviceCommunication.resetCommunication();
+        }
 
+        #region [ Actions ]
+        //=================================[ Actions ]================================================
 
         public async Task<List<Notification>> InsertNotificationAsync(List<Notification> listNotification)
         {
             List<Notification> result = new List<Notification>();
+            checkServiceCommunication();
             List<Notification> gateWayResultList = await _gateWayNotification.InsertNotificationAsync(listNotification);
             result = LoadNotification(gateWayResultList);
             return result;
@@ -120,6 +139,7 @@ namespace QOBDDAL.Core
         public async Task<List<Notification>> DeleteNotificationAsync(List<Notification> listNotification)
         {
             List<Notification> result = new List<Notification>();
+            checkServiceCommunication();
             List<Notification> gateWayResultList = await _gateWayNotification.DeleteNotificationAsync(listNotification);
             if (gateWayResultList.Count == 0)
                 foreach (Notification notification in gateWayResultList)
@@ -135,6 +155,7 @@ namespace QOBDDAL.Core
         {
             List<Notification> result = new List<Notification>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Notification> gateWayResultList = await _gateWayNotification.UpdateNotificationAsync(notificationList);
 
             foreach (var notification in gateWayResultList)
@@ -175,6 +196,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Notification>> GetNotificationDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gateWayNotification.GetNotificationDataAsync(nbLine);
         }
 
@@ -190,13 +212,15 @@ namespace QOBDDAL.Core
 
         public async Task<List<Notification>> searchNotificationAsync(Notification notification, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gateWayNotification.searchNotificationAsync(notification, filterOperator);
         }
+
+        #endregion
 
         public void Dispose()
         {
             _gateWayNotification.Dispose();
-            _dataSet.Dispose();
         }
     } /* end class BlNotification */
 }

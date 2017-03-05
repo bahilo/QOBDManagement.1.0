@@ -229,7 +229,7 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch("Email sending...");
             ParamOrderToPdf paramOrderToPdf = new ParamOrderToPdf();
             var paramEmail = new ParamEmail();
-            paramEmail.IsCopyToAgent = await Dialog.show("Do you want to receive a copy?");
+            paramEmail.IsCopyToAgent = await Dialog.showAsync("Do you want to receive a copy?");
             paramEmail.IsSendEmail = true;
 
             paramOrderToPdf.BillId = obj.Bill.ID;

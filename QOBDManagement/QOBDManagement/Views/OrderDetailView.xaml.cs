@@ -29,7 +29,7 @@ namespace QOBDManagement.Views
         private void OrderDetailView_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext dataContext = new DataContext();
-            dataContext.setContext(this);
+            dataContext.setWindowContext(this);
         }
     }
 }

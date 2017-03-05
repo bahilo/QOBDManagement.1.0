@@ -252,10 +252,10 @@ namespace QOBDManagement.ViewModel
             var infosCreatedList = await Bl.BlReferential.InsertInfoAsync(infosToCreateList);
 
             if(infosUpdatedList.Count > 0)
-                await Dialog.show("Image updated Successfully!");
+                await Dialog.showAsync("Image updated Successfully!");
 
             if (infosCreatedList.Count > 0)
-                await Dialog.show("Image created Successfully!");
+                await Dialog.showAsync("Image created Successfully!");
             
             Dialog.IsDialogOpen = false;         
 
@@ -273,7 +273,7 @@ namespace QOBDManagement.ViewModel
             var whereImageInfosIDIsZeroList = obj.ImageDataList.Where(x=>x.ID == 0 && x.Name.Equals(obj.TxtFileNameWithoutExtension)).ToList();
             if ((notDeletedInfosList.Count == 0 || whereImageInfosIDIsZeroList.Count > 0) && obj.deleteFiles())
             {
-                await Dialog.show(obj.TxtFileName + " has been successfully deteleted!");
+                await Dialog.showAsync(obj.TxtFileName + " has been successfully deteleted!");
                 obj.TxtFileFullPath = "";
             }
             Dialog.IsDialogOpen = false;

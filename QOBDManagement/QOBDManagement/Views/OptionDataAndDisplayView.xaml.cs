@@ -29,7 +29,7 @@ namespace QOBDManagement.Views
         private void OptionDataAndDisplayView_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext dataContex = new DataContext();
-            if (dataContex.setContext(this) != null)
+            if (dataContex.setWindowContext(this) != null)
             {
                 if (!((MainWindowViewModel)this.DataContext).IsThroughContext)
                     ((MainWindowViewModel)this.DataContext).ReferentialViewModel.OptionDataAndDisplayViewModel.loadData();

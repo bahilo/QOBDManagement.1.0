@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using QOBDDAL.Classes;
 using QOBDDAL.Interfaces;
 using QOBDGateway.Classes;
+using QOBDGateway.Interfaces;
 /// <summary>
 ///  A class that represents ... 
 /// 
@@ -40,6 +41,7 @@ namespace QOBDDAL.Core
         private int _progressStep;
         private object _lock = new object();
         private Interfaces.IQOBDSet _dataSet;
+        private ICommunication _serviceCommunication;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -54,6 +56,11 @@ namespace QOBDDAL.Core
         public DALItem(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
         {
             this._dataSet = _dataSet;
+        }
+
+        public DALItem(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet, ICommunication serviceCommunication) : this(servicePort, _dataSet)
+        {
+            _serviceCommunication = serviceCommunication;
         }
 
         public bool IsLodingDataFromWebServiceToLocal
@@ -73,14 +80,18 @@ namespace QOBDDAL.Core
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public async void initializeCredential(Agent user)
+        public void initializeCredential(Agent user)
         {
-            if (!string.IsNullOrEmpty(user.Login) && !string.IsNullOrEmpty(user.HashedPassword))
+            if (!string.IsNullOrEmpty(user.UserName) && !string.IsNullOrEmpty(user.HashedPassword))
             {
                 AuthenticatedUser = user;
                 _gateWayItem.setServiceCredential(_servicePortType);
-                await retrieveGateWayItemDataAsync();
             }
+        }
+
+        public async void cacheWebServiceData()
+        {
+            await retrieveGateWayItemDataAsync();
         }
 
         public void setServiceCredential(object channel)
@@ -88,7 +99,7 @@ namespace QOBDDAL.Core
             _servicePortType = (ClientProxy)channel;
             if (AuthenticatedUser != null && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
             {
-                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.Login;
+                _servicePortType.ClientCredentials.UserName.UserName = AuthenticatedUser.UserName;
                 _servicePortType.ClientCredentials.UserName.Password = AuthenticatedUser.HashedPassword;
             }
             _gateWayItem.setServiceCredential(_servicePortType);
@@ -99,6 +110,7 @@ namespace QOBDDAL.Core
             lock (_lock) _isLodingDataFromWebServiceToLocal = true;
             try
             {
+                checkServiceCommunication();
                 var itemList = await _gateWayItem.GetItemDataAsync(_loadSize);
                 if (itemList.Count > 0)
                     await UpdateItemDependenciesAsync(itemList);
@@ -122,8 +134,18 @@ namespace QOBDDAL.Core
             _rogressBarFunc = progressBarFunc;
         }
 
+        private void checkServiceCommunication()
+        {
+            if (_servicePortType.State == System.ServiceModel.CommunicationState.Closed || _servicePortType.State == System.ServiceModel.CommunicationState.Faulted)
+                _serviceCommunication.resetCommunication();
+        }
+
+        #region [ Actions ]
+        //=================================[ Actions ]================================================
+
         public async Task<List<Item>> InsertItemAsync(List<Item> itemList)
         {
+            checkServiceCommunication();
             List<Item> gateWayResultList = await _gateWayItem.InsertItemAsync(itemList);
             List<Item> result = LoadItem(gateWayResultList);
             return result;
@@ -131,6 +153,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider>> InsertProviderAsync(List<Provider> listProvider)
         {
+            checkServiceCommunication();
             List<Provider> gateWayResultList = await _gateWayItem.InsertProviderAsync(listProvider);
             List<Provider> result = LoadProvider(gateWayResultList);
             return result;
@@ -138,6 +161,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider_item>> InsertProvider_itemAsync(List<Provider_item> listProvider_item)
         {
+            checkServiceCommunication();
             List<Provider_item> gateWayResultList = await _gateWayItem.InsertProvider_itemAsync(listProvider_item);
             List<Provider_item> result = LoadProvider_item(gateWayResultList);
             return result;
@@ -146,6 +170,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item_delivery>> InsertItem_deliveryAsync(List<Item_delivery> listItem_delivery)
         {
+            checkServiceCommunication();
             List<Item_delivery> gateWayResultList = await _gateWayItem.InsertItem_deliveryAsync(listItem_delivery);
             List<Item_delivery> result = LoadItem_delivery(gateWayResultList);
             return result;
@@ -153,6 +178,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Auto_ref>> InsertAuto_refAsync(List<Auto_ref> listAuto_ref)
         {
+            checkServiceCommunication();
             List<Auto_ref> gateWayResultList = await _gateWayItem.InsertAuto_refAsync(listAuto_ref);
             List<Auto_ref> result = LoadAuto_ref(gateWayResultList);
             return result;
@@ -160,6 +186,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_item>> InsertTax_itemAsync(List<Tax_item> listTax_item)
         {
+            checkServiceCommunication();
             List<Tax_item> gateWayResultList = await _gateWayItem.InsertTax_itemAsync(listTax_item);
             List<Tax_item> result = LoadTax_item(gateWayResultList);
             return result;
@@ -168,6 +195,7 @@ namespace QOBDDAL.Core
         public async Task<List<Item>> DeleteItemAsync(List<Item> listItem)
         {
             List<Item> result = new List<Item>();
+            checkServiceCommunication();
             List<Item> gateWayResultList = await _gateWayItem.DeleteItemAsync(listItem);
             if (gateWayResultList.Count == 0)
                 foreach (Item item in listItem)
@@ -182,6 +210,7 @@ namespace QOBDDAL.Core
         public async Task<List<Provider>> DeleteProviderAsync(List<Provider> listProvider)
         {
             List<Provider> result = new List<Provider>();
+            checkServiceCommunication();
             List<Provider> gateWayResultList = await _gateWayItem.DeleteProviderAsync(listProvider);
             if (gateWayResultList.Count == 0)
                 foreach (Provider provider in listProvider)
@@ -196,6 +225,7 @@ namespace QOBDDAL.Core
         public async Task<List<Provider_item>> DeleteProvider_itemAsync(List<Provider_item> listProvider_item)
         {
             List<Provider_item> result = new List<Provider_item>();
+            checkServiceCommunication();
             List<Provider_item> gateWayResultList = await _gateWayItem.DeleteProvider_itemAsync(listProvider_item);
             if (gateWayResultList.Count == 0)
                 foreach (Provider_item provider_item in listProvider_item)
@@ -211,6 +241,7 @@ namespace QOBDDAL.Core
         public async Task<List<Item_delivery>> DeleteItem_deliveryAsync(List<Item_delivery> listItem_delivery)
         {
             List<Item_delivery> result = new List<Item_delivery>();
+            checkServiceCommunication();
             List<Item_delivery> gateWayResultList = await _gateWayItem.DeleteItem_deliveryAsync(listItem_delivery);
             if (gateWayResultList.Count == 0)
                 foreach (Item_delivery item_delivery in gateWayResultList)
@@ -225,6 +256,7 @@ namespace QOBDDAL.Core
         public async Task<List<Auto_ref>> DeleteAuto_refAsync(List<Auto_ref> listAuto_ref)
         {
             List<Auto_ref> result = new List<Auto_ref>();
+            checkServiceCommunication();
             List<Auto_ref> gateWayResultList = await _gateWayItem.DeleteAuto_refAsync(listAuto_ref);
             if (gateWayResultList.Count == 0)
                 foreach (Auto_ref Auto_ref in listAuto_ref)
@@ -239,6 +271,7 @@ namespace QOBDDAL.Core
         public async Task<List<Tax_item>> DeleteTax_itemAsync(List<Tax_item> listTax_item)
         {
             List<Tax_item> result = new List<Tax_item>();
+            checkServiceCommunication();
             List<Tax_item> gateWayResultList = await _gateWayItem.DeleteTax_itemAsync(listTax_item);
             if (gateWayResultList.Count == 0)
                 foreach (Tax_item Tax_item in listTax_item)
@@ -255,6 +288,7 @@ namespace QOBDDAL.Core
         {
             List<Item> result = new List<Item>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Item> gateWayResultList = await _gateWayItem.UpdateItemAsync(itemList);
 
             foreach (var item in gateWayResultList)
@@ -290,6 +324,7 @@ namespace QOBDDAL.Core
         {
             List<Provider> result = new List<Provider>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Provider> gateWayResultList = await _gateWayItem.UpdateProviderAsync(providerList);
 
             foreach (var provider in gateWayResultList)
@@ -324,6 +359,7 @@ namespace QOBDDAL.Core
         {
             List<Provider_item> result = new List<Provider_item>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Provider_item> gateWayResultList = await _gateWayItem.UpdateProvider_itemAsync(provider_itemList);
 
             foreach (var provider_item in gateWayResultList)
@@ -358,6 +394,7 @@ namespace QOBDDAL.Core
         {
             List<Item_delivery> result = new List<Item_delivery>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Item_delivery> gateWayResultList = await _gateWayItem.UpdateItem_deliveryAsync(item_deliveryList);
 
             foreach (var item_delivery in gateWayResultList)
@@ -392,6 +429,7 @@ namespace QOBDDAL.Core
         {
             List<Auto_ref> result = new List<Auto_ref>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Auto_ref> gateWayResultList = await _gateWayItem.UpdateAuto_refAsync(auto_refList);
 
             foreach (var auto_ref in gateWayResultList)
@@ -426,6 +464,7 @@ namespace QOBDDAL.Core
         {
             List<Tax_item> result = new List<Tax_item>();
             QOBDSet dataSet = new QOBDSet();
+            checkServiceCommunication();
             List<Tax_item> gateWayResultList = await _gateWayItem.UpdateTax_itemAsync(tax_itemList);
 
             foreach (var tax_item in gateWayResultList)
@@ -466,6 +505,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item>> GetItemDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gateWayItem.GetItemDataAsync(nbLine);
         }
 
@@ -483,6 +523,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item>> GetItemDataByOrder_itemListAsync(List<Order_item> order_itemList)
         {
+            checkServiceCommunication();
             return await _gateWayItem.GetItemDataByOrder_itemListAsync(order_itemList);
         }
 
@@ -501,6 +542,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider>> GetProviderDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gateWayItem.GetProviderDataAsync(nbLine);
         }
 
@@ -518,6 +560,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider>> GetProviderDataByProvider_itemListAsync(List<Provider_item> provider_itemList)
         {
+            checkServiceCommunication();
             return await _gateWayItem.GetProviderDataByProvider_itemListAsync(provider_itemList);
         }
 
@@ -537,6 +580,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider_item>> GetProvider_itemDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gateWayItem.GetProvider_itemDataAsync(nbLine);
         }
 
@@ -554,6 +598,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider_item>> GetProvider_itemDataByItemListAsync(List<Item> itemList)
         {
+            checkServiceCommunication();
             return await _gateWayItem.GetProvider_itemDataByItemListAsync(itemList);
         }
 
@@ -572,6 +617,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item_delivery>> GetItem_deliveryDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gateWayItem.GetItem_deliveryDataAsync(nbLine);
         }
 
@@ -589,6 +635,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item_delivery>> GetItem_deliveryDataByDeliveryListAsync(List<Delivery> deliveryList)
         {
+            checkServiceCommunication();
             return await _gateWayItem.GetItem_deliveryDataByDeliveryListAsync(deliveryList);
         }
 
@@ -607,6 +654,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Auto_ref>> GetAuto_refDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gateWayItem.GetAuto_refDataAsync(nbLine);
         }
 
@@ -625,6 +673,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_item>> GetTax_itemDataAsync(int nbLine)
         {
+            checkServiceCommunication();
             return await _gateWayItem.GetTax_itemDataAsync(nbLine);
         }
 
@@ -642,6 +691,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_item>> GetTax_itemDataByItemListAsync(List<Item> itemList)
         {
+            checkServiceCommunication();
             return await _gateWayItem.GetTax_itemDataByItemListAsync(itemList);
         }
 
@@ -657,6 +707,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item>> searchItemAsync(Item item, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gateWayItem.searchItemAsync(item, filterOperator);
         }
 
@@ -667,6 +718,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider>> searchProviderAsync(Provider Provider, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gateWayItem.searchProviderAsync(Provider, filterOperator);
         }
 
@@ -677,6 +729,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider_item>> searchProvider_itemAsync(Provider_item Provider_item, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gateWayItem.searchProvider_itemAsync(Provider_item, filterOperator);
         }
 
@@ -687,6 +740,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item_delivery>> searchItem_deliveryAsync(Item_delivery Item_delivery, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gateWayItem.searchItem_deliveryAsync(Item_delivery, filterOperator);
         }
 
@@ -697,6 +751,7 @@ namespace QOBDDAL.Core
 
         public async Task<List<Auto_ref>> searchAuto_refAsync(Auto_ref Auto_ref, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gateWayItem.searchAuto_refAsync(Auto_ref, filterOperator);
         }
 
@@ -707,13 +762,14 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_item>> searchTax_itemAsync(Tax_item Tax_item, ESearchOption filterOperator)
         {
+            checkServiceCommunication();
             return await _gateWayItem.searchTax_itemAsync(Tax_item, filterOperator);
         }
+        #endregion
 
         public void Dispose()
         {
             _gateWayItem.Dispose();
-            _dataSet.Dispose();
         }
 
         public async Task UpdateItemDependenciesAsync(List<Item> itemList, bool isActiveProgress = false)

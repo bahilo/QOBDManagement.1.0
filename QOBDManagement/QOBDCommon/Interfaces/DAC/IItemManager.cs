@@ -12,6 +12,8 @@ namespace QOBDCommon.Interfaces.DAC
     {
         void initializeCredential(Agent user);
 
+        void cacheWebServiceData();
+
         Task UpdateItemDependenciesAsync(List<Item> itemList, bool isActiveProgress = false);
 
         void progressBarManagement(Func<double, double> progressBarFunc);

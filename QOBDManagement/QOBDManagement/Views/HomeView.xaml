@@ -12,6 +12,11 @@
              xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="700" Loaded="HomeView_Loaded">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type ViewModel:ChatRoomViewModel}">
+            <Views:MainChatRoomWindow/>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <!--<TextBlock>Here is Home view page</TextBlock>-->
         <Grid.RowDefinitions>
@@ -23,7 +28,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label HorizontalAlignment="Center" FontSize="20" Foreground="DarkGray" Grid.ColumnSpan="3">Dashboard</Label>
         <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="8">
@@ -123,8 +128,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <materialDesign:Card Margin="4 4 0 0">
+            <materialDesign:Card>
                 <materialDesign:DialogHost>
                     <materialDesign:DialogHost.DialogContent>
                         <StackPanel Margin="16">
@@ -200,7 +206,7 @@
                 </materialDesign:DialogHost>
             </materialDesign:Card>
 
-            <materialDesign:Card Grid.Row="1" Margin="0 4 0 0" Background="{DynamicResource PrimaryHueDarkBrush}"
+            <materialDesign:Card Grid.Row="1" Margin="0 8 0 0" Background="{DynamicResource PrimaryHueDarkBrush}"
                                     Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                     Padding="8">
                 <StackPanel>
@@ -220,6 +226,9 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </StackPanel>
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Row="2" Margin="0 8 0 0">
+                <ContentControl Content="{Binding ChatRoomCurrentView, UpdateSourceTrigger=PropertyChanged}"/>
             </materialDesign:Card>
         </Grid>
     </Grid>
