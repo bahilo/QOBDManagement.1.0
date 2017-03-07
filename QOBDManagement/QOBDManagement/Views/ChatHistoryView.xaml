@@ -35,8 +35,8 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                    Command="{Binding DataContext.DiscussionViewModel.SelectUserForDiscussionCommand, ElementName=dgIndividualHistory}" 
-                                    CommandParameter="{Binding Key}">
+                                    Command="{Binding DataContext.DiscussionViewModel.GetIndividualDiscussionCommand, ElementName=dgIndividualHistory}" 
+                                    CommandParameter="{Binding CurrentItem.Value.TxtGroupName, ElementName=dgIndividualHistory}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Key.TxtLogin}"/>
                                     <TextBlock Margin="0 0 5 0" Text=":"/>
@@ -75,7 +75,7 @@
                         <DataTemplate>
                             <Button Style="{DynamicResource MaterialDesignFlatButton}"
                                     Command="{Binding DataContext.DiscussionViewModel.GetDiscussionGroupCommand, ElementName=dgGroupHistory}" 
-                                    CommandParameter="{Binding Value.TxtGroupName}">
+                                    CommandParameter="{Binding CurrentItem.Value.TxtGroupName, ElementName=dgGroupHistory}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Value.TxtGroupName, Converter={StaticResource ResourceKey=discussionGroupConverter}}"/>
                                     <TextBlock Margin="0 0 5 0" Text=":"/>

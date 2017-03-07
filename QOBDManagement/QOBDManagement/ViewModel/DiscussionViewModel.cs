@@ -49,6 +49,7 @@ namespace QOBDManagement.ViewModel
         public ButtonCommand<object> ReadNewMessageCommand { get; set; }
         public ButtonCommand<AgentModel> AddUserToDiscussionCommand { get; set; }
         public ButtonCommand<string> GetDiscussionGroupCommand { get; set; }
+        public ButtonCommand<string> GetIndividualDiscussionCommand { get; set; }
 
 
 
@@ -106,6 +107,7 @@ namespace QOBDManagement.ViewModel
             ReadNewMessageCommand = new ButtonCommand<object>(readNewMessages, canReadNewMessages);
             AddUserToDiscussionCommand = new ButtonCommand<AgentModel>(addUserToCurrentDiscussion, canAddUserToCurrentDiscussion);
             GetDiscussionGroupCommand = new ButtonCommand<string>(getDiscussionGroup, canGetDiscussionGroup);
+            GetIndividualDiscussionCommand = new ButtonCommand<string>(getIndividualDiscussion, canGetIndividualDiscussion);
         }
 
 
@@ -196,10 +198,14 @@ namespace QOBDManagement.ViewModel
 
             // find the discussion where the selected user appears
             List<DiscussionModel> discussionFoundList = new List<DiscussionModel>();
-            if (DiscussionModel.IsGroupDiscussion)
-                discussionFoundList = DiscussionList.Where(x => x.TxtID == DiscussionModel.TxtGroupName.Split('-')[2]).ToList();
-            else
+
+            if (string.IsNullOrEmpty(DiscussionModel.TxtGroupName))
                 discussionFoundList = DiscussionList.Where(x => x.UserList.Where(y => y.Agent.ID == SelectedAgentModel.Agent.ID).Count() > 0 && x.UserList.Count == 1).ToList();
+            else
+                discussionFoundList = DiscussionList.Where(x => x.TxtGroupName == DiscussionModel.TxtGroupName).ToList();
+            
+
+            //discussionFoundList = DiscussionList.Where(x => x.TxtGroupName == DiscussionModel.TxtGroupName).ToList();
 
             // display discussion messages
             if (discussionFoundList.Count > 0)
@@ -214,10 +220,9 @@ namespace QOBDManagement.ViewModel
                     else
                         displayMessage(messageModel.Message, AuthenticatedUser);
                 }
-            }
-
-            // update the displayed group name ( calling the on property change event )
-            DiscussionModel.TxtGroupName = DiscussionModel.TxtGroupName;
+                // update the displayed group name ( calling the on property change event )
+                DiscussionModel.TxtGroupName = DiscussionModel.TxtGroupName;
+            }            
 
             Dialog.IsChatDialogOpen = false;
         }
@@ -587,8 +592,6 @@ namespace QOBDManagement.ViewModel
         private void selectUserForDiscussion(AgentModel obj)
         {
             Dialog.IsLeftBarClosed = false;
-            //IsGroupDiscussion = false;
-            //_groupId = "";
             DiscussionModel = new DiscussionModel();
             DiscussionModel.IsGroupDiscussion = false;
             SelectedAgentModel = obj;
@@ -673,6 +676,7 @@ namespace QOBDManagement.ViewModel
             if (!string.IsNullOrEmpty(obj))
             {
                 Dialog.IsLeftBarClosed = false;
+                DiscussionModel = new DiscussionModel();
                 SelectedAgentModel = new AgentModel { TxtID = obj.Split('-')[1].Split('|')[0] };
                 DiscussionModel.IsGroupDiscussion = true;
                 DiscussionModel.TxtGroupName = obj;
@@ -681,6 +685,24 @@ namespace QOBDManagement.ViewModel
         }
 
         private bool canGetDiscussionGroup(string arg)
+        {
+            return true;
+        }
+
+        private void getIndividualDiscussion(string obj)
+        {
+            if (!string.IsNullOrEmpty(obj))
+            {
+                Dialog.IsLeftBarClosed = false;
+                DiscussionModel = new DiscussionModel();
+                SelectedAgentModel = new AgentModel { TxtID = obj.Split('-')[1].Split('|')[0] };
+                DiscussionModel.IsGroupDiscussion = false;
+                DiscussionModel.TxtGroupName = obj;
+                executeNavig("chatroom");
+            }
+        }
+
+        private bool canGetIndividualDiscussion(string arg)
         {
             return true;
         }
