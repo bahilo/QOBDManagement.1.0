@@ -13,6 +13,7 @@ using QOBDManagement.Models;
 using QOBDCommon.Enum;
 using QOBDManagement.Interfaces;
 using System.Windows.Threading;
+using System.Windows;
 
 namespace QOBDManagement.ViewModel
 {
@@ -56,11 +57,6 @@ namespace QOBDManagement.ViewModel
                 (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
                 (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
             }
-        }
-
-        public AgentViewModel(IMainWindowViewModel mainWindowViewModel, IDiscussionViewModel discussion) : this(mainWindowViewModel)
-        {
-            _chatDiscussionViewModel = discussion;
         }
 
         //----------------------------[ Initialization ]------------------
@@ -146,7 +142,7 @@ namespace QOBDManagement.ViewModel
 
         public List<AgentModel> UserModelList
         {
-            get { return AgentModelList.Where(x => x.Agent.ID != Bl.BlSecurity.GetAuthenticatedUser().ID).OrderBy(x => x.Agent.IsOnline).ToList(); }
+            get { return AgentModelList.Where(x => x.Agent.ID != Bl.BlSecurity.GetAuthenticatedUser().ID).OrderByDescending(x => x.Agent.IsOnline).ToList(); }
         }
 
         public List<string> UserGroupList
@@ -183,16 +179,14 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         public void loadAgents()
         {
-            Dialog.showSearch("loading...");
-            AgentModelList = agentListToModelViewList(Bl.BlAgent.GetAgentData(999));
-            Dialog.IsDialogOpen = false;
+            Application.Current.Dispatcher.Invoke(new System.Action(async () =>
+            {
+                AgentModelList = agentListToModelViewList(await Bl.BlAgent.GetAgentDataAsync(-999));
+            }));
+            //Dialog.showSearch("loading...");
+            
+            //Dialog.IsDialogOpen = false;
         } 
-        
-        public async void getAgentOnlineStatus()
-        {
-            // getting the agents from the web service
-            AgentModelList = agentListToModelViewList(await Bl.BlAgent.GetAgentDataAsync(-999));
-        }       
 
         public override void Dispose()
         {

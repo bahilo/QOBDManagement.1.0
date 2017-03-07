@@ -15,14 +15,11 @@ namespace QOBDManagement.Classes
             string valueToProcess = value as string;
             if(valueToProcess != null)
             {
-                int nbCharToDisplay;
+                int nbCharToDisplay = 50;
                 valueToProcess = valueToProcess.Split('-')[0];
-                if (valueToProcess.Length > 50)
-                    nbCharToDisplay = 50;
-                else
-                    nbCharToDisplay = valueToProcess.Length;
-                valueToProcess = valueToProcess.Substring(0, nbCharToDisplay) + "...";
-
+                if (valueToProcess.Length > nbCharToDisplay)
+                    valueToProcess = valueToProcess.Substring(0, nbCharToDisplay) + "...";
+                
                 return valueToProcess;
             }
             return value;

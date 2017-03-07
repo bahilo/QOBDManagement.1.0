@@ -15,13 +15,15 @@ namespace QOBDManagement.Models
         private List<AgentModel> _userList;
         private bool _isGroupDiscussion;
         private string _groupName;
+        private List<MessageModel> _messageList;
 
         public DiscussionModel()
         {
             _discussion = new Discussion();
             _userList = new List<AgentModel>();
+            _messageList = new List<MessageModel>();
         }
-        
+
 
         public Discussion Discussion
         {
@@ -40,6 +42,12 @@ namespace QOBDManagement.Models
         {
             get { return _userList; }
             set { setProperty(ref _userList, value); }
+        }
+
+        public List<MessageModel> MessageList
+        {
+            get { return _messageList; }
+            set { setProperty(ref _messageList, value); }
         }
 
         public string TxtGroupName
@@ -62,22 +70,68 @@ namespace QOBDManagement.Models
 
         public void addUser(AgentModel userModel)
         {
-            if (UserList.Where(x => x.Agent.ID == userModel.Agent.ID).Count() == 0)
-                UserList.Add(userModel);
+            if (userModel != null)
+            {
+                if (UserList.Where(x => x.Agent.ID == userModel.Agent.ID).Count() == 0)
+                    UserList.Add(userModel);
+                if (UserList.Count > 2)
+                    IsGroupDiscussion = true;
+                onPropertyChange("UserList");
+                TxtGroupName = generateDiscussionGroupName(Discussion.ID, UserList);
+            }
 
-            if (UserList.Count > 0)
-                IsGroupDiscussion = true;
         }
 
         public void addUser(List<AgentModel> userModelList)
         {
             foreach (AgentModel userModel in userModelList)
-            {
                 addUser(userModel);
+        }
+
+        public void addUser(List<Agent> userList)
+        {
+            foreach (Agent user in userList)
+                addUser(new AgentModel { Agent = user });
+        }
+
+        public void addMessage(MessageModel messageModel)
+        {
+            if (messageModel != null)
+            {
+                if (MessageList.Where(x => x.Message.ID == messageModel.Message.ID).Count() == 0)
+                    MessageList.Add(messageModel);
+                onPropertyChange("MessageList");                
             }
+        }
+
+        public void addMessage(List<MessageModel> messageModelList)
+        {
+            foreach (MessageModel messageModel in messageModelList)
+                addMessage(messageModel);
+        }
+
+        public void addMessage(List<Message> messageList)
+        {
+            foreach (Message message in messageList)
+                addMessage(new MessageModel { Message = message });
+        }
+
+        private string generateDiscussionGroupName(int discussionId, List<AgentModel> userList)
+        {
+            string ouput = "";
+            string userGroup = "";
+            string userIds = "";
+            foreach (AgentModel userModel in userList)
+            {
+                userGroup += userModel.TxtLogin + ";";
+                userIds += userModel.TxtID + "|";
+            }
+            ouput += userGroup + "-" + userIds + "-" + discussionId;
+
+            return ouput;
         }
 
     }
 
-    
+
 }

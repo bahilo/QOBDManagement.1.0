@@ -54,61 +54,53 @@ namespace QOBDManagement.ViewModel
 
         public async void load()
         {
-            Dialog.showSearch("Loading...", isChatDialogBox:true);       
+            Dialog.showSearch("Loading...", isChatDialogBox: true);
             MessageIndividualHistoryList.Clear();
             MessageGroupHistoryList.Clear();
 
             // searching all common discussion
-            var discussionList = await _discussionViewModel.retrieveUserDiscussions(BL.BlSecurity.GetAuthenticatedUser());
-
+            var discussionList = _discussionViewModel.DiscussionList;
+            if (discussionList == null || discussionList.Count == 0)
+                discussionList = await _discussionViewModel.retrieveUserDiscussions(BL.BlSecurity.GetAuthenticatedUser());
+            
             foreach (var discussionModel in discussionList)
-            {                
-                if (MessageIndividualHistoryList.Values.Where(x=>x.Message.DiscussionId == discussionModel.Discussion.ID).Count() == 0
+            {
+                if (MessageIndividualHistoryList.Values.Where(x => x.Message.DiscussionId == discussionModel.Discussion.ID).Count() == 0
                     && MessageGroupHistoryList.Values.Where(x => x.Message.DiscussionId == discussionModel.Discussion.ID).Count() == 0)
                 {
                     MessageModel lastMessage = new MessageModel();
-                    var allMessages = await BL.BlChatRoom.searchMessageAsync(new Message { DiscussionId = discussionModel.Discussion.ID }, QOBDCommon.Enum.ESearchOption.AND);                    
-                    var messageList = allMessages.Where(x => x.UserId != AuthenticatedUser.ID && x.Status == 1).OrderByDescending(x => x.Date).ToList();
-                    if (messageList.Count > 0)
-                    {
-                        int nbCharToDisplay;
-
-                        // get all unread messages
-                        if(messageList.Where(x=>x.Status == 1).Count() > 0)
+                    if (discussionModel.MessageList.Count > 0)
+                    {                   
+                        lastMessage = discussionModel.MessageList.Where(x => x.IsNewMessage).OrderByDescending(x => x.Message.ID).Select(x => new MessageModel { Message = new Message { Content = x.TxtContent }, IsNewMessage = x.IsNewMessage }).FirstOrDefault();
+                        if (lastMessage == null)
+                            lastMessage = discussionModel.MessageList.OrderByDescending(x => x.Message.ID).Select(x => new MessageModel { Message = new Message { Content = x.TxtContent }, IsNewMessage = x.IsNewMessage }).First();
+                        
+                        // limit the amount of message characters to display in the history
+                        if (lastMessage.TxtContent.Length > _discussionViewModel.MaxMessageLength)
+                            lastMessage.TxtContent = lastMessage.TxtContent.Substring(0, _discussionViewModel.MaxMessageLength) + "...";
+                        
+                        if (discussionModel.UserList.Count() > 0)
                         {
-                            lastMessage = messageList.Where(x => x.Status == 1).Select(x => new MessageModel { Message = x }).First();                            
-                        }                            
-                        else
-                            lastMessage = messageList.Select(x => new MessageModel { Message = x }).First();
+                            lastMessage.Message.UserId = discussionModel.UserList[0].Agent.ID;
+                            lastMessage.TxtGroupName = discussionModel.TxtGroupName;
+                            lastMessage.Message.Date = discussionModel.MessageList.OrderByDescending(x => x.Message.Date).Select(x => x.Message.Date).First();
+                        }
 
-                        lastMessage.TxtContent = Utility.decodeBase64ToString(lastMessage.TxtContent);
-                        if (lastMessage.TxtContent.Length > 30)
-                            nbCharToDisplay = 30;
-                        else
-                            nbCharToDisplay = lastMessage.TxtContent.Length;
-                        lastMessage.TxtContent = lastMessage.TxtContent.Substring(0, nbCharToDisplay) + "...";
+                        var usersFound = discussionModel.UserList.Where(x => x.Agent.ID == lastMessage.Message.UserId).ToList();// await BL.BlAgent.searchAgentAsync( new Agent { ID = lastMessage.Message.UserId }, QOBDCommon.Enum.ESearchOption.AND);
+                        if (usersFound.Count > 0)
+                        {
+                            if (discussionModel.UserList.Count == 1)
+                                MessageIndividualHistoryList = Utility.concat(MessageIndividualHistoryList, new Dictionary<AgentModel, MessageModel> { { usersFound.First(), lastMessage } });
+                            else
+                                MessageGroupHistoryList = Utility.concat(MessageGroupHistoryList, new Dictionary<AgentModel, MessageModel> { { usersFound.First(), lastMessage } });
+                        }
                     }
-                    else if(allMessages.Count > 0)
-                    {      
-                        if(discussionModel.UserList.Count() > 0)
-                           lastMessage.Message = new Message { Content = "...", DiscussionId = discussionModel.Discussion.ID, UserId = discussionModel.UserList[0].Agent.ID, Status = 0, Date = allMessages.OrderByDescending(x => x.Date).Select(x => x.Date).First() };    
-                    }/**/
-
-                    lastMessage.TxtGroupName = discussionModel.TxtGroupName;
-                    var userList = discussionModel.UserList.Where(x=> x.Agent.ID == lastMessage.Message.UserId).ToList();// await BL.BlAgent.searchAgentAsync( new Agent { ID = lastMessage.Message.UserId }, QOBDCommon.Enum.ESearchOption.AND);
-                    if (userList.Count > 0)
-                    {
-                        if(discussionModel.UserList.Count == 1)
-                            MessageIndividualHistoryList = Utility.concat(MessageIndividualHistoryList, new Dictionary<AgentModel, MessageModel> { { userList.First(), lastMessage } });
-                        else
-                            MessageGroupHistoryList = Utility.concat(MessageGroupHistoryList, new Dictionary<AgentModel, MessageModel> { { userList.First(), lastMessage } });
-                    }                        
-                }  
+                }
             }
-            Dialog.IsChatDialogOpen = false;         
+            Dialog.IsChatDialogOpen = false;
         }
 
-        
+
 
 
 

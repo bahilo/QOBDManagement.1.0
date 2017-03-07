@@ -26,10 +26,11 @@ namespace QOBDManagement.ViewModel
         private Object _currentViewModel;
         private bool _isServerConnectionError;
         private IMainWindowViewModel _main;
+        private IAgentViewModel _agentViewModel;
 
 
         //----------------------------[ ViewModels ]------------------
-        
+
         public DiscussionViewModel DiscussionViewModel { get; set; }
         public MessageViewModel MessageViewModel { get; set; }
         
@@ -53,21 +54,36 @@ namespace QOBDManagement.ViewModel
             setInitEvents();
         }
 
+        public ChatRoomViewModel(IMainWindowViewModel mainWindowViewModel, IAgentViewModel agentViewModel) : this(mainWindowViewModel)
+        {            
+            initializer(agentViewModel);
+        }
+
 
         //----------------------------[ Initialization ]------------------
-        
-        private void initializer()
-        {
-            _context = new Context(navigation);
 
+        private void initializer()
+        {         
             DiscussionViewModel = new DiscussionViewModel(navigation);
             MessageViewModel = new MessageViewModel(navigation, DiscussionViewModel);
+            init();                  
+        }
 
+        private void initializer(IAgentViewModel agentViewModel)
+        {
+            _agentViewModel = agentViewModel;
+            DiscussionViewModel = new DiscussionViewModel(navigation, agentViewModel);
+            MessageViewModel = new MessageViewModel(navigation, DiscussionViewModel);
+            init();
+        }
+
+        private void init()
+        {
+            _context = new Context(navigation);
             CommandNavig = new ButtonCommand<string>(appNavig, canAppNavig);
-            
             DiscussionViewModel.Dialog = Dialog;
             MessageViewModel.Dialog = Dialog;
-            appNavig("home");         
+            appNavig("home");
         }
 
         private void setLogic()
@@ -120,8 +136,14 @@ namespace QOBDManagement.ViewModel
 
         public async void connectToServer()
         {
+            Agent authenticatedUser = _startup.Bl.BlSecurity.GetAuthenticatedUser();
             try
             {
+                // updating the user status
+                
+                authenticatedUser.IsOnline = true;
+                var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
+                
                 // initialize the communication with the server
                 int port = int.Parse(ConfigurationManager.AppSettings["Port"]);
                 string ipAddress = ConfigurationManager.AppSettings["IP"];
@@ -135,11 +157,7 @@ namespace QOBDManagement.ViewModel
                 _serverStream = _clientSocket.GetStream();
                 byte[] outStream = System.Text.Encoding.ASCII.GetBytes((int)EServiceCommunication.Connected + "/" + _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "/0/" + _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "|" + "$");//textBox3.Text
                 _serverStream.Write(outStream, 0, outStream.Length);
-                _serverStream.Flush();
-
-                Agent authenticatedUser = _startup.Bl.BlSecurity.GetAuthenticatedUser();
-                authenticatedUser.IsOnline = true;
-                var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
+                _serverStream.Flush();                
 
                 // create discussion thread
                 Thread ctThread = new Thread(DiscussionViewModel.getMessage);
@@ -151,6 +169,10 @@ namespace QOBDManagement.ViewModel
                 _isServerConnectionError = true;
                 CurrentViewModel = DiscussionViewModel;
                 Log.error(ex.Message);
+
+                // updating the user status
+                authenticatedUser.IsOnline = false;
+                var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });                
             }
         }
 
@@ -190,25 +212,25 @@ namespace QOBDManagement.ViewModel
         {
             try
             {
+                // update user status to disconnected
+                Agent authenticatedUser = _startup.Bl.BlSecurity.GetAuthenticatedUser();
+                authenticatedUser.IsOnline = false;
+                await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
+
                 if (_serverStream != null && discussionList.Count > 0)
                 {
-                    List<AgentModel> userList = new List<AgentModel>();
-                    discussionList.Select(x => Utility.concat(userList, x.UserList)).First();// 
-                    byte[] outStream = System.Text.Encoding.ASCII.GetBytes((int)EServiceCommunication.Disconnected + "/"+ _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "/0/" + DiscussionViewModel.generateDiscussionGroupName(discussionList[0].Discussion.ID, userList).Split('-')[1] + "$");//textBox3.Text
-                    _serverStream.Write(outStream, 0, outStream.Length);
-                    _serverStream.Flush();
+                    foreach (DiscussionModel discussionModel in discussionList)
+                    {
+                        string disconnectionString = (int)EServiceCommunication.Disconnected + "/" + _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "/0/" + discussionModel.TxtGroupName.Split('-')[1] + "$";
+                        byte[] outStream = System.Text.Encoding.ASCII.GetBytes(disconnectionString);
+                        _serverStream.Write(outStream, 0, outStream.Length);
+                        _serverStream.Flush();
+                    }
                 }
             }
             catch(Exception ex)
             {
                 Log.error(ex.Message);
-            }
-            finally
-            {
-                // update user status to disconnected
-                Agent authenticatedUser = _startup.Bl.BlSecurity.GetAuthenticatedUser();
-                authenticatedUser.IsOnline = false;
-                await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
             }
         }
 
@@ -238,14 +260,11 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void onUpdateUsersStatusChange(object sender, PropertyChangedEventArgs e)
+        private void onUpdateUsersStatusChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("updateStatus"))
             {
-                await Application.Current.Dispatcher.BeginInvoke(new System.Action(() =>
-                {
-                    _main.AgentViewModel.getAgentOnlineStatus();
-                }));
+                _main.AgentViewModel.loadAgents();
             }
         }
 

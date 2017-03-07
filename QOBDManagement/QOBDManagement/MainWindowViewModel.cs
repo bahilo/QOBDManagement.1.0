@@ -85,8 +85,8 @@ namespace QOBDManagement
             //------[ ViewModel ]
             ItemViewModel = new ItemViewModel(this);
             ClientViewModel = new ClientViewModel(this);
+            AgentViewModel = new AgentViewModel(this);
             ChatRoomViewModel = new ChatRoomViewModel(this);
-            AgentViewModel = new AgentViewModel(this, ChatRoomViewModel.DiscussionViewModel);
             HomeViewModel = new HomeViewModel(this);
             NotificationViewModel = new NotificationViewModel(this);
             ReferentialViewModel = new ReferentialViewModel(this);
@@ -440,7 +440,7 @@ namespace QOBDManagement
                 //========================= [ Chat Room ]====================
 
                 // load chat user
-                //AgentViewModel.loadAgents();
+                AgentViewModel.loadAgents();
 
                 // display the chat view
                 ChatRoomCurrentView = ChatRoomViewModel;

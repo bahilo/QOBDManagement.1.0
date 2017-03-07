@@ -21,7 +21,7 @@
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Value.TxtStatus}" Value="1">
+                        <DataTrigger Binding="{Binding Value.IsNewMessage, UpdateSourceTrigger=PropertyChanged}" Value="true">
                             <Setter Property="Background" Value="Beige"/>
                         </DataTrigger>
                         <!--<DataTrigger Binding="{Binding Value.TxtStatus}" Value="0">
@@ -63,7 +63,7 @@
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Value.TxtStatus}" Value="1">
+                        <DataTrigger Binding="{Binding Value.IsNewMessage, UpdateSourceTrigger=PropertyChanged}" Value="true">
                             <Setter Property="Background" Value="Beige"/>
                         </DataTrigger>
                     </Style.Triggers>
