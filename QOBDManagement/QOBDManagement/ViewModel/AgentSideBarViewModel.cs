@@ -83,6 +83,10 @@ namespace QOBDManagement.ViewModel
             Agent newAgent = new Agent();
             if (_main != null)
             {
+                Bl.BlSecurity.DisconnectAuthenticatedUser();
+                await Task.Factory.StartNew(() => {
+                    _main.ChatRoomViewModel.Dispose();
+                });
                 newAgent = await Bl.BlSecurity.AuthenticateUserAsync(login, password, isClearPassword: false);
                 _main.isNewAgentAuthentication = true;
                 _main.SecurityLoginViewModel.AgentModel.Agent = Bl.BlSecurity.GetAuthenticatedUser();

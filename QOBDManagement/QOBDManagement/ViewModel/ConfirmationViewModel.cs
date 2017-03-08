@@ -128,9 +128,18 @@ namespace QOBDManagement.ViewModel
 
         private string getDialogBox(bool isChatDialogBox = false)
         {
-            string result = "RootDialog";
+            string result = "";
             if (isChatDialogBox)
+            {
                 result = "RootDialogChatRoom";
+                _isChatDialogOpen = true;
+            }
+            else
+            {
+                result = "RootDialog";
+                _isDialogOpen = true;
+            }
+                
             return result;
         }
 

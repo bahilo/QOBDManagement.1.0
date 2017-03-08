@@ -248,7 +248,8 @@ namespace QOBDCommon.Classes
         {
             foreach (var dict in dictSource)
             {
-                dictTarget.Add(dict.Key, dict.Value);
+                if(!dictTarget.Keys.Contains(dict.Key))
+                    dictTarget.Add(dict.Key, dict.Value);
             }
 
             return dictTarget;
@@ -258,6 +259,7 @@ namespace QOBDCommon.Classes
         {
             foreach (var value in Source)
             {
+                if(!Target.Contains(value))
                 Target.Add(value);
             }
 

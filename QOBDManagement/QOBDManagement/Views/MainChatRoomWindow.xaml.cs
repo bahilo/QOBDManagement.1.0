@@ -1,4 +1,5 @@
 ﻿using QOBDManagement.Classes;
+using QOBDManagement.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,10 @@ namespace QOBDManagement.Views
         private void DialogBoxChatRoom_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext dataContext = new DataContext();
-            dataContext.setChatWindowContext(this);
+            if (dataContext.setChatWindowContext(this) != null)
+            {
+                ((ChatRoomViewModel)this.DataContext).MessageViewModel.load();
+            }
         }
         
     }

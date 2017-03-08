@@ -83,7 +83,6 @@ namespace QOBDManagement.ViewModel
             CommandNavig = new ButtonCommand<string>(appNavig, canAppNavig);
             DiscussionViewModel.Dialog = Dialog;
             MessageViewModel.Dialog = Dialog;
-            appNavig("home");
         }
 
         private void setLogic()
@@ -235,7 +234,7 @@ namespace QOBDManagement.ViewModel
         }
 
         public async override void Dispose()
-        {      
+        {            
             unSubscribeEvents();
             await chatLogOut(null);
             cleanUp();
@@ -317,7 +316,9 @@ namespace QOBDManagement.ViewModel
 
         private async Task chatLogOut(object obj)
         {
-            await signOutFromServer(DiscussionViewModel.DiscussionList);           
+            await signOutFromServer(DiscussionViewModel.DiscussionList);
+            DiscussionViewModel.DiscussionList = new List<DiscussionModel>();
+            CurrentViewModel = null;
         }
     }
 }

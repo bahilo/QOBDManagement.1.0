@@ -28,7 +28,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="350"/>
         </Grid.ColumnDefinitions>
         <Label HorizontalAlignment="Center" FontSize="20" Foreground="DarkGray" Grid.ColumnSpan="3">Dashboard</Label>
         <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="8">

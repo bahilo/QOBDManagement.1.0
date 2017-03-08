@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="QOBDManagement.Views.MainChatRoomWindow"
+             Name="MainChatRoom"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}"
              TextElement.FontWeight="Medium"
@@ -27,7 +28,7 @@
     <materialDesign:DialogHost Name="DialogBoxChatRoom" Identifier="RootDialogChatRoom" IsOpen="{Binding Dialog.IsChatDialogOpen, UpdateSourceTrigger=PropertyChanged}" Loaded="DialogBoxChatRoom_Loaded">
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
             <materialDesign:DrawerHost.LeftDrawerContent>
-                <DockPanel Width="200" MaxHeight="440">
+                <DockPanel Width="200" MaxHeight="{Binding Height, ElementName=MainChatRoom, UpdateSourceTrigger=PropertyChanged}">
                     <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
                                   DockPanel.Dock="Top"
                                   HorizontalAlignment="Right" Margin="16"

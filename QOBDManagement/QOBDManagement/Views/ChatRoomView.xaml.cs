@@ -38,6 +38,7 @@ namespace QOBDManagement.Views
                 ((ChatRoomViewModel)this.DataContext).DiscussionViewModel.ChatRoom = this;
                 ((ChatRoomViewModel)this.DataContext).DiscussionViewModel.load();
             }
+            textBox2.Focus();
         }
 
         public async void showMyReply(string message, bool isNewDiscussion = false)

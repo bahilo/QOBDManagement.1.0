@@ -116,10 +116,8 @@ namespace QOBDManagement.ViewModel
             if (!string.IsNullOrEmpty(TxtLogin) && !string.IsNullOrEmpty(TxtClearPassword) && result)
             {
                 await authenticateAgent();
-                if (AgentModel.Agent.ID == 0)
-                {
+                if (!Bl.BlSecurity.IsUserAuthenticated())
                     await showLoginView();
-                }
             }
             else
                 await showLoginView();
@@ -157,8 +155,8 @@ namespace QOBDManagement.ViewModel
 
         public async Task startAuthentication()
         {
-            TxtLogin = "demo";// "<< Login here for dev mode >>";
-            TxtClearPassword = "demo"; //"<< Password here for dev mode >>";
+            TxtLogin = "";// "<< Login here for dev mode >>";
+            TxtClearPassword = ""; //"<< Password here for dev mode >>";
             await authenticateAgent();
         }
 
@@ -192,7 +190,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="e"></param>
         private void onAgentChange_goToHomePage(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("Agent"))
+            if (e.PropertyName.Equals("Agent") && Bl.BlSecurity.IsUserAuthenticated())
                 _page(new HomeViewModel());
         }        
 
@@ -222,7 +220,7 @@ namespace QOBDManagement.ViewModel
                 if (Application.Current != null)
                     await Application.Current.Dispatcher.Invoke(async ()=> {
                         await showLoginView();
-                        //await startAuthentication();
+                        //await startAuthentication(); //"<< for dev mode >>";
                     });  
             }
         }
@@ -231,6 +229,10 @@ namespace QOBDManagement.ViewModel
 
         private async void logOut(object obj)
         {
+            Bl.BlSecurity.DisconnectAuthenticatedUser();
+            await Task.Factory.StartNew(()=> {
+                _main.ChatRoomViewModel.Dispose();
+            });
             AgentModel.Agent = new QOBDCommon.Entities.Agent();
             await showLoginView();
         }

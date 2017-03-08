@@ -78,24 +78,25 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
-            <StackPanel Background="Beige" MinHeight="300" MaxWidth="490" Name="chatRoomZone" Orientation="Vertical">
-                <!--<Button Width="300" Style="{DynamicResource ResourceKey=Reply}">sasdv</Button>
-                <Button Width="300" Style="{DynamicResource ResourceKey=RecipientReply}">sasdv</Button>-->
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Background="Beige" MinHeight="300" Name="chatRoomZone" Orientation="Vertical"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="70"/>
+                </Grid.ColumnDefinitions>
+
                 <TextBox Text="{Binding DiscussionViewModel.InputMessage, UpdateSourceTrigger=PropertyChanged}" Margin="6" Name="textBox2" 
                          TextWrapping="Wrap" 
-                         AcceptsReturn="True" 
-                         MinWidth="290"
+                         AcceptsReturn="True"
                          Height="80"
-                         MaxWidth="400"
                          HorizontalAlignment="Stretch"
                          VerticalScrollBarVisibility="Auto"
                          HorizontalScrollBarVisibility="Auto"
                          materialDesign:HintAssist.Hint="messages..."/>
-                <Button Name="btn_send" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
+                <Button Grid.Column="1" Name="btn_send" IsDefault="True" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
                                 Command="{Binding DiscussionViewModel.SendMessageCommand}">Send</Button>
-            </StackPanel>
+            </Grid>
+
         </StackPanel>
     </Grid>
 </UserControl>

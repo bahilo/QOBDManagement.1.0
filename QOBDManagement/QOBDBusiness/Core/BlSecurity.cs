@@ -139,6 +139,22 @@ namespace QOBDBusiness.Core
                 DAC.DALSecurity.progressBarManagement(progressBarFunc);
         }
 
+        public Agent GetAuthenticatedUser()
+        {
+            return Safe.AuthenticatedUser;
+        }
+
+        public bool IsUserAuthenticated()
+        {
+            return Safe.IsAuthenticated;
+        }
+
+        public void DisconnectAuthenticatedUser()
+        {
+            Safe.AuthenticatedUser = new Agent();
+            Safe.IsAuthenticated = false;
+        }
+
         public async Task<List<ActionRecord>> InsertActionRecordAsync(List<ActionRecord> listActionRecord)
         {
             List<ActionRecord> result = new List<ActionRecord>();
@@ -357,16 +373,6 @@ namespace QOBDBusiness.Core
             }
             catch (Exception ex) { Log.error(ex.Message); }
             return result;
-        }
-
-        public Agent GetAuthenticatedUser()
-        {
-            return Safe.AuthenticatedUser;
-        }
-
-        public bool IsUserAuthenticated()
-        {
-            return Safe.IsAuthenticated;
         }
 
         public async Task<List<Role>> GetRoleDataAsync(int nbLine)

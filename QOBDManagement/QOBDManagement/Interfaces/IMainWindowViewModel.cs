@@ -22,8 +22,10 @@ namespace QOBDManagement.Interfaces
         ReferentialViewModel ReferentialViewModel { get; set; }
         StatisticViewModel StatisticViewModel { get; set; }
         QuoteViewModel QuoteViewModel { get; set; }
+        ChatRoomViewModel ChatRoomViewModel { get; set; }
         SecurityLoginViewModel SecurityLoginViewModel { get; set; }
         Object CurrentViewModel { get; set; }
+        Object ChatRoomCurrentView { get; set; }
         bool isNewAgentAuthentication { get; set; }
         Cart Cart { get; }
         ButtonCommand<string> CommandNavig { get; set; }

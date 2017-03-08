@@ -204,9 +204,6 @@ namespace QOBDManagement.ViewModel
             else
                 discussionFoundList = DiscussionList.Where(x => x.TxtGroupName == DiscussionModel.TxtGroupName).ToList();
             
-
-            //discussionFoundList = DiscussionList.Where(x => x.TxtGroupName == DiscussionModel.TxtGroupName).ToList();
-
             // display discussion messages
             if (discussionFoundList.Count > 0)
             {
@@ -230,7 +227,8 @@ namespace QOBDManagement.ViewModel
         public async Task<List<DiscussionModel>> retrieveUserDiscussions(Agent user)
         {
             object _lock = new object();
-            DiscussionList = new List<DiscussionModel>();
+            lock(_lock)
+                DiscussionList = new List<DiscussionModel>();
             List<User_discussion> allUser_discussionOfAuthencatedUserList = await BL.BlChatRoom.searchUser_discussionAsync(new User_discussion { UserId = user.ID }, QOBDCommon.Enum.ESearchOption.AND);
 
             _nbNewMessage = 0;
@@ -338,18 +336,6 @@ namespace QOBDManagement.ViewModel
                             {
                                 updateDiscussionUserList(DiscussionModel, discussionUserIDs);
                                 displayMessage(messageFoundList[0], userFoundList[0]);
-                                /*foreach (string id in discussionUserIDs)
-                                {
-                                    if (id != AuthenticatedUser.ID.ToString() && DiscussionModel.UserList.Where(x => x.TxtID == id).Count() == 0)
-                                    {
-                                        var userFoundList = BL.BlAgent.searchAgent(new Agent { ID = Utility.intTryParse(id) }, QOBDCommon.Enum.ESearchOption.AND);
-                                        if (userFoundList.Count > 0)
-                                        {
-                                            displayMessage(messageFoundList[0], userFoundList[0]);
-                                            DiscussionModel.addUser(userFoundList);
-                                        }
-                                    }
-                                }*/
                             }
 
                             // display the new incoming message
@@ -487,8 +473,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="discussionModel">The current discussion</param>
         public async void markMessageAsRead(DiscussionModel discussionModel, MessageModel messageModel)
         {
-            // set the discussion unread
-            // used for to notify the authenticated user of an unread message
+            // set the discussion message as read
             List<User_discussion> authenticatedUserDiscussionList = await BL.BlChatRoom.searchUser_discussionAsync(new User_discussion { DiscussionId = discussionModel.Discussion.ID, UserId = AuthenticatedUser.ID }, QOBDCommon.Enum.ESearchOption.AND);
             authenticatedUserDiscussionList = authenticatedUserDiscussionList.Select(x => new User_discussion { ID = x.ID, DiscussionId = x.DiscussionId, UserId = x.UserId, Status = 0 }).ToList();
             await BL.BlChatRoom.UpdateUser_discussionAsync(authenticatedUserDiscussionList);
@@ -653,10 +638,7 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch("Adding " + obj.TxtLogin + " to discussion...", isChatDialogBox: true);
             Dialog.IsLeftBarClosed = false;
             var user_discussionSavedList = await BL.BlChatRoom.InsertUser_discussionAsync(new List<User_discussion> { new User_discussion { DiscussionId = DiscussionModel.Discussion.ID, UserId = obj.Agent.ID } });
-            //IsGroupDiscussion = true;
             DiscussionModel.addUser(obj);
-            //_groupId = generateDiscussionGroupName(DiscussionModel.Discussion.ID, DiscussionModel.UserList);
-            //DiscussionModel.TxtGroupName = _groupId;
             Dialog.IsChatDialogOpen = false;
         }
 

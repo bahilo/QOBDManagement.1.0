@@ -31,7 +31,7 @@ namespace QOBDManagement.Views
         {
             DataContext dataContext = new DataContext();
             if (dataContext.setChatWindowContext(this) != null)
-                ((ChatRoomViewModel)this.DataContext).MessageViewModel.load();            
+                ((ChatRoomViewModel)this.DataContext).MessageViewModel.load();                            
         }
     }
 }
