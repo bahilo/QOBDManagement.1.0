@@ -18,7 +18,7 @@ namespace QOBDCommon.Interfaces.BL
 
         bool IsUserAuthenticated();
 
-        void DisconnectAuthenticatedUser();
+        Task DisconnectAuthenticatedUser();
 
         Task<List<Agent>> DisableAgent(List<Agent> listAgent);
 

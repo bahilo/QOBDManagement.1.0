@@ -177,16 +177,24 @@ namespace QOBDManagement.ViewModel
         /// <summary>
         /// initialize the agent view (called by the view code behind)
         /// </summary>
-        public void loadAgents()
+        public async Task loadAgents()
         {
-            Application.Current.Dispatcher.Invoke(new System.Action(async () =>
-            {
-                AgentModelList = agentListToModelViewList(await Bl.BlAgent.GetAgentDataAsync(-999));
-            }));
+            if (Application.Current != null)
+                Application.Current.Dispatcher.Invoke(new System.Action(async () =>
+                {
+                    await load();
+                }));
+            else
+                await load();
             //Dialog.showSearch("loading...");
             
             //Dialog.IsDialogOpen = false;
         } 
+
+        private async Task load()
+        {
+            AgentModelList = agentListToModelViewList(await Bl.BlAgent.GetAgentDataAsync(-999));
+        }
 
         public override void Dispose()
         {

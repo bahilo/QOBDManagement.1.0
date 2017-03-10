@@ -54,7 +54,7 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _messageGroupHistoryList, value); }
         }
 
-        public async void load()
+        public async Task load()
         {
             Dialog.showSearchMessage("Loding...", isChatDialogBox: true);
 
@@ -106,18 +106,24 @@ namespace QOBDManagement.ViewModel
 
         private void addMessageGroupHistoryList(Dictionary<AgentModel, MessageModel> dict)
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
+            if (Application.Current != null)
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    MessageGroupHistoryList = Utility.concat(MessageGroupHistoryList, dict);
+                });
+            else
                 MessageGroupHistoryList = Utility.concat(MessageGroupHistoryList, dict);
-            });
         }
 
         private void addMessageIndividualHistoryList(Dictionary<AgentModel, MessageModel> dict)
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
+            if(Application.Current != null)
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    MessageIndividualHistoryList = Utility.concat(MessageIndividualHistoryList, dict);
+                });
+            else
                 MessageIndividualHistoryList = Utility.concat(MessageIndividualHistoryList, dict);
-            });
         }
 
 

@@ -170,16 +170,24 @@ namespace QOBDManagement.ViewModel
         
         public void loadData()
         {
-            Application.Current.Dispatcher.Invoke(async()=> {
-                Dialog.showSearch("Loading...");
-                StatisticDataList = (await Bl.BlStatisitc.searchStatisticAsync(new Statistic { Option = 1 }, ESearchOption.AND)).Select(x => new StatisticModel { Statistic = x }).ToList();
-                ToDoList = getToDoTasks();
-                loadUIData();
-                Dialog.IsDialogOpen = false;
-            });
+            if (Application.Current != null)
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    load();
+                });
+            else
+                load();
             
         }
 
+        private async void load()
+        {
+            Dialog.showSearch("Loading...");
+            StatisticDataList = (await Bl.BlStatisitc.searchStatisticAsync(new Statistic { Option = 1 }, ESearchOption.AND)).Select(x => new StatisticModel { Statistic = x }).ToList();
+            ToDoList = getToDoTasks();
+            loadUIData();
+            Dialog.IsDialogOpen = false;
+        }
 
         private void loadUIData()
         {

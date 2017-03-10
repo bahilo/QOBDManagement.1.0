@@ -155,8 +155,8 @@ namespace QOBDManagement.ViewModel
 
         public async Task startAuthentication()
         {
-            TxtLogin = "";// "<< Login here for dev mode >>";
-            TxtClearPassword = ""; //"<< Password here for dev mode >>";
+            TxtLogin = "demo";// "<< Login here for dev mode >>";
+            TxtClearPassword = "demo"; //"<< Password here for dev mode >>";
             await authenticateAgent();
         }
 
@@ -218,10 +218,13 @@ namespace QOBDManagement.ViewModel
             {
                 Dialog = (_main.getObject("main") as BindBase).Dialog;
                 if (Application.Current != null)
-                    await Application.Current.Dispatcher.Invoke(async ()=> {
+                    await Application.Current.Dispatcher.Invoke(async () =>
+                    {
                         await showLoginView();
                         //await startAuthentication(); //"<< for dev mode >>";
-                    });  
+                    });
+                else
+                    await startAuthentication();
             }
         }
 
@@ -229,7 +232,7 @@ namespace QOBDManagement.ViewModel
 
         private async void logOut(object obj)
         {
-            Bl.BlSecurity.DisconnectAuthenticatedUser();
+            await Bl.BlSecurity.DisconnectAuthenticatedUser();
             await Task.Factory.StartNew(()=> {
                 _main.ChatRoomViewModel.Dispose();
             });

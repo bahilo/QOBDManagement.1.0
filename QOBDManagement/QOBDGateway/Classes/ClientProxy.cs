@@ -1770,272 +1770,272 @@ namespace QOBDGateway.Classes
             return base.Channel.get_data_notification_by_client_listAsync(client_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user(string nbLine)
+        public virtual QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user(string nbLine)
         {
             return base.Channel.get_data_user(nbLine);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_userAsync(string nbLine)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_userAsync(string nbLine)
         {
             return base.Channel.get_data_userAsync(nbLine);
         }
 
-        public QOBDGateway.QOBDServiceReference.UserChatRoom[] delete_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.UserChatRoom[] delete_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
         {
             return base.Channel.delete_data_user(user_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> delete_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> delete_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
         {
             return base.Channel.delete_data_userAsync(user_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.UserChatRoom[] insert_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.UserChatRoom[] insert_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
         {
             return base.Channel.insert_data_user(user_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> insert_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> insert_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
         {
             return base.Channel.insert_data_userAsync(user_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.UserChatRoom[] update_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.UserChatRoom[] update_data_user(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
         {
             return base.Channel.update_data_user(user_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> update_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> update_data_userAsync(QOBDGateway.QOBDServiceReference.UserChatRoom[] user_array_list)
         {
             return base.Channel.update_data_userAsync(user_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user_by_id(string id)
+        public virtual QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user_by_id(string id)
         {
             return base.Channel.get_data_user_by_id(id);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_user_by_idAsync(string id)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_user_by_idAsync(string id)
         {
             return base.Channel.get_data_user_by_idAsync(id);
         }
 
-        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_filter_user(QOBDGateway.QOBDServiceReference.UserFilterChatRoom user_array_list_filter)
+        public virtual QOBDGateway.QOBDServiceReference.UserChatRoom[] get_filter_user(QOBDGateway.QOBDServiceReference.UserFilterChatRoom user_array_list_filter)
         {
             return base.Channel.get_filter_user(user_array_list_filter);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_filter_userAsync(QOBDGateway.QOBDServiceReference.UserFilterChatRoom user_array_list_filter)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_filter_userAsync(QOBDGateway.QOBDServiceReference.UserFilterChatRoom user_array_list_filter)
         {
             return base.Channel.get_filter_userAsync(user_array_list_filter);
         }
 
-        public QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user_by_user_discussion_list(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.UserChatRoom[] get_data_user_by_user_discussion_list(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
         {
             return base.Channel.get_data_user_by_user_discussion_list(user_discussion_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_user_by_user_discussion_listAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.UserChatRoom[]> get_data_user_by_user_discussion_listAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
         {
             return base.Channel.get_data_user_by_user_discussion_listAsync(user_discussion_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_data_message(string nbLine)
+        public virtual QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_data_message(string nbLine)
         {
             return base.Channel.get_data_message(nbLine);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_data_messageAsync(string nbLine)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_data_messageAsync(string nbLine)
         {
             return base.Channel.get_data_messageAsync(nbLine);
         }
 
-        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] delete_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.MessageChatRoom[] delete_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
         {
             return base.Channel.delete_data_message(message_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> delete_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> delete_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
         {
             return base.Channel.delete_data_messageAsync(message_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] insert_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.MessageChatRoom[] insert_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
         {
             return base.Channel.insert_data_message(message_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> insert_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> insert_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
         {
             return base.Channel.insert_data_messageAsync(message_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] update_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.MessageChatRoom[] update_data_message(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
         {
             return base.Channel.update_data_message(message_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> update_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> update_data_messageAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
         {
             return base.Channel.update_data_messageAsync(message_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_data_message_by_id(string id)
+        public virtual QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_data_message_by_id(string id)
         {
             return base.Channel.get_data_message_by_id(id);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_data_message_by_idAsync(string id)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_data_message_by_idAsync(string id)
         {
             return base.Channel.get_data_message_by_idAsync(id);
         }
 
-        public QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_filter_message(QOBDGateway.QOBDServiceReference.MessageFilterChatRoom message_array_list_filter)
+        public virtual QOBDGateway.QOBDServiceReference.MessageChatRoom[] get_filter_message(QOBDGateway.QOBDServiceReference.MessageFilterChatRoom message_array_list_filter)
         {
             return base.Channel.get_filter_message(message_array_list_filter);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_filter_messageAsync(QOBDGateway.QOBDServiceReference.MessageFilterChatRoom message_array_list_filter)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.MessageChatRoom[]> get_filter_messageAsync(QOBDGateway.QOBDServiceReference.MessageFilterChatRoom message_array_list_filter)
         {
             return base.Channel.get_filter_messageAsync(message_array_list_filter);
         }
 
-        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion(string nbLine)
+        public virtual QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion(string nbLine)
         {
             return base.Channel.get_data_discussion(nbLine);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussionAsync(string nbLine)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussionAsync(string nbLine)
         {
             return base.Channel.get_data_discussionAsync(nbLine);
         }
 
-        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] delete_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] delete_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
         {
             return base.Channel.delete_data_discussion(discussion_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> delete_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> delete_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
         {
             return base.Channel.delete_data_discussionAsync(discussion_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] insert_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] insert_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
         {
             return base.Channel.insert_data_discussion(discussion_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> insert_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> insert_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
         {
             return base.Channel.insert_data_discussionAsync(discussion_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] update_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] update_data_discussion(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
         {
             return base.Channel.update_data_discussion(discussion_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> update_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> update_data_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] discussion_array_list)
         {
             return base.Channel.update_data_discussionAsync(discussion_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_id(string id)
+        public virtual QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_id(string id)
         {
             return base.Channel.get_data_discussion_by_id(id);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_idAsync(string id)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_idAsync(string id)
         {
             return base.Channel.get_data_discussion_by_idAsync(id);
         }
 
-        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_filter_discussion(QOBDGateway.QOBDServiceReference.DiscussionFilterChatRoom discussion_array_list_filter)
+        public virtual QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_filter_discussion(QOBDGateway.QOBDServiceReference.DiscussionFilterChatRoom discussion_array_list_filter)
         {
             return base.Channel.get_filter_discussion(discussion_array_list_filter);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_filter_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionFilterChatRoom discussion_array_list_filter)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_filter_discussionAsync(QOBDGateway.QOBDServiceReference.DiscussionFilterChatRoom discussion_array_list_filter)
         {
             return base.Channel.get_filter_discussionAsync(discussion_array_list_filter);
         }
 
-        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_user_discussion_list(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_user_discussion_list(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
         {
             return base.Channel.get_data_discussion_by_user_discussion_list(user_discussion_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_user_discussion_listAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_user_discussion_listAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
         {
             return base.Channel.get_data_discussion_by_user_discussion_listAsync(user_discussion_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_message_list(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.DiscussionChatRoom[] get_data_discussion_by_message_list(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
         {
             return base.Channel.get_data_discussion_by_message_list(message_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_message_listAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.DiscussionChatRoom[]> get_data_discussion_by_message_listAsync(QOBDGateway.QOBDServiceReference.MessageChatRoom[] message_array_list)
         {
             return base.Channel.get_data_discussion_by_message_listAsync(message_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_data_user_discussion(string nbLine)
+        public virtual QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_data_user_discussion(string nbLine)
         {
             return base.Channel.get_data_user_discussion(nbLine);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_data_user_discussionAsync(string nbLine)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_data_user_discussionAsync(string nbLine)
         {
             return base.Channel.get_data_user_discussionAsync(nbLine);
         }
 
-        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] delete_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] delete_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
         {
             return base.Channel.delete_data_user_discussion(user_discussion_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> delete_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> delete_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
         {
             return base.Channel.delete_data_user_discussionAsync(user_discussion_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] insert_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] insert_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
         {
             return base.Channel.insert_data_user_discussion(user_discussion_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> insert_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> insert_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
         {
             return base.Channel.insert_data_user_discussionAsync(user_discussion_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] update_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        public virtual QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] update_data_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
         {
             return base.Channel.update_data_user_discussion(user_discussion_array_list);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> update_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> update_data_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] user_discussion_array_list)
         {
             return base.Channel.update_data_user_discussionAsync(user_discussion_array_list);
         }
 
-        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_data_user_discussion_by_id(string id)
+        public virtual QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_data_user_discussion_by_id(string id)
         {
             return base.Channel.get_data_user_discussion_by_id(id);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_data_user_discussion_by_idAsync(string id)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_data_user_discussion_by_idAsync(string id)
         {
             return base.Channel.get_data_user_discussion_by_idAsync(id);
         }
 
-        public QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_filter_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionFilterChatRoom user_discussion_array_list_filter)
+        public virtual QOBDGateway.QOBDServiceReference.User_discussionChatRoom[] get_filter_user_discussion(QOBDGateway.QOBDServiceReference.User_discussionFilterChatRoom user_discussion_array_list_filter)
         {
             return base.Channel.get_filter_user_discussion(user_discussion_array_list_filter);
         }
 
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_filter_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionFilterChatRoom user_discussion_array_list_filter)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.User_discussionChatRoom[]> get_filter_user_discussionAsync(QOBDGateway.QOBDServiceReference.User_discussionFilterChatRoom user_discussion_array_list_filter)
         {
             return base.Channel.get_filter_user_discussionAsync(user_discussion_array_list_filter);
         }

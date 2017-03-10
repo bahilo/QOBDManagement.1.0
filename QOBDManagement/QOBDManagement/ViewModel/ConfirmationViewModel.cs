@@ -95,11 +95,11 @@ namespace QOBDManagement.ViewModel
 
         private async Task<bool> showMessageAsync(string message, bool isChatDialogBox = false)
         {
-            IsDialogOpen = false;
             TxtMessage = message;
             object result = new object();
 
-            result = await DialogHost.Show(this, getDialogBox(isChatDialogBox));
+            if (Application.Current != null)
+                result = await DialogHost.Show(this, getDialogBox(isChatDialogBox));
 
             if ((result as bool?) != null)
                 Response = (bool)result;
@@ -108,10 +108,10 @@ namespace QOBDManagement.ViewModel
 
         private async Task<bool> showMessageViewModelAsync(object viewModel, bool isChatDialogBox = false)
         {
-            IsDialogOpen = false;
             object result = new object();
 
-            result = await DialogHost.Show(viewModel, getDialogBox(isChatDialogBox));
+            if (Application.Current != null)
+                result = await DialogHost.Show(viewModel, getDialogBox(isChatDialogBox));
 
             if ((result as bool?) != null)
                 Response = (bool)result;
@@ -122,8 +122,9 @@ namespace QOBDManagement.ViewModel
         public async void showSearchMessage(string message, bool isChatDialogBox = false)
         {
             TxtMessage = message;
-            IsDialogOpen = false;
-            await DialogHost.Show(new Views.SearchConfirmationView(), getDialogBox(isChatDialogBox));
+
+            if (Application.Current != null)
+                await DialogHost.Show(new Views.SearchConfirmationView(), getDialogBox(isChatDialogBox));
         }
 
         private string getDialogBox(bool isChatDialogBox = false)
@@ -132,12 +133,12 @@ namespace QOBDManagement.ViewModel
             if (isChatDialogBox)
             {
                 result = "RootDialogChatRoom";
-                _isChatDialogOpen = true;
+                IsChatDialogOpen = false;
             }
             else
             {
                 result = "RootDialog";
-                _isDialogOpen = true;
+                IsDialogOpen = false;
             }
                 
             return result;

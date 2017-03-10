@@ -67,6 +67,7 @@
     <Compile Include="QOBDUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\AgentUnitTest.cs" />
+    <Compile Include="Tests\ChatRoomUnitTest.cs" />
     <Compile Include="Tests\ClientUnitTest.cs" />
     <Compile Include="Tests\ItemUnitTest.cs" />
     <Compile Include="Tests\NotificationUnitTest.cs" />

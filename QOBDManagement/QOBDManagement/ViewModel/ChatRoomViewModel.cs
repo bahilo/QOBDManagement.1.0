@@ -259,11 +259,11 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void onUpdateUsersStatusChange(object sender, PropertyChangedEventArgs e)
+        private async void onUpdateUsersStatusChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("updateStatus"))
             {
-                _main.AgentViewModel.loadAgents();
+                await _main.AgentViewModel.loadAgents();
             }
         }
 

@@ -227,9 +227,12 @@ namespace QOBDManagement.ViewModel
         public async Task<List<DiscussionModel>> retrieveUserDiscussions(Agent user)
         {
             object _lock = new object();
-            lock(_lock)
+            List<User_discussion> allUser_discussionOfAuthencatedUserList = new List<User_discussion>();
+            lock (_lock)
                 DiscussionList = new List<DiscussionModel>();
-            List<User_discussion> allUser_discussionOfAuthencatedUserList = await BL.BlChatRoom.searchUser_discussionAsync(new User_discussion { UserId = user.ID }, QOBDCommon.Enum.ESearchOption.AND);
+
+            if(user.ID != 0)
+                allUser_discussionOfAuthencatedUserList = await BL.BlChatRoom.searchUser_discussionAsync(new User_discussion { UserId = user.ID }, QOBDCommon.Enum.ESearchOption.AND);
 
             _nbNewMessage = 0;
 

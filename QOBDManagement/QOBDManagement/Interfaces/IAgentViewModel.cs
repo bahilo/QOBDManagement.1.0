@@ -12,7 +12,7 @@ namespace QOBDManagement.Interfaces
     public interface IAgentViewModel
     {
         List<AgentModel> agentListToModelViewList(List<Agent> AgentList);
-        void loadAgents();
+        Task loadAgents();
         void Dispose();
     }
 }

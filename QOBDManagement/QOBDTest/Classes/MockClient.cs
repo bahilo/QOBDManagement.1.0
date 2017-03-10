@@ -1074,12 +1074,136 @@ namespace QOBDTest.Classes
 
             #endregion
 
+            #region [ Mock Chat Room ]
+            //================================[ ChatRoom ]===================================================
+
+            #region [ Discussion ]
+
+            // get_data_discussion
+            _mock.Setup(s => s.get_data_discussionAsync(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_discussionAsync(nbLine));
+            _mock.Setup(s => s.get_data_discussion(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_discussion(nbLine));
+
+            // get_data_discussion_by_id
+            _mock.Setup(s => s.get_data_discussion_by_idAsync(It.IsAny<string>()))
+               .Returns((string id) => get_data_discussion_by_idAsync(id));
+            _mock.Setup(s => s.get_data_discussion_by_id(It.IsAny<string>()))
+               .Returns((string id) => get_data_discussion_by_id(id));
+
+            // get_data_discussion_by_message_list
+            _mock.Setup(s => s.get_data_discussion_by_message_listAsync(It.IsAny<MessageChatRoom[]>()))
+               .Returns((MessageChatRoom[] orderList) => get_data_discussion_by_message_listAsync(orderList));
+            _mock.Setup(s => s.get_data_discussion_by_message_list(It.IsAny<MessageChatRoom[]>()))
+               .Returns((MessageChatRoom[] orderList) => get_data_discussion_by_message_list(orderList));
+
+            // update_data_discussion
+            _mock.Setup(s => s.update_data_discussionAsync(It.IsAny<DiscussionChatRoom[]>()))
+               .Returns((DiscussionChatRoom[] discussionList) => update_data_discussionAsync(discussionList));
+            _mock.Setup(s => s.update_data_discussion(It.IsAny<DiscussionChatRoom[]>()))
+               .Returns((DiscussionChatRoom[] discussionList) => update_data_discussion(discussionList));
+
+            // delete_data_discussion
+            _mock.Setup(s => s.delete_data_discussionAsync(It.IsAny<DiscussionChatRoom[]>()))
+               .Returns((DiscussionChatRoom[] discussionList) => delete_data_discussionAsync(discussionList));
+            _mock.Setup(s => s.delete_data_discussion(It.IsAny<DiscussionChatRoom[]>()))
+               .Returns((DiscussionChatRoom[] discussionList) => delete_data_discussion(discussionList));
+
+            // insert_data_discussion
+            _mock.Setup(s => s.insert_data_discussionAsync(It.IsAny<DiscussionChatRoom[]>()))
+               .Returns((DiscussionChatRoom[] discussionList) => insert_data_discussionAsync(discussionList));
+            _mock.Setup(s => s.insert_data_discussion(It.IsAny<DiscussionChatRoom[]>()))
+               .Returns((DiscussionChatRoom[] discussionList) => insert_data_discussion(discussionList));
+
+            // get_filter_discussion
+            _mock.Setup(s => s.get_filter_discussionAsync(It.IsAny<DiscussionFilterChatRoom>()))
+               .Returns((DiscussionFilterChatRoom discussionFilter) => get_filter_discussionAsync(discussionFilter));
+            _mock.Setup(s => s.get_filter_discussion(It.IsAny<DiscussionFilterChatRoom>()))
+               .Returns((DiscussionFilterChatRoom discussionFilter) => get_filter_discussion(discussionFilter));
+            #endregion
+            #region [ Message ]
+            // get_data_message
+            _mock.Setup(s => s.get_data_messageAsync(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_messageAsync(nbLine));
+            _mock.Setup(s => s.get_data_message(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_message(nbLine));
+
+            // get_data_message_by_id
+            _mock.Setup(s => s.get_data_message_by_idAsync(It.IsAny<string>()))
+               .Returns((string id) => get_data_message_by_idAsync(id));
+            _mock.Setup(s => s.get_data_message_by_id(It.IsAny<string>()))
+               .Returns((string id) => get_data_message_by_id(id));
+            
+            // update_data_message
+            _mock.Setup(s => s.update_data_messageAsync(It.IsAny<MessageChatRoom[]>()))
+               .Returns((MessageChatRoom[] messageList) => update_data_messageAsync(messageList));
+            _mock.Setup(s => s.update_data_message(It.IsAny<MessageChatRoom[]>()))
+               .Returns((MessageChatRoom[] messageList) => update_data_message(messageList));
+
+            // delete_data_message
+            _mock.Setup(s => s.delete_data_messageAsync(It.IsAny<MessageChatRoom[]>()))
+               .Returns((MessageChatRoom[] messageList) => delete_data_messageAsync(messageList));
+            _mock.Setup(s => s.delete_data_message(It.IsAny<MessageChatRoom[]>()))
+               .Returns((MessageChatRoom[] messageList) => delete_data_message(messageList));
+
+            // insert_data_message
+            _mock.Setup(s => s.insert_data_messageAsync(It.IsAny<MessageChatRoom[]>()))
+               .Returns((MessageChatRoom[] messageList) => insert_data_messageAsync(messageList));
+            _mock.Setup(s => s.insert_data_message(It.IsAny<MessageChatRoom[]>()))
+               .Returns((MessageChatRoom[] messageList) => insert_data_message(messageList));
+
+            // get_filter_message
+            _mock.Setup(s => s.get_filter_messageAsync(It.IsAny<MessageFilterChatRoom>()))
+               .Returns((MessageFilterChatRoom messageFilter) => get_filter_messageAsync(messageFilter));
+            _mock.Setup(s => s.get_filter_message(It.IsAny<MessageFilterChatRoom>()))
+               .Returns((MessageFilterChatRoom messageFilter) => get_filter_message(messageFilter));
+            #endregion
+            #region [ User_discussion ]
+            // get_data_user_discussion
+            _mock.Setup(s => s.get_data_user_discussionAsync(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_user_discussionAsync(nbLine));
+            _mock.Setup(s => s.get_data_user_discussion(It.IsAny<string>()))
+               .Returns((string nbLine) => get_data_user_discussion(nbLine));
+
+            // get_data_user_discussion_by_id
+            _mock.Setup(s => s.get_data_user_discussion_by_idAsync(It.IsAny<string>()))
+               .Returns((string id) => get_data_user_discussion_by_idAsync(id));
+            _mock.Setup(s => s.get_data_user_discussion_by_id(It.IsAny<string>()))
+               .Returns((string id) => get_data_user_discussion_by_id(id));
+            
+            // update_data_user_discussion
+            _mock.Setup(s => s.update_data_user_discussionAsync(It.IsAny<User_discussionChatRoom[]>()))
+               .Returns((User_discussionChatRoom[] user_discussionList) => update_data_user_discussionAsync(user_discussionList));
+            _mock.Setup(s => s.update_data_user_discussion(It.IsAny<User_discussionChatRoom[]>()))
+               .Returns((User_discussionChatRoom[] user_discussionList) => update_data_user_discussion(user_discussionList));
+
+            // delete_data_user_discussion
+            _mock.Setup(s => s.delete_data_user_discussionAsync(It.IsAny<User_discussionChatRoom[]>()))
+               .Returns((User_discussionChatRoom[] user_discussionList) => delete_data_user_discussionAsync(user_discussionList));
+            _mock.Setup(s => s.delete_data_user_discussion(It.IsAny<User_discussionChatRoom[]>()))
+               .Returns((User_discussionChatRoom[] user_discussionList) => delete_data_user_discussion(user_discussionList));
+
+            // insert_data_user_discussion
+            _mock.Setup(s => s.insert_data_user_discussionAsync(It.IsAny<User_discussionChatRoom[]>()))
+               .Returns((User_discussionChatRoom[] user_discussionList) => insert_data_user_discussionAsync(user_discussionList));
+            _mock.Setup(s => s.insert_data_user_discussion(It.IsAny<User_discussionChatRoom[]>()))
+               .Returns((User_discussionChatRoom[] user_discussionList) => insert_data_user_discussion(user_discussionList));
+
+            // get_filter_user_discussion
+            _mock.Setup(s => s.get_filter_user_discussionAsync(It.IsAny<User_discussionFilterChatRoom>()))
+               .Returns((User_discussionFilterChatRoom user_discussionFilter) => get_filter_user_discussionAsync(user_discussionFilter));
+            _mock.Setup(s => s.get_filter_user_discussion(It.IsAny<User_discussionFilterChatRoom>()))
+               .Returns((User_discussionFilterChatRoom user_discussionFilter) => get_filter_user_discussion(user_discussionFilter));
+
+            #endregion
+            #endregion
+
         }
 
         #region [ Mock Agent implementation ]
         //================================[ Agent ]===================================================
 
-        
+
         public AgentQOBD get_authenticate_user(string username, string password)
         {
             return new AgentQOBD { ID = 1, FirstName = Utility.encodeStringToBase64("unitTestFirstname"), LastName = Utility.encodeStringToBase64("unitTestLastName"), Status = Utility.encodeStringToBase64("Active") };
@@ -1106,12 +1230,17 @@ namespace QOBDTest.Classes
         
         public AgentQOBD[] get_data_agent(string nbLine)
         {
+            nbLine = Math.Abs(Convert.ToInt32(nbLine)).ToString();
+            if (Convert.ToInt32(nbLine) == 999)
+                nbLine = 10.ToString();
+
             AgentQOBD[] output = new AgentQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("status") };
+                AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("Active") };
                 output[i-1] = AgentQOBD;
             }
+            output[output.Count() - 1].Status = Utility.encodeStringToBase64("Deactivated");
             return output;
         }
 
@@ -1127,9 +1256,10 @@ namespace QOBDTest.Classes
                 AgentQOBD[] output = new AgentQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
+                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
                     output[i-1] = AgentQOBD;
                 }
+                output[output.Count() - 1].Status = Utility.encodeStringToBase64("Deactivated");
                 return output;
             });
         }
@@ -1150,7 +1280,7 @@ namespace QOBDTest.Classes
         public AgentQOBD[] get_data_agent_by_id(string id)
         {
             AgentQOBD[] output = new AgentQOBD[1];
-            AgentQOBD AgentQOBD = new AgentQOBD { ID = Convert.ToInt32(id), Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
+            AgentQOBD AgentQOBD = new AgentQOBD { ID = Convert.ToInt32(id), Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
             output[0] = AgentQOBD;
 
             return output;
@@ -1161,7 +1291,7 @@ namespace QOBDTest.Classes
         {
             return Task.Factory.StartNew(() => {
                 AgentQOBD[] output = new AgentQOBD[1];
-                AgentQOBD AgentQOBD = new AgentQOBD { ID = Convert.ToInt32(id), Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
+                AgentQOBD AgentQOBD = new AgentQOBD { ID = Convert.ToInt32(id), Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
                 output[0] = AgentQOBD;
 
                 return output;
@@ -1174,7 +1304,7 @@ namespace QOBDTest.Classes
             AgentQOBD[] output = new AgentQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
+                AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
                 output[i-1] = AgentQOBD;
             }
             return output;
@@ -1187,7 +1317,7 @@ namespace QOBDTest.Classes
                 AgentQOBD[] output = new AgentQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
+                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i, Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25, UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
                     output[i-1] = AgentQOBD;
                 }
                 return output;
@@ -1338,7 +1468,7 @@ namespace QOBDTest.Classes
             ClientQOBD[] output = new ClientQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                ClientQOBD ClientQOBD = new ClientQOBD { ID = i, AgentId = i + 1, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+                ClientQOBD ClientQOBD = new ClientQOBD { ID = i, AgentId = i + 1, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
                 output[i-1] = ClientQOBD;
             }
             return output;
@@ -1350,7 +1480,7 @@ namespace QOBDTest.Classes
                 ClientQOBD[] output = new ClientQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    ClientQOBD ClientQOBD = new ClientQOBD { ID = i, AgentId = i + 1, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+                    ClientQOBD ClientQOBD = new ClientQOBD { ID = i, AgentId = i + 1, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
                     output[i-1] = ClientQOBD;
                 }
                 return output;
@@ -1371,7 +1501,7 @@ namespace QOBDTest.Classes
         {
             ClientQOBD[] output = new ClientQOBD[1];
             int i = 1;
-            ClientQOBD ClientQOBD = new ClientQOBD { ID = i, AgentId = i + 1, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+            ClientQOBD ClientQOBD = new ClientQOBD { ID = Utility.intTryParse(id), AgentId = i + 1, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
             output[i-1] = ClientQOBD;
 
             return output;
@@ -1382,7 +1512,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 ClientQOBD[] output = new ClientQOBD[1];
                 int i = 1;
-                ClientQOBD ClientQOBD = new ClientQOBD { ID = i, AgentId = i + 1, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+                ClientQOBD ClientQOBD = new ClientQOBD { ID = Utility.intTryParse(id), AgentId = i + 1, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
                 output[i-1] = ClientQOBD;
 
                 return output;
@@ -1393,7 +1523,7 @@ namespace QOBDTest.Classes
         {
             ClientQOBD[] output = new ClientQOBD[1];
             int i = 1;
-            ClientQOBD ClientQOBD = new ClientQOBD { ID = i, AgentId = agent_id, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+            ClientQOBD ClientQOBD = new ClientQOBD { ID = i, AgentId = agent_id, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
             output[i - 1] = ClientQOBD;
 
             return output;
@@ -1404,7 +1534,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 ClientQOBD[] output = new ClientQOBD[1];
                 int i = 1;
-                ClientQOBD ClientQOBD = new ClientQOBD { ID = i, AgentId = agent_id, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("status"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+                ClientQOBD ClientQOBD = new ClientQOBD { ID = i, AgentId = agent_id, MaxCredit = i + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
                 output[i - 1] = ClientQOBD;
 
                 return output;
@@ -1449,7 +1579,7 @@ namespace QOBDTest.Classes
         {
             ContactQOBD[] output = new ContactQOBD[1];
             int i = 1;
-            ContactQOBD ContactQOBD = new ContactQOBD { ID = i, ClientId = i + 1, Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
+            ContactQOBD ContactQOBD = new ContactQOBD { ID = Utility.intTryParse(id), ClientId = i + 1, Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
             output[i-1] = ContactQOBD;
 
             return output;
@@ -1460,7 +1590,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 ContactQOBD[] output = new ContactQOBD[1];
                 int i = 1;
-                ContactQOBD ContactQOBD = new ContactQOBD { ID = i, ClientId = i + 1, Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
+                ContactQOBD ContactQOBD = new ContactQOBD { ID = Utility.intTryParse(id), ClientId = i + 1, Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
                 output[i-1] = ContactQOBD;
 
                 return output;
@@ -1665,7 +1795,7 @@ namespace QOBDTest.Classes
         {
             OrdersQOBD[] output = new OrdersQOBD[1];
             int i = 1;
-            OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = Convert.ToInt32(id), AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("status"), Date = Utility.encodeStringToBase64(DateTime.Now+""), BillAddress = 1, DeliveryAddress = 1 };
+            OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = Convert.ToInt32(id), AgentId = i, ClientId = i, Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now+""), BillAddress = 1, DeliveryAddress = 1 };
             output[i-1] = OrdersQOBD;
 
             return output;
@@ -3541,7 +3671,7 @@ namespace QOBDTest.Classes
         {
             RoleQOBD[] output = new RoleQOBD[1];
             int i = 1;
-            RoleQOBD RoleQOBD = new RoleQOBD { ID = Convert.ToInt32(id), Name =  Utility.encodeStringToBase64("Name"), Actions = new ActionQOBD[] { new ActionQOBD { ID = i, Name = Utility.encodeStringToBase64("name"), Right = new PrivilegeQOBD { ID = i + "", Date = Utility.encodeStringToBase64(DateTime.Now + "") } } } };
+            RoleQOBD RoleQOBD = new RoleQOBD { ID = Convert.ToInt32(id), Name =  Utility.encodeStringToBase64("Name"), Actions = new ActionQOBD[] { new ActionQOBD { ID = Utility.intTryParse(id), Name = Utility.encodeStringToBase64("name"), Right = new PrivilegeQOBD { ID = Utility.intTryParse(id) + "", Date = Utility.encodeStringToBase64(DateTime.Now + "") } } } };
             output[i-1] = RoleQOBD;
 
             return output;
@@ -3553,7 +3683,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 RoleQOBD[] output = new RoleQOBD[1];
                 int i = 1;
-                RoleQOBD RoleQOBD = new RoleQOBD { ID = Convert.ToInt32(id), Name = Utility.encodeStringToBase64("Name"), Actions = new ActionQOBD[] { new ActionQOBD { ID = i, Name = Utility.encodeStringToBase64("name"), Right = new PrivilegeQOBD { ID = i + "", Date = Utility.encodeStringToBase64(DateTime.Now + "") } } } };
+                RoleQOBD RoleQOBD = new RoleQOBD { ID = Convert.ToInt32(id), Name = Utility.encodeStringToBase64("Name"), Actions = new ActionQOBD[] { new ActionQOBD { ID = Utility.intTryParse(id), Name = Utility.encodeStringToBase64("name"), Right = new PrivilegeQOBD { ID = Utility.intTryParse(id) + "", Date = Utility.encodeStringToBase64(DateTime.Now + "") } } } };
                 output[i-1] = RoleQOBD;
 
                 return output;
@@ -3832,7 +3962,7 @@ namespace QOBDTest.Classes
         {
             StatisticQOBD[] output = new StatisticQOBD[1];
             int i = 1;
-            StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = i, BillId = i + "", Bill_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total = i + "", Income = i + "", Pay_received = i + 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i + "", Price_purchase_total = i + "", Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
+            StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = Utility.intTryParse(id), BillId = i + "", Bill_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total = i + "", Income = i + "", Pay_received = i + 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i + "", Price_purchase_total = i + "", Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
             output[i-1] = StatisticQOBD;
 
             return output;
@@ -3844,7 +3974,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 StatisticQOBD[] output = new StatisticQOBD[1];
                 int i = 1;
-                StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = i, BillId = i + "", Bill_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total = i + "", Income = i + "", Pay_received = i + 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i + "", Price_purchase_total = i + "", Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
+                StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = Utility.intTryParse(id), BillId = i + "", Bill_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total = i + "", Income = i + "", Pay_received = i + 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i + "", Price_purchase_total = i + "", Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
                 output[i-1] = StatisticQOBD;
 
                 return output;
@@ -3894,85 +4024,85 @@ namespace QOBDTest.Classes
         #region [ Mock UserChatRoom implementation ]
         //================================[ UserChatRoom ]===================================================
 
-        [return: MessageParameter(Name = "return")]
+        
         public UserChatRoom[] get_data_user(string nbLine)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<UserChatRoom[]> get_data_userAsync(string nbLine)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public UserChatRoom[] delete_data_user(UserChatRoom[] user_array_list)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<UserChatRoom[]> delete_data_userAsync(UserChatRoom[] user_array_list)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public UserChatRoom[] insert_data_user(UserChatRoom[] user_array_list)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<UserChatRoom[]> insert_data_userAsync(UserChatRoom[] user_array_list)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public UserChatRoom[] update_data_user(UserChatRoom[] user_array_list)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<UserChatRoom[]> update_data_userAsync(UserChatRoom[] user_array_list)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public UserChatRoom[] get_data_user_by_id(string id)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<UserChatRoom[]> get_data_user_by_idAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public UserChatRoom[] get_filter_user(UserFilterChatRoom user_array_list_filter)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<UserChatRoom[]> get_filter_userAsync(UserFilterChatRoom user_array_list_filter)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public UserChatRoom[] get_data_user_by_user_discussion_list(User_discussionChatRoom[] user_discussion_array_list)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<UserChatRoom[]> get_data_user_by_user_discussion_listAsync(User_discussionChatRoom[] user_discussion_array_list)
         {
             throw new NotImplementedException();
@@ -3981,251 +4111,341 @@ namespace QOBDTest.Classes
         #endregion
 
         #region [ Mock User_discussionChatRoom implementation ]
-
-
-        [return: MessageParameter(Name = "return")]
+        
         public User_discussionChatRoom[] get_data_user_discussion(string nbLine)
         {
-            throw new NotImplementedException();
+            User_discussionChatRoom[] output = new User_discussionChatRoom[Convert.ToInt32(nbLine)];
+            for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
+            {
+                User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = i, DiscussionId = i, Status = 0, UserId = i };
+                output[i - 1] = User_discussionChatRoom;
+            }
+            return output;
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<User_discussionChatRoom[]> get_data_user_discussionAsync(string nbLine)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => {
+                User_discussionChatRoom[] output = new User_discussionChatRoom[Convert.ToInt32(nbLine)];
+                for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
+                {
+                    User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = i, DiscussionId = i, Status = 0, UserId = i };
+                    output[i - 1] = User_discussionChatRoom;
+                }
+                return output;
+            });
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public User_discussionChatRoom[] delete_data_user_discussion(User_discussionChatRoom[] user_discussion_array_list)
         {
-            throw new NotImplementedException();
+            return new User_discussionChatRoom[0];
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<User_discussionChatRoom[]> delete_data_user_discussionAsync(User_discussionChatRoom[] user_discussion_array_list)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => { return delete_data_user_discussion(user_discussion_array_list); });
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public User_discussionChatRoom[] insert_data_user_discussion(User_discussionChatRoom[] user_discussion_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_user_discussion(user_discussion_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<User_discussionChatRoom[]> insert_data_user_discussionAsync(User_discussionChatRoom[] user_discussion_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_user_discussionAsync(user_discussion_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public User_discussionChatRoom[] update_data_user_discussion(User_discussionChatRoom[] user_discussion_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_user_discussion(user_discussion_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<User_discussionChatRoom[]> update_data_user_discussionAsync(User_discussionChatRoom[] user_discussion_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_user_discussionAsync(user_discussion_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public User_discussionChatRoom[] get_data_user_discussion_by_id(string id)
         {
-            throw new NotImplementedException();
+            User_discussionChatRoom[] output = new User_discussionChatRoom[1];
+            int i = 1;
+            User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = Utility.intTryParse(id), DiscussionId = i, Status = 0, UserId = i };
+            output[i - 1] = User_discussionChatRoom;
+
+            return output;
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<User_discussionChatRoom[]> get_data_user_discussion_by_idAsync(string id)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => {
+                User_discussionChatRoom[] output = new User_discussionChatRoom[1];
+                int i = 1;
+                User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = Utility.intTryParse(id), DiscussionId = i, Status = 0, UserId = i };
+                output[i - 1] = User_discussionChatRoom;
+
+                return output;
+            });
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public User_discussionChatRoom[] get_filter_user_discussion(User_discussionFilterChatRoom user_discussion_array_list_filter)
         {
-            throw new NotImplementedException();
+            return new User_discussionChatRoom[2] {
+                new User_discussionChatRoom { ID = 1, DiscussionId = 1, Status = 1, UserId = 1 },
+                new User_discussionChatRoom { ID = 2, DiscussionId = 1, Status = 1, UserId = 2 }
+            };
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<User_discussionChatRoom[]> get_filter_user_discussionAsync(User_discussionFilterChatRoom user_discussion_array_list_filter)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => {
+                return get_filter_user_discussion(user_discussion_array_list_filter);
+            });
         }
         #endregion
 
         #region [ Mock MessageChatRoom implementation ]
         //================================[ MessageChatRoom ]===================================================
 
-        [return: MessageParameter(Name = "return")]
+        
         public MessageChatRoom[] get_data_message(string nbLine)
         {
-            throw new NotImplementedException();
+            MessageChatRoom[] output = new MessageChatRoom[Convert.ToInt32(nbLine)];
+            for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
+            {
+                MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = i, Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i, Status = 0, UserId = i };
+                output[i - 1] = MessageChatRoom;
+            }
+            return output;
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<MessageChatRoom[]> get_data_messageAsync(string nbLine)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => {
+                MessageChatRoom[] output = new MessageChatRoom[Convert.ToInt32(nbLine)];
+                for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
+                {
+                    MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = i, Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i, Status = 0, UserId = i };
+                    output[i - 1] = MessageChatRoom;
+                }
+                return output;
+            });
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public MessageChatRoom[] delete_data_message(MessageChatRoom[] message_array_list)
         {
-            throw new NotImplementedException();
+            return new MessageChatRoom[0];
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<MessageChatRoom[]> delete_data_messageAsync(MessageChatRoom[] message_array_list)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(()=> { return delete_data_message(message_array_list); });
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public MessageChatRoom[] insert_data_message(MessageChatRoom[] message_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_message(message_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<MessageChatRoom[]> insert_data_messageAsync(MessageChatRoom[] message_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_messageAsync(message_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public MessageChatRoom[] update_data_message(MessageChatRoom[] message_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_message(message_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<MessageChatRoom[]> update_data_messageAsync(MessageChatRoom[] message_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_messageAsync(message_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public MessageChatRoom[] get_data_message_by_id(string id)
         {
-            throw new NotImplementedException();
+            MessageChatRoom[] output = new MessageChatRoom[1];
+            int i = 1;
+            MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = Utility.intTryParse(id), Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i, Status = 0, UserId = i };
+            output[i - 1] = MessageChatRoom;
+
+            return output;
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<MessageChatRoom[]> get_data_message_by_idAsync(string id)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => {
+                MessageChatRoom[] output = new MessageChatRoom[1];
+                int i = 1;
+                MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = Utility.intTryParse(id), Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i, Status = 0, UserId = i };
+                output[i - 1] = MessageChatRoom;
+
+                return output;
+            });
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public MessageChatRoom[] get_filter_message(MessageFilterChatRoom message_array_list_filter)
         {
-            throw new NotImplementedException();
+            return new MessageChatRoom[2] {
+                new MessageChatRoom { ID = 1, Date = Utility.encodeStringToBase64(DateTime.Now.ToShortDateString()), Content = Utility.encodeStringToBase64("message content user 1"), DiscussionId = 1, Status = message_array_list_filter.Status, UserId = 1 },
+                new MessageChatRoom { ID = 2, Date = Utility.encodeStringToBase64(DateTime.Now.ToShortDateString()), Content = Utility.encodeStringToBase64("message content user 2"), DiscussionId = 1, Status = message_array_list_filter.Status, UserId = 2 }
+            };
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<MessageChatRoom[]> get_filter_messageAsync(MessageFilterChatRoom message_array_list_filter)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => {
+                return get_filter_message(message_array_list_filter);
+            });
         }
         #endregion
 
-        #region [ DiscussionChatRoom ]
+        #region [ Mock DiscussionChatRoom implementation ]
         //================================[ MessageChatRoom ]===================================================
 
-        [return: MessageParameter(Name = "return")]
+        
         public DiscussionChatRoom[] get_data_discussion(string nbLine)
         {
-            throw new NotImplementedException();
+            DiscussionChatRoom[] output = new DiscussionChatRoom[Convert.ToInt32(nbLine)];
+            for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
+            {
+                DiscussionChatRoom DiscussionChatRoom = new DiscussionChatRoom { ID = i, Date = Utility.encodeStringToBase64(DateTime.Now.ToString()) };
+                output[i - 1] = DiscussionChatRoom;
+            }
+            return output;
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<DiscussionChatRoom[]> get_data_discussionAsync(string nbLine)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => {
+                DiscussionChatRoom[] output = new DiscussionChatRoom[Convert.ToInt32(nbLine)];
+                for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
+                {
+                    DiscussionChatRoom DiscussionChatRoom = new DiscussionChatRoom { ID = i, Date = Utility.encodeStringToBase64(DateTime.Now.ToString()) };
+                    output[i - 1] = DiscussionChatRoom;
+                }
+                return output;
+            });
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public DiscussionChatRoom[] delete_data_discussion(DiscussionChatRoom[] discussion_array_list)
         {
-            throw new NotImplementedException();
+            return new DiscussionChatRoom[0];
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<DiscussionChatRoom[]> delete_data_discussionAsync(DiscussionChatRoom[] discussion_array_list)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(()=> { return delete_data_discussion(discussion_array_list); });
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public DiscussionChatRoom[] insert_data_discussion(DiscussionChatRoom[] discussion_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_discussion(discussion_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<DiscussionChatRoom[]> insert_data_discussionAsync(DiscussionChatRoom[] discussion_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_discussionAsync(discussion_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public DiscussionChatRoom[] update_data_discussion(DiscussionChatRoom[] discussion_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_discussion(discussion_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<DiscussionChatRoom[]> update_data_discussionAsync(DiscussionChatRoom[] discussion_array_list)
         {
-            throw new NotImplementedException();
+            return get_data_discussionAsync(discussion_array_list.Count().ToString());
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public DiscussionChatRoom[] get_data_discussion_by_id(string id)
         {
-            throw new NotImplementedException();
+            DiscussionChatRoom[] output = new DiscussionChatRoom[1];
+            int i = 1;
+            DiscussionChatRoom DiscussionChatRoom = new DiscussionChatRoom { ID = Utility.intTryParse(id), Date = Utility.encodeStringToBase64(DateTime.Now.ToString()) };
+            output[i - 1] = DiscussionChatRoom;
+
+            return output;
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<DiscussionChatRoom[]> get_data_discussion_by_idAsync(string id)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => {
+                DiscussionChatRoom[] output = new DiscussionChatRoom[1];
+                int i = 1;
+                DiscussionChatRoom DiscussionChatRoom = new DiscussionChatRoom { ID = Utility.intTryParse(id), Date = Utility.encodeStringToBase64(DateTime.Now.ToString()) };
+                output[i - 1] = DiscussionChatRoom;
+
+                return output;
+            });
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public DiscussionChatRoom[] get_filter_discussion(DiscussionFilterChatRoom discussion_array_list_filter)
         {
-            throw new NotImplementedException();
+            return new DiscussionChatRoom[1] {
+                new DiscussionChatRoom { ID = 1, Date = Utility.encodeStringToBase64(DateTime.Now.ToString()) }
+            };
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<DiscussionChatRoom[]> get_filter_discussionAsync(DiscussionFilterChatRoom discussion_array_list_filter)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => {
+                return get_filter_discussion(discussion_array_list_filter);
+            });
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public DiscussionChatRoom[] get_data_discussion_by_user_discussion_list(User_discussionChatRoom[] user_discussion_array_list)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<DiscussionChatRoom[]> get_data_discussion_by_user_discussion_listAsync(User_discussionChatRoom[] user_discussion_array_list)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public DiscussionChatRoom[] get_data_discussion_by_message_list(MessageChatRoom[] message_array_list)
         {
             throw new NotImplementedException();
         }
 
-        [return: MessageParameter(Name = "return")]
+        
         public Task<DiscussionChatRoom[]> get_data_discussion_by_message_listAsync(MessageChatRoom[] message_array_list)
         {
             throw new NotImplementedException();

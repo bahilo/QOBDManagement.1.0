@@ -26,6 +26,7 @@ namespace QOBDManagement.Interfaces
         SecurityLoginViewModel SecurityLoginViewModel { get; set; }
         Object CurrentViewModel { get; set; }
         Object ChatRoomCurrentView { get; set; }
+        IStartup Startup { get; set; }
         bool isNewAgentAuthentication { get; set; }
         Cart Cart { get; }
         ButtonCommand<string> CommandNavig { get; set; }

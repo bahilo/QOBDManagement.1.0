@@ -27,12 +27,12 @@ namespace QOBDManagement.Views
             InitializeComponent();
         }
 
-        private void DialogBoxChatRoom_Loaded(object sender, RoutedEventArgs e)
+        private async void DialogBoxChatRoom_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext dataContext = new DataContext();
             if (dataContext.setChatWindowContext(this) != null)
             {
-                ((ChatRoomViewModel)this.DataContext).MessageViewModel.load();
+                await ((ChatRoomViewModel)this.DataContext).MessageViewModel.load();
             }
         }
         

@@ -27,11 +27,11 @@ namespace QOBDManagement.Views
             InitializeComponent();
         }
 
-        private void ChatRoomHistoryWindow_Loaded(object sender, RoutedEventArgs e)
+        private async void ChatRoomHistoryWindow_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext dataContext = new DataContext();
             if (dataContext.setChatWindowContext(this) != null)
-                ((ChatRoomViewModel)this.DataContext).MessageViewModel.load();                            
+                await ((ChatRoomViewModel)this.DataContext).MessageViewModel.load();                            
         }
     }
 }

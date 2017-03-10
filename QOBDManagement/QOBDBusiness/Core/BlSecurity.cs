@@ -149,8 +149,10 @@ namespace QOBDBusiness.Core
             return Safe.IsAuthenticated;
         }
 
-        public void DisconnectAuthenticatedUser()
+        public async Task DisconnectAuthenticatedUser()
         {
+            Safe.AuthenticatedUser.IsOnline = false;
+            await DAC.DALAgent.UpdateAgentAsync(new List<Agent> { Safe.AuthenticatedUser });
             Safe.AuthenticatedUser = new Agent();
             Safe.IsAuthenticated = false;
         }

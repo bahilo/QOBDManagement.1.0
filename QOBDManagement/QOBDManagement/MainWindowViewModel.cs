@@ -420,9 +420,9 @@ namespace QOBDManagement
         /// <summary>
         /// Initializing the User Interface
         /// </summary>
-        private void loadUIData()
+        private async void loadUIData()
         {
-            Dispatcher.CurrentDispatcher.Invoke(() =>
+            await Dispatcher.CurrentDispatcher.Invoke(async() =>
            {
                SearchProgressVisibility = "Visible";
                if (isNewAgentAuthentication)
@@ -446,7 +446,7 @@ namespace QOBDManagement
                 //========================= [ Chat Room ]====================
 
                 // load chat user
-                AgentViewModel.loadAgents();
+                await AgentViewModel.loadAgents();
 
                 // display the chat view
                 ChatRoomCurrentView = ChatRoomViewModel;
@@ -562,10 +562,11 @@ namespace QOBDManagement
         {
             if (e.PropertyName.Equals("TxtNbNewMessage"))
             {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    NewMessageHomePageCommand.raiseCanExecuteActionChanged();
-                });
+                if(Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        NewMessageHomePageCommand.raiseCanExecuteActionChanged();
+                    });
             }
         }
 
