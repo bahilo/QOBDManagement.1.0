@@ -185,7 +185,7 @@ namespace QOBDManagement.ViewModel
         {
             Dialog.showSearch("Loading...");
 
-            // check if search mode to display only search result
+            // if not in searching mode
             if (!_isSearchResult)
             {
                 ItemDetailViewModel.AllProviderList = new HashSet<Provider>(Bl.BlItem.GetProviderData(999));
@@ -232,7 +232,11 @@ namespace QOBDManagement.ViewModel
 
                 if (ivm.ProviderList.Count > 0 && ivm.ProviderList.Count > 0 && ItemDetailViewModel.AllProviderList.Where(x => x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).Count() > 0)
                     ivm.SelectedProvider = ItemDetailViewModel.AllProviderList.Where(x=> x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).First();
-                
+
+                // select the items appearing in the cart
+                if (Cart.CartItemList.Where(x => x.Item.ID == ivm.Item.ID).Count() > 0)
+                    ivm.IsItemSelected = true;
+
                 familyList.Add(item.Type_sub);
                 ItemDetailViewModel.ItemRefList.Add(item.Ref);
                 brandList.Add(item.Type);
@@ -349,8 +353,9 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
-        private void saveCartChecks(ItemModel obj)
+        public void saveCartChecks(ItemModel obj)
         {
+            // add new item to the cart
             if (Cart.CartItemList.Where(x => x.Item.ID == obj.Item.ID).Count() == 0)
             {
                 var cart_itemModel = new Cart_itemModel();
@@ -358,9 +363,16 @@ namespace QOBDManagement.ViewModel
                 cart_itemModel.TxtQuantity = 1.ToString();
                 Cart.AddItem(cart_itemModel);
             }
+
+            // delete item from the cart
             else
             {
-                foreach (var cart_itemModel in Cart.CartItemList.Where(x => x.Item.ID == obj.Item.ID).ToList())
+                // unselect item
+                var itemFound = ItemModelList.Where(x => x.Item.ID == obj.Item.ID).FirstOrDefault();
+                if (itemFound != null)
+                    itemFound.IsItemSelected = false;
+
+                foreach (var cart_itemModel in Cart.CartItemList.Where(x => x.Item.ID == obj.Item.ID && x.TxtRef == obj.TxtRef).ToList())
                     Cart.RemoveItem(cart_itemModel);
             }
             GoToQuoteCommand.raiseCanExecuteActionChanged();
@@ -384,9 +396,13 @@ namespace QOBDManagement.ViewModel
 
         private void deleteItemFromCart(Cart_itemModel obj)
         {
-            Cart.CartItemList.Remove(obj);
-            ItemModelList.Where(x => x.TxtID == obj.TxtID).Single().IsItemSelected = false;
-            GoToQuoteCommand.raiseCanExecuteActionChanged();
+            saveCartChecks(new ItemModel { Item = obj.Item });
+            /*Cart.CartItemList.Remove(obj);
+            var itemFound = ItemModelList.Where(x => x.Item.ID == obj.Item.ID).FirstOrDefault();
+            if(itemFound != null)
+                itemFound.IsItemSelected = false;
+
+            GoToQuoteCommand.raiseCanExecuteActionChanged();*/
         }
 
         public void saveSelectedItem(ItemModel obj)

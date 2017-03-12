@@ -44,7 +44,7 @@ namespace QOBDManagement.Models
             {
                 foreach (var item_deliveryModel in Item_deliveryModelList)
                 {
-                    item_deliveryModel.Item = Item;
+                    item_deliveryModel.ItemModel = new ItemModel { Item = Item };
                 }
             }
         }

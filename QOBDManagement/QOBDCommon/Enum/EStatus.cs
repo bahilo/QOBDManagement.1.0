@@ -11,9 +11,9 @@ namespace QOBDCommon.Enum
         //-----[ Agent Status ]
         Active,
         Deactivated,
-        Command,
+        Order,
 
-        //-----[ Command Status ]
+        //-----[ Order Status ]
         Quote,
         Close,
         Bill,

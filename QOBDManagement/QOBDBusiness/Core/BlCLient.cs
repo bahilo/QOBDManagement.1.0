@@ -405,7 +405,7 @@ namespace QOBDBusiness.Core
             {
                 var command = new Order();
                 command.ClientId = id;
-                command.Status = EStatus.Command.ToString();
+                command.Status = EStatus.Order.ToString();
                 result = DAC.DALOrder.searchOrder(command, ESearchOption.AND);
             }
             catch (Exception ex) { Log.error(ex.Message); }

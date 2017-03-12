@@ -150,9 +150,9 @@
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Total Purchase Price:"/>
-                            <TextBox Width="50" Margin="20 0 0 0" Text="{Binding QuoteViewModel.Cart.TxtCartTotalPurchasePrice, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Text="{Binding QuoteViewModel.Cart.TxtCartTotalPurchasePrice, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="20 0 0 0" IsEnabled="False"/>
                             <TextBlock Margin="20 0 0 0" Text="Total Selling Price:"/>
-                            <TextBox Width="50" Margin="20 0 0 0" Text="{Binding QuoteViewModel.Cart.TxtCartTotalSellingPrice, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Text="{Binding QuoteViewModel.Cart.TxtCartTotalSellingPrice, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="20 0 0 0" IsEnabled="False"/>
                         </StackPanel>
                         <Label Foreground="Red" HorizontalAlignment="Center" Content="{Binding QuoteViewModel.MissingCLientMessage}"/>
                         <Button HorizontalAlignment="Right" Command="{Binding QuoteViewModel.ValidCartToQuoteCommand}">
@@ -175,13 +175,24 @@
                                         <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
                                         <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtLastName}"/>
                                         <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
-                                        <DataGridTemplateColumn Header="Detail">
+                                        <DataGridTemplateColumn Header="">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
                                                         HorizontalAlignment="Center" VerticalAlignment="Center"
                                                         Content="Detail"
-                                                        Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                        Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, ElementName=dgQuoteModelList}"
+                                                        CommandParameter="{Binding ElementName=dgQuoteModelList,Path=CurrentItem}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                        Content="Update"
+                                                        Command="{Binding DataContext.QuoteViewModel.GetQuoteForUpdateCommand, ElementName=dgQuoteModelList}"
                                                         CommandParameter="{Binding ElementName=dgQuoteModelList,Path=CurrentItem}"/>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
@@ -189,7 +200,7 @@
                                         <DataGridTemplateColumn>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Button Command="{Binding DataContext.QuoteViewModel.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                                    <Button Command="{Binding DataContext.QuoteViewModel.DeleteCommand, ElementName=dgQuoteModelList}" 
                                                 CommandParameter="{Binding CurrentItem, ElementName=dgQuoteModelList}">
                                                         <materialDesign:PackIcon Kind="Delete"/>
                                                     </Button>

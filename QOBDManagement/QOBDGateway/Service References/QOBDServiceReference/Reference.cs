@@ -8898,6 +8898,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private int idField;
         
+        private int orderIdField;
+        
         private string item_refField;
         
         private double tax_valueField;
@@ -8916,6 +8918,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.idField = value;
                 this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public int OrderId {
+            get {
+                return this.orderIdField;
+            }
+            set {
+                this.orderIdField = value;
+                this.RaisePropertyChanged("OrderId");
             }
         }
         
@@ -8994,6 +9007,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private int idField;
         
+        private int orderIdField;
+        
         private string item_refField;
         
         private double tax_valueField;
@@ -9010,6 +9025,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.idField = value;
                 this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public int OrderId {
+            get {
+                return this.orderIdField;
+            }
+            set {
+                this.orderIdField = value;
+                this.RaisePropertyChanged("OrderId");
             }
         }
         

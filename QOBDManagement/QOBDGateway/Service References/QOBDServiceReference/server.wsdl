@@ -684,6 +684,7 @@
       <xsd:complexType name="Tax_itemQOBD">
         <xsd:all>
           <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="OrderId" type="xsd:int" />
           <xsd:element name="Item_ref" type="xsd:string" />
           <xsd:element name="Tax_value" type="xsd:double" />
           <xsd:element name="TaxId" type="xsd:int" />
@@ -700,6 +701,7 @@
       <xsd:complexType name="Tax_itemFilterQOBD">
         <xsd:all>
           <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="OrderId" type="xsd:int" />
           <xsd:element name="Item_ref" type="xsd:string" />
           <xsd:element name="Tax_value" type="xsd:double" />
           <xsd:element name="TaxId" type="xsd:int" />

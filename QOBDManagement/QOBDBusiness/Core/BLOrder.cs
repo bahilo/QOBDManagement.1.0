@@ -189,12 +189,16 @@ namespace QOBDBusiness.Core
         }
 
         public async Task<List<Order>> UpdateOrderAsync(List<Order> orderList)
-        {
+        {            
+            if (orderList.Where(x => x.ID == 0).Count() > 0)
+            {
+                orderList = orderList.Where(x => x.ID != 0).ToList();
+                Log.write("Updating orders(count = " + orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }
+
             if (orderList == null || orderList.Count == 0)
                 return new List<Order>();
 
-            if (orderList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Updating commands(count = " + orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
             List<Order> result = new List<Order>();
             try
             {
@@ -207,12 +211,17 @@ namespace QOBDBusiness.Core
 
         public async Task<List<Tax_order>> UpdateTax_orderAsync(List<Tax_order> tax_orderList)
         {
+            if (tax_orderList.Where(x => x.ID == 0).Count() > 0)
+            {
+                tax_orderList = tax_orderList.Where(x => x.ID != 0).ToList();
+                Log.write("Updating tax_orders(count = " + tax_orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }
+                
+            List<Tax_order> result = new List<Tax_order>();
+
             if (tax_orderList == null || tax_orderList.Count == 0)
                 return new List<Tax_order>();
 
-            if (tax_orderList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Updating tax_commands(count = " + tax_orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            List<Tax_order> result = new List<Tax_order>();
             try
             {
                 result = await DAC.DALOrder.UpdateTax_orderAsync(tax_orderList);
@@ -223,12 +232,17 @@ namespace QOBDBusiness.Core
 
         public async Task<List<Order_item>> UpdateOrder_itemAsync(List<Order_item> order_itemList)
         {
+            List<Order_item> result = new List<Order_item>();
+
+            if (order_itemList.Where(x => x.ID == 0).Count() > 0)
+            {
+                order_itemList = order_itemList.Where(x => x.ID != 0).ToList();
+                Log.write("Updating order_items(count = " + order_itemList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }
+
             if (order_itemList == null || order_itemList.Count == 0)
                 return new List<Order_item>();
 
-            if (order_itemList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Updating order_items(count = " + order_itemList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            List<Order_item> result = new List<Order_item>();
             try
             {
                 result = await DAC.DALOrder.UpdateOrder_itemAsync(order_itemList);
@@ -239,13 +253,16 @@ namespace QOBDBusiness.Core
 
         public async Task<List<Tax>> UpdateTaxAsync(List<Tax> taxList)
         {
+            if (taxList.Where(x => x.ID == 0).Count() > 0)
+            {
+                taxList = taxList.Where(x => x.ID != 0).ToList();
+                Log.write("Updating Taxes(count = " + taxList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }                
+
+            List<Tax> result = new List<Tax>();
             if (taxList == null || taxList.Count == 0)
                 return new List<Tax>();
 
-            if (taxList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Updating Taxes(count = " + taxList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
-            List<Tax> result = new List<Tax>();
             try
             {
                 result = await DAC.DALOrder.UpdateTaxAsync(taxList);
@@ -256,12 +273,16 @@ namespace QOBDBusiness.Core
 
         public async Task<List<Bill>> UpdateBillAsync(List<Bill> billList)
         {
-            if (billList == null || billList.Count == 0)
-                return new List<Bill>();
-
             if (billList.Where(x => x.ID == 0).Count() > 0)
+            {
+                billList = billList.Where(x => x.ID != 0).ToList();
                 Log.write("Updating bills(count = " + billList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }                
+
             List<Bill> result = new List<Bill>();
+            if (billList == null || billList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALOrder.UpdateBillAsync(billList);
@@ -272,12 +293,16 @@ namespace QOBDBusiness.Core
 
         public async Task<List<Delivery>> UpdateDeliveryAsync(List<Delivery> deliveryList)
         {
-            if (deliveryList == null || deliveryList.Count == 0)
-                return new List<Delivery>();
-
             if (deliveryList.Where(x => x.ID == 0).Count() > 0)
+            {
+                deliveryList = deliveryList.Where(x => x.ID != 0).ToList();
                 Log.write("Updating deliveries(count = " + deliveryList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }                
+
             List<Delivery> result = new List<Delivery>();
+            if (deliveryList == null || deliveryList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALOrder.UpdateDeliveryAsync(deliveryList);
@@ -288,12 +313,16 @@ namespace QOBDBusiness.Core
 
         public async Task<List<Order>> DeleteOrderAsync(List<Order> orderList)
         {
-            if (orderList == null || orderList.Count == 0)
-                return new List<Order>();
-
             if (orderList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Deleting commands(count = " + orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            {
+                orderList = orderList.Where(x => x.ID != 0).ToList();
+                Log.write("Deleting orders(count = " + orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }
+                
             List<Order> result = new List<Order>();
+            if (orderList == null || orderList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALOrder.DeleteOrderAsync(orderList);
@@ -305,12 +334,16 @@ namespace QOBDBusiness.Core
         
         public async Task<List<Tax_order>> DeleteTax_orderAsync(List<Tax_order> tax_orderList)
         {
-            if (tax_orderList == null || tax_orderList.Count == 0)
-                return new List<Tax_order>();
-
             if (tax_orderList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Deleting tax_commands(count = " + tax_orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            {
+                tax_orderList = tax_orderList.Where(x => x.ID != 0).ToList();
+                Log.write("Deleting tax_orders(count = " + tax_orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }                
+
             List<Tax_order> result = new List<Tax_order>();
+            if (tax_orderList == null || tax_orderList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALOrder.DeleteTax_orderAsync(tax_orderList);
@@ -321,12 +354,16 @@ namespace QOBDBusiness.Core
 
         public async Task<List<Order_item>> DeleteOrder_itemAsync(List<Order_item> order_itemList)
         {
-            if (order_itemList == null || order_itemList.Count == 0)
-                return new List<Order_item>();
-
             if (order_itemList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Deleting command_items(count = " + order_itemList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            {
+                order_itemList = order_itemList.Where(x => x.ID != 0).ToList();
+                Log.write("Deleting order_items(count = " + order_itemList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }
+                
             List<Order_item> result = new List<Order_item>();
+            if (order_itemList == null || order_itemList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALOrder.DeleteOrder_itemAsync(order_itemList);
@@ -337,12 +374,16 @@ namespace QOBDBusiness.Core
 
         public async Task<List<Tax>> DeleteTaxAsync(List<Tax> taxList)
         {
-            if (taxList == null || taxList.Count == 0)
-                return new List<Tax>();
-
             if (taxList.Where(x => x.ID == 0).Count() > 0)
+            {
+                taxList = taxList.Where(x => x.ID != 0).ToList();
                 Log.write("Deleting Taxes(count = " + taxList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }
+                
             List<Tax> result = new List<Tax>();
+            if (taxList == null || taxList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALOrder.DeleteTaxAsync(taxList);
@@ -353,12 +394,16 @@ namespace QOBDBusiness.Core
 
         public async Task<List<Bill>> DeleteBillAsync(List<Bill> billList)
         {
-            if (billList == null || billList.Count == 0)
-                return new List<Bill>();
-
             if (billList.Where(x => x.ID == 0).Count() > 0)
+            {
+                billList = billList.Where(x => x.ID == 0).ToList();
                 Log.write("Deleting bills(count = " + billList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }
+                
             List<Bill> result = new List<Bill>();
+            if (billList == null || billList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALOrder.DeleteBillAsync(billList);
@@ -369,12 +414,16 @@ namespace QOBDBusiness.Core
 
         public async Task<List<Delivery>> DeleteDeliveryAsync(List<Delivery> deliveryList)
         {
-            if (deliveryList == null || deliveryList.Count == 0)
-                return new List<Delivery>();
-
             if (deliveryList.Where(x => x.ID == 0).Count() > 0)
+            {
+                deliveryList = deliveryList.Where(x => x.ID != 0).ToList();
                 Log.write("Deleting deliveries(count = " + deliveryList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
+            }
+                
             List<Delivery> result = new List<Delivery>();
+            if (deliveryList == null || deliveryList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALOrder.DeleteDeliveryAsync(deliveryList);

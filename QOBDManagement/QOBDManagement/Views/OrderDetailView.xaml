@@ -337,8 +337,8 @@
                             <DataGrid Name="dgDeliveryCreation" ItemsSource="{Binding OrderViewModel.OrderDetailViewModel.Item_ModelDeliveryInProcess, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False"
                                   CanUserAddRows="False" MaxWidth="990">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Item Reference" Binding="{Binding Item.Ref}"/>
-                                    <DataGridTextColumn Header="Item Name" Binding="{Binding Item.Name}"/>
+                                    <DataGridTextColumn Header="Item Reference" Binding="{Binding ItemModel.TxtRef}"/>
+                                    <DataGridTextColumn Header="Item Name" Binding="{Binding ItemModel.TxtName}"/>
                                     <DataGridTextColumn Header="Quantity in Process" Binding="{Binding TxtQuantity_current}"/>
                                     <DataGridTemplateColumn>
                                         <DataGridTemplateColumn.Header>
@@ -402,7 +402,7 @@
                                         <DataGridTextColumn Header="Create date" Binding="{Binding DeliveryModel.TxtDate, UpdateSourceTrigger=PropertyChanged}"/>
                                         <DataGridTextColumn Header="Packages" Binding="{Binding DeliveryModel.TxtPackage, UpdateSourceTrigger=PropertyChanged}"/>
                                         <DataGridTextColumn Header="Item Reference" Binding="{Binding TxtItem_ref, UpdateSourceTrigger=PropertyChanged}"/>
-                                        <DataGridTextColumn Header="Item Name" Binding="{Binding Item.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <DataGridTextColumn Header="Item Name" Binding="{Binding ItemModel.TxtName, UpdateSourceTrigger=PropertyChanged}"/>
                                         <DataGridTextColumn Header="Quantity Delivery" Binding="{Binding TxtQuantity_delivery, UpdateSourceTrigger=PropertyChanged}"/>
                                         <DataGridTemplateColumn>
                                             <DataGridTemplateColumn.CellTemplate>

@@ -11,12 +11,12 @@ using QOBDManagement.Models;
 using QOBDCommon.Enum;
 using System.ComponentModel;
 using QOBDManagement.Interfaces;
+using QOBDCommon.Classes;
 
 namespace QOBDManagement.ViewModel
 {
     public class QuoteViewModel: BindBase, IQuoteViewModel
     {
-        private string _navigTo;
         private bool _isCurrentPage;
         private Func<Object, Object> _page;
         private string _missingCLientMessage;
@@ -41,6 +41,7 @@ namespace QOBDManagement.ViewModel
         public Command.ButtonCommand<OrderModel> GetCurrentCommandCommand { get; set; }
         public Command.ButtonCommand<string> ValidCartToQuoteCommand { get; set; }
         public Command.ButtonCommand<OrderModel> DeleteCommand { get; set; }
+        public Command.ButtonCommand<OrderModel> GetQuoteForUpdateCommand { get; set; }
 
 
         public QuoteViewModel()
@@ -64,7 +65,6 @@ namespace QOBDManagement.ViewModel
 
         private void initEvents()
         {
-            _quoteDetailViewModel.PropertyChanged += onSelectedQuoteModelChange;
             if ((_main.getObject("main") as BindBase) != null)
             {
                 (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
@@ -92,10 +92,11 @@ namespace QOBDManagement.ViewModel
             GetCurrentCommandCommand = new Command.ButtonCommand<OrderModel>(saveSelectedQuote, canSaveSelectedOrder);
             ValidCartToQuoteCommand = new ButtonCommand<string>(createQuote, canCreateQuote);
             DeleteCommand = new Command.ButtonCommand<OrderModel>(deleteOrder, canDeleteOrder);
+            GetQuoteForUpdateCommand = new ButtonCommand<OrderModel>(selectQuoteForUpdate, canSelectQuoteForUpdate);
         }
 
         //----------------------------[ Properties ]------------------
-               
+
         public ItemModel ItemModel
         {
             get { return _itemModel; }
@@ -123,12 +124,6 @@ namespace QOBDManagement.ViewModel
         {
             get { return _missingCLientMessage; }
             set { setProperty(ref _missingCLientMessage, value, "MissingCLientMessage"); }
-        }
-
-        public string NavigTo
-        {
-            get { return _navigTo; }
-            set { setProperty(ref _navigTo, value,"NavigTo"); }
         }
 
         public OrderModel SelectedQuoteModel
@@ -192,34 +187,119 @@ namespace QOBDManagement.ViewModel
             }
        }
 
+        private async void updateQuote()
+        {
+            Dialog.showSearch("Quote updating...");
+
+            List<Entity.Order_item> order_itemList = new List<Entity.Order_item>();
+            SelectedQuoteModel.TxtDate = DateTime.Now.ToString();           
+
+            var savedQuoteList = await Bl.BlOrder.UpdateOrderAsync(new List<Entity.Order> { SelectedQuoteModel.Order });
+            if (savedQuoteList.Count > 0)
+            {
+                foreach (Cart_itemModel cart_itemModel in Cart.CartItemList)
+                {
+                    // update existing item in the cart
+                    Order_itemModel order_itemModelFound = QuoteDetailViewModel.Order_ItemModelList.Where(x=>x.TxtItem_ref == cart_itemModel.TxtRef).FirstOrDefault();
+                    if(order_itemModelFound != null)
+                    {
+                        order_itemModelFound.TxtQuantity = cart_itemModel.TxtQuantity;
+                        order_itemModelFound.TxtPrice = cart_itemModel.TxtPrice_sell;
+                        order_itemModelFound.TxtPrice_purchase = cart_itemModel.TxtPrice_purchase;
+                        order_itemList.Add(order_itemModelFound.Order_Item);
+                    }
+
+                    // new item in the cart
+                    else
+                    {
+                        Order_itemModel newOrder_itemModel = new Order_itemModel();
+                        newOrder_itemModel.TxtItem_ref = cart_itemModel.TxtRef;
+                        newOrder_itemModel.TxtItemId = cart_itemModel.TxtID;
+                        newOrder_itemModel.TxtPrice = cart_itemModel.TxtPrice_sell;
+                        newOrder_itemModel.TxtPrice_purchase = cart_itemModel.TxtPrice_purchase;
+                        newOrder_itemModel.Order_Item.OrderId = savedQuoteList[0].ID;
+                        newOrder_itemModel.TxtQuantity = cart_itemModel.TxtQuantity;
+                        order_itemList.Add(newOrder_itemModel.Order_Item);
+                    }
+                }
+
+                // get unselected item from the list for deletion
+                var order_itemListToDelete = QuoteDetailViewModel.Order_ItemModelList.Where(x=> Cart.CartItemList.Where(y=>y.TxtRef == x.TxtItem_ref).Count() == 0 ).ToList();
+                
+                await Bl.BlOrder.UpdateOrder_itemAsync(order_itemList.Where(x=>x.ID != 0).ToList());
+                await Bl.BlOrder.InsertOrder_itemAsync(order_itemList.Where(x => x.ID == 0).ToList());
+                await Bl.BlOrder.DeleteOrder_itemAsync(order_itemListToDelete.Select(x=>x.Order_Item).ToList());
+
+                foreach (var order_itemModelToDelete in order_itemListToDelete)
+                    QuoteDetailViewModel.Order_ItemModelList.Remove(order_itemModelToDelete);
+
+                Cart.CartItemList.Clear();
+                Cart.Client.Client = new QOBDCommon.Entities.Client();
+                if (savedQuoteList.Count > 0)
+                    await Dialog.showAsync("Quote ID(" + new OrderModel { Order = savedQuoteList[0] }.TxtID + ") has been updated successfully!");
+            }
+            else
+            {
+                string errorMessage = "Error occurred while updating the quote ID[" + SelectedQuoteModel.TxtID + "]!";
+                Log.error(errorMessage);
+                await Dialog.showAsync(errorMessage);
+            }               
+
+            Dialog.IsDialogOpen = false;
+        }
+
+        private async void createNewQuote()
+        {
+            Dialog.showSearch("Quote creation...");
+
+            OrderModel quote = new OrderModel();
+            quote.AddressList = Cart.Client.AddressList;
+            quote.CLientModel = Cart.Client;
+            quote.AgentModel = new AgentModel { Agent = Bl.BlSecurity.GetAuthenticatedUser() };
+            quote.TxtDate = DateTime.Now.ToString();
+            quote.TxtStatus = EOrderStatus.Quote.ToString();
+            
+            var savedQuoteList = await Bl.BlOrder.InsertOrderAsync(new List<Entity.Order> { quote.Order });
+            if(savedQuoteList.Count > 0)
+            {
+                List<Entity.Order_item> order_itemList = Cart.CartItemList.Select(x => new Entity.Order_item
+                {
+                    Item_ref = x.TxtRef,
+                    ItemId = x.Item.ID,
+                    Price = x.Item.Price_sell,
+                    Price_purchase = x.Item.Price_purchase,
+                    OrderId = savedQuoteList[0].ID,
+                    Quantity = Utility.intTryParse(x.TxtQuantity)
+                }).ToList();
+
+                var savedOrderList = await Bl.BlOrder.InsertOrder_itemAsync(order_itemList);
+                Cart.CartItemList.Clear();
+                Cart.Client.Client = new QOBDCommon.Entities.Client();
+                if (savedQuoteList.Count > 0)
+                    await Dialog.showAsync("Quote ID(" + new OrderModel { Order = savedQuoteList[0] }.TxtID + ") has been created successfully!");
+            }
+            else
+            {
+                string errorMessage = "Error occurred while creating the quote!";
+                Log.error(errorMessage);
+                await Dialog.showAsync(errorMessage);
+            }
+
+            Dialog.IsDialogOpen = false;
+        }
+
         public override void Dispose()
         {
             if ((_main.getObject("main") as BindBase) != null)
             {
                 (_main.getObject("main") as BindBase).PropertyChanged -= onStartupChange;
                 (_main.getObject("main") as BindBase).PropertyChanged -= onDialogChange;
-            }
-            _quoteDetailViewModel.PropertyChanged -= onSelectedQuoteModelChange;            
+            }          
             _orderViewModel.PropertyChanged -= onOrderModelChange_loadOrder;
         }
 
         //----------------------------[ Event Handler ]------------------
-
-        private void onNavigToChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (string.Equals(e.PropertyName, "NavigTo"))
-            {
-                executeNavig(NavigTo);
-            }
-        }
-
-        private void onSelectedQuoteModelChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("SelectedQuoteModel"))
-            {
-                NavigTo = "quote-detail";
-            }
-        }
+        
 
         private void onStartupChange(object sender, PropertyChangedEventArgs e)
         {
@@ -253,6 +333,7 @@ namespace QOBDManagement.ViewModel
         private void saveSelectedQuote(OrderModel obj)
         {
             SelectedQuoteModel = obj;
+            executeNavig("quote-detail");
         }
 
         private bool canSaveSelectedOrder(OrderModel arg)
@@ -275,51 +356,22 @@ namespace QOBDManagement.ViewModel
                 case "quote-detail":
                     _page(QuoteDetailViewModel);
                     break;
+                case "catalog":
+                    _page(new ItemViewModel());
+                    break;
                 default:
                     goto case "quote";
             }
         }
 
-        private async void createQuote(string obj)
+        private void createQuote(string obj)
         {
-            Dialog.showSearch("Quote creation...");
-            OrderModel quote = new OrderModel();
-            List<Entity.Order_item> order_itemList = new List<Entity.Order_item>();
-            List<Entity.Order> quoteList = new List<Entity.Order>();
+            if (SelectedQuoteModel != null && SelectedQuoteModel.Order.ID != 0)
+                updateQuote();
+            else
+                createNewQuote();
 
-            quote.AddressList = Cart.Client.AddressList;
-            quote.CLientModel = Cart.Client;
-            quote.AgentModel = new AgentModel { Agent = Bl.BlSecurity.GetAuthenticatedUser() };
-            quote.TxtDate = DateTime.Now.ToString();
-            quote.TxtStatus = EOrderStatus.Quote.ToString();
-
-            quoteList.Add(quote.Order);
-
-            var savedQuoteList = await Bl.BlOrder.InsertOrderAsync(quoteList);
-            var savedQuote = (savedQuoteList.Count > 0) ? savedQuoteList[0] : new Entity.Order();
-
-            foreach (var itemModel in Cart.CartItemList)
-            {
-                var order_item                    = new Order_itemModel();
-                order_item.ItemModel.Item         = itemModel.Item;
-                order_item.TxtItem_ref           = itemModel.TxtRef;
-                order_item.TxtItemId              = itemModel.TxtID;
-                order_item.TxtPrice               = itemModel.TxtPrice_sell;
-                order_item.TxtPrice_purchase      = itemModel.TxtPrice_purchase;
-                order_item.TxtTotalPurchase       = itemModel.TxtTotalPurchasePrice;
-                order_item.TxtTotalSelling        = itemModel.TxtTotalSellingPrice;
-                order_item.TxtOrderId           = savedQuote.ID.ToString();
-                order_item.TxtQuantity            = itemModel.TxtQuantity;
-
-                order_itemList.Add(order_item.Order_Item);
-            }    
-            var savedOrderList = await Bl.BlOrder.InsertOrder_itemAsync(order_itemList);
-            Cart.CartItemList.Clear();
-            Cart.Client.Client = new QOBDCommon.Entities.Client();
-            if (savedQuoteList.Count > 0)
-                await Dialog.showAsync("Quote ID("+new OrderModel { Order = savedQuoteList[0] }.TxtID+") has been created successfully!");
-            Dialog.IsDialogOpen = false;
-            _page(new QuoteViewModel());
+            executeNavig("quote");
         }
 
         private bool canCreateQuote(string arg)
@@ -342,12 +394,33 @@ namespace QOBDManagement.ViewModel
             var order_itemFoundList = Bl.BlOrder.GetOrder_itemByOrderList(new List<Entity.Order> { obj.Order });
             await Bl.BlOrder.DeleteOrder_itemAsync(order_itemFoundList);
             await Bl.BlOrder.DeleteOrderAsync(new List<Entity.Order> { obj.Order });
-            _page(this);
+            executeNavig("quote");
         }
 
         private bool canDeleteOrder(OrderModel arg)
         {
             return _orderViewModel.canDeleteOrder(arg);
+        }
+
+        private void selectQuoteForUpdate(OrderModel obj)
+        {
+            SelectedQuoteModel = obj;
+            Cart.Client = obj.CLientModel;
+            QuoteDetailViewModel.OrderSelected = SelectedQuoteModel;
+            QuoteDetailViewModel.loadOrder_items();
+            foreach (Cart_itemModel cart_itemModel in QuoteDetailViewModel.Order_ItemModelList.Select(x => new Cart_itemModel { Item = x.ItemModel.Item, TxtQuantity = x.TxtQuantity }).ToList())
+            {
+                // add item to the cart and create an event on quantity change
+                if(Cart.CartItemList.Where(x=>x.Item.ID == cart_itemModel.Item.ID).Count() == 0)
+                    Cart.AddItem(cart_itemModel);
+            }
+            
+            executeNavig("catalog");           
+        }
+
+        private bool canSelectQuoteForUpdate(OrderModel arg)
+        {
+            return true;
         }
 
 

@@ -20,6 +20,8 @@ namespace QOBDCommon.Entities
 
         public int itemId {get; set;}
 
+        public int OrderId { get; set;}
+
         public string Item_ref {get; set;}
 
         public double Tax_value {get; set;}

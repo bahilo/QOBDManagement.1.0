@@ -1487,6 +1487,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Item_ref = Utility.decodeBase64ToString(x.Item_ref),
                 Tax_type = Utility.decodeBase64ToString(x.Tax_type),
                 TaxId = x.TaxId,
+                OrderId = x.OrderId,
                 Tax_value = x.Tax_value,
             }).ToList();
             
@@ -1501,6 +1502,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Item_ref = Utility.encodeStringToBase64(x.Item_ref),
                 Tax_type = Utility.encodeStringToBase64(x.Tax_type),
                 TaxId = x.TaxId,
+                OrderId = x.OrderId,
                 Tax_value = x.Tax_value,
             }).ToArray();
             
@@ -1516,6 +1518,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Tax_itemQCBD.Item_ref = Utility.encodeStringToBase64(Tax_item.Item_ref);
                 Tax_itemQCBD.Tax_type = Utility.encodeStringToBase64(Tax_item.Tax_type);
                 Tax_itemQCBD.TaxId = Tax_item.TaxId;
+                Tax_itemQCBD.OrderId = Tax_item.OrderId;
                 Tax_itemQCBD.Tax_value = Tax_item.Tax_value;
                 Tax_itemQCBD.Operator = filterOperator.ToString();
             }

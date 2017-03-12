@@ -11,7 +11,7 @@ namespace QOBDManagement.Models
 {
     public class Item_deliveryModel : BindBase
     {
-        private Item _item;
+        private ItemModel _itemModel;
         private Item_delivery _item_delivery;
         private DeliveryModel _deliveryReceiptList;
         private int _quantity_current;
@@ -19,7 +19,7 @@ namespace QOBDManagement.Models
 
         public Item_deliveryModel()
         {
-            _item = new Item();
+            _itemModel = new ItemModel();
             _deliveryReceiptList = new DeliveryModel();
             _item_delivery = new Item_delivery();
             _isSelected = true;
@@ -31,10 +31,10 @@ namespace QOBDManagement.Models
             set { setProperty(ref _item_delivery, value); }
         }
 
-        public Item Item
+        public ItemModel ItemModel
         {
-            get { return _item; }
-            set { setProperty(ref _item, value); }
+            get { return _itemModel; }
+            set { setProperty(ref _itemModel, value); }
         }
 
         public DeliveryModel DeliveryModel

@@ -103,7 +103,7 @@ namespace QOBDManagement.ViewModel
         }
 
         private void instances()
-        {
+        {            
             _title = "Order Description";
             _incomeHeaderWithCurrency = "Total Income (" + CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + ")";
             _taxes = new List<Tax>();
@@ -306,7 +306,7 @@ namespace QOBDManagement.ViewModel
         public List<Order_itemModel> Order_ItemModelList
         {
             get { return _order_itemList; }
-            set { _order_itemList = value; updateDeliveryAndInvoiceListBindingByCallingPropertyChange(); }
+            set { _order_itemList = value; refreshBindingByCallingPropertyChange(); }
         }
 
         public List<Item_deliveryModel> Item_ModelDeliveryInProcess
@@ -483,7 +483,7 @@ namespace QOBDManagement.ViewModel
                 foreach (var delivery in deliveryFoundList)
                 {
                     // search for the delivery reference of the item
-                    Item_deliveryModel item_deliveryModelFound = Bl.BlItem.searchItem_delivery(new Item_delivery { Item_ref = item.Ref, DeliveryId = delivery.ID }, ESearchOption.AND).Select(x => new Item_deliveryModel { Item_delivery = x, Item = item }).FirstOrDefault();
+                    Item_deliveryModel item_deliveryModelFound = Bl.BlItem.searchItem_delivery(new Item_delivery { Item_ref = item.Ref, DeliveryId = delivery.ID }, ESearchOption.AND).Select(x => new Item_deliveryModel { Item_delivery = x, ItemModel = new ItemModel { Item = item }, DeliveryModel = new DeliveryModel { Delivery = delivery } }).FirstOrDefault();
                     if (item_deliveryModelFound != null)
                     {
                         item_deliveryModelList.Add(item_deliveryModelFound);
@@ -545,6 +545,9 @@ namespace QOBDManagement.ViewModel
         private void refreshBindings()
         {
             loadInvoicesAndDeliveryReceipts();
+
+            // check that the item in the list is erasable
+            DeleteItemCommand.raiseCanExecuteActionChanged();
         }
 
 
@@ -570,7 +573,7 @@ namespace QOBDManagement.ViewModel
             // get the delivery creation list
             Item_ModelDeliveryInProcess = Order_ItemModelList.Where(x => x.Order_Item.Quantity_current > 0).Select(x => new Item_deliveryModel
             {
-                Item = x.ItemModel.Item,
+                ItemModel = x.ItemModel,
                 TxtItem_ref = x.ItemModel.TxtRef,
                 TxtQuantity_current = x.TxtQuantity_current,
                 TxtQuantity_delivery = x.TxtQuantity_delivery
@@ -838,7 +841,7 @@ namespace QOBDManagement.ViewModel
             onPropertyChange("BlockStepThreeVisibility");
         }
 
-        private void updateDeliveryAndInvoiceListBindingByCallingPropertyChange()
+        private void refreshBindingByCallingPropertyChange()
         {
             onPropertyChange("Order_ItemModelList");
             onPropertyChange("Item_deliveryModelCreatedList");
@@ -954,7 +957,7 @@ namespace QOBDManagement.ViewModel
         }
 
         /// <summary>
-        /// When one item of a delivery receipt is selected 
+        /// when one item of a delivery receipt is selected 
         /// then select all items of the delivery receipt
         /// </summary>
         /// <param name="sender"></param>
@@ -1007,8 +1010,8 @@ namespace QOBDManagement.ViewModel
             }
 
             var savedOrder_itemList = await Bl.BlOrder.UpdateOrder_itemAsync(Order_itemToSave);
-
-            updateDeliveryAndInvoiceListBindingByCallingPropertyChange();
+                        
+            refreshBindingByCallingPropertyChange();
             refreshBindings();
             Dialog.IsDialogOpen = false;
             _page(this);
@@ -1030,22 +1033,31 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
-        private void deleteItem(Order_itemModel obj)
+        private async void deleteItem(Order_itemModel obj)
         {
             Dialog.showSearch("Deleting...");
-            Bl.BlOrder.DeleteOrder_itemAsync(new List<Order_item> { obj.Order_Item });
+            await Bl.BlOrder.DeleteOrder_itemAsync(new List<Order_item> { obj.Order_Item });
             Order_ItemModelList.Remove(obj);
-            updateDeliveryAndInvoiceListBindingByCallingPropertyChange();
+
+            // refresh binding
+            onPropertyChange("Order_ItemModelList");
+
             Dialog.IsDialogOpen = false;
+            _page(this);
         }
 
         private bool canDeleteItem(Order_itemModel arg)
         {
             bool isDelete = _main.securityCheck(EAction.Order, ESecurity._Delete);
-            if (isDelete)
-                return true;
+            if (!isDelete)
+                return false;
 
-            return false;
+            if (Item_ModelDeliveryInProcess.Count != 0
+                || Item_deliveryModelBillingInProcess.Count != 0
+                || OrderSelected.BillModelList.Count != 0)
+                return false;
+
+            return true;
         }
 
         private void generateDeliveryReceiptPdf(DeliveryModel obj)
@@ -1094,7 +1106,7 @@ namespace QOBDManagement.ViewModel
                         var savedItem_deliveryList = await Bl.BlItem.InsertItem_deliveryAsync(new List<Item_delivery> { item_deliveryModel.Item_delivery });
 
                         var Order_itemModelFound = (from c in Order_ItemModelList
-                                                    where c.ItemModel.Item.ID == item_deliveryModel.Item.ID && c.ItemModel.Item.Ref == item_deliveryModel.Item.Ref
+                                                    where c.ItemModel.Item.ID == item_deliveryModel.ItemModel.Item.ID && c.ItemModel.Item.Ref == item_deliveryModel.ItemModel.TxtRef
                                                     select c).FirstOrDefault();
 
                         if (savedItem_deliveryList.Count > 0 && Order_itemModelFound != null)
@@ -1125,7 +1137,7 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch("Delivery receipt creation cancelling...");
 
             var Order_itemFound = (from c in Order_ItemModelList
-                                   where c.ItemModel.Item.Ref == obj.Item.Ref && c.ItemModel.Item.ID == obj.Item.ID
+                                   where c.ItemModel.Item.Ref == obj.ItemModel.TxtRef && c.ItemModel.Item.ID == obj.ItemModel.Item.ID
                                    select c).FirstOrDefault();
 
             if (Order_itemFound != null)
@@ -1139,7 +1151,7 @@ namespace QOBDManagement.ViewModel
                 Item_ModelDeliveryInProcess.Remove(obj);
 
                 // update the bindings
-                updateDeliveryAndInvoiceListBindingByCallingPropertyChange();
+                refreshBindingByCallingPropertyChange();
                 refreshBindings();
             }
             _page(this);
@@ -1197,7 +1209,7 @@ namespace QOBDManagement.ViewModel
                 await Bl.BlItem.DeleteItem_deliveryAsync(new List<Item_delivery> { obj.Item_delivery });
             }
 
-            updateDeliveryAndInvoiceListBindingByCallingPropertyChange();
+            refreshBindingByCallingPropertyChange();
             refreshBindings();
             Dialog.IsDialogOpen = false;
         }
@@ -1373,7 +1385,14 @@ namespace QOBDManagement.ViewModel
                     }
 
                     await Bl.BlOrder.DeleteBillAsync(new List<Bill> { obj.Bill });
-                    await Bl.BlOrder.UpdateDeliveryAsync(deliveryToUpdateList);
+                    var updatedDeliveryList = await Bl.BlOrder.UpdateDeliveryAsync(deliveryToUpdateList);
+                    if (updatedDeliveryList.Count == 0 && deliveryToUpdateList.Count > 0)
+                    {
+                        string errorMessage = "Error occurred while cancelling the invoice (ID="+obj.TxtID+").";
+                        Log.error(errorMessage);
+                        await Dialog.showAsync(errorMessage);
+                    }
+                        
 
                     // deleting the related statistics
                     var statisticsFoundList = await Bl.BlStatisitc.searchStatisticAsync(new Statistic { InvoiceId = obj.Bill.ID }, ESearchOption.AND);
@@ -1553,7 +1572,7 @@ namespace QOBDManagement.ViewModel
         {
             Dialog.showSearch("Email sending...");
             var paramEmail = new ParamEmail();
-            paramEmail.IsCopyToAgent = await Dialog.showAsync("Do you want to receive an copy of the email?");
+            paramEmail.IsCopyToAgent = await Dialog.showAsync("Do you want to receive a copy of the email?");
             paramEmail.Subject = EmailFile.TxtSubject;
             paramEmail.IsSendEmail = true;
 
