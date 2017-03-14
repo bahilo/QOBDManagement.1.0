@@ -1338,6 +1338,12 @@
   <wsdl:message name="get_data_client_by_bill_listResponse">
     <wsdl:part name="return" type="tns:AllClientQOBD" />
   </wsdl:message>
+  <wsdl:message name="get_data_client_by_order_listRequest">
+    <wsdl:part name="order_array_list" type="tns:AllOrderQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_client_by_order_listResponse">
+    <wsdl:part name="return" type="tns:AllClientQOBD" />
+  </wsdl:message>
   <wsdl:message name="get_data_client_by_max_credit_overRequest">
     <wsdl:part name="agent_id" type="xsd:int" />
   </wsdl:message>
@@ -2473,6 +2479,11 @@
       <documentation>Simple Class methode testing</documentation>
       <wsdl:input message="tns:get_data_client_by_bill_listRequest" />
       <wsdl:output message="tns:get_data_client_by_bill_listResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_data_client_by_order_list">
+      <documentation>Simple Class methode testing</documentation>
+      <wsdl:input message="tns:get_data_client_by_order_listRequest" />
+      <wsdl:output message="tns:get_data_client_by_order_listResponse" />
     </wsdl:operation>
     <wsdl:operation name="get_data_client_by_max_credit_over">
       <documentation>get all client over their max credit</documentation>
@@ -3759,6 +3770,15 @@
     </wsdl:operation>
     <wsdl:operation name="get_data_client_by_bill_list">
       <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_data_client_by_bill_list" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_data_client_by_order_list">
+      <soap:operation soapAction="http://localhost/WebServiceSOAP/server.php/get_data_client_by_order_list" style="rpc" />
       <wsdl:input>
         <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </wsdl:input>

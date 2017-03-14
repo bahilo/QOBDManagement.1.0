@@ -15,6 +15,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:Views="clr-namespace:QOBDManagement.Views"
         xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
+        xmlns:Classes="clr-namespace:QOBDManagement.Classes"
         Title="Quote Order Billing and Delivery Management" 
         Closed="Window_Closing">
     <Window.Resources>
@@ -89,6 +90,7 @@
                 <Views:OrderDetailView/>
             </DataTemplate>
 
+            <Classes:TriggerConverter x:Key="TriggerConverter"/>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -137,6 +139,14 @@
                         <Separator Margin="10 0 10 0" />
                         <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="True">
                             <StackPanel>
+                                <Button CommandParameter="{Binding AuthenticatedUserModel, UpdateSourceTrigger=PropertyChanged}">
+                                    <Button.Command>
+                                        <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                            <Binding Path="AgentViewModel.GetCurrentAgentCommand"/>
+                                        </MultiBinding>
+                                    </Button.Command>
+                                    Profile
+                                </Button>
                                 <Button Content="Log Out" Command="{Binding SecurityLoginViewModel.LogoutCommand}"/>
                             </StackPanel>
                         </materialDesign:PopupBox>

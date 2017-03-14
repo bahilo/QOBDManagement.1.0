@@ -204,6 +204,19 @@ namespace QOBDGateway.Core
             return result;
         }
 
+        public async Task<List<Client>> GetClientDataByOrderListAsync(List<Order> orderList)
+        {
+            List<Client> result = new List<Client>();
+            try
+            {
+                result = (await _channel.get_data_client_by_order_listAsync(orderList.OrderTypeToArray())).ArrayTypeToClient();
+            }
+            catch (FaultException) { Dispose(); throw; }
+            catch (CommunicationException) { _channel.Abort(); throw; }
+            catch (TimeoutException) { _channel.Abort(); }
+            return result;
+        }
+
         public async Task<List<Contact>> GetContactDataAsync(int nbLine)
         {
             List<Contact> result = new List<Contact>();

@@ -2569,6 +2569,42 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_bill_listAsync(QOBDGateway.QOBDServiceReference.BillQOBD[] bill_array_list);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client_by_order_list", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client_by_order_list", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client_by_max_credit_over", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
@@ -14597,6 +14633,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_bill_listAsync(QOBDGateway.QOBDServiceReference.BillQOBD[] bill_array_list) {
             return base.Channel.get_data_client_by_bill_listAsync(bill_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_order_list(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_client_by_order_list(order_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_order_listAsync(QOBDGateway.QOBDServiceReference.OrdersQOBD[] order_array_list) {
+            return base.Channel.get_data_client_by_order_listAsync(order_array_list);
         }
         
         public QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_max_credit_over(int agent_id) {

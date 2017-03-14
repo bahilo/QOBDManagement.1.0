@@ -56,29 +56,17 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock HorizontalAlignment="Center">Search</TextBlock>
-                    <StackPanel Margin="0 10 0 0" Grid.Row="1" Orientation="Vertical">
-                        <StackPanel Margin="0 6 0 0" Orientation="Horizontal">
-                            <TextBlock>Agent</TextBlock>
-                            <ComboBox Name="cbBoxAgent" ItemsSource="{Binding AgentViewModel.AgentDetailViewModel.AgentModelList, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="6 0 0 0" Width="250">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding TxtFirstName}" Margin="0 0 5 0"/>
-                                            <TextBlock Text="{Binding TxtLastName}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0 12 0 0" HorizontalAlignment="Right">
-                            <Button IsDefault="True"
-                                    Command="{Binding AgentViewModel.AgentDetailViewModel.SearchCommand}"
-                                    CommandParameter="{Binding SelectedItem, ElementName=cbBoxAgent}">
-                                <materialDesign:PackIcon Kind="Magnify"/>
+                    
+                    <TextBlock HorizontalAlignment="Center">My picture</TextBlock>
+                    <Grid Margin="0 10 0 0" Grid.Row="1">
+                        <Image Source="{Binding AgentViewModel.AgentDetailViewModel.ProfileImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <Button Command="{Binding AgentViewModel.AgentDetailViewModel.OpenFileExplorerCommand}">
+                                <TextBlock>Choose File</TextBlock>
                             </Button>
-                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </materialDesign:Card>

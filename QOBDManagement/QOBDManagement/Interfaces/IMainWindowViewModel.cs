@@ -1,6 +1,7 @@
 ﻿using QOBDCommon.Enum;
 using QOBDManagement.Classes;
 using QOBDManagement.Command;
+using QOBDManagement.Models;
 using QOBDManagement.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace QOBDManagement.Interfaces
         Object ChatRoomCurrentView { get; set; }
         IStartup Startup { get; set; }
         bool isNewAgentAuthentication { get; set; }
+        AgentModel AuthenticatedUserModel { get; }
         Cart Cart { get; }
         ButtonCommand<string> CommandNavig { get; set; }
 

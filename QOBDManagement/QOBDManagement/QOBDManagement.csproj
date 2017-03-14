@@ -79,6 +79,7 @@
     </ApplicationDefinition>
     <Compile Include="Classes\DataContext.cs" />
     <Compile Include="Classes\DiscussionGroupNameConverter.cs" />
+    <Compile Include="Classes\StringLengthConverter.cs" />
     <Compile Include="Classes\TriggerConverter.cs" />
     <Compile Include="Enums\EPrefix.cs" />
     <Compile Include="Enums\EServiceCommunication.cs" />

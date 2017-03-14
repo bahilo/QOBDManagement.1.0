@@ -220,8 +220,8 @@ namespace QOBDManagement.ViewModel
                 if (Application.Current != null)
                     await Application.Current.Dispatcher.Invoke(async () =>
                     {
-                        await showLoginView();
-                        //await startAuthentication(); //"<< for dev mode >>";
+                        //await showLoginView();
+                        await startAuthentication(); //"<< for dev mode >>";
                     });
                 else
                     await startAuthentication();

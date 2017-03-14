@@ -1496,7 +1496,17 @@ namespace QOBDTest.Classes
         {
             return get_data_clientAsync(bill_array_list.Count().ToString());
         }
-        
+
+        public ClientQOBD[] get_data_client_by_order_list(OrdersQOBD[] order_array_list)
+        {
+            return get_data_client(order_array_list.Count().ToString());
+        }
+
+        public Task<ClientQOBD[]> get_data_client_by_order_listAsync(OrdersQOBD[] order_array_list)
+        {
+            return get_data_clientAsync(order_array_list.Count().ToString());
+        }
+
         public ClientQOBD[] get_data_client_by_id(string id)
         {
             ClientQOBD[] output = new ClientQOBD[1];
@@ -4451,6 +4461,6 @@ namespace QOBDTest.Classes
             throw new NotImplementedException();
         }
         #endregion
-        
+
     }
 }

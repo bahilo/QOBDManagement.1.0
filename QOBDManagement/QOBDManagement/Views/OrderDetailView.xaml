@@ -692,8 +692,13 @@
                         </StackPanel>
                         <StackPanel Grid.Row="2" Orientation="Horizontal"  Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockEmailVisibility, UpdateSourceTrigger=PropertyChanged}">
                             <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                Command="{Binding OrderViewModel.OrderDetailViewModel.SendEmailCommand}"
-                                    CommandParameter="{Binding SelectedItem, ElementName=cbxInvoiceListToEmail}">
+                                CommandParameter="{Binding SelectedItem, ElementName=cbxInvoiceListToEmail}">
+                                <Button.Command>
+                                    <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                        <Binding Path="OrderViewModel.OrderDetailViewModel.SendEmailCommand"/>
+                                        <Binding />
+                                    </MultiBinding>
+                                </Button.Command>
                                 Send Email
                             </Button>
                             <TextBlock VerticalAlignment="Center">a Copy will be send to you</TextBlock>

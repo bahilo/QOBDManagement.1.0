@@ -427,6 +427,9 @@ namespace QOBDManagement.ViewModel
         #region [ Actions ]
         //----------------------------[ Actions ]------------------
 
+        /// <summary>
+        /// load the data
+        /// </summary>
         public void loadOrder_items()
         {
             Dialog.showSearch("Loading items...");
@@ -439,6 +442,11 @@ namespace QOBDManagement.ViewModel
 
         }
 
+        /// <summary>
+        /// gathering order item information
+        /// </summary>
+        /// <param name="Order_ItemList"></param>
+        /// <returns></returns>
         public List<Order_itemModel> Order_ItemListToModelViewList(List<Order_item> Order_ItemList)
         {
             List<Order_itemModel> output = new List<Order_itemModel>();
@@ -456,6 +464,12 @@ namespace QOBDManagement.ViewModel
             return output;
         }
 
+        /// <summary>
+        /// loading the items
+        /// </summary>
+        /// <param name="itemRef"></param>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
         public ItemModel loadOrder_itemItem(string itemRef, int itemId = 0)
         {
             List<Item> itemFoundList = new List<Item>();
@@ -469,6 +483,11 @@ namespace QOBDManagement.ViewModel
             return new ItemModel();
         }
 
+        /// <summary>
+        /// gathering item information
+        /// </summary>
+        /// <param name="itemList"></param>
+        /// <returns></returns>
         private List<ItemModel> ItemListToModelViewList(List<Item> itemList)
         {
             List<ItemModel> output = new List<ItemModel>();
@@ -496,6 +515,9 @@ namespace QOBDManagement.ViewModel
             return output;
         }
 
+        /// <summary>
+        /// download the email templates form the ftp host
+        /// </summary>
         public void loadEmail()
         {
             if (OrderSelected != null)
@@ -542,6 +564,9 @@ namespace QOBDManagement.ViewModel
             }
         }
 
+        /// <summary>
+        /// refresh the data
+        /// </summary>
         private void refreshBindings()
         {
             loadInvoicesAndDeliveryReceipts();
@@ -587,6 +612,11 @@ namespace QOBDManagement.ViewModel
 
         }
 
+        /// <summary>
+        /// calcul the total amount of the order
+        /// </summary>
+        /// <param name="order_itemList"></param>
+        /// <returns></returns>
         private StatisticModel totalCalcul(List<Order_itemModel> order_itemList)
         {
             StatisticModel statistic = new StatisticModel();
@@ -595,16 +625,25 @@ namespace QOBDManagement.ViewModel
             {
                 decimal totalProfit = 0.0m;
                 decimal totalTaxExcluded = 0.0m;
+                decimal totalTaxIncluded = 0.0m;
                 decimal totalPurchase = 0.0m;
 
                 foreach (Order_itemModel order_itemModel in order_itemList)
                 {
                     var order_item = order_itemModel.Order_Item;
-                    totalProfit += order_item.Quantity * (order_item.Price - order_item.Price_purchase);
-                    totalTaxExcluded += Convert.ToDecimal(order_itemModel.TxtTotalSelling);
-                    totalPurchase += Convert.ToDecimal(order_itemModel.TxtTotalPurchase);
+                    totalProfit += order_item.Quantity * (Math.Abs(order_item.Price) - Math.Abs(order_item.Price_purchase));
+                    totalTaxExcluded += Math.Abs(Utility.decimalTryParse(order_itemModel.TxtTotalSelling));
+                    totalPurchase += Math.Abs(Utility.decimalTryParse(order_itemModel.TxtTotalPurchase));
                 }
-                statistic.TxtTotalTaxAmount = Convert.ToString(((decimal)OrderSelected.Tax_order.Tax_value / 100) * totalTaxExcluded);
+                totalTaxIncluded = ((decimal)OrderSelected.Tax_order.Tax_value / 100) * totalTaxExcluded;
+
+                // convert into credit regarding the order status
+                totalTaxIncluded *= (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())) ? -1 : 1;
+                totalProfit *= (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())) ? -1 : 1;
+                totalTaxExcluded *= (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())) ? -1 : 1;
+                totalPurchase *= (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())) ? -1 : 1;
+
+                statistic.TxtTotalTaxAmount = totalTaxIncluded.ToString();
                 statistic.TxtTotalIncome = totalProfit.ToString();
                 statistic.TxtTotalTaxExcluded = totalTaxExcluded.ToString();
                 statistic.TxtTotalTaxIncluded = string.Format("{0:0.00}", (totalTaxExcluded + (totalTaxExcluded) * ((decimal)OrderSelected.Tax_order.Tax_value) / 100));
@@ -612,7 +651,7 @@ namespace QOBDManagement.ViewModel
                 {
                     statistic.TxtTotalIncomePercent = string.Format("{0:0.00}", ((totalProfit / totalTaxExcluded) * 100));
                 }
-                catch (DivideByZeroException) { this.TxtTotalIncomePercent = "0"; }
+                catch (DivideByZeroException) { this.TxtTotalIncomePercent = "0"; }                
 
                 statistic.TxtTotalPurchase = string.Format("{0:0.00}", totalPurchase);
                 statistic.TxtTaxValue = Tax.Value.ToString();
@@ -620,11 +659,31 @@ namespace QOBDManagement.ViewModel
             return statistic;
         }
 
+
+
+        /// <summary>
+        /// load the client addresses
+        /// </summary>
         private void loadAddresses()
         {
             OrderSelected.AddressList = Bl.BlClient.searchAddress(new Address { ClientId = OrderSelected.CLientModel.Client.ID }, ESearchOption.AND);
         }
 
+        /// <summary>
+        /// update the order status
+        /// </summary>
+        /// <param name="status">the status to convert to</param>
+        public void updateOrderStatus(EOrderStatus status)
+        {
+            Dialog.showSearch("Processing...");
+            _updateOrderStatusTask.initializeNewTask(updateOrderStatusAsync(status));
+        }
+
+        /// <summary>
+        /// update the order status async
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
         public async Task<bool> updateOrderStatusAsync(EOrderStatus status)
         {
             bool canChangeStatus = true;
@@ -658,6 +717,13 @@ namespace QOBDManagement.ViewModel
             return canChangeStatus;
         }
 
+        /// <summary>
+        /// check that the invoice in parameter is the latest one
+        /// in order to prevent holes in the invoice IDs
+        /// </summary>
+        /// <param name="bill"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
         public async Task<bool> checkIfLastBillAsync(Bill bill, int offset)
         {
             bool isLastBill = false;
@@ -673,6 +739,11 @@ namespace QOBDManagement.ViewModel
             return isLastBill;
         }
 
+        /// <summary>
+        /// delete the information relative to an order
+        /// before converting back to quote
+        /// </summary>
+        /// <returns></returns>
         private async Task<bool> cleanUpBeforeConvertingToQuoteAsync()
         {
             bool canDelete = false;
@@ -713,7 +784,9 @@ namespace QOBDManagement.ViewModel
             return canDelete;
         }
 
-
+        /// <summary>
+        /// prevent erasing items in used in any order
+        /// </summary>
         private async void lockOrder_itemItems()
         {
             List<Item> itemToSaveList = new List<Item>();
@@ -725,7 +798,10 @@ namespace QOBDManagement.ViewModel
             await Bl.BlItem.UpdateItemAsync(itemToSaveList);
         }
 
-
+        /// <summary>
+        /// convert the order into credit
+        /// </summary>
+        /// <param name="isReset"></param>
         private async void createCredit(bool isReset = false)
         {
             List<Order_item> Order_itemToSave = new List<Order_item>();
@@ -738,6 +814,11 @@ namespace QOBDManagement.ViewModel
             var savedOrder_item = await Bl.BlOrder.UpdateOrder_itemAsync(Order_itemToSave);
         }
 
+        /// <summary>
+        /// disable IU item regarding the order status
+        /// </summary>
+        /// <param name="obj">the item to disable</param>
+        /// <returns>boolean type expected by the IU</returns>
         private bool disableUIElementByBoolean([CallerMemberName]string obj = "")
         {
             // Lock order when all invoices have been generated
@@ -774,6 +855,11 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// disable IU item regarding the order status
+        /// </summary>
+        /// <param name="obj">the item to disable</param>
+        /// <returns>string type expected by the IU</returns>
         private string disableUIElementByString([CallerMemberName]string obj = "")
         {
 
@@ -833,7 +919,9 @@ namespace QOBDManagement.ViewModel
             return "Visible";
         }
 
-
+        /// <summary>
+        /// fire the IU data refresh events
+        /// </summary>
         private void updateStepBinding()
         {
             onPropertyChange("BlockStepOneVisibility");
@@ -841,6 +929,9 @@ namespace QOBDManagement.ViewModel
             onPropertyChange("BlockStepThreeVisibility");
         }
 
+        /// <summary>
+        /// fire the IU data refresh events
+        /// </summary>
         private void refreshBindingByCallingPropertyChange()
         {
             onPropertyChange("Order_ItemModelList");
@@ -849,6 +940,9 @@ namespace QOBDManagement.ViewModel
             onPropertyChange("Item_deliveryModelBillingInProcess");
         }
 
+        /// <summary>
+        /// fire the IU data refresh events
+        /// </summary>
         private void updateItemListBindingByCallingPropertyChange()
         {
             onPropertyChange("IsItemListCommentTextBoxEnabled");
@@ -857,12 +951,9 @@ namespace QOBDManagement.ViewModel
             onPropertyChange("IsItemListPurchasePriceTextBoxEnable");
         }
 
-        public void updateOrderStatus(EOrderStatus status)
-        {
-            Dialog.showSearch("Processing...");
-            _updateOrderStatusTask.initializeNewTask(updateOrderStatusAsync(status));
-        }
-
+        /// <summary>
+        /// fire the IU data refresh events
+        /// </summary>
         private void updateStatisticsByCallingPropertyChange()
         {
             onPropertyChange("TxtTotalPurchase");
@@ -873,6 +964,9 @@ namespace QOBDManagement.ViewModel
             onPropertyChange("TxtTotalTaxExcluded");
         }
 
+        /// <summary>
+        /// unsuscribe events and dispose
+        /// </summary>
         public override void Dispose()
         {
             PropertyChanged -= onOrderSelectedChange;
@@ -896,6 +990,11 @@ namespace QOBDManagement.ViewModel
         #region [ Event Handler ]
         //----------------------------[ Event Handler ]------------------
 
+        /// <summary>
+        /// event listener to load the data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onOrderSelectedChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("OrderSelected"))
@@ -905,12 +1004,22 @@ namespace QOBDManagement.ViewModel
             }
         }
 
+        /// <summary>
+        /// event listener to calculate the total amount
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onTotalSelling_PriceOrPrice_purchaseChange(object sender, PropertyChangedEventArgs e)
         {
             if (string.Equals(e.PropertyName, "TxtTotalSelling") || string.Equals(e.PropertyName, "TxtPrice") || string.Equals(e.PropertyName, "TxtPrice_purchase"))
                 StatisticModel = totalCalcul(Order_ItemModelList);
         }
 
+        /// <summary>
+        /// event listener to update the binding
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onOrder_itemModelWorkFlowChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Item_ModelDeliveryInProcess")
@@ -921,6 +1030,11 @@ namespace QOBDManagement.ViewModel
             }
         }
 
+        /// <summary>
+        /// event listener to update the order status
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void onInitializationTaskComplete_UpdateOrderStatus(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("IsSuccessfullyCompleted"))
@@ -978,6 +1092,10 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Action Command ]------------------
 
+        /// <summary>
+        /// update the order items
+        /// </summary>
+        /// <param name="obj"></param>
         private async void updateOrder_itemData(string obj)
         {
             Dialog.showSearch("Updating...");
@@ -1017,6 +1135,11 @@ namespace QOBDManagement.ViewModel
             _page(this);
         }
 
+        /// <summary>
+        /// check that all requirements are respected in order to update the order items
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canUpdateOrder_itemData(string arg)
         {
             bool isUpdate = _main.securityCheck(EAction.Order, ESecurity._Update);
@@ -1033,6 +1156,10 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// delete one item from the order
+        /// </summary>
+        /// <param name="obj"></param>
         private async void deleteItem(Order_itemModel obj)
         {
             Dialog.showSearch("Deleting...");
@@ -1046,6 +1173,11 @@ namespace QOBDManagement.ViewModel
             _page(this);
         }
 
+        /// <summary>
+        /// check that all requirements are respected in order to delete one item from the order
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canDeleteItem(Order_itemModel arg)
         {
             bool isDelete = _main.securityCheck(EAction.Order, ESecurity._Delete);
@@ -1060,6 +1192,10 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// generate the pdf document of the delivery receipt
+        /// </summary>
+        /// <param name="obj"></param>
         private void generateDeliveryReceiptPdf(DeliveryModel obj)
         {
             Dialog.showSearch("Pdf creation...");
@@ -1069,11 +1205,20 @@ namespace QOBDManagement.ViewModel
             Dialog.IsDialogOpen = false;
         }
 
+        /// <summary>
+        /// check that all requirements are respected in order to generate the pdf document
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canGenerateDeliveryReceiptPdf(DeliveryModel arg)
         {
             return true;
         }
 
+        /// <summary>
+        /// create a delivery receipt
+        /// </summary>
+        /// <param name="obj"></param>
         public async void createDeliveryReceipt(Order_itemModel obj)
         {
             Dialog.showSearch("Delivery receipt creation...");
@@ -1123,6 +1268,11 @@ namespace QOBDManagement.ViewModel
             Dialog.IsDialogOpen = false;
         }
 
+        /// <summary>
+        /// check that all requirements are respected in order to create a delivery receipt
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canCreateDeliveryReceipt(Order_itemModel arg)
         {
             bool isUpdate = _main.securityCheck(EAction.Order, ESecurity._Update);
@@ -1132,6 +1282,10 @@ namespace QOBDManagement.ViewModel
             return false;
         }
 
+        /// <summary>
+        /// remove the delivery receipt from the list of delivery in process
+        /// </summary>
+        /// <param name="obj">the delivery receipt to process</param>
         private async void deleteDeliveryReceiptInProcess(Item_deliveryModel obj)
         {
             Dialog.showSearch("Delivery receipt creation cancelling...");
@@ -1158,6 +1312,11 @@ namespace QOBDManagement.ViewModel
             Dialog.IsDialogOpen = false;
         }
 
+        /// <summary>
+        /// check that all requirements are respected in order to delete the deleivery receipt in process
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canCancelDeliveryReceiptInProcess(Item_deliveryModel arg)
         {
             bool isUpdate = _main.securityCheck(EAction.Order, ESecurity._Update);
@@ -1167,6 +1326,10 @@ namespace QOBDManagement.ViewModel
             return false;
         }
 
+        /// <summary>
+        /// delete on delivery receipt of the order
+        /// </summary>
+        /// <param name="obj">the delivery receipt to process</param>
         private async void cancelDeliveryReceiptCreated(Item_deliveryModel obj)
         {
             Dialog.showSearch("Delivery receipt created cancelling...");
@@ -1201,9 +1364,10 @@ namespace QOBDManagement.ViewModel
                 await Bl.BlOrder.DeleteDeliveryAsync(new List<Delivery> { obj.DeliveryModel.Delivery });
                 await Bl.BlItem.DeleteItem_deliveryAsync(new List<Item_delivery> { obj.Item_delivery });
             }
+
+            // otherwise delete any delivery receipt created by mistake
             else
             {
-                // otherwise delete any delivery receipt created by mistake
                 Order_itemModelTargeted.ItemModel.Item_deliveryModelList.Remove(obj);
                 await Bl.BlOrder.DeleteDeliveryAsync(new List<Delivery> { obj.DeliveryModel.Delivery });
                 await Bl.BlItem.DeleteItem_deliveryAsync(new List<Item_delivery> { obj.Item_delivery });
@@ -1214,6 +1378,11 @@ namespace QOBDManagement.ViewModel
             Dialog.IsDialogOpen = false;
         }
 
+        /// <summary>
+        /// check that all requirements are respected in order to delete the deleivery receipt
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canCancelDeliveryReceiptCreated(Item_deliveryModel arg)
         {
             bool isUpdate = _main.securityCheck(EAction.Order, ESecurity._Update);
@@ -1234,6 +1403,10 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// create one invoice of the order
+        /// </summary>
+        /// <param name="obj"></param>
         private async void createInvoice(Order_itemModel obj)
         {
             Dialog.showSearch("Invoice creation...");
@@ -1263,7 +1436,7 @@ namespace QOBDManagement.ViewModel
                     if (first == 0)
                     {
                         // Manual incrementation of the bill ID 
-                        // to make sure the IDs follow each others                      
+                        // to make sure that the IDs follow each others                      
                         int billId = lastInvoice.ID + 1;
                         Bill invoice = new Bill();
                         invoice.ID = billId;
@@ -1282,8 +1455,7 @@ namespace QOBDManagement.ViewModel
                     if (invoiceSavedList.Count > 0)
                     {
                         Order_itemInProcess = Order_ItemModelList.Where(x => x.TxtItem_ref == item_deliveryModel.TxtItem_ref).ToList();
-                        //var deliveryModelFoundList = Order_itemInProcess.Select(x => x.ItemModel.Item_deliveryModelList.Where(y => y.DeliveryModel.Delivery.ID == item_deliveryModel.DeliveryModel.Delivery.ID && y.DeliveryModel.TxtStatus == EStatusOrder.Not_Billed.ToString()).Select(z => z.DeliveryModel)).FirstOrDefault().ToList();
-
+                        
                         var deliveryModelFoundList = (from o in Order_itemInProcess
                                                       from i in o.ItemModel.Item_deliveryModelList
                                                       where i.DeliveryModel.Delivery.ID == item_deliveryModel.DeliveryModel.Delivery.ID
@@ -1346,8 +1518,17 @@ namespace QOBDManagement.ViewModel
 
             refreshBindings();
             Dialog.IsDialogOpen = false;
+
+            // once the invoice created enable the email sending
+            SendEmailCommand.raiseCanExecuteActionChanged();
         }
 
+
+        /// <summary>
+        /// check that all requirements are respected in order to create an invoice
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canCreateBill(Order_itemModel arg)
         {
             bool isUpdate = _main.securityCheck(EAction.Order, ESecurity._Update);
@@ -1359,6 +1540,10 @@ namespace QOBDManagement.ViewModel
             return false;
         }
 
+        /// <summary>
+        /// delete one of the order created invoice
+        /// </summary>
+        /// <param name="obj">the invoice to process</param>
         private async void deleteCreatedInvoice(BillModel obj)
         {
             if (await Dialog.showAsync("do you really want to delete this invoice (" + obj.TxtID + ")"))
@@ -1391,28 +1576,38 @@ namespace QOBDManagement.ViewModel
                         string errorMessage = "Error occurred while cancelling the invoice (ID="+obj.TxtID+").";
                         Log.error(errorMessage);
                         await Dialog.showAsync(errorMessage);
-                    }
-                        
+                    }                        
 
                     // deleting the related statistics
                     var statisticsFoundList = await Bl.BlStatisitc.searchStatisticAsync(new Statistic { InvoiceId = obj.Bill.ID }, ESearchOption.AND);
                     if (statisticsFoundList.Count > 0)
                         await Bl.BlStatisitc.DeleteStatisticAsync(new List<Statistic> { statisticsFoundList[0] });
 
-                    // remove from the list 
-                    OrderSelected.BillModelList.Remove(obj);
+                    // delete the invoice notification information
+                    var NotificationFoundList = await Bl.BlNotification.searchNotificationAsync(new Notification { BillId = obj.Bill.ID }, ESearchOption.AND);
+                    if (NotificationFoundList.Count > 0)
+                        await Bl.BlNotification.DeleteNotificationAsync(NotificationFoundList);
 
-                    // refresh the User Interface
-                    refreshBindings();
+                    // remove from the list 
+                    OrderSelected.BillModelList.Remove(obj);                    
                 }
                 else
                     await Dialog.showAsync("Cancellation Failed! Order invoice is not the latest.");
                 Dialog.IsDialogOpen = false;
 
+                // refresh the User Interface
                 refreshBindings();
+
+                // once the invoice deleted disable the email sending
+                SendEmailCommand.raiseCanExecuteActionChanged();
             }
         }
 
+        /// <summary>
+        /// check that all the requirements are respeceted in order to delete an invoice
+        /// </summary>
+        /// <param name="arg">the invoice to process</param>
+        /// <returns></returns>
         private bool canCancelCreatedInvoice(BillModel arg)
         {
             bool isUpdate = _main.securityCheck(EAction.Order, ESecurity._Update);
@@ -1422,10 +1617,13 @@ namespace QOBDManagement.ViewModel
             if (!(arg != null && BillModelList.Count > 0 && BillModelList.OrderByDescending(x=>x.Bill.ID).First().Bill.ID <= arg.Bill.ID))
                 return false;
 
-
             return true;
         }
 
+        /// <summary>
+        /// update the item list information
+        /// </summary>
+        /// <param name="obj"></param>
         private async void updateInvoice(BillModel obj)
         {
             Dialog.showSearch("Invoice updating...");
@@ -1458,7 +1656,10 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
-
+        /// <summary>
+        /// generate the order bill pdf document
+        /// </summary>
+        /// <param name="obj"></param>
         private void generateOrderBillPdf(BillModel obj)
         {
             Dialog.showSearch("Invoice pdf generating...");
@@ -1468,11 +1669,20 @@ namespace QOBDManagement.ViewModel
             Dialog.IsDialogOpen = false;
         }
 
+        /// <summary>
+        /// check that all the requirements are respecred in order to generate the invoice
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canGenerateOrderBillPdf(BillModel arg)
         {
             return true;
         }
 
+        /// <summary>
+        /// generate the quote
+        /// </summary>
+        /// <param name="obj"></param>
         private void generateQuotePdf(object obj)
         {
             Dialog.showSearch("Quote pdf generating...");
@@ -1481,11 +1691,20 @@ namespace QOBDManagement.ViewModel
             Dialog.IsDialogOpen = false;
         }
 
+        /// <summary>
+        /// check that all the requirements are respecred in order to generate the quote
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canGenerateQuotePdf(object arg)
         {
             return true;
         }
 
+        /// <summary>
+        /// close the order
+        /// </summary>
+        /// <param name="obj"></param>
         private async void billing(object obj)
         {
             Dialog.showSearch("Billing...");
@@ -1498,6 +1717,11 @@ namespace QOBDManagement.ViewModel
             Dialog.IsDialogOpen = false;
         }
 
+        /// <summary>
+        /// check that all the requirements are respecred in order to close the order
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canBilling(object arg)
         {
             bool isUpdate = _main.securityCheck(EAction.Order_Billed, ESecurity._Update) && _main.securityCheck(EAction.Order_Billed, ESecurity._Update);
@@ -1508,6 +1732,10 @@ namespace QOBDManagement.ViewModel
             return false;
         }
 
+        /// <summary>
+        /// select the client delivery address
+        /// </summary>
+        /// <param name="obj"></param>
         private async void selectDeliveryAddress(Address obj)
         {
             if (obj != null)
@@ -1525,6 +1753,11 @@ namespace QOBDManagement.ViewModel
             }
         }
 
+        /// <summary>
+        /// check that all the requirements are respecred in order select the address
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canSelectDeliveryAddress(Address arg)
         {
             bool isUpdate = _main.securityCheck(EAction.Order, ESecurity._Update);
@@ -1534,6 +1767,10 @@ namespace QOBDManagement.ViewModel
             return false;
         }
 
+        /// <summary>
+        /// set the order tax value
+        /// </summary>
+        /// <param name="obj">the tax value to process</param>
         private async void saveNewTax(Tax obj)
         {
             if (obj != null)
@@ -1559,6 +1796,11 @@ namespace QOBDManagement.ViewModel
             }
         }
 
+        /// <summary>
+        /// check that all the requirements are respecred in order set a new tax value
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canSaveNewTax(Tax arg)
         {
             bool isUpdate = _main.securityCheck(EAction.Order, ESecurity._Update);
@@ -1568,6 +1810,10 @@ namespace QOBDManagement.ViewModel
             return false;
         }
 
+        /// <summary>
+        /// email the quote or order bill to the client
+        /// </summary>
+        /// <param name="obj">the invoice to process</param>
         private async void sendEmail(BillModel obj)
         {
             Dialog.showSearch("Email sending...");
@@ -1576,32 +1822,56 @@ namespace QOBDManagement.ViewModel
             paramEmail.Subject = EmailFile.TxtSubject;
             paramEmail.IsSendEmail = true;
 
+            // sending quote email to the client 
             if (EmailFile.TxtFileNameWithoutExtension.Equals("quote"))
             {
                 _paramQuoteToPdf.ParamEmail = paramEmail;
                 _paramQuoteToPdf.OrderId = OrderSelected.Order.ID;
                 Bl.BlOrder.GeneratePdfQuote(_paramQuoteToPdf);
             }
+
+            // sending order email to client
             else
             {
                 _paramOrderToPdf.BillId = obj.Bill.ID;
                 _paramOrderToPdf.OrderId = OrderSelected.Order.ID;
-                paramEmail.Reminder = 0;
-                _paramOrderToPdf.ParamEmail = paramEmail;
-
-                Bl.BlOrder.GeneratePdfOrder(_paramOrderToPdf);
+                paramEmail.Reminder = 0;                               
 
                 var NotificationFoundList = await Bl.BlNotification.searchNotificationAsync(new Notification { BillId = obj.Bill.ID }, ESearchOption.AND);
                 
                 // create a new notification entry for this invoice
                 if (NotificationFoundList.Count == 0)
                     await Bl.BlNotification.InsertNotificationAsync(new List<Notification> { new Notification { Date = DateTime.Now, BillId = obj.Bill.ID, Reminder1 = default(DateTime), Reminder2 = default(DateTime) } });
+
+                // update notification
+                else
+                {
+                    if(NotificationFoundList[0].Reminder1 <= Utility.DateTimeMinValueInSQL2005
+                        && NotificationFoundList[0].Reminder2 <= Utility.DateTimeMinValueInSQL2005)
+                    {
+                        paramEmail.Reminder = 1;
+                        NotificationFoundList[0].Reminder1 = DateTime.Now;                        
+                    }                        
+                    else
+                    {
+                        paramEmail.Reminder = 2;
+                        NotificationFoundList[0].Reminder2 = DateTime.Now;
+                    }
+                    await Bl.BlNotification.UpdateNotificationAsync(NotificationFoundList);
+                }
+
+                _paramOrderToPdf.ParamEmail = paramEmail;
+                Bl.BlOrder.GeneratePdfOrder(_paramOrderToPdf);
             }           
 
             Dialog.IsDialogOpen = false;
-
         }
 
+        /// <summary>
+        /// check that all the requirements are respecred in order to send the email
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canSendEmail(BillModel arg)
         {
             bool isSendEmailValidOrder = _main.securityCheck(EAction.Order, ESecurity.SendEmail);
@@ -1611,20 +1881,29 @@ namespace QOBDManagement.ViewModel
             if (OrderSelected == null)
                 return false;
 
-            if (isSendEmailValidPreOrder && OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Order.ToString()))
-                return true;
+            if (!isSendEmailValidPreOrder && OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Order.ToString()))
+                return false;
 
-            if (isSendEmailQuote && OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString()))
-                return true;
+            if (!isSendEmailQuote && OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString()))
+                return false;
 
-            if (isSendEmailValidOrder
+            if (!isSendEmailValidOrder
                 && (OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString())
                 || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())))
-                return true;
+                return false;
 
-            return false;
+            if (arg == null
+                && (OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString())
+                || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())))
+                return false;
+
+            return true;
         }
 
+        /// <summary>
+        /// update the comments
+        /// </summary>
+        /// <param name="obj"></param>
         private async void updateComment(object obj)
         {
             Dialog.showSearch("Comment updating...");
@@ -1634,6 +1913,11 @@ namespace QOBDManagement.ViewModel
             Dialog.IsDialogOpen = false;
         }
 
+        /// <summary>
+        /// check that all the requirements are respecred in order update the comments
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
         private bool canUpdateComment(object arg)
         {
             return true;

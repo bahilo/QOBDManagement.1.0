@@ -918,10 +918,21 @@ namespace QOBDDAL.Core
 
 
             // Client Loading
-            if (billList.Count > 0)
+            /*if (billList.Count > 0)
             {
                 List<Client> clientFoundList = await dalClient.GateWayClient.GetClientDataByBillListAsync(billList.ToList());
                 clientList = new ConcurrentBag<Client>(clientList.Concat(new ConcurrentBag<Client>(clientFoundList)));
+                List<Client> savedClientList = dalClient.LoadClient(clientList.ToList());
+            }*/
+
+            // Client Loading
+            if (orderList.Count > 0)
+            {
+                for (int i = 0; i < (orderList.Count() / loadUnit) || loadUnit > orderList.Count() && i == 0; i++)
+                {
+                    ConcurrentBag<Client> clientFoundList = new ConcurrentBag<Client>(await dalClient.GateWayClient.GetClientDataByOrderListAsync(orderList.Skip(i * loadUnit).Take(loadUnit).ToList()));
+                    clientList = new ConcurrentBag<Client>(clientList.Concat(new ConcurrentBag<Client>(clientFoundList)));
+                }
                 List<Client> savedClientList = dalClient.LoadClient(clientList.ToList());
             }
             if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);

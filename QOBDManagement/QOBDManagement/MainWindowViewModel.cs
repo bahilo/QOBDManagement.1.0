@@ -31,6 +31,7 @@ namespace QOBDManagement
         private DisplayAndData.Display.Image _headerImageDisplay;
         private DisplayAndData.Display.Image _logoImageDisplay;
         private DisplayAndData.Display.Image _billImageDisplay;
+        private DisplayAndData.Display.Image _profileImageDisplay;
         private bool _isThroughContext;
         private bool _isRefresh;
 
@@ -81,6 +82,9 @@ namespace QOBDManagement
             _billImageDisplay = new DisplayAndData.Display.Image();
             _billImageDisplay.TxtFileNameWithoutExtension = "bill_image";
             _billImageDisplay.TxtName = "BIll Image";
+            _profileImageDisplay = new DisplayAndData.Display.Image();
+            _profileImageDisplay.TxtFileNameWithoutExtension = "profile_image";
+            _profileImageDisplay.TxtName = "Profile Picture";
 
             //------[ ViewModel ]
             ItemViewModel = new ItemViewModel(this);
@@ -116,12 +120,12 @@ namespace QOBDManagement
 
         public string TxtUserName
         {
-            get { return (AuthenticatedUser != null) ? AuthenticatedUser.FirstName + " " + AuthenticatedUser.LastName : ""; }
+            get { return (AuthenticatedUserModel != null) ? AuthenticatedUserModel.TxtLogin : ""; }
         }
 
-        public Agent AuthenticatedUser
+        public AgentModel AuthenticatedUserModel
         {
-            get { return _startup.Bl.BlSecurity.GetAuthenticatedUser(); }
+            get { return new AgentModel { Agent = _startup.Bl.BlSecurity.GetAuthenticatedUser() }; }
         }
 
         public bool IsThroughContext
@@ -145,28 +149,25 @@ namespace QOBDManagement
         public DisplayAndData.Display.Image HeaderImageDisplay
         {
             get { return _headerImageDisplay; }
-            set
-            {
-                setProperty(ref _headerImageDisplay, value, "HeaderImageDisplay");
-            }
+            set { setProperty(ref _headerImageDisplay, value); }
+        }
+
+        public DisplayAndData.Display.Image ProfileImageDisplay
+        {
+            get { return _profileImageDisplay; }
+            set { setProperty(ref _profileImageDisplay, value); }
         }
 
         public DisplayAndData.Display.Image LogoImageDisplay
         {
             get { return _logoImageDisplay; }
-            set
-            {
-                setProperty(ref _logoImageDisplay, value, "LogoImageDisplay");
-            }
+            set { setProperty(ref _logoImageDisplay, value); }
         }
 
         public DisplayAndData.Display.Image BillImageDisplay
         {
             get { return _billImageDisplay; }
-            set
-            {
-                setProperty(ref _billImageDisplay, value, "BillImageDisplay");
-            }
+            set { setProperty(ref _billImageDisplay, value); }
         }
 
         public string SearchProgressVisibility
@@ -230,8 +231,8 @@ namespace QOBDManagement
         {
             if (string.IsNullOrEmpty(_headerImageDisplay.TxtLogin) || string.IsNullOrEmpty(_logoImageDisplay.TxtLogin) || string.IsNullOrEmpty(_billImageDisplay.TxtLogin))
             {
-                _headerImageDisplay.TxtLogin = _logoImageDisplay.TxtLogin = _billImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
-                _headerImageDisplay.TxtPassword = _logoImageDisplay.TxtPassword = _billImageDisplay.TxtPassword = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+                _profileImageDisplay.TxtLogin = _headerImageDisplay.TxtLogin = _logoImageDisplay.TxtLogin = _billImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+                _profileImageDisplay.TxtPassword = _headerImageDisplay.TxtPassword = _logoImageDisplay.TxtPassword = _billImageDisplay.TxtPassword = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
             }
 
             if (string.IsNullOrEmpty(_headerImageDisplay.TxtFileFullPath))
@@ -264,6 +265,17 @@ namespace QOBDManagement
                         Application.Current.Dispatcher.Invoke(() =>
                         {
                             BillImageDisplay = billImageFoundDisplay;
+                        });
+            }
+
+            if (string.IsNullOrEmpty(_profileImageDisplay.TxtFileFullPath))
+            {
+                var profileImageFoundDisplay = loadImage(_profileImageDisplay.TxtFileNameWithoutExtension, _profileImageDisplay.TxtName, _profileImageDisplay.TxtLogin, _billImageDisplay.TxtPassword);
+                if (!string.IsNullOrEmpty(profileImageFoundDisplay.TxtFileFullPath) && File.Exists(profileImageFoundDisplay.TxtFileFullPath))
+                    if (Application.Current != null)
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            ProfileImageDisplay = profileImageFoundDisplay;
                         });
             }
         }
@@ -335,28 +347,27 @@ namespace QOBDManagement
 
         public DisplayAndData.Display.Image ImageManagement(DisplayAndData.Display.Image newImage = null, string fileType = null)
         {
-            if (fileType.ToUpper().Equals("HEADER"))
+            switch (fileType.ToUpper())
             {
-                if (newImage != null)
-                    HeaderImageDisplay = newImage;
+                case "HEADER":
+                    if (newImage != null)
+                        HeaderImageDisplay = newImage;
+                    return HeaderImageDisplay;
+                case "LOGO":
+                    if (newImage != null)
+                        LogoImageDisplay = newImage;
 
-                return HeaderImageDisplay;
-            }
+                    return LogoImageDisplay;
+                case "BILL":
+                    if (newImage != null)
+                        BillImageDisplay = newImage;
 
-            if (fileType.ToUpper().Equals("LOGO"))
-            {
-                if (newImage != null)
-                    LogoImageDisplay = newImage;
+                    return BillImageDisplay;
+                case "PROFILE":
+                    if (newImage != null)
+                        ProfileImageDisplay = newImage;
 
-                return LogoImageDisplay;
-            }
-
-            if (fileType.ToUpper().Equals("BILL"))
-            {
-                if (newImage != null)
-                    BillImageDisplay = newImage;
-
-                return BillImageDisplay;
+                    return ProfileImageDisplay;
             }
 
             return new DisplayAndData.Display.Image();
@@ -422,8 +433,8 @@ namespace QOBDManagement
         /// </summary>
         private async void loadUIData()
         {
-            await Dispatcher.CurrentDispatcher.Invoke(async() =>
-           {
+            //await Dispatcher.CurrentDispatcher.Invoke(async() =>
+           //{
                SearchProgressVisibility = "Visible";
                if (isNewAgentAuthentication)
                {
@@ -435,13 +446,21 @@ namespace QOBDManagement
                else if (SecurityLoginViewModel.AgentModel.Agent.ID != 0)
                {
                    _startup.Dal.ProgressBarFunc = progressBarManagement;
-                   _startup.Dal.SetUserCredential(AuthenticatedUser);
+                   _startup.Dal.SetUserCredential(AuthenticatedUserModel.Agent);
                    _startup.Dal.DALReferential.PropertyChanged += onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage;
                    _startup.Dal.DALItem.PropertyChanged += onLodingIsLodingDataFromWebServiceToLocalChange_loadStatistics;
                                       
                 }
-               CommandNavig.raiseCanExecuteActionChanged();
+
+               onPropertyChange("AuthenticatedUserModel");
                onPropertyChange("TxtUserName");
+
+               // user profile picture setup
+               _profileImageDisplay.TxtFileNameWithoutExtension += "_"+AuthenticatedUserModel.TxtID;
+
+               CommandNavig.raiseCanExecuteActionChanged();
+               AgentViewModel.GetCurrentAgentCommand.raiseCanExecuteActionChanged();
+               
 
                 //========================= [ Chat Room ]====================
 
@@ -453,7 +472,7 @@ namespace QOBDManagement
 
                 // connect user to the chat server
                 ChatRoomViewModel.connectToServer();
-           });
+           //});
         }
 
         public bool securityCheck(EAction action, ESecurity right)
@@ -539,10 +558,11 @@ namespace QOBDManagement
             if (e.PropertyName.Equals("IsLodingDataFromWebServiceToLocal"))
             {
                 if (Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() =>
+                    /*Application.Current.Dispatcher.Invoke(() =>
                     {
                         downloadHeaderImages();
-                    });
+                    });*/
+                downloadHeaderImages();
             }
         }
 
@@ -633,7 +653,7 @@ namespace QOBDManagement
         {
             if (_startup == null)
                 return false;
-            if (AuthenticatedUser == null || AuthenticatedUser.Status == EStatus.Deactivated.ToString())
+            if (AuthenticatedUserModel == null || AuthenticatedUserModel.TxtStatus == EStatus.Deactivated.ToString())
                 return false;
             if (arg.Equals("client"))
                 return securityCheck(QOBDCommon.Enum.EAction.Client, QOBDCommon.Enum.ESecurity._Read);

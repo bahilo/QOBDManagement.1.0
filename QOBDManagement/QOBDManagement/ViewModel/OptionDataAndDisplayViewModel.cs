@@ -239,24 +239,25 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Action Commands ]------------------
         
-        private async void getFileFromLocal(DisplayAndData.Display.Image obj)
+        public async void getFileFromLocal(DisplayAndData.Display.Image obj)
         {
-            obj.TxtChosenFile = ExecuteOpenFileDialog();
+            obj.TxtChosenFile = DisplayAndData.ExecuteOpenFileDialog("Choose image file", new List<string> { "png", "jpeg", "jpg" });// ExecuteOpenFileDialog();
             Dialog.showSearch("File saving...");
 
-            obj.save();
+            obj.uploadImage();
 
             var infosToUpdateList = obj.ImageDataList.Where(x => x.ID != 0).ToList();
             var infosToCreateList = obj.ImageDataList.Where(x => x.ID == 0).ToList();
             var infosUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infosToUpdateList);
             var infosCreatedList = await Bl.BlReferential.InsertInfoAsync(infosToCreateList);
 
-            if(infosUpdatedList.Count > 0)
-                await Dialog.showAsync("Image updated Successfully!");
+            if (infosUpdatedList.Count == 0 && infosCreatedList.Count == 0)
+            {
+                string errorMessage = "Error occurred while saving the file [" + obj.TxtChosenFile + "]";
+                Log.error(errorMessage);
+                await Dialog.showAsync(errorMessage);
+            }
 
-            if (infosCreatedList.Count > 0)
-                await Dialog.showAsync("Image created Successfully!");
-            
             Dialog.IsDialogOpen = false;         
 
         }

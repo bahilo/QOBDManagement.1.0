@@ -29,6 +29,8 @@ namespace QOBDCommon.Interfaces.REMOTE
 
         Task<List<Client>> GetClientDataByBillListAsync(List<Bill> billList);
 
+        Task<List<Client>> GetClientDataByOrderListAsync(List<Order> orderList);
+
         Task<List<Client>> GetClientMaxCreditOverDataByAgentAsync(int agentId);
 
         Task<List<Client>> searchClientAsync(Client client, ESearchOption filterOperator);

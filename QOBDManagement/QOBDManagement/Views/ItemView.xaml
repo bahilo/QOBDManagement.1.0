@@ -8,6 +8,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
+             xmlns:Class="clr-namespace:QOBDManagement.Classes"
              xmlns:Views="clr-namespace:QOBDManagement.Views"
              xmlns:Main="clr-namespace:QOBDManagement"
              mc:Ignorable="d" 
@@ -17,6 +18,7 @@
         <DataTemplate DataType="{x:Type ViewModel:ItemSideBarViewModel}">
             <Views:ItemSideBarView/>
         </DataTemplate>
+        <Class:StringLengthConverter x:Key="StringLengthConverter"/>
     </UserControl.Resources>
 
     <Grid Grid.Row="1" x:Name="gvMain" VerticalAlignment="Top" Margin="0">
@@ -85,7 +87,7 @@
                                         <DataGrid Name="dgCart" ItemsSource="{Binding ItemViewModel.Cart.CartItemList,IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
                                           AutoGenerateColumns="False" MaxHeight="140" Width="430" EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False">
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="Item" Binding="{Binding TxtName}"/>
+                                                <DataGridTextColumn Header="Item" Binding="{Binding TxtRef}"/>
                                                 <DataGridTemplateColumn>
                                                     <DataGridTemplateColumn.Header>
                                                         <TextBlock>Quantity</TextBlock>
@@ -138,7 +140,7 @@
                         <StackPanel Grid.Row="1" Orientation="Vertical">
                             <DataGrid x:Name="dgSearchResult" AutoGenerateColumns="False"
                                   ItemsSource="{Binding ItemViewModel.ItemModelList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
-                                  EnableColumnVirtualization="True" EnableRowVirtualization="True" MaxHeight="600"
+                                  EnableColumnVirtualization="True" EnableRowVirtualization="True"  MaxHeight="600" MaxWidth="990"
                                   CanUserAddRows="False" IsReadOnly="True">
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn Header="Select To Cart">
@@ -155,8 +157,28 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                     <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
-                                    <DataGridTextColumn Header="Reference" Binding="{Binding TxtRef}"/>
-                                    <DataGridTextColumn Header="Name" Binding="{Binding TxtName}"/>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Reference</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding TxtRef, Converter={StaticResource ResourceKey=StringLengthConverter}}"
+                                                         TextWrapping="Wrap" AcceptsReturn="True" IsEnabled="False"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Name</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding TxtName, Converter={StaticResource ResourceKey=StringLengthConverter}}"
+                                                         TextWrapping="Wrap" AcceptsReturn="True" IsEnabled="False"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                     <DataGridTextColumn Header="Brand" Binding="{Binding TxtType}"/>
                                     <DataGridTextColumn Header="Family" Binding="{Binding TxtType_sub}"/>
                                     <DataGridTextColumn Header="Provider" Binding="{Binding SelectedProvider.Name}"/>

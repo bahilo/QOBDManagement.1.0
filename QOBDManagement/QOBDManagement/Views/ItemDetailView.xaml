@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:QOBDManagement.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
+             xmlns:Class="clr-namespace:QOBDManagement.Classes"
              xmlns:Views="clr-namespace:QOBDManagement.Views"
              xmlns:Main="clr-namespace:QOBDManagement"
              xmlns:system="clr-namespace:System;assembly=mscorlib" 
@@ -17,6 +18,7 @@
         <DataTemplate DataType="{x:Type ViewModel:ItemSideBarViewModel}">
             <Views:ItemSideBarView/>
         </DataTemplate>
+        <Class:StringLengthConverter x:Key="StringLengthConverter"/>
     </UserControl.Resources>
 
     <Grid Grid.Row="1" x:Name="gvMain" VerticalAlignment="Top" Margin="0">
@@ -82,9 +84,10 @@
                     </Grid.RowDefinitions>
                     <TextBlock HorizontalAlignment="Center">Main Details</TextBlock>
                     <StackPanel Margin="0 10 0 0"  Grid.Row="1" Orientation="Vertical">
-                        <TextBox materialDesign:HintAssist.Hint="Name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"                
-                                         Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox materialDesign:HintAssist.Hint="Reference" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"  IsEnabled="{Binding Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.IsRefModifyEnable, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"               
+                        <TextBox materialDesign:HintAssist.Hint="Name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" TextWrapping="Wrap" AcceptsReturn="True"               
+                                         Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ResourceKey=StringLengthConverter}}"/>
+                        <TextBox materialDesign:HintAssist.Hint="Reference" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"  TextWrapping="Wrap" AcceptsReturn="True"
+                                  IsEnabled="{Binding Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.IsRefModifyEnable, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ResourceKey=StringLengthConverter}}"               
                                          Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtRef, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBox materialDesign:HintAssist.Hint="Purchase price" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                         Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtPrice_purchase, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>

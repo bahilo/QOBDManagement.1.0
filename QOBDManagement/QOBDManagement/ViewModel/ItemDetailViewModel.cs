@@ -239,22 +239,34 @@ namespace QOBDManagement.ViewModel
 
         private async void deleteItem(string obj)
         {
-            Dialog.showSearch("Deleting...");
-            await Bl.BlItem.DeleteProviderAsync(SelectedItemModel.ProviderList);
-            var notSavedList =  await Bl.BlItem.DeleteItemAsync(new List<Item> { SelectedItemModel.Item  });
-            if (notSavedList.Count > 0)
-                await Dialog.showAsync("Item deleted successfully!");
-            Dialog.IsDialogOpen = false;
-            _page(new ItemViewModel());
+            var itemFoundList = Bl.BlItem.searchItem(new Item { Ref = SelectedItemModel.TxtRef, ID = SelectedItemModel.Item.ID }, ESearchOption.AND);
+            if (itemFoundList.Count > 0 && itemFoundList[0].Erasable == EItem.Yes.ToString())
+            {
+                Dialog.showSearch("Deleting...");
+                await Bl.BlItem.DeleteProviderAsync(SelectedItemModel.ProviderList);
+                var notSavedList = await Bl.BlItem.DeleteItemAsync(new List<Item> { SelectedItemModel.Item });
+                if (notSavedList.Count > 0)
+                    await Dialog.showAsync("Item deleted successfully!");
+                Dialog.IsDialogOpen = false;
+                _page(new ItemViewModel());
+            }
+            else
+                await Dialog.showAsync("The Item "+SelectedItemModel.TxtRef+" is used in one or several order!");
         }
 
         private bool canDeleteItem(string arg)
         {
             bool isDelete = _main.securityCheck(QOBDCommon.Enum.EAction.Item, QOBDCommon.Enum.ESecurity._Delete);
-            if (isDelete)
-                return true;
+            if (!isDelete)
+                return false;
 
-            return false;
+            if (SelectedItemModel == null || string.IsNullOrEmpty(SelectedItemModel.TxtRef))
+                return false;
+
+            if (SelectedItemModel.TxtErasable.Equals(EItem.No.ToString()))
+                return false;            
+           
+            return true;
         }
 
         private async void saveItem(string obj)

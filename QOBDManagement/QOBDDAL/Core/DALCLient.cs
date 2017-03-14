@@ -353,6 +353,12 @@ namespace QOBDDAL.Core
             return await _gateWayClient.GetClientDataByBillListAsync(billList);
         }
 
+        public async Task<List<Client>> GetClientDataByOrderListAsync(List<Order> orderList)
+        {
+            checkServiceCommunication();
+            return await _gateWayClient.GetClientDataByOrderListAsync(orderList);
+        }
+
         public async Task<List<Client>> GetClientMaxCreditOverDataByAgentAsync(int agentId)
         {
             checkServiceCommunication();

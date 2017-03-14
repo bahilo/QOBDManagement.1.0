@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QOBDManagement.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ namespace QOBDManagement.Interfaces
 {
     public interface IReferentialViewModel
     {
-        void Dispose();
+        OptionGeneralViewModel OptionGeneralViewModel { get; set; }
+        OptionDataAndDisplayViewModel OptionDataAndDisplayViewModel { get; set; }
+        OptionSecurityViewModel OptionSecurityViewModel { get; set; }
+        ReferentialSideBarViewModel ReferentialSideBarViewModel { get; set; }
+        OptionEmailViewModel OptionEmailViewModel { get; set; }
     }
 }

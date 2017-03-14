@@ -740,6 +740,16 @@ namespace QOBDGateway.Classes
             return base.Channel.get_data_client_by_bill_listAsync(bill_array_list);
         }
 
+        public virtual ClientQOBD[] get_data_client_by_order_list(OrdersQOBD[] order_array_list)
+        {
+            return base.Channel.get_data_client_by_order_list(order_array_list);
+        }
+
+        public virtual Task<ClientQOBD[]> get_data_client_by_order_listAsync(OrdersQOBD[] order_array_list)
+        {
+            return base.Channel.get_data_client_by_order_listAsync(order_array_list);
+        }
+
         public virtual QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_max_credit_over(int agent_id)
         {
             return base.Channel.get_data_client_by_max_credit_over(agent_id);

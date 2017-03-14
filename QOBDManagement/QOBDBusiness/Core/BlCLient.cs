@@ -273,6 +273,17 @@ namespace QOBDBusiness.Core
             return result;
         }
 
+        public async Task<List<Client>> GetClientDataByOrderListAsync(List<Order> orderList)
+        {
+            List<Client> result = new List<Client>();
+            try
+            {
+                result = await DAC.DALClient.GetClientDataByOrderListAsync(orderList);
+            }
+            catch (Exception ex) { Log.error(ex.Message); }
+            return result;
+        }
+
         public List<Contact> GetContactData(int nbLine)
         {
             List<Contact> result = new List<Contact>();

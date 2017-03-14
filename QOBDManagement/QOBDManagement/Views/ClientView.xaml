@@ -78,14 +78,18 @@
                         </StackPanel>
                     </materialDesign:ColorZone>
                 </materialDesign:Card>
-                <materialDesign:ColorZone Mode="PrimaryMid">
+                <materialDesign:ColorZone>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Name="txtBTitleSearch" HorizontalAlignment="Center"><Run Text="Search results"/></TextBlock>
+                        
+                        <materialDesign:ColorZone Mode="PrimaryMid">
+                            <TextBlock Name="txtBTitleSearch" HorizontalAlignment="Center">Search results</TextBlock>
+                        </materialDesign:ColorZone>
                         <DataGrid Grid.Row="1" x:Name="dgSearchResult" AutoGenerateColumns="False"
                               ItemsSource="{Binding ClientViewModel.ClientModelList, IsAsync=True, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" 
                               EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False" MaxHeight="600" MaxWidth="990"
@@ -122,14 +126,16 @@
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 5 0 5"
+                        <materialDesign:ColorZone Mode="PrimaryMid"  Grid.Row="2">
+                            <TextBlock Name="txtBMoveAgentClient" HorizontalAlignment="Center">Move CLients</TextBlock>
+                        </materialDesign:ColorZone>
+                        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0 5 0 5"
                                 HorizontalAlignment="Center" 
                                 VerticalAlignment="Center">
-                            <TextBlock VerticalAlignment="Center" Margin="8 0 0 0">Move checked clients to:</TextBlock>
                             <ComboBox Name="comboBxAgents" Width="250" ItemsSource="{Binding ClientViewModel.AgentList}" Margin="8 0 0 0">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
-                                        <materialDesign:ColorZone Mode="Inverted">
+                                        <materialDesign:ColorZone Mode="Accent">
                                             <StackPanel Orientation="Horizontal">
                                                 <Rectangle Fill="{Binding LastName}" Width="16" Height="16" Margin="0 2 5 2"/>
                                                 <TextBlock Text="{Binding LastName}"/>
@@ -141,7 +147,7 @@
                             <Button Name="btnMoveClient" Margin="8 0 0 0"  Style="{DynamicResource MaterialDesignRaisedAccentButton}"
                                 Command="{Binding ClientViewModel.btnComboBxCommand}"
                                 CommandParameter="{Binding ElementName=comboBxAgents, Path=SelectedItem}">
-                                <materialDesign:PackIcon Kind="Magnify"/>
+                                <materialDesign:PackIcon Kind="Check"/>
                             </Button>
                         </StackPanel>
                     </Grid>

@@ -280,13 +280,34 @@ namespace QOBDManagement.ViewModel
         
         public void selectAgent(AgentModel obj)
         {
-            SelectedAgentModel = obj;
+            // admin profile can access all profiles
+            if (obj != null)
+                SelectedAgentModel = obj;
+
+            // none admin can only access their own profile
+            else
+                SelectedAgentModel = new AgentModel { Agent = Bl.BlSecurity.GetAuthenticatedUser() };
+
             executeNavig("agent-detail");
         }
 
         private bool canSelectAgent(AgentModel arg)
         {
-            return true;
+            // admin profile can access all profiles
+            bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
+                             && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
+                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
+
+            // none admin can only access their own profile
+            if (!isUserAdmin && arg != null && arg.Agent.ID == Bl.BlSecurity.GetAuthenticatedUser().ID)
+                return true;
+
+            if (isUserAdmin)
+                return true;
+
+            return false;
         }
 
         public void executeNavig(string obj)

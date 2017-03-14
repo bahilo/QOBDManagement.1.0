@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:QOBDManagement.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
+             xmlns:Classes="clr-namespace:QOBDManagement.Classes"
              xmlns:Views="clr-namespace:QOBDManagement.Views"
              xmlns:Main="clr-namespace:QOBDManagement"
              mc:Ignorable="d" 
@@ -16,6 +17,7 @@
         <DataTemplate DataType="{x:Type ViewModel:AgentSideBarViewModel}">
             <Views:AgentSideBarView/>
         </DataTemplate>
+        <Classes:TriggerConverter x:Key="TriggerConverter"/>
     </UserControl.Resources>
     
     <Grid Grid.Row="1" x:Name="gvMain" VerticalAlignment="Top" Margin="0">
@@ -83,9 +85,15 @@
                                     <!--  Checked="cbMove_Checked"-->
                                     <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                  Content="Detail"
-                                                  Command="{Binding DataContext.AgentViewModel.GetCurrentAgentCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                  CommandParameter="{Binding ElementName=dgAgentList,Path=CurrentItem}"/>
+                                                  CommandParameter="{Binding ElementName=dgAgentList,Path=CurrentItem}">
+                                        <Button.Command>
+                                            <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                                <Binding Path="DataContext.AgentViewModel.GetCurrentAgentCommand" ElementName="dgAgentList"/>
+                                                <Binding />
+                                            </MultiBinding>
+                                        </Button.Command>
+                                        Detail
+                                    </Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -126,9 +134,16 @@
                                     <!--  Checked="cbMove_Checked"-->
                                     <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                  Content="Detail"
-                                                  Command="{Binding DataContext.AgentViewModel.GetCurrentAgentCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                  CommandParameter="{Binding ElementName=dgDeactivatedAgent,Path=CurrentItem}"/>
+                                                  CommandParameter="{Binding ElementName=dgDeactivatedAgent,Path=CurrentItem}">
+                                        <Button.Command>
+                                            <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                                <Binding Path="DataContext.AgentViewModel.GetCurrentAgentCommand" ElementName="dgDeactivatedAgent"/>
+                                                <Binding />
+                                            </MultiBinding>
+                                        </Button.Command>
+                                        Detail
+                                    </Button>
+                                
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -157,7 +172,7 @@
                     <Button Name="btnMoveClient" Margin="8 0 0 0"  Style="{DynamicResource MaterialDesignRaisedAccentButton}"
                                 Command="{Binding AgentViewModel.ClientMoveCommand}"
                                 CommandParameter="{Binding ElementName=comboBxToAgent, Path=SelectedItem}">
-                        <materialDesign:PackIcon Kind="Magnify"/>
+                        <materialDesign:PackIcon Kind="Check"/>
                     </Button>
                 </StackPanel>
             </Grid>

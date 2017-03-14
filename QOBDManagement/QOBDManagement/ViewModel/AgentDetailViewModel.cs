@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.ComponentModel;
+using System.IO;
+using QOBDCommon.Classes;
 
 namespace QOBDManagement.ViewModel
 {
@@ -22,6 +24,7 @@ namespace QOBDManagement.ViewModel
         private string _title;
         private Func<string, object> _page;
         private IMainWindowViewModel _main;
+        private DisplayAndData.Display.Image _profileImageDisplay;
 
         //----------------------------[ Models ]------------------
 
@@ -35,6 +38,7 @@ namespace QOBDManagement.ViewModel
 
         public ButtonCommand<object> UpdateCommand { get; set; }
         public ButtonCommand<AgentModel> SearchCommand { get; set; }
+        public ButtonCommand<object> OpenFileExplorerCommand { get; set; }
 
 
         public AgentDetailViewModel() : base()
@@ -59,14 +63,6 @@ namespace QOBDManagement.ViewModel
             PropertyChanged += onSelectedAgentModelChange;
         }
 
-        private void onSelectedAgentModelChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("SelectedAgentModel"))
-            {
-                AgentSideBarViewModel.SelectedAgentModel = SelectedAgentModel;
-            }
-        }
-
         private void instances()
         {
             _title = "Agent Description";
@@ -82,6 +78,7 @@ namespace QOBDManagement.ViewModel
         {
             UpdateCommand = new ButtonCommand<object>(updateAgent, canUpdateAgent);
             SearchCommand = new ButtonCommand<AgentModel>(searchAgent, canSearchAgent);
+            OpenFileExplorerCommand = new ButtonCommand<object>(getFileFromLocal, canGetFileFromLocal);
         }
 
 
@@ -91,7 +88,7 @@ namespace QOBDManagement.ViewModel
         public AgentModel SelectedAgentModel
         {
             get { return _selectedAgentModel; }
-            set { _selectedAgentModel = value; onPropertyChange("SelectedAgentModel"); }
+            set { setProperty(ref _selectedAgentModel, value); }
         }
 
         public BusinessLogic Bl
@@ -102,20 +99,48 @@ namespace QOBDManagement.ViewModel
         public string Title
         {
             get { return _title; }
-            set { setProperty(ref _title, value, "Title"); }
+            set { setProperty(ref _title, value); }
+        }
+
+        public DisplayAndData.Display.Image ProfileImageDisplay
+        {
+            get { return _profileImageDisplay; }
+            set { setProperty(ref _profileImageDisplay, value); }
         }
 
         public List<AgentModel> AgentModelList
         {
             get { return _agentsViewModel; }
-            set { _agentsViewModel = value; onPropertyChange("AgentModelList"); }
+            set { setProperty(ref _agentsViewModel, value); }
         }
 
 
-        //----------------------------[ Actions ]------------------
+        //----------------------------[ Actions ]----------------------
+        
+        public void load()
+        {
+            // get Logo image created by MainWindowViewModel for updating
+            ProfileImageDisplay = _main.ImageManagement(null, "profile");
+            _profileImageDisplay.PropertyChanged += onFilePathChange_updateUIImage;
+
+            /*_profileImageDisplay.TxtFileNameWithoutExtension += "_" +Bl.BlSecurity.GetAuthenticatedUser().ID;
+            var fileList = Directory.GetFiles(ProfileImageDisplay.TxtBaseDir);
+            foreach (string file in fileList)
+            {
+                if (Path.GetFileName(file).Split('.')[0] == ProfileImageDisplay.TxtFileNameWithoutExtension)
+                {
+                    ProfileImageDisplay.TxtChosenFile = file;
+                    break;
+                }                    
+            }*/
+        }
+
+        public override void Dispose()
+        {
+            PropertyChanged -= onSelectedAgentModelChange;
+        }
 
         //----------------------------[ Event Handler ]------------------
-
 
         internal async void onPwdBoxVerificationPasswordChange_updateTxtClearPasswordVerification(object sender, RoutedEventArgs e)
         {
@@ -136,6 +161,23 @@ namespace QOBDManagement.ViewModel
             if (pwd.Password.Count() > 0)
             {
                 SelectedAgentModel.TxtClearPassword = pwd.Password;                
+            }
+        }
+
+        private void onSelectedAgentModelChange(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("SelectedAgentModel"))
+            {
+                AgentSideBarViewModel.SelectedAgentModel = SelectedAgentModel;
+                load();
+            }
+        }
+
+        private void onFilePathChange_updateUIImage(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("TxtFileFullPath") && !string.IsNullOrEmpty(((DisplayAndData.Display.Image)sender).TxtFileFullPath))
+            {
+                _main.ImageManagement((DisplayAndData.Display.Image)sender, "profile");
             }
         }
 
@@ -199,6 +241,37 @@ namespace QOBDManagement.ViewModel
         }
 
         private bool canSearchAgent(AgentModel arg)
+        {
+            return true;
+        }
+
+        private void getFileFromLocal(object obj)
+        {
+            _main.ReferentialViewModel.OptionDataAndDisplayViewModel.getFileFromLocal(ProfileImageDisplay);
+            /*ProfileImageDisplay.TxtChosenFile = DisplayAndData.ExecuteOpenFileDialog("Choose image file", new List<string> { "png", "jpeg", "jpg" });
+            if (!string.IsNullOrEmpty(ProfileImageDisplay.TxtChosenFile))
+            {
+                Dialog.showSearch("File saving...");
+                ProfileImageDisplay.TxtWidth = 50;
+                ProfileImageDisplay.TxtHeight = 50;
+                ProfileImageDisplay.initializeFields();
+
+                var infosToUpdateList = ProfileImageDisplay.ImageDataList.Where(x => x.ID != 0).ToList();
+                var infosToCreateList = ProfileImageDisplay.ImageDataList.Where(x => x.ID == 0).ToList();
+                var infosUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infosToUpdateList);
+                var infosCreatedList = await Bl.BlReferential.InsertInfoAsync(infosToCreateList);
+
+                if (infosUpdatedList.Count == 0 && infosCreatedList.Count == 0)
+                {
+                    string errorMessage = "Error occurred while saving the file ["+ ProfileImageDisplay.TxtChosenFile + "]";
+                    Log.error(errorMessage);
+                    await Dialog.showAsync(errorMessage);
+                }
+                Dialog.IsDialogOpen = true;
+            } */           
+        }
+
+        private bool canGetFileFromLocal(object arg)
         {
             return true;
         }
