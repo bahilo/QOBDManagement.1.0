@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using QOBDManagement.Classes;
+using QOBDManagement.Interfaces;
 using QOBDManagement.Views;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Windows;
 
 namespace QOBDManagement.ViewModel
 {
-    public class ConfirmationViewModel : INotifyPropertyChanged
+    public class ConfirmationViewModel : IConfirmationViewModel
     {
         string _message;
         bool _response;
@@ -93,6 +94,14 @@ namespace QOBDManagement.ViewModel
             return result;
         }
 
+        public async void showSearchMessage(string message, bool isChatDialogBox = false)
+        {
+            TxtMessage = message;
+
+            if (Application.Current != null)
+                await DialogHost.Show(new Views.SearchConfirmationView(), getDialogBox(isChatDialogBox));
+        }
+
         private async Task<bool> showMessageAsync(string message, bool isChatDialogBox = false)
         {
             TxtMessage = message;
@@ -117,14 +126,6 @@ namespace QOBDManagement.ViewModel
                 Response = (bool)result;
 
             return Response;
-        }
-
-        public async void showSearchMessage(string message, bool isChatDialogBox = false)
-        {
-            TxtMessage = message;
-
-            if (Application.Current != null)
-                await DialogHost.Show(new Views.SearchConfirmationView(), getDialogBox(isChatDialogBox));
         }
 
         private string getDialogBox(bool isChatDialogBox = false)

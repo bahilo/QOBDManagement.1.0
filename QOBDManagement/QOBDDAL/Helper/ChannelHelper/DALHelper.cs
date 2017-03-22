@@ -34,7 +34,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                         {
                             string ErrorMessage = string.Format("Custom [{0}]: One Error occured - {1}", callerName, ex.InnerException.Message);
                             taskCompletionSource.SetException(new Exception(ErrorMessage));
-                            Log.error(ErrorMessage);
+                            //Log.error(ErrorMessage, EErrorFrom.);
                         }
                         return taskResult;
                     });
@@ -61,7 +61,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                         {
                             string ErrorMessage = string.Format("Custom [{0}]: One Error occured - {1}", callerName, ex.InnerException.Message);
                             taskCompletionSource.SetException(new Exception(ErrorMessage));
-                            Log.error(ErrorMessage);
+                            //Log.error(ErrorMessage);
                         }
                         return taskResult;
                     });
@@ -86,7 +86,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 {
                     string ErrorMessage = string.Format("Custom [{0}]: One Error occured - {1}", callerName, (ex.InnerException != null) ? ex.InnerException.Message : ex.Message);
                     taskCompletionSource.SetException(new Exception(ErrorMessage));
-                    Log.error(ErrorMessage);
+                    //Log.error(ErrorMessage);
                 }
                 return null;
             });
@@ -163,7 +163,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     }
                     catch (Exception ex)
                     {
-                        Log.error(ex.Message);
+                        Log.error(ex.Message, EErrorFrom.HELPER);
                     }
                 }
             }

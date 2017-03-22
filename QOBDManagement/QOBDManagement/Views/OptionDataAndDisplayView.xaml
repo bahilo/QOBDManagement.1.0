@@ -56,7 +56,7 @@
                         <TextBlock HorizontalAlignment="Center">Images</TextBlock>
                     </materialDesign:ColorZone>
                     <DataGrid Name="dgImages" ItemsSource="{Binding ReferentialViewModel.OptionDataAndDisplayViewModel.ImageList, UpdateSourceTrigger=PropertyChanged}" 
-                          CanUserAddRows="False" AutoGenerateColumns="False">
+                          CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.Header>
@@ -127,7 +127,7 @@
                     <TextBlock HorizontalAlignment="Center">Data</TextBlock>
                 </materialDesign:ColorZone>
                 <DataGrid Name="dgData" ItemsSource="{Binding ReferentialViewModel.OptionDataAndDisplayViewModel.DataList}" 
-                        CanUserAddRows="False" AutoGenerateColumns="False">
+                        CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.Header>

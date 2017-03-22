@@ -7,6 +7,7 @@ using QOBDCommon.Interfaces.BL;
 using QOBDCommon.Structures;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -61,7 +62,7 @@ namespace QOBDBusiness.Core
                 await DAC.DALOrder.UpdateOrderDependenciesAsync(orderList, isActiveProgress);            
         }
 
-
+        #region [ Order ]
         public async Task<List<Order>> InsertOrderAsync(List<Order> orderList)
         {
             List<Order> result = new List<Order>();
@@ -71,93 +72,104 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALOrder.InsertOrderAsync(orderList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
-        public async Task<List<Bill>> InsertOrderBillAsync(List<Bill> billList)
+        public async Task<List<Order>> DeleteOrderAsync(List<Order> orderList)
         {
-            if (billList == null || billList.Count == 0)
-                return new List<Bill>();
+            List<Order> result = new List<Order>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(orderList.Where(x => x.ID == 0).Count()))
+                orderList = orderList.Where(x => x.ID != 0).ToList();
 
-            List<Bill> result = new List<Bill>();
+            if (orderList == null || orderList.Count == 0)
+                return result;
+
             try
             {
-                result = await DAC.DALOrder.InsertBillAsync(billList);
+                result = await DAC.DALOrder.DeleteOrderAsync(orderList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
-        public async Task<List<Delivery>> InsertOrderDeliveryAsync(List<Delivery> deliveryList)
+        public async Task<List<Order>> UpdateOrderAsync(List<Order> orderList)
         {
-            if (deliveryList == null || deliveryList.Count == 0)
-                return new List<Delivery>();
+            List<Order> result = new List<Order>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(orderList.Where(x => x.ID == 0).Count()))
+                orderList = orderList.Where(x => x.ID != 0).ToList();
 
-            List<Delivery> result = new List<Delivery>();
+            if (orderList == null || orderList.Count == 0)
+                return result;
+
             try
             {
-                result = await DAC.DALOrder.InsertDeliveryAsync(deliveryList);
+                result = await DAC.DALOrder.UpdateOrderAsync(orderList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
-        public async Task<List<Tax>> InsertOrderTaxAsync(List<Tax> taxList)
+        public List<Order> GetOrderData(int nbLine)
         {
-            if (taxList == null || taxList.Count == 0)
-                return new List<Tax>();
-
-            List<Tax> result = new List<Tax>();
+            List<Order> result = new List<Order>();
             try
             {
-                result = await DAC.DALOrder.InsertTaxAsync(taxList);
+                result = DAC.DALOrder.GetOrderData(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
-        public async Task<List<Tax_order>> InsertTax_orderAsync(List<Tax_order> tax_orderList)
+        public async Task<List<Order>> GetOrderDataAsync(int nbLine)
         {
-            if (tax_orderList == null || tax_orderList.Count == 0)
-                return new List<Tax_order>();
-
-            List<Tax_order> result = new List<Tax_order>();
+            List<Order> result = new List<Order>();
             try
             {
-                result = await DAC.DALOrder.InsertTax_orderAsync(tax_orderList);
+                result = await DAC.DALOrder.GetOrderDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
-        public async Task<List<Order_item>> InsertOrder_itemAsync(List<Order_item> order_itemList)
+        public List<Order> GetOrderDataById(int id)
         {
-            if (order_itemList == null || order_itemList.Count == 0)
-                return new List<Order_item>();
-
-            List<Order_item> result = new List<Order_item>();
+            List<Order> result = new List<Order>();
             try
             {
-                result = await DAC.DALOrder.InsertOrder_itemAsync(order_itemList);
+                result = DAC.DALOrder.GetOrderDataById(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
-        public async Task<List<Tax>> InsertTaxAsync(List<Tax> taxList)
+        public List<Order> searchOrder(Order order, ESearchOption filterOperator)
         {
-            if (taxList == null || taxList.Count == 0)
-                return new List<Tax>();
-
-            List<Tax> result = new List<Tax>();
+            List<Order> result = new List<Order>();
             try
             {
-                result = await DAC.DALOrder.InsertTaxAsync(taxList);
+                result = DAC.DALOrder.searchOrder(order, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
+
+        public async Task<List<Order>> searchOrderAsync(Order order, ESearchOption filterOperator)
+        {
+            List<Order> result = new List<Order>();
+            try
+            {
+                result = await DAC.DALOrder.searchOrderAsync(order, filterOperator);
+                await UpdateOrderDependenciesAsync(result);
+
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        #endregion
+
+        #region [ Bill ]
 
         public async Task<List<Bill>> InsertBillAsync(List<Bill> billList)
         {
@@ -169,238 +181,16 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALOrder.InsertBillAsync(billList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Delivery>> InsertDeliveryAsync(List<Delivery> deliveryList)
-        {
-            if (deliveryList == null || deliveryList.Count == 0)
-                return new List<Delivery>();
-
-
-            List<Delivery> result = new List<Delivery>();
-            try
-            {
-                result = await DAC.DALOrder.InsertDeliveryAsync(deliveryList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Order>> UpdateOrderAsync(List<Order> orderList)
-        {            
-            if (orderList.Where(x => x.ID == 0).Count() > 0)
-            {
-                orderList = orderList.Where(x => x.ID != 0).ToList();
-                Log.write("Updating orders(count = " + orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }
-
-            if (orderList == null || orderList.Count == 0)
-                return new List<Order>();
-
-            List<Order> result = new List<Order>();
-            try
-            {
-                result = await DAC.DALOrder.UpdateOrderAsync(orderList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-        
-
-        public async Task<List<Tax_order>> UpdateTax_orderAsync(List<Tax_order> tax_orderList)
-        {
-            if (tax_orderList.Where(x => x.ID == 0).Count() > 0)
-            {
-                tax_orderList = tax_orderList.Where(x => x.ID != 0).ToList();
-                Log.write("Updating tax_orders(count = " + tax_orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }
-                
-            List<Tax_order> result = new List<Tax_order>();
-
-            if (tax_orderList == null || tax_orderList.Count == 0)
-                return new List<Tax_order>();
-
-            try
-            {
-                result = await DAC.DALOrder.UpdateTax_orderAsync(tax_orderList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Order_item>> UpdateOrder_itemAsync(List<Order_item> order_itemList)
-        {
-            List<Order_item> result = new List<Order_item>();
-
-            if (order_itemList.Where(x => x.ID == 0).Count() > 0)
-            {
-                order_itemList = order_itemList.Where(x => x.ID != 0).ToList();
-                Log.write("Updating order_items(count = " + order_itemList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }
-
-            if (order_itemList == null || order_itemList.Count == 0)
-                return new List<Order_item>();
-
-            try
-            {
-                result = await DAC.DALOrder.UpdateOrder_itemAsync(order_itemList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Tax>> UpdateTaxAsync(List<Tax> taxList)
-        {
-            if (taxList.Where(x => x.ID == 0).Count() > 0)
-            {
-                taxList = taxList.Where(x => x.ID != 0).ToList();
-                Log.write("Updating Taxes(count = " + taxList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }                
-
-            List<Tax> result = new List<Tax>();
-            if (taxList == null || taxList.Count == 0)
-                return new List<Tax>();
-
-            try
-            {
-                result = await DAC.DALOrder.UpdateTaxAsync(taxList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Bill>> UpdateBillAsync(List<Bill> billList)
-        {
-            if (billList.Where(x => x.ID == 0).Count() > 0)
-            {
-                billList = billList.Where(x => x.ID != 0).ToList();
-                Log.write("Updating bills(count = " + billList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }                
-
-            List<Bill> result = new List<Bill>();
-            if (billList == null || billList.Count == 0)
-                return result;
-
-            try
-            {
-                result = await DAC.DALOrder.UpdateBillAsync(billList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Delivery>> UpdateDeliveryAsync(List<Delivery> deliveryList)
-        {
-            if (deliveryList.Where(x => x.ID == 0).Count() > 0)
-            {
-                deliveryList = deliveryList.Where(x => x.ID != 0).ToList();
-                Log.write("Updating deliveries(count = " + deliveryList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }                
-
-            List<Delivery> result = new List<Delivery>();
-            if (deliveryList == null || deliveryList.Count == 0)
-                return result;
-
-            try
-            {
-                result = await DAC.DALOrder.UpdateDeliveryAsync(deliveryList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Order>> DeleteOrderAsync(List<Order> orderList)
-        {
-            if (orderList.Where(x => x.ID == 0).Count() > 0)
-            {
-                orderList = orderList.Where(x => x.ID != 0).ToList();
-                Log.write("Deleting orders(count = " + orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }
-                
-            List<Order> result = new List<Order>();
-            if (orderList == null || orderList.Count == 0)
-                return result;
-
-            try
-            {
-                result = await DAC.DALOrder.DeleteOrderAsync(orderList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        
-        public async Task<List<Tax_order>> DeleteTax_orderAsync(List<Tax_order> tax_orderList)
-        {
-            if (tax_orderList.Where(x => x.ID == 0).Count() > 0)
-            {
-                tax_orderList = tax_orderList.Where(x => x.ID != 0).ToList();
-                Log.write("Deleting tax_orders(count = " + tax_orderList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }                
-
-            List<Tax_order> result = new List<Tax_order>();
-            if (tax_orderList == null || tax_orderList.Count == 0)
-                return result;
-
-            try
-            {
-                result = await DAC.DALOrder.DeleteTax_orderAsync(tax_orderList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Order_item>> DeleteOrder_itemAsync(List<Order_item> order_itemList)
-        {
-            if (order_itemList.Where(x => x.ID == 0).Count() > 0)
-            {
-                order_itemList = order_itemList.Where(x => x.ID != 0).ToList();
-                Log.write("Deleting order_items(count = " + order_itemList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }
-                
-            List<Order_item> result = new List<Order_item>();
-            if (order_itemList == null || order_itemList.Count == 0)
-                return result;
-
-            try
-            {
-                result = await DAC.DALOrder.DeleteOrder_itemAsync(order_itemList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Tax>> DeleteTaxAsync(List<Tax> taxList)
-        {
-            if (taxList.Where(x => x.ID == 0).Count() > 0)
-            {
-                taxList = taxList.Where(x => x.ID != 0).ToList();
-                Log.write("Deleting Taxes(count = " + taxList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }
-                
-            List<Tax> result = new List<Tax>();
-            if (taxList == null || taxList.Count == 0)
-                return result;
-
-            try
-            {
-                result = await DAC.DALOrder.DeleteTaxAsync(taxList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
         public async Task<List<Bill>> DeleteBillAsync(List<Bill> billList)
         {
-            if (billList.Where(x => x.ID == 0).Count() > 0)
-            {
-                billList = billList.Where(x => x.ID == 0).ToList();
-                Log.write("Deleting bills(count = " + billList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }
-                
             List<Bill> result = new List<Bill>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(billList.Where(x => x.ID == 0).Count()))
+                billList = billList.Where(x => x.ID != 0).ToList();
+
             if (billList == null || billList.Count == 0)
                 return result;
 
@@ -408,203 +198,24 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALOrder.DeleteBillAsync(billList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
-        public async Task<List<Delivery>> DeleteDeliveryAsync(List<Delivery> deliveryList)
+        public async Task<List<Bill>> UpdateBillAsync(List<Bill> billList)
         {
-            if (deliveryList.Where(x => x.ID == 0).Count() > 0)
-            {
-                deliveryList = deliveryList.Where(x => x.ID != 0).ToList();
-                Log.write("Deleting deliveries(count = " + deliveryList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-            }
-                
-            List<Delivery> result = new List<Delivery>();
-            if (deliveryList == null || deliveryList.Count == 0)
+            List<Bill> result = new List<Bill>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(billList.Where(x => x.ID == 0).Count()))
+                billList = billList.Where(x => x.ID != 0).ToList();
+
+            if (billList == null || billList.Count == 0)
                 return result;
 
             try
             {
-                result = await DAC.DALOrder.DeleteDeliveryAsync(deliveryList);
+                result = await DAC.DALOrder.UpdateBillAsync(billList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Order> GetOrderData(int nbLine)
-        {
-            List<Order> result = new List<Order>();
-            try
-            {
-                result = DAC.DALOrder.GetOrderData(nbLine);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Order>> GetOrderDataAsync(int nbLine)
-        {
-            List<Order> result = new List<Order>();
-            try
-            {
-                result = await DAC.DALOrder.GetOrderDataAsync(nbLine);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Order> GetOrderDataById(int id)
-        {
-            List<Order> result = new List<Order>();
-            try
-            {
-                result = DAC.DALOrder.GetOrderDataById(id);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Tax_order> GetTax_orderData(int nbLine)
-        {
-            List<Tax_order> result = new List<Tax_order>();
-            try
-            {
-                result = DAC.DALOrder.GetTax_orderData(nbLine);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Tax_order>> GetTax_orderDataAsync(int nbLine)
-        {
-            List<Tax_order> result = new List<Tax_order>();
-            try
-            {
-                result = await DAC.DALOrder.GetTax_orderDataAsync(nbLine);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Tax_order> GetTax_orderDataByOrderList(List<Order> orderList)
-        {
-            List<Tax_order> result = new List<Tax_order>();
-            try
-            {
-                result = DAC.DALOrder.GetTax_orderDataByOrderList(orderList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Tax_order>> GetTax_orderDataByOrderListAsync(List<Order> orderList)
-        {
-            List<Tax_order> result = new List<Tax_order>();
-            try
-            {
-                result = await DAC.DALOrder.GetTax_orderDataByOrderListAsync(orderList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Tax_order> GetTax_orderDataById(int id)
-        {
-            List<Tax_order> result = new List<Tax_order>();
-            try
-            {
-                result = DAC.DALOrder.GetTax_orderDataById(id);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Order_item> GetOrder_itemData(int nbLine)
-        {
-            List<Order_item> result = new List<Order_item>();
-            try
-            {
-                result = DAC.DALOrder.GetOrder_itemData(nbLine);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Order_item>> GetOrder_itemDataAsync(int nbLine)
-        {
-            List<Order_item> result = new List<Order_item>();
-            try
-            {
-                result = await DAC.DALOrder.GetOrder_itemDataAsync(nbLine);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Order_item> GetOrder_itemByOrderList(List<Order> orderList)
-        {
-            List<Order_item> result = new List<Order_item>();
-            try
-            {
-                result = DAC.DALOrder.GetOrder_itemByOrderList(orderList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Order_item>> GetOrder_itemByOrderListAsync(List<Order> orderList)
-        {
-            List<Order_item> result = new List<Order_item>();
-            try
-            {
-                result = await DAC.DALOrder.GetOrder_itemByOrderListAsync(orderList);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Order_item> GetOrder_itemDataById(int id)
-        {
-            List<Order_item> result = new List<Order_item>();
-            try
-            {
-                result = DAC.DALOrder.GetOrder_itemDataById(id);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Tax> GetTaxData(int nbLine)
-        {
-            List<Tax> result = new List<Tax>();
-            try
-            {
-                result = DAC.DALOrder.GetTaxData(nbLine);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Tax>> GetTaxDataAsync(int nbLine)
-        {
-            List<Tax> result = new List<Tax>();
-            try
-            {
-                result = await DAC.DALOrder.GetTaxDataAsync(nbLine);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Tax> GetTaxDataById(int id)
-        {
-            List<Tax> result = new List<Tax>();
-            try
-            {
-                result = DAC.DALOrder.GetTaxDataById(id);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -615,7 +226,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALOrder.GetBillData(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -626,7 +237,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALOrder.GetBillDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -637,7 +248,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALOrder.GetUnpaidBillDataByAgentAsync(agentId);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -648,7 +259,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALOrder.GetBillDataByOrderList(orderList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -661,18 +272,18 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALOrder.GetBillDataByOrderListAsync(orderList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
-        public  List<Bill> GetBillDataById(int id)
+        public List<Bill> GetBillDataById(int id)
         {
             List<Bill> result = new List<Bill>();
             try
             {
                 result = DAC.DALOrder.GetBillDataById(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -683,7 +294,82 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALOrder.GetLastBillAsync();
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Bill> searchBill(Bill Bill, ESearchOption filterOperator)
+        {
+            List<Bill> result = new List<Bill>();
+            try
+            {
+                result = DAC.DALOrder.searchBill(Bill, filterOperator);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Bill>> searchBillAsync(Bill Bill, ESearchOption filterOperator)
+        {
+            List<Bill> result = new List<Bill>();
+            try
+            {
+                result = await DAC.DALOrder.searchBillAsync(Bill, filterOperator);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        #endregion
+
+        #region [ Delivery ]
+
+        public async Task<List<Delivery>> InsertDeliveryAsync(List<Delivery> deliveryList)
+        {
+            if (deliveryList == null || deliveryList.Count == 0)
+                return new List<Delivery>();
+
+
+            List<Delivery> result = new List<Delivery>();
+            try
+            {
+                result = await DAC.DALOrder.InsertDeliveryAsync(deliveryList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Delivery>> DeleteDeliveryAsync(List<Delivery> deliveryList)
+        {
+            List<Delivery> result = new List<Delivery>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(deliveryList.Where(x => x.ID == 0).Count()))
+                deliveryList = deliveryList.Where(x => x.ID != 0).ToList();
+
+            if (deliveryList == null || deliveryList.Count == 0)
+                return result;
+
+            try
+            {
+                result = await DAC.DALOrder.DeleteDeliveryAsync(deliveryList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Delivery>> UpdateDeliveryAsync(List<Delivery> deliveryList)
+        {
+            List<Delivery> result = new List<Delivery>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(deliveryList.Where(x => x.ID == 0).Count()))
+                deliveryList = deliveryList.Where(x => x.ID != 0).ToList();
+
+            if (deliveryList == null || deliveryList.Count == 0)
+                return result;
+
+            try
+            {
+                result = await DAC.DALOrder.UpdateDeliveryAsync(deliveryList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -694,7 +380,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALOrder.GetDeliveryData(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -705,7 +391,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALOrder.GetDeliveryDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -716,7 +402,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALOrder.GetDeliveryDataByOrderList(orderList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -727,7 +413,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALOrder.GetDeliveryDataByOrderListAsync(orderList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -738,34 +424,245 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALOrder.GetDeliveryDataById(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
-        public List<Order> searchOrder(Order order, ESearchOption filterOperator)
+        public List<Delivery> searchDelivery(Delivery Delivery, ESearchOption filterOperator)
         {
-            List<Order> result = new List<Order>();
+            List<Delivery> result = new List<Delivery>();
             try
             {
-                result = DAC.DALOrder.searchOrder(order, filterOperator);                
+                result = DAC.DALOrder.searchDelivery(Delivery, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
-        public async Task<List<Order>> searchOrderAsync(Order order, ESearchOption filterOperator)
+        public async Task<List<Delivery>> searchDeliveryAsync(Delivery Delivery, ESearchOption filterOperator)
         {
-            List<Order> result = new List<Order>();
+            List<Delivery> result = new List<Delivery>();
             try
             {
-                result = await DAC.DALOrder.searchOrderAsync(order, filterOperator);
-                await UpdateOrderDependenciesAsync(result);
-                
+                result = await DAC.DALOrder.searchDeliveryAsync(Delivery, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
+        #endregion
+
+        #region [ Tax ]
+
+        public async Task<List<Tax>> InsertTaxAsync(List<Tax> taxList)
+        {
+            if (taxList == null || taxList.Count == 0)
+                return new List<Tax>();
+
+            List<Tax> result = new List<Tax>();
+            try
+            {
+                result = await DAC.DALOrder.InsertTaxAsync(taxList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Tax>> UpdateTaxAsync(List<Tax> taxList)
+        {
+            List<Tax> result = new List<Tax>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(taxList.Where(x => x.ID == 0).Count()))
+                taxList = taxList.Where(x => x.ID != 0).ToList();
+
+            if (taxList == null || taxList.Count == 0)
+                return result;
+
+            try
+            {
+                result = await DAC.DALOrder.UpdateTaxAsync(taxList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Tax>> DeleteTaxAsync(List<Tax> taxList)
+        {
+            List<Tax> result = new List<Tax>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(taxList.Where(x => x.ID == 0).Count()))
+                taxList = taxList.Where(x => x.ID != 0).ToList();
+
+            if (taxList == null || taxList.Count == 0)
+                return result;
+
+            try
+            {
+                result = await DAC.DALOrder.DeleteTaxAsync(taxList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Tax> GetTaxData(int nbLine)
+        {
+            List<Tax> result = new List<Tax>();
+            try
+            {
+                result = DAC.DALOrder.GetTaxData(nbLine);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Tax>> GetTaxDataAsync(int nbLine)
+        {
+            List<Tax> result = new List<Tax>();
+            try
+            {
+                result = await DAC.DALOrder.GetTaxDataAsync(nbLine);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Tax> GetTaxDataById(int id)
+        {
+            List<Tax> result = new List<Tax>();
+            try
+            {
+                result = DAC.DALOrder.GetTaxDataById(id);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Tax> searchTax(Tax Tax, ESearchOption filterOperator)
+        {
+            List<Tax> result = new List<Tax>();
+            try
+            {
+                result = DAC.DALOrder.searchTax(Tax, filterOperator);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Tax>> searchTaxAsync(Tax Tax, ESearchOption filterOperator)
+        {
+            List<Tax> result = new List<Tax>();
+            try
+            {
+                result = await DAC.DALOrder.searchTaxAsync(Tax, filterOperator);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        #endregion
+
+        #region [ Tax_order ]
+
+        public async Task<List<Tax_order>> InsertTax_orderAsync(List<Tax_order> tax_orderList)
+        {
+            if (tax_orderList == null || tax_orderList.Count == 0)
+                return new List<Tax_order>();
+
+            List<Tax_order> result = new List<Tax_order>();
+            try
+            {
+                result = await DAC.DALOrder.InsertTax_orderAsync(tax_orderList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Tax_order>> UpdateTax_orderAsync(List<Tax_order> tax_orderList)
+        {
+            List<Tax_order> result = new List<Tax_order>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(tax_orderList.Where(x => x.ID == 0).Count()))
+                tax_orderList = tax_orderList.Where(x => x.ID != 0).ToList();
+
+            if (tax_orderList == null || tax_orderList.Count == 0)
+                return result;
+
+            try
+            {
+                result = await DAC.DALOrder.UpdateTax_orderAsync(tax_orderList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Tax_order>> DeleteTax_orderAsync(List<Tax_order> tax_orderList)
+        {
+            List<Tax_order> result = new List<Tax_order>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(tax_orderList.Where(x => x.ID == 0).Count()))
+                tax_orderList = tax_orderList.Where(x => x.ID != 0).ToList();
+
+            if (tax_orderList == null || tax_orderList.Count == 0)
+                return result;
+
+            try
+            {
+                result = await DAC.DALOrder.DeleteTax_orderAsync(tax_orderList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Tax_order> GetTax_orderData(int nbLine)
+        {
+            List<Tax_order> result = new List<Tax_order>();
+            try
+            {
+                result = DAC.DALOrder.GetTax_orderData(nbLine);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Tax_order>> GetTax_orderDataAsync(int nbLine)
+        {
+            List<Tax_order> result = new List<Tax_order>();
+            try
+            {
+                result = await DAC.DALOrder.GetTax_orderDataAsync(nbLine);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Tax_order> GetTax_orderDataByOrderList(List<Order> orderList)
+        {
+            List<Tax_order> result = new List<Tax_order>();
+            try
+            {
+                result = DAC.DALOrder.GetTax_orderDataByOrderList(orderList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Tax_order>> GetTax_orderDataByOrderListAsync(List<Order> orderList)
+        {
+            List<Tax_order> result = new List<Tax_order>();
+            try
+            {
+                result = await DAC.DALOrder.GetTax_orderDataByOrderListAsync(orderList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Tax_order> GetTax_orderDataById(int id)
+        {
+            List<Tax_order> result = new List<Tax_order>();
+            try
+            {
+                result = DAC.DALOrder.GetTax_orderDataById(id);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
 
         public List<Tax_order> searchTax_order(Tax_order Tax_order, ESearchOption filterOperator)
         {
@@ -774,7 +671,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALOrder.searchTax_order(Tax_order, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -786,7 +683,114 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALOrder.searchTax_orderAsync(Tax_order, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        #endregion
+
+        #region [ Order_item ]
+
+        public async Task<List<Order_item>> InsertOrder_itemAsync(List<Order_item> order_itemList)
+        {
+            if (order_itemList == null || order_itemList.Count == 0)
+                return new List<Order_item>();
+
+            List<Order_item> result = new List<Order_item>();
+            try
+            {
+                result = await DAC.DALOrder.InsertOrder_itemAsync(order_itemList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Order_item>> DeleteOrder_itemAsync(List<Order_item> order_itemList)
+        {
+            List<Order_item> result = new List<Order_item>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(order_itemList.Where(x => x.ID == 0).Count()))
+                order_itemList = order_itemList.Where(x => x.ID != 0).ToList();
+
+            if (order_itemList == null || order_itemList.Count == 0)
+                return result;
+
+            try
+            {
+                result = await DAC.DALOrder.DeleteOrder_itemAsync(order_itemList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Order_item>> UpdateOrder_itemAsync(List<Order_item> order_itemList)
+        {
+            List<Order_item> result = new List<Order_item>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(order_itemList.Where(x => x.ID == 0).Count()))
+                order_itemList = order_itemList.Where(x => x.ID != 0).ToList();
+
+            if (order_itemList == null || order_itemList.Count == 0)
+                return result;
+
+            try
+            {
+                result = await DAC.DALOrder.UpdateOrder_itemAsync(order_itemList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Order_item> GetOrder_itemData(int nbLine)
+        {
+            List<Order_item> result = new List<Order_item>();
+            try
+            {
+                result = DAC.DALOrder.GetOrder_itemData(nbLine);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Order_item>> GetOrder_itemDataAsync(int nbLine)
+        {
+            List<Order_item> result = new List<Order_item>();
+            try
+            {
+                result = await DAC.DALOrder.GetOrder_itemDataAsync(nbLine);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Order_item> GetOrder_itemByOrderList(List<Order> orderList)
+        {
+            List<Order_item> result = new List<Order_item>();
+            try
+            {
+                result = DAC.DALOrder.GetOrder_itemByOrderList(orderList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Order_item>> GetOrder_itemByOrderListAsync(List<Order> orderList)
+        {
+            List<Order_item> result = new List<Order_item>();
+            try
+            {
+                result = await DAC.DALOrder.GetOrder_itemByOrderListAsync(orderList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Order_item> GetOrder_itemDataById(int id)
+        {
+            List<Order_item> result = new List<Order_item>();
+            try
+            {
+                result = DAC.DALOrder.GetOrder_itemDataById(id);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -797,7 +801,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALOrder.searchOrder_item(Order_item, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
@@ -808,74 +812,16 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALOrder.searchOrder_itemAsync(Order_item, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             return result;
         }
 
-        public List<Tax> searchTax(Tax Tax, ESearchOption filterOperator)
-        {
-            List<Tax> result = new List<Tax>();
-            try
-            {
-                result = DAC.DALOrder.searchTax(Tax, filterOperator);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
+        #endregion
 
-        public async Task<List<Tax>> searchTaxAsync(Tax Tax, ESearchOption filterOperator)
+        
+        public void Dispose()
         {
-            List<Tax> result = new List<Tax>();
-            try
-            {
-                result = await DAC.DALOrder.searchTaxAsync(Tax, filterOperator);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Bill> searchBill(Bill Bill, ESearchOption filterOperator)
-        {
-            List<Bill> result = new List<Bill>();
-            try
-            {
-                result = DAC.DALOrder.searchBill(Bill, filterOperator);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Bill>> searchBillAsync(Bill Bill, ESearchOption filterOperator)
-        {
-            List<Bill> result = new List<Bill>();
-            try
-            {
-                result = await DAC.DALOrder.searchBillAsync(Bill, filterOperator);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public List<Delivery> searchDelivery(Delivery Delivery, ESearchOption filterOperator)
-        {
-            List<Delivery> result = new List<Delivery>();
-            try
-            {
-                result = DAC.DALOrder.searchDelivery(Delivery, filterOperator);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
-        }
-
-        public async Task<List<Delivery>> searchDeliveryAsync(Delivery Delivery, ESearchOption filterOperator)
-        {
-            List<Delivery> result = new List<Delivery>();
-            try
-            {
-                result = await DAC.DALOrder.searchDeliveryAsync(Delivery, filterOperator);
-            }
-            catch (Exception ex) { Log.error(ex.Message); }
-            return result;
+            DAC.DALOrder.Dispose();
         }
 
         public void GeneratePdfOrder(ParamOrderToPdf paramCommandToPdf)
@@ -884,7 +830,7 @@ namespace QOBDBusiness.Core
             {
                 DAC.DALOrder.GeneratePdfOrder(paramCommandToPdf);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
         }
 
         public void GeneratePdfQuote(ParamOrderToPdf paramCommandToPdf)
@@ -893,7 +839,7 @@ namespace QOBDBusiness.Core
             {
                 DAC.DALOrder.GeneratePdfQuote(paramCommandToPdf);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
         }
 
         public void GeneratePdfDelivery(ParamDeliveryToPdf paramDeliveryToPdf)
@@ -902,12 +848,18 @@ namespace QOBDBusiness.Core
             {
                 DAC.DALOrder.GeneratePdfDelivery(paramDeliveryToPdf);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
         }
 
-        public void Dispose()
+        private bool checkIfUpdateOrDeleteParamRepectsRequirements(int IDValues, [CallerMemberName] string functionName = null)
         {
-            DAC.DALOrder.Dispose();
+            bool isRequirementsRespected = true;
+            if (IDValues > 0)
+            {
+                isRequirementsRespected = false;
+                Log.warning(functionName + " params (count = " + IDValues + ") with ID = 0", EErrorFrom.ORDER);
+            }
+            return isRequirementsRespected;
         }
     } /* end class BLCommande */
 }

@@ -53,9 +53,9 @@
                 <materialDesign:ColorZone Mode="PrimaryMid" Grid.Row="1">
                     <TextBlock Name="txtBAgent" HorizontalAlignment="Center">Agent List</TextBlock>
                 </materialDesign:ColorZone>
-                <DataGrid Grid.Row="2" x:Name="dgAgentList" AutoGenerateColumns="False"
+                <DataGrid Grid.Row="2" x:Name="dgAgentList" AutoGenerateColumns="False" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}"
                         ItemsSource="{Binding AgentViewModel.ActiveAgentModelList, UpdateSourceTrigger=PropertyChanged}" 
-                        Margin="0 0 8 0" EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False" MaxHeight="500" MaxWidth="985">
+                        Margin="0 0 8 0" EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Select">
                             <DataGridTemplateColumn.CellTemplate>

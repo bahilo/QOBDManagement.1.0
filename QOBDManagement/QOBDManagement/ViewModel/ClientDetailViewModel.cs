@@ -258,7 +258,7 @@ namespace QOBDManagement.ViewModel
 
             Dialog.IsDialogOpen = false;       
             
-            _page(new ClientDetailViewModel());
+            _page(this);
 
         }
 
@@ -274,7 +274,7 @@ namespace QOBDManagement.ViewModel
         private void setCartClientForQuote(string obj)
         {
             Cart.Client = SelectedCLientModel;
-            _page(new QuoteViewModel());
+            _page(_main.QuoteViewModel);
         }
 
         private bool canSetCartClientForQuote(string arg)
@@ -371,6 +371,7 @@ namespace QOBDManagement.ViewModel
         private void selectNewClient(ClientModel obj)
         {
             SelectedCLientModel = loadContactsAndAddresses(obj);
+            _page(this);
             //_selectedCLientTask.initializeNewTask();
         }
 

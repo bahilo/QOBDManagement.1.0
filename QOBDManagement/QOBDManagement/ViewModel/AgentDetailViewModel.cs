@@ -25,6 +25,7 @@ namespace QOBDManagement.ViewModel
         private Func<string, object> _page;
         private IMainWindowViewModel _main;
         private DisplayAndData.Display.Image _profileImageDisplay;
+        private string _profileImageFileNameBase;
 
         //----------------------------[ Models ]------------------
 
@@ -50,7 +51,7 @@ namespace QOBDManagement.ViewModel
 
         }
 
-        public AgentDetailViewModel(IMainWindowViewModel main): this()
+        public AgentDetailViewModel(IMainWindowViewModel main) : this()
         {
             _main = main;
             _page = _main.navigation;
@@ -66,6 +67,8 @@ namespace QOBDManagement.ViewModel
         private void instances()
         {
             _title = "Agent Description";
+            _profileImageFileNameBase = "profile_image";
+
         }
 
         private void instancesModel()
@@ -116,28 +119,62 @@ namespace QOBDManagement.ViewModel
 
 
         //----------------------------[ Actions ]----------------------
-        
+
         public void load()
         {
-            // get Logo image created by MainWindowViewModel for updating
-            ProfileImageDisplay = _main.ImageManagement(null, "profile");
-            _profileImageDisplay.PropertyChanged += onFilePathChange_updateUIImage;
+            bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
+                             && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
+                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
 
-            /*_profileImageDisplay.TxtFileNameWithoutExtension += "_" +Bl.BlSecurity.GetAuthenticatedUser().ID;
-            var fileList = Directory.GetFiles(ProfileImageDisplay.TxtBaseDir);
-            foreach (string file in fileList)
+            // only admin can see other agents profile
+            if (isUserAdmin)
             {
-                if (Path.GetFileName(file).Split('.')[0] == ProfileImageDisplay.TxtFileNameWithoutExtension)
+                // closing the image source if image already displayed
+                if (ProfileImageDisplay != null)
                 {
-                    ProfileImageDisplay.TxtChosenFile = file;
-                    break;
-                }                    
-            }*/
+                    ProfileImageDisplay.PropertyChanged -= onProfileImageChange_updateUIImage;
+                    ProfileImageDisplay.PropertyChanged -= onProfileImageSizeChange;
+                    ProfileImageDisplay.Dispose();
+                }
+                ProfileImageDisplay = null;
+            }
+
+            loadUserProfileImage();
+        }
+
+        private void loadUserProfileImage()
+        {
+            if (ProfileImageDisplay == null)
+            {
+                // get profile image for updating
+                ProfileImageDisplay = _main.ImageManagement(null, "profile");
+
+                // get the picture info from the database
+                ProfileImageDisplay.TxtFileNameWithoutExtension = _profileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID;
+                var loadedImage = _main.loadImage(ProfileImageDisplay.TxtFileNameWithoutExtension, ProfileImageDisplay.TxtName, ProfileImageDisplay.TxtLogin, ProfileImageDisplay.TxtPassword);
+
+                // display the picture
+                if (Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        ProfileImageDisplay = loadedImage;
+                        ProfileImageDisplay.PropertyChanged += onProfileImageChange_updateUIImage;
+                        ProfileImageDisplay.PropertyChanged += onProfileImageSizeChange;
+                    });
+            }
         }
 
         public override void Dispose()
         {
             PropertyChanged -= onSelectedAgentModelChange;
+            if (ProfileImageDisplay != null)
+            {
+                ProfileImageDisplay.PropertyChanged -= onProfileImageChange_updateUIImage;
+                ProfileImageDisplay.PropertyChanged -= onProfileImageSizeChange;
+                ProfileImageDisplay.Dispose();
+            }
         }
 
         //----------------------------[ Event Handler ]------------------
@@ -160,7 +197,7 @@ namespace QOBDManagement.ViewModel
             PasswordBox pwd = ((PasswordBox)sender);
             if (pwd.Password.Count() > 0)
             {
-                SelectedAgentModel.TxtClearPassword = pwd.Password;                
+                SelectedAgentModel.TxtClearPassword = pwd.Password;
             }
         }
 
@@ -173,20 +210,25 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        private void onFilePathChange_updateUIImage(object sender, PropertyChangedEventArgs e)
+        private void onProfileImageChange_updateUIImage(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("TxtFileFullPath") && !string.IsNullOrEmpty(((DisplayAndData.Display.Image)sender).TxtFileFullPath))
             {
-                _main.ImageManagement((DisplayAndData.Display.Image)sender, "profile");
+                ProfileImageDisplay = _main.ImageManagement((DisplayAndData.Display.Image)sender, "profile");
             }
         }
 
+        private void onProfileImageSizeChange(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("ImageInfoUpdated"))
+                _main.ReferentialViewModel.OptionDataAndDisplayViewModel.saveImageInfo((DisplayAndData.Display.Image)sender);
+        }
 
         //----------------------------[ Action Commands ]------------------
 
         private async void updateAgent(object obj)
         {
-            bool isPasswordIdentical = false ;
+            bool isPasswordIdentical = false;
             if (!string.IsNullOrEmpty(SelectedAgentModel.TxtClearPasswordVerification))
             {
                 if (SelectedAgentModel.TxtClearPassword.Equals(SelectedAgentModel.TxtClearPasswordVerification))
@@ -194,7 +236,7 @@ namespace QOBDManagement.ViewModel
                     SelectedAgentModel.TxtHashedPassword = Bl.BlSecurity.CalculateHash(SelectedAgentModel.TxtClearPassword);
                     isPasswordIdentical = true;
                 }
-            }       
+            }
 
             if (SelectedAgentModel.Agent.ID == 0)
             {
@@ -219,8 +261,9 @@ namespace QOBDManagement.ViewModel
                     if (updatedAgentList.Count > 0)
                         await Dialog.showAsync("Agent " + SelectedAgentModel.Agent.LastName + " Successfully Updated!");
                     Dialog.IsDialogOpen = false;
-                }else
-                    await Dialog.showAsync("Password are not Identical!");                
+                }
+                else
+                    await Dialog.showAsync("Password are not Identical!");
             }
             isPasswordIdentical = false;
         }
@@ -248,27 +291,6 @@ namespace QOBDManagement.ViewModel
         private void getFileFromLocal(object obj)
         {
             _main.ReferentialViewModel.OptionDataAndDisplayViewModel.getFileFromLocal(ProfileImageDisplay);
-            /*ProfileImageDisplay.TxtChosenFile = DisplayAndData.ExecuteOpenFileDialog("Choose image file", new List<string> { "png", "jpeg", "jpg" });
-            if (!string.IsNullOrEmpty(ProfileImageDisplay.TxtChosenFile))
-            {
-                Dialog.showSearch("File saving...");
-                ProfileImageDisplay.TxtWidth = 50;
-                ProfileImageDisplay.TxtHeight = 50;
-                ProfileImageDisplay.initializeFields();
-
-                var infosToUpdateList = ProfileImageDisplay.ImageDataList.Where(x => x.ID != 0).ToList();
-                var infosToCreateList = ProfileImageDisplay.ImageDataList.Where(x => x.ID == 0).ToList();
-                var infosUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infosToUpdateList);
-                var infosCreatedList = await Bl.BlReferential.InsertInfoAsync(infosToCreateList);
-
-                if (infosUpdatedList.Count == 0 && infosCreatedList.Count == 0)
-                {
-                    string errorMessage = "Error occurred while saving the file ["+ ProfileImageDisplay.TxtChosenFile + "]";
-                    Log.error(errorMessage);
-                    await Dialog.showAsync(errorMessage);
-                }
-                Dialog.IsDialogOpen = true;
-            } */           
         }
 
         private bool canGetFileFromLocal(object arg)

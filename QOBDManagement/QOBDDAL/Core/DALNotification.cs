@@ -101,7 +101,7 @@ namespace QOBDDAL.Core
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.NOTIFICATION);
             }
             finally
             {
@@ -220,7 +220,8 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayNotification.Dispose();
+            if (_gateWayNotification != null)
+                _gateWayNotification.Dispose();
         }
     } /* end class BlNotification */
 }

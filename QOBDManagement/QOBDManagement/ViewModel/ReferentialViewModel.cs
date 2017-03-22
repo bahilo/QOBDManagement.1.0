@@ -34,15 +34,28 @@ namespace QOBDManagement.ViewModel
             this._main = mainWindowViewModel;
             _page = _main.navigation;
             instancesModel(mainWindowViewModel);
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-            }
+        }
+
+        public ReferentialViewModel(MainWindowViewModel mainWindowViewModel, IStartup startup, IConfirmationViewModel dialog) : this(mainWindowViewModel)
+        {
+            this.Startup = startup;
+            this.Dialog = dialog;
+
+            _referentialSideBarViewModel.Dialog = Dialog;
+            _optionSecurityViewModel.Dialog = Dialog;
+            _optionGeneralViewModel.Dialog = Dialog;
+            _optionDataAndDisplayViewModel.Dialog = Dialog;
+            _optionEmailViewModel.Dialog = Dialog;
+
+            _referentialSideBarViewModel.Startup = Startup;
+            _optionSecurityViewModel.Startup = Startup;
+            _optionGeneralViewModel.Startup = Startup;
+            _optionDataAndDisplayViewModel.Startup = Startup;
+            _optionEmailViewModel.Startup = Startup;
         }
 
         //----------------------------[ Initialization ]------------------
-        
+
         private void instancesModel(IMainWindowViewModel main)
         {
             _referentialSideBarViewModel = new ReferentialSideBarViewModel(main);
@@ -94,11 +107,6 @@ namespace QOBDManagement.ViewModel
         
         public override void Dispose()
         {
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged -= onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged -= onDialogChange;
-            }
             OptionDataAndDisplayViewModel.Dispose();
             OptionEmailViewModel.Dispose();
             OptionGeneralViewModel.Dispose();
@@ -106,33 +114,7 @@ namespace QOBDManagement.ViewModel
         }
 
         //----------------------------[ Event Handler ]------------------
-
-
-        private void onStartupChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Startup"))
-            {
-                Startup = (_main.getObject("main") as BindBase).Startup;
-                _referentialSideBarViewModel.Startup = Startup;
-                _optionSecurityViewModel.Startup = Startup;
-                _optionGeneralViewModel.Startup = Startup;
-                _optionDataAndDisplayViewModel.Startup = Startup;
-                _optionEmailViewModel.Startup = Startup;
-            }
-        }
-
-        private void onDialogChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Dialog"))
-            {
-                Dialog = (_main.getObject("main") as BindBase).Dialog;
-                _referentialSideBarViewModel.Dialog = Dialog;
-                _optionSecurityViewModel.Dialog = Dialog;
-                _optionGeneralViewModel.Dialog = Dialog;
-                _optionDataAndDisplayViewModel.Dialog = Dialog;
-                _optionEmailViewModel.Dialog = Dialog;
-            }
-        }
+        
 
         //----------------------------[ Action Commands ]------------------
         

@@ -4,6 +4,7 @@ using QOBDCommon.Enum;
 using QOBDCommon.Interfaces.BL;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -62,41 +63,41 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALNotification.InsertNotificationAsync(notificationList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.NOTIFICATION); }
             return result;
         }
 
         public async Task<List<Notification>> UpdateNotificationAsync(List<Notification> notificationList)
         {
-            if (notificationList == null || notificationList.Count == 0)
-                return new List<Notification>();
-
-            if (notificationList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Updating notifications(count = " + notificationList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
             List<Notification> result = new List<Notification>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(notificationList.Where(x => x.ID == 0).Count()))
+                notificationList = notificationList.Where(x => x.ID != 0).ToList();
+
+            if (notificationList == null || notificationList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALNotification.UpdateNotificationAsync(notificationList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.NOTIFICATION); }
             return result;
         }
 
         public async Task<List<Notification>> DeleteNotificationAsync(List<Notification> notificationList)
         {
-            if (notificationList == null || notificationList.Count == 0)
-                return new List<Notification>();
-
-            if (notificationList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Deleting notifications(count = " + notificationList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
             List<Notification> result = new List<Notification>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(notificationList.Where(x => x.ID == 0).Count()))
+                notificationList = notificationList.Where(x => x.ID != 0).ToList();
+
+            if (notificationList == null || notificationList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALNotification.DeleteNotificationAsync(notificationList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.NOTIFICATION); }
             return result;
         }
 
@@ -107,7 +108,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALNotification.GetNotificationData(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.NOTIFICATION); }
             return result;
         }
 
@@ -118,7 +119,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALNotification.GetNotificationDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.NOTIFICATION); }
             return result;
         }
 
@@ -129,13 +130,8 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALNotification.GetNotificationDataById(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.NOTIFICATION); }
             return result;
-        }
-
-        public void Dispose()
-        {
-            DAC.DALNotification.Dispose();
         }
 
         public List<Notification> searchNotification(Notification notification, ESearchOption filterOperator)
@@ -145,7 +141,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALNotification.searchNotification(notification, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.NOTIFICATION); }
             return result;
         }
 
@@ -156,8 +152,24 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALNotification.searchNotificationAsync(notification, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.NOTIFICATION); }
             return result;
+        }
+
+        public void Dispose()
+        {
+            DAC.DALNotification.Dispose();
+        }
+
+        private bool checkIfUpdateOrDeleteParamRepectsRequirements(int IDValues, [CallerMemberName] string functionName = null)
+        {
+            bool isRequirementsRespected = true;
+            if (IDValues > 0)
+            {
+                isRequirementsRespected = false;
+                Log.warning(functionName + " params (count = " + IDValues + ") with ID = 0", EErrorFrom.NOTIFICATION);
+            }
+            return isRequirementsRespected;
         }
 
 

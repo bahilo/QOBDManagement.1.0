@@ -92,7 +92,7 @@
                         </materialDesign:ColorZone>
                         <DataGrid Grid.Row="1" x:Name="dgSearchResult" AutoGenerateColumns="False"
                               ItemsSource="{Binding ClientViewModel.ClientModelList, IsAsync=True, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" 
-                              EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False" MaxHeight="600" MaxWidth="990"
+                              EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}"
                               ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"  
                               >
                             <DataGrid.Columns>

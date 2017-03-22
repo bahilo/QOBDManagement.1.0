@@ -59,9 +59,7 @@ namespace QOBDManagement.ViewModel
         {
             PropertyChanged += onNavigToChange;
             PropertyChanged += onSelectedCommandModelChange;
-            _orderDetailViewModel.PropertyChanged += onorder_ItemModelListChange;
-            if ((_main.getObject("main") as BindBase) != null)
-                (_main.getObject("main") as BindBase).PropertyChanged += onCurrentPageChange_updateCommand;
+            //_orderDetailViewModel.PropertyChanged += onorder_ItemModelListChange;
         }
 
         private void instances()
@@ -152,20 +150,15 @@ namespace QOBDManagement.ViewModel
         {
             PropertyChanged -= onNavigToChange;
             PropertyChanged -= onSelectedCommandModelChange;
-            if ((_main.getObject("main") as MainWindowViewModel) != null)
-            {
-                (_main.getObject("main") as MainWindowViewModel).PropertyChanged -= onCurrentPageChange_updateCommand;
-                (_main.getObject("main") as MainWindowViewModel).OrderViewModel.OrderDetailViewModel.PropertyChanged -= onorder_ItemModelListChange;
-            }
         }
 
         //----------------------------[ Event Handler ]------------------
 
-        private void onorder_ItemModelListChange(object sender, PropertyChangedEventArgs e)
+        /*private void onorder_ItemModelListChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Order_ItemModelList") && (_main.getObject("main") as MainWindowViewModel) != null)
                 SelectedOrderModel.Order_ItemList = (_main.getObject("main") as MainWindowViewModel).OrderViewModel.OrderDetailViewModel.Order_ItemModelList;
-        }
+        }*/
 
         /// <summary>
         /// Navigate to the next page
@@ -180,7 +173,7 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        private void onCurrentPageChange_updateCommand(object sender, PropertyChangedEventArgs e)
+        public void onCurrentPageChange_updateCommand(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("CurrentViewModel"))
                 updateCommand();

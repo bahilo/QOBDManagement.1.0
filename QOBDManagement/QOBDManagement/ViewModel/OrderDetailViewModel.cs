@@ -27,6 +27,7 @@ namespace QOBDManagement.ViewModel
     {
         #region [ Variables ]
         private string _title;
+        private string _outputStringFormat;
         private string _incomeHeaderWithCurrency;
         private decimal _totalBeforeTax;
         private GeneralInfos.FileWriter _mailFile;
@@ -36,7 +37,7 @@ namespace QOBDManagement.ViewModel
         public NotifyTaskCompletion<bool> _updateOrderStatusTask { get; set; }
         private Func<object, object> _page;
         private List<Tax> _taxes;
-        private EOrderStatus _orderStatus;
+        private EOrderStatus _orderNewStatus;
 
         #endregion
 
@@ -103,8 +104,9 @@ namespace QOBDManagement.ViewModel
         }
 
         private void instances()
-        {            
+        {
             _title = "Order Description";
+            _outputStringFormat = "F";
             _incomeHeaderWithCurrency = "Total Income (" + CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + ")";
             _taxes = new List<Tax>();
             _statistic = new StatisticModel();
@@ -151,11 +153,17 @@ namespace QOBDManagement.ViewModel
 
         #region [ Properties ]
         //----------------------------[ Properties ]------------------        
-        
+
         public string Title
         {
             get { return _title; }
             set { setProperty(ref _title, value); }
+        }
+
+        public string OutputStringFormat
+        {
+            get { return _outputStringFormat; }
+            set { setProperty(ref _outputStringFormat, value); }
         }
 
         public BillModel SelectedBillToSend
@@ -436,6 +444,8 @@ namespace QOBDManagement.ViewModel
             Order_ItemModelList = Order_ItemListToModelViewList(Bl.BlOrder.searchOrder_item(new Order_item { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
 
             StatisticModel = totalCalcul(Order_ItemModelList);
+
+
             refreshBindings();
             loadEmail();
             Dialog.IsDialogOpen = false;
@@ -449,17 +459,29 @@ namespace QOBDManagement.ViewModel
         /// <returns></returns>
         public List<Order_itemModel> Order_ItemListToModelViewList(List<Order_item> Order_ItemList)
         {
+            int index = 0;
             List<Order_itemModel> output = new List<Order_itemModel>();
+
+            // unsuscribe event
+            foreach (var Order_itemModel in Order_ItemModelList)
+                Order_itemModel.PropertyChanged -= onTotalSelling_PriceOrPrice_purchaseChange;
+
             foreach (Order_item order_Item in Order_ItemList)
             {
-                Order_itemModel localOrder_item = new Order_itemModel();
+                Order_itemModel localOrder_item = new Order_itemModel(OutputStringFormat);
                 localOrder_item.PropertyChanged += onTotalSelling_PriceOrPrice_purchaseChange;
-                localOrder_item.Order_Item = order_Item;
+                localOrder_item.Order = OrderSelected.Order;
+                localOrder_item.Order_Item = order_Item;                
 
-                //load item and its inforamtion (delivery and item_delivery)
+                //load item and its information (delivery and item_delivery)
                 localOrder_item.ItemModel = loadOrder_itemItem(order_Item.Item_ref, order_Item.ItemId);
 
+                // displaying every two rows colored
+                if (index % 2 == 0)
+                    localOrder_item.IsRowColored = true;
+
                 output.Add(localOrder_item);
+                index++;
             }
             return output;
         }
@@ -473,8 +495,8 @@ namespace QOBDManagement.ViewModel
         public ItemModel loadOrder_itemItem(string itemRef, int itemId = 0)
         {
             List<Item> itemFoundList = new List<Item>();
-            if(itemId != 0)
-                itemFoundList = Bl.BlItem.searchItem(new Item { Ref = itemRef , ID = itemId }, ESearchOption.AND);
+            if (itemId != 0)
+                itemFoundList = Bl.BlItem.searchItem(new Item { Ref = itemRef, ID = itemId }, ESearchOption.AND);
             else
                 itemFoundList = Bl.BlItem.searchItem(new Item { Ref = itemRef }, ESearchOption.AND);
 
@@ -507,8 +529,8 @@ namespace QOBDManagement.ViewModel
                     {
                         item_deliveryModelList.Add(item_deliveryModelFound);
                         break;
-                    }                        
-                }                                
+                    }
+                }
                 itemModel.Item_deliveryModelList = item_deliveryModelList;
                 output.Add(itemModel);
             }
@@ -623,42 +645,41 @@ namespace QOBDManagement.ViewModel
 
             if (Order_ItemModelList.Count > 0)
             {
-                decimal totalProfit = 0.0m;
+                decimal totalIncome = 0.0m;
                 decimal totalTaxExcluded = 0.0m;
-                decimal totalTaxIncluded = 0.0m;
+                decimal totalTaxAmount = 0.0m;
                 decimal totalPurchase = 0.0m;
+                decimal totalTaxIncluded = 0.0m;
 
                 foreach (Order_itemModel order_itemModel in order_itemList)
                 {
-                    var order_item = order_itemModel.Order_Item;
-                    totalProfit += order_item.Quantity * (Math.Abs(order_item.Price) - Math.Abs(order_item.Price_purchase));
-                    totalTaxExcluded += Math.Abs(Utility.decimalTryParse(order_itemModel.TxtTotalSelling));
-                    totalPurchase += Math.Abs(Utility.decimalTryParse(order_itemModel.TxtTotalPurchase));
+                    totalIncome += Utility.decimalTryParse(order_itemModel.TxtTotalIncome);
+                    totalTaxExcluded += Utility.decimalTryParse(order_itemModel.TxtTotalSelling);
+                    totalPurchase += Utility.decimalTryParse(order_itemModel.TxtTotalPurchase);
+
+                    totalTaxAmount += Utility.decimalTryParse(order_itemModel.TxtTotalTaxAmount);
+                    totalTaxIncluded += Utility.decimalTryParse(order_itemModel.TxtTotalTaxIncluded);
+
                 }
-                totalTaxIncluded = ((decimal)OrderSelected.Tax_order.Tax_value / 100) * totalTaxExcluded;
 
-                // convert into credit regarding the order status
-                totalTaxIncluded *= (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())) ? -1 : 1;
-                totalProfit *= (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())) ? -1 : 1;
-                totalTaxExcluded *= (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())) ? -1 : 1;
-                totalPurchase *= (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())) ? -1 : 1;
-
-                statistic.TxtTotalTaxAmount = totalTaxIncluded.ToString();
-                statistic.TxtTotalIncome = totalProfit.ToString();
-                statistic.TxtTotalTaxExcluded = totalTaxExcluded.ToString();
-                statistic.TxtTotalTaxIncluded = string.Format("{0:0.00}", (totalTaxExcluded + (totalTaxExcluded) * ((decimal)OrderSelected.Tax_order.Tax_value) / 100));
+                statistic.TxtTotalTaxAmount = totalTaxAmount.ToString(OutputStringFormat);
+                statistic.TxtTotalIncome = totalIncome.ToString(OutputStringFormat);
+                statistic.TxtTotalTaxExcluded = totalTaxExcluded.ToString(OutputStringFormat);
+                statistic.TxtTotalTaxIncluded = totalTaxIncluded.ToString(OutputStringFormat);
                 try
                 {
-                    statistic.TxtTotalIncomePercent = string.Format("{0:0.00}", ((totalProfit / totalTaxExcluded) * 100));
+                    statistic.TxtTotalIncomePercent = (totalIncome / totalTaxExcluded * 100).ToString(OutputStringFormat);
                 }
-                catch (DivideByZeroException) { this.TxtTotalIncomePercent = "0"; }                
+                catch (DivideByZeroException)
+                {
+                    statistic.TxtTotalIncomePercent = 0.ToString(OutputStringFormat);
+                }
+                statistic.TxtTotalPurchase = totalPurchase.ToString(OutputStringFormat);
+                statistic.TxtTaxValue = Tax.Value.ToString(OutputStringFormat);
 
-                statistic.TxtTotalPurchase = string.Format("{0:0.00}", totalPurchase);
-                statistic.TxtTaxValue = Tax.Value.ToString();
             }
             return statistic;
         }
-
 
 
         /// <summary>
@@ -687,8 +708,8 @@ namespace QOBDManagement.ViewModel
         public async Task<bool> updateOrderStatusAsync(EOrderStatus status)
         {
             bool canChangeStatus = true;
-            _orderStatus = status;
-            switch (_orderStatus)
+            _orderNewStatus = status;
+            switch (_orderNewStatus)
             {
                 case EOrderStatus.Order:
                     lockOrder_itemItems();
@@ -705,7 +726,7 @@ namespace QOBDManagement.ViewModel
                 case EOrderStatus.Pre_Order:
                     break;
                 case EOrderStatus.Pre_Credit:
-                    createCredit();
+                    //await Bl.BlOrder.UpdateOrder_itemAsync(createOrResetCredit(Order_ItemModelList));
                     break;
                 case EOrderStatus.Order_Close:
                     canChangeStatus = await Dialog.showAsync("Order Closing: Be careful as it will not be possible to do any change after.");
@@ -768,16 +789,23 @@ namespace QOBDManagement.ViewModel
                 await Bl.BlItem.DeleteItem_deliveryAsync(Item_deliveryFoundListToDelete);
                 await Bl.BlOrder.DeleteDeliveryAsync(DeliveryModelList.Select(x => x.Delivery).ToList());
                 await Bl.BlOrder.DeleteBillAsync(BillModelList.Select(x => x.Bill).ToList());
+
                 foreach (var Order_itemToUpdate in Order_ItemModelList)
                 {
                     Order_itemToUpdate.Order_Item.Quantity_current = 0;
                     Order_itemToUpdate.Order_Item.Quantity_delivery = 0;
-                    await Bl.BlOrder.UpdateOrder_itemAsync(new List<Order_item> { Order_itemToUpdate.Order_Item });
                 }
+
+                //await Bl.BlOrder.UpdateOrder_itemAsync(Order_ItemModelList.Select(x=>x.Order_Item).ToList());                
+
                 BillModelList = new List<BillModel>();
                 DeliveryModelList = new List<DeliveryModel>();
-                if (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
-                    createCredit(isReset: true);
+
+                if (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())
+                    || OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Credit.ToString()))
+                    await Bl.BlOrder.UpdateOrder_itemAsync(createOrResetCredit(Order_ItemModelList));
+                else
+                    await Bl.BlOrder.UpdateOrder_itemAsync(Order_ItemModelList.Select(x => x.Order_Item).ToList());
 
                 canDelete = true;
             }
@@ -802,16 +830,17 @@ namespace QOBDManagement.ViewModel
         /// convert the order into credit
         /// </summary>
         /// <param name="isReset"></param>
-        private async void createCredit(bool isReset = false)
+        private List<Order_item> createOrResetCredit(List<Order_itemModel> order_itemModelList)
         {
-            List<Order_item> Order_itemToSave = new List<Order_item>();
-            foreach (Order_itemModel Order_itemModel in Order_ItemModelList)
+            foreach (Order_itemModel order_itemModel in order_itemModelList)
             {
-                Order_itemModel.Order_Item.Price = (!isReset) ? Math.Abs(Order_itemModel.Order_Item.Price) * (-1) : Math.Abs(Order_itemModel.Order_Item.Price);
-                Order_itemModel.Order_Item.Price_purchase = (!isReset) ? Math.Abs(Order_itemModel.Order_Item.Price_purchase) * (-1) : Math.Abs(Order_itemModel.Order_Item.Price);
-                Order_itemToSave.Add(Order_itemModel.Order_Item);
+                order_itemModel.Order = OrderSelected.Order;
+                order_itemModel.calcul();
+                //order_itemModel.Order_Item.Price = (isReset) ? Math.Abs(order_itemModel.Order_Item.Price) : Math.Abs(order_itemModel.Order_Item.Price) * (-1);
+                //order_itemModel.Order_Item.Price_purchase = (isReset) ? Math.Abs(order_itemModel.Order_Item.Price_purchase) : Math.Abs(order_itemModel.Order_Item.Price_purchase) * (-1);
             }
-            var savedOrder_item = await Bl.BlOrder.UpdateOrder_itemAsync(Order_itemToSave);
+            return Order_ItemModelList.Select(x => x.Order_Item).ToList();
+            //var savedOrder_item = await Bl.BlOrder.UpdateOrder_itemAsync(Order_ItemModelList.Select(x=>x.Order_Item).ToList());
         }
 
         /// <summary>
@@ -863,12 +892,12 @@ namespace QOBDManagement.ViewModel
         private string disableUIElementByString([CallerMemberName]string obj = "")
         {
 
-            if (!OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString())
+            if ((!OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString()) && !OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
                 && obj.Equals("BlockItemListDetailVisibility"))
                 return "Collapsed";
 
-            // Show order details when converted into order
-            else if (OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString())
+            // Show order details when converted into order or credit
+            else if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
                 && obj.Equals("BlockItemListDetailVisibility"))
                 return "Visible";
 
@@ -973,14 +1002,17 @@ namespace QOBDManagement.ViewModel
             PropertyChanged -= onOrder_itemModelWorkFlowChange;
             _updateOrderStatusTask.PropertyChanged -= onInitializationTaskComplete_UpdateOrderStatus;
 
-            foreach (var Order_itemModel in Order_ItemModelList)
-                Order_itemModel.PropertyChanged -= onTotalSelling_PriceOrPrice_purchaseChange;
+            foreach (var order_itemModel in Order_ItemModelList)
+            {
+                order_itemModel.PropertyChanged -= onTotalSelling_PriceOrPrice_purchaseChange;
+                order_itemModel.Dispose();
+            }                
 
             foreach (Item_deliveryModel item_deliveryModel in Item_deliveryModelBillingInProcess)
+            {
                 item_deliveryModel.PropertyChanged -= onItem_ModelDeliveryInProcessIselectedChanged;
-
-            foreach (Order_itemModel order_item in Order_ItemModelList)
-                order_item.Dispose();
+                item_deliveryModel.Dispose();
+            }                
 
             Bl.BlOrder.Dispose();
         }
@@ -1042,21 +1074,31 @@ namespace QOBDManagement.ViewModel
                 if (_updateOrderStatusTask.Result)
                 {
                     string oldStatus = OrderSelected.TxtStatus;
-                    OrderSelected.TxtStatus = _orderStatus.ToString();
+                    OrderSelected.TxtStatus = _orderNewStatus.ToString();
                     OrderSelected.Order.Date = DateTime.Now;
                     var savedOrderList = await Bl.BlOrder.UpdateOrderAsync(new List<Entity.Order> { { OrderSelected.Order } });
                     if (savedOrderList.Count > 0 && oldStatus != OrderSelected.TxtStatus)
                     {
                         OrderSelected.Order = savedOrderList[0];
+                        createOrResetCredit(Order_ItemModelList);
                         await Dialog.showAsync(oldStatus + " successfully Converted to " + OrderSelected.TxtStatus);
                         loadEmail();
+
+                        // recalcul the order statistics
+                        StatisticModel = totalCalcul(Order_ItemModelList);
+
                         _page(this);
                     }
                     else
-                        await Dialog.showAsync("Convertion to " + OrderSelected.TxtStatus + " Failed!");
+                    {
+                        string errorMessage = "Convertion from " + oldStatus + " to " + _orderNewStatus + " Failed! - ID [" + OrderSelected.TxtID + "]";
+                        Log.error(errorMessage, EErrorFrom.ORDER);
+                        await Dialog.showAsync(errorMessage);
+                    }
+
                 }
                 else
-                    await Dialog.showAsync("Convertion to " + _orderStatus + " Failed! " +
+                    await Dialog.showAsync("Convertion to " + _orderNewStatus + " Failed! " +
                         Environment.NewLine + "Please make sure that this order bill is the latest.");
                 Dialog.IsDialogOpen = false;
             }
@@ -1065,7 +1107,7 @@ namespace QOBDManagement.ViewModel
                 Dialog.IsDialogOpen = false;
                 Dialog.showSearch("Oops! an error occurred while processing your request." +
                     Environment.NewLine + "Please contact your administrator.");
-                Log.error("Error while updating the order(ID=+" + OrderSelected.TxtID + ") from " + OrderSelected.TxtStatus + "" + _orderStatus.ToString());
+                Log.error("Error while updating the order(ID=+" + OrderSelected.TxtID + ") from " + OrderSelected.TxtStatus + "" + _orderNewStatus.ToString(), EErrorFrom.ORDER);
             }
 
         }
@@ -1128,7 +1170,7 @@ namespace QOBDManagement.ViewModel
             }
 
             var savedOrder_itemList = await Bl.BlOrder.UpdateOrder_itemAsync(Order_itemToSave);
-                        
+
             refreshBindingByCallingPropertyChange();
             refreshBindings();
             Dialog.IsDialogOpen = false;
@@ -1146,9 +1188,12 @@ namespace QOBDManagement.ViewModel
             if (!isUpdate)
                 return false;
 
-            if (string.IsNullOrEmpty(OrderSelected.TxtStatus)
-                || !OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString())
+            if (string.IsNullOrEmpty(OrderSelected.TxtStatus))
+                return false;
+
+            if (!OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString())
                 && !OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString())
+                && !OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())
                 && !OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Order.ToString())
                 && !OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Credit.ToString()))
                 return false;
@@ -1421,7 +1466,7 @@ namespace QOBDManagement.ViewModel
             var foundClients = Bl.BlClient.searchClient(searchClient, ESearchOption.AND);
             int payDelay = (foundClients.Count > 0) ? foundClients[0].PayDelay : 0;
             DateTime expire = DateTime.Now.AddDays(payDelay);
-            
+
             int first = 0;
 
             List<Item_deliveryModel> item_deliveryModelToRemoveList = new List<Item_deliveryModel>();
@@ -1455,7 +1500,7 @@ namespace QOBDManagement.ViewModel
                     if (invoiceSavedList.Count > 0)
                     {
                         Order_itemInProcess = Order_ItemModelList.Where(x => x.TxtItem_ref == item_deliveryModel.TxtItem_ref).ToList();
-                        
+
                         var deliveryModelFoundList = (from o in Order_itemInProcess
                                                       from i in o.ItemModel.Item_deliveryModelList
                                                       where i.DeliveryModel.Delivery.ID == item_deliveryModel.DeliveryModel.Delivery.ID
@@ -1573,10 +1618,10 @@ namespace QOBDManagement.ViewModel
                     var updatedDeliveryList = await Bl.BlOrder.UpdateDeliveryAsync(deliveryToUpdateList);
                     if (updatedDeliveryList.Count == 0 && deliveryToUpdateList.Count > 0)
                     {
-                        string errorMessage = "Error occurred while cancelling the invoice (ID="+obj.TxtID+").";
-                        Log.error(errorMessage);
+                        string errorMessage = "Error occurred while cancelling the invoice (ID=" + obj.TxtID + ").";
+                        Log.error(errorMessage, EErrorFrom.ORDER);
                         await Dialog.showAsync(errorMessage);
-                    }                        
+                    }
 
                     // deleting the related statistics
                     var statisticsFoundList = await Bl.BlStatisitc.searchStatisticAsync(new Statistic { InvoiceId = obj.Bill.ID }, ESearchOption.AND);
@@ -1589,7 +1634,7 @@ namespace QOBDManagement.ViewModel
                         await Bl.BlNotification.DeleteNotificationAsync(NotificationFoundList);
 
                     // remove from the list 
-                    OrderSelected.BillModelList.Remove(obj);                    
+                    OrderSelected.BillModelList.Remove(obj);
                 }
                 else
                     await Dialog.showAsync("Cancellation Failed! Order invoice is not the latest.");
@@ -1613,8 +1658,8 @@ namespace QOBDManagement.ViewModel
             bool isUpdate = _main.securityCheck(EAction.Order, ESecurity._Update);
             if (!isUpdate)
                 return false;
-            
-            if (!(arg != null && BillModelList.Count > 0 && BillModelList.OrderByDescending(x=>x.Bill.ID).First().Bill.ID <= arg.Bill.ID))
+
+            if (!(arg != null && BillModelList.Count > 0 && BillModelList.OrderByDescending(x => x.Bill.ID).First().Bill.ID <= arg.Bill.ID))
                 return false;
 
             return true;
@@ -1835,10 +1880,10 @@ namespace QOBDManagement.ViewModel
             {
                 _paramOrderToPdf.BillId = obj.Bill.ID;
                 _paramOrderToPdf.OrderId = OrderSelected.Order.ID;
-                paramEmail.Reminder = 0;                               
+                paramEmail.Reminder = 0;
 
                 var NotificationFoundList = await Bl.BlNotification.searchNotificationAsync(new Notification { BillId = obj.Bill.ID }, ESearchOption.AND);
-                
+
                 // create a new notification entry for this invoice
                 if (NotificationFoundList.Count == 0)
                     await Bl.BlNotification.InsertNotificationAsync(new List<Notification> { new Notification { Date = DateTime.Now, BillId = obj.Bill.ID, Reminder1 = default(DateTime), Reminder2 = default(DateTime) } });
@@ -1846,12 +1891,12 @@ namespace QOBDManagement.ViewModel
                 // update notification
                 else
                 {
-                    if(NotificationFoundList[0].Reminder1 <= Utility.DateTimeMinValueInSQL2005
+                    if (NotificationFoundList[0].Reminder1 <= Utility.DateTimeMinValueInSQL2005
                         && NotificationFoundList[0].Reminder2 <= Utility.DateTimeMinValueInSQL2005)
                     {
                         paramEmail.Reminder = 1;
-                        NotificationFoundList[0].Reminder1 = DateTime.Now;                        
-                    }                        
+                        NotificationFoundList[0].Reminder1 = DateTime.Now;
+                    }
                     else
                     {
                         paramEmail.Reminder = 2;
@@ -1862,7 +1907,7 @@ namespace QOBDManagement.ViewModel
 
                 _paramOrderToPdf.ParamEmail = paramEmail;
                 Bl.BlOrder.GeneratePdfOrder(_paramOrderToPdf);
-            }           
+            }
 
             Dialog.IsDialogOpen = false;
         }

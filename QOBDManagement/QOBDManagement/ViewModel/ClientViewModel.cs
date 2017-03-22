@@ -64,15 +64,21 @@ namespace QOBDManagement.ViewModel
             initEvents();
         }
 
+        public ClientViewModel(MainWindowViewModel mainWindowViewModel, IStartup startup, IConfirmationViewModel dialog) : this(mainWindowViewModel)
+        {
+            this.Startup = startup;
+            this.Dialog = dialog;
+
+            ClientDetailViewModel.Dialog = Dialog;
+            ClientSideBarViewModel.Dialog = Dialog;
+            ClientDetailViewModel.Startup = Startup;
+            ClientSideBarViewModel.Startup = Startup;
+        }
+
         //----------------------------[ Initialization ]------------------
 
         private void initEvents()
         {
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-            }
         }
 
         private void instances()
@@ -147,18 +153,6 @@ namespace QOBDManagement.ViewModel
             set { _clientModel = value; onPropertyChange("ClientModel"); }
         }
 
-        /*public List<string> CompanyList
-        {
-            get { return _companyList; }
-            set { _companyList = value; onPropertyChange("CompanyList"); }
-        }
-
-        public List<Address> AddressList
-        {
-            get { return _addressList; }
-            set { _addressList = value; onPropertyChange("AddressList"); }
-        }*/
-
 
         //----------------------------[ Actions ]------------------
 
@@ -192,32 +186,10 @@ namespace QOBDManagement.ViewModel
         {
             ClientDetailViewModel.Dispose();
             ClientSideBarViewModel.Dispose();
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-            }
         }
 
         //----------------------------[ Event Handler ]------------------
         
-        private void onStartupChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Startup"))
-            {
-                Startup = (_main.getObject("main") as BindBase).Startup;
-                _clientDetailViewModel.Startup = Startup; ClientSideBarViewModel.Startup = Startup;
-            }
-        }
-
-        private void onDialogChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Dialog"))
-            {
-                Dialog = (_main.getObject("main") as BindBase).Dialog;
-                _clientDetailViewModel.Dialog = Dialog; ClientSideBarViewModel.Dialog = Dialog;
-            }
-        }
 
         //----------------------------[ Action Commands ]------------------
 

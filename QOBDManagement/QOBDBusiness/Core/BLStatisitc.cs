@@ -4,6 +4,7 @@ using QOBDCommon.Enum;
 using QOBDCommon.Interfaces.BL;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel;
@@ -62,41 +63,41 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALStatistic.InsertStatisticAsync(statisticList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
             return result;
         }
 
         public async Task<List<Statistic>> DeleteStatisticAsync(List<Statistic> statisticList)
         {
-            if (statisticList == null || statisticList.Count == 0)
-                return new List<Statistic>();
-            
-            if (statisticList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Deleting statistics(count = " + statisticList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
             List<Statistic> result = new List<Statistic>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(statisticList.Where(x => x.ID == 0).Count()))
+                statisticList = statisticList.Where(x => x.ID != 0).ToList();
+
+            if (statisticList == null || statisticList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALStatistic.DeleteStatisticAsync(statisticList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
             return result;
         }
 
         public async Task<List<Statistic>> UpdateStatisticAsync(List<Statistic> statisticList)
         {
-            if (statisticList == null || statisticList.Count == 0)
-                return new List<Statistic>();
-
-            if (statisticList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Updating statistics(count = " + statisticList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
             List<Statistic> result = new List<Statistic>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(statisticList.Where(x => x.ID == 0).Count()))
+                statisticList = statisticList.Where(x => x.ID != 0).ToList();
+
+            if (statisticList == null || statisticList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALStatistic.UpdateStatisticAsync(statisticList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
             return result;
         }
 
@@ -107,7 +108,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALStatistic.GetStatisticData(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
             return result;
         }
 
@@ -118,7 +119,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALStatistic.GetStatisticDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
             return result;
         }
 
@@ -129,7 +130,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALStatistic.GetStatisticDataById(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
             return result;
         }
 
@@ -140,7 +141,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALStatistic.searchStatisticAsync(statistic, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
             return result;
         }
 
@@ -151,13 +152,24 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALStatistic.searchStatistic(statistic, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
             return result;
         }
 
         public void Dispose()
         {
             DAC.DALStatistic.Dispose();
+        }
+
+        private bool checkIfUpdateOrDeleteParamRepectsRequirements(int IDValues, [CallerMemberName] string functionName = null)
+        {
+            bool isRequirementsRespected = true;
+            if (IDValues > 0)
+            {
+                isRequirementsRespected = false;
+                Log.warning(functionName + " params (count = " + IDValues + ") with ID = 0", EErrorFrom.STATISTIC);
+            }
+            return isRequirementsRespected;
         }
     } /* end class BLStatisitc */
 }

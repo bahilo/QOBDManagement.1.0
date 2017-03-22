@@ -15,10 +15,10 @@ namespace QOBDManagement.ViewModel
 {
     public class MessageViewModel : BindBase
     {
-        private Func<object, object> navigation;
+        private Func<object, object> _page;
         private Dictionary<AgentModel, MessageModel> _messageIndividualHistoryList;
         private Dictionary<AgentModel, MessageModel> _messageGroupHistoryList;
-        private IDiscussionViewModel _discussionViewModel;
+        private IChatRoomViewModel _mainChatRoom;
 
         public MessageViewModel()
         {
@@ -26,10 +26,10 @@ namespace QOBDManagement.ViewModel
             _messageGroupHistoryList = new Dictionary<AgentModel, MessageModel>();
         }
 
-        public MessageViewModel(Func<object, object> navigation, IDiscussionViewModel discussionViewModel) : this()
+        public MessageViewModel(IChatRoomViewModel mainChatRoom) : this()
         {
-            this.navigation = navigation;
-            _discussionViewModel = discussionViewModel;
+            _mainChatRoom = mainChatRoom;
+            this._page = _mainChatRoom.navigation;
         }
 
         public Agent AuthenticatedUser
@@ -62,9 +62,9 @@ namespace QOBDManagement.ViewModel
             MessageGroupHistoryList.Clear();
 
             // searching all common discussion
-            var discussionList = _discussionViewModel.DiscussionList;
+            var discussionList = _mainChatRoom.DiscussionViewModel.DiscussionList;
             if (discussionList == null || discussionList.Count == 0)
-                discussionList = await _discussionViewModel.retrieveUserDiscussions(BL.BlSecurity.GetAuthenticatedUser());
+                discussionList = await _mainChatRoom.DiscussionViewModel.retrieveUserDiscussions(BL.BlSecurity.GetAuthenticatedUser());
 
             foreach (var discussionModel in discussionList)
             {
@@ -79,8 +79,8 @@ namespace QOBDManagement.ViewModel
                             lastMessage = discussionModel.MessageList.OrderByDescending(x => x.Message.ID).Select(x => new MessageModel { Message = new Message { Content = x.TxtContent }, IsNewMessage = x.IsNewMessage }).First();
 
                         // limit the amount of message characters to display in the history
-                        if (lastMessage.TxtContent.Length > _discussionViewModel.MaxMessageLength)
-                            lastMessage.TxtContent = lastMessage.TxtContent.Substring(0, _discussionViewModel.MaxMessageLength) + "...";
+                        if (lastMessage.TxtContent.Length > _mainChatRoom.DiscussionViewModel.MaxMessageLength)
+                            lastMessage.TxtContent = lastMessage.TxtContent.Substring(0, _mainChatRoom.DiscussionViewModel.MaxMessageLength) + "...";
 
                         if (discussionModel.UserList.Count() > 0)
                         {

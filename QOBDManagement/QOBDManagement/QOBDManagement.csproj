@@ -86,7 +86,9 @@
     <Compile Include="Interfaces\IAgentViewModel.cs" />
     <Compile Include="Interfaces\ICart.cs" />
     <Compile Include="Interfaces\IChatRoom.cs" />
+    <Compile Include="Interfaces\IChatRoomViewModel.cs" />
     <Compile Include="Interfaces\IClientViewModel.cs" />
+    <Compile Include="Interfaces\IConfirmationViewModel.cs" />
     <Compile Include="Interfaces\IDiscussionViewModel.cs" />
     <Compile Include="Interfaces\IHomeViewModel.cs" />
     <Compile Include="Interfaces\IItemViewModel.cs" />

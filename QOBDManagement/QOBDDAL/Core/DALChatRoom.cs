@@ -199,7 +199,8 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayChatRoom.Dispose();
+            if (_gateWayChatRoom != null)
+                _gateWayChatRoom.Dispose();
         }
     }
 }

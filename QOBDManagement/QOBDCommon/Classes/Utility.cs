@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -30,7 +32,7 @@ namespace QOBDCommon.Classes
             }
             catch (Exception)
             {
-                Log.warning("Error parsing date: '" + dateString + "'");
+                Log.warning("Error parsing date: '" + dateString + "'", Enum.EErrorFrom.UTILITY);
             }
 
             DateTime outDate = new DateTime();
@@ -138,11 +140,11 @@ namespace QOBDCommon.Classes
             catch (WebException ex)
             {
                 String status = ((FtpWebResponse)ex.Response).StatusDescription;
-                Log.error(status);
+                Log.error(status, Enum.EErrorFrom.UTILITY);
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, Enum.EErrorFrom.UTILITY);
             }
             finally
             {
@@ -183,8 +185,8 @@ namespace QOBDCommon.Classes
                 response = (FtpWebResponse)req.GetResponse();
                 ftpStream = response.GetResponseStream();
 
-                if (File.Exists(fileFullPath))
-                    fileFullPath.Clone();
+                //if (File.Exists(fileFullPath))
+                //    fileFullPath.Clone();
 
                 fs = new FileStream(fileFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Write);
                 
@@ -201,11 +203,11 @@ namespace QOBDCommon.Classes
             catch (WebException ex)
             {
                 String status = ((FtpWebResponse)ex.Response).StatusDescription;
-                Log.warning(status + " => " + ex.Message);
+                Log.warning(status + " => " + ex.Message, Enum.EErrorFrom.UTILITY);
             }
             catch(Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, Enum.EErrorFrom.UTILITY);
             }
             finally
             {
@@ -235,13 +237,31 @@ namespace QOBDCommon.Classes
             }
 
             // check if it is a full path file or only directory 
-            var pathChecking = Path.GetFileName(path).Split('.'); 
+            var pathChecking = Path.GetFileName(path).Split('.');
 
-            if (!Directory.Exists(path) && pathChecking.Count() > 1)
-                Directory.CreateDirectory(pathChecking[0]);
+            if (!File.Exists(path) && !Directory.Exists(path))
+            {
 
+                if (pathChecking.Count() > 1)
+                {
+                    var dir = Path.GetDirectoryName(path);
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                    File.Create(path);
+                }
+                else
+                    Directory.CreateDirectory(path);
+            }
 
             return Path.GetFullPath(path);
+        }
+
+        private static void grantAccess(string filePath)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(filePath);
+            DirectorySecurity dirSecurity = dirInfo.GetAccessControl();
+            dirSecurity.AddAccessRule(new FileSystemAccessRule( new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+            dirInfo.SetAccessControl(dirSecurity);
+            
         }
 
         public static Dictionary<T, P> concat<T, P>(Dictionary<T, P> dictTarget, Dictionary<T, P> dictSource)

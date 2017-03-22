@@ -39,8 +39,6 @@ namespace QOBDManagement.ViewModel
         {
             this._main = mainWindowViewModel;
             _page = mainWindowViewModel.navigation;
-            if((_main.getObject("main") as BindBase) != null)
-                (_main.getObject("main") as BindBase).PropertyChanged += onCurrentPageChange_updateCommand;
         }
 
         //----------------------------[ Initialization ]------------------
@@ -83,7 +81,7 @@ namespace QOBDManagement.ViewModel
             Agent newAgent = new Agent();
             if (_main != null)
             {
-                Bl.BlSecurity.DisconnectAuthenticatedUser();
+                await Bl.BlSecurity.DisconnectAuthenticatedUser();
                 await Task.Factory.StartNew(() => {
                     _main.ChatRoomViewModel.Dispose();
                 });
@@ -103,13 +101,11 @@ namespace QOBDManagement.ViewModel
         public override void Dispose()
         {
             PropertyChanged -= onSelectedAgentModelChange;
-            if ((_main.getObject("main") as BindBase) != null)
-                (_main.getObject("main") as BindBase).PropertyChanged -= onCurrentPageChange_updateCommand;
         }
 
         //----------------------------[ Event Handler ]------------------
         
-        private void onCurrentPageChange_updateCommand(object sender, PropertyChangedEventArgs e)
+        public void onCurrentPageChange_updateCommand(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("CurrentViewModel")
                 && ((_main.CurrentViewModel as AgentDetailViewModel) != null)

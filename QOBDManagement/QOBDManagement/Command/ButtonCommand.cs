@@ -60,7 +60,7 @@ namespace QOBDManagement.Command
             catch (Exception ex)
             {
                 lock (_lock)
-                    Log.write(ex.Message, "ERR");
+                    Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
             }
         }
 

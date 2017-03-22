@@ -60,7 +60,9 @@ namespace QOBDManagement.ViewModel
             _imageWidthSizeList = new List<int>();
             _imageHeightSizeList = new List<int>();
             _cultureInfoArray = CultureInfo.GetCultures(CultureTypes.AllCultures & CultureTypes.NeutralCultures);
-            
+
+            // populating the image size list
+            ImageWidthSizeList = ImageHeightSizeList = DisplayAndData.Display.getGeneratedImageSizeList();
         }
 
         private void instancesCommand()
@@ -147,41 +149,23 @@ namespace QOBDManagement.ViewModel
             // get Logo image created by MainWindowViewModel for updating
             DisplayAndData.Display.Image displayBillImage = _imageManagement(null, "bill"); 
             displayBillImage.PropertyChanged += onFilePathChange_updateUIImage;
-            displayBillImage.PropertyChanged += onWidthChange_saveImageWidth;
-            displayBillImage.PropertyChanged += onHeightChange_saveImageHeight;
+            displayBillImage.PropertyChanged += onImageInfoChange;
             ImageList.Add(displayBillImage);
 
             //----[ Logo Image ]
             // get Logo image created by MainWindowViewModel for displaying in the UI Header
             DisplayAndData.Display.Image displayLogoImage = _imageManagement(null, "logo"); 
             displayLogoImage.PropertyChanged += onFilePathChange_updateUIImage;
-            displayLogoImage.PropertyChanged += onWidthChange_saveImageWidth;
-            displayLogoImage.PropertyChanged += onHeightChange_saveImageHeight;
+            displayLogoImage.PropertyChanged += onImageInfoChange;
             ImageList.Add(displayLogoImage);
 
             //----[ Header Image ] 
             // get Header image created by MainWindowViewModel for displaying in the UI Header
             DisplayAndData.Display.Image displayHeaderImage = _imageManagement(null, "header"); 
             displayHeaderImage.PropertyChanged += onFilePathChange_updateUIImage;
-            displayHeaderImage.PropertyChanged += onWidthChange_saveImageWidth;
-            displayHeaderImage.PropertyChanged += onHeightChange_saveImageHeight;
+            displayHeaderImage.PropertyChanged += onImageInfoChange;
             ImageList.Add(displayHeaderImage);
-
-            var widthSizeList = new List<int>();
-            ImageWidthSizeList.Clear();
-            for (int i = 25; i <= 800; i = i + 25)
-            {
-                widthSizeList.Add(i);
-            }
-            ImageWidthSizeList = widthSizeList;
-
-            var heightSizeList = new List<int>();
-            ImageHeightSizeList.Clear();
-            for (int i = 5; i <= 300; i = i + 5)
-            {
-                heightSizeList.Add(i);
-            }
-            ImageHeightSizeList = heightSizeList;
+                                    
             Dialog.IsDialogOpen = false;
         }
 
@@ -200,28 +184,40 @@ namespace QOBDManagement.ViewModel
             return outputFile;
         }
 
+        public async void saveImageInfo(DisplayAndData.Display.Image imageInfo )
+        {
+            Dialog.showSearch("File saving...");
+            var infosToUpdateList = imageInfo.ImageDataList.Where(x => x.ID != 0).ToList();
+            var infosToCreateList = imageInfo.ImageDataList.Where(x => x.ID == 0).ToList();
+            var infosUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infosToUpdateList);
+            var infosCreatedList = await Bl.BlReferential.InsertInfoAsync(infosToCreateList);
+
+            if (infosUpdatedList.Count == 0 && infosCreatedList.Count == 0)
+            {
+                string errorMessage = "Error occurred while saving the file [" + imageInfo.TxtChosenFile + "]";
+                Log.error(errorMessage, EErrorFrom.REFERENTIAL);
+                await Dialog.showAsync(errorMessage);
+            }
+            
+            Dialog.IsDialogOpen = false;
+        }
+
         public override void Dispose()
         {
             foreach (var image in ImageList)
             {
                 image.PropertyChanged -= onFilePathChange_updateUIImage;
-                image.PropertyChanged -= onWidthChange_saveImageWidth;
-                image.PropertyChanged -= onHeightChange_saveImageHeight;
+                image.PropertyChanged -= onImageInfoChange;
+                image.Dispose();
             }
         }
 
         //----------------------------[ Event Handler ]------------------
         
-        private async void onHeightChange_saveImageHeight(object sender, PropertyChangedEventArgs e)
+        private void onImageInfoChange(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("TxtHeight"))
-                await Bl.BlReferential.UpdateInfoAsync(new List<Info> { ((DisplayAndData.Display.Image)sender).ImageHeight });
-        }
-
-        private async void onWidthChange_saveImageWidth(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("TxtWidth"))
-                await Bl.BlReferential.UpdateInfoAsync(new List<Info> { ((DisplayAndData.Display.Image)sender).ImageWidth });
+            if (e.PropertyName.Equals("ImageInfoUpdated"))
+                saveImageInfo((DisplayAndData.Display.Image)sender );
         }
 
         private void onFilePathChange_updateUIImage(object sender, PropertyChangedEventArgs e)
@@ -239,27 +235,16 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Action Commands ]------------------
         
-        public async void getFileFromLocal(DisplayAndData.Display.Image obj)
+        public void getFileFromLocal(DisplayAndData.Display.Image obj)
         {
-            obj.TxtChosenFile = DisplayAndData.ExecuteOpenFileDialog("Choose image file", new List<string> { "png", "jpeg", "jpg" });// ExecuteOpenFileDialog();
-            Dialog.showSearch("File saving...");
-
+            // opening the file explorer for image file choosing
+            obj.TxtChosenFile = DisplayAndData.ExecuteOpenFileDialog("Select an image file", new List<string> { "png", "jpeg", "jpg" });// ExecuteOpenFileDialog();
+            
+            // upload the image file to the server FTP
             obj.uploadImage();
-
-            var infosToUpdateList = obj.ImageDataList.Where(x => x.ID != 0).ToList();
-            var infosToCreateList = obj.ImageDataList.Where(x => x.ID == 0).ToList();
-            var infosUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infosToUpdateList);
-            var infosCreatedList = await Bl.BlReferential.InsertInfoAsync(infosToCreateList);
-
-            if (infosUpdatedList.Count == 0 && infosCreatedList.Count == 0)
-            {
-                string errorMessage = "Error occurred while saving the file [" + obj.TxtChosenFile + "]";
-                Log.error(errorMessage);
-                await Dialog.showAsync(errorMessage);
-            }
-
-            Dialog.IsDialogOpen = false;         
-
+            
+            // saving the image info into the database
+            saveImageInfo(obj); 
         }
 
         private bool canGetFileFromLocal(DisplayAndData.Display.Image arg)

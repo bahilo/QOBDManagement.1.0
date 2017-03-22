@@ -86,7 +86,7 @@
                         <TextBlock HorizontalAlignment="Center">Bank information</TextBlock>
                     </materialDesign:ColorZone>
                     <DataGrid Grid.Row="1" Name="dgBank" ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.BankDetailList, UpdateSourceTrigger=PropertyChanged}" 
-                          CanUserAddRows="False" AutoGenerateColumns="False">
+                          CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.Header>
@@ -188,7 +188,7 @@
                         <TextBlock HorizontalAlignment="Center">Addresses</TextBlock>
                     </materialDesign:ColorZone>
                     <DataGrid Grid.Row="1" Name="dgAddress" ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.AddressList, UpdateSourceTrigger=PropertyChanged}" 
-                          CanUserAddRows="False" AutoGenerateColumns="False">
+                          CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.Header>
@@ -271,7 +271,7 @@
                             <TextBlock HorizontalAlignment="Center">Taxes</TextBlock>
                         </materialDesign:ColorZone>
                         <DataGrid Grid.Row="1" Name="dgTax" ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.TaxList, UpdateSourceTrigger=PropertyChanged}" 
-                          CanUserAddRows="False" AutoGenerateColumns="False">
+                          CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>

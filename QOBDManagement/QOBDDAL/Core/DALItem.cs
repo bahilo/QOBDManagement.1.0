@@ -117,7 +117,7 @@ namespace QOBDDAL.Core
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.ITEM);
             }
             finally
             {
@@ -769,19 +769,21 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayItem.Dispose();
+            if(_gateWayItem != null)
+                _gateWayItem.Dispose();
         }
 
         public async Task UpdateItemDependenciesAsync(List<Item> itemList, bool isActiveProgress = false)
         {
             int loadUnit = 50;
             List<Provider> providerList = new List<Provider>();
-            List<Provider_item> provider_itemList = new List<Provider_item>();
+            List<Provider_item> savedProvider_itemList = new List<Provider_item>();
             List<Item> savedItemList = LoadItem(itemList);
             for (int i = 0; i < (savedItemList.Count() / loadUnit) || loadUnit >= savedItemList.Count() && i == 0; i++)
             {
-                List<Provider_item> savedProvider_itemList = LoadProvider_item(await _gateWayItem.GetProvider_itemDataByItemListAsync(savedItemList.Skip(i * loadUnit).Take(loadUnit).ToList()));
-                List<Provider> savedProviderList = LoadProvider(await _gateWayItem.GetProviderDataByProvider_itemListAsync(savedProvider_itemList.OrderBy(x => x.Provider_name).Distinct().ToList()));
+                savedProvider_itemList = LoadProvider_item(await _gateWayItem.GetProvider_itemDataByItemListAsync(savedItemList.Skip(i * loadUnit).Take(loadUnit).ToList()));
+                if(savedProvider_itemList.Count > 0)
+                    LoadProvider(await _gateWayItem.GetProviderDataByProvider_itemListAsync(savedProvider_itemList.OrderBy(x => x.Provider_name).Distinct().ToList()));
             }
 
         }

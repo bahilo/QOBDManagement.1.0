@@ -65,18 +65,23 @@ namespace QOBDManagement.ViewModel
             initEvents();
         }
 
+        public ItemViewModel(IMainWindowViewModel mainWindowViewModel, IStartup startup, IConfirmationViewModel dialog) : this(mainWindowViewModel)
+        {
+            this.Startup = startup;
+            this.Dialog = dialog;
+
+            _itemDetailViewModel.Dialog = Dialog;
+            _itemSideBarViewModel.Dialog = Dialog;
+            _itemDetailViewModel.Startup = Startup;
+            _itemSideBarViewModel.Startup = Startup;
+        }
+
 
 
         //----------------------------[ Initialization ]------------------
 
         private void initEvents()
         {
-            ItemDetailViewModel.PropertyChanged += onSelectedItemChange;
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-            }
         }
 
         private void instances()
@@ -265,11 +270,6 @@ namespace QOBDManagement.ViewModel
 
         public override void Dispose()
         {
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged -= onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged -= onDialogChange;
-            }
             ItemDetailViewModel.PropertyChanged -= onSelectedItemChange;
             ItemDetailViewModel.Dispose();
             ItemSideBarViewModel.Dispose();
@@ -283,26 +283,6 @@ namespace QOBDManagement.ViewModel
             {
                 executeNavig("item-detail");
                 ItemSideBarViewModel.SelectedItem = SelectedItemModel;
-            }
-        }
-
-        private void onStartupChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Startup"))
-            {
-                _startup = (_main.getObject("main") as BindBase).Startup;
-                _itemDetailViewModel.Startup = Startup;
-                _itemSideBarViewModel.Startup = Startup;
-            }
-        }
-
-        private void onDialogChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Dialog"))
-            {
-                Dialog = (_main.getObject("main") as BindBase).Dialog;
-                _itemDetailViewModel.Dialog = Dialog;
-                _itemSideBarViewModel.Dialog = Dialog;
             }
         }
 

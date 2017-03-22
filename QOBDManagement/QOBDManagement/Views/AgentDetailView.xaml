@@ -11,29 +11,29 @@
              xmlns:Main="clr-namespace:QOBDManagement"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="700" Loaded="AgentDetailView_Loaded" >
-    
+
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type ViewModel:AgentSideBarViewModel}">
             <Views:AgentSideBarView/>
         </DataTemplate>
     </UserControl.Resources>
-    
+
     <Grid Grid.Row="1" x:Name="gvMain" VerticalAlignment="Top" Margin="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="270"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
         <!-- Here comes the side menu-->
-        
+
         <Grid x:Name="gvLeftSide"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" 
                           VerticalAlignment="Top" Width="270" HorizontalAlignment="Left">
             <ContentControl Content="{Binding AgentViewModel.AgentSideBarViewModel, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        
+
         <!-- End -->
-        
-        
+
+
         <!-- Here comes the main content of the view -->
 
         <Grid Grid.Column="1" Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
@@ -58,16 +58,30 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <TextBlock HorizontalAlignment="Center">My picture</TextBlock>
                     <Grid Margin="0 10 0 0" Grid.Row="1">
-                        <Image Source="{Binding AgentViewModel.AgentDetailViewModel.ProfileImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" />
+                        <Image Source="{Binding AgentViewModel.AgentDetailViewModel.ProfileImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+                           Width="{Binding AgentViewModel.AgentDetailViewModel.ProfileImageDisplay.TxtWidth, UpdateSourceTrigger=PropertyChanged}"
+                           Height="{Binding AgentViewModel.AgentDetailViewModel.ProfileImageDisplay.TxtHeight, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal">
-                        <Button Command="{Binding AgentViewModel.AgentDetailViewModel.OpenFileExplorerCommand}">
-                                <TextBlock>Choose File</TextBlock>
-                            </Button>
-                    </StackPanel>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">Width</TextBlock>
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding ReferentialViewModel.OptionDataAndDisplayViewModel.ImageWidthSizeList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding AgentViewModel.AgentDetailViewModel.ProfileImageDisplay.TxtWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">Height:</TextBlock>
+                        <ComboBox Grid.Column="3" ItemsSource="{Binding ReferentialViewModel.OptionDataAndDisplayViewModel.ImageHeightSizeList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding AgentViewModel.AgentDetailViewModel.ProfileImageDisplay.TxtHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Grid.Column="4" Margin="10 0 0 0" Command="{Binding AgentViewModel.AgentDetailViewModel.OpenFileExplorerCommand}">
+                            <TextBlock>Choose File</TextBlock>
+                        </Button>
+                    </Grid>
                 </Grid>
             </materialDesign:Card>
 
@@ -140,7 +154,7 @@
         </Grid>
 
         <!-- End -->
-        
+
     </Grid>
-    
+
 </UserControl>

@@ -56,15 +56,19 @@ namespace QOBDManagement.ViewModel
             initEvents();
         }
 
+        public NotificationViewModel(MainWindowViewModel mainWindowViewModel, IStartup startup, IConfirmationViewModel dialog) : this(mainWindowViewModel)
+        {
+            this.Startup = startup;
+            this.Dialog = dialog;
+
+            NotificationSideBarViewModel.Dialog = Dialog;
+            NotificationSideBarViewModel.Startup = Startup;
+        }
+
         //----------------------------[ Initialization ]------------------
-        
+
         private void initEvents()
         {
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-            }
         }
 
         private void instances()
@@ -184,33 +188,11 @@ namespace QOBDManagement.ViewModel
 
         public override void Dispose()
         {
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged -= onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged -= onDialogChange;
-            }
             NotificationSideBarViewModel.Dispose();
         }
 
         //----------------------------[ Event Handler ]------------------
-
-        private void onStartupChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Startup"))
-            {
-                Startup = (_main.getObject("main") as BindBase).Startup;
-                NotificationSideBarViewModel.Startup = Startup;
-            }
-        }
-
-        private void onDialogChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Dialog"))
-            {
-                Dialog = (_main.getObject("main") as BindBase).Dialog;
-                NotificationSideBarViewModel.Dialog = Dialog;
-            }
-        }
+        
 
         //----------------------------[ Action Commands ]------------------
         

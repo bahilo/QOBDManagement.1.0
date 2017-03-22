@@ -128,79 +128,79 @@
                         </StackPanel>
                     </materialDesign:ColorZone>
                 </materialDesign:Card>
-                <materialDesign:ColorZone Mode="PrimaryMid">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Name="txtBTitleSearch" HorizontalAlignment="Center">Search results</TextBlock>
 
-                        <StackPanel Grid.Row="1" Orientation="Vertical">
-                            <DataGrid x:Name="dgSearchResult" AutoGenerateColumns="False"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <materialDesign:ColorZone Mode="PrimaryMid">
+                        <TextBlock Name="txtBTitleSearch" HorizontalAlignment="Center">Search results</TextBlock>
+                    </materialDesign:ColorZone>
+                    <StackPanel Grid.Row="1" Orientation="Vertical">
+                        <DataGrid x:Name="dgSearchResult" AutoGenerateColumns="False"
                                   ItemsSource="{Binding ItemViewModel.ItemModelList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
-                                  EnableColumnVirtualization="True" EnableRowVirtualization="True"  MaxHeight="600" MaxWidth="990"
+                                  EnableColumnVirtualization="True" EnableRowVirtualization="True"  MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}"
                                   CanUserAddRows="False" IsReadOnly="True">
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="Select To Cart">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <!--  Checked="cbMove_Checked"-->
-                                                <CheckBox Name="cbSelect"
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Select To Cart">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <!--  Checked="cbMove_Checked"-->
+                                            <CheckBox Name="cbSelect"
                                                   IsChecked="{Binding IsItemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   HorizontalAlignment="Center" 
                                                   VerticalAlignment="Center"
                                                   Command="{Binding DataContext.ItemViewModel.checkBoxToCartCommand,RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=CurrentItem}"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
-                                    <DataGridTemplateColumn>
-                                        <DataGridTemplateColumn.Header>
-                                            <TextBlock>Reference</TextBlock>
-                                        </DataGridTemplateColumn.Header>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{Binding TxtRef, Converter={StaticResource ResourceKey=StringLengthConverter}}"
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock>Reference</TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding TxtRef, Converter={StaticResource ResourceKey=StringLengthConverter}}"
                                                          TextWrapping="Wrap" AcceptsReturn="True" IsEnabled="False"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn>
-                                        <DataGridTemplateColumn.Header>
-                                            <TextBlock>Name</TextBlock>
-                                        </DataGridTemplateColumn.Header>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBox Text="{Binding TxtName, Converter={StaticResource ResourceKey=StringLengthConverter}}"
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock>Name</TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding TxtName, Converter={StaticResource ResourceKey=StringLengthConverter}}"
                                                          TextWrapping="Wrap" AcceptsReturn="True" IsEnabled="False"/>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                    <DataGridTextColumn Header="Brand" Binding="{Binding TxtType}"/>
-                                    <DataGridTextColumn Header="Family" Binding="{Binding TxtType_sub}"/>
-                                    <DataGridTextColumn Header="Provider" Binding="{Binding SelectedProvider.Name}"/>
-                                    <DataGridTextColumn Header="Purchase Price" Binding="{Binding TxtPrice_purchase}"/>
-                                    <DataGridTextColumn Header="Selling Price" Binding="{Binding TxtPrice_sell}"/>
-                                    <DataGridTemplateColumn>
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Brand" Binding="{Binding TxtType}"/>
+                                <DataGridTextColumn Header="Family" Binding="{Binding TxtType_sub}"/>
+                                <DataGridTextColumn Header="Provider" Binding="{Binding SelectedProvider.Name}"/>
+                                <DataGridTextColumn Header="Purchase Price" Binding="{Binding TxtPrice_purchase}"/>
+                                <DataGridTextColumn Header="Selling Price" Binding="{Binding TxtPrice_sell}"/>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                                 Command="{Binding DataContext.ItemViewModel.GetCurrentItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
                                                 CommandParameter="{Binding Path=CurrentItem, ElementName=dgSearchResult}">
-                                                    Detail
-                                                </Button>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </StackPanel>
-                    </Grid>
-                </materialDesign:ColorZone>
+                                                Detail
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
 
         </Grid>
@@ -208,5 +208,5 @@
         <!-- End -->
 
     </Grid>
-    
+
 </UserControl>

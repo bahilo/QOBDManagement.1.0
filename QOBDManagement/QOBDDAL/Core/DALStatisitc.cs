@@ -105,7 +105,7 @@ namespace QOBDDAL.Core
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.STATISTIC);
             }
             finally
             {
@@ -224,7 +224,8 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayStatistic.Dispose();
+            if (_gateWayStatistic != null)
+                _gateWayStatistic.Dispose();
         }
     } /* end class BLStatisitc */
 }

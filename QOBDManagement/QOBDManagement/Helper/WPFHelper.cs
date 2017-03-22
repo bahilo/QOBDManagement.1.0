@@ -65,7 +65,7 @@ namespace QOBDManagement.Helper
             }
             catch (Exception ex)
             {
-                Log.warning(ex.Message);
+                Log.warning(ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
             }
 
             return output;

@@ -30,7 +30,7 @@ namespace QOBDManagement.Views
         {
             DataContext dataContext = new DataContext();
 
-            if (dataContext.setWindowContext(this) != null && ((MainWindowViewModel)this.DataContext).IsRefresh)
+            if (dataContext.setWindowContext(this) != null && !((MainWindowViewModel)this.DataContext).IsThroughContext)
                 ((MainWindowViewModel)this.DataContext).HomeViewModel.loadData();
         }
     }

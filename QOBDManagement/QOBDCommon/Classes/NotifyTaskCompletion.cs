@@ -133,11 +133,11 @@ namespace QOBDCommon.Classes
             catch (AggregateException ex)
             {
                 foreach (Exception exception in ex.InnerExceptions)
-                    Log.write(exception.Message, "ERR");
+                    Log.error(exception.Message, Enum.EErrorFrom.HELPER);
             }
             catch (Exception ex)
             {
-                Log.write(ex.Message, "ERR");
+                Log.error(ex.Message, Enum.EErrorFrom.HELPER);
             }
 
 

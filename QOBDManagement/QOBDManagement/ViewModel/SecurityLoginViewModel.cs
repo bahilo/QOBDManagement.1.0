@@ -15,6 +15,7 @@ using System.Threading;
 using System.Windows.Controls;
 using QOBDCommon.Enum;
 using QOBDManagement.Interfaces;
+using QOBDCommon.Entities;
 
 namespace QOBDManagement.ViewModel
 {
@@ -49,17 +50,18 @@ namespace QOBDManagement.ViewModel
             initEvents();
         }
 
+        public SecurityLoginViewModel(IMainWindowViewModel mainWindowViewModel, IStartup startup, IConfirmationViewModel dialog) : this(mainWindowViewModel)
+        {
+            this.Startup = startup;
+            this.Dialog = dialog;
+        }
+
         //----------------------------[ Initialization ]------------------
 
         private void initEvents()
         {
             AgentModel.PropertyChanged += onAgentChange_goToHomePage;
-
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-            }
+            PropertyChanged += onDialogChange;
         }
 
         private void instances()
@@ -123,7 +125,7 @@ namespace QOBDManagement.ViewModel
                 await showLoginView();
         }
 
-        private async Task<object> authenticateAgent()
+        public async Task<object> authenticateAgent()
         {
             try
             {
@@ -160,15 +162,52 @@ namespace QOBDManagement.ViewModel
             await authenticateAgent();
         }
 
+        public bool securityCheck(EAction action, ESecurity right)
+        {
+            if (_startup != null)
+            {
+                Agent agent = _startup.Bl.BlSecurity.GetAuthenticatedUser();
+                if (agent.RoleList != null)
+                {
+                    foreach (var role in agent.RoleList)
+                    {
+                        var actionFound = role.ActionList.Where(x => x.Name.Equals(action.ToString())).FirstOrDefault();
+                        if (actionFound != null)
+                        {
+                            switch (right)
+                            {
+                                case ESecurity._Delete:
+                                    if (actionFound.Right.IsDelete)
+                                        return actionFound.Right.IsDelete;
+                                    break;
+                                case ESecurity._Read:
+                                    if (actionFound.Right.IsRead)
+                                        return actionFound.Right.IsRead;
+                                    break;
+                                case ESecurity._Update:
+                                    if (actionFound.Right.IsUpdate)
+                                        return actionFound.Right.IsUpdate;
+                                    break;
+                                case ESecurity._Write:
+                                    if (actionFound.Right.IsWrite)
+                                        return actionFound.Right.IsWrite;
+                                    break;
+                                case ESecurity.SendEmail:
+                                    if (actionFound.Right.IsSendMail)
+                                        return actionFound.Right.IsSendMail;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
         public override void Dispose()
         {
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged -= onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged -= onDialogChange;
-            }
-
             AgentModel.PropertyChanged -= onAgentChange_goToHomePage;
+            PropertyChanged -= onDialogChange;
         }
 
         //----------------------------[ Event Handler ]------------------
@@ -192,20 +231,7 @@ namespace QOBDManagement.ViewModel
         {
             if (e.PropertyName.Equals("Agent") && Bl.BlSecurity.IsUserAuthenticated())
                 _page(new HomeViewModel());
-        }        
-
-        /// <summary>
-        /// Initialize the business logic
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void onStartupChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Startup"))
-            {
-                Startup = (_main.getObject("main") as BindBase).Startup;
-            }
-        }
+        } 
 
         /// <summary>
         /// Show the login page when the Dialog box is ready
@@ -216,13 +242,9 @@ namespace QOBDManagement.ViewModel
         {
             if (e.PropertyName.Equals("Dialog"))
             {
-                Dialog = (_main.getObject("main") as BindBase).Dialog;
                 if (Application.Current != null)
-                    await Application.Current.Dispatcher.Invoke(async () =>
-                    {
-                        //await showLoginView();
-                        await startAuthentication(); //"<< for dev mode >>";
-                    });
+                    //await showLoginView();
+                    await startAuthentication(); //"<< for dev mode >>";
                 else
                     await startAuthentication();
             }

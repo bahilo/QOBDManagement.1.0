@@ -19,11 +19,6 @@ namespace QOBDManagement.Classes
     public class DisplayAndData : BindBase
     {
 
-        public DisplayAndData()
-        {
-
-        }
-
         public static string ExecuteOpenFileDialog(string title, List<string> fileFilterList)
         {
             string outputFile = null;
@@ -57,10 +52,20 @@ namespace QOBDManagement.Classes
 
         public class Display : BindBase
         {
+            private static List<int> imageSizeList;
 
-            public Display()
+            public static List<int> getGeneratedImageSizeList()
             {
+                imageSizeList = new List<int>();
+                int step = 5;
+                for (int i = 5; i <= 800; i = i + step)
+                {
+                    if (i >= 50)
+                        step = 25;
 
+                    imageSizeList.Add(i);
+                }
+                return imageSizeList;
             }
 
             //======================[ Display - Image ]=====================
@@ -77,9 +82,9 @@ namespace QOBDManagement.Classes
                 private string _fileFullPath;
                 private string _fileName;
                 private string _chosenFile;
-                private Info _imageInfos;
-                private Info _imageWidth;
-                private Info _imageHeight;
+                private Info _imageInfo;
+                private Info _imageInfoWidth;
+                private Info _imageInfoHeight;
                 private List<Info> _imageData;
                 private string _fileNameWithoutExtension;
                 private List<string> _filter;
@@ -91,49 +96,38 @@ namespace QOBDManagement.Classes
                 {
                     _login = login;
                     _password = password;
+                    initEvents();
+                    initialize();
+                }
+
+                //----------------------------[ Initialization ]------------------
+
+                private void initialize()
+                {
                     _filter = new List<string> {
                         "_width",
                         "_height"
                     };
-                    _imageData = new List<Info>();
                     _height = 100;
                     _width = 150;
+
+                    _imageData = new List<Info>();
                     _imageSource = new BitmapImage();
-                    _imageHeight = new Info();
-                    _imageWidth = new Info();
+                    _imageInfoHeight = new Info();
+                    _imageInfoWidth = new Info();
+                    _imageInfo = new Info();                    
+                }
+
+                private void initEvents()
+                {
                     PropertyChanged += onTxtChosenFileChange_setup;
                     PropertyChanged += onTxtFileFullPathDelete_deleteTxtChosenFileChange;
                     PropertyChanged += onImageDataListChange_splitImageData;
+                    PropertyChanged += onTxtWdthOrHeightChange;
                 }
 
-                private void onTxtFileFullPathDelete_deleteTxtChosenFileChange(object sender, PropertyChangedEventArgs e)
-                {
-                    if (e.PropertyName.Equals("TxtFileFullPath") && string.IsNullOrEmpty(TxtFileFullPath))
-                    {
-                        TxtChosenFile = "";
-                    }
-                }
-
-                private void onImageDataListChange_splitImageData(object sender, PropertyChangedEventArgs e)
-                {
-                    if (e.PropertyName.Equals("ImageDataList") && ImageDataList.Count > 0)
-                    {
-                        ImageWidth = ImageDataList.Where(x => x != null && x.Name == TxtFileNameWithoutExtension + _filter[0]).FirstOrDefault();
-                        ImageHeight = ImageDataList.Where(x => x != null && x.Name == TxtFileNameWithoutExtension + _filter[1]).FirstOrDefault();
-                        ImageInfos = ImageDataList.Where(x => x != null && x.Name == TxtFileNameWithoutExtension).FirstOrDefault();
-                        downloadImage();
-                    }
-                }
-
-                private void onTxtChosenFileChange_setup(object sender, PropertyChangedEventArgs e)
-                {
-                    if (e.PropertyName.Equals("TxtChosenFile") && !string.IsNullOrEmpty(TxtChosenFile))
-                    {
-                        setup();
-                        copyImage();
-                    }
-                }
-
+                //----------------------------[ Properties ]------------------
+                
                 public BitmapImage ImageSource
                 {
                     get { return _imageSource; }
@@ -147,20 +141,20 @@ namespace QOBDManagement.Classes
 
                 public Info ImageInfos
                 {
-                    get { return _imageInfos; }
-                    set { setProperty(ref _imageInfos, value, "ImageInfos"); }
+                    get { return _imageInfo; }
+                    set { setProperty(ref _imageInfo, value, "ImageInfos"); }
                 }
 
                 public Info ImageHeight
                 {
-                    get { return _imageHeight; }
-                    set { setProperty(ref _imageHeight, value, "ImageHeight"); }
+                    get { return _imageInfoHeight; }
+                    set { setProperty(ref _imageInfoHeight, value, "ImageHeight"); }
                 }
 
                 public Info ImageWidth
                 {
-                    get { return _imageWidth; }
-                    set { setProperty(ref _imageWidth, value, "ImageWidth"); }
+                    get { return _imageInfoWidth; }
+                    set { setProperty(ref _imageInfoWidth, value, "ImageWidth"); }
                 }
 
                 public List<Info> ImageDataList
@@ -190,13 +184,13 @@ namespace QOBDManagement.Classes
                 public int TxtWidth
                 {
                     get { return _width; }
-                    set { if (ImageWidth != null) _imageWidth.Value = value.ToString(); setProperty(ref _width, value); }
+                    set { if (ImageWidth != null) _imageInfoWidth.Value = value.ToString(); setProperty(ref _width, value); }
                 }
 
                 public int TxtHeight
                 {
                     get { return _height; }
-                    set { if (ImageHeight != null) _imageHeight.Value = value.ToString(); setProperty(ref _height, value); }
+                    set { if (ImageHeight != null) _imageInfoHeight.Value = value.ToString(); setProperty(ref _height, value); }
                 }
 
                 public string TxtFtpUrl
@@ -234,6 +228,8 @@ namespace QOBDManagement.Classes
                     set { setProperty(ref _chosenFile, value); }
                 }
 
+                //----------------------------[ Actions ]------------------
+
                 public void setup()
                 {
                     if (!string.IsNullOrEmpty(TxtChosenFile))
@@ -247,9 +243,7 @@ namespace QOBDManagement.Classes
                         TxtFileName = TxtFileNameWithoutExtension + "." + filseExtension;
                         TxtFtpUrl = _ftpHost + _remotePath + TxtFileName;
                         TxtFileFullPath = Path.Combine(_localPath, TxtFileName);
-
-                        if (!Directory.Exists(_localPath))
-                            Directory.CreateDirectory(_localPath);
+                                                
                     }
                 }
 
@@ -269,27 +263,29 @@ namespace QOBDManagement.Classes
                         File.Copy(TxtChosenFile, TxtFileFullPath);
                     }
 
-                    if (ImageWidth != null)
+                    if (ImageInfos != null && ImageWidth.ID != 0)
                         int.TryParse(ImageWidth.Value, out _width);
-                    if (ImageHeight != null)
+                    if (ImageInfos != null && ImageHeight.ID != 0)
                         int.TryParse(ImageHeight.Value, out _height);
 
                     updateImageSource();
                 }
 
-                private void downloadImage()
+                public void downloadImage()
                 {
                     bool isFileFound = false;
 
                     if (ImageInfos != null && ImageInfos.ID != 0 && !string.IsNullOrEmpty(ImageInfos.Value))
                     {
-                        _chosenFile = ImageInfos.Value;
-                        setup();
+                        _chosenFile = ImageInfos.Value;                        
+                        setup();                        
 
                         if (TxtFtpUrl != null && TxtFileFullPath != null)
+                        {
+                            //closeImageSource();
                             isFileFound = Utility.downloadFIle(TxtFtpUrl, TxtFileFullPath, _login, _password);
+                        }                            
                             
-
                         if (isFileFound && File.Exists(TxtFileFullPath))
                             copyImage();                       
 
@@ -298,21 +294,20 @@ namespace QOBDManagement.Classes
 
                 public bool uploadImage()
                 {
-                    bool isSavedSuccessfully = false;
-                    
-                    ImageDataList.Clear();
+                    bool isSavedSuccessfully = false; 
 
                     if (File.Exists(TxtFileFullPath))
                     {
                         // closing the images stream before updating
                         closeImageSource();
 
-                        initializeFields();
+                        //initializeFields();
 
                         isSavedSuccessfully = Utility.uploadFIle(TxtFtpUrl, TxtFileFullPath, _login, _password);
 
                         // open the images stream
-                        updateImageSource();
+                        if (isSavedSuccessfully)
+                            updateImageSource();
                     }
 
                     return isSavedSuccessfully;
@@ -320,7 +315,13 @@ namespace QOBDManagement.Classes
 
                 public void initializeFields()
                 {
-                    if (ImageInfos == null)
+                    ImageDataList.Clear();
+
+                    ImageInfos = new Info { ID = _imageInfo.ID, Name = TxtFileNameWithoutExtension, Value = TxtFileName };
+                    ImageWidth = new Info { ID = _imageInfoWidth.ID, Name = TxtFileNameWithoutExtension + _filter[0], Value = TxtWidth.ToString() };
+                    ImageHeight = new Info { ID = _imageInfoHeight.ID, Name = TxtFileNameWithoutExtension + _filter[1], Value = TxtHeight.ToString() };
+
+                    /*if (ImageInfos == null)
                     {
                         _imageInfos = new Info { Name = TxtFileNameWithoutExtension, Value = TxtFileName };
                         _imageWidth = new Info { Name = TxtFileNameWithoutExtension + _filter[0], Value = TxtWidth.ToString() };
@@ -340,17 +341,19 @@ namespace QOBDManagement.Classes
                         }
 
                         if (_imageHeight == null)
-                            _imageHeight = new Info { Name = TxtFileNameWithoutExtension + _filter[1], Value = TxtHeight.ToString() };
+                            ImageHeight = new Info { Name = TxtFileNameWithoutExtension + _filter[1], Value = TxtHeight.ToString() };
                         else
                         {
-                            _imageHeight.Name = TxtFileNameWithoutExtension + _filter[1];
+                            ImageHeight.Name = TxtFileNameWithoutExtension + _filter[1];
                             _imageHeight.Value = TxtHeight.ToString();
                         }                       
-                    }
+                    }*/
 
                     ImageDataList.Add(ImageInfos);
                     ImageDataList.Add(ImageWidth);
                     ImageDataList.Add(ImageHeight);
+
+                    
                 }
 
                 public void updateImageSource()
@@ -373,7 +376,7 @@ namespace QOBDManagement.Classes
                     }
                     catch (Exception ex)
                     {
-                        Log.error(ex.Message);
+                        Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.REFERENTIAL);
                     }
                 }
 
@@ -388,7 +391,7 @@ namespace QOBDManagement.Classes
                     }
                     catch (Exception ex)
                     {
-                        Log.error(ex.Message);
+                        Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.REFERENTIAL);
                         isClosed = false;
                     }
                     return isClosed;
@@ -410,7 +413,7 @@ namespace QOBDManagement.Classes
                         }
                         catch (Exception ex)
                         {
-                            Log.error(ex.Message);
+                            Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.REFERENTIAL);
                         }
                         return true;
                     }
@@ -426,6 +429,55 @@ namespace QOBDManagement.Classes
                     else
                         return _width * ratio;
 
+                }
+
+                public override void Dispose()
+                {
+                    PropertyChanged -= onTxtChosenFileChange_setup;
+                    PropertyChanged -= onTxtFileFullPathDelete_deleteTxtChosenFileChange;
+                    PropertyChanged -= onImageDataListChange_splitImageData;
+                    PropertyChanged -= onTxtWdthOrHeightChange;
+                    closeImageSource();
+                }
+
+                //----------------------------[ Event Handler ]------------------
+
+                private void onTxtWdthOrHeightChange(object sender, PropertyChangedEventArgs e)
+                {
+                    if (e.PropertyName.Equals("TxtWidth") || e.PropertyName.Equals("TxtHeight"))
+                    {
+                        initializeFields();
+                        onPropertyChange("ImageInfoUpdated");
+                    }                        
+                }
+
+                private void onTxtFileFullPathDelete_deleteTxtChosenFileChange(object sender, PropertyChangedEventArgs e)
+                {
+                    if (e.PropertyName.Equals("TxtFileFullPath") && string.IsNullOrEmpty(TxtFileFullPath))
+                    {
+                        TxtChosenFile = "";
+                    }
+                }
+
+                private void onImageDataListChange_splitImageData(object sender, PropertyChangedEventArgs e)
+                {
+                    if (e.PropertyName.Equals("ImageDataList") && ImageDataList.Count > 0)
+                    {
+                        ImageWidth = ImageDataList.Where(x => x != null && x.Name == TxtFileNameWithoutExtension + _filter[0]).FirstOrDefault() ?? new Info();
+                        ImageHeight = ImageDataList.Where(x => x != null && x.Name == TxtFileNameWithoutExtension + _filter[1]).FirstOrDefault() ?? new Info();
+                        ImageInfos = ImageDataList.Where(x => x != null && x.Name == TxtFileNameWithoutExtension).FirstOrDefault() ?? new Info();
+                        downloadImage();
+                    }
+                }
+
+                private void onTxtChosenFileChange_setup(object sender, PropertyChangedEventArgs e)
+                {
+                    if (e.PropertyName.Equals("TxtChosenFile") && !string.IsNullOrEmpty(TxtChosenFile))
+                    {
+                        setup();
+                        copyImage();
+                        initializeFields();
+                    }
                 }
 
             }

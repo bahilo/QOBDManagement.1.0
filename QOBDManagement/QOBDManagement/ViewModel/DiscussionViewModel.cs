@@ -12,6 +12,7 @@ using QOBDManagement.Models;
 using QOBDCommon.Classes;
 using QOBDManagement.Command;
 using QOBDCommon.Entities;
+using QOBDManagement.Enums;
 
 namespace QOBDManagement.ViewModel
 {
@@ -24,6 +25,7 @@ namespace QOBDManagement.ViewModel
         private System.Net.Sockets.TcpClient _clientSocket;
         private NetworkStream _serverStream;
         private IChatRoom _chatRoom;
+        private IChatRoomViewModel _mainChatRoom;
         private List<AgentModel> _userDiscussionGroupList;
         private List<DiscussionModel> _discussionList;
         private Func<object, object> _page;
@@ -61,14 +63,10 @@ namespace QOBDManagement.ViewModel
             initEvents();
         }
 
-        public DiscussionViewModel(Func<object, object> navigation) : this()
+        public DiscussionViewModel(IChatRoomViewModel mainChatRoom): this()
         {
-            this._page = navigation;
-        }
-
-        public DiscussionViewModel(Func<object, object> navigation, IAgentViewModel agentViewModel) : this(navigation)
-        {
-            _agentViewModel = agentViewModel;
+            _mainChatRoom = mainChatRoom;
+            this._page = _mainChatRoom.navigation;
         }
 
 
@@ -323,10 +321,12 @@ namespace QOBDManagement.ViewModel
                     composer = returndata.Split('/').ToList();
 
                     // current discussion management
-                    if (int.TryParse(composer[0], out discussionId)
-                        && int.TryParse(composer[1], out userId)
-                            && int.TryParse(composer[2], out messageId)
-                                && discussionId > 0)
+                    if (composer.Count > 2
+                        && int.TryParse(composer[0], out discussionId)
+                            && int.TryParse(composer[1], out userId)
+                                && int.TryParse(composer[2], out messageId)
+                                    && discussionId != (int)EServiceCommunication.Disconnected
+                                        && discussionId != (int)EServiceCommunication.Connected)
                     {
                         var messageFoundList = await BL.BlChatRoom.GetMessageDataByIdAsync(messageId);
                         var userFoundList = BL.BlAgent.searchAgent(new Agent { ID = userId }, QOBDCommon.Enum.ESearchOption.AND);
@@ -362,10 +362,10 @@ namespace QOBDManagement.ViewModel
                                 {
                                     discussionModelFound.addMessage(messageFoundList.Select(x => new MessageModel { Message = x, IsNewMessage = true }).ToList());
                                     TxtNbNewMessage = (_nbNewMessage + 1).ToString();
-                                }                                    
+                                }
                                 else
                                     await retrieveUserDiscussions(AuthenticatedUser);
-                                
+
                                 System.Media.SystemSounds.Asterisk.Play();
                             }
                         }
@@ -375,11 +375,17 @@ namespace QOBDManagement.ViewModel
                     else if (userId != AuthenticatedUser.ID)
                         onPropertyChange("updateStatus");
 
+                    // exit the application
+                    else if (userId == AuthenticatedUser.ID && discussionId == (int)EServiceCommunication.Disconnected)
+                    {
+                        _mainChatRoom.cleanUp();
+                        break;
+                    }                        
                 }
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
             }
         }
 
@@ -565,7 +571,7 @@ namespace QOBDManagement.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    Log.error(ex.Message);
+                    Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
                     msg("info", "Error while trying to send the message!");
                 }
             }

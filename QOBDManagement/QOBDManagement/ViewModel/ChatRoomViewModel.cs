@@ -18,7 +18,7 @@ using System.Windows;
 
 namespace QOBDManagement.ViewModel
 {
-    public class ChatRoomViewModel : BindBase
+    public class ChatRoomViewModel : BindBase, IChatRoomViewModel
     {
         private System.Net.Sockets.TcpClient _clientSocket;
         private NetworkStream _serverStream;
@@ -39,13 +39,11 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Commands ]------------------
 
         public ButtonCommand<string> CommandNavig { get; set; }
-
-
+        
 
         public ChatRoomViewModel()
         {
-            initializer();            
-            setLogic();
+            initializer(); 
         }
 
         public ChatRoomViewModel(IMainWindowViewModel mainWindowViewModel) : this()
@@ -54,9 +52,15 @@ namespace QOBDManagement.ViewModel
             setInitEvents();
         }
 
-        public ChatRoomViewModel(IMainWindowViewModel mainWindowViewModel, IAgentViewModel agentViewModel) : this(mainWindowViewModel)
-        {            
-            initializer(agentViewModel);
+        public ChatRoomViewModel(IMainWindowViewModel mainWindowViewModel, IStartup startup, IConfirmationViewModel dialog) : this(mainWindowViewModel)
+        {
+            this.Startup = startup;
+            this.Dialog = dialog;
+
+            MessageViewModel.Dialog = Dialog;
+            DiscussionViewModel.Dialog = Dialog;
+            DiscussionViewModel.Startup = Startup;
+            MessageViewModel.Startup = Startup;
         }
 
 
@@ -64,42 +68,14 @@ namespace QOBDManagement.ViewModel
 
         private void initializer()
         {         
-            DiscussionViewModel = new DiscussionViewModel(navigation);
-            MessageViewModel = new MessageViewModel(navigation, DiscussionViewModel);
-            init();                  
-        }
-
-        private void initializer(IAgentViewModel agentViewModel)
-        {
-            _agentViewModel = agentViewModel;
-            DiscussionViewModel = new DiscussionViewModel(navigation, agentViewModel);
-            MessageViewModel = new MessageViewModel(navigation, DiscussionViewModel);
-            init();
-        }
-
-        private void init()
-        {
+            DiscussionViewModel = new DiscussionViewModel(this);
+            MessageViewModel = new MessageViewModel(this);
             _context = new Context(navigation);
             CommandNavig = new ButtonCommand<string>(appNavig, canAppNavig);
-            DiscussionViewModel.Dialog = Dialog;
-            MessageViewModel.Dialog = Dialog;
-        }
-
-        private void setLogic()
-        {
-            DiscussionViewModel.Startup = _startup;
-            MessageViewModel.Startup = _startup;
         }
 
         private void setInitEvents()
         {
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-            }
-            
             DiscussionViewModel.PropertyChanged += onChatRoomChange;
             DiscussionViewModel.PropertyChanged += onUpdateUsersStatusChange;
         }
@@ -112,6 +88,11 @@ namespace QOBDManagement.ViewModel
         {
             get { return _currentViewModel; }
             set { setProperty(ref _currentViewModel, value); }
+        }
+
+        public IMainWindowViewModel MainWindowViewModel
+        {
+            get { return _main; }
         }
 
         public string TxtUserName
@@ -167,7 +148,7 @@ namespace QOBDManagement.ViewModel
             {
                 _isServerConnectionError = true;
                 CurrentViewModel = DiscussionViewModel;
-                Log.error(ex.Message);
+                Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
 
                 // updating the user status
                 authenticatedUser.IsOnline = false;
@@ -189,7 +170,7 @@ namespace QOBDManagement.ViewModel
             return CurrentViewModel;
         }
 
-        private void cleanUp()
+        public void cleanUp()
         {
             if (_clientSocket != null && _clientSocket.Connected)
             {
@@ -207,7 +188,7 @@ namespace QOBDManagement.ViewModel
             DiscussionViewModel.PropertyChanged -= onUpdateUsersStatusChange;
         }
 
-        private async Task signOutFromServer(List<DiscussionModel> discussionList)
+        public async Task signOutFromServer(List<DiscussionModel> discussionList)
         {
             try
             {
@@ -223,13 +204,13 @@ namespace QOBDManagement.ViewModel
                         string disconnectionString = (int)EServiceCommunication.Disconnected + "/" + _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "/0/" + discussionModel.TxtGroupName.Split('-')[1] + "$";
                         byte[] outStream = System.Text.Encoding.ASCII.GetBytes(disconnectionString);
                         _serverStream.Write(outStream, 0, outStream.Length);
-                        _serverStream.Flush();
+                        //_serverStream.Flush();
                     }
                 }
             }
             catch(Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
             }
         }
 
@@ -237,7 +218,7 @@ namespace QOBDManagement.ViewModel
         {            
             unSubscribeEvents();
             await chatLogOut(null);
-            cleanUp();
+            //cleanUp();
             DiscussionViewModel.Dispose();
             MessageViewModel.Dispose();
         }
@@ -264,26 +245,6 @@ namespace QOBDManagement.ViewModel
             if (e.PropertyName.Equals("updateStatus"))
             {
                 await _main.AgentViewModel.loadAgents();
-            }
-        }
-
-        private void onStartupChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Startup"))
-            {
-                _startup = (_main.getObject("main") as BindBase).Startup;
-                DiscussionViewModel.Startup = Startup;
-                MessageViewModel.Startup = Startup;
-            }
-        }
-
-        private void onDialogChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Dialog"))
-            {
-                Dialog = (_main.getObject("main") as BindBase).Dialog;
-                MessageViewModel.Dialog = Dialog;
-                DiscussionViewModel.Dialog = Dialog;
             }
         }
 

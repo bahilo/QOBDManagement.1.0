@@ -1,5 +1,5 @@
 ﻿using QOBDBusiness;
-using Entity = QOBDCommon.Entities;
+using QOBDCommon.Entities;
 using QOBDManagement.Classes;
 using System;
 using QOBDManagement.Helper;
@@ -13,32 +13,44 @@ namespace QOBDManagement.Models
 {
     public class Order_itemModel : BindBase
     {
-        private Entity.Order_item _order_item;
+        private string _outputStringFormat;
+        private Order_item _order_item;
+        private Order _order;
         private ItemModel _itemModel;
-        private decimal _percentProfit;
-        private decimal _profit;
+        private double _unitIncomPercent;
+        private decimal _unitIncome;
         private decimal _totalPurchase;
         private decimal _totalSelling; // PT
         private int _quantityPending;
         private int _quantityReceived;
         private int _nbPackages;
+        private bool _isRowColored;
+        private decimal _totalTaxAmount;
+        private decimal _totalIncome;
+        private double _totalIncomePercent;
+        private decimal _totalTaxIncluded;
 
         public Order_itemModel()
         {
-            _order_item = new Entity.Order_item();
+            _order_item = new Order_item();
             _itemModel = new ItemModel();
             _nbPackages = 1;
             PropertyChanged += onAmountOrQuantityOrObjectChange;
             //PropertyChanged += onOrder_itemChange;
         }
 
+        public Order_itemModel(string outputStringFormat) : this()
+        {
+            _outputStringFormat = outputStringFormat;
+        }
+
         public string TxtItemId
         {
             get { return _order_item.ItemId.ToString(); }
-            set { _order_item.ItemId = Convert.ToInt32(value); onPropertyChange("TxtItemId"); }
+            set { _order_item.ItemId = Utility.intTryParse(value); onPropertyChange(); }
         }
 
-        public Entity.Order_item Order_Item
+        public Order_item Order_Item
         {
             get { return _order_item; }
             set { setProperty(ref _order_item, value); }
@@ -50,88 +62,118 @@ namespace QOBDManagement.Models
             set { setProperty(ref _itemModel, value); }
         }
 
+        public Order Order
+        {
+            get { return _order; }
+            set { setProperty(ref _order, value); }
+        }
+
+        public string TxtTotalIncome
+        {
+            get { return _totalIncome.ToString(_outputStringFormat); }
+            set { setProperty(ref _totalIncome, Utility.decimalTryParse(value)); }
+        }
+
+        public string TxtTotalIncomePercent
+        {
+            get { return _totalIncomePercent.ToString(_outputStringFormat); }
+            set { setProperty(ref _totalIncomePercent, (double)Utility.decimalTryParse(value)); }
+        }
+
+        public string TxtTotalTaxAmount
+        {
+            get { return _totalTaxAmount.ToString(_outputStringFormat); }
+            set { setProperty(ref _totalTaxAmount, Utility.decimalTryParse(value)); }
+        }
+
+        public string TxtTotalTaxIncluded
+        {
+            get { return _totalTaxIncluded.ToString(_outputStringFormat); }
+            set { setProperty(ref _totalTaxIncluded, Utility.decimalTryParse(value)); }
+        }
+
         public string TxtTotalPurchase
         {
-            get { return _totalPurchase.ToString(); }
-            set { setProperty(ref _totalPurchase, Convert.ToDecimal(value)); }
+            get { return _totalPurchase.ToString(_outputStringFormat); }
+            set { setProperty(ref _totalPurchase, Utility.decimalTryParse(value)); }
         }
 
         public string TxtTotalSelling
         {
-            get { return _totalSelling.ToString(); }
-            set { setProperty(ref _totalSelling, Convert.ToDecimal(value)); }
+            get { return _totalSelling.ToString(_outputStringFormat); }
+            set { setProperty(ref _totalSelling, Utility.decimalTryParse(value)); }
         }
 
         public string TxtProfit
         {
-            get { return _profit.ToString(); }
-            set { setProperty(ref _profit, Convert.ToDecimal(value)); }
+            get { return _unitIncome.ToString(_outputStringFormat); }
+            set { setProperty(ref _unitIncome, Utility.decimalTryParse(value)); }
         }
 
         public string TxtPercentProfit
         {
-            get { return _percentProfit.ToString(); }
-            set { setProperty(ref _percentProfit, Convert.ToDecimal(value)); }
+            get { return _unitIncomPercent.ToString(_outputStringFormat); }
+            set { setProperty(ref _unitIncomPercent, (double)Utility.decimalTryParse(value)); }
         }
 
         public string TxtID
         {
             get { return _order_item.ID.ToString(); }
-            set { _order_item.ID = Convert.ToInt32(value); onPropertyChange("TxtID"); }
+            set { _order_item.ID = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtOrderId
         {
             get { return _order_item.OrderId.addPrefix(Enums.EPrefix.ORDER); }
-            set { _order_item.OrderId = Convert.ToInt32(value.deletePrefix()); onPropertyChange("TxtOrderId"); }
+            set { _order_item.OrderId = Utility.intTryParse(value.deletePrefix()); onPropertyChange(); }
         }
 
         public string TxtItem_ref
         {
             get { return _order_item.Item_ref; }
-            set { _order_item.Item_ref = value; onPropertyChange("TxtItems_ref"); }
+            set { _order_item.Item_ref = value; onPropertyChange(); }
         }
 
         public string TxtQuantity
         {
             get { return _order_item.Quantity.ToString(); }
-            set { int converted; if (int.TryParse(value, out converted)) { _order_item.Quantity = converted; onPropertyChange("TxtQuantity"); } }
+            set { _order_item.Quantity = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtQuantity_delivery
         {
             get { return _order_item.Quantity_delivery.ToString(); }
-            set { int converted; if (int.TryParse(value, out converted)) { _order_item.Quantity_delivery = converted; onPropertyChange("TxtQuantity_delivery"); } }
+            set { _order_item.Quantity_delivery = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtQuantity_current
         {
             get { return _order_item.Quantity_current.ToString(); }
-            set { int converted; if (int.TryParse(value, out converted)) { _order_item.Quantity_current = converted; onPropertyChange("TxtQuantity_current"); } }
+            set { _order_item.Quantity_current = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtQuantity_received
         {
             get { return _quantityReceived.ToString(); }
-            set { int converted; if (int.TryParse(value, out converted)) setProperty(ref _quantityReceived, converted, "TxtQuantity_received"); }
+            set { setProperty(ref _quantityReceived, Utility.intTryParse(value)); }
         }
 
         public string TxtQuantity_pending
         {
             get { return (_quantityPending = _order_item.Quantity - Order_Item.Quantity_delivery).ToString(); }
-            set { int converted; if (int.TryParse(value, out converted)) setProperty(ref _quantityPending, converted); }
+            set { setProperty(ref _quantityPending, Utility.intTryParse(value)); }
         }
 
         public string TxtPrice
         {
-            get { return _order_item.Price.ToString(); }
-            set { decimal converted; if (decimal.TryParse(value, out converted)) { _order_item.Price = converted; onPropertyChange(); } }
+            get { return _order_item.Price.ToString(_outputStringFormat); }
+            set { _order_item.Price = Utility.decimalTryParse(value); onPropertyChange(); }
         }
 
         public string TxtPrice_purchase
         {
-            get { return _order_item.Price_purchase.ToString(); }
-            set { decimal converted; if (decimal.TryParse(value, out converted)) { _order_item.Price_purchase = converted; onPropertyChange("TxtPrice_purchase"); } }
+            get { return _order_item.Price_purchase.ToString(_outputStringFormat); }
+            set { _order_item.Price_purchase = Utility.decimalTryParse(value); onPropertyChange(); }
         }
 
         public string TxtComment_Purchase_Price
@@ -140,20 +182,94 @@ namespace QOBDManagement.Models
             set { _order_item.Comment_Purchase_Price = value; onPropertyChange("TxtComment_Purchase_Price"); }
         }
 
-        public string TxtOrder
+        public string TxtSort
         {
             get { return _order_item.Order.ToString(); }
-            set { int converted; if (int.TryParse(value, out converted)) { _order_item.Order = converted; onPropertyChange("TxtOrder"); } }
+            set { _order_item.Order = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtPackage
         {
             get { return _nbPackages.ToString(); }
-            set { int converted; if(int.TryParse(value, out converted))setProperty(ref _nbPackages, converted, "TxtPackage"); }
+            set { setProperty(ref _nbPackages, Utility.intTryParse(value)); }
+        }
+
+        public bool IsRowColored
+        {
+            get { return _isRowColored; }
+            set { setProperty(ref _isRowColored, value); }
         }
 
         //----------------------------[ Actions ]------------------
         
+        public void calcul()
+        {
+            // convert price into credit if order status is credit
+            _order_item.Price = (decimal)ConvertIfOrderCreditStatus(_order_item.Price);
+            //onPropertyChange("TxtPrice");
+
+            // convert purchase price into credit if order status is credit
+            _order_item.Price_purchase = (decimal)ConvertIfOrderCreditStatus(_order_item.Price_purchase);
+            //onPropertyChange("TxtPrice_purchase");
+
+            // income percentage per unit calculation
+            try
+            {
+                _unitIncomPercent = (double)(decimal)ConvertIfOrderCreditStatus(((Math.Abs(_order_item.Price) - Math.Abs(_order_item.Price_purchase)) / Math.Abs(_order_item.Price)) * 100);                
+            }
+            catch (DivideByZeroException)
+            {
+                _unitIncomPercent = 0;
+            }
+            onPropertyChange("TxtPercentProfit");
+
+            // income per unit calculation
+            _unitIncome = (decimal)ConvertIfOrderCreditStatus((Math.Abs(_order_item.Price) - Math.Abs(_order_item.Price_purchase)) * _order_item.Quantity);
+            onPropertyChange("TxtProfit");
+
+            // total purchase calculation
+            _totalPurchase = (decimal)ConvertIfOrderCreditStatus(_order_item.Quantity * Math.Abs(_order_item.Price_purchase));
+            onPropertyChange("TxtTotalPurchase");
+
+            // total sales calculations
+            _totalSelling = (decimal)ConvertIfOrderCreditStatus(_order_item.Quantity * Math.Abs(_order_item.Price));
+            onPropertyChange("TxtTotalSelling");
+
+            // tax amount calculation
+            _totalTaxAmount = (decimal)ConvertIfOrderCreditStatus(Math.Abs(_totalSelling) * (decimal)(Order.Tax / 100));
+            onPropertyChange("TxtTotalTaxAmount");
+
+            // income calculation
+            _totalIncome = (decimal)ConvertIfOrderCreditStatus(Math.Abs(_totalSelling) - Math.Abs(_totalPurchase));
+            onPropertyChange("TxtTotalIncome");
+
+            // percent income
+            try
+            {
+                _totalIncomePercent = (double)(decimal)ConvertIfOrderCreditStatus(Math.Abs(_totalIncome) / Math.Abs(_totalSelling) * 100);                
+            }
+            catch (DivideByZeroException)
+            {
+                _totalIncomePercent = 0;
+            }
+            onPropertyChange("TxtTotalIncomePercent");
+
+            // total tax included calculation
+            _totalTaxIncluded = (decimal)ConvertIfOrderCreditStatus(Math.Abs(_totalSelling) + Math.Abs(_totalTaxAmount));
+            onPropertyChange("TxtTotalTaxIncluded");
+        }
+
+        private object ConvertIfOrderCreditStatus(object value)
+        {
+            decimal convertedValue = (decimal)value;
+
+            if(Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Credit.ToString()) || Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Pre_Credit.ToString()))
+            {
+                convertedValue *= -1;
+            }
+            return convertedValue;
+        }
+
         private void profitCalcul()
         {
             try
@@ -163,7 +279,6 @@ namespace QOBDManagement.Models
                 else
                     // In case of order converted into credit
                     TxtPercentProfit = string.Format("{0:0.00}", ( -1 * ((_order_item.Price - _order_item.Price_purchase) / _order_item.Price) * 100));
-
             }
             catch (DivideByZeroException)
             {
@@ -179,8 +294,13 @@ namespace QOBDManagement.Models
 
         private void resetSellingAndPurchasePrice()
         {
-            TxtTotalSelling = Convert.ToString(_order_item.Quantity * _order_item.Price);
-            TxtTotalPurchase = Convert.ToString(_order_item.Quantity * _order_item.Price_purchase);
+            _totalPurchase = _order_item.Quantity * _order_item.Price_purchase;
+            _totalPurchase *= (_order_item.Price_purchase < 0) ? -1 : 1 ;
+            onPropertyChange("TxtTotalPurchase");
+
+            _totalSelling = _order_item.Quantity * _order_item.Price;
+            _totalSelling *= (_order_item.Price < 0) ? -1 : 1;
+            onPropertyChange("TxtTotalSelling");
         }
 
         //----------------------------[ Event Handler ]------------------
@@ -213,8 +333,9 @@ namespace QOBDManagement.Models
             {
                 if ( _order_item.Price_purchase != 0 && _order_item.Price != 0)
                 {
-                    resetSellingAndPurchasePrice();
-                    profitCalcul();
+                    /*resetSellingAndPurchasePrice();
+                    profitCalcul();*/
+                    calcul();
                 }                    
             }            
         }

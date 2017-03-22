@@ -118,7 +118,7 @@ namespace QOBDDAL.Core
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.CLIENT);
             }
             finally
             {
@@ -522,7 +522,8 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayClient.Dispose();
+            if (_gateWayClient != null)
+                _gateWayClient.Dispose();
         }
 
         public async Task UpdateClientDependenciesAsync(List<Client> clientList, bool isActiveProgress = false)

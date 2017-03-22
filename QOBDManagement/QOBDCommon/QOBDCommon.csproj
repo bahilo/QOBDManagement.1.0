@@ -77,6 +77,7 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\User_discussion.cs" />
     <Compile Include="Enum\EAction.cs" />
+    <Compile Include="Enum\EErrorFrom.cs" />
     <Compile Include="Enum\EItem.cs" />
     <Compile Include="Enum\EOption.cs" />
     <Compile Include="Enum\ESearchOption.cs" />

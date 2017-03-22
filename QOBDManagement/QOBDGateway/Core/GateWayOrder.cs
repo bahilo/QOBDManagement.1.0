@@ -608,7 +608,7 @@ namespace QOBDGateway.Core
             }
             catch (Exception ex)
             {
-                Log.write(ex.Message, "ERR");
+                Log.error(ex.Message, EErrorFrom.ORDER);
             }
             finally
             {

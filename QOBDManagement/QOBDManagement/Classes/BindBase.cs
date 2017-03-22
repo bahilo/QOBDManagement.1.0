@@ -19,7 +19,7 @@ namespace QOBDManagement.Classes
     public class BindBase : INotifyPropertyChanged, IState, IDisposable
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected ConfirmationViewModel _dialog;
+        protected IConfirmationViewModel _dialog;
         protected IStartup _startup;
         
         protected virtual void setProperty<P>(
@@ -42,7 +42,7 @@ namespace QOBDManagement.Classes
             set { setProperty(ref _startup, value); }
         }
 
-        public ConfirmationViewModel Dialog
+        public IConfirmationViewModel Dialog
         {
             get { return _dialog; }
             set { setProperty(ref _dialog, value); }

@@ -3,6 +3,7 @@ using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using System.ComponentModel;
 
 namespace QOBDBusiness.Core
 {
-    public class BLChatRoom: QOBDCommon.Interfaces.BL.IChatRoomManager
+    public class BLChatRoom : QOBDCommon.Interfaces.BL.IChatRoomManager
     {
         public QOBDCommon.Interfaces.DAC.IDataAccessManager DAC { get; set; }
 
@@ -20,7 +21,7 @@ namespace QOBDBusiness.Core
         {
             DAC = DataAccessComponent;
         }
-        
+
         public void initializeCredential(Agent user)
         {
             if (user != null)
@@ -47,47 +48,47 @@ namespace QOBDBusiness.Core
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.CHATROOM);
             }
             return result;
         }
 
         public async Task<List<Discussion>> UpdateDiscussionAsync(List<Discussion> discussionList)
         {
+            List<Discussion> result = new List<Discussion>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(discussionList.Where(x => x.ID == 0).Count()))
+                discussionList = discussionList.Where(x => x.ID != 0).ToList();
+
             if (discussionList == null || discussionList.Count == 0)
                 return new List<Discussion>();
 
-            if (discussionList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Updating discussions(count = " + discussionList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
-            List<Discussion> result = new List<Discussion>();
             try
             {
                 result = await DAC.DALChatRoom.UpdateDiscussionAsync(discussionList);
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.CHATROOM);
             }
             return result;
         }
 
         public async Task<List<Discussion>> DeleteDiscussionAsync(List<Discussion> discussionList)
         {
+            List<Discussion> result = new List<Discussion>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(discussionList.Where(x => x.ID == 0).Count()))
+                discussionList = discussionList.Where(x => x.ID != 0).ToList();
+
             if (discussionList == null || discussionList.Count == 0)
                 return new List<Discussion>();
 
-            if (discussionList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Deleting discussions(count = " + discussionList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
-            List<Discussion> result = new List<Discussion>();
             try
             {
                 result = await DAC.DALChatRoom.DeleteDiscussionAsync(discussionList);
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.CHATROOM);
             }
             return result;
         }
@@ -99,7 +100,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALChatRoom.GetDiscussionDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
 
@@ -116,7 +117,7 @@ namespace QOBDBusiness.Core
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.CHATROOM);
             }
             return result;
         }
@@ -130,7 +131,7 @@ namespace QOBDBusiness.Core
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.CHATROOM);
             }
             return result;
         }
@@ -144,7 +145,7 @@ namespace QOBDBusiness.Core
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.CHATROOM);
             }
             return result;
         }
@@ -158,7 +159,7 @@ namespace QOBDBusiness.Core
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.CHATROOM);
             }
             return result;
         }
@@ -176,41 +177,41 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALChatRoom.InsertMessageAsync(messageList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
 
         public async Task<List<Message>> UpdateMessageAsync(List<Message> messageList)
         {
-            if (messageList == null || messageList.Count == 0)
-                return new List<Message>();
-
-            if (messageList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Updating messages(count = " + messageList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
             List<Message> result = new List<Message>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(messageList.Where(x => x.ID == 0).Count()))
+                messageList = messageList.Where(x => x.ID != 0).ToList();
+
+            if (messageList == null || messageList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALChatRoom.UpdateMessageAsync(messageList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
 
         public async Task<List<Message>> DeleteMessageAsync(List<Message> messageList)
         {
-            if (messageList == null || messageList.Count == 0)
-                return new List<Message>();
-
-            if (messageList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Deleting messages(count = " + messageList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
             List<Message> result = new List<Message>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(messageList.Where(x => x.ID == 0).Count()))
+                messageList = messageList.Where(x => x.ID != 0).ToList();
+
+            if (messageList == null || messageList.Count == 0)
+                return result;
+            
             try
             {
                 result = await DAC.DALChatRoom.DeleteMessageAsync(messageList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
 
@@ -221,7 +222,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALChatRoom.GetMessageDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
 
@@ -232,7 +233,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALChatRoom.GetMessageDataByIdAsync(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
 
@@ -243,7 +244,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALChatRoom.searchMessageAsync(message, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
         #endregion
@@ -260,41 +261,41 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALChatRoom.InsertUser_discussionAsync(user_discussionList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
 
         public async Task<List<User_discussion>> UpdateUser_discussionAsync(List<User_discussion> user_discussionList)
         {
-            if (user_discussionList == null || user_discussionList.Count == 0)
-                return new List<User_discussion>();
-
-            if (user_discussionList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Updating user_discussions(count = " + user_discussionList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
             List<User_discussion> result = new List<User_discussion>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(user_discussionList.Where(x => x.ID == 0).Count()))
+                user_discussionList = user_discussionList.Where(x => x.ID != 0).ToList();
+
+            if (user_discussionList == null || user_discussionList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALChatRoom.UpdateUser_discussionAsync(user_discussionList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
 
         public async Task<List<User_discussion>> DeleteUser_discussionAsync(List<User_discussion> user_discussionList)
         {
-            if (user_discussionList == null || user_discussionList.Count == 0)
-                return new List<User_discussion>();
-
-            if (user_discussionList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Deleting user_discussions(count = " + user_discussionList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
             List<User_discussion> result = new List<User_discussion>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(user_discussionList.Where(x => x.ID == 0).Count()))
+                user_discussionList = user_discussionList.Where(x => x.ID != 0).ToList();
+
+            if (user_discussionList == null || user_discussionList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALChatRoom.DeleteUser_discussionAsync(user_discussionList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
 
@@ -305,7 +306,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALChatRoom.GetUser_discussionDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
 
@@ -316,7 +317,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALChatRoom.GetUser_discussionDataByIdAsync(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
 
@@ -327,7 +328,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALChatRoom.searchUser_discussionAsync(user_discussion, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.CHATROOM); }
             return result;
         }
         #endregion
@@ -336,6 +337,17 @@ namespace QOBDBusiness.Core
         public void Dispose()
         {
             DAC.DALChatRoom.Dispose();
+        }
+
+        private bool checkIfUpdateOrDeleteParamRepectsRequirements(int IDValues, [CallerMemberName] string functionName = null)
+        {
+            bool isRequirementsRespected = true;
+            if (IDValues > 0)
+            {
+                isRequirementsRespected = false;
+                Log.warning(functionName + " params (count = " + IDValues + ") with ID = 0", EErrorFrom.CHATROOM);
+            }
+            return isRequirementsRespected;
         }
     }
 }

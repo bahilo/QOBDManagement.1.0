@@ -324,7 +324,8 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWaySecurity.Dispose();
+            if (_gateWaySecurity != null)
+                _gateWaySecurity.Dispose();
         }
 
 

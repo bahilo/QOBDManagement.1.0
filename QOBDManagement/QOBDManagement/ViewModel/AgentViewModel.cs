@@ -52,11 +52,17 @@ namespace QOBDManagement.ViewModel
             _main = mainWindowViewModel;
             _page = _main.navigation;
             instancesModel(mainWindowViewModel);
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-            }
+        }
+
+        public AgentViewModel(IMainWindowViewModel mainWindowViewModel, IStartup startup, IConfirmationViewModel dialog) : this(mainWindowViewModel)
+        {
+            this.Startup = startup;
+            this.Dialog = dialog;
+
+            AgentDetailViewModel.Dialog = Dialog;
+            AgentSideBarViewModel.Dialog = Dialog;
+            AgentDetailViewModel.Startup = Startup;
+            AgentSideBarViewModel.Startup = Startup;
         }
 
         //----------------------------[ Initialization ]------------------
@@ -198,12 +204,6 @@ namespace QOBDManagement.ViewModel
 
         public override void Dispose()
         {
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged -= onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged -= onDialogChange;
-            }
-
             Bl.BlAgent.Dispose();
             AgentDetailViewModel.Dispose();
             AgentSideBarViewModel.Dispose();
@@ -211,27 +211,7 @@ namespace QOBDManagement.ViewModel
 
 
         //----------------------------[ Event Handler ]------------------
-        
-        private void onStartupChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Startup"))
-            {
-                Startup = (_main.getObject("main") as BindBase).Startup;
-                AgentDetailViewModel.Startup = Startup;
-                AgentSideBarViewModel.Startup = Startup;
-            }
-        }
-
-        private void onDialogChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Dialog"))
-            {
-                Dialog = (_main.getObject("main") as BindBase).Dialog;
-                AgentDetailViewModel.Dialog = Dialog;
-                AgentSideBarViewModel.Dialog= Dialog;
-            }
-        }
-        
+                
 
         //----------------------------[ Action Commands ]------------------
 

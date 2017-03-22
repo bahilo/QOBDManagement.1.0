@@ -60,17 +60,20 @@ namespace QOBDManagement.ViewModel
             initEvents();
         }
 
+        public QuoteViewModel(MainWindowViewModel mainWindowViewModel, IStartup startup, IConfirmationViewModel dialog) : this(mainWindowViewModel)
+        {
+            this.Startup = startup;
+            this.Dialog = dialog;
+
+            QuoteDetailViewModel.Dialog = Dialog;
+            QuoteDetailViewModel.Startup = Startup;
+        }
+
 
         //----------------------------[ Initialization ]------------------
 
         private void initEvents()
         {
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-            }
-
         }
 
         private void instances()
@@ -241,7 +244,7 @@ namespace QOBDManagement.ViewModel
             else
             {
                 string errorMessage = "Error occurred while updating the quote ID[" + SelectedQuoteModel.TxtID + "]!";
-                Log.error(errorMessage);
+                Log.error(errorMessage, EErrorFrom.ORDER);
                 await Dialog.showAsync(errorMessage);
             }               
 
@@ -281,7 +284,7 @@ namespace QOBDManagement.ViewModel
             else
             {
                 string errorMessage = "Error occurred while creating the quote!";
-                Log.error(errorMessage);
+                Log.error(errorMessage, EErrorFrom.ORDER);
                 await Dialog.showAsync(errorMessage);
             }
 
@@ -289,36 +292,12 @@ namespace QOBDManagement.ViewModel
         }
 
         public override void Dispose()
-        {
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged -= onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged -= onDialogChange;
-            }          
+        {        
             _orderViewModel.PropertyChanged -= onOrderModelChange_loadOrder;
         }
 
         //----------------------------[ Event Handler ]------------------
         
-
-        private void onStartupChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Startup"))
-            {
-                Startup = (_main.getObject("main") as BindBase).Startup;
-                QuoteDetailViewModel.Startup = Startup;           
-            }
-        }
-
-        private void onDialogChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Dialog"))
-            {
-                Dialog = (_main.getObject("main") as BindBase).Dialog;
-                QuoteDetailViewModel.Dialog = Dialog;
-            }
-        }
-
         private void onOrderModelChange_loadOrder(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("OrderModelList"))

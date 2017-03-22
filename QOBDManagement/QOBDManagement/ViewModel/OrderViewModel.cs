@@ -64,7 +64,7 @@ namespace QOBDManagement.ViewModel
             instancesCommand();
         }
 
-        public OrderViewModel(IMainWindowViewModel mainWindowViewModel): this()
+        public OrderViewModel(IMainWindowViewModel mainWindowViewModel) : this()
         {
             this._main = mainWindowViewModel;
             _page = _main.navigation;
@@ -72,18 +72,27 @@ namespace QOBDManagement.ViewModel
             initEvents();
         }
 
+        public OrderViewModel(IMainWindowViewModel mainWindowViewModel, IStartup startup, IConfirmationViewModel dialog) : this(mainWindowViewModel)
+        {
+            this.Startup = startup;
+            this.Dialog = dialog;
+
+            OrderDetailViewModel.Dialog = Dialog;
+            OrderSideBarViewModel.Dialog = Dialog;
+
+            OrderDetailViewModel.Startup = Startup;
+            OrderSideBarViewModel.Startup = Startup;
+
+            OutputStringFormat = "F";
+        }
+
         //----------------------------[ Initialization ]------------------
 
         private void initEvents()
         {
-            PropertyChanged += onBlockSearchResultVisibilityChange;            
+            PropertyChanged += onBlockSearchResultVisibilityChange;
             TaxTask.PropertyChanged += onTaxTaskCompletion_getTax;
 
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-            }
         }
 
         private void instances()
@@ -126,6 +135,12 @@ namespace QOBDManagement.ViewModel
         {
             get { return _orderSearchModel; }
             set { setProperty(ref _orderSearchModel, value); }
+        }
+
+        public string OutputStringFormat
+        {
+            get { return _orderDetailViewModel.OutputStringFormat; }
+            set { _orderDetailViewModel.OutputStringFormat = value; onPropertyChange(); }
         }
 
         public string Title
@@ -221,32 +236,31 @@ namespace QOBDManagement.ViewModel
         /// <param name="OrderList"></param>
         /// <returns></returns>
         public List<OrderModel> OrderListToModelList(List<Entity.Order> OrderList)
-        {            
-                List<OrderModel> output = new List<OrderModel>();
-                ConcurrentBag<OrderModel> concurrentOrderModelList = new ConcurrentBag<OrderModel>();
-                foreach (var order in OrderList)
-                {
-                    OrderModel ovm = new OrderModel();
+        {
+            List<OrderModel> output = new List<OrderModel>();
+            ConcurrentBag<OrderModel> concurrentOrderModelList = new ConcurrentBag<OrderModel>();
+            foreach (var order in OrderList)
+            {
+                OrderModel ovm = new OrderModel();
 
-                    var resultAgent = Bl.BlAgent.GetAgentDataById(order.AgentId);
-                    ovm.AgentModel.Agent = (resultAgent.Count > 0) ? resultAgent[0] : new Entity.Agent();
+                var resultAgent = Bl.BlAgent.GetAgentDataById(order.AgentId);
+                ovm.AgentModel.Agent = (resultAgent.Count > 0) ? resultAgent[0] : new Entity.Agent();
 
-                    var resultClient = Bl.BlClient.GetClientDataById(order.ClientId);
-                    ovm.CLientModel.Client = (resultClient.Count > 0) ? resultClient[0] : new Entity.Client();
+                var resultClient = Bl.BlClient.GetClientDataById(order.ClientId);
+                ovm.CLientModel.Client = (resultClient.Count > 0) ? resultClient[0] : new Entity.Client();
 
-                    var tax_order = new Entity.Tax_order();
-                    tax_order.OrderId = order.ID;
-                    var resultSearchOrderTaxList = Bl.BlOrder.searchTax_order(tax_order, ESearchOption.AND);
-                    ovm.Tax_order = (resultSearchOrderTaxList.Count > 0) ? resultSearchOrderTaxList[0] : new Entity.Tax_order();
+                var resultSearchOrderTaxList = Bl.BlOrder.searchTax_order(new Tax_order { OrderId = order.ID }, ESearchOption.AND);
+                ovm.Tax_order = (resultSearchOrderTaxList.Count > 0) ? resultSearchOrderTaxList[0] : new Entity.Tax_order();
+                ovm.Order.Tax = ovm.Tax_order.Tax_value;
 
-                    Entity.Tax taxFound = TaxList.Where(x => x.ID == ovm.Tax_order.TaxId).OrderBy(x => x.Date_insert).LastOrDefault();// await Bl.BlOrder.GetTaxDataById(cmdvm.Tax_command.TaxId);
-                    ovm.Tax = (taxFound != null) ? taxFound : new Entity.Tax();
+                Entity.Tax taxFound = TaxList.Where(x => x.ID == ovm.Tax_order.TaxId).OrderBy(x => x.Date_insert).LastOrDefault();// await Bl.BlOrder.GetTaxDataById(cmdvm.Tax_command.TaxId);
+                ovm.Tax = (taxFound != null) ? taxFound : new Entity.Tax();
 
-                    ovm.Order = order;
-                    concurrentOrderModelList.Add(ovm);
-                }
-                output = new List<OrderModel>(concurrentOrderModelList);
-                return output; 
+                ovm.Order = order;
+                concurrentOrderModelList.Add(ovm);
+            }
+            output = new List<OrderModel>(concurrentOrderModelList);
+            return output;
         }
 
         /// <summary>
@@ -254,8 +268,9 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         public void loadOrders()
         {
-            if(Application.Current != null)
-                Application.Current.Dispatcher.Invoke(() => {
+            if (Application.Current != null)
+                Application.Current.Dispatcher.Invoke(() =>
+                {
                     load();
                 });
             else
@@ -284,7 +299,7 @@ namespace QOBDManagement.ViewModel
             Dialog.IsDialogOpen = false;
         }
 
-        
+
         private void updateOrderModelListBinding()
         {
             onPropertyChange("WaitValidClientOrderList");
@@ -326,11 +341,6 @@ namespace QOBDManagement.ViewModel
 
         public override void Dispose()
         {
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged -= onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged -= onDialogChange;
-            }
             PropertyChanged -= onBlockSearchResultVisibilityChange;
             TaxTask.PropertyChanged -= onTaxTaskCompletion_getTax;
             Bl.BlOrder.Dispose();
@@ -339,26 +349,6 @@ namespace QOBDManagement.ViewModel
         }
 
         //----------------------------[ Event Handler ]------------------
-
-        private void onStartupChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Startup"))
-            {
-                Startup = (_main.getObject("main") as BindBase).Startup;
-                OrderDetailViewModel.Startup = Startup;
-                OrderSideBarViewModel.Startup = Startup;
-            }
-        }
-
-        private void onDialogChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Dialog"))
-            {
-                Dialog = (_main.getObject("main") as BindBase).Dialog;
-                OrderDetailViewModel.Dialog = Dialog;
-                OrderSideBarViewModel.Dialog = Dialog;
-            }
-        }
 
         private void onTaxTaskCompletion_getTax(object sender, PropertyChangedEventArgs e)
         {
@@ -396,7 +386,7 @@ namespace QOBDManagement.ViewModel
         {
             return true;
         }
-                
+
 
         /// <summary>
         /// Navigate through the application
@@ -422,7 +412,7 @@ namespace QOBDManagement.ViewModel
 
         public async void deleteOrder(OrderModel obj)
         {
-            if(await Dialog.showAsync("do you really want to delete this bill (" + obj.TxtID + ")"))
+            if (await Dialog.showAsync("do you really want to delete this bill (" + obj.TxtID + ")"))
             {
                 Bill lastBill = new Bill();
                 lastBill = await Bl.BlOrder.GetLastBillAsync();
@@ -477,7 +467,7 @@ namespace QOBDManagement.ViewModel
             List<Entity.Order> orderList = new List<Entity.Order>();
 
             orderList = (OrderSearchModel.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { ID = OrderSearchModel.OrderSearch.OrderId }, ESearchOption.AND) : Bl.BlOrder.GetOrderDataById(OrderSearchModel.OrderSearch.OrderId);
-            
+
             var billFoundList = (OrderSearchModel.IsDeepSearch) ? await Bl.BlOrder.searchBillAsync(new Entity.Bill { ID = OrderSearchModel.OrderSearch.BillId }, ESearchOption.AND) : Bl.BlOrder.GetBillDataById(OrderSearchModel.OrderSearch.BillId);
             if (billFoundList.Count > 0)
                 billOrderList = (OrderSearchModel.IsDeepSearch) ? await Bl.BlOrder.searchOrderAsync(new Entity.Order { ID = billFoundList[0].OrderId }, ESearchOption.AND) : Bl.BlOrder.searchOrder(new Entity.Order { ID = billFoundList[0].OrderId }, ESearchOption.OR);

@@ -105,7 +105,7 @@ namespace QOBDDAL.Core
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.REFERENTIAL);
             }
             finally
             {
@@ -231,7 +231,8 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayReferential.Dispose();
+            if (_gateWayReferential != null)
+                _gateWayReferential.Dispose();
         }
     } /* end class BlReferential */
 }

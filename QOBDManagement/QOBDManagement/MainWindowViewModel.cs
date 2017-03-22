@@ -15,6 +15,7 @@ using System.IO;
 using System.Threading;
 using QOBDCommon.Enum;
 using System.Windows;
+using QOBDCommon.Classes;
 
 namespace QOBDManagement
 {
@@ -34,6 +35,8 @@ namespace QOBDManagement
         private DisplayAndData.Display.Image _profileImageDisplay;
         private bool _isThroughContext;
         private bool _isRefresh;
+        private int _heightDataList;
+        private int _widthDataList;
 
         //----------------------------[ Models ]------------------
 
@@ -71,8 +74,10 @@ namespace QOBDManagement
             _context = new Context(navigation);
             _currentViewModel = null;
             _cart = new Cart();
+            _widthDataList = 1000;
+            _heightDataList = 600;
 
-            //------[ Image ]
+            //------[ Images ]
             _headerImageDisplay = new DisplayAndData.Display.Image();
             _headerImageDisplay.TxtFileNameWithoutExtension = "header_image";
             _headerImageDisplay.TxtName = "Header Image";
@@ -83,25 +88,23 @@ namespace QOBDManagement
             _billImageDisplay.TxtFileNameWithoutExtension = "bill_image";
             _billImageDisplay.TxtName = "BIll Image";
             _profileImageDisplay = new DisplayAndData.Display.Image();
-            _profileImageDisplay.TxtFileNameWithoutExtension = "profile_image";
             _profileImageDisplay.TxtName = "Profile Picture";
-
-            //------[ ViewModel ]
-            ItemViewModel = new ItemViewModel(this);
-            ClientViewModel = new ClientViewModel(this);
-            AgentViewModel = new AgentViewModel(this);
-            ChatRoomViewModel = new ChatRoomViewModel(this);
-            HomeViewModel = new HomeViewModel(this);
-            NotificationViewModel = new NotificationViewModel(this);
-            ReferentialViewModel = new ReferentialViewModel(this);
-            StatisticViewModel = new StatisticViewModel(this);
-            OrderViewModel = new OrderViewModel(this);
-            QuoteViewModel = new QuoteViewModel(this);
-
-            SecurityLoginViewModel = new SecurityLoginViewModel(this);
 
             Startup = startup;
             Dialog = new ConfirmationViewModel();
+
+            //------[ ViewModels ]
+            ItemViewModel = new ItemViewModel(this, Startup, Dialog);
+            ClientViewModel = new ClientViewModel(this, Startup, Dialog);
+            AgentViewModel = new AgentViewModel(this, Startup, Dialog);
+            ChatRoomViewModel = new ChatRoomViewModel(this, Startup, Dialog);
+            HomeViewModel = new HomeViewModel(this, Startup, Dialog);
+            NotificationViewModel = new NotificationViewModel(this, Startup, Dialog);
+            ReferentialViewModel = new ReferentialViewModel(this, Startup, Dialog);
+            StatisticViewModel = new StatisticViewModel(this, Startup, Dialog);
+            OrderViewModel = new OrderViewModel(this, Startup, Dialog);
+            QuoteViewModel = new QuoteViewModel(this, Startup, Dialog);
+            SecurityLoginViewModel = new SecurityLoginViewModel(this, Startup, Dialog);
         }
 
         private void instancesOrder()
@@ -114,6 +117,9 @@ namespace QOBDManagement
         {
             SecurityLoginViewModel.AgentModel.PropertyChanged += onAuthenticatedAgentChange;
             ChatRoomViewModel.DiscussionViewModel.PropertyChanged += onNewMessageReceived;
+            PropertyChanged += AgentViewModel.AgentSideBarViewModel.onCurrentPageChange_updateCommand;
+            PropertyChanged += OrderViewModel.OrderSideBarViewModel.onCurrentPageChange_updateCommand;
+            PropertyChanged += ClientViewModel.ClientSideBarViewModel.onCurrentPageChange_updateCommand;
         }
 
         //----------------------------[ Properties ]------------------
@@ -126,6 +132,18 @@ namespace QOBDManagement
         public AgentModel AuthenticatedUserModel
         {
             get { return new AgentModel { Agent = _startup.Bl.BlSecurity.GetAuthenticatedUser() }; }
+        }
+
+        public string TxtHeightDataList
+        {
+            get { return _heightDataList.ToString(); }
+            set { setProperty(ref _heightDataList, Utility.intTryParse(value)); }
+        }
+
+        public string TxtWidthDataList
+        {
+            get { return _widthDataList.ToString(); }
+            set { setProperty(ref _widthDataList, Utility.intTryParse(value)); }
         }
 
         public bool IsThroughContext
@@ -227,14 +245,57 @@ namespace QOBDManagement
 
         //----------------------------[ Actions ]------------------
 
+
+        /// <summary>
+        /// Initializing the User Interface
+        /// </summary>
+        private void load()
+        {
+            SearchProgressVisibility = "Visible";
+            if (isNewAgentAuthentication)
+            {
+                ProgressBarPercentValue = -1;
+                _startup.Dal.SetUserCredential(SecurityLoginViewModel.Bl.BlSecurity.GetAuthenticatedUser(), isNewAgentAuthentication);
+                isNewAgentAuthentication = false;
+                ProgressBarPercentValue = 100;
+            }
+            else if (SecurityLoginViewModel.AgentModel.Agent.ID != 0)
+            {
+                _startup.Dal.ProgressBarFunc = progressBarManagement;
+                _startup.Dal.SetUserCredential(AuthenticatedUserModel.Agent);
+                _startup.Dal.DALReferential.PropertyChanged += onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage;
+                
+            }
+
+            CommandNavig.raiseCanExecuteActionChanged();
+            AgentViewModel.GetCurrentAgentCommand.raiseCanExecuteActionChanged();
+
+            // chat room initialization
+            loadChatRoom();
+        }
+
+        private async void loadChatRoom()
+        {
+            // load chat user
+            await AgentViewModel.loadAgents();
+
+            // display the chat view
+            ChatRoomCurrentView = ChatRoomViewModel;
+
+            // connect user to the chat server
+            ChatRoomViewModel.connectToServer();
+        }
+
         private void downloadHeaderImages()
         {
+            // set ftp credentials
             if (string.IsNullOrEmpty(_headerImageDisplay.TxtLogin) || string.IsNullOrEmpty(_logoImageDisplay.TxtLogin) || string.IsNullOrEmpty(_billImageDisplay.TxtLogin))
             {
                 _profileImageDisplay.TxtLogin = _headerImageDisplay.TxtLogin = _logoImageDisplay.TxtLogin = _billImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
                 _profileImageDisplay.TxtPassword = _headerImageDisplay.TxtPassword = _logoImageDisplay.TxtPassword = _billImageDisplay.TxtPassword = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
             }
 
+            // download header image
             if (string.IsNullOrEmpty(_headerImageDisplay.TxtFileFullPath))
             {
                 var headerImageFoundDisplay = loadImage(_headerImageDisplay.TxtFileNameWithoutExtension, _headerImageDisplay.TxtName, _headerImageDisplay.TxtLogin, _headerImageDisplay.TxtPassword);
@@ -246,6 +307,7 @@ namespace QOBDManagement
                         });
             }
 
+            // download header logo
             if (string.IsNullOrEmpty(_logoImageDisplay.TxtFileFullPath))
             {
                 var logoImageFoundDisplay = loadImage(_logoImageDisplay.TxtFileNameWithoutExtension, _logoImageDisplay.TxtName, _logoImageDisplay.TxtLogin, _logoImageDisplay.TxtPassword);
@@ -257,6 +319,7 @@ namespace QOBDManagement
                         });
             }
 
+            // download the bill image
             if (string.IsNullOrEmpty(_billImageDisplay.TxtFileFullPath))
             {
                 var billImageFoundDisplay = loadImage(_billImageDisplay.TxtFileNameWithoutExtension, _billImageDisplay.TxtName, _billImageDisplay.TxtLogin, _billImageDisplay.TxtPassword);
@@ -267,35 +330,25 @@ namespace QOBDManagement
                             BillImageDisplay = billImageFoundDisplay;
                         });
             }
-
-            if (string.IsNullOrEmpty(_profileImageDisplay.TxtFileFullPath))
-            {
-                var profileImageFoundDisplay = loadImage(_profileImageDisplay.TxtFileNameWithoutExtension, _profileImageDisplay.TxtName, _profileImageDisplay.TxtLogin, _billImageDisplay.TxtPassword);
-                if (!string.IsNullOrEmpty(profileImageFoundDisplay.TxtFileFullPath) && File.Exists(profileImageFoundDisplay.TxtFileFullPath))
-                    if (Application.Current != null)
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            ProfileImageDisplay = profileImageFoundDisplay;
-                        });
-            }
         }
 
-        private DisplayAndData.Display.Image loadImage(string fileName, string imageName, string login, string password)
+        public DisplayAndData.Display.Image loadImage(string fileName, string imageName, string login, string password)
         {
             var imageDataList = new List<Info>();
-
-            var infosFoundImage = _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = fileName }, ESearchOption.AND).FirstOrDefault();
+            var imageInfoList = _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = fileName }, ESearchOption.AND);
+            var infosFoundImage = imageInfoList.Where(x => x.Name.Equals(fileName)).FirstOrDefault();
             DisplayAndData.Display.Image imageObject = new DisplayAndData.Display.Image();
+
+            imageObject.TxtName = imageName;
+            imageObject.TxtLogin = login;
+            imageObject.TxtPassword = password;
+            imageObject.TxtFileNameWithoutExtension = fileName;
 
             if (infosFoundImage != null)
             {
-                imageObject.TxtName = imageName;
-                imageObject.TxtLogin = login;
-                imageObject.TxtPassword = password;
-                imageObject.TxtFileNameWithoutExtension = fileName;
                 imageObject.ImageInfos = infosFoundImage;
-                var infosWidthFound = _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = fileName + "_width" }, ESearchOption.AND).FirstOrDefault();
-                var infosHeightFound = _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = fileName + "_height" }, ESearchOption.AND).FirstOrDefault();
+                var infosWidthFound = imageInfoList.Where(x => x.Name.Equals(fileName + "_width")).FirstOrDefault();// _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = fileName + "_width" }, ESearchOption.AND).FirstOrDefault();
+                var infosHeightFound = imageInfoList.Where(x => x.Name.Equals(fileName + "_height")).FirstOrDefault();//_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = fileName + "_height" }, ESearchOption.AND).FirstOrDefault();
 
                 if (infosWidthFound != null)
                     imageDataList.Add(infosWidthFound);
@@ -373,148 +426,9 @@ namespace QOBDManagement
             return new DisplayAndData.Display.Image();
         }
 
-        public object getObject(string objectName)
-        {
-            object ObjectToReturn = new object();
-            switch (objectName.ToUpper())
-            {
-                case "CLIENT":
-                    ObjectToReturn = ClientViewModel;
-                    break;
-                case "ITEM":
-                    ObjectToReturn = ItemViewModel;
-                    break;
-                case "ORDER":
-                    ObjectToReturn = OrderViewModel;
-                    break;
-                case "QUOTE":
-                    ObjectToReturn = QuoteViewModel;
-                    break;
-                case "AGENT":
-                    ObjectToReturn = AgentViewModel;
-                    break;
-                case "REFERENTIAL":
-                    ObjectToReturn = ReferentialViewModel;
-                    break;
-                case "SECURITY":
-                    ObjectToReturn = SecurityLoginViewModel;
-                    break;
-                case "NOTIFICATION":
-                    ObjectToReturn = NotificationViewModel;
-                    break;
-                case "HOME":
-                    ObjectToReturn = HomeViewModel;
-                    break;
-                case "STATISTIC":
-                    ObjectToReturn = StatisticViewModel;
-                    break;
-                case "MAIN":
-                    ObjectToReturn = this;
-                    break;
-                case "CART":
-                    ObjectToReturn = Cart;
-                    break;
-                case "CONTEXT":
-                    ObjectToReturn = Context;
-                    break;
-                case "DIALOG":
-                    ObjectToReturn = _dialog;
-                    break;
-                case "ORDER_SIDEBAR":
-                    ObjectToReturn = OrderViewModel.OrderSideBarViewModel;
-                    break;
-            }
-
-            return ObjectToReturn;
-        }
-
-        /// <summary>
-        /// Initializing the User Interface
-        /// </summary>
-        private async void loadUIData()
-        {
-            //await Dispatcher.CurrentDispatcher.Invoke(async() =>
-           //{
-               SearchProgressVisibility = "Visible";
-               if (isNewAgentAuthentication)
-               {
-                   ProgressBarPercentValue = -1;
-                   _startup.Dal.SetUserCredential(SecurityLoginViewModel.Bl.BlSecurity.GetAuthenticatedUser(), isNewAgentAuthentication);
-                   isNewAgentAuthentication = false;
-                   ProgressBarPercentValue = 100;
-               }
-               else if (SecurityLoginViewModel.AgentModel.Agent.ID != 0)
-               {
-                   _startup.Dal.ProgressBarFunc = progressBarManagement;
-                   _startup.Dal.SetUserCredential(AuthenticatedUserModel.Agent);
-                   _startup.Dal.DALReferential.PropertyChanged += onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage;
-                   _startup.Dal.DALItem.PropertyChanged += onLodingIsLodingDataFromWebServiceToLocalChange_loadStatistics;
-                                      
-                }
-
-               onPropertyChange("AuthenticatedUserModel");
-               onPropertyChange("TxtUserName");
-
-               // user profile picture setup
-               _profileImageDisplay.TxtFileNameWithoutExtension += "_"+AuthenticatedUserModel.TxtID;
-
-               CommandNavig.raiseCanExecuteActionChanged();
-               AgentViewModel.GetCurrentAgentCommand.raiseCanExecuteActionChanged();
-               
-
-                //========================= [ Chat Room ]====================
-
-                // load chat user
-                await AgentViewModel.loadAgents();
-
-                // display the chat view
-                ChatRoomCurrentView = ChatRoomViewModel;
-
-                // connect user to the chat server
-                ChatRoomViewModel.connectToServer();
-           //});
-        }
-
         public bool securityCheck(EAction action, ESecurity right)
         {
-            if (_startup != null)
-            {
-                Agent agent = _startup.Bl.BlSecurity.GetAuthenticatedUser();
-                if (agent.RoleList != null)
-                {
-                    foreach (var role in agent.RoleList)
-                    {
-                        var actionFound = role.ActionList.Where(x => x.Name.Equals(action.ToString())).FirstOrDefault();
-                        if (actionFound != null)
-                        {
-                            switch (right)
-                            {
-                                case ESecurity._Delete:
-                                    if (actionFound.Right.IsDelete)
-                                        return actionFound.Right.IsDelete;
-                                    break;
-                                case ESecurity._Read:
-                                    if (actionFound.Right.IsRead)
-                                        return actionFound.Right.IsRead;
-                                    break;
-                                case ESecurity._Update:
-                                    if (actionFound.Right.IsUpdate)
-                                        return actionFound.Right.IsUpdate;
-                                    break;
-                                case ESecurity._Write:
-                                    if (actionFound.Right.IsWrite)
-                                        return actionFound.Right.IsWrite;
-                                    break;
-                                case ESecurity.SendEmail:
-                                    if (actionFound.Right.IsSendMail)
-                                        return actionFound.Right.IsSendMail;
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-            return false;
+            return SecurityLoginViewModel.securityCheck(action, right);
         }
 
         private void unsubscribeEvents()
@@ -522,6 +436,9 @@ namespace QOBDManagement
             SecurityLoginViewModel.AgentModel.PropertyChanged -= onAuthenticatedAgentChange;
             _startup.Dal.DALReferential.PropertyChanged -= onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage;
             ChatRoomViewModel.DiscussionViewModel.PropertyChanged -= onNewMessageReceived;
+            PropertyChanged -= AgentViewModel.AgentSideBarViewModel.onCurrentPageChange_updateCommand;
+            PropertyChanged -= ClientViewModel.ClientSideBarViewModel.onCurrentPageChange_updateCommand;
+            PropertyChanged -= OrderViewModel.OrderSideBarViewModel.onCurrentPageChange_updateCommand;
         }
 
         public override void Dispose()
@@ -545,36 +462,36 @@ namespace QOBDManagement
 
         //----------------------------[ Event Handler ]------------------
 
+        /// <summary>
+        /// event listener to load UI data on authenticated user change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onAuthenticatedAgentChange(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("Agent") && _startup.Bl.BlSecurity.IsUserAuthenticated())
-                loadUIData();
-            else if(e.PropertyName.Equals("Agent"))
+            if (e.PropertyName.Equals("Agent"))
+            {
+                if ( _startup.Bl.BlSecurity.IsUserAuthenticated())
+                    load();
+                onPropertyChange("AuthenticatedUserModel");
                 onPropertyChange("TxtUserName");
+                CommandNavig.raiseCanExecuteActionChanged();
+            }
+
         }
 
+        /// <summary>
+        /// event listener to download the IU images on caching executed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("IsLodingDataFromWebServiceToLocal"))
             {
+                // if not unit testing download images
                 if (Application.Current != null)
-                    /*Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        downloadHeaderImages();
-                    });*/
-                downloadHeaderImages();
-            }
-        }
-
-        private void onLodingIsLodingDataFromWebServiceToLocalChange_loadStatistics(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("IsLodingDataFromWebServiceToLocal"))
-            {
-                if (Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        HomeViewModel.loadData();
-                    });
+                    downloadHeaderImages();
             }
         }
 
@@ -582,11 +499,9 @@ namespace QOBDManagement
         {
             if (e.PropertyName.Equals("TxtNbNewMessage"))
             {
-                if(Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        NewMessageHomePageCommand.raiseCanExecuteActionChanged();
-                    });
+                // if not unit testing update displaying
+                if (Application.Current != null)
+                    NewMessageHomePageCommand.raiseCanExecuteActionChanged();
             }
         }
 

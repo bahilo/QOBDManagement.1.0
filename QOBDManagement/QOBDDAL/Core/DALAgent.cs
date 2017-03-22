@@ -102,7 +102,7 @@ namespace QOBDDAL.Core
             }
             catch (Exception ex)
             {
-                Log.error(ex.Message);
+                Log.error(ex.Message, EErrorFrom.AGENT);
             }
             finally
             {
@@ -250,7 +250,8 @@ namespace QOBDDAL.Core
 
         public void Dispose()
         {
-            _gateWayAgent.Dispose();
+            if (_gateWayAgent != null)
+                _gateWayAgent.Dispose();
         }
     } /* end class BLAgent */
 }

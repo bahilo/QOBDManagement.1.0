@@ -49,13 +49,13 @@ namespace QOBDBusiness.Core
             catch (CommunicationException ex)
             {
                 Safe.IsAuthenticated = false;
-                Log.warning(ex.Message);
+                Log.warning(ex.Message, EErrorFrom.SECURITY);
                 throw new ApplicationException("Remote communication error.");
             }
             catch (Exception ex)
             {                                
                 Safe.IsAuthenticated = false;
-                Log.error(ex.Message);              
+                Log.error(ex.Message, EErrorFrom.SECURITY);              
             }      
             
             if(!Safe.IsAuthenticated)
@@ -90,7 +90,7 @@ namespace QOBDBusiness.Core
             {
                 //result = BlSecurity;
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -107,7 +107,7 @@ namespace QOBDBusiness.Core
 
                 result = await DAC.DALAgent.UpdateAgentAsync(agentList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -123,7 +123,7 @@ namespace QOBDBusiness.Core
 
                 result = await DAC.DALAgent.UpdateAgentAsync(agentList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -164,7 +164,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.InsertActionRecordAsync(listActionRecord);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -175,7 +175,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.InsertRoleAsync(Rolelist);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -186,7 +186,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.InsertActionAsync(listAction);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -197,7 +197,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.InsertAgent_roleAsync(Agent_rolelist);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -208,7 +208,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.InsertRole_actionAsync(listRole_action);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -219,7 +219,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.InsertPrivilegeAsync(listPrivilege);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -230,7 +230,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.DeleteActionRecordAsync(listActionRecord);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -241,7 +241,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.DeleteRoleAsync(RoleList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -252,7 +252,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.DeleteActionAsync(ActionList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -263,7 +263,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.DeleteAgent_roleAsync(listAgent_role);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -274,7 +274,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.DeleteRole_actionAsync(listRole_action);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -285,7 +285,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.DeletePrivilegeAsync(listPrivilege);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -296,7 +296,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.UpdateActionRecordAsync(ActionRecordList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -307,7 +307,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.UpdateRoleAsync(RoleList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -318,7 +318,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.UpdateActionAsync(ActionList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -329,7 +329,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.UpdateRole_actionAsync(Role_actionList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -340,7 +340,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.UpdatePrivilegeAsync(PrivilegeList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -351,7 +351,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.UpdateAgent_roleAsync(Agent_roleList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -362,7 +362,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetActionRecordDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -373,7 +373,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetActionRecordDataByIdAsync(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -384,7 +384,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetRoleDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -395,7 +395,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetRoleDataByIdAsync(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -406,7 +406,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetActionDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -417,7 +417,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetActionDataByIdAsync(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -428,7 +428,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetAgent_roleDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -439,7 +439,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetAgent_roleDataByIdAsync(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -450,7 +450,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetRole_actionDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -461,7 +461,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetRole_actionDataByIdAsync(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -472,7 +472,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetPrivilegeDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -483,7 +483,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.GetPrivilegeDataByIdAsync(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -494,7 +494,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.searchActionRecordAsync(ActionRecord, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -505,7 +505,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.searchRoleAsync(Role, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -516,7 +516,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.searchActionAsync(Action, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -527,7 +527,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.searchAgent_roleAsync(Agent_role, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -538,7 +538,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.searchRole_actionAsync(Role_action, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 
@@ -549,7 +549,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALSecurity.searchPrivilegeAsync(Privilege, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
             return result;
         }
 

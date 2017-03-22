@@ -47,10 +47,7 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Initialization ]------------------
         
         private void initEvents()
-        {
-
-            if ((_main.getObject("main") as BindBase) != null)
-                (_main.getObject("main") as BindBase).PropertyChanged += onCurrentPageChange_updateCommand;
+        {            
         }
 
         private void instances()
@@ -104,8 +101,6 @@ namespace QOBDManagement.ViewModel
 
         public override void Dispose()
         {
-            if ((_main.getObject("main") as BindBase) != null)
-                (_main.getObject("main") as BindBase).PropertyChanged -= onCurrentPageChange_updateCommand;
         }
 
         //----------------------------[ Event Handler ]------------------
@@ -116,7 +111,7 @@ namespace QOBDManagement.ViewModel
                 updateCommand();
         }
 
-        private void onCurrentPageChange_updateCommand(object sender, PropertyChangedEventArgs e)
+        public void onCurrentPageChange_updateCommand(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("CurrentViewModel"))
                 updateCommand();

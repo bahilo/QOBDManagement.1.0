@@ -63,41 +63,41 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALAgent.InsertAgentAsync(agentList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.AGENT); }
             return result;
         }
 
         public async Task<List<Agent>> UpdateAgentAsync(List<Agent> agentList)
         {
-            if (agentList == null || agentList.Count == 0)
-                return new List<Agent>();
-
-            if (agentList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Updating agents(count = " + agentList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-
             List<Agent> result = new List<Agent>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(agentList.Where(x => x.ID == 0).Count()))
+                agentList = agentList.Where(x => x.ID != 0).ToList();
+
+            if (agentList == null || agentList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALAgent.UpdateAgentAsync(agentList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.AGENT); }
             return result;
         }
 
         public async Task<List<Agent>> DeleteAgentAsync(List<Agent> agentList)
         {
-            if (agentList == null || agentList.Count == 0)
-                return new List<Agent>();
-
-            if (agentList.Where(x => x.ID == 0).Count() > 0)
-                Log.write("Deleting agents(count = " + agentList.Where(x => x.ID == 0).Count() + ") with ID = 0", "WAR");
-                            
             List<Agent> result = new List<Agent>();
+            if (checkIfUpdateOrDeleteParamRepectsRequirements(agentList.Where(x => x.ID == 0).Count()))
+                agentList = agentList.Where(x => x.ID != 0).ToList();
+
+            if (agentList == null || agentList.Count == 0)
+                return result;
+
             try
             {
                 result = await DAC.DALAgent.DeleteAgentAsync(agentList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.AGENT); }
             return result;
         }
 
@@ -108,7 +108,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALAgent.GetAgentData(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.AGENT); }
             return result;
         }
 
@@ -119,7 +119,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALAgent.GetAgentDataAsync(nbLine);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.AGENT); }
             return result;
         }
 
@@ -130,7 +130,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALAgent.GetAgentDataById(id);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.AGENT); }
             return result;
         }
 
@@ -143,7 +143,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALAgent.GetAgentDataByOrderList(commandList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.AGENT); }
             return result;
         }
 
@@ -156,7 +156,7 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALAgent.GetAgentDataByOrderListAsync(commandList);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.AGENT); }
             return result;
         }        
 
@@ -175,7 +175,7 @@ namespace QOBDBusiness.Core
                 if(fromAgentClientListBefore.Count > 0)
                     result = await DAC.DALClient.UpdateClientAsync(fromAgentClientListBefore);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.AGENT); }
             return result;
         }
 
@@ -186,7 +186,7 @@ namespace QOBDBusiness.Core
             {
                 result = DAC.DALAgent.searchAgent(agent, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.AGENT); }
             return result;
         }
 
@@ -197,13 +197,24 @@ namespace QOBDBusiness.Core
             {
                 result = await DAC.DALAgent.searchAgentAsync(agent, filterOperator);
             }
-            catch (Exception ex) { Log.error(ex.Message); }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.AGENT); }
             return result;
         }
 
         public void Dispose()
         {
             DAC.DALAgent.Dispose();
+        }
+
+        private bool checkIfUpdateOrDeleteParamRepectsRequirements(int IDValues, [CallerMemberName] string functionName = null)
+        {
+            bool isRequirementsRespected = true;
+            if (IDValues > 0)
+            {
+                isRequirementsRespected = false;
+                Log.warning(functionName + " params (count = " + IDValues + ") with ID = 0", EErrorFrom.AGENT);
+            }
+            return isRequirementsRespected;
         }
     } /* end class BLAgent */
 }

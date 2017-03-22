@@ -34,10 +34,10 @@ namespace QOBDManagement.Interfaces
         ButtonCommand<string> CommandNavig { get; set; }
 
         //---------------[ Actions ]---------------------
-        object getObject(string objectName);
         double progressBarManagement(double status = 0);
-        Object navigation(Object centralPageContent = null);
-        DisplayAndData.Display.Image ImageManagement(DisplayAndData.Display.Image newImage = null, string fileType = null);
         bool securityCheck(EAction action, ESecurity right);
+        Object navigation(Object centralPageContent = null);
+        DisplayAndData.Display.Image loadImage(string fileName, string imageName, string login, string password);
+        DisplayAndData.Display.Image ImageManagement(DisplayAndData.Display.Image newImage = null, string fileType = null);
     }
 }

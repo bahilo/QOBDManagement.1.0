@@ -58,17 +58,18 @@ namespace QOBDManagement.ViewModel
             initEvents();
         }
 
+        public HomeViewModel(IMainWindowViewModel mainWindowViewModel, IStartup startup, IConfirmationViewModel dialog) : this(mainWindowViewModel)
+        {
+            this.Startup = startup;
+            this.Dialog = dialog;
+        }
+
         //----------------------------[ Initialization ]------------------
 
         private void initEvents()
         {
-            PropertyChanged += onNewTaskChange_SaveToToDoList;
-            if ((_main.getObject("main") as BindBase) != null)
-            {
-                (_main.getObject("main") as BindBase).PropertyChanged += onStartupChange;
-                (_main.getObject("main") as BindBase).PropertyChanged += onDialogChange;
-            }
         }
+
         private void instances()
         {
             _toDoList = new List<ToDo>();
@@ -194,16 +195,16 @@ namespace QOBDManagement.ViewModel
             loadDataGauge();
             //loadChartPayreceivedData();
             loadPurchaseAndIncomeChart();
-            loadPayReceivedAndBillChart();
+            salesChart();
         }
 
-        private void loadPayReceivedAndBillChart()
+        private void salesChart()
         {
             var payReceivedChartValue = new ChartValues<decimal>();
             var invoiceAmountChartValue = new ChartValues<decimal>();
 
-            payReceivedChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Pay_received).ToList());
-            invoiceAmountChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Total_tax_included).ToList());
+            //payReceivedChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Pay_received).ToList());
+            //invoiceAmountChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Total_tax_included).ToList());
 
             CreditSeriesCollection = new SeriesCollection
             {
@@ -386,22 +387,6 @@ namespace QOBDManagement.ViewModel
             if (e.PropertyName.Equals("IsDone"))
             {
                 saveToDoTasks(ToDoList);
-            }
-        }
-
-        private void onStartupChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Startup"))
-            {
-                Startup = (_main.getObject("main") as BindBase).Startup;
-            }
-        }
-
-        private void onDialogChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Dialog"))
-            {
-                Dialog = (_main.getObject("main") as BindBase).Dialog;
             }
         }
 
