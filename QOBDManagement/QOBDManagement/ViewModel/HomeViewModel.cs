@@ -16,6 +16,7 @@ using System.IO;
 using System.Xml.Serialization;
 using QOBDManagement.Interfaces;
 using QOBDCommon.Enum;
+using QOBDManagement.Enums;
 
 namespace QOBDManagement.ViewModel
 {
@@ -78,7 +79,8 @@ namespace QOBDManagement.ViewModel
             _ThirdBestSeller = new ItemModel();
             _fourthBestSeller = new ItemModel();
             _purchaseAndSalePriceseriesCollection = new SeriesCollection();
-            _payReceivedSeries = new SeriesCollection();            
+            _payReceivedSeries = new SeriesCollection();
+            _creditSeries = new SeriesCollection();
         }
 
         private void instancesCommand()
@@ -177,8 +179,7 @@ namespace QOBDManagement.ViewModel
                     load();
                 });
             else
-                load();
-            
+                load();            
         }
 
         private async void load()
@@ -195,7 +196,7 @@ namespace QOBDManagement.ViewModel
             loadDataGauge();
             //loadChartPayreceivedData();
             loadPurchaseAndIncomeChart();
-            salesChart();
+            //salesChart();
         }
 
         private void salesChart()
@@ -203,7 +204,7 @@ namespace QOBDManagement.ViewModel
             var payReceivedChartValue = new ChartValues<decimal>();
             var invoiceAmountChartValue = new ChartValues<decimal>();
 
-            //payReceivedChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Pay_received).ToList());
+            payReceivedChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Total).ToList());
             //invoiceAmountChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Total_tax_included).ToList());
 
             CreditSeriesCollection = new SeriesCollection
@@ -212,15 +213,10 @@ namespace QOBDManagement.ViewModel
                 {
                     Title = "Pay received",
                     Values = payReceivedChartValue
-                },
-                new LineSeries
-                {
-                    Title = "Invoice",
-                    Values = invoiceAmountChartValue
                 }
             };
 
-            PayReceivedAndBillLabels = StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.InvoiceDate.ToString("MMM")).ToArray();
+            PayReceivedAndBillLabels = new[] { "Jan", "Feb", "Mar", "Apr", "May" }; ;// StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.InvoiceDate.ToString("MMM")).ToArray();
 
         }
 
@@ -265,8 +261,7 @@ namespace QOBDManagement.ViewModel
         public async void getBestSellers()
         {
             // getting four best sellers
-            // option = 1 (10 bestseller)
-            var itemBestSsellerList = await Bl.BlItem.searchItemAsync(new Item { Option = 1  }, ESearchOption.AND);
+            var itemBestSsellerList = await Bl.BlItem.searchItemAsync(new Item { Option = (int)EStatisticOption.GET10BESTSELLERS  }, ESearchOption.AND);
             FirstBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault() ?? new ItemModel();
             SecondBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Where(x => x.Number_of_sale < FirstBestItemModelSeller.Item.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault() ?? new ItemModel();
             ThirdBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Where(x => x.Number_of_sale < SecondBestItemModelSeller.Item.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault() ?? new ItemModel();

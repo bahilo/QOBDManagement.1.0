@@ -638,8 +638,8 @@ namespace QOBDGateway.Core
                         uri += "&copyagent=1";
                 }
 
-                if (paramOrderToPdf.IsQuoteConstructorReferencesVisible)
-                    uri += "&refv=" + paramOrderToPdf.IsQuoteConstructorReferencesVisible;
+                if (paramOrderToPdf.IsOrderConstructorReferencesVisible)
+                    uri += "&refv=" + paramOrderToPdf.IsOrderConstructorReferencesVisible;
 
                 System.Diagnostics.Process.Start(uri);
             }

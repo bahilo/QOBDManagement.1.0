@@ -29,6 +29,7 @@ namespace QOBDManagement.Models
         private decimal _totalIncome;
         private double _totalIncomePercent;
         private decimal _totalTaxIncluded;
+        private int _oldQuantity;
 
         public Order_itemModel()
         {
@@ -137,7 +138,13 @@ namespace QOBDManagement.Models
         public string TxtQuantity
         {
             get { return _order_item.Quantity.ToString(); }
-            set { _order_item.Quantity = Utility.intTryParse(value); onPropertyChange(); }
+            set { _oldQuantity = _order_item.Quantity; _order_item.Quantity = Utility.intTryParse(value); onPropertyChange(); }
+        }
+
+        public string TxtOldQuantity
+        {
+            get { return _oldQuantity.ToString(); }
+            set { _oldQuantity = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtQuantity_delivery
@@ -158,6 +165,17 @@ namespace QOBDManagement.Models
             set { setProperty(ref _quantityReceived, Utility.intTryParse(value)); }
         }
 
+        public bool IsQuantityReceivedEnabled
+        {
+            get
+            {
+                if (ItemModel.Item.Stock > 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
         public string TxtQuantity_pending
         {
             get { return (_quantityPending = _order_item.Quantity - Order_Item.Quantity_delivery).ToString(); }
@@ -170,10 +188,32 @@ namespace QOBDManagement.Models
             set { _order_item.Price = Utility.decimalTryParse(value); onPropertyChange(); }
         }
 
+        public bool IsPriceChangeEnabled
+        {
+            get
+            {
+                if (Order != null && Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Quote.ToString()))
+                    return true;
+                else
+                    return false;
+            }
+        }
+
         public string TxtPrice_purchase
         {
             get { return _order_item.Price_purchase.ToString(_outputStringFormat); }
             set { _order_item.Price_purchase = Utility.decimalTryParse(value); onPropertyChange(); }
+        }
+
+        public bool IsPrice_purchaseChangeEnabled
+        {
+            get
+            {
+                if (Order != null && Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Quote.ToString()))
+                    return true;
+                else
+                    return false;
+            }
         }
 
         public string TxtComment_Purchase_Price
@@ -184,8 +224,8 @@ namespace QOBDManagement.Models
 
         public string TxtSort
         {
-            get { return _order_item.Order.ToString(); }
-            set { _order_item.Order = Utility.intTryParse(value); onPropertyChange(); }
+            get { return _order_item.Rank.ToString(); }
+            set { _order_item.Rank = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtPackage
@@ -263,7 +303,7 @@ namespace QOBDManagement.Models
         {
             decimal convertedValue = (decimal)value;
 
-            if(Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Credit.ToString()) || Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Pre_Credit.ToString()))
+            if(Order != null && (Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Credit.ToString()) || Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Pre_Credit.ToString())))
             {
                 convertedValue *= -1;
             }

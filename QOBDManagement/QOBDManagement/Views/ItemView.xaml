@@ -19,6 +19,7 @@
             <Views:ItemSideBarView/>
         </DataTemplate>
         <Class:StringLengthConverter x:Key="StringLengthConverter"/>
+        <Class:TriggerConverter x:Key="TriggerConverter"/>
     </UserControl.Resources>
 
     <Grid Grid.Row="1" x:Name="gvMain" VerticalAlignment="Top" Margin="0">
@@ -39,7 +40,7 @@
 
         <!-- Here comes the main content of the view -->
 
-        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" >
+        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 20" >
             <StackPanel Orientation="Vertical">
                 <StackPanel Height="80">
                     <Label FontSize="20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding ItemViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
@@ -152,8 +153,16 @@
                                                   IsChecked="{Binding IsItemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   HorizontalAlignment="Center" 
                                                   VerticalAlignment="Center"
-                                                  Command="{Binding DataContext.ItemViewModel.checkBoxToCartCommand,RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=CurrentItem}"/>
+                                                  CommandParameter="{Binding}">
+                                                <CheckBox.Command>
+                                                    <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                                        <Binding Path="DataContext.ItemViewModel.checkBoxToCartCommand"
+                                                                            ElementName="dgSearchResult" />
+                                                        <Binding />
+                                                    </MultiBinding>
+                                                </CheckBox.Command>
+                                            </CheckBox>
+
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -180,6 +189,7 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Stock" Binding="{Binding TxtStock, UpdateSourceTrigger=PropertyChanged}"/>
                                 <DataGridTextColumn Header="Brand" Binding="{Binding TxtType}"/>
                                 <DataGridTextColumn Header="Family" Binding="{Binding TxtType_sub}"/>
                                 <DataGridTextColumn Header="Provider" Binding="{Binding SelectedProvider.Name}"/>
@@ -190,8 +200,8 @@
                                         <DataTemplate>
                                             <Button Style="{DynamicResource MaterialDesignFlatButton}"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Command="{Binding DataContext.ItemViewModel.GetCurrentItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
-                                                CommandParameter="{Binding Path=CurrentItem, ElementName=dgSearchResult}">
+                                                Command="{Binding DataContext.ItemViewModel.GetCurrentItemCommand, ElementName=dgSearchResult}" 
+                                                CommandParameter="{Binding}">
                                                 Detail
                                             </Button>
                                         </DataTemplate>

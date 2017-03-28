@@ -1768,7 +1768,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     Order_item.OrderId = Order_itemQCBD.CommandId;
                     Order_item.Comment_Purchase_Price = Order_itemQCBD.Comment_Purchase_Price;
                     Order_item.Item_ref = Order_itemQCBD.Item_ref;
-                    Order_item.Order = Order_itemQCBD.Order;
+                    Order_item.Rank = Order_itemQCBD.Order;
                     Order_item.Price = Order_itemQCBD.Price;
                     Order_item.Price_purchase = Order_itemQCBD.Price_purchase;
                     Order_item.Quantity = Order_itemQCBD.Quantity;
@@ -1796,7 +1796,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     Order_itemQCBD.CommandId = Order_item.OrderId;
                     Order_itemQCBD.Comment_Purchase_Price = Order_item.Comment_Purchase_Price;
                     Order_itemQCBD.Item_ref = Order_item.Item_ref;
-                    Order_itemQCBD.Order = Order_item.Order;
+                    Order_itemQCBD.Order = Order_item.Rank;
                     Order_itemQCBD.Price = Order_item.Price;
                     Order_itemQCBD.Price_purchase = Order_item.Price_purchase;
                     Order_itemQCBD.Quantity = Order_item.Quantity;
@@ -1831,7 +1831,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                         Order_itemQCBD.CommandId = Order_item.OrderId;
                         Order_itemQCBD.Comment_Purchase_Price = Order_item.Comment_Purchase_Price;
                         Order_itemQCBD.Item_ref = Order_item.Item_ref;
-                        Order_itemQCBD.Order = Order_item.Order;
+                        Order_itemQCBD.Order = Order_item.Rank;
                         Order_itemQCBD.Price = Order_item.Price;
                         Order_itemQCBD.Price_purchase = Order_item.Price_purchase;
                         Order_itemQCBD.Quantity = Order_item.Quantity;
@@ -1871,8 +1871,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} Price_purchase LIKE '{1}' ", filterOperator.ToString(), Order_item.Price_purchase);
                 if (!string.IsNullOrEmpty(Order_item.Comment_Purchase_Price))
                     query = string.Format(query + " {0} Comment_Purchase_Price LIKE '{1}' ", filterOperator.ToString(), Order_item.Comment_Purchase_Price.Replace("'", "''"));
-                if (Order_item.Order != 0)
-                    query = string.Format(query + " {0} [Order] LIKE '{1}' ", filterOperator.ToString(), Order_item.Order);
+                if (Order_item.Rank != 0)
+                    query = string.Format(query + " {0} [Order] LIKE '{1}' ", filterOperator.ToString(), Order_item.Rank);
 
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))

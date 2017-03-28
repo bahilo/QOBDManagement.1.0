@@ -84,50 +84,50 @@ namespace QOBDManagement.ViewModel
 
         public Role HeaderRole1
         {
-            get { return (_rolePosition.Count > 0) ? AgentCreddentailTableHeaders[_rolePosition[0]] : new Role { Name = "HeaderRole1" }; }
+            get { return (_rolePosition.Count > 0) ? AgentCredentialHeaderTable[_rolePosition[0]] : new Role { Name = "HeaderRole1" }; }
         }
 
         public Role HeaderRole2
         {
-            get { return (_rolePosition.Count > 1) ? AgentCreddentailTableHeaders[_rolePosition[1]] : new Role { Name = "HeaderRole2" }; }
+            get { return (_rolePosition.Count > 1) ? AgentCredentialHeaderTable[_rolePosition[1]] : new Role { Name = "HeaderRole2" }; }
         }
 
         public Role HeaderRole3
         {
-            get { return (_rolePosition.Count > 2) ? AgentCreddentailTableHeaders[_rolePosition[2]] : new Role { Name = "HeaderRole3" }; }
+            get { return (_rolePosition.Count > 2) ? AgentCredentialHeaderTable[_rolePosition[2]] : new Role { Name = "HeaderRole3" }; }
         }
 
         public Role HeaderRole4
         {
-            get { return (_rolePosition.Count > 3) ? AgentCreddentailTableHeaders[_rolePosition[3]] : new Role { Name = "HeaderRole4" }; }
+            get { return (_rolePosition.Count > 3) ? AgentCredentialHeaderTable[_rolePosition[3]] : new Role { Name = "HeaderRole4" }; }
         }
 
         public Role HeaderRole5
         {
-            get { return (_rolePosition.Count > 4) ? AgentCreddentailTableHeaders[_rolePosition[4]] : new Role { Name = "HeaderRole5" }; }
+            get { return (_rolePosition.Count > 4) ? AgentCredentialHeaderTable[_rolePosition[4]] : new Role { Name = "HeaderRole5" }; }
         }
 
         public Role HeaderRole6
         {
-            get { return (_rolePosition.Count > 5) ? AgentCreddentailTableHeaders[_rolePosition[5]] : new Role { Name = "HeaderRole6" }; }
+            get { return (_rolePosition.Count > 5) ? AgentCredentialHeaderTable[_rolePosition[5]] : new Role { Name = "HeaderRole6" }; }
         }
 
         public Role HeaderRole7
         {
-            get { return (_rolePosition.Count > 6) ? AgentCreddentailTableHeaders[_rolePosition[6]] : new Role { Name = "HeaderRole7" }; }
+            get { return (_rolePosition.Count > 6) ? AgentCredentialHeaderTable[_rolePosition[6]] : new Role { Name = "HeaderRole7" }; }
         }
 
         public Role HeaderRole8
         {
-            get { return (_rolePosition.Count > 7) ? AgentCreddentailTableHeaders[_rolePosition[7]] : new Role { Name = "HeaderRole8" }; }
+            get { return (_rolePosition.Count > 7) ? AgentCredentialHeaderTable[_rolePosition[7]] : new Role { Name = "HeaderRole8" }; }
         }
 
         public Role HeaderRole9
         {
-            get { return (_rolePosition.Count > 8) ? AgentCreddentailTableHeaders[_rolePosition[8]] : new Role { Name = "HeaderRole9" }; }
+            get { return (_rolePosition.Count > 8) ? AgentCredentialHeaderTable[_rolePosition[8]] : new Role { Name = "HeaderRole9" }; }
         }
 
-        public Dictionary<int, Role> AgentCreddentailTableHeaders
+        public Dictionary<int, Role> AgentCredentialHeaderTable
         {
             get { return _agentCreddentailTableHeaders; }
             set { setProperty(ref _agentCreddentailTableHeaders, value); }
@@ -156,7 +156,6 @@ namespace QOBDManagement.ViewModel
         {
             List<RoleModel> output = new List<RoleModel>();
             List<Role> roleList = await Bl.BlSecurity.GetRoleDataAsync(999);
-            int i = 0;
 
             output = (from ro in roleList
                       from ac in ro.ActionList
@@ -171,11 +170,10 @@ namespace QOBDManagement.ViewModel
                           ActionModel = actionModel
                       }).ToList();
 
-            foreach (var role in roleList)
+            for (int i = 0; i < roleList.Count; i++)
             {
-                _rolePosition[i] = role.ID;
-                i++;
-                AgentCreddentailTableHeaders[role.ID] = role;
+                _rolePosition[i] = roleList[i].ID;
+                AgentCredentialHeaderTable[roleList[i].ID] = roleList[i];
             }
 
             onPropertyChange("HeaderRole1");

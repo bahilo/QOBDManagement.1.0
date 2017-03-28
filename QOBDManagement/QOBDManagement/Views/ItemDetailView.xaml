@@ -39,7 +39,7 @@
 
         <!-- Here comes the main content of the view -->
 
-        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" >
+        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 20" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="*"/>
@@ -93,6 +93,8 @@
                                         Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtPrice_purchase, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
                         <TextBox materialDesign:HintAssist.Hint="Selling Price Adviced" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                         Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtPrice_sell, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
+                        <TextBox materialDesign:HintAssist.Hint="Stock" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                        Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtStock, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
                     </StackPanel>
                 </Grid>
             </materialDesign:ColorZone>

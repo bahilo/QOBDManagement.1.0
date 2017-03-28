@@ -36,7 +36,7 @@
 
         <!-- Here comes the main content of the view -->
 
-        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" >
+        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 20" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="*"/>

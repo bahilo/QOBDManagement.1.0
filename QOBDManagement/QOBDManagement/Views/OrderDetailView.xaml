@@ -111,7 +111,7 @@
                                     </Border>
                                     <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center">
                                         <TextBox Name="QttyReceived" Text="{Binding TxtQuantity_received, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}" IsEnabled="{Binding IsQuantityReceivedEnabled, UpdateSourceTrigger=PropertyChanged}"
                                                      materialDesign:HintAssist.Hint="Quantity received"/>
                                     </StackPanel>
                                 </Grid>
@@ -150,6 +150,7 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Stock" Binding="{Binding ItemModel.TxtStock, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Quantity Pending" Binding="{Binding TxtQuantity_pending, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Total Sales" Binding="{Binding TxtTotalSelling, UpdateSourceTrigger=PropertyChanged}"/>
                             <DataGridTextColumn Header="Total Income (%)" Binding="{Binding TxtPercentProfit, UpdateSourceTrigger=PropertyChanged}"/>

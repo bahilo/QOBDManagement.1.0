@@ -15,7 +15,7 @@ using QOBDCommon.Classes;
 
 namespace QOBDManagement.ViewModel
 {
-    public class QuoteViewModel: BindBase, IQuoteViewModel
+    public class QuoteViewModel : BindBase, IQuoteViewModel
     {
         private bool _isCurrentPage;
         private Func<Object, Object> _page;
@@ -51,7 +51,7 @@ namespace QOBDManagement.ViewModel
             instancesCommand();
         }
 
-        public QuoteViewModel(MainWindowViewModel mainWindowViewModel): this()
+        public QuoteViewModel(MainWindowViewModel mainWindowViewModel) : this()
         {
             _main = mainWindowViewModel;
             _page = _main.navigation;
@@ -121,7 +121,7 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
-        }        
+        }
 
         public string MissingCLientMessage
         {
@@ -186,16 +186,16 @@ namespace QOBDManagement.ViewModel
             if (_orderViewModel != null)
             {
                 _orderViewModel.PropertyChanged += onOrderModelChange_loadOrder;
-                _orderViewModel.loadOrders();                
+                _orderViewModel.loadOrders();
             }
-       }
+        }
 
         private async void updateQuote()
         {
             Dialog.showSearch("Quote updating...");
 
             List<Entity.Order_item> order_itemList = new List<Entity.Order_item>();
-            SelectedQuoteModel.TxtDate = DateTime.Now.ToString();           
+            SelectedQuoteModel.TxtDate = DateTime.Now.ToString();
 
             var savedQuoteList = await Bl.BlOrder.UpdateOrderAsync(new List<Entity.Order> { SelectedQuoteModel.Order });
             if (savedQuoteList.Count > 0)
@@ -203,8 +203,8 @@ namespace QOBDManagement.ViewModel
                 foreach (Cart_itemModel cart_itemModel in Cart.CartItemList)
                 {
                     // update existing item in the cart
-                    Order_itemModel order_itemModelFound = QuoteDetailViewModel.Order_ItemModelList.Where(x=>x.TxtItem_ref == cart_itemModel.TxtRef).FirstOrDefault();
-                    if(order_itemModelFound != null)
+                    Order_itemModel order_itemModelFound = QuoteDetailViewModel.Order_ItemModelList.Where(x => x.TxtItem_ref == cart_itemModel.TxtRef).FirstOrDefault();
+                    if (order_itemModelFound != null)
                     {
                         order_itemModelFound.TxtQuantity = cart_itemModel.TxtQuantity;
                         order_itemModelFound.TxtPrice = cart_itemModel.TxtPrice_sell;
@@ -216,6 +216,8 @@ namespace QOBDManagement.ViewModel
                     else
                     {
                         Order_itemModel newOrder_itemModel = new Order_itemModel();
+                        newOrder_itemModel.Order = savedQuoteList[0];
+                        newOrder_itemModel.TxtOldQuantity = cart_itemModel.TxtOldQuantity;
                         newOrder_itemModel.TxtItem_ref = cart_itemModel.TxtRef;
                         newOrder_itemModel.TxtItemId = cart_itemModel.TxtID;
                         newOrder_itemModel.TxtPrice = cart_itemModel.TxtPrice_sell;
@@ -227,11 +229,11 @@ namespace QOBDManagement.ViewModel
                 }
 
                 // get unselected item from the list for deletion
-                var order_itemListToDelete = QuoteDetailViewModel.Order_ItemModelList.Where(x=> Cart.CartItemList.Where(y=>y.TxtRef == x.TxtItem_ref).Count() == 0 ).ToList();
-                
-                await Bl.BlOrder.UpdateOrder_itemAsync(order_itemList.Where(x=>x.ID != 0).ToList());
+                var order_itemListToDelete = QuoteDetailViewModel.Order_ItemModelList.Where(x => Cart.CartItemList.Where(y => y.TxtRef == x.TxtItem_ref).Count() == 0).ToList();
+
+                await Bl.BlOrder.UpdateOrder_itemAsync(order_itemList.Where(x => x.ID != 0).ToList());
                 await Bl.BlOrder.InsertOrder_itemAsync(order_itemList.Where(x => x.ID == 0).ToList());
-                await Bl.BlOrder.DeleteOrder_itemAsync(order_itemListToDelete.Select(x=>x.Order_Item).ToList());
+                await Bl.BlOrder.DeleteOrder_itemAsync(order_itemListToDelete.Select(x => x.Order_Item).ToList());
 
                 foreach (var order_itemModelToDelete in order_itemListToDelete)
                     QuoteDetailViewModel.Order_ItemModelList.Remove(order_itemModelToDelete);
@@ -246,7 +248,7 @@ namespace QOBDManagement.ViewModel
                 string errorMessage = "Error occurred while updating the quote ID[" + SelectedQuoteModel.TxtID + "]!";
                 Log.error(errorMessage, EErrorFrom.ORDER);
                 await Dialog.showAsync(errorMessage);
-            }               
+            }
 
             Dialog.IsDialogOpen = false;
         }
@@ -254,28 +256,53 @@ namespace QOBDManagement.ViewModel
         private async void createNewQuote()
         {
             Dialog.showSearch("Quote creation...");
-
+            
+            List<Order_itemModel> order_itemModelList = new List<Order_itemModel>();
             OrderModel quote = new OrderModel();
             quote.AddressList = Cart.Client.AddressList;
             quote.CLientModel = Cart.Client;
             quote.AgentModel = new AgentModel { Agent = Bl.BlSecurity.GetAuthenticatedUser() };
             quote.TxtDate = DateTime.Now.ToString();
             quote.TxtStatus = EOrderStatus.Quote.ToString();
-            
-            var savedQuoteList = await Bl.BlOrder.InsertOrderAsync(new List<Entity.Order> { quote.Order });
-            if(savedQuoteList.Count > 0)
-            {
-                List<Entity.Order_item> order_itemList = Cart.CartItemList.Select(x => new Entity.Order_item
-                {
-                    Item_ref = x.TxtRef,
-                    ItemId = x.Item.ID,
-                    Price = x.Item.Price_sell,
-                    Price_purchase = x.Item.Price_purchase,
-                    OrderId = savedQuoteList[0].ID,
-                    Quantity = Utility.intTryParse(x.TxtQuantity)
-                }).ToList();
 
-                var savedOrderList = await Bl.BlOrder.InsertOrder_itemAsync(order_itemList);
+            var savedQuoteList = await Bl.BlOrder.InsertOrderAsync(new List<Entity.Order> { quote.Order });
+            if (savedQuoteList.Count > 0)
+            {
+                foreach (Cart_itemModel cart_itemModel in Cart.CartItemList)
+                {
+                    Order_itemModel order_itemModel = new Order_itemModel
+                        {
+                            ItemModel = new ItemModel { Item = cart_itemModel.Item },
+                            TxtOldQuantity = cart_itemModel.TxtOldQuantity,
+                            Order_Item = new Entity.Order_item
+                            {
+                                Item_ref = cart_itemModel.TxtRef,
+                                ItemId = cart_itemModel.Item.ID,
+                                Price = cart_itemModel.Item.Price_sell,
+                                Price_purchase = cart_itemModel.Item.Price_purchase,
+                                OrderId = savedQuoteList[0].ID,
+                                Quantity = Utility.intTryParse(cart_itemModel.TxtQuantity)
+                            }
+                        };
+                        order_itemModelList.Add(order_itemModel);                    
+                }
+                /*List<Order_itemModel> order_itemModelList = Cart.CartItemList.Select(x => new Order_itemModel
+                {
+                    ItemModel = new ItemModel { Item = x.Item },
+                    Order_Item = new Entity.Order_item
+                    {
+                        Item_ref = x.TxtRef,
+                        ItemId = x.Item.ID,
+                        Price = x.Item.Price_sell,
+                        Price_purchase = x.Item.Price_purchase,
+                        OrderId = savedQuoteList[0].ID,
+                        Quantity = Utility.intTryParse(x.TxtQuantity)
+                    },
+                    TxtOldQuantity = x.TxtOldQuantity
+                }).ToList();*/
+
+                var savedOrderList = await Bl.BlOrder.InsertOrder_itemAsync(order_itemModelList.Select(x => x.Order_Item).ToList());
+                
                 Cart.CartItemList.Clear();
                 Cart.Client.Client = new QOBDCommon.Entities.Client();
                 if (savedQuoteList.Count > 0)
@@ -292,12 +319,12 @@ namespace QOBDManagement.ViewModel
         }
 
         public override void Dispose()
-        {        
+        {
             _orderViewModel.PropertyChanged -= onOrderModelChange_loadOrder;
         }
 
         //----------------------------[ Event Handler ]------------------
-        
+
         private void onOrderModelChange_loadOrder(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("OrderModelList"))
@@ -307,7 +334,7 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        //----------------------------[ Action Orders ]------------------
+        //----------------------------[ Action Command ]------------------
 
         private void saveSelectedQuote(OrderModel obj)
         {
@@ -355,12 +382,12 @@ namespace QOBDManagement.ViewModel
 
         private bool canCreateQuote(string arg)
         {
-            if (Cart.Client != null 
+            if (Cart.Client != null
                 && Cart.Client.Client.ID != 0
                 && Cart.CartItemList.Count() > 0)
             {
                 MissingCLientMessage = "";
-                return true;                
+                return true;
             }
             else
                 MissingCLientMessage = _defaultClientMissingMessage;
@@ -370,9 +397,14 @@ namespace QOBDManagement.ViewModel
 
         private async void deleteOrder(OrderModel obj)
         {
+            Dialog.showSearch("Deleting...");
+
             var order_itemFoundList = Bl.BlOrder.GetOrder_itemByOrderList(new List<Entity.Order> { obj.Order });
             await Bl.BlOrder.DeleteOrder_itemAsync(order_itemFoundList);
             await Bl.BlOrder.DeleteOrderAsync(new List<Entity.Order> { obj.Order });
+
+            Dialog.IsDialogOpen = false;
+
             executeNavig("quote");
         }
 
@@ -381,20 +413,20 @@ namespace QOBDManagement.ViewModel
             return _orderViewModel.canDeleteOrder(arg);
         }
 
-        private void selectQuoteForUpdate(OrderModel obj)
+        private async void selectQuoteForUpdate(OrderModel obj)
         {
             SelectedQuoteModel = obj;
             Cart.Client = obj.CLientModel;
             QuoteDetailViewModel.OrderSelected = SelectedQuoteModel;
-            QuoteDetailViewModel.loadOrder_items();
+            await QuoteDetailViewModel.loadOrder_items();
             foreach (Cart_itemModel cart_itemModel in QuoteDetailViewModel.Order_ItemModelList.Select(x => new Cart_itemModel { Item = x.ItemModel.Item, TxtQuantity = x.TxtQuantity }).ToList())
             {
                 // add item to the cart and create an event on quantity change
-                if(Cart.CartItemList.Where(x=>x.Item.ID == cart_itemModel.Item.ID).Count() == 0)
+                if (Cart.CartItemList.Where(x => x.Item.ID == cart_itemModel.Item.ID).Count() == 0)
                     Cart.AddItem(cart_itemModel);
             }
-            
-            executeNavig("catalog");           
+
+            executeNavig("catalog");
         }
 
         private bool canSelectQuoteForUpdate(OrderModel arg)

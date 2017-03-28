@@ -173,6 +173,12 @@ namespace QOBDManagement.Models
             set { Item.Price_sell = Utility.decimalTryParse(value); onPropertyChange(); }
         }
 
+        public string TxtStock
+        {
+            get { return Item.Stock.ToString(); }
+            set { Item.Stock = Utility.intTryParse(value); onPropertyChange(); }
+        }
+
         public string TxtSource
         {
             get { return Item.Source.ToString(); }

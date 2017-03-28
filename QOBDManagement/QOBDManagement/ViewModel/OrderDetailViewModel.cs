@@ -350,10 +350,10 @@ namespace QOBDManagement.ViewModel
             get { return disableUIElementByBoolean(); }
         }
 
-        public bool IsItemListQuantityReceivedTextBoxEnabled
+        /*public bool IsItemListQuantityReceivedTextBoxEnabled
         {
             get { return disableUIElementByBoolean(); }
-        }
+        }*/
 
         public bool IsItemListPurchasePriceTextBoxEnable
         {
@@ -438,10 +438,10 @@ namespace QOBDManagement.ViewModel
         /// <summary>
         /// load the data
         /// </summary>
-        public void loadOrder_items()
+        public async Task loadOrder_items()
         {
             Dialog.showSearch("Loading items...");
-            Order_ItemModelList = Order_ItemListToModelViewList(Bl.BlOrder.searchOrder_item(new Order_item { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
+            Order_ItemModelList = await Order_ItemListToModelViewListAsync(Bl.BlOrder.searchOrder_item(new Order_item { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
 
             StatisticModel = totalCalcul(Order_ItemModelList);
 
@@ -457,24 +457,29 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="Order_ItemList"></param>
         /// <returns></returns>
-        public List<Order_itemModel> Order_ItemListToModelViewList(List<Order_item> Order_ItemList)
+        public async Task<List<Order_itemModel>> Order_ItemListToModelViewListAsync(List<Order_item> Order_ItemList)
         {
             int index = 0;
             List<Order_itemModel> output = new List<Order_itemModel>();
 
             // unsuscribe event
             foreach (var Order_itemModel in Order_ItemModelList)
+            {
                 Order_itemModel.PropertyChanged -= onTotalSelling_PriceOrPrice_purchaseChange;
+                //Order_itemModel.PropertyChanged -= onQuantityChange_updateItemStock;
+            }
+                
 
             foreach (Order_item order_Item in Order_ItemList)
             {
                 Order_itemModel localOrder_item = new Order_itemModel(OutputStringFormat);
                 localOrder_item.PropertyChanged += onTotalSelling_PriceOrPrice_purchaseChange;
+                //localOrder_item.PropertyChanged += onQuantityChange_updateItemStock;
                 localOrder_item.Order = OrderSelected.Order;
                 localOrder_item.Order_Item = order_Item;                
 
                 //load item and its information (delivery and item_delivery)
-                localOrder_item.ItemModel = loadOrder_itemItem(order_Item.Item_ref, order_Item.ItemId);
+                localOrder_item.ItemModel = await loadOrder_itemItemAsync(order_Item.Item_ref, order_Item.ItemId);
 
                 // displaying every two rows colored
                 if (index % 2 == 0)
@@ -492,13 +497,13 @@ namespace QOBDManagement.ViewModel
         /// <param name="itemRef"></param>
         /// <param name="itemId"></param>
         /// <returns></returns>
-        public ItemModel loadOrder_itemItem(string itemRef, int itemId = 0)
+        public async Task<ItemModel> loadOrder_itemItemAsync(string itemRef, int itemId = 0)
         {
             List<Item> itemFoundList = new List<Item>();
             if (itemId != 0)
-                itemFoundList = Bl.BlItem.searchItem(new Item { Ref = itemRef, ID = itemId }, ESearchOption.AND);
+                itemFoundList = await Bl.BlItem.searchItemAsync(new Item { Ref = itemRef, ID = itemId }, ESearchOption.AND);
             else
-                itemFoundList = Bl.BlItem.searchItem(new Item { Ref = itemRef }, ESearchOption.AND);
+                itemFoundList = await Bl.BlItem.searchItemAsync(new Item { Ref = itemRef }, ESearchOption.AND);
 
             if (itemFoundList.Count > 0)
                 return ItemListToModelViewList(new List<Item> { itemFoundList[0] }).FirstOrDefault();
@@ -712,7 +717,7 @@ namespace QOBDManagement.ViewModel
             switch (_orderNewStatus)
             {
                 case EOrderStatus.Order:
-                    lockOrder_itemItems();
+                    lockOrUnlockedOrder_itemItems();
                     break;
                 case EOrderStatus.Quote:
                     canChangeStatus = await cleanUpBeforeConvertingToQuoteAsync();
@@ -815,12 +820,16 @@ namespace QOBDManagement.ViewModel
         /// <summary>
         /// prevent erasing items in used in any order
         /// </summary>
-        private async void lockOrder_itemItems()
+        private async void lockOrUnlockedOrder_itemItems(bool isLocked = true)
         {
             List<Item> itemToSaveList = new List<Item>();
             foreach (var Order_itemModel in Order_ItemModelList)
             {
-                Order_itemModel.ItemModel.TxtErasable = EItem.No.ToString();
+                if(isLocked)
+                    Order_itemModel.ItemModel.TxtErasable = EItem.No.ToString();
+                else
+                    Order_itemModel.ItemModel.TxtErasable = EItem.Yes.ToString();
+
                 itemToSaveList.Add(Order_itemModel.ItemModel.Item);
             }
             await Bl.BlItem.UpdateItemAsync(itemToSaveList);
@@ -836,11 +845,38 @@ namespace QOBDManagement.ViewModel
             {
                 order_itemModel.Order = OrderSelected.Order;
                 order_itemModel.calcul();
-                //order_itemModel.Order_Item.Price = (isReset) ? Math.Abs(order_itemModel.Order_Item.Price) : Math.Abs(order_itemModel.Order_Item.Price) * (-1);
-                //order_itemModel.Order_Item.Price_purchase = (isReset) ? Math.Abs(order_itemModel.Order_Item.Price_purchase) : Math.Abs(order_itemModel.Order_Item.Price_purchase) * (-1);
-            }
+           }
             return Order_ItemModelList.Select(x => x.Order_Item).ToList();
-            //var savedOrder_item = await Bl.BlOrder.UpdateOrder_itemAsync(Order_ItemModelList.Select(x=>x.Order_Item).ToList());
+        }
+
+        private Task<Order_item> updateOrder_item(Order_itemModel order_itemModel)
+        {
+            return Task.Factory.StartNew(()=> {
+                int quantityReceived = Utility.intTryParse(order_itemModel.TxtQuantity_received);
+                int quantity = order_itemModel.Order_Item.Quantity;
+                int quantityDelivery = order_itemModel.Order_Item.Quantity_delivery;
+                int quantityCurrent = order_itemModel.Order_Item.Quantity_current;
+
+                if (quantityReceived > 0)
+                {
+                    int quentityPending = quantity - (quantityDelivery + quantityReceived);
+                    if (quentityPending >= 0)
+                    {
+                        // Checking that the number of received Item matches the expected number
+                        if (quantityReceived > (quantity - quantityDelivery))
+                            quantityReceived = (quantity - quantityDelivery);
+
+                        quantityDelivery += quantityReceived;
+                        quantityCurrent += quantityReceived;
+                        order_itemModel.Order_Item.Quantity_current = quantityCurrent;
+                        order_itemModel.Order_Item.Quantity_delivery = quantityDelivery;
+
+                    }
+                }
+                order_itemModel.TxtQuantity_received = 0.ToString();
+
+                return order_itemModel.Order_Item;
+            });
         }
 
         /// <summary>
@@ -853,7 +889,7 @@ namespace QOBDManagement.ViewModel
             // Lock order when all invoices have been generated
             if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Credit.ToString()))
                 && (obj.Equals("IsItemListCommentTextBoxEnabled")
-                || obj.Equals("IsItemListQuantityReceivedTextBoxEnabled")
+                //|| obj.Equals("IsItemListQuantityReceivedTextBoxEnabled")
                 || obj.Equals("IsItemListQuantityTextBoxEnable")
                 || obj.Equals("IsItemListSellingPriceTextBoxEnable")
                 || obj.Equals("IsItemListPurchasePriceTextBoxEnable")))
@@ -862,24 +898,31 @@ namespace QOBDManagement.ViewModel
             // Prevent updating information when the order has been closed
             if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Order_Close.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit_CLose.ToString()))
                 && (obj.Equals("IsItemListCommentTextBoxEnabled")
-                || obj.Equals("IsItemListQuantityReceivedTextBoxEnabled")
+                //|| obj.Equals("IsItemListQuantityReceivedTextBoxEnabled")
                 || obj.Equals("IsItemListQuantityTextBoxEnable")
+                || obj.Equals("IsItemListSellingPriceTextBoxEnable")
+                || obj.Equals("IsItemListPurchasePriceTextBoxEnable")))
+                return false;
+
+            // prevent price, purchase, and quantity update outside quote
+            if (!OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString())
+                && (obj.Equals("IsItemListQuantityTextBoxEnable")
                 || obj.Equals("IsItemListSellingPriceTextBoxEnable")
                 || obj.Equals("IsItemListPurchasePriceTextBoxEnable")))
                 return false;
 
             // Lock items information when an invoice has been created
-            if ((BillModelList.Count > 0)
-                && (obj.Equals("IsItemListCommentTextBoxEnabled")
-                || obj.Equals("IsItemListQuantityTextBoxEnable")
-                || obj.Equals("IsItemListSellingPriceTextBoxEnable")
-                || obj.Equals("IsItemListPurchasePriceTextBoxEnable")))
-                return false;
+            //if ((BillModelList.Count > 0)
+            //    && (obj.Equals("IsItemListCommentTextBoxEnabled")
+            //    || obj.Equals("IsItemListQuantityTextBoxEnable")
+            //    || obj.Equals("IsItemListSellingPriceTextBoxEnable")
+            //    || obj.Equals("IsItemListPurchasePriceTextBoxEnable")))
+            //    return false;
 
             // Prevent updating the items quantity when delivering receipt creation process has started
-            if ((Item_deliveryModelBillingInProcess.Count > 0 || Item_ModelDeliveryInProcess.Count > 0)
-                && obj.Equals("IsItemListQuantityTextBoxEnable"))
-                return false;
+            //if ((Item_deliveryModelBillingInProcess.Count > 0 || Item_ModelDeliveryInProcess.Count > 0)
+            //    && obj.Equals("IsItemListQuantityTextBoxEnable"))
+            //    return false;
 
             return true;
         }
@@ -1005,6 +1048,7 @@ namespace QOBDManagement.ViewModel
             foreach (var order_itemModel in Order_ItemModelList)
             {
                 order_itemModel.PropertyChanged -= onTotalSelling_PriceOrPrice_purchaseChange;
+                //order_itemModel.PropertyChanged -= onQuantityChange_updateItemStock;
                 order_itemModel.Dispose();
             }                
 
@@ -1027,11 +1071,11 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void onOrderSelectedChange(object sender, PropertyChangedEventArgs e)
+        private async void onOrderSelectedChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("OrderSelected"))
             {
-                loadOrder_items();
+                await loadOrder_items();
                 loadAddresses();
             }
         }
@@ -1128,6 +1172,12 @@ namespace QOBDManagement.ViewModel
             }
         }
 
+        /*private void onQuantityChange_updateItemStock(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("TxtQuantity"))
+                _main.ItemViewModel.updateStock(Order_ItemModelList);
+        }*/
+
         #endregion
 
         #region [ Actions Command ]
@@ -1142,35 +1192,19 @@ namespace QOBDManagement.ViewModel
         {
             Dialog.showSearch("Updating...");
             List<Order_item> Order_itemToSave = new List<Order_item>();
-            foreach (var Order_itemModelNew in Order_ItemModelList)
+            foreach (var newOrder_itemModel in Order_ItemModelList)
             {
-                int quantityReceived = Convert.ToInt32(Order_itemModelNew.TxtQuantity_received);
-                int quantity = Order_itemModelNew.Order_Item.Quantity;
-                int quantityDelivery = Order_itemModelNew.Order_Item.Quantity_delivery;
-                int quantityCurrent = Order_itemModelNew.Order_Item.Quantity_current;
-
-                if (quantityReceived > 0)
+                if (await _main.ItemViewModel.checkIfStockAvailable(newOrder_itemModel))
                 {
-                    int quentityPending = quantity - (quantityDelivery + quantityReceived);
-                    if (quentityPending >= 0)
-                    {
-                        // Checking that the number of received Item matches the expected number
-                        if (quantityReceived > (quantity - quantityDelivery))
-                            quantityReceived = (quantity - quantityDelivery);
-
-                        quantityDelivery += quantityReceived;
-                        quantityCurrent += quantityReceived;
-                        Order_itemModelNew.Order_Item.Quantity_current = quantityCurrent;
-                        Order_itemModelNew.Order_Item.Quantity_delivery = quantityDelivery;
-
-                    }
-                }
-                Order_itemToSave.Add(Order_itemModelNew.Order_Item);
-                Order_itemModelNew.TxtQuantity_received = 0.ToString();
+                    if(Utility.intTryParse(newOrder_itemModel.TxtQuantity_received) == 0)
+                        newOrder_itemModel.TxtQuantity_received = (newOrder_itemModel.Order_Item.Quantity - newOrder_itemModel.Order_Item.Quantity_delivery).ToString();
+                }                    
+                
+                Order_itemToSave.Add(await updateOrder_item(newOrder_itemModel));
             }
 
             var savedOrder_itemList = await Bl.BlOrder.UpdateOrder_itemAsync(Order_itemToSave);
-
+                   
             refreshBindingByCallingPropertyChange();
             refreshBindings();
             Dialog.IsDialogOpen = false;
@@ -1225,13 +1259,21 @@ namespace QOBDManagement.ViewModel
         /// <returns></returns>
         private bool canDeleteItem(Order_itemModel arg)
         {
+            // prevent deletion if deletion right not allowed
             bool isDelete = _main.securityCheck(EAction.Order, ESecurity._Delete);
             if (!isDelete)
                 return false;
 
+            // prevent item deletion if delivery process has started
             if (Item_ModelDeliveryInProcess.Count != 0
                 || Item_deliveryModelBillingInProcess.Count != 0
                 || OrderSelected.BillModelList.Count != 0)
+                return false;
+
+            // if order different from quote status prevent item deletion
+            if (OrderSelected != null
+                || OrderSelected.TxtStatus != null
+                || OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString()))
                 return false;
 
             return true;
@@ -1539,9 +1581,7 @@ namespace QOBDManagement.ViewModel
                     var savedInvoice = await Bl.BlOrder.UpdateBillAsync(new List<Bill> { invoicelFound });
                 }
             }
-
-            Dialog.showSearch("Invoice: creating record in statistics...");
-
+            
             // calcul and  creating the statistics              
             var order_itemFoundList = Order_ItemModelList.GroupBy(x => x.TxtItem_ref).Select(x => x.First()).Where(x => x.ItemModel.Item_deliveryModelList.Where(y => y.DeliveryModel.Delivery.BillId == invoicelFound.ID).Count() > 0).ToList();
             if (order_itemFoundList.Count > 0)
@@ -1561,10 +1601,13 @@ namespace QOBDManagement.ViewModel
             foreach (var item_deliveryModel in item_deliveryModelToRemoveList)
                 _item_deliveryModelBillingInProcessList.Remove(item_deliveryModel);
 
+            // update item stock
+            _main.ItemViewModel.updateStock(Order_ItemModelList);
+
             refreshBindings();
             Dialog.IsDialogOpen = false;
 
-            // once the invoice created enable the email sending
+            // once the invoice created, enable the email sending
             SendEmailCommand.raiseCanExecuteActionChanged();
         }
 
@@ -1638,7 +1681,11 @@ namespace QOBDManagement.ViewModel
                 }
                 else
                     await Dialog.showAsync("Cancellation Failed! Order invoice is not the latest.");
+
                 Dialog.IsDialogOpen = false;
+
+                // update item stock
+                _main.ItemViewModel.updateStock(Order_ItemModelList, isStockReset: true);
 
                 // refresh the User Interface
                 refreshBindings();

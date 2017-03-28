@@ -30,6 +30,8 @@ namespace QOBDCommon.Entities
 
         public decimal Price_sell {get; set;}
 
+        public int Stock {get; set;}
+
         public int Source {get; set;}
 
         public int Number_of_sale { get; set;}

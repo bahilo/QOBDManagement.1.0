@@ -7548,6 +7548,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string nameField;
         
+        private string displayedNameField;
+        
         private PrivilegeQOBD rightField;
         
         /// <remarks/>
@@ -7569,6 +7571,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.nameField = value;
                 this.RaisePropertyChanged("Name");
+            }
+        }
+        
+        /// <remarks/>
+        public string DisplayedName {
+            get {
+                return this.displayedNameField;
+            }
+            set {
+                this.displayedNameField = value;
+                this.RaisePropertyChanged("DisplayedName");
             }
         }
         
@@ -10524,7 +10537,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string comment_Purchase_PriceField;
         
-        private int orderField;
+        private int rankField;
         
         private string operatorField;
         
@@ -10639,13 +10652,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Order {
+        public int Rank {
             get {
-                return this.orderField;
+                return this.rankField;
             }
             set {
-                this.orderField = value;
-                this.RaisePropertyChanged("Order");
+                this.rankField = value;
+                this.RaisePropertyChanged("Rank");
             }
         }
         
@@ -11838,7 +11851,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string comment_Purchase_PriceField;
         
-        private int orderField;
+        private int rankField;
         
         /// <remarks/>
         public int ID {
@@ -11951,13 +11964,13 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Order {
+        public int Rank {
             get {
-                return this.orderField;
+                return this.rankField;
             }
             set {
-                this.orderField = value;
-                this.RaisePropertyChanged("Order");
+                this.rankField = value;
+                this.RaisePropertyChanged("Rank");
             }
         }
         
@@ -11992,6 +12005,8 @@ namespace QOBDGateway.QOBDServiceReference {
         private decimal price_purchaseField;
         
         private decimal price_sellField;
+        
+        private int stockField;
         
         private string sourceField;
         
@@ -12079,6 +12094,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.price_sellField = value;
                 this.RaisePropertyChanged("Price_sell");
+            }
+        }
+        
+        /// <remarks/>
+        public int Stock {
+            get {
+                return this.stockField;
+            }
+            set {
+                this.stockField = value;
+                this.RaisePropertyChanged("Stock");
             }
         }
         
@@ -12180,6 +12206,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private decimal price_sellField;
         
+        private int stockField;
+        
         private string sourceField;
         
         private int number_of_saleField;
@@ -12262,6 +12290,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.price_sellField = value;
                 this.RaisePropertyChanged("Price_sell");
+            }
+        }
+        
+        /// <remarks/>
+        public int Stock {
+            get {
+                return this.stockField;
+            }
+            set {
+                this.stockField = value;
+                this.RaisePropertyChanged("Stock");
             }
         }
         
@@ -13995,6 +14034,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string nameField;
         
+        private string displayedNameField;
+        
         private string operatorField;
         
         /// <remarks/>
@@ -14016,6 +14057,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.nameField = value;
                 this.RaisePropertyChanged("Name");
+            }
+        }
+        
+        /// <remarks/>
+        public string DisplayedName {
+            get {
+                return this.displayedNameField;
+            }
+            set {
+                this.displayedNameField = value;
+                this.RaisePropertyChanged("DisplayedName");
             }
         }
         

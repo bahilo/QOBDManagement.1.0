@@ -63,7 +63,7 @@
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding TxtName}"/>
+                                            <TextBlock Text="{Binding TxtName}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -73,7 +73,7 @@
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ActionModel.TxtName}"/>
+                                            <TextBlock Text="{Binding ActionModel.TxtDisplayedName}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -166,7 +166,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding TxtID}"/>
+                                        <TextBlock Text="{Binding TxtID}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -176,7 +176,7 @@
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Text="{Binding TxtLastName}"/>
+                                        <TextBlock Text="{Binding TxtLastName}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

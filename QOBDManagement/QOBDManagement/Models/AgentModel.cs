@@ -175,7 +175,7 @@ namespace QOBDManagement.Models
 
         public bool IsIsRole1AnonymousEnable
         {
-            get { return (RolePositionDisplay.Count > 0 && checkIfRRoleAnonymous(RolePositionDisplay[0])) ? false : true; }            
+            get { return (RolePositionDisplay.Count > 0 && checkIfRoleAnonymous(RolePositionDisplay[0])) ? false : true; }            
         }
 
         public bool IsRole2
@@ -186,7 +186,7 @@ namespace QOBDManagement.Models
 
         public bool IsIsRole2AnonymousEnable
         {
-            get { return (RolePositionDisplay.Count > 1 && checkIfRRoleAnonymous(RolePositionDisplay[1])) ? false : true; }
+            get { return (RolePositionDisplay.Count > 1 && checkIfRoleAnonymous(RolePositionDisplay[1])) ? false : true; }
         }
 
         public bool IsRole3
@@ -197,7 +197,7 @@ namespace QOBDManagement.Models
 
         public bool IsIsRole3AnonymousEnable
         {
-            get { return (RolePositionDisplay.Count > 2 && checkIfRRoleAnonymous(RolePositionDisplay[2])) ? false : true; }
+            get { return (RolePositionDisplay.Count > 2 && checkIfRoleAnonymous(RolePositionDisplay[2])) ? false : true; }
         }
 
         public bool IsRole4
@@ -208,7 +208,7 @@ namespace QOBDManagement.Models
 
         public bool IsIsRole4AnonymousEnable
         {
-            get { return (RolePositionDisplay.Count > 3 && checkIfRRoleAnonymous(RolePositionDisplay[3])) ? false : true; }
+            get { return (RolePositionDisplay.Count > 3 && checkIfRoleAnonymous(RolePositionDisplay[3])) ? false : true; }
         }
 
         public bool IsRole5
@@ -219,7 +219,7 @@ namespace QOBDManagement.Models
 
         public bool IsIsRole5AnonymousEnable
         {
-            get { return (RolePositionDisplay.Count > 4 && checkIfRRoleAnonymous(RolePositionDisplay[4])) ? false : true; }
+            get { return (RolePositionDisplay.Count > 4 && checkIfRoleAnonymous(RolePositionDisplay[4])) ? false : true; }
         }
 
         public bool IsRole6
@@ -230,7 +230,7 @@ namespace QOBDManagement.Models
 
         public bool IsIsRole6AnonymousEnable
         {
-            get { return (RolePositionDisplay.Count > 5 && checkIfRRoleAnonymous(RolePositionDisplay[5])) ? false : true; }
+            get { return (RolePositionDisplay.Count > 5 && checkIfRoleAnonymous(RolePositionDisplay[5])) ? false : true; }
         }
 
         public bool IsRole7
@@ -241,7 +241,7 @@ namespace QOBDManagement.Models
 
         public bool IsIsRole7AnonymousEnable
         {
-            get { return (RolePositionDisplay.Count > 6 && checkIfRRoleAnonymous(RolePositionDisplay[6])) ? false : true; }
+            get { return (RolePositionDisplay.Count > 6 && checkIfRoleAnonymous(RolePositionDisplay[6])) ? false : true; }
         }
 
         public bool IsRole8
@@ -252,7 +252,7 @@ namespace QOBDManagement.Models
 
         public bool IsIsRole8AnonymousEnable
         {
-            get { return (RolePositionDisplay.Count > 7 && checkIfRRoleAnonymous(RolePositionDisplay[7])) ? false : true; }
+            get { return (RolePositionDisplay.Count > 7 && checkIfRoleAnonymous(RolePositionDisplay[7])) ? false : true; }
         }
 
         public bool IsRole9
@@ -263,7 +263,7 @@ namespace QOBDManagement.Models
 
         public bool IsIsRole9AnonymousEnable
         {
-            get { return (RolePositionDisplay.Count > 8 && checkIfRRoleAnonymous(RolePositionDisplay[8])) ? false : true; }
+            get { return (RolePositionDisplay.Count > 8 && checkIfRoleAnonymous(RolePositionDisplay[8])) ? false : true; }
         }
 
         private bool getRoleBooleanByID(int id)
@@ -279,7 +279,7 @@ namespace QOBDManagement.Models
             return false;
         }
 
-        private bool checkIfRRoleAnonymous(int id)
+        private bool checkIfRoleAnonymous(int id)
         {
             object _lock = new object();
             if (RoleList != null)

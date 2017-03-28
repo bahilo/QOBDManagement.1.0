@@ -255,15 +255,6 @@ namespace QOBDCommon.Classes
             return Path.GetFullPath(path);
         }
 
-        private static void grantAccess(string filePath)
-        {
-            DirectoryInfo dirInfo = new DirectoryInfo(filePath);
-            DirectorySecurity dirSecurity = dirInfo.GetAccessControl();
-            dirSecurity.AddAccessRule(new FileSystemAccessRule( new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-            dirInfo.SetAccessControl(dirSecurity);
-            
-        }
-
         public static Dictionary<T, P> concat<T, P>(Dictionary<T, P> dictTarget, Dictionary<T, P> dictSource)
         {
             foreach (var dict in dictSource)

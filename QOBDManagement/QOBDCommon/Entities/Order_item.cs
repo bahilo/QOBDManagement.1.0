@@ -36,6 +36,6 @@ namespace QOBDCommon.Entities
 
         public string Comment_Purchase_Price {get; set;}
 
-        public int Order {get; set;}
+        public int Rank {get; set;}
     } /* end class Command_Item */
 }

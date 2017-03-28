@@ -211,11 +211,6 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        public void mainNavigObject(Func<Object, Object> navigObject)
-        {
-            _page = navigObject;
-        }
-
         private void processEntryNewFamily()
         {
             // Checking that the The new family doesn't exist
@@ -327,6 +322,7 @@ namespace QOBDManagement.ViewModel
             }
 
             Dialog.IsDialogOpen = false;
+            _main.ItemViewModel.checkBoxToCartCommand.raiseCanExecuteActionChanged();
         }
 
         private bool canSaveItem(string arg)

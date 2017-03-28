@@ -83,6 +83,7 @@
     <Compile Include="Classes\TriggerConverter.cs" />
     <Compile Include="Enums\EPrefix.cs" />
     <Compile Include="Enums\EServiceCommunication.cs" />
+    <Compile Include="Enums\EStatisticOption.cs" />
     <Compile Include="Interfaces\IAgentViewModel.cs" />
     <Compile Include="Interfaces\ICart.cs" />
     <Compile Include="Interfaces\IChatRoom.cs" />

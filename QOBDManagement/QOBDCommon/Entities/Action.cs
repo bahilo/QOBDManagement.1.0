@@ -12,6 +12,8 @@ namespace QOBDCommon.Entities
 
         public string Name { get; set; }
 
+        public string DisplayedName { get; set; }
+
         public Privilege Right { get; set; }
     }
 }

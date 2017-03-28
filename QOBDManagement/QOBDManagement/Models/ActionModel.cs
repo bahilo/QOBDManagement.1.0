@@ -32,6 +32,12 @@ namespace QOBDManagement.Models
             set { _action.Name = value; onPropertyChange(); }
         }
 
+        public string TxtDisplayedName
+        {
+            get { return _action.DisplayedName; }
+            set { _action.DisplayedName = value; onPropertyChange(); }
+        }
+
         public string TxtID
         {
             get { return _action.ID.ToString(); }

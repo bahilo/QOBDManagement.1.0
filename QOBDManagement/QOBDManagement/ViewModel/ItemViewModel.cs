@@ -17,6 +17,7 @@ using System.Diagnostics;
 using QOBDManagement.Interfaces;
 using System.Windows.Threading;
 using System.Globalization;
+using QOBDCommon.Classes;
 
 namespace QOBDManagement.ViewModel
 {
@@ -186,7 +187,7 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Actions ]------------------
 
-        public void loadItems()
+        public async void loadItems()
         {
             Dialog.showSearch("Loading...");
 
@@ -194,7 +195,7 @@ namespace QOBDManagement.ViewModel
             if (!_isSearchResult)
             {
                 ItemDetailViewModel.AllProviderList = new HashSet<Provider>(Bl.BlItem.GetProviderData(999));
-                ItemModelList = itemListToModelViewList(Bl.BlItem.GetItemData(999));
+                ItemModelList = itemListToModelViewList(await Bl.BlItem.GetItemDataAsync(999));
                 _cbSearchCriteriaList = new List<string>();
             }
             _isSearchResult = false;
@@ -236,7 +237,7 @@ namespace QOBDManagement.ViewModel
                 ivm.ProviderList = loadProviderFromProvider_item(provider_itemFoundList, item.Source);
 
                 if (ivm.ProviderList.Count > 0 && ivm.ProviderList.Count > 0 && ItemDetailViewModel.AllProviderList.Where(x => x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).Count() > 0)
-                    ivm.SelectedProvider = ItemDetailViewModel.AllProviderList.Where(x=> x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).First();
+                    ivm.SelectedProvider = ItemDetailViewModel.AllProviderList.Where(x => x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).First();
 
                 // select the items appearing in the cart
                 if (Cart.CartItemList.Where(x => x.Item.ID == ivm.Item.ID).Count() > 0)
@@ -268,23 +269,121 @@ namespace QOBDManagement.ViewModel
             return returnResult;
         }
 
+        public void increaseStock(List<Order_itemModel> order_itemList)
+        {
+            foreach (Order_itemModel order_itemModel in order_itemList)
+                increaseStock(new List<Order_itemModel> { order_itemModel }, order_itemModel.Order_Item.Quantity);
+        }
+
+        public async void increaseStock(List<Order_itemModel> order_itemList, int quantity = 0)
+        {
+            foreach (Order_itemModel order_itemModel in order_itemList)
+            {
+                var itemFound = (await Bl.BlItem.searchItemAsync(new Item { Ref = order_itemModel.TxtItem_ref }, ESearchOption.AND)).FirstOrDefault();
+                if (itemFound != null)
+                {
+                    if (quantity > 0)
+                        order_itemModel.ItemModel.Item.Stock = itemFound.Stock + quantity;
+                    else
+                        order_itemModel.ItemModel.Item.Stock = itemFound.Stock + order_itemModel.Order_Item.Quantity;
+                }
+            }
+
+            await Bl.BlItem.UpdateItemAsync(order_itemList.Select(x => x.ItemModel.Item).ToList());
+        }
+
+        public void decreaseStock(List<Order_itemModel> order_itemList)
+        {
+            foreach (Order_itemModel order_itemModel in order_itemList)
+                decreaseStock(new List<Order_itemModel> { order_itemModel }, order_itemModel.Order_Item.Quantity);
+        }
+
+        public async void decreaseStock(List<Order_itemModel> order_itemList, int quantity = 0)
+        {
+            foreach (Order_itemModel order_itemModel in order_itemList)
+            {
+                var itemFound = (await Bl.BlItem.searchItemAsync(new Item { Ref = order_itemModel.TxtItem_ref }, ESearchOption.AND)).FirstOrDefault();
+                if (itemFound != null)
+                {
+                    if ((itemFound.Stock - order_itemModel.Order_Item.Quantity) > 0)
+                    {
+                        if (quantity > 0)
+                            order_itemModel.ItemModel.Item.Stock = itemFound.Stock - quantity;
+                        else
+                            order_itemModel.ItemModel.Item.Stock = itemFound.Stock - order_itemModel.Order_Item.Quantity;
+                    }
+                }
+            }
+
+            await Bl.BlItem.UpdateItemAsync(order_itemList.Select(x => x.ItemModel.Item).ToList());
+        }
+
+        public void updateStock(List<Order_itemModel> order_itemModelList, bool isStockReset = false)
+        {
+            foreach (Order_itemModel order_itemModel in order_itemModelList)
+            {
+                if (order_itemModel.ItemModel.Item.Stock > 0)
+                {
+                    if (isStockReset)
+                        increaseStock(new List<Order_itemModel> { order_itemModel }, order_itemModel.Order_Item.Quantity);
+                    else
+                    {
+                        if (order_itemModel.Order_Item.Quantity < Utility.intTryParse(order_itemModel.TxtOldQuantity))
+                            increaseStock(new List<Order_itemModel> { order_itemModel }, Utility.intTryParse(order_itemModel.TxtOldQuantity) - order_itemModel.Order_Item.Quantity);
+                        else if (order_itemModel.Order_Item.Quantity > Utility.intTryParse(order_itemModel.TxtOldQuantity))
+                            decreaseStock(new List<Order_itemModel> { order_itemModel }, order_itemModel.Order_Item.Quantity - Utility.intTryParse(order_itemModel.TxtOldQuantity));
+                    }
+                }
+            }
+        }
+
+        public void updateStock(List<Cart_itemModel> cart_itemModelList, bool isResetStock = false)
+        {
+            foreach (Cart_itemModel cart_itemModel in cart_itemModelList)
+            {
+                if (cart_itemModel.Item.Stock > 0)
+                {
+                    if (isResetStock)
+                        increaseStock(new List<Order_itemModel> { new Order_itemModel { ItemModel = new ItemModel { Item = cart_itemModel.Item }, TxtQuantity = cart_itemModel.TxtQuantity } }, Utility.intTryParse(cart_itemModel.TxtOldQuantity));
+                    else
+                    {
+                        if (Utility.intTryParse(cart_itemModel.TxtQuantity) < Utility.intTryParse(cart_itemModel.TxtOldQuantity))
+                            increaseStock(new List<Order_itemModel> { new Order_itemModel { ItemModel = new ItemModel { Item = cart_itemModel.Item }, TxtQuantity = cart_itemModel.TxtQuantity } }, Utility.intTryParse(cart_itemModel.TxtOldQuantity) - Utility.intTryParse(cart_itemModel.TxtQuantity));
+                        else if (Utility.intTryParse(cart_itemModel.TxtQuantity) > Utility.intTryParse(cart_itemModel.TxtOldQuantity))
+                            decreaseStock(new List<Order_itemModel> { new Order_itemModel { ItemModel = new ItemModel { Item = cart_itemModel.Item }, TxtQuantity = cart_itemModel.TxtQuantity } }, Utility.intTryParse(cart_itemModel.TxtQuantity) - Utility.intTryParse(cart_itemModel.TxtOldQuantity));
+                    }
+                }
+            }
+        }
+
+        public async Task<bool> checkIfStockAvailable(Order_itemModel order_itemModel)
+        {
+            bool isStockAvailable = false;
+            var itemFound = (await Bl.BlItem.searchItemAsync(new Item { Ref = order_itemModel.TxtItem_ref }, ESearchOption.AND)).FirstOrDefault();
+            if (itemFound != null && itemFound.Stock >= order_itemModel.Order_Item.Quantity - Utility.intTryParse(order_itemModel.TxtOldQuantity))
+                isStockAvailable = true;
+
+            return isStockAvailable;
+        }
+
+        public async Task<bool> checkIfStockAvailable(Cart_itemModel cart_itemModel)
+        {
+            bool isStockAvailable = false;
+            var itemFound = (await Bl.BlItem.searchItemAsync(new Item { Ref = cart_itemModel.TxtRef }, ESearchOption.AND)).FirstOrDefault();
+            if (itemFound != null && itemFound.Stock >= Utility.intTryParse(cart_itemModel.TxtQuantity) - Utility.intTryParse(cart_itemModel.TxtOldQuantity))
+                isStockAvailable = true;
+
+            return isStockAvailable;
+        }
+
         public override void Dispose()
         {
-            ItemDetailViewModel.PropertyChanged -= onSelectedItemChange;
             ItemDetailViewModel.Dispose();
             ItemSideBarViewModel.Dispose();
         }
 
         //----------------------------[ Event Handler ]------------------
 
-        private void onSelectedItemChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (string.Equals(e.PropertyName, "SelectedItemModel"))
-            {
-                executeNavig("item-detail");
-                ItemSideBarViewModel.SelectedItem = SelectedItemModel;
-            }
-        }
 
         //----------------------------[ Action Commands ]------------------
 
@@ -360,7 +459,10 @@ namespace QOBDManagement.ViewModel
 
         private bool canSaveCartChecks(ItemModel arg)
         {
+            //if (arg != null && arg.Item.Stock > 0)
             return true;
+
+            //return false;
         }
 
         private bool canFilterItem(string arg)
@@ -388,6 +490,8 @@ namespace QOBDManagement.ViewModel
         public void saveSelectedItem(ItemModel obj)
         {
             SelectedItemModel = obj;
+            ItemSideBarViewModel.SelectedItem = SelectedItemModel;
+            executeNavig("item-detail");
         }
 
         private bool canSaveSelectedItem(ItemModel arg)

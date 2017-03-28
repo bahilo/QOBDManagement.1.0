@@ -151,7 +151,7 @@ namespace QOBDDAL.Classes
                                                 order_item.Comment_Purchase_Price,
                                                 order_item.Price,
                                                 order_item.Price_purchase,
-                                                order_item.Order,
+                                                order_item.Rank,
                                                 order_item.ID);
         }
 

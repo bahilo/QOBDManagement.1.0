@@ -8,6 +8,7 @@
         <xsd:all>
           <xsd:element name="ID" type="xsd:int" />
           <xsd:element name="Name" type="xsd:string" />
+          <xsd:element name="DisplayedName" type="xsd:string" />
           <xsd:element name="Right" type="tns:PrivilegeQOBD" />
         </xsd:all>
       </xsd:complexType>
@@ -22,6 +23,7 @@
         <xsd:all>
           <xsd:element name="ID" type="xsd:int" />
           <xsd:element name="Name" type="xsd:string" />
+          <xsd:element name="DisplayedName" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
@@ -269,6 +271,7 @@
           <xsd:element name="Type_sub" type="xsd:string" />
           <xsd:element name="Price_purchase" type="xsd:decimal" />
           <xsd:element name="Price_sell" type="xsd:decimal" />
+          <xsd:element name="Stock" type="xsd:int" />
           <xsd:element name="Source" type="xsd:string" />
           <xsd:element name="Number_of_sale" type="xsd:int" />
           <xsd:element name="Comment" type="xsd:string" />
@@ -291,6 +294,7 @@
           <xsd:element name="Type_sub" type="xsd:string" />
           <xsd:element name="Price_purchase" type="xsd:decimal" />
           <xsd:element name="Price_sell" type="xsd:decimal" />
+          <xsd:element name="Stock" type="xsd:int" />
           <xsd:element name="Source" type="xsd:string" />
           <xsd:element name="Comment" type="xsd:string" />
           <xsd:element name="Erasable" type="xsd:string" />
@@ -452,7 +456,7 @@
           <xsd:element name="Price" type="xsd:decimal" />
           <xsd:element name="Price_purchase" type="xsd:decimal" />
           <xsd:element name="Comment_Purchase_Price" type="xsd:string" />
-          <xsd:element name="Order" type="xsd:int" />
+          <xsd:element name="Rank" type="xsd:int" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllOrder_itemQOBD">
@@ -474,7 +478,7 @@
           <xsd:element name="Price" type="xsd:decimal" />
           <xsd:element name="Price_purchase" type="xsd:decimal" />
           <xsd:element name="Comment_Purchase_Price" type="xsd:string" />
-          <xsd:element name="Order" type="xsd:int" />
+          <xsd:element name="Rank" type="xsd:int" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>

@@ -577,6 +577,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 {
                     ID = x.ID,
                     Name = Utility.decodeBase64ToString(x.Name),
+                    DisplayedName = Utility.decodeBase64ToString(x.DisplayedName),
                     Right = (new PrivilegeQOBD[] { x.Right }.ArrayTypeToPrivilege().Count > 0) ? new PrivilegeQOBD[] { x.Right }.ArrayTypeToPrivilege().First() : new Privilege(),
                 }).ToList();
             }           
@@ -590,6 +591,7 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 ID = x.ID,
                 Name = Utility.encodeStringToBase64(x.Name),
+                DisplayedName = Utility.encodeStringToBase64(x.DisplayedName),
                 Right = (new List<Privilege> { { x.Right } }.PrivilegeTypeToArray()).FirstOrDefault(),
             }).ToArray();
             
@@ -603,6 +605,7 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 actionQCBD.ID = action.ID;
                 actionQCBD.Name = Utility.encodeStringToBase64(action.Name);
+                actionQCBD.DisplayedName = Utility.encodeStringToBase64(action.DisplayedName);
                 actionQCBD.Operator = filterOperator.ToString();
             }
             return actionQCBD;
@@ -1171,9 +1174,10 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 ID = x.ID,
                 OrderId = x.OrderId,
+                ItemId = x.ItemId,
                 Comment_Purchase_Price = Utility.decodeBase64ToString(x.Comment_Purchase_Price),
                 Item_ref = Utility.decodeBase64ToString(x.Item_ref),
-                Order = x.Order,
+                Rank = x.Rank,
                 Price = x.Price,
                 Price_purchase = x.Price_purchase,
                 Quantity = x.Quantity,
@@ -1190,9 +1194,10 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 ID = x.ID,
                 OrderId = x.OrderId,
+                ItemId = x.ItemId,
                 Comment_Purchase_Price = Utility.encodeStringToBase64(x.Comment_Purchase_Price),
                 Item_ref = Utility.encodeStringToBase64(x.Item_ref),
-                Order = x.Order,
+                Rank = x.Rank,
                 Price = x.Price,
                 Price_purchase = x.Price_purchase,
                 Quantity = x.Quantity,
@@ -1210,9 +1215,10 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 order_itemQCBD.ID = order_item.ID;
                 order_itemQCBD.OrderId = order_item.OrderId;
+                order_itemQCBD.ItemId = order_item.ItemId;
                 order_itemQCBD.Comment_Purchase_Price = Utility.encodeStringToBase64(order_item.Comment_Purchase_Price);
                 order_itemQCBD.Item_ref = Utility.encodeStringToBase64(order_item.Item_ref);
-                order_itemQCBD.Order = order_item.Order;
+                order_itemQCBD.Rank = order_item.Rank;
                 order_itemQCBD.Price = order_item.Price;
                 order_itemQCBD.Price_purchase = order_item.Price_purchase;
                 order_itemQCBD.Quantity = order_item.Quantity;
@@ -1373,6 +1379,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Price_purchase = x.Price_purchase,
                 Number_of_sale = x.Number_of_sale,
                 Price_sell = x.Price_sell,
+                Stock = x.Stock,
                 Ref = Utility.decodeBase64ToString(x.Ref),
                 Type_sub = Utility.decodeBase64ToString(x.Type_sub),
                 Source = Utility.intTryParse(Utility.decodeBase64ToString(x.Source.ToString())),
@@ -1393,6 +1400,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Price_purchase = x.Price_purchase,
                 Number_of_sale = x.Number_of_sale,
                 Price_sell = x.Price_sell,
+                Stock = x.Stock,
                 Ref = Utility.encodeStringToBase64(x.Ref),
                 Type_sub = Utility.encodeStringToBase64(x.Type_sub),
                 Source = Utility.encodeStringToBase64(x.Source.ToString()),
@@ -1413,6 +1421,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 ItemQCBD.Name = Utility.encodeStringToBase64(Item.Name);
                 ItemQCBD.Price_purchase = Item.Price_purchase;
                 ItemQCBD.Price_sell = Item.Price_sell;
+                ItemQCBD.Stock = Item.Stock;
                 ItemQCBD.Number_of_sale = Item.Number_of_sale;
                 ItemQCBD.Option = Item.Option;
                 ItemQCBD.Ref = Utility.encodeStringToBase64(Item.Ref);
