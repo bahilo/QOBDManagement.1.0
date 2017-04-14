@@ -18,6 +18,7 @@ using QOBDManagement.Interfaces;
 using System.Windows.Threading;
 using System.Globalization;
 using QOBDCommon.Classes;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
@@ -96,6 +97,7 @@ namespace QOBDManagement.ViewModel
         private void instancesModel(IMainWindowViewModel main)
         {
             _itemModel = new ItemModel();
+            _itemsModel = new List<ItemModel>();
             _itemDetailViewModel = new ItemDetailViewModel(main);
             _itemSideBarViewModel = new ItemSideBarViewModel(main);
         }
@@ -187,15 +189,28 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Actions ]------------------
 
-        public async void loadItems()
+        /// <summary>
+        /// loading the catalogue's items from cache
+        /// </summary>
+        public void loadItems()
         {
             Dialog.showSearch("Loading...");
 
             // if not in searching mode
             if (!_isSearchResult)
             {
+                var itemFoundList = Bl.BlItem.GetItemData(999);
                 ItemDetailViewModel.AllProviderList = new HashSet<Provider>(Bl.BlItem.GetProviderData(999));
-                ItemModelList = itemListToModelViewList(await Bl.BlItem.GetItemDataAsync(999));
+
+                // close items picture file before reloading
+                foreach (var itemModel in ItemModelList)
+                    itemModel.Image.closeImageSource();
+
+                // loading items
+                ItemModelList = itemListToModelViewList(itemFoundList);
+
+                FamilyList = new HashSet<string>(itemFoundList.Select(x=> x.Type_sub).ToList());
+                BrandList = new HashSet<string>(itemFoundList.Select(x=>x.Type).ToList());
                 _cbSearchCriteriaList = new List<string>();
             }
             _isSearchResult = false;
@@ -216,12 +231,16 @@ namespace QOBDManagement.ViewModel
             return output;
         }
 
-        private List<ItemModel> itemListToModelViewList(List<Item> itemtList)
+        public List<ItemModel> itemListToModelViewList(List<Item> itemtList)
         {
             List<ItemModel> output = new List<ItemModel>();
             ItemDetailViewModel.ItemRefList = new HashSet<string>();
             var familyList = new HashSet<string>();
             var brandList = new HashSet<string>();
+
+            var infoList = Bl.BlReferential.searchInfo(new Info { Name = "ftp_"}, ESearchOption.AND);
+            Info usernameInfo = infoList.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
+            Info passwordInfo = infoList.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
 
             foreach (var item in itemtList)
             {
@@ -243,15 +262,44 @@ namespace QOBDManagement.ViewModel
                 if (Cart.CartItemList.Where(x => x.Item.ID == ivm.Item.ID).Count() > 0)
                     ivm.IsItemSelected = true;
 
-                familyList.Add(item.Type_sub);
-                ItemDetailViewModel.ItemRefList.Add(item.Ref);
-                brandList.Add(item.Type);
+                // loading the item's picture
+                ivm.Image = loadPicture(ivm, infoList);
+                
                 output.Add(ivm);
             }
-            FamilyList = familyList;
-            BrandList = brandList;
 
             return output;
+        }
+
+        /// <summary>
+        /// loading the item's picture from ftp server
+        /// </summary>
+        /// <param name="imageFileName">picture filename</param>
+        /// <param name="infoList">ftp credential</param>
+        public InfoManager.Display loadPicture(ItemModel itemModel, List<Info> infoList)
+        {           
+            Info usernameInfo = infoList.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
+            Info passwordInfo = infoList.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
+
+            if (infoList.Count > 0 && ItemModel != null)
+            {
+                string fileName = itemModel.TxtRef.Replace(' ', '_').Replace(':', '_');
+
+                // closing item picture file before update
+                if (itemModel.Image != null)
+                    itemModel.Image.closeImageSource();
+                else
+                    itemModel.Image = new InfoManager.Display(ConfigurationManager.AppSettings["ftp_catalogue_image_folder"], ConfigurationManager.AppSettings["local_catalogue_image_folder"], usernameInfo.Value, passwordInfo.Value);
+
+                if (!string.IsNullOrEmpty(itemModel.TxtPicture) && itemModel.TxtPicture.Split('.').Count() > 1 && !string.IsNullOrEmpty(itemModel.TxtPicture.Split('.')[0]))
+                    fileName = itemModel.TxtPicture.Split('.')[0].Replace(' ', '_').Replace(':', '_');
+
+                itemModel.Image.TxtFileNameWithoutExtension = fileName;
+                itemModel.Image.FilterList = new List<string> { fileName };
+                itemModel.Image.InfoDataList = new List<Info> { new Info { Name = fileName, Value = itemModel.TxtPicture } };
+                itemModel.Image.downloadFile();                
+            }
+            return itemModel.Image;
         }
 
         private List<Provider> loadProviderFromProvider_item(List<Provider_item> provider_itemFoundList, int userSourceId)
@@ -479,16 +527,23 @@ namespace QOBDManagement.ViewModel
         private void deleteItemFromCart(Cart_itemModel obj)
         {
             saveCartChecks(new ItemModel { Item = obj.Item });
-            /*Cart.CartItemList.Remove(obj);
-            var itemFound = ItemModelList.Where(x => x.Item.ID == obj.Item.ID).FirstOrDefault();
-            if(itemFound != null)
-                itemFound.IsItemSelected = false;
-
-            GoToQuoteCommand.raiseCanExecuteActionChanged();*/
         }
 
         public void saveSelectedItem(ItemModel obj)
         {
+            // closing the old picture file
+            /*if(SelectedItemModel != null && SelectedItemModel.Image != null)
+                SelectedItemModel.Image.closeImageSource();
+
+            if (_main.OrderViewModel != null 
+                && _main.OrderViewModel.OrderDetailViewModel != null 
+                &&_main.OrderViewModel.OrderDetailViewModel.Order_ItemModelList != null)
+            {
+                var imageFound = _main.OrderViewModel.OrderDetailViewModel.Order_ItemModelList.Where(x=>x.TxtItem_ref == obj.TxtRef).Select(x=> x.ItemModel.Image).SingleOrDefault();
+                if (imageFound != null)
+                    imageFound.closeImageSource();
+            }*/
+            
             SelectedItemModel = obj;
             ItemSideBarViewModel.SelectedItem = SelectedItemModel;
             executeNavig("item-detail");

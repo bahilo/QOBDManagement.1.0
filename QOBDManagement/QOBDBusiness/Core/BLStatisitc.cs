@@ -70,7 +70,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Statistic>> DeleteStatisticAsync(List<Statistic> statisticList)
         {
             List<Statistic> result = new List<Statistic>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(statisticList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(statisticList.Where(x => x.ID == 0).Count()))
                 statisticList = statisticList.Where(x => x.ID != 0).ToList();
 
             if (statisticList == null || statisticList.Count == 0)
@@ -87,7 +87,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Statistic>> UpdateStatisticAsync(List<Statistic> statisticList)
         {
             List<Statistic> result = new List<Statistic>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(statisticList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(statisticList.Where(x => x.ID == 0).Count()))
                 statisticList = statisticList.Where(x => x.ID != 0).ToList();
 
             if (statisticList == null || statisticList.Count == 0)

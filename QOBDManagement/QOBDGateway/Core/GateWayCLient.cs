@@ -183,7 +183,7 @@ namespace QOBDGateway.Core
             List<Client> result = new List<Client>();
             try
             {
-                result = (await _channel.get_data_client_by_max_credit_overAsync(agentId)).ArrayTypeToClient();
+                result = (await _channel.get_data_client_by_max_credit_overAsync(agentId.ToString())).ArrayTypeToClient();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }

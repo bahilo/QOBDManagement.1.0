@@ -162,7 +162,18 @@
                                                     </MultiBinding>
                                                 </CheckBox.Command>
                                             </CheckBox>
-
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock>Pictures</TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+                                                    Width="150"
+                                                    Height="100"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -174,7 +185,9 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBox Text="{Binding TxtRef, Converter={StaticResource ResourceKey=StringLengthConverter}}"
-                                                         TextWrapping="Wrap" AcceptsReturn="True" IsEnabled="False"/>
+                                                     TextWrapping="Wrap" AcceptsReturn="True" IsEnabled="False"
+                                                     HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -184,8 +197,9 @@
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding TxtName, Converter={StaticResource ResourceKey=StringLengthConverter}}"
-                                                         TextWrapping="Wrap" AcceptsReturn="True" IsEnabled="False"/>
+                                            <TextBlock Text="{Binding TxtName, Converter={StaticResource ResourceKey=StringLengthConverter}}"
+                                                       HorizontalAlignment="Center" 
+                                                       VerticalAlignment="Center"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

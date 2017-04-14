@@ -110,9 +110,17 @@ namespace QOBDDAL.Core
             try
             {
                 checkServiceCommunication();
-                ConcurrentBag<Client> clientList = new ConcurrentBag<Client>(await _gateWayClient.searchClientAsync(new Client { AgentId = AuthenticatedUser.ID }, ESearchOption.AND));
+                ConcurrentBag<Client> loadedClientList = new ConcurrentBag<Client>();
+                ConcurrentBag<Client> clientList = new ConcurrentBag<Client>();
 
-                if (clientList.Count > 0)
+                do
+                {
+                    int lastLoadedClientID = loadedClientList.OrderBy(x => x.ID).Select(x => x.ID).FirstOrDefault();
+                    loadedClientList = new ConcurrentBag<Client>(await _gateWayClient.searchClientAsync(new Client { AgentId = AuthenticatedUser.ID, Option = lastLoadedClientID }, ESearchOption.AND));
+                    clientList = new ConcurrentBag<Client>(clientList.Concat(loadedClientList).ToList());
+                } while (loadedClientList.Count > 0);
+
+                    if (clientList.Count > 0)
                     await UpdateClientDependenciesAsync(clientList.ToList());
                 //Log.debug("-- Clients loaded --");
             }

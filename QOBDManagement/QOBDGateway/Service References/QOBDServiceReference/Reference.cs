@@ -1197,11 +1197,11 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_unpaid(int agent_id);
+        QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_unpaid(string agent_id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_bill_by_unpaid", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_unpaidAsync(int agent_id);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_unpaidAsync(string agent_id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_order", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
@@ -2635,11 +2635,11 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_max_credit_over(int agent_id);
+        QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_max_credit_over(string agent_id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_client_by_max_credit_over", ReplyAction="*")]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
-        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_max_credit_overAsync(int agent_id);
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_max_credit_overAsync(string agent_id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://localhost/WebServiceSOAP/server.php/get_data_actionRecord", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
@@ -7300,7 +7300,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class AgentQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string firstNameField;
         
@@ -7320,14 +7320,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string statusField;
         
-        private int isOnlineField;
+        private string isOnlineField;
         
-        private int listSizeField;
+        private string listSizeField;
         
         private RoleQOBD[] rolesField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -7437,7 +7437,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int IsOnline {
+        public string IsOnline {
             get {
                 return this.isOnlineField;
             }
@@ -7448,7 +7448,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ListSize {
+        public string ListSize {
             get {
                 return this.listSizeField;
             }
@@ -7736,18 +7736,18 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class User_discussionFilterChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int userIdField;
+        private string userIdField;
         
-        private int discussionIdField;
+        private string discussionIdField;
         
-        private int statusField;
+        private string statusField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -7758,7 +7758,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int UserId {
+        public string UserId {
             get {
                 return this.userIdField;
             }
@@ -7769,7 +7769,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int DiscussionId {
+        public string DiscussionId {
             get {
                 return this.discussionIdField;
             }
@@ -7780,7 +7780,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Status {
+        public string Status {
             get {
                 return this.statusField;
             }
@@ -7819,14 +7819,14 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class DiscussionFilterChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string dateField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -7876,12 +7876,12 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class DiscussionChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string dateField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -7920,22 +7920,22 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class MessageFilterChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int discussionIdField;
+        private string discussionIdField;
         
-        private int userIdField;
+        private string userIdField;
         
         private string dateField;
         
         private string contentField;
         
-        private int statusField;
+        private string statusField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -7946,7 +7946,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int DiscussionId {
+        public string DiscussionId {
             get {
                 return this.discussionIdField;
             }
@@ -7957,7 +7957,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int UserId {
+        public string UserId {
             get {
                 return this.userIdField;
             }
@@ -7990,7 +7990,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Status {
+        public string Status {
             get {
                 return this.statusField;
             }
@@ -8029,20 +8029,20 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class MessageChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int discussionIdField;
+        private string discussionIdField;
         
-        private int userIdField;
+        private string userIdField;
         
         private string dateField;
         
-        private int statusField;
+        private string statusField;
         
         private string contentField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -8053,7 +8053,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int DiscussionId {
+        public string DiscussionId {
             get {
                 return this.discussionIdField;
             }
@@ -8064,7 +8064,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int UserId {
+        public string UserId {
             get {
                 return this.userIdField;
             }
@@ -8086,7 +8086,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Status {
+        public string Status {
             get {
                 return this.statusField;
             }
@@ -8125,16 +8125,16 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class User_discussionChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int userIdField;
+        private string userIdField;
         
-        private int discussionIdField;
+        private string discussionIdField;
         
-        private int statusField;
+        private string statusField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -8145,7 +8145,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int UserId {
+        public string UserId {
             get {
                 return this.userIdField;
             }
@@ -8156,7 +8156,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int DiscussionId {
+        public string DiscussionId {
             get {
                 return this.discussionIdField;
             }
@@ -8167,7 +8167,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Status {
+        public string Status {
             get {
                 return this.statusField;
             }
@@ -8195,7 +8195,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class UserFilterChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string firstNameField;
         
@@ -8207,12 +8207,12 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string passwordField;
         
-        private int statusField;
+        private string statusField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -8278,7 +8278,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Status {
+        public string Status {
             get {
                 return this.statusField;
             }
@@ -8317,7 +8317,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class UserChatRoom : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string firstNameField;
         
@@ -8329,10 +8329,10 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string passwordField;
         
-        private int statusField;
+        private string statusField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -8398,7 +8398,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Status {
+        public string Status {
             get {
                 return this.statusField;
             }
@@ -8426,9 +8426,9 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class NotificationFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int billIdField;
+        private string billIdField;
         
         private string reminder1Field;
         
@@ -8439,7 +8439,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -8450,7 +8450,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int BillId {
+        public string BillId {
             get {
                 return this.billIdField;
             }
@@ -8522,9 +8522,9 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class NotificationQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int billIdField;
+        private string billIdField;
         
         private string reminder1Field;
         
@@ -8533,7 +8533,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string dateField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -8544,7 +8544,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int BillId {
+        public string BillId {
             get {
                 return this.billIdField;
             }
@@ -8740,7 +8740,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class TaxFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string typeField;
         
@@ -8750,12 +8750,12 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string commentField;
         
-        private int tax_currentField;
+        private string tax_currentField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -8810,7 +8810,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Tax_current {
+        public string Tax_current {
             get {
                 return this.tax_currentField;
             }
@@ -8849,7 +8849,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class TaxQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string typeField;
         
@@ -8859,10 +8859,10 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string commentField;
         
-        private int tax_currentField;
+        private string tax_currentField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -8917,7 +8917,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Tax_current {
+        public string Tax_current {
             get {
                 return this.tax_currentField;
             }
@@ -8945,22 +8945,22 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Tax_itemFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int orderIdField;
+        private string orderIdField;
         
         private string item_refField;
         
         private double tax_valueField;
         
-        private int taxIdField;
+        private string taxIdField;
         
         private string tax_typeField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -8971,7 +8971,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int OrderId {
+        public string OrderId {
             get {
                 return this.orderIdField;
             }
@@ -9004,7 +9004,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int TaxId {
+        public string TaxId {
             get {
                 return this.taxIdField;
             }
@@ -9054,20 +9054,20 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Tax_itemQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int orderIdField;
+        private string orderIdField;
         
         private string item_refField;
         
         private double tax_valueField;
         
-        private int taxIdField;
+        private string taxIdField;
         
         private string tax_typeField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9078,7 +9078,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int OrderId {
+        public string OrderId {
             get {
                 return this.orderIdField;
             }
@@ -9111,7 +9111,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int TaxId {
+        public string TaxId {
             get {
                 return this.taxIdField;
             }
@@ -9150,11 +9150,11 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Tax_orderFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int orderIdField;
+        private string orderIdField;
         
-        private int taxIdField;
+        private string taxIdField;
         
         private string date_insertField;
         
@@ -9165,7 +9165,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9176,7 +9176,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int OrderId {
+        public string OrderId {
             get {
                 return this.orderIdField;
             }
@@ -9187,7 +9187,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int TaxId {
+        public string TaxId {
             get {
                 return this.taxIdField;
             }
@@ -9259,11 +9259,11 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Tax_orderQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int orderIdField;
+        private string orderIdField;
         
-        private int taxIdField;
+        private string taxIdField;
         
         private string date_insertField;
         
@@ -9272,7 +9272,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string targetField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9283,7 +9283,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int OrderId {
+        public string OrderId {
             get {
                 return this.orderIdField;
             }
@@ -9294,7 +9294,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int TaxId {
+        public string TaxId {
             get {
                 return this.taxIdField;
             }
@@ -9355,16 +9355,16 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class ProviderFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string nameField;
         
-        private int sourceField;
+        private string sourceField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9386,7 +9386,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Source {
+        public string Source {
             get {
                 return this.sourceField;
             }
@@ -9425,14 +9425,14 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class ProviderQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string nameField;
         
-        private int sourceField;
+        private string sourceField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9454,7 +9454,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Source {
+        public string Source {
             get {
                 return this.sourceField;
             }
@@ -9482,7 +9482,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Provider_itemFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string provider_nameField;
         
@@ -9491,7 +9491,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9552,14 +9552,14 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Provider_itemQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string provider_nameField;
         
         private string item_refField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9609,18 +9609,18 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Item_deliveryFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int deliveryIdField;
+        private string deliveryIdField;
         
         private string item_refField;
         
-        private int quantity_deliveryField;
+        private string quantity_deliveryField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9631,7 +9631,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int DeliveryId {
+        public string DeliveryId {
             get {
                 return this.deliveryIdField;
             }
@@ -9653,7 +9653,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Quantity_delivery {
+        public string Quantity_delivery {
             get {
                 return this.quantity_deliveryField;
             }
@@ -9692,16 +9692,16 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Item_deliveryQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int deliveryIdField;
+        private string deliveryIdField;
         
         private string item_refField;
         
-        private int quantity_deliveryField;
+        private string quantity_deliveryField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9712,7 +9712,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int DeliveryId {
+        public string DeliveryId {
             get {
                 return this.deliveryIdField;
             }
@@ -9734,7 +9734,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Quantity_delivery {
+        public string Quantity_delivery {
             get {
                 return this.quantity_deliveryField;
             }
@@ -9762,14 +9762,14 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Auto_refsFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int refIdField;
+        private string refIdField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9780,7 +9780,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int RefId {
+        public string RefId {
             get {
                 return this.refIdField;
             }
@@ -9819,12 +9819,12 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Auto_refsQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int refIdField;
+        private string refIdField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9835,7 +9835,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int RefId {
+        public string RefId {
             get {
                 return this.refIdField;
             }
@@ -9863,18 +9863,18 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class InfosFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string nameField;
         
         private string valueField;
         
-        private int optionField;
+        private string optionField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -9907,7 +9907,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Option {
+        public string Option {
             get {
                 return this.optionField;
             }
@@ -9946,14 +9946,14 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class InfosQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string nameField;
         
         private string valueField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -10003,13 +10003,13 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class DeliveryFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int orderIdField;
+        private string orderIdField;
         
-        private int billIdField;
+        private string billIdField;
         
-        private int packageField;
+        private string packageField;
         
         private string dateField;
         
@@ -10018,7 +10018,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -10029,7 +10029,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int OrderId {
+        public string OrderId {
             get {
                 return this.orderIdField;
             }
@@ -10040,7 +10040,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int BillId {
+        public string BillId {
             get {
                 return this.billIdField;
             }
@@ -10051,7 +10051,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Package {
+        public string Package {
             get {
                 return this.packageField;
             }
@@ -10112,20 +10112,20 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class DeliveryQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int orderIdField;
+        private string orderIdField;
         
-        private int billIdField;
+        private string billIdField;
         
-        private int packageField;
+        private string packageField;
         
         private string dateField;
         
         private string statusField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -10136,7 +10136,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int OrderId {
+        public string OrderId {
             get {
                 return this.orderIdField;
             }
@@ -10147,7 +10147,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int BillId {
+        public string BillId {
             get {
                 return this.billIdField;
             }
@@ -10158,7 +10158,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Package {
+        public string Package {
             get {
                 return this.packageField;
             }
@@ -10208,9 +10208,9 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class ContactFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int clientIdField;
+        private string clientIdField;
         
         private string firstnameField;
         
@@ -10231,7 +10231,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -10242,7 +10242,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ClientId {
+        public string ClientId {
             get {
                 return this.clientIdField;
             }
@@ -10369,9 +10369,9 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class ContactQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int clientIdField;
+        private string clientIdField;
         
         private string firstnameField;
         
@@ -10390,7 +10390,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string commentField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -10401,7 +10401,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ClientId {
+        public string ClientId {
             get {
                 return this.clientIdField;
             }
@@ -10517,19 +10517,19 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Order_itemFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int orderIdField;
+        private string orderIdField;
         
-        private int itemIdField;
+        private string itemIdField;
         
         private string item_refField;
         
-        private int quantityField;
+        private string quantityField;
         
-        private int quantity_deliveryField;
+        private string quantity_deliveryField;
         
-        private int quantity_currentField;
+        private string quantity_currentField;
         
         private decimal priceField;
         
@@ -10537,12 +10537,12 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string comment_Purchase_PriceField;
         
-        private int rankField;
+        private string rankField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -10553,7 +10553,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int OrderId {
+        public string OrderId {
             get {
                 return this.orderIdField;
             }
@@ -10564,7 +10564,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ItemId {
+        public string ItemId {
             get {
                 return this.itemIdField;
             }
@@ -10586,7 +10586,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Quantity {
+        public string Quantity {
             get {
                 return this.quantityField;
             }
@@ -10597,7 +10597,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Quantity_delivery {
+        public string Quantity_delivery {
             get {
                 return this.quantity_deliveryField;
             }
@@ -10608,7 +10608,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Quantity_current {
+        public string Quantity_current {
             get {
                 return this.quantity_currentField;
             }
@@ -10652,7 +10652,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Rank {
+        public string Rank {
             get {
                 return this.rankField;
             }
@@ -10691,9 +10691,9 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class AddressFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int clientIdField;
+        private string clientIdField;
         
         private string nameField;
         
@@ -10720,7 +10720,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -10731,7 +10731,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ClientId {
+        public string ClientId {
             get {
                 return this.clientIdField;
             }
@@ -10891,9 +10891,9 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class AddressQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int clientIdField;
+        private string clientIdField;
         
         private string nameField;
         
@@ -10918,7 +10918,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string emailField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -10929,7 +10929,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ClientId {
+        public string ClientId {
             get {
                 return this.clientIdField;
             }
@@ -11078,9 +11078,9 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class ActionRecordFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int agentIdField;
+        private string agentIdField;
         
         private string dateField;
         
@@ -11088,12 +11088,12 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string targetNameField;
         
-        private int targetIdField;
+        private string targetIdField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -11104,7 +11104,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int AgentId {
+        public string AgentId {
             get {
                 return this.agentIdField;
             }
@@ -11148,7 +11148,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int TargetId {
+        public string TargetId {
             get {
                 return this.targetIdField;
             }
@@ -11187,9 +11187,9 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class ActionRecordQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int agentIdField;
+        private string agentIdField;
         
         private string dateField;
         
@@ -11197,10 +11197,10 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string targetNameField;
         
-        private int targetIdField;
+        private string targetIdField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -11211,7 +11211,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int AgentId {
+        public string AgentId {
             get {
                 return this.agentIdField;
             }
@@ -11255,7 +11255,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int TargetId {
+        public string TargetId {
             get {
                 return this.targetIdField;
             }
@@ -11283,22 +11283,22 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class EmailQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int clientIdField;
+        private string clientIdField;
         
         private string objectNameField;
         
-        private int objectIdField;
+        private string objectIdField;
         
-        private int isObjectToAttachFileField;
+        private string isObjectToAttachFileField;
         
-        private int isMailCopyToMeField;
+        private string isMailCopyToMeField;
         
         private string subjectField;
         
         private string messageField;
         
         /// <remarks/>
-        public int ClientId {
+        public string ClientId {
             get {
                 return this.clientIdField;
             }
@@ -11320,7 +11320,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ObjectId {
+        public string ObjectId {
             get {
                 return this.objectIdField;
             }
@@ -11331,7 +11331,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int IsObjectToAttachFile {
+        public string IsObjectToAttachFile {
             get {
                 return this.isObjectToAttachFileField;
             }
@@ -11342,7 +11342,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int IsMailCopyToMe {
+        public string IsMailCopyToMe {
             get {
                 return this.isMailCopyToMeField;
             }
@@ -11392,9 +11392,9 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class ClientFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int agentIdField;
+        private string agentIdField;
         
         private string firstNameField;
         
@@ -11412,7 +11412,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string cRNField;
         
-        private int payDelayField;
+        private string payDelayField;
         
         private string commentField;
         
@@ -11422,10 +11422,12 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string companyNameField;
         
+        private string optionField;
+        
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -11436,7 +11438,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int AgentId {
+        public string AgentId {
             get {
                 return this.agentIdField;
             }
@@ -11535,7 +11537,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int PayDelay {
+        public string PayDelay {
             get {
                 return this.payDelayField;
             }
@@ -11590,6 +11592,17 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
+        public string Option {
+            get {
+                return this.optionField;
+            }
+            set {
+                this.optionField = value;
+                this.RaisePropertyChanged("Option");
+            }
+        }
+        
+        /// <remarks/>
         public string Operator {
             get {
                 return this.operatorField;
@@ -11618,9 +11631,9 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class ClientQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int agentIdField;
+        private string agentIdField;
         
         private string firstNameField;
         
@@ -11638,7 +11651,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string cRNField;
         
-        private int payDelayField;
+        private string payDelayField;
         
         private string commentField;
         
@@ -11649,7 +11662,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string companyNameField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -11660,7 +11673,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int AgentId {
+        public string AgentId {
             get {
                 return this.agentIdField;
             }
@@ -11759,7 +11772,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int PayDelay {
+        public string PayDelay {
             get {
                 return this.payDelayField;
             }
@@ -11831,19 +11844,19 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class Order_itemQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int orderIdField;
+        private string orderIdField;
         
-        private int itemIdField;
+        private string itemIdField;
         
         private string item_refField;
         
-        private int quantityField;
+        private string quantityField;
         
-        private int quantity_deliveryField;
+        private string quantity_deliveryField;
         
-        private int quantity_currentField;
+        private string quantity_currentField;
         
         private decimal priceField;
         
@@ -11851,10 +11864,10 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string comment_Purchase_PriceField;
         
-        private int rankField;
+        private string rankField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -11865,7 +11878,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int OrderId {
+        public string OrderId {
             get {
                 return this.orderIdField;
             }
@@ -11876,7 +11889,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ItemId {
+        public string ItemId {
             get {
                 return this.itemIdField;
             }
@@ -11898,7 +11911,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Quantity {
+        public string Quantity {
             get {
                 return this.quantityField;
             }
@@ -11909,7 +11922,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Quantity_delivery {
+        public string Quantity_delivery {
             get {
                 return this.quantity_deliveryField;
             }
@@ -11920,7 +11933,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Quantity_current {
+        public string Quantity_current {
             get {
                 return this.quantity_currentField;
             }
@@ -11964,7 +11977,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Rank {
+        public string Rank {
             get {
                 return this.rankField;
             }
@@ -11992,7 +12005,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class ItemFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string refField;
         
@@ -12006,7 +12019,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private decimal price_sellField;
         
-        private int stockField;
+        private string stockField;
         
         private string sourceField;
         
@@ -12014,14 +12027,16 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string erasableField;
         
-        private int number_of_saleField;
+        private string pictureField;
         
-        private int optionField;
+        private string number_of_saleField;
+        
+        private string optionField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -12098,7 +12113,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Stock {
+        public string Stock {
             get {
                 return this.stockField;
             }
@@ -12142,7 +12157,18 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Number_of_sale {
+        public string Picture {
+            get {
+                return this.pictureField;
+            }
+            set {
+                this.pictureField = value;
+                this.RaisePropertyChanged("Picture");
+            }
+        }
+        
+        /// <remarks/>
+        public string Number_of_sale {
             get {
                 return this.number_of_saleField;
             }
@@ -12153,7 +12179,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Option {
+        public string Option {
             get {
                 return this.optionField;
             }
@@ -12192,7 +12218,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class ItemQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string refField;
         
@@ -12206,18 +12232,20 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private decimal price_sellField;
         
-        private int stockField;
+        private string stockField;
         
         private string sourceField;
         
-        private int number_of_saleField;
+        private string number_of_saleField;
         
         private string commentField;
         
         private string erasableField;
         
+        private string pictureField;
+        
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -12294,7 +12322,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Stock {
+        public string Stock {
             get {
                 return this.stockField;
             }
@@ -12316,7 +12344,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Number_of_sale {
+        public string Number_of_sale {
             get {
                 return this.number_of_saleField;
             }
@@ -12348,6 +12376,17 @@ namespace QOBDGateway.QOBDServiceReference {
             }
         }
         
+        /// <remarks/>
+        public string Picture {
+            get {
+                return this.pictureField;
+            }
+            set {
+                this.pictureField = value;
+                this.RaisePropertyChanged("Picture");
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -12366,7 +12405,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class StatisticFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string bill_dateField;
         
@@ -12392,12 +12431,12 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private double tax_valueField;
         
-        private int optionField;
+        private string optionField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -12540,7 +12579,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int Option {
+        public string Option {
             get {
                 return this.optionField;
             }
@@ -12579,7 +12618,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class StatisticQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string bill_dateField;
         
@@ -12606,7 +12645,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private double tax_valueField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -12766,7 +12805,7 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class AgentFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
         private string firstNameField;
         
@@ -12786,14 +12825,14 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string statusField;
         
-        private int isOnlineField;
+        private string isOnlineField;
         
-        private int listSizeField;
+        private string listSizeField;
         
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -12903,7 +12942,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int IsOnline {
+        public string IsOnline {
             get {
                 return this.isOnlineField;
             }
@@ -12914,7 +12953,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ListSize {
+        public string ListSize {
             get {
                 return this.listSizeField;
             }
@@ -12953,12 +12992,12 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class PdfQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int orderIdField;
+        private string orderIdField;
         
-        private int billIdField;
+        private string billIdField;
         
         /// <remarks/>
-        public int OrderId {
+        public string OrderId {
             get {
                 return this.orderIdField;
             }
@@ -12969,7 +13008,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int BillId {
+        public string BillId {
             get {
                 return this.billIdField;
             }
@@ -12997,11 +13036,11 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class OrderFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int agentIdField;
+        private string agentIdField;
         
-        private int clientIdField;
+        private string clientIdField;
         
         private string comment1Field;
         
@@ -13009,9 +13048,9 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string comment3Field;
         
-        private int billAddressField;
+        private string billAddressField;
         
-        private int deliveryAddressField;
+        private string deliveryAddressField;
         
         private string statusField;
         
@@ -13022,7 +13061,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -13033,7 +13072,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int AgentId {
+        public string AgentId {
             get {
                 return this.agentIdField;
             }
@@ -13044,7 +13083,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ClientId {
+        public string ClientId {
             get {
                 return this.clientIdField;
             }
@@ -13088,7 +13127,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int BillAddress {
+        public string BillAddress {
             get {
                 return this.billAddressField;
             }
@@ -13099,7 +13138,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int DeliveryAddress {
+        public string DeliveryAddress {
             get {
                 return this.deliveryAddressField;
             }
@@ -13171,11 +13210,11 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class OrdersQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int agentIdField;
+        private string agentIdField;
         
-        private int clientIdField;
+        private string clientIdField;
         
         private string comment1Field;
         
@@ -13183,9 +13222,9 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string comment3Field;
         
-        private int billAddressField;
+        private string billAddressField;
         
-        private int deliveryAddressField;
+        private string deliveryAddressField;
         
         private string statusField;
         
@@ -13194,7 +13233,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private double taxField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -13205,7 +13244,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int AgentId {
+        public string AgentId {
             get {
                 return this.agentIdField;
             }
@@ -13216,7 +13255,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ClientId {
+        public string ClientId {
             get {
                 return this.clientIdField;
             }
@@ -13260,7 +13299,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int BillAddress {
+        public string BillAddress {
             get {
                 return this.billAddressField;
             }
@@ -13271,7 +13310,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int DeliveryAddress {
+        public string DeliveryAddress {
             get {
                 return this.deliveryAddressField;
             }
@@ -13332,11 +13371,11 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class BillFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int clientIdField;
+        private string clientIdField;
         
-        private int orderIdField;
+        private string orderIdField;
         
         private string payModField;
         
@@ -13357,7 +13396,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string operatorField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -13368,7 +13407,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ClientId {
+        public string ClientId {
             get {
                 return this.clientIdField;
             }
@@ -13379,7 +13418,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int OrderId {
+        public string OrderId {
             get {
                 return this.orderIdField;
             }
@@ -13506,11 +13545,11 @@ namespace QOBDGateway.QOBDServiceReference {
     [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
     public partial class BillQOBD : object, System.ComponentModel.INotifyPropertyChanged {
         
-        private int idField;
+        private string idField;
         
-        private int clientIdField;
+        private string clientIdField;
         
-        private int orderIdField;
+        private string orderIdField;
         
         private string payModField;
         
@@ -13529,7 +13568,7 @@ namespace QOBDGateway.QOBDServiceReference {
         private string datePayField;
         
         /// <remarks/>
-        public int ID {
+        public string ID {
             get {
                 return this.idField;
             }
@@ -13540,7 +13579,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int ClientId {
+        public string ClientId {
             get {
                 return this.clientIdField;
             }
@@ -13551,7 +13590,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public int OrderId {
+        public string OrderId {
             get {
                 return this.orderIdField;
             }
@@ -14375,11 +14414,11 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_data_bill_by_order_listAsync(order_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_unpaid(int agent_id) {
+        public QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_unpaid(string agent_id) {
             return base.Channel.get_data_bill_by_unpaid(agent_id);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_unpaidAsync(int agent_id) {
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_unpaidAsync(string agent_id) {
             return base.Channel.get_data_bill_by_unpaidAsync(agent_id);
         }
         
@@ -14695,11 +14734,11 @@ namespace QOBDGateway.QOBDServiceReference {
             return base.Channel.get_data_client_by_order_listAsync(order_array_list);
         }
         
-        public QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_max_credit_over(int agent_id) {
+        public QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_max_credit_over(string agent_id) {
             return base.Channel.get_data_client_by_max_credit_over(agent_id);
         }
         
-        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_max_credit_overAsync(int agent_id) {
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_max_credit_overAsync(string agent_id) {
             return base.Channel.get_data_client_by_max_credit_overAsync(agent_id);
         }
         

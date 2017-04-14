@@ -70,7 +70,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Agent>> UpdateAgentAsync(List<Agent> agentList)
         {
             List<Agent> result = new List<Agent>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(agentList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(agentList.Where(x => x.ID == 0).Count()))
                 agentList = agentList.Where(x => x.ID != 0).ToList();
 
             if (agentList == null || agentList.Count == 0)
@@ -87,7 +87,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Agent>> DeleteAgentAsync(List<Agent> agentList)
         {
             List<Agent> result = new List<Agent>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(agentList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(agentList.Where(x => x.ID == 0).Count()))
                 agentList = agentList.Where(x => x.ID != 0).ToList();
 
             if (agentList == null || agentList.Count == 0)

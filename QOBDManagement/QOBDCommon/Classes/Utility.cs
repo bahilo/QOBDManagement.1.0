@@ -77,34 +77,45 @@ namespace QOBDCommon.Classes
 
         public static string encodeStringToBase64(string stringToEncode)
         {
-            if (!string.IsNullOrEmpty(stringToEncode))
+            object _lock = new object();
+            lock (_lock)
             {
-                byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(stringToEncode);
-                string returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
+                if (!string.IsNullOrEmpty(stringToEncode))
+                {
+                    byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(stringToEncode);
+                    string returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
 
-                return returnValue;
-            }
+                    return returnValue;
+                }
 
-            return stringToEncode;
+                return stringToEncode;
+            }            
         }
 
         public static string decodeBase64ToString(string encodedString)
         {
-            string returnValue = "";
-            try
+            object _lock = new object();
+            lock (_lock)
             {
-                if (!string.IsNullOrEmpty(encodedString))
+                string returnValue = "";
+                try
                 {
-                    byte[] encodedDataAsBytes = System.Convert.FromBase64String(encodedString);
-                    returnValue = System.Text.Encoding.UTF8.GetString(encodedDataAsBytes);
-                }                
-            }
-            catch (Exception)
-            {
-                //Debug.WriteLine(string.Format("[Warning] - decode base64 of not encoded variable ({0})", encodedString));
-                return encodedString;
-            }
-            return returnValue;
+                    if (!string.IsNullOrEmpty(encodedString))
+                    {
+                        byte[] encodedDataAsBytes = System.Convert.FromBase64String(encodedString);
+                        returnValue = System.Text.Encoding.UTF8.GetString(encodedDataAsBytes);
+                    }
+                }
+                catch (Exception)
+                {
+                    return encodedString;
+                }
+
+                if (encodeStringToBase64(returnValue) != encodedString)
+                    return encodedString;
+
+                return returnValue;
+            }            
         }       
 
 
@@ -117,6 +128,7 @@ namespace QOBDCommon.Classes
             req.Method = WebRequestMethods.Ftp.UploadFile;
             req.Credentials = new NetworkCredential(username, password);
             Stream requestStream = null;
+            FtpWebResponse response = default(FtpWebResponse);
 
             byte[] buffer;
             int totalByte;
@@ -135,7 +147,7 @@ namespace QOBDCommon.Classes
                     bytes = fs.Read(buffer, 0, buffer.Length);
                     requestStream.Write(buffer, 0, bytes);
                     totalByte = totalByte - bytes;
-                }
+                }                
             }
             catch (WebException ex)
             {
@@ -154,11 +166,18 @@ namespace QOBDCommon.Classes
                     requestStream.Close();
             }
 
-            downloadFIle(ftpUrl, fileFullPath, username, password);
+            try
+            {
+                downloadFIle(ftpUrl, fileFullPath, username, password);
 
-            FtpWebResponse response = (FtpWebResponse)req.GetResponse();
-            if (response.StatusCode.Equals(FtpStatusCode.ClosingData))
-                isComplete = true;
+                response = (FtpWebResponse)req.GetResponse();
+                if (response != null && response.StatusCode.Equals(FtpStatusCode.ClosingData))
+                    isComplete = true;
+            }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message, Enum.EErrorFrom.UTILITY);
+            }
 
             return isComplete;
         }

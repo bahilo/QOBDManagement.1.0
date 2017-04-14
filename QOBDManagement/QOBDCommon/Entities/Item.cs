@@ -38,6 +38,8 @@ namespace QOBDCommon.Entities
 
         public string Comment {get; set;}
 
+        public string Picture {get; set;}
+
         public int Option { get; set; }
 
         public string Erasable {get; set;}

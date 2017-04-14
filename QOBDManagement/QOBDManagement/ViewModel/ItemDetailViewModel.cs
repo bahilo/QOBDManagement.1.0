@@ -1,4 +1,5 @@
 ﻿using QOBDBusiness;
+using QOBDCommon.Classes;
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDManagement.Classes;
@@ -16,6 +17,7 @@ namespace QOBDManagement.ViewModel
 {
     public class ItemDetailViewModel : BindBase
     {
+        private readonly string _ITEMREFERENCEPREFIX = "QOBD";
         private HashSet<string> _itemFamilyList;
         private HashSet<string> _itemBrandList;
         private HashSet<string> _itemRefList;
@@ -33,6 +35,7 @@ namespace QOBDManagement.ViewModel
         public ButtonCommand<string> btnValidCommand { get; set; }
         public ButtonCommand<string> btnDeleteCommand { get; set; }
         public ButtonCommand<object> SearchCommand { get; set; }
+        public ButtonCommand<object> OpenFileExplorerCommand { get; set; }
 
 
         public ItemDetailViewModel()
@@ -53,7 +56,6 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Initialization ]------------------
         
-
         private void instances()
         {
             _title = "Item Description";
@@ -73,6 +75,7 @@ namespace QOBDManagement.ViewModel
             btnValidCommand = new ButtonCommand<string>(saveItem, canSaveItem);
             btnDeleteCommand = new ButtonCommand<string>(deleteItem, canDeleteItem);
             SearchCommand = new ButtonCommand<object>(searchItem, canSearchItem);
+            OpenFileExplorerCommand = new ButtonCommand<object>(getFileFromLocal, canGetFileFromLocal);
         }
 
 
@@ -225,10 +228,28 @@ namespace QOBDManagement.ViewModel
                 }
             }
         }
-        
+
+        public async void updateItemImage(List<Info> infoDataList)
+        {
+            Dialog.showSearch("File saving...");
+            var infosToUpdateList = infoDataList.Where(x => x.ID != 0).ToList();
+            var infosToCreateList = infoDataList.Where(x => x.ID == 0).ToList();
+            var infosUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infosToUpdateList);
+            var infosCreatedList = await Bl.BlReferential.InsertInfoAsync(infosToCreateList);
+
+            if (infosUpdatedList.Count == 0 && infosCreatedList.Count == 0)
+            {
+                string errorMessage = "Error occurred while saving the information!";
+                Log.error(errorMessage, EErrorFrom.REFERENTIAL);
+                await Dialog.showAsync(errorMessage);
+            }
+
+            Dialog.IsDialogOpen = false;
+        }
+
 
         //----------------------------[ Event Handler ]------------------
-        
+
 
         //----------------------------[ Action Commands ]------------------
 
@@ -276,7 +297,7 @@ namespace QOBDManagement.ViewModel
                 // creating a new reference via the automatic reference system
                 var auto_reflist = await Bl.BlItem.GetAuto_refDataAsync(1);
                 var auto_ref = (auto_reflist.Count > 0) ? auto_reflist[0] : new Auto_ref();
-                newRef = "QOBD" + auto_ref.RefId;
+                newRef = _ITEMREFERENCEPREFIX + auto_ref.RefId;
                 newRef += " : " + SelectedItemModel.TxtRef;
                 auto_ref.RefId++;
 
@@ -304,7 +325,10 @@ namespace QOBDManagement.ViewModel
                 SelectedItemModel.ProviderList = retrieveProviderFromProvider_item(provider_itemResultList, SelectedItemModel.Item.Source);
 
                 if (itemSavedList.Count > 0)
+                {
+                    SelectedItemModel.Item = itemSavedList[0];
                     await Dialog.showAsync("Item has been created successfully!");
+                }                    
             }
 
             // Otherwise update the current item
@@ -323,6 +347,7 @@ namespace QOBDManagement.ViewModel
 
             Dialog.IsDialogOpen = false;
             _main.ItemViewModel.checkBoxToCartCommand.raiseCanExecuteActionChanged();
+            OpenFileExplorerCommand.raiseCanExecuteActionChanged();
         }
 
         private bool canSaveItem(string arg)
@@ -349,6 +374,53 @@ namespace QOBDManagement.ViewModel
         private bool canSearchItem(object arg)
         {
             return true;
+        }
+
+        private async void getFileFromLocal(object obj)
+        {
+            Dialog.showSearch("Picture updating...");
+
+            // closing the image file if opened in the order detail
+            if (_main.OrderViewModel != null
+                && _main.OrderViewModel.OrderDetailViewModel != null
+                && _main.OrderViewModel.OrderDetailViewModel.Order_ItemModelList != null)
+            {
+                var imageFound = _main.OrderViewModel.OrderDetailViewModel.Order_ItemModelList.Where(x => x.TxtItem_ref == SelectedItemModel.TxtRef).Select(x => x.ItemModel.Image).SingleOrDefault();
+                if (imageFound != null)
+                    imageFound.closeImageSource();
+            }
+
+            // generating new image
+            SelectedItemModel.Image = _main.ItemViewModel.loadPicture(SelectedItemModel, Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND));
+            
+            // opening the file explorer for image file choosing
+            SelectedItemModel.Image.TxtChosenFile = InfoManager.ExecuteOpenFileDialog("Select an image file", new List<string> { "png", "jpeg", "jpg" });
+            SelectedItemModel.TxtPicture = SelectedItemModel.Image.TxtFileName;
+
+            // upload the image file to the FTP server
+            SelectedItemModel.Image.uploadImage();
+
+            // update item image
+            var savedItemList = await Bl.BlItem.UpdateItemAsync(new List<Item> { SelectedItemModel.Item });
+
+            if (savedItemList.Count > 0)
+                await Dialog.showAsync("The picture has been saved successfully!");
+            else
+            {
+                string errorMessage = "Error occured while updating the item ["+SelectedItemModel.TxtRef+"] picture";
+                Log.error(errorMessage, EErrorFrom.ITEM);
+                await Dialog.showAsync(errorMessage);
+            }               
+
+            Dialog.IsDialogOpen = false;
+        }
+
+        private bool canGetFileFromLocal(object arg)
+        {
+            if (SelectedItemModel != null && !string.IsNullOrEmpty(SelectedItemModel.TxtRef) && SelectedItemModel.TxtRef.StartsWith(_ITEMREFERENCEPREFIX))
+                return true;
+
+            return false;
         }
 
     }

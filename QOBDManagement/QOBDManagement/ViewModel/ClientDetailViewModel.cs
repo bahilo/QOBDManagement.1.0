@@ -34,7 +34,7 @@ namespace QOBDManagement.ViewModel
         public ButtonCommand<ClientModel> BtnSearchCommand { get; set; }
         public ButtonCommand<string> BtnDeleteCommand { get; set; }
         public ButtonCommand<string> BtnAddCommand { get; set; }
-        public ButtonCommand<string> SelectClientForQuoteCommand { get; set; }
+        public ButtonCommand<ClientModel> SelectClientForQuoteCommand { get; set; }
         public ButtonCommand<string> ValidChangeCommand { get; set; }
         public ButtonCommand<Contact> DetailSelectedContactCommand { get; set; }
         public ButtonCommand<Address> DetailSelectedAddressCommand { get; set; }
@@ -75,7 +75,7 @@ namespace QOBDManagement.ViewModel
 
         private void instancesCommand()
         {
-            SelectClientForQuoteCommand = new ButtonCommand<string>(setCartClientForQuote, canSetCartClientForQuote);
+            SelectClientForQuoteCommand = new ButtonCommand<ClientModel>(setCartClientForQuote, canSetCartClientForQuote);
             ValidChangeCommand = new ButtonCommand<string>(saveChanges, canSaveChanges);
             BtnSearchCommand = new ButtonCommand<ClientModel>(selectNewClient, canSelectNewClient);
             BtnDeleteCommand = new ButtonCommand<string>(deleteClientInfo, canDeleteClientInfo);
@@ -120,7 +120,7 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Actions ]------------------
         
-        public async Task<bool> confirmDelting(string obj)
+        public async Task<bool> confirmDeleting(string obj)
         {
             return await Dialog.showAsync(string.Format("Do you want to delete the {0}? ", obj));
         }
@@ -271,13 +271,17 @@ namespace QOBDManagement.ViewModel
             return false;
         }
 
-        private void setCartClientForQuote(string obj)
+        public void setCartClientForQuote(ClientModel obj)
         {
-            Cart.Client = SelectedCLientModel;
+            if (obj != null && obj.Client.ID != 0)
+                Cart.Client = obj;
+            else
+                Cart.Client = SelectedCLientModel;
+
             _page(_main.QuoteViewModel);
         }
 
-        private bool canSetCartClientForQuote(string arg)
+        private bool canSetCartClientForQuote(ClientModel arg)
         {
             bool isWrite = _main.securityCheck(QOBDCommon.Enum.EAction.Quote, QOBDCommon.Enum.ESecurity._Write);
             if (isWrite)
@@ -290,7 +294,7 @@ namespace QOBDManagement.ViewModel
             switch (obj)
             {
                 case "client":
-                    if (SelectedCLientModel != null && SelectedCLientModel.Client.ID != 0 && await confirmDelting(obj))
+                    if (SelectedCLientModel != null && SelectedCLientModel.Client.ID != 0 && await confirmDeleting(obj))
                     {
                         Dialog.showSearch(string.Format("Client Deleting {0}...", obj));
                         var deletedAddressList = await Bl.BlClient.DeleteAddressAsync(_selectedCLientModel.AddressList);
@@ -304,7 +308,7 @@ namespace QOBDManagement.ViewModel
                     }
                     break;
                 case "address":
-                    if (SelectedCLientModel.Address != null && SelectedCLientModel.Address.ID != 0 && await confirmDelting(obj))
+                    if (SelectedCLientModel.Address != null && SelectedCLientModel.Address.ID != 0 && await confirmDeleting(obj))
                     {
                         Dialog.showSearch(string.Format("Address Deleting {0}...", obj));
                         var deletedAddressList = await Bl.BlClient.DeleteAddressAsync(new List<Address> { SelectedCLientModel.Address });
@@ -319,7 +323,7 @@ namespace QOBDManagement.ViewModel
                     }
                     break;
                 case "contact":
-                    if (SelectedCLientModel.Contact != null && SelectedCLientModel.Contact.ID != 0 && await confirmDelting(obj))
+                    if (SelectedCLientModel.Contact != null && SelectedCLientModel.Contact.ID != 0 && await confirmDeleting(obj))
                     {
                         Dialog.showSearch(string.Format("Contact Deleting {0}...", obj));
                         var deletedContactList = await Bl.BlClient.DeleteContactAsync(new List<Contact> { SelectedCLientModel.Contact });

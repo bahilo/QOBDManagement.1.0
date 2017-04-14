@@ -14,6 +14,7 @@ namespace QOBDManagement.Interfaces
     public interface IMainWindowViewModel
     {
         //----------------[ Properties ]--------------
+
         ClientViewModel ClientViewModel { get; set; }
         ItemViewModel ItemViewModel { get; set; }
         OrderViewModel OrderViewModel { get; set; }
@@ -25,19 +26,27 @@ namespace QOBDManagement.Interfaces
         QuoteViewModel QuoteViewModel { get; set; }
         ChatRoomViewModel ChatRoomViewModel { get; set; }
         SecurityLoginViewModel SecurityLoginViewModel { get; set; }
+
         Object CurrentViewModel { get; set; }
         Object ChatRoomCurrentView { get; set; }
+
+        //--------[ Images ]
+        InfoManager.Display HeaderImageDisplay { get; set; }
+        InfoManager.Display LogoImageDisplay { get; set; }
+        InfoManager.Display BillImageDisplay { get; set; }
+
         IStartup Startup { get; set; }
         bool isNewAgentAuthentication { get; set; }
         AgentModel AuthenticatedUserModel { get; }
         Cart Cart { get; }
+        Context Context { get; set; }
         ButtonCommand<string> CommandNavig { get; set; }
 
         //---------------[ Actions ]---------------------
         double progressBarManagement(double status = 0);
         bool securityCheck(EAction action, ESecurity right);
         Object navigation(Object centralPageContent = null);
-        DisplayAndData.Display.Image loadImage(string fileName, string imageName, string login, string password);
-        DisplayAndData.Display.Image ImageManagement(DisplayAndData.Display.Image newImage = null, string fileType = null);
+        InfoManager.Display loadImage(InfoManager.Display image);
+        InfoManager.Display ImageManagement(InfoManager.Display newImage = null, string fileType = null);
     }
 }

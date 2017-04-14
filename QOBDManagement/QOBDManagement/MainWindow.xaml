@@ -117,11 +117,11 @@
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Left">
                         <Image Source="{Binding LogoImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
-                           Width="{Binding DataContext.LogoImageDisplay.TxtWidth, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
-                           Height="{Binding DataContext.LogoImageDisplay.TxtHeight, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Image Source="{Binding HeaderImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
-                           Width="{Binding DataContext.HeaderImageDisplay.TxtWidth, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
-                           Height="{Binding DataContext.HeaderImageDisplay.TxtHeight, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
+                           Width="{Binding DataContext.LogoImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
+                           Height="{Binding DataContext.LogoImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Image Source="{Binding HeaderImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform" Margin="10 0 0 0"
+                           Width="{Binding DataContext.HeaderImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
+                           Height="{Binding DataContext.HeaderImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1"  HorizontalAlignment="Right" Orientation="Horizontal">
                         <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnEmail" ToolTip="New Messages"

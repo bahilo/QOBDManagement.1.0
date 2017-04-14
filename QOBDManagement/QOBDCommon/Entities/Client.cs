@@ -43,7 +43,9 @@ namespace QOBDCommon.Entities
 
         public decimal MaxCredit {get; set;}
 
-        public string Status {get; set;}
+        public string Status {get; set; }
+
+        public int Option { get; set; }
 
         public string CompanyName {get; set;}
 

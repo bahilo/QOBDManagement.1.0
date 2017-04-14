@@ -79,7 +79,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Order>> DeleteOrderAsync(List<Order> orderList)
         {
             List<Order> result = new List<Order>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(orderList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(orderList.Where(x => x.ID == 0).Count()))
                 orderList = orderList.Where(x => x.ID != 0).ToList();
 
             if (orderList == null || orderList.Count == 0)
@@ -96,7 +96,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Order>> UpdateOrderAsync(List<Order> orderList)
         {
             List<Order> result = new List<Order>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(orderList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(orderList.Where(x => x.ID == 0).Count()))
                 orderList = orderList.Where(x => x.ID != 0).ToList();
 
             if (orderList == null || orderList.Count == 0)
@@ -188,7 +188,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Bill>> DeleteBillAsync(List<Bill> billList)
         {
             List<Bill> result = new List<Bill>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(billList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(billList.Where(x => x.ID == 0).Count()))
                 billList = billList.Where(x => x.ID != 0).ToList();
 
             if (billList == null || billList.Count == 0)
@@ -205,7 +205,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Bill>> UpdateBillAsync(List<Bill> billList)
         {
             List<Bill> result = new List<Bill>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(billList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(billList.Where(x => x.ID == 0).Count()))
                 billList = billList.Where(x => x.ID != 0).ToList();
 
             if (billList == null || billList.Count == 0)
@@ -342,7 +342,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Delivery>> DeleteDeliveryAsync(List<Delivery> deliveryList)
         {
             List<Delivery> result = new List<Delivery>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(deliveryList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(deliveryList.Where(x => x.ID == 0).Count()))
                 deliveryList = deliveryList.Where(x => x.ID != 0).ToList();
 
             if (deliveryList == null || deliveryList.Count == 0)
@@ -359,7 +359,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Delivery>> UpdateDeliveryAsync(List<Delivery> deliveryList)
         {
             List<Delivery> result = new List<Delivery>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(deliveryList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(deliveryList.Where(x => x.ID == 0).Count()))
                 deliveryList = deliveryList.Where(x => x.ID != 0).ToList();
 
             if (deliveryList == null || deliveryList.Count == 0)
@@ -471,7 +471,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Tax>> UpdateTaxAsync(List<Tax> taxList)
         {
             List<Tax> result = new List<Tax>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(taxList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(taxList.Where(x => x.ID == 0).Count()))
                 taxList = taxList.Where(x => x.ID != 0).ToList();
 
             if (taxList == null || taxList.Count == 0)
@@ -488,7 +488,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Tax>> DeleteTaxAsync(List<Tax> taxList)
         {
             List<Tax> result = new List<Tax>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(taxList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(taxList.Where(x => x.ID == 0).Count()))
                 taxList = taxList.Where(x => x.ID != 0).ToList();
 
             if (taxList == null || taxList.Count == 0)
@@ -578,7 +578,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Tax_order>> UpdateTax_orderAsync(List<Tax_order> tax_orderList)
         {
             List<Tax_order> result = new List<Tax_order>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(tax_orderList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(tax_orderList.Where(x => x.ID == 0).Count()))
                 tax_orderList = tax_orderList.Where(x => x.ID != 0).ToList();
 
             if (tax_orderList == null || tax_orderList.Count == 0)
@@ -595,7 +595,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Tax_order>> DeleteTax_orderAsync(List<Tax_order> tax_orderList)
         {
             List<Tax_order> result = new List<Tax_order>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(tax_orderList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(tax_orderList.Where(x => x.ID == 0).Count()))
                 tax_orderList = tax_orderList.Where(x => x.ID != 0).ToList();
 
             if (tax_orderList == null || tax_orderList.Count == 0)
@@ -708,7 +708,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Order_item>> DeleteOrder_itemAsync(List<Order_item> order_itemList)
         {
             List<Order_item> result = new List<Order_item>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(order_itemList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(order_itemList.Where(x => x.ID == 0).Count()))
                 order_itemList = order_itemList.Where(x => x.ID != 0).ToList();
 
             if (order_itemList == null || order_itemList.Count == 0)
@@ -725,7 +725,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Order_item>> UpdateOrder_itemAsync(List<Order_item> order_itemList)
         {
             List<Order_item> result = new List<Order_item>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(order_itemList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(order_itemList.Where(x => x.ID == 0).Count()))
                 order_itemList = order_itemList.Where(x => x.ID != 0).ToList();
 
             if (order_itemList == null || order_itemList.Count == 0)

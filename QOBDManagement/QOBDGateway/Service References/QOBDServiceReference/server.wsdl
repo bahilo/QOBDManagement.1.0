@@ -98,9 +98,9 @@
       </xsd:complexType>
       <xsd:complexType name="BillQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="ClientId" type="xsd:int" />
-          <xsd:element name="OrderId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="ClientId" type="xsd:string" />
+          <xsd:element name="OrderId" type="xsd:string" />
           <xsd:element name="PayMod" type="xsd:string" />
           <xsd:element name="Pay" type="xsd:decimal" />
           <xsd:element name="PayReceived" type="xsd:decimal" />
@@ -120,9 +120,9 @@
       </xsd:complexType>
       <xsd:complexType name="BillFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="ClientId" type="xsd:int" />
-          <xsd:element name="OrderId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="ClientId" type="xsd:string" />
+          <xsd:element name="OrderId" type="xsd:string" />
           <xsd:element name="PayMod" type="xsd:string" />
           <xsd:element name="Pay" type="xsd:decimal" />
           <xsd:element name="PayReceived" type="xsd:decimal" />
@@ -136,14 +136,14 @@
       </xsd:complexType>
       <xsd:complexType name="OrderFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="AgentId" type="xsd:int" />
-          <xsd:element name="ClientId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="AgentId" type="xsd:string" />
+          <xsd:element name="ClientId" type="xsd:string" />
           <xsd:element name="Comment1" type="xsd:string" />
           <xsd:element name="Comment2" type="xsd:string" />
           <xsd:element name="Comment3" type="xsd:string" />
-          <xsd:element name="BillAddress" type="xsd:int" />
-          <xsd:element name="DeliveryAddress" type="xsd:int" />
+          <xsd:element name="BillAddress" type="xsd:string" />
+          <xsd:element name="DeliveryAddress" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
           <xsd:element name="Tax" type="xsd:double" />
@@ -152,14 +152,14 @@
       </xsd:complexType>
       <xsd:complexType name="OrdersQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="AgentId" type="xsd:int" />
-          <xsd:element name="ClientId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="AgentId" type="xsd:string" />
+          <xsd:element name="ClientId" type="xsd:string" />
           <xsd:element name="Comment1" type="xsd:string" />
           <xsd:element name="Comment2" type="xsd:string" />
           <xsd:element name="Comment3" type="xsd:string" />
-          <xsd:element name="BillAddress" type="xsd:int" />
-          <xsd:element name="DeliveryAddress" type="xsd:int" />
+          <xsd:element name="BillAddress" type="xsd:string" />
+          <xsd:element name="DeliveryAddress" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
           <xsd:element name="Tax" type="xsd:double" />
@@ -167,8 +167,8 @@
       </xsd:complexType>
       <xsd:complexType name="PdfQOBD">
         <xsd:all>
-          <xsd:element name="OrderId" type="xsd:int" />
-          <xsd:element name="BillId" type="xsd:int" />
+          <xsd:element name="OrderId" type="xsd:string" />
+          <xsd:element name="BillId" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllOrderQOBD">
@@ -180,7 +180,7 @@
       </xsd:complexType>
       <xsd:complexType name="AgentQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="FirstName" type="xsd:string" />
           <xsd:element name="LastName" type="xsd:string" />
           <xsd:element name="Phone" type="xsd:string" />
@@ -190,8 +190,8 @@
           <xsd:element name="Password" type="xsd:string" />
           <xsd:element name="Admin" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
-          <xsd:element name="IsOnline" type="xsd:int" />
-          <xsd:element name="ListSize" type="xsd:int" />
+          <xsd:element name="IsOnline" type="xsd:string" />
+          <xsd:element name="ListSize" type="xsd:string" />
           <xsd:element name="Roles" type="tns:AllRoleQOBD" />
         </xsd:all>
       </xsd:complexType>
@@ -204,7 +204,7 @@
       </xsd:complexType>
       <xsd:complexType name="AgentFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="FirstName" type="xsd:string" />
           <xsd:element name="LastName" type="xsd:string" />
           <xsd:element name="Phone" type="xsd:string" />
@@ -214,14 +214,14 @@
           <xsd:element name="Password" type="xsd:string" />
           <xsd:element name="Admin" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
-          <xsd:element name="IsOnline" type="xsd:int" />
-          <xsd:element name="ListSize" type="xsd:int" />
+          <xsd:element name="IsOnline" type="xsd:string" />
+          <xsd:element name="ListSize" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="StatisticQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Bill_date" type="xsd:string" />
           <xsd:element name="BillId" type="xsd:string" />
           <xsd:element name="Company" type="xsd:string" />
@@ -245,7 +245,7 @@
       </xsd:complexType>
       <xsd:complexType name="StatisticFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Bill_date" type="xsd:string" />
           <xsd:element name="BillId" type="xsd:string" />
           <xsd:element name="Company" type="xsd:string" />
@@ -258,24 +258,25 @@
           <xsd:element name="Date_limit" type="xsd:string" />
           <xsd:element name="Pay_date" type="xsd:string" />
           <xsd:element name="Tax_value" type="xsd:double" />
-          <xsd:element name="Option" type="xsd:int" />
+          <xsd:element name="Option" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="ItemQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Ref" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
           <xsd:element name="Type" type="xsd:string" />
           <xsd:element name="Type_sub" type="xsd:string" />
           <xsd:element name="Price_purchase" type="xsd:decimal" />
           <xsd:element name="Price_sell" type="xsd:decimal" />
-          <xsd:element name="Stock" type="xsd:int" />
+          <xsd:element name="Stock" type="xsd:string" />
           <xsd:element name="Source" type="xsd:string" />
-          <xsd:element name="Number_of_sale" type="xsd:int" />
+          <xsd:element name="Number_of_sale" type="xsd:string" />
           <xsd:element name="Comment" type="xsd:string" />
           <xsd:element name="Erasable" type="xsd:string" />
+          <xsd:element name="Picture" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllItemQOBD">
@@ -287,26 +288,27 @@
       </xsd:complexType>
       <xsd:complexType name="ItemFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Ref" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
           <xsd:element name="Type" type="xsd:string" />
           <xsd:element name="Type_sub" type="xsd:string" />
           <xsd:element name="Price_purchase" type="xsd:decimal" />
           <xsd:element name="Price_sell" type="xsd:decimal" />
-          <xsd:element name="Stock" type="xsd:int" />
+          <xsd:element name="Stock" type="xsd:string" />
           <xsd:element name="Source" type="xsd:string" />
           <xsd:element name="Comment" type="xsd:string" />
           <xsd:element name="Erasable" type="xsd:string" />
-          <xsd:element name="Number_of_sale" type="xsd:int" />
-          <xsd:element name="Option" type="xsd:int" />
+          <xsd:element name="Picture" type="xsd:string" />
+          <xsd:element name="Number_of_sale" type="xsd:string" />
+          <xsd:element name="Option" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="ClientQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="AgentId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="AgentId" type="xsd:string" />
           <xsd:element name="FirstName" type="xsd:string" />
           <xsd:element name="LastName" type="xsd:string" />
           <xsd:element name="Company" type="xsd:string" />
@@ -315,7 +317,7 @@
           <xsd:element name="Fax" type="xsd:string" />
           <xsd:element name="Rib" type="xsd:string" />
           <xsd:element name="CRN" type="xsd:string" />
-          <xsd:element name="PayDelay" type="xsd:int" />
+          <xsd:element name="PayDelay" type="xsd:string" />
           <xsd:element name="Comment" type="xsd:string" />
           <xsd:element name="MaxCredit" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
@@ -331,8 +333,8 @@
       </xsd:complexType>
       <xsd:complexType name="ClientFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="AgentId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="AgentId" type="xsd:string" />
           <xsd:element name="FirstName" type="xsd:string" />
           <xsd:element name="LastName" type="xsd:string" />
           <xsd:element name="Company" type="xsd:string" />
@@ -341,11 +343,12 @@
           <xsd:element name="Fax" type="xsd:string" />
           <xsd:element name="Rib" type="xsd:string" />
           <xsd:element name="CRN" type="xsd:string" />
-          <xsd:element name="PayDelay" type="xsd:int" />
+          <xsd:element name="PayDelay" type="xsd:string" />
           <xsd:element name="Comment" type="xsd:string" />
           <xsd:element name="MaxCredit" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="CompanyName" type="xsd:string" />
+          <xsd:element name="Option" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
@@ -365,23 +368,23 @@
       </xsd:complexType>
       <xsd:complexType name="EmailQOBD">
         <xsd:all>
-          <xsd:element name="ClientId" type="xsd:int" />
+          <xsd:element name="ClientId" type="xsd:string" />
           <xsd:element name="ObjectName" type="xsd:string" />
-          <xsd:element name="ObjectId" type="xsd:int" />
-          <xsd:element name="IsObjectToAttachFile" type="xsd:int" />
-          <xsd:element name="IsMailCopyToMe" type="xsd:int" />
+          <xsd:element name="ObjectId" type="xsd:string" />
+          <xsd:element name="IsObjectToAttachFile" type="xsd:string" />
+          <xsd:element name="IsMailCopyToMe" type="xsd:string" />
           <xsd:element name="Subject" type="xsd:string" />
           <xsd:element name="Message" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="ActionRecordQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="AgentId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="AgentId" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
           <xsd:element name="Action" type="xsd:string" />
           <xsd:element name="TargetName" type="xsd:string" />
-          <xsd:element name="TargetId" type="xsd:int" />
+          <xsd:element name="TargetId" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllActionRecordQOBD">
@@ -393,19 +396,19 @@
       </xsd:complexType>
       <xsd:complexType name="ActionRecordFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="AgentId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="AgentId" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
           <xsd:element name="Action" type="xsd:string" />
           <xsd:element name="TargetName" type="xsd:string" />
-          <xsd:element name="TargetId" type="xsd:int" />
+          <xsd:element name="TargetId" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AddressQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="ClientId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="ClientId" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
           <xsd:element name="Name2" type="xsd:string" />
           <xsd:element name="CityName" type="xsd:string" />
@@ -428,8 +431,8 @@
       </xsd:complexType>
       <xsd:complexType name="AddressFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="ClientId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="ClientId" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
           <xsd:element name="Name2" type="xsd:string" />
           <xsd:element name="CityName" type="xsd:string" />
@@ -446,17 +449,17 @@
       </xsd:complexType>
       <xsd:complexType name="Order_itemQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="OrderId" type="xsd:int" />
-          <xsd:element name="ItemId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="OrderId" type="xsd:string" />
+          <xsd:element name="ItemId" type="xsd:string" />
           <xsd:element name="Item_ref" type="xsd:string" />
-          <xsd:element name="Quantity" type="xsd:int" />
-          <xsd:element name="Quantity_delivery" type="xsd:int" />
-          <xsd:element name="Quantity_current" type="xsd:int" />
+          <xsd:element name="Quantity" type="xsd:string" />
+          <xsd:element name="Quantity_delivery" type="xsd:string" />
+          <xsd:element name="Quantity_current" type="xsd:string" />
           <xsd:element name="Price" type="xsd:decimal" />
           <xsd:element name="Price_purchase" type="xsd:decimal" />
           <xsd:element name="Comment_Purchase_Price" type="xsd:string" />
-          <xsd:element name="Rank" type="xsd:int" />
+          <xsd:element name="Rank" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllOrder_itemQOBD">
@@ -468,24 +471,24 @@
       </xsd:complexType>
       <xsd:complexType name="Order_itemFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="OrderId" type="xsd:int" />
-          <xsd:element name="ItemId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="OrderId" type="xsd:string" />
+          <xsd:element name="ItemId" type="xsd:string" />
           <xsd:element name="Item_ref" type="xsd:string" />
-          <xsd:element name="Quantity" type="xsd:int" />
-          <xsd:element name="Quantity_delivery" type="xsd:int" />
-          <xsd:element name="Quantity_current" type="xsd:int" />
+          <xsd:element name="Quantity" type="xsd:string" />
+          <xsd:element name="Quantity_delivery" type="xsd:string" />
+          <xsd:element name="Quantity_current" type="xsd:string" />
           <xsd:element name="Price" type="xsd:decimal" />
           <xsd:element name="Price_purchase" type="xsd:decimal" />
           <xsd:element name="Comment_Purchase_Price" type="xsd:string" />
-          <xsd:element name="Rank" type="xsd:int" />
+          <xsd:element name="Rank" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="ContactQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="ClientId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="ClientId" type="xsd:string" />
           <xsd:element name="Firstname" type="xsd:string" />
           <xsd:element name="LastName" type="xsd:string" />
           <xsd:element name="Position" type="xsd:string" />
@@ -505,8 +508,8 @@
       </xsd:complexType>
       <xsd:complexType name="ContactFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="ClientId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="ClientId" type="xsd:string" />
           <xsd:element name="Firstname" type="xsd:string" />
           <xsd:element name="LastName" type="xsd:string" />
           <xsd:element name="Position" type="xsd:string" />
@@ -520,10 +523,10 @@
       </xsd:complexType>
       <xsd:complexType name="DeliveryQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="OrderId" type="xsd:int" />
-          <xsd:element name="BillId" type="xsd:int" />
-          <xsd:element name="Package" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="OrderId" type="xsd:string" />
+          <xsd:element name="BillId" type="xsd:string" />
+          <xsd:element name="Package" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
         </xsd:all>
@@ -537,10 +540,10 @@
       </xsd:complexType>
       <xsd:complexType name="DeliveryFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="OrderId" type="xsd:int" />
-          <xsd:element name="BillId" type="xsd:int" />
-          <xsd:element name="Package" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="OrderId" type="xsd:string" />
+          <xsd:element name="BillId" type="xsd:string" />
+          <xsd:element name="Package" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
@@ -548,7 +551,7 @@
       </xsd:complexType>
       <xsd:complexType name="InfosQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
           <xsd:element name="Value" type="xsd:string" />
         </xsd:all>
@@ -562,17 +565,17 @@
       </xsd:complexType>
       <xsd:complexType name="InfosFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
           <xsd:element name="Value" type="xsd:string" />
-          <xsd:element name="Option" type="xsd:int" />
+          <xsd:element name="Option" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="Auto_refsQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="RefId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="RefId" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllAuto_refsQOBD">
@@ -584,17 +587,17 @@
       </xsd:complexType>
       <xsd:complexType name="Auto_refsFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="RefId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="RefId" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="Item_deliveryQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="DeliveryId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="DeliveryId" type="xsd:string" />
           <xsd:element name="Item_ref" type="xsd:string" />
-          <xsd:element name="Quantity_delivery" type="xsd:int" />
+          <xsd:element name="Quantity_delivery" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllItem_deliveryQOBD">
@@ -606,16 +609,16 @@
       </xsd:complexType>
       <xsd:complexType name="Item_deliveryFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="DeliveryId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="DeliveryId" type="xsd:string" />
           <xsd:element name="Item_ref" type="xsd:string" />
-          <xsd:element name="Quantity_delivery" type="xsd:int" />
+          <xsd:element name="Quantity_delivery" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="Provider_itemQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Provider_name" type="xsd:string" />
           <xsd:element name="Item_ref" type="xsd:string" />
         </xsd:all>
@@ -629,7 +632,7 @@
       </xsd:complexType>
       <xsd:complexType name="Provider_itemFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Provider_name" type="xsd:string" />
           <xsd:element name="Item_ref" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
@@ -637,9 +640,9 @@
       </xsd:complexType>
       <xsd:complexType name="ProviderQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
-          <xsd:element name="Source" type="xsd:int" />
+          <xsd:element name="Source" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllProviderQOBD">
@@ -651,17 +654,17 @@
       </xsd:complexType>
       <xsd:complexType name="ProviderFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
-          <xsd:element name="Source" type="xsd:int" />
+          <xsd:element name="Source" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="Tax_orderQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="OrderId" type="xsd:int" />
-          <xsd:element name="TaxId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="OrderId" type="xsd:string" />
+          <xsd:element name="TaxId" type="xsd:string" />
           <xsd:element name="Date_insert" type="xsd:string" />
           <xsd:element name="Tax_value" type="xsd:double" />
           <xsd:element name="Target" type="xsd:string" />
@@ -676,9 +679,9 @@
       </xsd:complexType>
       <xsd:complexType name="Tax_orderFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="OrderId" type="xsd:int" />
-          <xsd:element name="TaxId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="OrderId" type="xsd:string" />
+          <xsd:element name="TaxId" type="xsd:string" />
           <xsd:element name="Date_insert" type="xsd:string" />
           <xsd:element name="Tax_value" type="xsd:double" />
           <xsd:element name="Target" type="xsd:string" />
@@ -687,11 +690,11 @@
       </xsd:complexType>
       <xsd:complexType name="Tax_itemQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="OrderId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="OrderId" type="xsd:string" />
           <xsd:element name="Item_ref" type="xsd:string" />
           <xsd:element name="Tax_value" type="xsd:double" />
-          <xsd:element name="TaxId" type="xsd:int" />
+          <xsd:element name="TaxId" type="xsd:string" />
           <xsd:element name="Tax_type" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
@@ -704,23 +707,23 @@
       </xsd:complexType>
       <xsd:complexType name="Tax_itemFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="OrderId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="OrderId" type="xsd:string" />
           <xsd:element name="Item_ref" type="xsd:string" />
           <xsd:element name="Tax_value" type="xsd:double" />
-          <xsd:element name="TaxId" type="xsd:int" />
+          <xsd:element name="TaxId" type="xsd:string" />
           <xsd:element name="Tax_type" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="TaxQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Type" type="xsd:string" />
           <xsd:element name="Date_insert" type="xsd:string" />
           <xsd:element name="Value" type="xsd:double" />
           <xsd:element name="Comment" type="xsd:string" />
-          <xsd:element name="Tax_current" type="xsd:int" />
+          <xsd:element name="Tax_current" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllTaxQOBD">
@@ -732,12 +735,12 @@
       </xsd:complexType>
       <xsd:complexType name="TaxFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Type" type="xsd:string" />
           <xsd:element name="Date_insert" type="xsd:string" />
           <xsd:element name="Value" type="xsd:double" />
           <xsd:element name="Comment" type="xsd:string" />
-          <xsd:element name="Tax_current" type="xsd:int" />
+          <xsd:element name="Tax_current" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
@@ -775,8 +778,8 @@
       </xsd:complexType>
       <xsd:complexType name="NotificationQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="BillId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="BillId" type="xsd:string" />
           <xsd:element name="Reminder1" type="xsd:string" />
           <xsd:element name="Reminder2" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
@@ -791,8 +794,8 @@
       </xsd:complexType>
       <xsd:complexType name="NotificationFilterQOBD">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="BillId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="BillId" type="xsd:string" />
           <xsd:element name="Reminder1" type="xsd:string" />
           <xsd:element name="Reminder2" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
@@ -801,13 +804,13 @@
       </xsd:complexType>
       <xsd:complexType name="UserChatRoom">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="FirstName" type="xsd:string" />
           <xsd:element name="LastName" type="xsd:string" />
           <xsd:element name="Email" type="xsd:string" />
           <xsd:element name="Username" type="xsd:string" />
           <xsd:element name="Password" type="xsd:string" />
-          <xsd:element name="Status" type="xsd:int" />
+          <xsd:element name="Status" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllUserChatRoom">
@@ -819,23 +822,23 @@
       </xsd:complexType>
       <xsd:complexType name="UserFilterChatRoom">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="FirstName" type="xsd:string" />
           <xsd:element name="LastName" type="xsd:string" />
           <xsd:element name="Email" type="xsd:string" />
           <xsd:element name="Username" type="xsd:string" />
           <xsd:element name="Password" type="xsd:string" />
-          <xsd:element name="Status" type="xsd:int" />
+          <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="MessageChatRoom">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="DiscussionId" type="xsd:int" />
-          <xsd:element name="UserId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="DiscussionId" type="xsd:string" />
+          <xsd:element name="UserId" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
-          <xsd:element name="Status" type="xsd:int" />
+          <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="Content" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
@@ -848,18 +851,18 @@
       </xsd:complexType>
       <xsd:complexType name="MessageFilterChatRoom">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="DiscussionId" type="xsd:int" />
-          <xsd:element name="UserId" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="DiscussionId" type="xsd:string" />
+          <xsd:element name="UserId" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
           <xsd:element name="Content" type="xsd:string" />
-          <xsd:element name="Status" type="xsd:int" />
+          <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="DiscussionChatRoom">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
@@ -872,17 +875,17 @@
       </xsd:complexType>
       <xsd:complexType name="DiscussionFilterChatRoom">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="User_discussionChatRoom">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="UserId" type="xsd:int" />
-          <xsd:element name="DiscussionId" type="xsd:int" />
-          <xsd:element name="Status" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="UserId" type="xsd:string" />
+          <xsd:element name="DiscussionId" type="xsd:string" />
+          <xsd:element name="Status" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllUser_discussionChatRoom">
@@ -894,10 +897,10 @@
       </xsd:complexType>
       <xsd:complexType name="User_discussionFilterChatRoom">
         <xsd:all>
-          <xsd:element name="ID" type="xsd:int" />
-          <xsd:element name="UserId" type="xsd:int" />
-          <xsd:element name="DiscussionId" type="xsd:int" />
-          <xsd:element name="Status" type="xsd:int" />
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="UserId" type="xsd:string" />
+          <xsd:element name="DiscussionId" type="xsd:string" />
+          <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
@@ -1111,7 +1114,7 @@
     <wsdl:part name="return" type="tns:AllBillQOBD" />
   </wsdl:message>
   <wsdl:message name="get_data_bill_by_unpaidRequest">
-    <wsdl:part name="agent_id" type="xsd:int" />
+    <wsdl:part name="agent_id" type="xsd:string" />
   </wsdl:message>
   <wsdl:message name="get_data_bill_by_unpaidResponse">
     <wsdl:part name="return" type="tns:AllBillQOBD" />
@@ -1349,7 +1352,7 @@
     <wsdl:part name="return" type="tns:AllClientQOBD" />
   </wsdl:message>
   <wsdl:message name="get_data_client_by_max_credit_overRequest">
-    <wsdl:part name="agent_id" type="xsd:int" />
+    <wsdl:part name="agent_id" type="xsd:string" />
   </wsdl:message>
   <wsdl:message name="get_data_client_by_max_credit_overResponse">
     <wsdl:part name="return" type="tns:AllClientQOBD" />

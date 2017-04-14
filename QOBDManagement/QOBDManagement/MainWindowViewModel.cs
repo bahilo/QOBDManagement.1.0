@@ -16,6 +16,9 @@ using System.Threading;
 using QOBDCommon.Enum;
 using System.Windows;
 using QOBDCommon.Classes;
+using System.Reflection;
+using QOBDManagement.Classes.Themes;
+using System.Configuration;
 
 namespace QOBDManagement
 {
@@ -29,10 +32,10 @@ namespace QOBDManagement
         private double _progressBarPercentValue;
         private string _searchProgressVisibolity;
         private Context _context;
-        private DisplayAndData.Display.Image _headerImageDisplay;
-        private DisplayAndData.Display.Image _logoImageDisplay;
-        private DisplayAndData.Display.Image _billImageDisplay;
-        private DisplayAndData.Display.Image _profileImageDisplay;
+        private InfoManager.Display _headerImageDisplay;
+        private InfoManager.Display _logoImageDisplay;
+        private InfoManager.Display _billImageDisplay;
+        //private InfoManager.Display.Image _profileImageDisplay;
         private bool _isThroughContext;
         private bool _isRefresh;
         private int _heightDataList;
@@ -78,18 +81,10 @@ namespace QOBDManagement
             _heightDataList = 600;
 
             //------[ Images ]
-            _headerImageDisplay = new DisplayAndData.Display.Image();
-            _headerImageDisplay.TxtFileNameWithoutExtension = "header_image";
-            _headerImageDisplay.TxtName = "Header Image";
-            _logoImageDisplay = new DisplayAndData.Display.Image();
-            _logoImageDisplay.TxtFileNameWithoutExtension = "logo_image";
-            _logoImageDisplay.TxtName = "Logo Image";
-            _billImageDisplay = new DisplayAndData.Display.Image();
-            _billImageDisplay.TxtFileNameWithoutExtension = "bill_image";
-            _billImageDisplay.TxtName = "BIll Image";
-            _profileImageDisplay = new DisplayAndData.Display.Image();
-            _profileImageDisplay.TxtName = "Profile Picture";
-
+            _headerImageDisplay = new InfoManager.Display("header_image", new List<string> { "header_image", "header_image_width", "header_image_height" },ConfigurationManager.AppSettings["ftp_image_folder"], ConfigurationManager.AppSettings["local_image_folder"], "","");
+            _logoImageDisplay = new InfoManager.Display("logo_image", new List<string> { "logo_image", "logo_image_width", "logo_image_height" }, ConfigurationManager.AppSettings["ftp_image_folder"], ConfigurationManager.AppSettings["local_image_folder"], "", "");
+            _billImageDisplay = new InfoManager.Display("bill_image", new List<string> { "bill_image", "bill_image_width", "bill_image_height" }, ConfigurationManager.AppSettings["ftp_image_folder"], ConfigurationManager.AppSettings["local_image_folder"], "", "");
+            
             Startup = startup;
             Dialog = new ConfirmationViewModel();
 
@@ -164,25 +159,19 @@ namespace QOBDManagement
             set { setProperty(ref _context, value); }
         }
 
-        public DisplayAndData.Display.Image HeaderImageDisplay
+        public InfoManager.Display HeaderImageDisplay
         {
             get { return _headerImageDisplay; }
             set { setProperty(ref _headerImageDisplay, value); }
         }
 
-        public DisplayAndData.Display.Image ProfileImageDisplay
-        {
-            get { return _profileImageDisplay; }
-            set { setProperty(ref _profileImageDisplay, value); }
-        }
-
-        public DisplayAndData.Display.Image LogoImageDisplay
+        public InfoManager.Display LogoImageDisplay
         {
             get { return _logoImageDisplay; }
             set { setProperty(ref _logoImageDisplay, value); }
         }
 
-        public DisplayAndData.Display.Image BillImageDisplay
+        public InfoManager.Display BillImageDisplay
         {
             get { return _billImageDisplay; }
             set { setProperty(ref _billImageDisplay, value); }
@@ -291,14 +280,14 @@ namespace QOBDManagement
             // set ftp credentials
             if (string.IsNullOrEmpty(_headerImageDisplay.TxtLogin) || string.IsNullOrEmpty(_logoImageDisplay.TxtLogin) || string.IsNullOrEmpty(_billImageDisplay.TxtLogin))
             {
-                _profileImageDisplay.TxtLogin = _headerImageDisplay.TxtLogin = _logoImageDisplay.TxtLogin = _billImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
-                _profileImageDisplay.TxtPassword = _headerImageDisplay.TxtPassword = _logoImageDisplay.TxtPassword = _billImageDisplay.TxtPassword = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+                 _headerImageDisplay.TxtLogin = _logoImageDisplay.TxtLogin = _billImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+                _headerImageDisplay.TxtPassword = _logoImageDisplay.TxtPassword = _billImageDisplay.TxtPassword = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
             }
 
             // download header image
             if (string.IsNullOrEmpty(_headerImageDisplay.TxtFileFullPath))
             {
-                var headerImageFoundDisplay = loadImage(_headerImageDisplay.TxtFileNameWithoutExtension, _headerImageDisplay.TxtName, _headerImageDisplay.TxtLogin, _headerImageDisplay.TxtPassword);
+                var headerImageFoundDisplay = loadImage(HeaderImageDisplay);
                 if (!string.IsNullOrEmpty(headerImageFoundDisplay.TxtFileFullPath) && File.Exists(headerImageFoundDisplay.TxtFileFullPath))
                     if (Application.Current != null)
                         Application.Current.Dispatcher.Invoke(() =>
@@ -310,7 +299,7 @@ namespace QOBDManagement
             // download header logo
             if (string.IsNullOrEmpty(_logoImageDisplay.TxtFileFullPath))
             {
-                var logoImageFoundDisplay = loadImage(_logoImageDisplay.TxtFileNameWithoutExtension, _logoImageDisplay.TxtName, _logoImageDisplay.TxtLogin, _logoImageDisplay.TxtPassword);
+                var logoImageFoundDisplay = loadImage(LogoImageDisplay);
                 if (!string.IsNullOrEmpty(logoImageFoundDisplay.TxtFileFullPath) && File.Exists(logoImageFoundDisplay.TxtFileFullPath))
                     if (Application.Current != null)
                         Application.Current.Dispatcher.Invoke(() =>
@@ -322,7 +311,7 @@ namespace QOBDManagement
             // download the bill image
             if (string.IsNullOrEmpty(_billImageDisplay.TxtFileFullPath))
             {
-                var billImageFoundDisplay = loadImage(_billImageDisplay.TxtFileNameWithoutExtension, _billImageDisplay.TxtName, _billImageDisplay.TxtLogin, _billImageDisplay.TxtPassword);
+                var billImageFoundDisplay = loadImage(BillImageDisplay);
                 if (!string.IsNullOrEmpty(billImageFoundDisplay.TxtFileFullPath) && File.Exists(billImageFoundDisplay.TxtFileFullPath))
                     if (Application.Current != null)
                         Application.Current.Dispatcher.Invoke(() =>
@@ -332,34 +321,11 @@ namespace QOBDManagement
             }
         }
 
-        public DisplayAndData.Display.Image loadImage(string fileName, string imageName, string login, string password)
+        public InfoManager.Display loadImage(InfoManager.Display image)
         {
-            var imageDataList = new List<Info>();
-            var imageInfoList = _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = fileName }, ESearchOption.AND);
-            var infosFoundImage = imageInfoList.Where(x => x.Name.Equals(fileName)).FirstOrDefault();
-            DisplayAndData.Display.Image imageObject = new DisplayAndData.Display.Image();
-
-            imageObject.TxtName = imageName;
-            imageObject.TxtLogin = login;
-            imageObject.TxtPassword = password;
-            imageObject.TxtFileNameWithoutExtension = fileName;
-
-            if (infosFoundImage != null)
-            {
-                imageObject.ImageInfos = infosFoundImage;
-                var infosWidthFound = imageInfoList.Where(x => x.Name.Equals(fileName + "_width")).FirstOrDefault();// _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = fileName + "_width" }, ESearchOption.AND).FirstOrDefault();
-                var infosHeightFound = imageInfoList.Where(x => x.Name.Equals(fileName + "_height")).FirstOrDefault();//_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = fileName + "_height" }, ESearchOption.AND).FirstOrDefault();
-
-                if (infosWidthFound != null)
-                    imageDataList.Add(infosWidthFound);
-                if (infosHeightFound != null)
-                    imageDataList.Add(infosHeightFound);
-                if (infosFoundImage != null)
-                    imageDataList.Add(infosFoundImage);
-
-                imageObject.ImageDataList = imageDataList;
-            }
-            return imageObject;
+            image.InfoDataList = _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = image.TxtFileNameWithoutExtension }, ESearchOption.AND);
+            image.downloadFile();
+            return image;
         }
 
         public Object navigation(Object centralPageContent = null)
@@ -398,7 +364,7 @@ namespace QOBDManagement
             return ProgressBarPercentValue;
         }
 
-        public DisplayAndData.Display.Image ImageManagement(DisplayAndData.Display.Image newImage = null, string fileType = null)
+        public InfoManager.Display ImageManagement(InfoManager.Display newImage = null, string fileType = null)
         {
             switch (fileType.ToUpper())
             {
@@ -416,14 +382,14 @@ namespace QOBDManagement
                         BillImageDisplay = newImage;
 
                     return BillImageDisplay;
-                case "PROFILE":
+                /*case "PROFILE":
                     if (newImage != null)
                         ProfileImageDisplay = newImage;
 
-                    return ProfileImageDisplay;
+                    return ProfileImageDisplay;*/
             }
 
-            return new DisplayAndData.Display.Image();
+            return new InfoManager.Display();
         }
 
         public bool securityCheck(EAction action, ESecurity right)

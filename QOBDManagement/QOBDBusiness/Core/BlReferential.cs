@@ -69,7 +69,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Info>> DeleteInfoAsync(List<Info> infosList)
         {
             List<Info> result = new List<Info>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(infosList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(infosList.Where(x => x.ID == 0).Count()))
                 infosList = infosList.Where(x => x.ID != 0).ToList();
 
             if (infosList == null || infosList.Count == 0)
@@ -86,7 +86,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Info>> UpdateInfoAsync(List<Info> infosList)
         {
             List<Info> result = new List<Info>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(infosList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(infosList.Where(x => x.ID == 0).Count()))
                 infosList = infosList.Where(x => x.ID != 0).ToList();
 
             if (infosList == null || infosList.Count == 0)

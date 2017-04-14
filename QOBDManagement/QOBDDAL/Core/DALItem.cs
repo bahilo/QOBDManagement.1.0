@@ -244,7 +244,7 @@ namespace QOBDDAL.Core
             checkServiceCommunication();
             List<Item_delivery> gateWayResultList = await _gateWayItem.DeleteItem_deliveryAsync(listItem_delivery);
             if (gateWayResultList.Count == 0)
-                foreach (Item_delivery item_delivery in gateWayResultList)
+                foreach (Item_delivery item_delivery in listItem_delivery)
                 {
                     int returnValue = _dataSet.DeleteItem_delivery(item_delivery.ID);
                     if (returnValue == 0)

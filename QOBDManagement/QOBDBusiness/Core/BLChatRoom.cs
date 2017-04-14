@@ -56,7 +56,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Discussion>> UpdateDiscussionAsync(List<Discussion> discussionList)
         {
             List<Discussion> result = new List<Discussion>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(discussionList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(discussionList.Where(x => x.ID == 0).Count()))
                 discussionList = discussionList.Where(x => x.ID != 0).ToList();
 
             if (discussionList == null || discussionList.Count == 0)
@@ -76,7 +76,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Discussion>> DeleteDiscussionAsync(List<Discussion> discussionList)
         {
             List<Discussion> result = new List<Discussion>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(discussionList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(discussionList.Where(x => x.ID == 0).Count()))
                 discussionList = discussionList.Where(x => x.ID != 0).ToList();
 
             if (discussionList == null || discussionList.Count == 0)
@@ -184,7 +184,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Message>> UpdateMessageAsync(List<Message> messageList)
         {
             List<Message> result = new List<Message>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(messageList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(messageList.Where(x => x.ID == 0).Count()))
                 messageList = messageList.Where(x => x.ID != 0).ToList();
 
             if (messageList == null || messageList.Count == 0)
@@ -201,7 +201,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Message>> DeleteMessageAsync(List<Message> messageList)
         {
             List<Message> result = new List<Message>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(messageList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(messageList.Where(x => x.ID == 0).Count()))
                 messageList = messageList.Where(x => x.ID != 0).ToList();
 
             if (messageList == null || messageList.Count == 0)
@@ -268,7 +268,7 @@ namespace QOBDBusiness.Core
         public async Task<List<User_discussion>> UpdateUser_discussionAsync(List<User_discussion> user_discussionList)
         {
             List<User_discussion> result = new List<User_discussion>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(user_discussionList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(user_discussionList.Where(x => x.ID == 0).Count()))
                 user_discussionList = user_discussionList.Where(x => x.ID != 0).ToList();
 
             if (user_discussionList == null || user_discussionList.Count == 0)
@@ -285,7 +285,7 @@ namespace QOBDBusiness.Core
         public async Task<List<User_discussion>> DeleteUser_discussionAsync(List<User_discussion> user_discussionList)
         {
             List<User_discussion> result = new List<User_discussion>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(user_discussionList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(user_discussionList.Where(x => x.ID == 0).Count()))
                 user_discussionList = user_discussionList.Where(x => x.ID != 0).ToList();
 
             if (user_discussionList == null || user_discussionList.Count == 0)

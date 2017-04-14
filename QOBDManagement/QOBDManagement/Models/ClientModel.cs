@@ -25,6 +25,7 @@ namespace QOBDManagement.Models
         private bool _isSearchContactChecked;
         private bool _isSearchClientChecked;
         private bool _isSearchProspectChecked;
+        private bool _isSelectForQuote;
         private decimal _usedCredit;
 
         public ClientModel()
@@ -231,6 +232,12 @@ namespace QOBDManagement.Models
         {
             get { return _isSearchProspectChecked; }
             set { _isSearchProspectChecked = value; onPropertyChange(); }
+        } 
+
+        public bool IsSelectForQuote
+        {
+            get { return _isSelectForQuote; }
+            set { _isSelectForQuote = value; onPropertyChange(); }
         }                    
 
         public Client Client

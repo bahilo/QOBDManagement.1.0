@@ -2214,6 +2214,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     Item.Type_sub = ItemQCBD.Type_sub;
                     Item.Source = ItemQCBD.Source;
                     Item.Type = ItemQCBD.Type;
+                    Item.Picture = ItemQCBD.Picture;
+                    Item.Stock = ItemQCBD.Stock;
 
                     lock (_lock) returnList.Add(Item);
                 });
@@ -2241,6 +2243,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     ItemQCBD.Type_sub = Item.Type_sub;
                     ItemQCBD.Source = Item.Source;
                     ItemQCBD.Type = Item.Type;
+                    ItemQCBD.Picture = Item.Picture;
+                    ItemQCBD.Stock = Item.Stock;
 
                     lock (_lock)
                     {
@@ -2276,6 +2280,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                         ItemQCBD.Type_sub = Item.Type_sub;
                         ItemQCBD.Source = Item.Source;
                         ItemQCBD.Type = Item.Type;
+                        ItemQCBD.Picture = Item.Picture;
+                        ItemQCBD.Stock = Item.Stock;
                     }
                 }
             }
@@ -2304,12 +2310,16 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} Type_sub LIKE '{1}' ", filterOperator.ToString(), item.Type_sub);
                 if (item.Price_sell != 0)
                     query = string.Format(query + " {0} Price_sell LIKE '{1}' ", filterOperator.ToString(), item.Price_sell);
+                if (item.Stock != 0)
+                    query = string.Format(query + " {0} Stock LIKE '{1}' ", filterOperator.ToString(), item.Stock);
                 if (item.Source != 0)
                     query = string.Format(query + " {0} Source LIKE '{1}' ", filterOperator.ToString(), item.Source);
                 if (!string.IsNullOrEmpty(item.Comment))
                     query = string.Format(query + " {0} Comment LIKE '%{1}%' ", filterOperator.ToString(), item.Comment.Replace("'", "''"));
                 if (!string.IsNullOrEmpty(item.Erasable))
                     query = string.Format(query + " {0} Erasable LIKE '{1}' ", filterOperator.ToString(), item.Erasable);
+                if (!string.IsNullOrEmpty(item.Picture))
+                    query = string.Format(query + " {0} Picture LIKE '{1}' ", filterOperator.ToString(), item.Picture);
 
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))

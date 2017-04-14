@@ -51,30 +51,27 @@
             </Grid.ColumnDefinitions>
 
             <Label FontSize="20" Grid.ColumnSpan="2" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding ItemViewModel.ItemDetailViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
-            <StackPanel Grid.Row="1" Margin="8" Grid.Column="0">
-                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3">
-                    <Grid Margin="8">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock HorizontalAlignment="Center">Search</TextBlock>
-                        <StackPanel Margin="0 10 0 0" Grid.Row="1" Orientation="Vertical">
-                            <StackPanel Margin="0 6 0 0" Orientation="Horizontal">
-                                <TextBlock>Item Ref</TextBlock>
-                                <ComboBox ItemsSource="{Binding ItemViewModel.ItemDetailViewModel.ItemRefList,IsAsync=True, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="8"
-                                      SelectedItem="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtRef, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0 12 0 0" HorizontalAlignment="Right">
-                                <Button IsDefault="True"
-                                            Command="{Binding ItemViewModel.ItemDetailViewModel.SearchCommand}">
-                                    <materialDesign:PackIcon Kind="Magnify"/>
-                                </Button>
-                            </StackPanel>
-                        </StackPanel>
+            <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Margin="8" Grid.Row="1" Grid.Column="0">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock HorizontalAlignment="Center">Item Picture</TextBlock>
+                    <Grid Margin="0 10 0 0" Grid.Row="1">
+                        <Image Source="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+                           Width="175"
+                           Height="200"/>
                     </Grid>
-                </materialDesign:Card>
-            </StackPanel>
+                    <Grid Grid.Row="2">
+                        <Button Command="{Binding ItemViewModel.ItemDetailViewModel.OpenFileExplorerCommand}">
+                            <TextBlock>Choose File</TextBlock>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </materialDesign:Card>
 
             <materialDesign:ColorZone  Margin="8" Grid.Row="1" Grid.Column="1">
                 <Grid>
@@ -85,7 +82,7 @@
                     <TextBlock HorizontalAlignment="Center">Main Details</TextBlock>
                     <StackPanel Margin="0 10 0 0"  Grid.Row="1" Orientation="Vertical">
                         <TextBox materialDesign:HintAssist.Hint="Name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" TextWrapping="Wrap" AcceptsReturn="True"               
-                                         Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ResourceKey=StringLengthConverter}}"/>
+                                         Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtName, Mode=TwoWay,UpdateSourceTrigger=LostFocus, Converter={StaticResource ResourceKey=StringLengthConverter}}"/>
                         <TextBox materialDesign:HintAssist.Hint="Reference" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"  TextWrapping="Wrap" AcceptsReturn="True"
                                   IsEnabled="{Binding Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.IsRefModifyEnable, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ResourceKey=StringLengthConverter}}"               
                                          Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtRef, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>

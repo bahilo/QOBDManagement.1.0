@@ -70,7 +70,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Notification>> UpdateNotificationAsync(List<Notification> notificationList)
         {
             List<Notification> result = new List<Notification>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(notificationList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(notificationList.Where(x => x.ID == 0).Count()))
                 notificationList = notificationList.Where(x => x.ID != 0).ToList();
 
             if (notificationList == null || notificationList.Count == 0)
@@ -87,7 +87,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Notification>> DeleteNotificationAsync(List<Notification> notificationList)
         {
             List<Notification> result = new List<Notification>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(notificationList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(notificationList.Where(x => x.ID == 0).Count()))
                 notificationList = notificationList.Where(x => x.ID != 0).ToList();
 
             if (notificationList == null || notificationList.Count == 0)

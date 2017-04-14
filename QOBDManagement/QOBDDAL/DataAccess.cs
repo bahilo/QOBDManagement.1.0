@@ -58,7 +58,7 @@ public class DataAccess : IDataAccessManager
         }
         else
         {
-            // Order
+            /**/// Order
             DALOrder.progressBarManagement(ProgressBarFunc);
             DALOrder.initializeCredential(authenticatedUser);
             DALOrder.cacheWebServiceData();
@@ -95,7 +95,7 @@ public class DataAccess : IDataAccessManager
             // Statistic
             DALStatistic.progressBarManagement(ProgressBarFunc);
             DALStatistic.initializeCredential(authenticatedUser);
-            DALStatistic.cacheWebServiceData();           
+            DALStatistic.cacheWebServiceData();     /**/      
         }
 
         // ChatRoom

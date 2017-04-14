@@ -107,6 +107,16 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Select For Quote">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <RadioButton GroupName="rbSelectForQuote" HorizontalAlignment="Center" 
+                                             Command="{Binding DataContext.ClientViewModel.rbSelectClientForQuoteCommand, ElementName=dgSearchResult}" 
+                                             CommandParameter="{Binding}"
+                                             IsChecked="{Binding IsSelectForQuote, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
                                 <DataGridTextColumn Header="First Name" Binding="{Binding TxtFirstName}"/>
                                 <DataGridTextColumn Header="LastName" Binding="{Binding TxtLastName}"/>
@@ -117,7 +127,7 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
-                                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"
                                                   Content="Detail"
                                                   Command="{Binding DataContext.ClientViewModel.ClientDetailCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                                                   CommandParameter="{Binding ElementName=dgSearchResult,Path=CurrentItem}"/>

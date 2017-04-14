@@ -350,12 +350,12 @@ namespace QOBDGateway.Classes
             return base.Channel.get_data_bill_by_order_listAsync(order_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_unpaid(int agent_id)
+        public virtual QOBDGateway.QOBDServiceReference.BillQOBD[] get_data_bill_by_unpaid(string agent_id)
         {
             return base.Channel.get_data_bill_by_unpaid(agent_id);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_unpaidAsync(int agent_id)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.BillQOBD[]> get_data_bill_by_unpaidAsync(string agent_id)
         {
             return base.Channel.get_data_bill_by_unpaidAsync(agent_id);
         }
@@ -750,12 +750,12 @@ namespace QOBDGateway.Classes
             return base.Channel.get_data_client_by_order_listAsync(order_array_list);
         }
 
-        public virtual QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_max_credit_over(int agent_id)
+        public virtual QOBDGateway.QOBDServiceReference.ClientQOBD[] get_data_client_by_max_credit_over(string agent_id)
         {
             return base.Channel.get_data_client_by_max_credit_over(agent_id);
         }
 
-        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_max_credit_overAsync(int agent_id)
+        public virtual System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.ClientQOBD[]> get_data_client_by_max_credit_overAsync(string agent_id)
         {
             return base.Channel.get_data_client_by_max_credit_overAsync(agent_id);
         }

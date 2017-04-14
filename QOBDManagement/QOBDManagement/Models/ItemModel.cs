@@ -26,6 +26,7 @@ namespace QOBDManagement.Models
         private bool _isSearchByItemName;
         private bool _isExactMatch;
         private bool _isDeepSearch;
+        private InfoManager.Display _itemImage;
         private Item _item;
 
         public ItemModel()
@@ -108,6 +109,12 @@ namespace QOBDManagement.Models
             set { setProperty(ref _item_deliveryModelList, value); }
         }
 
+        public InfoManager.Display Image
+        {
+            get { return _itemImage; }
+            set { _itemImage = value; onPropertyChange(); }
+        }
+
         public string TxtNewProvider
         {
             get { return _newProvider; }
@@ -129,6 +136,12 @@ namespace QOBDManagement.Models
         {
             get { return _newFamily; }
             set { setProperty(ref _newFamily, value); }
+        }
+
+        public string TxtPicture
+        {
+            get { return _item.Picture; }
+            set { _item.Picture = value; onPropertyChange(); }
         }
 
         public string TxtID

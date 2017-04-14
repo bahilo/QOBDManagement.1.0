@@ -79,7 +79,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Item>> DeleteItemAsync(List<Item> itemList)
         {
             List<Item> result = new List<Item>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(itemList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(itemList.Where(x => x.ID == 0).Count()))
                 itemList = itemList.Where(x => x.ID != 0).ToList();
 
             if (itemList == null || itemList.Count == 0)
@@ -96,7 +96,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Item>> UpdateItemAsync(List<Item> itemList)
         {
             List<Item> result = new List<Item>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(itemList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(itemList.Where(x => x.ID == 0).Count()))
                 itemList = itemList.Where(x => x.ID != 0).ToList();
 
             if (itemList == null || itemList.Count == 0)
@@ -209,7 +209,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Provider>> DeleteProviderAsync(List<Provider> listProvider)
         {
             List<Provider> result = new List<Provider>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(listProvider.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listProvider.Where(x => x.ID == 0).Count()))
                 listProvider = listProvider.Where(x => x.ID != 0).ToList();
 
             if (listProvider == null || listProvider.Count == 0)
@@ -226,7 +226,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Provider>> UpdateProviderAsync(List<Provider> listProvider)
         {
             List<Provider> result = new List<Provider>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(listProvider.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listProvider.Where(x => x.ID == 0).Count()))
                 listProvider = listProvider.Where(x => x.ID != 0).ToList();
 
             if (listProvider == null || listProvider.Count == 0)
@@ -338,7 +338,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Provider_item>> DeleteProvider_itemAsync(List<Provider_item> listProvider_item)
         {
             List<Provider_item> result = new List<Provider_item>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(listProvider_item.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listProvider_item.Where(x => x.ID == 0).Count()))
                 listProvider_item = listProvider_item.Where(x => x.ID != 0).ToList();
 
             if (listProvider_item == null || listProvider_item.Count == 0)
@@ -355,7 +355,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Provider_item>> UpdateProvider_itemAsync(List<Provider_item> listProvider_item)
         {
             List<Provider_item> result = new List<Provider_item>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(listProvider_item.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listProvider_item.Where(x => x.ID == 0).Count()))
                 listProvider_item = listProvider_item.Where(x => x.ID != 0).ToList();
 
             if (listProvider_item == null || listProvider_item.Count == 0)
@@ -467,7 +467,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Item_delivery>> DeleteItem_deliveryAsync(List<Item_delivery> listItem_delivery)
         {
             List<Item_delivery> result = new List<Item_delivery>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(listItem_delivery.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listItem_delivery.Where(x => x.ID == 0).Count()))
                 listItem_delivery = listItem_delivery.Where(x => x.ID != 0).ToList();
 
             if (listItem_delivery == null || listItem_delivery.Count == 0)
@@ -484,7 +484,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Item_delivery>> UpdateItem_deliveryAsync(List<Item_delivery> listItem_delivery)
         {
             List<Item_delivery> result = new List<Item_delivery>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(listItem_delivery.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listItem_delivery.Where(x => x.ID == 0).Count()))
                 listItem_delivery = listItem_delivery.Where(x => x.ID != 0).ToList();
 
             if (listItem_delivery == null || listItem_delivery.Count == 0)
@@ -596,7 +596,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Auto_ref>> DeleteAuto_refAsync(List<Auto_ref> listAuto_ref)
         {
             List<Auto_ref> result = new List<Auto_ref>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(listAuto_ref.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listAuto_ref.Where(x => x.ID == 0).Count()))
                 listAuto_ref = listAuto_ref.Where(x => x.ID != 0).ToList();
 
             if (listAuto_ref == null || listAuto_ref.Count == 0)
@@ -613,7 +613,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Auto_ref>> UpdateAuto_refAsync(List<Auto_ref> listAuto_ref)
         {
             List<Auto_ref> result = new List<Auto_ref>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(listAuto_ref.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listAuto_ref.Where(x => x.ID == 0).Count()))
                 listAuto_ref = listAuto_ref.Where(x => x.ID != 0).ToList();
 
             if (listAuto_ref == null || listAuto_ref.Count == 0)
@@ -703,7 +703,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Tax_item>> DeleteTax_itemAsync(List<Tax_item> listTax_item)
         {
             List<Tax_item> result = new List<Tax_item>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(listTax_item.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listTax_item.Where(x => x.ID == 0).Count()))
                 listTax_item = listTax_item.Where(x => x.ID != 0).ToList();
 
             if (listTax_item == null || listTax_item.Count == 0)
@@ -720,7 +720,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Tax_item>> UpdateTax_itemAsync(List<Tax_item> listTax_item)
         {
             List<Tax_item> result = new List<Tax_item>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(listTax_item.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listTax_item.Where(x => x.ID == 0).Count()))
                 listTax_item = listTax_item.Where(x => x.ID != 0).ToList();
 
             if (listTax_item == null || listTax_item.Count == 0)

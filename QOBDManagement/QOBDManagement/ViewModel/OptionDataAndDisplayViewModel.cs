@@ -18,26 +18,34 @@ using System.IO;
 using System.Xml.Serialization;
 using QOBDManagement.Interfaces;
 using QOBDCommon.Enum;
+using QOBDManagement.Helper;
+using QOBDManagement.Classes.Themes;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
     public class OptionDataAndDisplayViewModel : BindBase
     {
-        private ObservableCollection<DisplayAndData.Display.Image> _imageList;
-        private List<int> _imageWidthSizeList;
-        private List<int> _imageHeightSizeList;
-        private Func<DisplayAndData.Display.Image, string, DisplayAndData.Display.Image> _imageManagement;        
-        private List<DisplayAndData.Data> _dataList;
+        private ObservableCollection<InfoManager.Display> _imageList;
+        private List<string> _imageWidthSizeList;
+        private List<string> _imageHeightSizeList;
+        private Func<InfoManager.Display, string, InfoManager.Display> _imageManagement;        
+        private List<InfoManager.Data> _dataList;
         private CultureInfo[] _cultureInfoArray;
         private string _title;
         private IMainWindowViewModel _main;
+        private IEnumerable<Swatch> _swatches;
+        private InfoManager.Display _theme;
         
         //----------------------------[ Commands ]------------------
 
-        public ButtonCommand<DisplayAndData.Display.Image> OpenFileExplorerCommand { get; set; }
-        public ButtonCommand<DisplayAndData.Display.Image> DeleteImageCommand { get; set; }
+        public ButtonCommand<InfoManager.Display> OpenFileExplorerCommand { get; set; }
+        public ButtonCommand<InfoManager.Display> DeleteImageCommand { get; set; }
         public ButtonCommand<string> UpdateLanguageCommand { get; set; }
         public ButtonCommand<string> AddNewRowLanguageCommand { get; set; }
+        public ButtonCommand<bool> ToggleThemeBaseCommand { get; set; }
+        public ButtonCommand<Swatch> ApplyThemeAccentStyleCommand { get; set; }
+        public ButtonCommand<Swatch> ApplyThemePrimaryStyleCommand { get; set; }
 
         public OptionDataAndDisplayViewModel() : base()
         {
@@ -56,19 +64,27 @@ namespace QOBDManagement.ViewModel
         private void instances()
         {
             _title = "Data/Display Management";
-            _imageList = new ObservableCollection<DisplayAndData.Display.Image>();
-            _imageWidthSizeList = new List<int>();
-            _imageHeightSizeList = new List<int>();
+            _imageList = new ObservableCollection<InfoManager.Display>();
+            _imageWidthSizeList = new List<string>();
+            _imageHeightSizeList = new List<string>();
             _cultureInfoArray = CultureInfo.GetCultures(CultureTypes.AllCultures & CultureTypes.NeutralCultures);
 
+            _theme = new InfoManager.Display();
+
+            // palette initialization
+            _swatches = new SwatchesProvider().Swatches;
+                
             // populating the image size list
-            ImageWidthSizeList = ImageHeightSizeList = DisplayAndData.Display.getGeneratedImageSizeList();
+            ImageWidthSizeList = ImageHeightSizeList = InfoManager.getGeneratedImageSizeList();
         }
 
         private void instancesCommand()
         {
-            OpenFileExplorerCommand = new ButtonCommand<DisplayAndData.Display.Image>(getFileFromLocal, canGetFileFromLocal);
-            DeleteImageCommand = new ButtonCommand<DisplayAndData.Display.Image>(deleteImage, canDeleteImage);
+            OpenFileExplorerCommand = new ButtonCommand<InfoManager.Display>(getFileFromLocal, canGetFileFromLocal);
+            DeleteImageCommand = new ButtonCommand<InfoManager.Display>(deleteImage, canDeleteImage);
+            ToggleThemeBaseCommand = new ButtonCommand<bool>(changeTheme, canChangeTheme);
+            ApplyThemeAccentStyleCommand = new ButtonCommand<Swatch>(applyThemeAccentStyle, canApplyThemeAccentStyle);
+            ApplyThemePrimaryStyleCommand = new ButtonCommand<Swatch>(applyThemePrimaryStyle, canApplyThemePrimaryStyle);
         }
 
         //----------------------------[ Properties ]------------------
@@ -79,25 +95,48 @@ namespace QOBDManagement.ViewModel
             get { return _startup.Bl; }
         }
 
+        public InfoManager.Display Theme
+        {
+            get { return _theme; }
+            set { setProperty(ref _theme, value); }
+        }
+
+        /*public string ThemeStylePrimary
+        {
+            get { return _theme.ThemeStylePrimary; }
+            set { _theme.ThemeStylePrimary = value; onPropertyChange(); }
+        }
+
+        public string ThemeStyleAccent
+        {
+            get { return _theme.ThemeStyleAccent; }
+            set { _theme.ThemeStyleAccent = value; onPropertyChange(); }
+        }*/
+
         public string Title
         {
             get { return _title; }
             set { setProperty(ref _title, value); }
         }
 
-        public List<int> ImageWidthSizeList
+        public IEnumerable<Swatch> Swatches
+        {
+            get { return _swatches; }
+        }
+
+        public List<string> ImageWidthSizeList
         {
             get { return _imageWidthSizeList; }
             set { setProperty(ref _imageWidthSizeList, value); }
         }
 
-        public List<int> ImageHeightSizeList
+        public List<string> ImageHeightSizeList
         {
             get { return _imageHeightSizeList; }
             set { setProperty(ref _imageHeightSizeList, value); }
         }
 
-        public ObservableCollection<DisplayAndData.Display.Image> ImageList
+        public ObservableCollection<InfoManager.Display> ImageList
         {
             get { return _imageList; }
             set { setProperty(ref _imageList, value); }
@@ -111,7 +150,7 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Display by LanguageModel ]------------------
 
-        public List<DisplayAndData.Data> DataList
+        public List<InfoManager.Data> DataList
         {
             get { return _dataList; }
             set { setProperty(ref _dataList, value); }
@@ -147,26 +186,46 @@ namespace QOBDManagement.ViewModel
 
             //----[ Bill Image ]
             // get Logo image created by MainWindowViewModel for updating
-            DisplayAndData.Display.Image displayBillImage = _imageManagement(null, "bill"); 
+            InfoManager.Display displayBillImage = _imageManagement(null, "bill"); 
             displayBillImage.PropertyChanged += onFilePathChange_updateUIImage;
             displayBillImage.PropertyChanged += onImageInfoChange;
             ImageList.Add(displayBillImage);
 
             //----[ Logo Image ]
             // get Logo image created by MainWindowViewModel for displaying in the UI Header
-            DisplayAndData.Display.Image displayLogoImage = _imageManagement(null, "logo"); 
+            InfoManager.Display displayLogoImage = _imageManagement(null, "logo"); 
             displayLogoImage.PropertyChanged += onFilePathChange_updateUIImage;
             displayLogoImage.PropertyChanged += onImageInfoChange;
             ImageList.Add(displayLogoImage);
 
             //----[ Header Image ] 
             // get Header image created by MainWindowViewModel for displaying in the UI Header
-            DisplayAndData.Display.Image displayHeaderImage = _imageManagement(null, "header"); 
+            InfoManager.Display displayHeaderImage = _imageManagement(null, "header"); 
             displayHeaderImage.PropertyChanged += onFilePathChange_updateUIImage;
             displayHeaderImage.PropertyChanged += onImageInfoChange;
             ImageList.Add(displayHeaderImage);
-                                    
+
+            // set the theme
+            loadTheme();
+
             Dialog.IsDialogOpen = false;
+        }
+
+        public void loadTheme()
+        {
+            //-----[ Theme ]
+            Theme = new InfoManager.Display(Bl.BlReferential.GetInfoData(999), "theme_image", new List<string> { "theme", "theme_style_primary", "theme_style_accent" }, "", "", "", ""); //new InfoManager.Display(Bl.BlReferential.GetInfoData(999));
+            Theme.PropertyChanged += onImageInfoChange;
+            var swatchTargetedPrimary = Swatches.Where(x => string.Compare(x.Name, Theme.TxtInfoItem1, StringComparison.InvariantCultureIgnoreCase) == 0).FirstOrDefault();
+            if (swatchTargetedPrimary != null)
+                applyThemePrimaryStyle(swatchTargetedPrimary);
+
+            var swatchTargetedAccent = Swatches.Where(x => x.AccentHues.Where(y => y.Color.ToString() == Theme.TxtInfoItem2).Count() > 0).FirstOrDefault();
+            if (swatchTargetedAccent != null)
+                applyThemeAccentStyle(swatchTargetedAccent);
+
+            bool isDark = Theme.TxtInfoItem == "Dark" ? true : false;
+            changeTheme(isDark);
         }
 
         public string ExecuteOpenFileDialog()
@@ -184,22 +243,32 @@ namespace QOBDManagement.ViewModel
             return outputFile;
         }
 
-        public async void saveImageInfo(DisplayAndData.Display.Image imageInfo )
+        public async Task<List<Info>> saveInfo(List<Info> infoDataList)
         {
             Dialog.showSearch("File saving...");
-            var infosToUpdateList = imageInfo.ImageDataList.Where(x => x.ID != 0).ToList();
-            var infosToCreateList = imageInfo.ImageDataList.Where(x => x.ID == 0).ToList();
-            var infosUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infosToUpdateList);
-            var infosCreatedList = await Bl.BlReferential.InsertInfoAsync(infosToCreateList);
+            var infoToUpdateList = infoDataList.Where(x => x.ID != 0).ToList();
+            var infoToCreateList = infoDataList.Where(x => x.ID == 0).ToList();
+            var infoUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infoToUpdateList);
+            var infoCreatedList = await Bl.BlReferential.InsertInfoAsync(infoToCreateList);
 
-            if (infosUpdatedList.Count == 0 && infosCreatedList.Count == 0)
+            if (infoUpdatedList.Count == 0 && infoCreatedList.Count == 0)
             {
-                string errorMessage = "Error occurred while saving the file [" + imageInfo.TxtChosenFile + "]";
+                string errorMessage = "Error occurred while saving the picture information!";
                 Log.error(errorMessage, EErrorFrom.REFERENTIAL);
                 await Dialog.showAsync(errorMessage);
             }
-            
+            else if(infoCreatedList.Count > 0)
+            {
+                foreach(Info info in infoDataList)
+                {
+                    var createdInfo = infoCreatedList.Where(x=>x.Name == info.Name).SingleOrDefault();
+                    if(createdInfo != null)
+                        info.ID = createdInfo.ID;
+                }
+            }
+                        
             Dialog.IsDialogOpen = false;
+            return infoUpdatedList.Concat(infoCreatedList).ToList();
         }
 
         public override void Dispose()
@@ -208,67 +277,113 @@ namespace QOBDManagement.ViewModel
             {
                 image.PropertyChanged -= onFilePathChange_updateUIImage;
                 image.PropertyChanged -= onImageInfoChange;
+                Theme.PropertyChanged -= onImageInfoChange;
                 image.Dispose();
             }
         }
 
         //----------------------------[ Event Handler ]------------------
         
-        private void onImageInfoChange(object sender, PropertyChangedEventArgs e)
+        private async void onImageInfoChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("ImageInfoUpdated"))
-                saveImageInfo((DisplayAndData.Display.Image)sender );
+            {
+                var infoUpdatedList = await saveInfo(((InfoManager.Display)sender).InfoDataList);
+                //((InfoManager.Display.Image)sender).updateFields(infoUpdatedList);
+            }                
         }
 
         private void onFilePathChange_updateUIImage(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("TxtFileFullPath") && !string.IsNullOrEmpty(((DisplayAndData.Display.Image)sender).TxtFileFullPath) )
+            if (e.PropertyName.Equals("TxtFileFullPath") && !string.IsNullOrEmpty(((InfoManager.Display)sender).TxtFileFullPath) )
             {
-                if (((DisplayAndData.Display.Image)sender).TxtFileNameWithoutExtension.Equals("header_image"))
-                    _imageManagement((DisplayAndData.Display.Image)sender, "header");
-                else if(((DisplayAndData.Display.Image)sender).TxtFileNameWithoutExtension.Equals("logo_image"))
-                    _imageManagement((DisplayAndData.Display.Image)sender, "logo");
-                else if (((DisplayAndData.Display.Image)sender).TxtFileNameWithoutExtension.Equals("bill_image"))
-                    _imageManagement((DisplayAndData.Display.Image)sender, "bill");
+                if (((InfoManager.Display)sender).TxtFileNameWithoutExtension.Equals("header_image"))
+                    _imageManagement((InfoManager.Display)sender, "header");
+                else if(((InfoManager.Display)sender).TxtFileNameWithoutExtension.Equals("logo_image"))
+                    _imageManagement((InfoManager.Display)sender, "logo");
+                else if (((InfoManager.Display)sender).TxtFileNameWithoutExtension.Equals("bill_image"))
+                    _imageManagement((InfoManager.Display)sender, "bill");
             }            
         }
 
         //----------------------------[ Action Commands ]------------------
         
-        public void getFileFromLocal(DisplayAndData.Display.Image obj)
+        /// <summary>
+        /// load and save file information into database
+        /// </summary>
+        /// <param name="obj">object which the file is associated with</param>
+        public void getFileFromLocal(InfoManager.Display obj)
         {
             // opening the file explorer for image file choosing
-            obj.TxtChosenFile = DisplayAndData.ExecuteOpenFileDialog("Select an image file", new List<string> { "png", "jpeg", "jpg" });// ExecuteOpenFileDialog();
+            obj.TxtChosenFile = InfoManager.ExecuteOpenFileDialog("Select an image file", new List<string> { "png", "jpeg", "jpg" });// ExecuteOpenFileDialog();
             
             // upload the image file to the server FTP
             obj.uploadImage();
-            
-            // saving the image info into the database
-            saveImageInfo(obj); 
         }
 
-        private bool canGetFileFromLocal(DisplayAndData.Display.Image arg)
+        private bool canGetFileFromLocal(InfoManager.Display arg)
         {
             return true;
         }
 
-        private async void deleteImage(DisplayAndData.Display.Image obj)
+        private async void deleteImage(InfoManager.Display obj)
         {
             Dialog.showSearch("Image deleting...");
-            var notDeletedInfosList = await Bl.BlReferential.DeleteInfoAsync(obj.ImageDataList);
-            var whereImageInfosIDIsZeroList = obj.ImageDataList.Where(x=>x.ID == 0 && x.Name.Equals(obj.TxtFileNameWithoutExtension)).ToList();
+            var notDeletedInfosList = await Bl.BlReferential.DeleteInfoAsync(obj.InfoDataList);
+            var whereImageInfosIDIsZeroList = obj.InfoDataList.Where(x=>x.ID == 0 && x.Name.Equals(obj.TxtFileNameWithoutExtension)).ToList();
             if ((notDeletedInfosList.Count == 0 || whereImageInfosIDIsZeroList.Count > 0) && obj.deleteFiles())
             {
                 await Dialog.showAsync(obj.TxtFileName + " has been successfully deteleted!");
                 obj.TxtFileFullPath = "";
             }
+
+            // reset the picture information
+            foreach (Info info in obj.InfoDataList)
+                info.ID = 0;
+
             Dialog.IsDialogOpen = false;
         }
 
-        private bool canDeleteImage(DisplayAndData.Display.Image arg)
+        private bool canDeleteImage(InfoManager.Display arg)
         {
             return true;
-        }    
+        }
+
+        private void changeTheme(bool obj)
+        {
+            new PaletteHelper().SetLightDark(obj);
+            Theme.TxtInfoItem = obj ? "Dark" : "Light";
+            //Theme.updateFields(await saveInfo(Theme.getInfoDataList()));
+        }
+
+        private bool canChangeTheme(bool arg)
+        {
+            return true;
+        }
+
+        private void applyThemePrimaryStyle(Swatch obj)
+        {
+            new PaletteHelper().ReplacePrimaryColor(obj);
+            Theme.TxtInfoItem1 = obj.Name;
+            // Theme.updateFields( await saveInfo(Theme.getInfoDataList()));
+        }
+
+        private bool canApplyThemePrimaryStyle(Swatch arg)
+        {
+            return true;
+        }
+
+        private void applyThemeAccentStyle(Swatch obj)
+        {
+            new PaletteHelper().ReplaceAccentColor(obj);
+            Theme.TxtInfoItem2 = obj.Name;
+            // Theme.updateFields(await saveInfo(Theme.getInfoDataList()));
+        }
+
+        private bool canApplyThemeAccentStyle(Swatch arg)
+        {
+            return true;
+        }
 
 
     }

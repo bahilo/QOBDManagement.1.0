@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.IO;
 using QOBDCommon.Classes;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
@@ -24,7 +25,7 @@ namespace QOBDManagement.ViewModel
         private string _title;
         private Func<string, object> _page;
         private IMainWindowViewModel _main;
-        private DisplayAndData.Display.Image _profileImageDisplay;
+        private InfoManager.Display _profileImageDisplay;
         private string _profileImageFileNameBase;
 
         //----------------------------[ Models ]------------------
@@ -105,7 +106,7 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _title, value); }
         }
 
-        public DisplayAndData.Display.Image ProfileImageDisplay
+        public InfoManager.Display ProfileImageDisplay
         {
             get { return _profileImageDisplay; }
             set { setProperty(ref _profileImageDisplay, value); }
@@ -134,7 +135,8 @@ namespace QOBDManagement.ViewModel
                 // closing the image source if image already displayed
                 if (ProfileImageDisplay != null)
                 {
-                    ProfileImageDisplay.PropertyChanged -= onProfileImageChange_updateUIImage;
+                    ProfileImageDisplay.closeImageSource();
+                    //ProfileImageDisplay.PropertyChanged -= onProfileImageChange_updateUIImage;
                     ProfileImageDisplay.PropertyChanged -= onProfileImageSizeChange;
                     ProfileImageDisplay.Dispose();
                 }
@@ -148,21 +150,27 @@ namespace QOBDManagement.ViewModel
         {
             if (ProfileImageDisplay == null)
             {
-                // get profile image for updating
-                ProfileImageDisplay = _main.ImageManagement(null, "profile");
+                var username = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+                var password = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
 
-                // get the picture info from the database
-                ProfileImageDisplay.TxtFileNameWithoutExtension = _profileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID;
-                var loadedImage = _main.loadImage(ProfileImageDisplay.TxtFileNameWithoutExtension, ProfileImageDisplay.TxtName, ProfileImageDisplay.TxtLogin, ProfileImageDisplay.TxtPassword);
+                if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+                {
+                    // get profile image for updating
+                    ProfileImageDisplay = new InfoManager.Display(Bl.BlReferential.searchInfo(new Info { Name =_profileImageFileNameBase }, ESearchOption.AND),_profileImageFileNameBase, new List<string> { _profileImageFileNameBase }, ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], username, password);// _main.ImageManagement(null, "profile");
 
-                // display the picture
-                if (Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        ProfileImageDisplay = loadedImage;
-                        ProfileImageDisplay.PropertyChanged += onProfileImageChange_updateUIImage;
-                        ProfileImageDisplay.PropertyChanged += onProfileImageSizeChange;
-                    });
+                    // get the picture info from the database
+                    ProfileImageDisplay.TxtFileNameWithoutExtension = _profileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID;
+                    var loadedImage = _main.loadImage(ProfileImageDisplay);
+
+                    // display the picture
+                    if (Application.Current != null)
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            ProfileImageDisplay = loadedImage;
+                            //ProfileImageDisplay.PropertyChanged += onProfileImageChange_updateUIImage;
+                            ProfileImageDisplay.PropertyChanged += onProfileImageSizeChange;
+                        });
+                }                
             }
         }
 
@@ -171,7 +179,7 @@ namespace QOBDManagement.ViewModel
             PropertyChanged -= onSelectedAgentModelChange;
             if (ProfileImageDisplay != null)
             {
-                ProfileImageDisplay.PropertyChanged -= onProfileImageChange_updateUIImage;
+                //ProfileImageDisplay.PropertyChanged -= onProfileImageChange_updateUIImage;
                 ProfileImageDisplay.PropertyChanged -= onProfileImageSizeChange;
                 ProfileImageDisplay.Dispose();
             }
@@ -210,18 +218,21 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        private void onProfileImageChange_updateUIImage(object sender, PropertyChangedEventArgs e)
+        /*private void onProfileImageChange_updateUIImage(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("TxtFileFullPath") && !string.IsNullOrEmpty(((DisplayAndData.Display.Image)sender).TxtFileFullPath))
+            if (e.PropertyName.Equals("TxtFileFullPath") && !string.IsNullOrEmpty(((InfoManager.Display)sender).TxtFileFullPath))
             {
-                ProfileImageDisplay = _main.ImageManagement((DisplayAndData.Display.Image)sender, "profile");
+                ProfileImageDisplay = _main.ImageManagement((InfoManager.Display)sender, "profile");
             }
-        }
+        }*/
 
-        private void onProfileImageSizeChange(object sender, PropertyChangedEventArgs e)
+        private async void onProfileImageSizeChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("ImageInfoUpdated"))
-                _main.ReferentialViewModel.OptionDataAndDisplayViewModel.saveImageInfo((DisplayAndData.Display.Image)sender);
+            {
+                var infoUpdatedList = await _main.ReferentialViewModel.OptionDataAndDisplayViewModel.saveInfo(((InfoManager.Display)sender).InfoDataList);
+                //((InfoManager.Display)sender).updateFields(infoUpdatedList);
+            }                
         }
 
         //----------------------------[ Action Commands ]------------------
@@ -290,6 +301,9 @@ namespace QOBDManagement.ViewModel
 
         private void getFileFromLocal(object obj)
         {
+            if (ProfileImageDisplay != null)
+                ProfileImageDisplay.closeImageSource();
+
             _main.ReferentialViewModel.OptionDataAndDisplayViewModel.getFileFromLocal(ProfileImageDisplay);
         }
 

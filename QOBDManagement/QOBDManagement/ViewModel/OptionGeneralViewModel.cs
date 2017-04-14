@@ -18,11 +18,11 @@ namespace QOBDManagement.ViewModel
     public class OptionGeneralViewModel : BindBase
     {
         private Func<object, object> _page;
-        private List<GeneralInfos.Bank> _bankDetails;
-        private List<GeneralInfos.Contact> _addressDetails;
+        private List<InfoManager.Bank> _bankDetails;
+        private List<InfoManager.Contact> _addressDetails;
         private GeneralInfos _generalInfos;
-        private GeneralInfos.FileWriter _legalInformationFileManagement;
-        private GeneralInfos.FileWriter _saleGeneralConditionFileManagement;
+        private InfoManager.FileWriter _legalInformationFileManagement;
+        private InfoManager.FileWriter _saleGeneralConditionFileManagement;
         private string _validationEmail;
         private string _reminderEmail;
         private string _invoiceEmail;
@@ -69,10 +69,10 @@ namespace QOBDManagement.ViewModel
         
         private void instances()
         {
-            _legalInformationFileManagement = new GeneralInfos.FileWriter("legal_information", EOption.texts);
-            _saleGeneralConditionFileManagement = new GeneralInfos.FileWriter("sale_general_condition", EOption.texts);
-            _addressDetails = new List<GeneralInfos.Contact>();
-            _bankDetails = new List<GeneralInfos.Bank>();
+            _legalInformationFileManagement = new InfoManager.FileWriter("legal_information", EOption.texts);
+            _saleGeneralConditionFileManagement = new InfoManager.FileWriter("sale_general_condition", EOption.texts);
+            _addressDetails = new List<InfoManager.Contact>();
+            _bankDetails = new List<InfoManager.Bank>();
             _generalInfos = new GeneralInfos();
             _emailfilterList = new List<string> { "email", "invoice_email", "quote_email", "reminder_email", "validation_email" };
             _title = "Option Management";
@@ -112,13 +112,13 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _title, value); }
         }
 
-        public GeneralInfos.FileWriter LegalInformationFileManagement
+        public InfoManager.FileWriter LegalInformationFileManagement
         {
             get { return _legalInformationFileManagement; }
             set { setProperty(ref _legalInformationFileManagement, value); }
         }
 
-        public GeneralInfos.FileWriter SaleGeneralConditionFileManagement
+        public InfoManager.FileWriter SaleGeneralConditionFileManagement
         {
             get { return _saleGeneralConditionFileManagement; }
             set { setProperty(ref _saleGeneralConditionFileManagement, value); }
@@ -178,13 +178,13 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _taxes, value); }
         }
 
-        public List<GeneralInfos.Bank> BankDetailList
+        public List<InfoManager.Bank> BankDetailList
         {
             get { return _bankDetails; }
             set { setProperty(ref _bankDetails, value); }
         }
 
-        public List<GeneralInfos.Contact> AddressList
+        public List<InfoManager.Contact> AddressList
         {
             get { return _addressDetails; }
             set { setProperty(ref _addressDetails, value); }
@@ -233,8 +233,8 @@ namespace QOBDManagement.ViewModel
             TaxList = TaxListToTaxModelList(await Bl.BlOrder.GetTaxDataAsync(999));
 
             var infosFoundList = Bl.BlReferential.GetInfoData(999);
-            BankDetailList = new List<GeneralInfos.Bank> { new GeneralInfos.Bank(infosFoundList) };
-            AddressList = new List<GeneralInfos.Contact> { new GeneralInfos.Contact(infosFoundList) };
+            BankDetailList = new List<InfoManager.Bank> { new InfoManager.Bank(infosFoundList) };
+            AddressList = new List<InfoManager.Contact> { new InfoManager.Contact(infosFoundList) };
 
             LoadEmail();
 
@@ -407,7 +407,7 @@ namespace QOBDManagement.ViewModel
         private async void updateBankDetail(object obj)
         {
             Dialog.showSearch("Bank details updating...");
-            var infosList = _bankDetails[0].extractInfosListFromBankDictionary();
+            var infosList = new InfoManager().GeneralInfo.retrieveInfoDataListFromDictionary(_bankDetails[0].BankDictionary);// _bankDetails[0].extractInfosListFromBankDictionary();
             var infosToUpdateList = infosList.Where(x => x.ID != 0).ToList();
             var infosToCreateList = infosList.Where(x => x.ID == 0).ToList();
             var infosUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infosToUpdateList);
@@ -417,7 +417,7 @@ namespace QOBDManagement.ViewModel
                 await Dialog.showAsync("Bank Detail saved Successfully!");
                 List<Info> savedInfosList = new List<Info>(infosUpdatedList);
                 savedInfosList = new List<Info>(savedInfosList.Concat(infosCreatedList));
-                BankDetailList = new List<GeneralInfos.Bank> { new GeneralInfos.Bank(savedInfosList) };
+                BankDetailList = new List<InfoManager.Bank> { new InfoManager.Bank(savedInfosList) };
             }
 
             Dialog.IsDialogOpen = false;
@@ -431,7 +431,7 @@ namespace QOBDManagement.ViewModel
         private async void updateAddress(object obj)
         {
             Dialog.showSearch("Address updating...");
-            var infosList = _addressDetails[0].extractInfosListFromContactDictionary();
+            var infosList = new InfoManager().GeneralInfo.retrieveInfoDataListFromDictionary(_addressDetails[0].ContactDictionary);// _addressDetails[0].extractInfosListFromContactDictionary();
             var infosToUpdateList = infosList.Where(x => x.ID != 0).ToList();
             var infosToCreateList = infosList.Where(x => x.ID == 0).ToList();
             var infosUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infosToUpdateList);
@@ -441,7 +441,7 @@ namespace QOBDManagement.ViewModel
                 await Dialog.showAsync("Address Detail saved Successfully!");
                 List<Info> savedInfosList = new List<Info>(infosUpdatedList);
                 savedInfosList = new List<Info>(savedInfosList.Concat(infosCreatedList));
-                AddressList = new List<GeneralInfos.Contact> { new GeneralInfos.Contact(savedInfosList) };
+                AddressList = new List<InfoManager.Contact> { new InfoManager.Contact(savedInfosList) };
             }
             Dialog.IsDialogOpen = false;
         }

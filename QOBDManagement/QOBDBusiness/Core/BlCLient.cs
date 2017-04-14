@@ -93,7 +93,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Client>> DeleteClientAsync(List<Client> clientList)
         {
             List<Client> result = new List<Client>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(clientList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(clientList.Where(x => x.ID == 0).Count()))
                 clientList = clientList.Where(x => x.ID != 0).ToList();
 
             if (clientList == null || clientList.Count == 0)
@@ -110,7 +110,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Client>> UpdateClientAsync(List<Client> clientList)
         {
             List<Client> result = new List<Client>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(clientList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(clientList.Where(x => x.ID == 0).Count()))
                 clientList = clientList.Where(x => x.ID != 0).ToList();
 
             if (clientList == null || clientList.Count == 0)
@@ -246,7 +246,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Contact>> UpdateContactAsync(List<Contact> contactList)
         {
             List<Contact> result = new List<Contact>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(contactList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(contactList.Where(x => x.ID == 0).Count()))
                 contactList = contactList.Where(x => x.ID != 0).ToList();
 
             if (contactList == null || contactList.Count == 0)
@@ -263,7 +263,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Contact>> DeleteContactAsync(List<Contact> contactList)
         {
             List<Contact> result = new List<Contact>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(contactList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(contactList.Where(x => x.ID == 0).Count()))
                 contactList = contactList.Where(x => x.ID != 0).ToList();
 
             if (contactList == null || contactList.Count == 0)
@@ -375,7 +375,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Address>> UpdateAddressAsync(List<Address> addressList)
         {
             List<Address> result = new List<Address>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(addressList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(addressList.Where(x => x.ID == 0).Count()))
                 addressList = addressList.Where(x => x.ID != 0).ToList();
 
             if (addressList == null || addressList.Count == 0)
@@ -392,7 +392,7 @@ namespace QOBDBusiness.Core
         public async Task<List<Address>> DeleteAddressAsync(List<Address> addressList)
         {
             List<Address> result = new List<Address>();
-            if (checkIfUpdateOrDeleteParamRepectsRequirements(addressList.Where(x => x.ID == 0).Count()))
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(addressList.Where(x => x.ID == 0).Count()))
                 addressList = addressList.Where(x => x.ID != 0).ToList();
 
             if (addressList == null || addressList.Count == 0)

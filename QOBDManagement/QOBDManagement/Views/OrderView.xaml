@@ -147,7 +147,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
                             <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
-                            <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtLastName}"/>
+                            <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
                             <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
                             <DataGridTemplateColumn Header="Detail">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -315,7 +315,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
                             <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
-                            <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtLastName}"/>
+                            <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
                             <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
                             <DataGridTemplateColumn Header="Detail">
                                 <DataGridTemplateColumn.CellTemplate>

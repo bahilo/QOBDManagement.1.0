@@ -47,6 +47,7 @@ namespace QOBDManagement.ViewModel
         public ButtonCommand<string> btnSearchCommand { get; set; }
         public ButtonCommand<string> NavigCommand { get; set; }
         public ButtonCommand<ClientModel> ClientDetailCommand { get; set; }
+        public ButtonCommand<ClientModel> rbSelectClientForQuoteCommand { get; set; }
                 
 
         public ClientViewModel()
@@ -107,9 +108,10 @@ namespace QOBDManagement.ViewModel
             btnSearchCommand = new ButtonCommand<string>(filterClient, canFilterClient);
             NavigCommand = new ButtonCommand<string>(executeNavig, canExecuteNavig);
             ClientDetailCommand = new ButtonCommand<ClientModel>(selectCurrentClient, canSelectedCurrentClient);
+            rbSelectClientForQuoteCommand = new ButtonCommand<ClientModel>(selectClientForQuote, canSelectClientForQuote);
 
         }
-        
+
         //----------------------------[ Properties ]------------------
 
         public BusinessLogic Bl
@@ -166,19 +168,21 @@ namespace QOBDManagement.ViewModel
 
         public List<ClientModel> clientListToModelViewList(List<Client> clientList)
         {
+            object objectLock = new object();
             List<ClientModel> output = new List<ClientModel>();
-            Parallel.ForEach(clientList, (client) =>
-            {
-                ClientModel cvm = new ClientModel();
-                if (AgentList.Count() > 0)
-                {
-                    var result = AgentList.Where(x => x.ID.Equals(client.AgentId)).ToList();
-                    cvm.Agent.Agent = (result.Count > 0) ? result[0] : new Agent();
-                }
-                cvm.Client = client;
-                output.Add(cvm);
 
-            });
+            lock(objectLock)
+                foreach(Client client in clientList)
+                {
+                    ClientModel cvm = new ClientModel();
+                    if (AgentList.Count() > 0)
+                    {
+                        var result = AgentList.Where(x => x.ID.Equals(client.AgentId)).ToList();
+                        cvm.Agent.Agent = (result.Count > 0) ? result[0] : new Agent();
+                    }
+                    cvm.Client = client;
+                    output.Add(cvm);
+                }
             return output;
         }
 
@@ -367,6 +371,23 @@ namespace QOBDManagement.ViewModel
         private bool canSaveSearchRadioButtonSelection(string arg)
         {
             return true;
+        }
+
+        private async void selectClientForQuote(ClientModel obj)
+        {
+            if (obj != null && await Dialog.showAsync("Do you confirme selecting " + obj.TxtCompany + " for a Quote?"))
+                ClientDetailViewModel.setCartClientForQuote(obj);
+            else
+                obj.IsSelectForQuote = false;
+        }
+
+        private bool canSelectClientForQuote(ClientModel arg)
+        {
+            // enable only during quote creation
+            if(_main.Context != null && (_main.Context.PreviousState as QuoteViewModel) != null)
+                return true;
+
+            return false;
         }
 
 

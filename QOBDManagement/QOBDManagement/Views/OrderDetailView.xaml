@@ -100,8 +100,14 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Border Background="{DynamicResource PrimaryHueMidForegroundBrush}">
+                                    
+                                    <Image Source="{Binding ItemModel.Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+                                            Width="150"
+                                            Height="100"/>
+                                    
+                                    <Border Grid.Column="1" Background="{DynamicResource PrimaryHueMidForegroundBrush}">
                                         <StackPanel Orientation="Vertical">
                                             <TextBox Text="{Binding TxtComment_Purchase_Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
@@ -109,7 +115,8 @@
                                                      Background="White" MinLines="5" Width="300"  TextWrapping="Wrap" AcceptsReturn="True" HorizontalAlignment="Left"/>
                                         </StackPanel>
                                     </Border>
-                                    <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center">
+                                    
+                                    <StackPanel Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center">
                                         <TextBox Name="QttyReceived" Text="{Binding TxtQuantity_received, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}" IsEnabled="{Binding IsQuantityReceivedEnabled, UpdateSourceTrigger=PropertyChanged}"
                                                      materialDesign:HintAssist.Hint="Quantity received"/>

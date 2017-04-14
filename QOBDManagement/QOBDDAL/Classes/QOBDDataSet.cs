@@ -456,6 +456,8 @@ namespace QOBDDAL.Classes
                                                 item.Source,
                                                 item.Comment,
                                                 item.Erasable,
+                                                item.Picture,
+                                                item.Stock,
                                                 item.ID);
         }
 

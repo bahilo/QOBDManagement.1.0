@@ -98,37 +98,71 @@ namespace QOBDManagement.ViewModel
         public List<StatisticModel> StatisticDataList
         {
             get { return _statisticList; }
-            set { _statisticList = value; onPropertyChange("StatisticDataList"); }
+            set {
+                if (Application.Current != null)
+                        Application.Current.Dispatcher.Invoke(()=> {
+                        _statisticList = value; onPropertyChange("StatisticDataList");
+                    });                
+            }
         }
 
         public ItemModel FirstBestItemModelSeller
         {
             get { return _firstBestSeller; }
-            set { _firstBestSeller  = value; onPropertyChange("FirstBestItemModelSeller"); }
+            set
+            {
+                if (Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(() => {
+                        _firstBestSeller = value; onPropertyChange("FirstBestItemModelSeller");
+                    });
+            }
         }
 
         public ItemModel SecondBestItemModelSeller
         {
             get { return _secondBestSeller; }
-            set { _secondBestSeller = value; onPropertyChange("SecondBestItemModelSeller"); }
+            set
+            {
+                if (Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(() => {
+                        _secondBestSeller = value; onPropertyChange("SecondBestItemModelSeller");
+                    });
+             }
         }
 
         public ItemModel ThirdBestItemModelSeller
         {
             get { return _ThirdBestSeller; }
-            set { _ThirdBestSeller = value; onPropertyChange("ThirdBestItemModelSeller"); }
+            set
+            {
+                if (Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(() => {
+                        _ThirdBestSeller = value; onPropertyChange("ThirdBestItemModelSeller");
+                    });
+                }
         }
 
         public ItemModel FourthBestItemModelSeller
         {
             get { return _fourthBestSeller; }
-            set { _fourthBestSeller = value; onPropertyChange("FourthBestItemModelSeller"); }
+            set
+            {
+                if (Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(() => {
+                        _fourthBestSeller = value; onPropertyChange("FourthBestItemModelSeller");
+                    }); 
+            }
         }
 
         public List<ToDo> ToDoList
         {
             get { return _toDoList; }
-            set { _toDoList = value; onPropertyChange("ToDoList"); }
+            set {
+                if(Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(() => {
+                        _toDoList = value; onPropertyChange("ToDoList");
+                    });
+                }
         }
 
         public string TxtNewTask
@@ -140,19 +174,37 @@ namespace QOBDManagement.ViewModel
         public SeriesCollection PurchaseAndIncomeSeriesCollection
         {
             get { return _purchaseAndSalePriceseriesCollection; }
-            set { _purchaseAndSalePriceseriesCollection = value; onPropertyChange("PurchaseAndIncomeSeriesCollection"); }
+            set
+            {
+                if (Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(() => {
+                        _purchaseAndSalePriceseriesCollection = value; onPropertyChange("PurchaseAndIncomeSeriesCollection");
+                    });
+             }
         }
 
         public SeriesCollection PayReceivedSeriesCollection
         {
             get { return _payReceivedSeries; }
-            set { setProperty(ref _payReceivedSeries, value, "PayReceivedSeriesCollection"); }
+            set
+            {
+                if (Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(() => {
+                        setProperty(ref _payReceivedSeries, value, "PayReceivedSeriesCollection");
+                    });
+            }
         }
 
         public SeriesCollection CreditSeriesCollection
         {
             get { return _creditSeries; }
-            set { setProperty(ref _creditSeries, value, "CreditSeriesCollection"); }
+            set
+            {
+                if (Application.Current != null)
+                    Application.Current.Dispatcher.Invoke(() => {
+                        setProperty(ref _creditSeries, value, "CreditSeriesCollection");
+                    });
+            }
         }
 
         public Func<double, string> XFormatter { get; set; }
@@ -173,13 +225,7 @@ namespace QOBDManagement.ViewModel
         
         public void loadData()
         {
-            if (Application.Current != null)
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    load();
-                });
-            else
-                load();            
+            load();            
         }
 
         private async void load()

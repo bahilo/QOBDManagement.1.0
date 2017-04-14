@@ -470,7 +470,7 @@ namespace QOBDGateway.Core
             List<Bill> result = new List<Bill>();
             try
             {
-                result = (await _channel.get_data_bill_by_unpaidAsync(agentId)).ArrayTypeToBill();
+                result = (await _channel.get_data_bill_by_unpaidAsync(agentId.ToString())).ArrayTypeToBill();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }

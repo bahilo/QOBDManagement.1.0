@@ -14,7 +14,7 @@ namespace QOBDManagement.ViewModel
 {
     public class OptionEmailViewModel : BindBase
     {
-        Dictionary<string, GeneralInfos.FileWriter> _emails;
+        Dictionary<string, InfoManager.FileWriter> _emails;
         private string _title;
         private IMainWindowViewModel _main;
         
@@ -41,12 +41,12 @@ namespace QOBDManagement.ViewModel
         private void instances()
         {
             _title = "Email Management";
-            _emails = new Dictionary<string, GeneralInfos.FileWriter>();
-            _emails["quote"] = new GeneralInfos.FileWriter("quote", EOption.mails);
-            _emails["reminder_1"] = new GeneralInfos.FileWriter("reminder_1", EOption.mails);
-            _emails["reminder_2"] = new GeneralInfos.FileWriter("reminder_2", EOption.mails);
-            _emails["bill"] = new GeneralInfos.FileWriter("bill", EOption.mails);
-            _emails["order_confirmation"] = new GeneralInfos.FileWriter("order_confirmation", EOption.mails);
+            _emails = new Dictionary<string, InfoManager.FileWriter>();
+            _emails["quote"] = new InfoManager.FileWriter("quote", EOption.mails);
+            _emails["reminder_1"] = new InfoManager.FileWriter("reminder_1", EOption.mails);
+            _emails["reminder_2"] = new InfoManager.FileWriter("reminder_2", EOption.mails);
+            _emails["bill"] = new InfoManager.FileWriter("bill", EOption.mails);
+            _emails["order_confirmation"] = new InfoManager.FileWriter("order_confirmation", EOption.mails);
         }
 
         private void instancesCommand()
@@ -68,31 +68,31 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _title, value); }
         }
 
-        public GeneralInfos.FileWriter OrderConfirmationEmailFile
+        public InfoManager.FileWriter OrderConfirmationEmailFile
         {
             get { return _emails["order_confirmation"]; }
             set { _emails["order_confirmation"] = value; onPropertyChange("OrderConfirmationEmailFile"); }
         }
 
-        public GeneralInfos.FileWriter BillEmailFile
+        public InfoManager.FileWriter BillEmailFile
         {
             get { return _emails["bill"]; }
             set { _emails["bill"] = value; onPropertyChange("BillEmailFile"); }
         }
 
-        public GeneralInfos.FileWriter ReminderTwoEmailFile
+        public InfoManager.FileWriter ReminderTwoEmailFile
         {
             get { return _emails["reminder_2"]; }
             set { _emails["reminder_2"] = value; onPropertyChange("ReminderTwoEmailFile"); }
         }
 
-        public GeneralInfos.FileWriter ReminderOneEmailFile
+        public InfoManager.FileWriter ReminderOneEmailFile
         {
             get { return _emails["reminder_1"]; }
             set { _emails["reminder_1"] = value; onPropertyChange("ReminderEmailFile"); }
         }
 
-        public GeneralInfos.FileWriter QuoteEmailFile
+        public InfoManager.FileWriter QuoteEmailFile
         {
             get { return _emails["quote"]; }
             set { _emails["quote"] = value; onPropertyChange("QuoteEmailFile"); }
