@@ -91,6 +91,11 @@ namespace QOBDManagement.ViewModel
                 case "new-item":
                     SelectedItem.IsRefModifyEnable = true;
                     SelectedItem.Item = new QOBDCommon.Entities.Item();
+                    SelectedItem.Image = null;
+                    SelectedItem.SelectedBrand = "";
+                    SelectedItem.SelectedFamily = "";
+                    SelectedItem.Item_deliveryModelList = new List<Item_deliveryModel>();
+                    SelectedItem.ProviderList = new List<QOBDCommon.Entities.Provider>();
                     _page(new ItemDetailViewModel());
                     break;
             }

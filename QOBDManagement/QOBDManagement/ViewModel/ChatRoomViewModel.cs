@@ -26,7 +26,6 @@ namespace QOBDManagement.ViewModel
         private Object _currentViewModel;
         private bool _isServerConnectionError;
         private IMainWindowViewModel _main;
-        private IAgentViewModel _agentViewModel;
 
 
         //----------------------------[ ViewModels ]------------------

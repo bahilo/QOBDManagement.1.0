@@ -210,6 +210,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 LastName = Utility.decodeBase64ToString(x.LastName),
                 UserName = Utility.decodeBase64ToString(x.UserName),
                 HashedPassword = Utility.decodeBase64ToString(x.Password),
+                Picture = Utility.decodeBase64ToString(x.Picture),
                 Phone = Utility.decodeBase64ToString(x.Phone),
                 Status = Utility.decodeBase64ToString(x.Status),
                 IsOnline = (Utility.intTryParse(Utility.decodeBase64ToString(x.IsOnline)) == 1) ? true : false,
@@ -231,6 +232,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 LastName = Utility.encodeStringToBase64(x.LastName),
                 UserName = Utility.encodeStringToBase64(x.UserName),
                 Password = Utility.encodeStringToBase64(x.HashedPassword),
+                Picture = Utility.encodeStringToBase64(x.Picture),
                 Phone = Utility.encodeStringToBase64(x.Phone),
                 Status = Utility.encodeStringToBase64(x.Status),
                 IsOnline = (x.IsOnline) ? Utility.encodeStringToBase64("1") : Utility.encodeStringToBase64("0"),
@@ -252,6 +254,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 agentQCBD.LastName = Utility.encodeStringToBase64(agent.LastName);
                 agentQCBD.UserName = Utility.encodeStringToBase64(agent.UserName);
                 agentQCBD.Password = Utility.encodeStringToBase64(agent.HashedPassword);
+                agentQCBD.Picture = Utility.encodeStringToBase64(agent.Picture);
                 agentQCBD.Phone = Utility.encodeStringToBase64(agent.Phone);
                 agentQCBD.Status = Utility.encodeStringToBase64(agent.Status);
                 agentQCBD.ListSize = Utility.encodeStringToBase64(agent.ListSize.ToString());

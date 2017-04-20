@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using System.Globalization;
 using QOBDCommon.Classes;
 using System.Configuration;
+using QOBDManagement.Helper;
 
 namespace QOBDManagement.ViewModel
 {
@@ -263,7 +264,7 @@ namespace QOBDManagement.ViewModel
                     ivm.IsItemSelected = true;
 
                 // loading the item's picture
-                ivm.Image = loadPicture(ivm, infoList);
+                ivm.Image = ivm.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_catalogue_image_folder"], ConfigurationManager.AppSettings["local_catalogue_image_folder"], ivm.TxtPicture, ivm.TxtRef.Replace(' ', '_').Replace(':', '_'), infoList);// loadPicture(ivm, infoList);
                 
                 output.Add(ivm);
             }
@@ -271,7 +272,7 @@ namespace QOBDManagement.ViewModel
             return output;
         }
 
-        /// <summary>
+        /*/// <summary>
         /// loading the item's picture from ftp server
         /// </summary>
         /// <param name="imageFileName">picture filename</param>
@@ -300,7 +301,7 @@ namespace QOBDManagement.ViewModel
                 itemModel.Image.downloadFile();                
             }
             return itemModel.Image;
-        }
+        }*/
 
         private List<Provider> loadProviderFromProvider_item(List<Provider_item> provider_itemFoundList, int userSourceId)
         {

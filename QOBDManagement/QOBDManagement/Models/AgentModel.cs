@@ -19,7 +19,10 @@ namespace QOBDManagement.Models
         private bool _isModified;
         private List<RoleModel> _roleToAddList;
         private List<RoleModel> _roleToRemoveList;
-        private Dictionary<int, int> _rolePosition = new Dictionary<int, int>();
+        private string _profileImageFileNameBase;
+        private Dictionary<int, int> _rolePosition;
+        private InfoManager.Display _image;
+
 
         public AgentModel()
         {
@@ -27,6 +30,8 @@ namespace QOBDManagement.Models
             _roleModelList = new List<RoleModel>();
             _roleToAddList = new List<RoleModel>();
             _roleToRemoveList = new List<RoleModel>();
+            _rolePosition = new Dictionary<int, int>();
+            _profileImageFileNameBase = "profile_image";
             _rolePosition = new Dictionary<int, int>();
             _clearPassword = "";
             _clearPasswordVerification = "";
@@ -55,6 +60,12 @@ namespace QOBDManagement.Models
         {
             get { return _clearPassword; }
             set { setProperty(ref _clearPassword, value); }
+        }
+
+        public string TxtProfileImageFileNameBase
+        {
+            get { return _profileImageFileNameBase; }
+            set { setProperty(ref _profileImageFileNameBase, value); }
         }
 
         public string TxtClearPasswordVerification
@@ -129,6 +140,18 @@ namespace QOBDManagement.Models
         {
             get { return _agent.HashedPassword; }
             set { _agent.HashedPassword = value; onPropertyChange(); }
+        }
+
+        public string TxtPicture
+        {
+            get { return _agent.Picture; }
+            set { _agent.Picture = value; onPropertyChange(); }
+        }
+
+        public InfoManager.Display Image
+        {
+            get { return _image; }
+            set { _image = value; onPropertyChange(); }
         }
 
         public List<Role> RoleList

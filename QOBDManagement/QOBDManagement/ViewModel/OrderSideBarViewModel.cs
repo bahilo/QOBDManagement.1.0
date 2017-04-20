@@ -227,11 +227,11 @@ namespace QOBDManagement.ViewModel
                 && arg.Equals("valid-credit"))
                 return false;
 
-            if ((SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Order_Close.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Order.ToString()))
+            if ((SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Order_Close.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Order.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Billed.ToString()))
                 && arg.Equals("close-order"))
                 return false;
 
-            if ((SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Credit_CLose.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
+            if ((SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Credit_CLose.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Credit.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Billed.ToString()))
                 && arg.Equals("close-credit"))
                 return false;
 
@@ -244,55 +244,30 @@ namespace QOBDManagement.ViewModel
             switch (obj)
             {
                 case "convert-quoteToOrder":
-                    //Dialog.showSearch("Processing...");
                     orderDetail.updateOrderStatus(EOrderStatus.Pre_Order);
-                    //Dialog.IsDialogOpen = false;
                     break;
                 case "valid-order":
-                    //Dialog.showSearch("Processing...");
                     orderDetail.updateOrderStatus(EOrderStatus.Order);
-                    //Dialog.IsDialogOpen = false;
                     break;
                 case "valid-credit":
                     if (await Dialog.showAsync("Do you really want to validate this credit?"))
-                    {
-                        //Dialog.showSearch("Processing...");
                         orderDetail.updateOrderStatus(EOrderStatus.Credit);
-                        //Dialog.IsDialogOpen = false;
-                    }
                     break;
                 case "convert-orderToQuote":
                     if (await Dialog.showAsync("Do you really want to convert into quote?"))
-                    {
-                       //Dialog.showSearch("Processing...");
-                        orderDetail.updateOrderStatus(EOrderStatus.Quote);
-                        //Dialog.IsDialogOpen = false;
-                    }
-                        
+                        orderDetail.updateOrderStatus(EOrderStatus.Quote);                        
                     break;
                 case "convert-quoteToCredit":
                     if (await Dialog.showAsync("Do you really want to convert into credit?"))
-                    {
-                        //Dialog.showSearch("Processing...");
                         orderDetail.updateOrderStatus(EOrderStatus.Pre_Credit);
-                        //Dialog.IsDialogOpen = false;
-                    }
                     break;
                 case "close-order":
                     if (await Dialog.showAsync("Do you really want to close this order?"))
-                    {
-                        //Dialog.showSearch("Processing...");
                         orderDetail.updateOrderStatus(EOrderStatus.Order_Close);
-                        //Dialog.IsDialogOpen = false;
-                    }
                     break;
                 case "close-credit":
                     if (await Dialog.showAsync("Do you really want to close this credit?"))
-                    {
-                        //Dialog.showSearch("Processing...");
                         orderDetail.updateOrderStatus(EOrderStatus.Credit_CLose);
-                        //Dialog.IsDialogOpen = false;
-                    }
                     break;
             }
             

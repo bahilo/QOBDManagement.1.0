@@ -4,11 +4,13 @@ using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDManagement.Classes;
 using QOBDManagement.Command;
+using QOBDManagement.Helper;
 using QOBDManagement.Interfaces;
 using QOBDManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -378,8 +380,7 @@ namespace QOBDManagement.ViewModel
 
         private async void getFileFromLocal(object obj)
         {
-            Dialog.showSearch("Picture updating...");
-
+            
             // closing the image file if opened in the order detail
             if (_main.OrderViewModel != null
                 && _main.OrderViewModel.OrderDetailViewModel != null
@@ -390,12 +391,16 @@ namespace QOBDManagement.ViewModel
                     imageFound.closeImageSource();
             }
 
-            // generating new image
-            SelectedItemModel.Image = _main.ItemViewModel.loadPicture(SelectedItemModel, Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND));
-            
+            if (SelectedItemModel.Image != null)
+                SelectedItemModel.Image.closeImageSource();
+            else
+                SelectedItemModel.Image = SelectedItemModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_catalogue_image_folder"], ConfigurationManager.AppSettings["local_catalogue_image_folder"], SelectedItemModel.TxtPicture, SelectedItemModel.TxtRef.Replace(' ', '_').Replace(':', '_'), Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND));
+
             // opening the file explorer for image file choosing
             SelectedItemModel.Image.TxtChosenFile = InfoManager.ExecuteOpenFileDialog("Select an image file", new List<string> { "png", "jpeg", "jpg" });
             SelectedItemModel.TxtPicture = SelectedItemModel.Image.TxtFileName;
+
+            Dialog.showSearch("Picture updating...");
 
             // upload the image file to the FTP server
             SelectedItemModel.Image.uploadImage();

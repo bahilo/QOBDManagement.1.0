@@ -871,6 +871,7 @@ namespace QOBDDAL.Classes
                                             agent.Admin,
                                             agent.Status,
                                             agent.ListSize,
+                                            agent.Picture,
                                             agent.ID);
         }
 

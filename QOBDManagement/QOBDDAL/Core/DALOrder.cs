@@ -431,7 +431,7 @@ namespace QOBDDAL.Core
             foreach (var delivery in gateWayResultList)
             {
                 int returnValue = _dataSet.UpdateDelivery(delivery);
-                if (returnValue >= gateWayResultList.Count)
+                if (returnValue > 0)
                     result.Add(delivery);
             }
             return result;

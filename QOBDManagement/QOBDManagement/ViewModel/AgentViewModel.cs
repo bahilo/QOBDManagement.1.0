@@ -14,6 +14,9 @@ using QOBDCommon.Enum;
 using QOBDManagement.Interfaces;
 using System.Windows.Threading;
 using System.Windows;
+using QOBDManagement.Helper;
+using System.Configuration;
+using QOBDCommon.Classes;
 
 namespace QOBDManagement.ViewModel
 {
@@ -21,7 +24,7 @@ namespace QOBDManagement.ViewModel
     {
         private List<string> _saveSearchParametersList;
         private Func<Object, Object> _page;    
-        private List<Agent> _agents;
+        //private List<Agent> _agents;
         private List<string> _chatUserGroupList;
         private List<Agent> _clientAgentToMoveList;
         private string _title;
@@ -72,7 +75,7 @@ namespace QOBDManagement.ViewModel
             _title = "Agent Management";
             _saveSearchParametersList = new List<string>();
             _clientAgentToMoveList = new List<Agent>();
-            _agents = new List<Agent>();
+            //_agents = new List<Agent>();
         }
         
 
@@ -115,7 +118,13 @@ namespace QOBDManagement.ViewModel
         public List<AgentModel> AgentModelList
         {
             get { return _agentDetailViewModel.AgentModelList; }
-            set { _agentDetailViewModel.AgentModelList = value; onPropertyChange(); onPropertyChange("UserModelList"); onPropertyChange("ActiveAgentModelList"); onPropertyChange("DeactivatedAgentModelList"); }
+            set
+            {
+                Application.Current.Dispatcher.Invoke(()=> {
+                    _agentDetailViewModel.AgentModelList = value;
+                });                
+                onPropertyChange(); onPropertyChange("UserModelList"); onPropertyChange("ActiveAgentModelList"); onPropertyChange("DeactivatedAgentModelList");
+            }
         }
 
         public List<AgentModel> ActiveAgentModelList
@@ -162,6 +171,17 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Actions ]------------------
 
         /// <summary>
+        /// initialize the agent view (called by the view code behind)
+        /// </summary>
+        public async Task loadAgents()
+        {
+            await loadAsync();
+            //Dialog.showSearch("loading...");
+            
+            //Dialog.IsDialogOpen = false;
+        } 
+
+        /// <summary>
         /// Convert the list of agent received from the web service into 
         /// a list of agent model used by the agent view
         /// </summary>
@@ -170,35 +190,30 @@ namespace QOBDManagement.ViewModel
         public List<AgentModel> agentListToModelViewList(List<Agent> AgentList)
         {
             List<AgentModel> output = new List<AgentModel>();
+            var credentialInfoList = Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND);
             foreach (Agent Agent in AgentList)
             {
                 AgentModel avm = new AgentModel();
                 avm.Agent = Agent;
-                _agents.Add(Agent);
+                avm.Image = avm.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], avm.TxtPicture, avm.TxtProfileImageFileNameBase + "_" + Agent.ID, credentialInfoList);
+                //_agents.Add(Agent);
                 output.Add(avm);
             }
             return output;
         }
 
-        /// <summary>
-        /// initialize the agent view (called by the view code behind)
-        /// </summary>
-        public async Task loadAgents()
+        private async Task loadAsync()
         {
-            if (Application.Current != null)
-                Application.Current.Dispatcher.Invoke(new System.Action(async () =>
-                {
-                    await load();
-                }));
-            else
-                await load();
-            //Dialog.showSearch("loading...");
-            
-            //Dialog.IsDialogOpen = false;
-        } 
+            // closing agent image file before reloading
+            if (SelectedAgentModel != null && SelectedAgentModel.Image != null)
+                SelectedAgentModel.Image.closeImageSource();
 
-        private async Task load()
-        {
+            foreach (AgentModel agentModel in AgentModelList)
+            {
+                if(agentModel.Image != null)
+                    agentModel.Image.closeImageSource();
+            }                
+
             AgentModelList = agentListToModelViewList(await Bl.BlAgent.GetAgentDataAsync(-999));
         }
 
@@ -258,16 +273,28 @@ namespace QOBDManagement.ViewModel
             return true;
         }
         
-        public void selectAgent(AgentModel obj)
+        public async void selectAgent(AgentModel obj)
         {
-            // admin profile can access all profiles
             if (obj != null)
                 SelectedAgentModel = obj;
-
-            // none admin can only access their own profile
             else
-                SelectedAgentModel = new AgentModel { Agent = Bl.BlSecurity.GetAuthenticatedUser() };
+            {
+                string errorMessage = "Error while selecting user [ "+Bl.BlSecurity.GetAuthenticatedUser().LastName+" ] for detail view!";
+                Log.error(errorMessage, EErrorFrom.AGENT);
+                await Dialog.showAsync(errorMessage);
+            }
 
+            // closing the image file before reloading
+            if(SelectedAgentModel.Image != null)
+                SelectedAgentModel.Image.closeImageSource();
+
+            // closing the image file if already opened in the application
+            var imageFound = AgentModelList.Where(x => x.Agent.ID == SelectedAgentModel.Agent.ID).Select(x=>x.Image).SingleOrDefault();
+            if (imageFound != null)
+                imageFound.closeImageSource();
+
+            // downloading the image file from the ftp server
+            SelectedAgentModel.Image = SelectedAgentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], SelectedAgentModel.TxtPicture, SelectedAgentModel.TxtProfileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID, Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND));
             executeNavig("agent-detail");
         }
 

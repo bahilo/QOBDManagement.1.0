@@ -188,6 +188,7 @@
           <xsd:element name="Email" type="xsd:string" />
           <xsd:element name="UserName" type="xsd:string" />
           <xsd:element name="Password" type="xsd:string" />
+          <xsd:element name="Picture" type="xsd:string" />
           <xsd:element name="Admin" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="IsOnline" type="xsd:string" />
@@ -212,6 +213,7 @@
           <xsd:element name="Email" type="xsd:string" />
           <xsd:element name="UserName" type="xsd:string" />
           <xsd:element name="Password" type="xsd:string" />
+          <xsd:element name="Picture" type="xsd:string" />
           <xsd:element name="Admin" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="IsOnline" type="xsd:string" />

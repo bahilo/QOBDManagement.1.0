@@ -705,6 +705,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 agent.LastName = agentQCBD.LastName;
                 agent.UserName = agentQCBD.Login;
                 agent.HashedPassword = agentQCBD.Password;
+                agent.Picture = agentQCBD.Picture;
                 agent.Phone = agentQCBD.Phone;
                 agent.Status = agentQCBD.Status;
                 agent.Admin = agentQCBD.Admin;
@@ -732,6 +733,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     agentQCBD.LastName = agent.LastName;
                     agentQCBD.Login = agent.UserName;
                     agentQCBD.Password = agent.HashedPassword;
+                    agentQCBD.Picture = agent.Picture;
                     agentQCBD.Phone = agent.Phone;
                     agentQCBD.Status = agent.Status;
                     agentQCBD.Admin = agent.Admin;
@@ -767,6 +769,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                         agentQCBD.LastName = agent.LastName;
                         agentQCBD.Login = agent.UserName;
                         agentQCBD.Password = agent.HashedPassword;
+                        agentQCBD.Picture = agent.Picture;
                         agentQCBD.Phone = agent.Phone;
                         agentQCBD.Status = agent.Status;
                         agentQCBD.Admin = agent.Admin;
@@ -805,6 +808,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} Login LIKE '{1}' ", filterOperator.ToString(), agent.UserName.Replace("'", "''"));
                 if (!string.IsNullOrEmpty(agent.HashedPassword))
                     query = string.Format(query + " {0} Password LIKE '{1}' ", filterOperator.ToString(), agent.HashedPassword.Replace("'", "''"));
+                if (!string.IsNullOrEmpty(agent.Picture))
+                    query = string.Format(query + " {0} Picture LIKE '{1}' ", filterOperator.ToString(), agent.Picture.Replace("'", "''"));
                 if (!string.IsNullOrEmpty(agent.Admin))
                     query = string.Format(query + " {0} Admin LIKE '{1}' ", filterOperator.ToString(), agent.Admin.Replace("'", "''"));
                 if (!string.IsNullOrEmpty(agent.Status))

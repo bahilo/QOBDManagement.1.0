@@ -159,7 +159,18 @@ namespace QOBDCommon.Structures
         public string Lang
         {
             get { return _lang; }
-            set { _lang = value; }
+            set
+            {
+                _lang = value;
+                if( Lang != null )
+                    switch (Lang.Split('-')[0].ToLower())
+                    {
+                        case "fr":
+                            if (TypeQuoteOrProformat == EOrderStatus.Quote)
+                                TypeQuoteOrProformat = EOrderStatus.Devis;
+                            break;
+                    }
+            }
         }
 
 

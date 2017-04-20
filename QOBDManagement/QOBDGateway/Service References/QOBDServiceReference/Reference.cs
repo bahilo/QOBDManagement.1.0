@@ -7316,6 +7316,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string passwordField;
         
+        private string pictureField;
+        
         private string adminField;
         
         private string statusField;
@@ -7411,6 +7413,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.passwordField = value;
                 this.RaisePropertyChanged("Password");
+            }
+        }
+        
+        /// <remarks/>
+        public string Picture {
+            get {
+                return this.pictureField;
+            }
+            set {
+                this.pictureField = value;
+                this.RaisePropertyChanged("Picture");
             }
         }
         
@@ -12821,6 +12834,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string passwordField;
         
+        private string pictureField;
+        
         private string adminField;
         
         private string statusField;
@@ -12916,6 +12931,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.passwordField = value;
                 this.RaisePropertyChanged("Password");
+            }
+        }
+        
+        /// <remarks/>
+        public string Picture {
+            get {
+                return this.pictureField;
+            }
+            set {
+                this.pictureField = value;
+                this.RaisePropertyChanged("Picture");
             }
         }
         

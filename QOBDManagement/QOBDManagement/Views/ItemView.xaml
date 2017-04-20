@@ -212,12 +212,14 @@
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                                HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Command="{Binding DataContext.ItemViewModel.GetCurrentItemCommand, ElementName=dgSearchResult}" 
-                                                CommandParameter="{Binding}">
-                                                Detail
-                                            </Button>
+                                            <Grid Height="100">
+                                                <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.ItemViewModel.GetCurrentItemCommand, ElementName=dgSearchResult}" 
+                                                    CommandParameter="{Binding}">
+                                                    Detail
+                                                </Button>
+                                            </Grid>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

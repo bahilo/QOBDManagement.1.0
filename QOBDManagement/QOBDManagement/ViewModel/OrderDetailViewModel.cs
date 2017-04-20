@@ -116,7 +116,7 @@ namespace QOBDManagement.ViewModel
             _paramQuoteToPdf = new ParamOrderToPdf(EOrderStatus.Quote, 2);
             _paramOrderToPdf = new ParamOrderToPdf(EOrderStatus.Order);
             _paramOrderToPdf.Currency = _paramQuoteToPdf.Currency = CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol;
-            _paramOrderToPdf.Lang = _paramQuoteToPdf.Lang = _paramDeliveryToPdf.Lang = CultureInfo.CurrentCulture.Name.Split('-').FirstOrDefault() ?? "en";
+            _paramDeliveryToPdf.Lang = _paramOrderToPdf.Lang = _paramQuoteToPdf.Lang = _paramDeliveryToPdf.Lang = CultureInfo.CurrentCulture.Name.Split('-').FirstOrDefault() ?? "en";
 
             _mailFile = new InfoManager.FileWriter("", EOption.mails);
         }
@@ -508,38 +508,6 @@ namespace QOBDManagement.ViewModel
             return new ItemModel();
         }
 
-        /*/// <summary>
-        /// gathering item information
-        /// </summary>
-        /// <param name="itemList"></param>
-        /// <returns></returns>
-        private List<ItemModel> getItemModelsInformations(List<Item> itemList)
-        {
-            List<ItemModel> output = new List<ItemModel>();
-            foreach (Item item in itemList)
-            {
-                ItemModel itemModel = new ItemModel();
-                itemModel.Item = item;
-
-                // search for the item's delivery receipt
-                var deliveryFoundList = Bl.BlOrder.searchDelivery(new Delivery { OrderId = OrderSelected.Order.ID }, ESearchOption.AND);
-                List<Item_deliveryModel> item_deliveryModelList = new List<Item_deliveryModel>();
-                foreach (var delivery in deliveryFoundList)
-                {
-                    // search for the delivery reference of the item
-                    Item_deliveryModel item_deliveryModelFound = Bl.BlItem.searchItem_delivery(new Item_delivery { Item_ref = item.Ref, DeliveryId = delivery.ID }, ESearchOption.AND).Select(x => new Item_deliveryModel { Item_delivery = x, ItemModel = new ItemModel { Item = item }, DeliveryModel = new DeliveryModel { Delivery = delivery } }).FirstOrDefault();
-                    if (item_deliveryModelFound != null)
-                    {
-                        item_deliveryModelList.Add(item_deliveryModelFound);
-                        break;
-                    }
-                }
-                itemModel.Item_deliveryModelList = item_deliveryModelList;
-                output.Add(itemModel);
-            }
-            return output;
-        }*/
-
         private List<Item_deliveryModel> getItemsDeliveryReceipt(List<ItemModel> itemModelList)
         {
             List<Item_deliveryModel> output = new List<Item_deliveryModel>();
@@ -658,6 +626,8 @@ namespace QOBDManagement.ViewModel
             // get the created delivery list
             DeliveryModelList = new DeliveryModel().DeliveryListToModelViewList(Bl.BlOrder.searchDelivery(new Delivery { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
 
+            // check if email sending is allowed
+            SendEmailCommand.raiseCanExecuteActionChanged();
         }
 
         /// <summary>
@@ -1704,7 +1674,7 @@ namespace QOBDManagement.ViewModel
             }
 
             // create the invoice notification
-            await Bl.BlNotification.InsertNotificationAsync(new List<Notification> { new Notification { Date = DateTime.Now, BillId = invoicelFound.ID, Reminder1 = default(DateTime), Reminder2 = default(DateTime) } });
+            await Bl.BlNotification.InsertNotificationAsync(new List<Notification> { new Notification { BillId = invoicelFound.ID, Reminder1 = default(DateTime), Reminder2 = default(DateTime) } });
 
             // removing processed item from the Qeue
             foreach (var item_deliveryModel in item_deliveryModelToRemoveList)
@@ -1965,37 +1935,42 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj">the invoice to process</param>
         private async void sendEmail(BillModel obj)
         {
-            Dialog.showSearch("Email sending...");
-            var paramEmail = new ParamEmail();
-            paramEmail.IsCopyToAgent = await Dialog.showAsync("Do you want to receive a copy of the email?");
-            paramEmail.Subject = EmailFile.TxtSubject;
-            paramEmail.IsSendEmail = true;
-
-            // sending quote email to the client 
-            if (EmailFile.TxtFileNameWithoutExtension.Equals("quote"))
+            if (await Dialog.showAsync("Confirme sending email!"))
             {
-                _paramQuoteToPdf.ParamEmail = paramEmail;
-                _paramQuoteToPdf.OrderId = OrderSelected.Order.ID;
-                Bl.BlOrder.GeneratePdfQuote(_paramQuoteToPdf);
-            }
+                Dialog.showSearch("Email sending...");
+                var paramEmail = new ParamEmail();
+                paramEmail.IsCopyToAgent = await Dialog.showAsync("Do you want to receive a copy of the email?");
+                paramEmail.Subject = EmailFile.TxtSubject;
+                paramEmail.IsSendEmail = true;
 
-            // sending order email to client
-            else
-            {
-                _paramOrderToPdf.BillId = obj.Bill.ID;
-                _paramOrderToPdf.OrderId = OrderSelected.Order.ID;
-                paramEmail.Reminder = 0;
+                // sending quote email to the client 
+                if (EmailFile.TxtFileNameWithoutExtension.Equals("quote"))
+                {
+                    _paramQuoteToPdf.ParamEmail = paramEmail;
+                    _paramQuoteToPdf.OrderId = OrderSelected.Order.ID;
+                    Bl.BlOrder.GeneratePdfQuote(_paramQuoteToPdf);
+                }
 
-                var NotificationFoundList = await Bl.BlNotification.searchNotificationAsync(new Notification { BillId = obj.Bill.ID }, ESearchOption.AND);
-
-                // create a new notification entry for this invoice
-                if (NotificationFoundList.Count == 0)
-                    await Bl.BlNotification.InsertNotificationAsync(new List<Notification> { new Notification { Date = DateTime.Now, BillId = obj.Bill.ID, Reminder1 = default(DateTime), Reminder2 = default(DateTime) } });
-
-                // update notification
+                // sending order email to client
                 else
                 {
-                    if (NotificationFoundList[0].Reminder1 <= Utility.DateTimeMinValueInSQL2005
+                    _paramOrderToPdf.BillId = obj.Bill.ID;
+                    _paramOrderToPdf.OrderId = OrderSelected.Order.ID;
+
+                    var NotificationFoundList = await Bl.BlNotification.searchNotificationAsync(new Notification { BillId = obj.Bill.ID }, ESearchOption.AND);
+
+                    // create a new notification entry for this invoice
+                    if (NotificationFoundList.Count == 0)
+                        NotificationFoundList = await Bl.BlNotification.InsertNotificationAsync(new List<Notification> { new Notification { BillId = obj.Bill.ID, Reminder1 = default(DateTime), Reminder2 = default(DateTime) } });
+
+                    // update notification
+                    
+                    if (NotificationFoundList[0].Date <= Utility.DateTimeMinValueInSQL2005)
+                    {
+                        paramEmail.Reminder = 0;
+                        NotificationFoundList[0].Date = DateTime.Now;
+                    }
+                    else if (NotificationFoundList[0].Reminder1 <= Utility.DateTimeMinValueInSQL2005
                         && NotificationFoundList[0].Reminder2 <= Utility.DateTimeMinValueInSQL2005)
                     {
                         paramEmail.Reminder = 1;
@@ -2007,13 +1982,14 @@ namespace QOBDManagement.ViewModel
                         NotificationFoundList[0].Reminder2 = DateTime.Now;
                     }
                     await Bl.BlNotification.UpdateNotificationAsync(NotificationFoundList);
+                    
+
+                    _paramOrderToPdf.ParamEmail = paramEmail;
+                    Bl.BlOrder.GeneratePdfOrder(_paramOrderToPdf);
                 }
 
-                _paramOrderToPdf.ParamEmail = paramEmail;
-                Bl.BlOrder.GeneratePdfOrder(_paramOrderToPdf);
-            }
-
-            Dialog.IsDialogOpen = false;
+                Dialog.IsDialogOpen = false;
+            }            
         }
 
         /// <summary>
@@ -2041,7 +2017,7 @@ namespace QOBDManagement.ViewModel
                 || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())))
                 return false;
 
-            if (arg == null
+            if (( BillModelList.Count == 0)
                 && (OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString())
                 || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString())))
                 return false;

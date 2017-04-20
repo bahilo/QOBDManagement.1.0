@@ -34,6 +34,8 @@ namespace QOBDCommon.Entities
 
         public string HashedPassword { get; set;}
 
+        public string Picture { get; set;}
+
         public string Admin { get; set; }
 
         public string Status {get; set;}

@@ -9,6 +9,7 @@ namespace QOBDCommon.Enum
     public enum EOrderStatus
     {
         Quote,                  //devis
+        Devis,
         Pre_Order,             //preco
         Order,                //command
         Order_Close,           // close

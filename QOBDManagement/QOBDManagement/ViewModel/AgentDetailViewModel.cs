@@ -16,16 +16,15 @@ using System.ComponentModel;
 using System.IO;
 using QOBDCommon.Classes;
 using System.Configuration;
+using QOBDManagement.Helper;
 
 namespace QOBDManagement.ViewModel
 {
     public class AgentDetailViewModel : BindBase
     {
-        //private string _listSize;
         private string _title;
         private Func<string, object> _page;
         private IMainWindowViewModel _main;
-        private InfoManager.Display _profileImageDisplay;
         private string _profileImageFileNameBase;
 
         //----------------------------[ Models ]------------------
@@ -69,7 +68,6 @@ namespace QOBDManagement.ViewModel
         {
             _title = "Agent Description";
             _profileImageFileNameBase = "profile_image";
-
         }
 
         private void instancesModel()
@@ -106,12 +104,6 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _title, value); }
         }
 
-        public InfoManager.Display ProfileImageDisplay
-        {
-            get { return _profileImageDisplay; }
-            set { setProperty(ref _profileImageDisplay, value); }
-        }
-
         public List<AgentModel> AgentModelList
         {
             get { return _agentsViewModel; }
@@ -122,8 +114,9 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Actions ]----------------------
 
         public void load()
-        {
-            bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
+        {            
+
+            /*bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
                              && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
                                  && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
                                      && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
@@ -133,43 +126,57 @@ namespace QOBDManagement.ViewModel
             if (isUserAdmin)
             {
                 // closing the image source if image already displayed
-                if (ProfileImageDisplay != null)
+                if (SelectedAgentModel.Image != null)
                 {
-                    ProfileImageDisplay.closeImageSource();
+                    SelectedAgentModel.Image.closeImageSource();
                     //ProfileImageDisplay.PropertyChanged -= onProfileImageChange_updateUIImage;
-                    ProfileImageDisplay.PropertyChanged -= onProfileImageSizeChange;
-                    ProfileImageDisplay.Dispose();
+                    SelectedAgentModel.Image.PropertyChanged -= onProfileImageSizeChange;
+                    SelectedAgentModel.Image.Dispose();
                 }
-                ProfileImageDisplay = null;
+                SelectedAgentModel.Image = null;
             }
 
-            loadUserProfileImage();
+            // loadUserProfileImage();
+
+            var credentialInfoList = _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp" }, ESearchOption.OR);
+
+            SelectedAgentModel.Image = SelectedAgentModel.Image.downloadPicture(SelectedAgentModel.TxtPicture, _profileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID, credentialInfoList);
+            */
         }
 
         private void loadUserProfileImage()
         {
-            if (ProfileImageDisplay == null)
+            if (SelectedAgentModel.Image == null)
             {
                 var username = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
                 var password = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
 
                 if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
                 {
-                    // get profile image for updating
-                    ProfileImageDisplay = new InfoManager.Display(Bl.BlReferential.searchInfo(new Info { Name =_profileImageFileNameBase }, ESearchOption.AND),_profileImageFileNameBase, new List<string> { _profileImageFileNameBase }, ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], username, password);// _main.ImageManagement(null, "profile");
+                    string fileName = _profileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID;
 
-                    // get the picture info from the database
-                    ProfileImageDisplay.TxtFileNameWithoutExtension = _profileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID;
-                    var loadedImage = _main.loadImage(ProfileImageDisplay);
+                    // get profile image for updating
+                    SelectedAgentModel.Image = new InfoManager.Display(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], username, password);// _main.ImageManagement(null, "profile");
+                    
+                    SelectedAgentModel.Image.TxtFileNameWithoutExtension = fileName;
+                    SelectedAgentModel.Image.FilterList = new List<string> { fileName };
+                    SelectedAgentModel.Image.InfoDataList = new List<Info> { new Info { Name = fileName, Value = SelectedAgentModel.TxtPicture } };
+                    SelectedAgentModel.Image.downloadFile();
+
+
+                    /*// get the picture info from the database
+                    SelectedAgentModel.Image.TxtFileNameWithoutExtension = _profileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID;
+                    var loadedImage = _main.loadImage(SelectedAgentModel.Image);
 
                     // display the picture
                     if (Application.Current != null)
                         Application.Current.Dispatcher.Invoke(() =>
                         {
-                            ProfileImageDisplay = loadedImage;
+                            SelectedAgentModel.Image = loadedImage;
+                            SelectedAgentModel.TxtPicture = loadedImage.TxtFileName;
                             //ProfileImageDisplay.PropertyChanged += onProfileImageChange_updateUIImage;
-                            ProfileImageDisplay.PropertyChanged += onProfileImageSizeChange;
-                        });
+                            SelectedAgentModel.Image.PropertyChanged += onProfileImageSizeChange;
+                        });*/
                 }                
             }
         }
@@ -177,11 +184,11 @@ namespace QOBDManagement.ViewModel
         public override void Dispose()
         {
             PropertyChanged -= onSelectedAgentModelChange;
-            if (ProfileImageDisplay != null)
+            if (SelectedAgentModel.Image != null)
             {
                 //ProfileImageDisplay.PropertyChanged -= onProfileImageChange_updateUIImage;
-                ProfileImageDisplay.PropertyChanged -= onProfileImageSizeChange;
-                ProfileImageDisplay.Dispose();
+                SelectedAgentModel.Image.PropertyChanged -= onProfileImageSizeChange;
+                SelectedAgentModel.Image.Dispose();
             }
         }
 
@@ -299,12 +306,33 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
-        private void getFileFromLocal(object obj)
+        private async void getFileFromLocal(object obj)
         {
-            if (ProfileImageDisplay != null)
-                ProfileImageDisplay.closeImageSource();
+           if (SelectedAgentModel.Image != null)
+                SelectedAgentModel.Image.closeImageSource();
+            
+            // opening the file explorer to choose an image file
+            SelectedAgentModel.Image.TxtChosenFile = InfoManager.ExecuteOpenFileDialog("Select an image file", new List<string> { "png", "jpeg", "jpg" });
+            SelectedAgentModel.TxtPicture = SelectedAgentModel.Image.TxtFileName;
 
-            _main.ReferentialViewModel.OptionDataAndDisplayViewModel.getFileFromLocal(ProfileImageDisplay);
+            Dialog.showSearch("Picture updating...");
+
+            // upload the image file to the FTP server
+            SelectedAgentModel.Image.uploadImage();
+
+            // update item image
+            var savedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
+
+            if (savedAgentList.Count > 0)
+                await Dialog.showAsync("The picture has been saved successfully!");
+            else
+            {
+                string errorMessage = "Error occured while updating the agent [" + SelectedAgentModel.TxtLastName + "] picture";
+                Log.error(errorMessage, EErrorFrom.ITEM);
+                await Dialog.showAsync(errorMessage);
+            }
+
+            Dialog.IsDialogOpen = false;
         }
 
         private bool canGetFileFromLocal(object arg)
