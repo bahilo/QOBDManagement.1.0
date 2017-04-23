@@ -76,31 +76,31 @@ namespace QOBDManagement.ViewModel
         public OptionGeneralViewModel OptionGeneralViewModel
         {
             get { return _optionGeneralViewModel; }
-            set { setProperty(ref _optionGeneralViewModel, value, "OptionGeneralViewModel"); }
+            set { setProperty(ref _optionGeneralViewModel, value); }
         }
 
         public OptionDataAndDisplayViewModel OptionDataAndDisplayViewModel
         {
             get { return _optionDataAndDisplayViewModel; }
-            set { setProperty(ref _optionDataAndDisplayViewModel, value, "OptionDataAndDisplayViewModel "); }
+            set { setProperty(ref _optionDataAndDisplayViewModel, value); }
         }
 
         public OptionSecurityViewModel OptionSecurityViewModel
         {
             get { return _optionSecurityViewModel; }
-            set { setProperty(ref _optionSecurityViewModel, value, "OptionSecurityViewModel"); }
+            set { setProperty(ref _optionSecurityViewModel, value); }
         }
 
         public ReferentialSideBarViewModel ReferentialSideBarViewModel
         {
             get { return _referentialSideBarViewModel; }
-            set { setProperty(ref _referentialSideBarViewModel, value, "ReferentialSideBarViewModel"); }
+            set { setProperty(ref _referentialSideBarViewModel, value); }
         }
 
         public OptionEmailViewModel OptionEmailViewModel
         {
             get { return _optionEmailViewModel; }
-            set { setProperty(ref _optionEmailViewModel, value, "OptionEmailViewModel"); }
+            set { setProperty(ref _optionEmailViewModel, value); }
         }
 
         //----------------------------[ Actions ]------------------

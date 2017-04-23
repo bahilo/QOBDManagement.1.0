@@ -308,8 +308,10 @@ namespace QOBDManagement.ViewModel
 
         private async void getFileFromLocal(object obj)
         {
-           if (SelectedAgentModel.Image != null)
+            if (SelectedAgentModel.Image != null)
                 SelectedAgentModel.Image.closeImageSource();
+            else
+                SelectedAgentModel.Image = SelectedAgentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], SelectedAgentModel.TxtPicture, SelectedAgentModel.TxtProfileImageFileNameBase + "_" + Bl.BlSecurity.GetAuthenticatedUser().ID, Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND)); ;
             
             // opening the file explorer to choose an image file
             SelectedAgentModel.Image.TxtChosenFile = InfoManager.ExecuteOpenFileDialog("Select an image file", new List<string> { "png", "jpeg", "jpg" });

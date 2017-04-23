@@ -16,8 +16,9 @@
         xmlns:Views="clr-namespace:QOBDManagement.Views"
         xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
         xmlns:Classes="clr-namespace:QOBDManagement.Classes"
-        Title="Quote Order Billing and Delivery Management" 
-        Closed="Window_Closing">
+        Title="AVA" 
+        Closed="Window_Closing"
+        Icon="ava_logo.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

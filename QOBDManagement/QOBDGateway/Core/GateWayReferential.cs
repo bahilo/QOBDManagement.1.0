@@ -118,11 +118,6 @@ namespace QOBDGateway.Core
             return result;
         }
 
-        public async Task<List<Info>> searchInfosFromWebServiceAsync(Info infos, ESearchOption filterOperator)
-        {
-            return await searchInfoAsync(infos, filterOperator);
-        }
-
         public void Dispose()
         {
             if (_channel.State == CommunicationState.Opened)

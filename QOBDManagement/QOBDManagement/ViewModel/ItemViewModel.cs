@@ -205,7 +205,10 @@ namespace QOBDManagement.ViewModel
 
                 // close items picture file before reloading
                 foreach (var itemModel in ItemModelList)
-                    itemModel.Image.closeImageSource();
+                {
+                    if (itemModel.Image != null)
+                        itemModel.Image.closeImageSource();
+                }                    
 
                 // loading items
                 ItemModelList = itemListToModelViewList(itemFoundList);

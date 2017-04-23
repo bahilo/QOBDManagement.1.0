@@ -106,7 +106,7 @@ namespace QOBDDAL.Helper.ChannelHelper
             string _constr = "";
             SqlCommand cmd = new SqlCommand();
 
-            _constr = System.Configuration.ConfigurationManager.ConnectionStrings["QOBDDAL.Properties.Settings.QCBDDatabaseConnectionString"].ConnectionString;
+            _constr = System.Configuration.ConfigurationManager.ConnectionStrings["QCBDDatabaseConnectionString"].ConnectionString;
 
             using (var connection = new SqlConnection(_constr))
             {         
@@ -164,6 +164,11 @@ namespace QOBDDAL.Helper.ChannelHelper
                     catch (Exception ex)
                     {
                         Log.error(ex.Message, EErrorFrom.HELPER);
+                    }
+                    finally
+                    {
+                        cmd.Dispose();
+                        connection.Dispose();
                     }
                 }
             }

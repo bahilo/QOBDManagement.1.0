@@ -100,6 +100,8 @@ namespace QOBDManagement
             OrderViewModel = new OrderViewModel(this, Startup, Dialog);
             QuoteViewModel = new QuoteViewModel(this, Startup, Dialog);
             SecurityLoginViewModel = new SecurityLoginViewModel(this, Startup, Dialog);
+
+            
         }
 
         private void instancesOrder()
@@ -382,11 +384,6 @@ namespace QOBDManagement
                         BillImageDisplay = newImage;
 
                     return BillImageDisplay;
-                /*case "PROFILE":
-                    if (newImage != null)
-                        ProfileImageDisplay = newImage;
-
-                    return ProfileImageDisplay;*/
             }
 
             return new InfoManager.Display();
@@ -423,7 +420,7 @@ namespace QOBDManagement
             ChatRoomCurrentView = null;
             ChatRoomViewModel.Dispose();
             _startup.Dal.Dispose();
-            GC.Collect();
+            _startup.ProxyClient.Close();
         }
 
         //----------------------------[ Event Handler ]------------------

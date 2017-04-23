@@ -71,31 +71,31 @@ namespace QOBDManagement.ViewModel
         public InfoManager.FileWriter OrderConfirmationEmailFile
         {
             get { return _emails["order_confirmation"]; }
-            set { _emails["order_confirmation"] = value; onPropertyChange("OrderConfirmationEmailFile"); }
+            set { _emails["order_confirmation"] = value; onPropertyChange(); }
         }
 
         public InfoManager.FileWriter BillEmailFile
         {
             get { return _emails["bill"]; }
-            set { _emails["bill"] = value; onPropertyChange("BillEmailFile"); }
+            set { _emails["bill"] = value; onPropertyChange(); }
         }
 
         public InfoManager.FileWriter ReminderTwoEmailFile
         {
             get { return _emails["reminder_2"]; }
-            set { _emails["reminder_2"] = value; onPropertyChange("ReminderTwoEmailFile"); }
+            set { _emails["reminder_2"] = value; onPropertyChange(); }
         }
 
         public InfoManager.FileWriter ReminderOneEmailFile
         {
             get { return _emails["reminder_1"]; }
-            set { _emails["reminder_1"] = value; onPropertyChange("ReminderEmailFile"); }
+            set { _emails["reminder_1"] = value; onPropertyChange(); }
         }
 
         public InfoManager.FileWriter QuoteEmailFile
         {
             get { return _emails["quote"]; }
-            set { _emails["quote"] = value; onPropertyChange("QuoteEmailFile"); }
+            set { _emails["quote"] = value; onPropertyChange(); }
         }
 
         //----------------------------[ Actions ]------------------

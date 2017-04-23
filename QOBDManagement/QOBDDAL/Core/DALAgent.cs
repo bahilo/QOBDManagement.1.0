@@ -94,6 +94,7 @@ namespace QOBDDAL.Core
             {
                 lock (_lock) _isLodingDataFromWebServiceToLocal = true;
                 checkServiceCommunication();
+
                 // getting agents without their credentials (_loadSize < 0)
                 var agentList = await _gateWayAgent.GetAgentDataAsync(-1 * _loadSize);                
 

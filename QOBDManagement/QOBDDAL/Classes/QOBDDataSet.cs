@@ -1084,6 +1084,6 @@ namespace QOBDDAL.Classes
         }
 
         #endregion
-        
+
     }
 }

@@ -98,13 +98,13 @@ namespace QOBDManagement.ViewModel
         public string NavigTo
         {
             get { return _navigTo; }
-            set { setProperty(ref _navigTo, value, "NavigTo"); }
+            set { setProperty(ref _navigTo, value); }
         }
 
         public Cart Cart
         {
             get { return _cart; }
-            set { setProperty(ref _cart, value, "Cart"); }
+            set { setProperty(ref _cart, value); }
         }
 
 
@@ -153,13 +153,7 @@ namespace QOBDManagement.ViewModel
         }
 
         //----------------------------[ Event Handler ]------------------
-
-        /*private void onorder_ItemModelListChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("Order_ItemModelList") && (_main.getObject("main") as MainWindowViewModel) != null)
-                SelectedOrderModel.Order_ItemList = (_main.getObject("main") as MainWindowViewModel).OrderViewModel.OrderDetailViewModel.Order_ItemModelList;
-        }*/
-
+        
         /// <summary>
         /// Navigate to the next page
         /// </summary>

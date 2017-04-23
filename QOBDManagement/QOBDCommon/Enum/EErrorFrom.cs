@@ -18,6 +18,7 @@ namespace QOBDCommon.Enum
         REFERENTIAL,
         NOTIFICATION,
         UTILITY,
-        HELPER
+        HELPER,
+        MAIN
     }
 }

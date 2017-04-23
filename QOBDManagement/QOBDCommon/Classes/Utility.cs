@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace QOBDCommon.Classes
     public static class Utility
     {
         public static DateTime DateTimeMinValueInSQL2005 = new DateTime(1753, 1, 1);
-        static string _baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        public static string BaseDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), ConfigurationManager.AppSettings["company_name"]); //AppDomain.CurrentDomain.BaseDirectory;
 
         public static DateTime convertToDateTime(string dateString, bool? isFromDatePicker = false)
         {          
@@ -248,7 +249,7 @@ namespace QOBDCommon.Classes
         {
             var dirElements = directory.Split('/');
             var allPathElements = dirElements.Concat(pathElements).ToArray();
-            string path = _baseDirectory;
+            string path = BaseDirectory;
             foreach (string pathElement in allPathElements)
             {
                 if (!string.IsNullOrEmpty(pathElement))
