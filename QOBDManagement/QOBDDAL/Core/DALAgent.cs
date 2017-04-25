@@ -2,8 +2,6 @@ using QOBDCommon.Classes;
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDCommon.Interfaces.DAC;
-using QOBDDAL.App_Data;
-using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDDAL.Helper.ChannelHelper;
 using QOBDGateway.Core;
 using QOBDGateway.QOBDServiceReference;
@@ -154,24 +152,9 @@ namespace QOBDDAL.Core
 
         public async Task<List<Agent>> UpdateAgentAsync(List<Agent> agentList)
         {
-            List<Agent> result = new List<Agent>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Agent> gateWayResultList = await _gateWayAgent.UpdateAgentAsync(agentList);
-
-            foreach (var agent in gateWayResultList)
-            {
-                QOBDSet dataSetLocal = new QOBDSet();
-                _dataSet.FillAgentDataTableById(dataSetLocal.agents, agent.ID);
-                dataSet.agents.Merge(dataSetLocal.agents);
-            }
-
-            if (gateWayResultList.Count > 0)
-            {
-                int returnValue = _dataSet.UpdateAgent(gateWayResultList.AgentTypeToDataTable(dataSet));
-                if (returnValue == gateWayResultList.Count)
-                    result = gateWayResultList;
-            }
+            List<Agent> result = LoadAgent(gateWayResultList);
             return result;
         }
 

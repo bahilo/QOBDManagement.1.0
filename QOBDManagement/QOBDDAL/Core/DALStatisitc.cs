@@ -2,8 +2,6 @@ using QOBDCommon.Classes;
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDCommon.Interfaces.DAC;
-using QOBDDAL.App_Data;
-using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDDAL.Helper.ChannelHelper;
 using QOBDGateway.Core;
 using QOBDGateway.QOBDServiceReference;
@@ -142,24 +140,9 @@ namespace QOBDDAL.Core
 
         public async Task<List<Statistic>> UpdateStatisticAsync(List<Statistic> statisticList)
         {
-            List<Statistic> result = new List<Statistic>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Statistic> gateWayResultList = await _gateWayStatistic.UpdateStatisticAsync(statisticList);
-
-            foreach (var statistic in gateWayResultList)
-            {
-                QOBDSet dataSetLocal = new QOBDSet();
-                _dataSet.FillStatisticDataTableById(dataSetLocal.statistics, statistic.ID);
-                dataSet.statistics.Merge(dataSetLocal.statistics);
-            }
-
-            if (gateWayResultList.Count > 0)
-            {
-                int returnValue = _dataSet.UpdateStatistic(gateWayResultList.StatisticTypeToDataTable(dataSet));
-                if (returnValue == gateWayResultList.Count)
-                    result = gateWayResultList;
-            }
+            List<Statistic> result = LoadStatistic(gateWayResultList);
             return result;
         }
 

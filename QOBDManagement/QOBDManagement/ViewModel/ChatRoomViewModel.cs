@@ -196,15 +196,24 @@ namespace QOBDManagement.ViewModel
                 authenticatedUser.IsOnline = false;
                 await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
 
-                if (_serverStream != null && discussionList.Count > 0)
+                if (_serverStream != null )
                 {
-                    foreach (DiscussionModel discussionModel in discussionList)
+                    if (discussionList.Count > 0)
                     {
-                        string disconnectionString = (int)EServiceCommunication.Disconnected + "/" + _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "/0/" + discussionModel.TxtGroupName.Split('-')[1] + "$";
+                        foreach (DiscussionModel discussionModel in discussionList)
+                        {
+                            string disconnectionString = (int)EServiceCommunication.Disconnected + "/" + _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "/0/" + discussionModel.TxtGroupName.Split('-')[1] + "$";
+                            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(disconnectionString);
+                            _serverStream.Write(outStream, 0, outStream.Length);
+                            //_serverStream.Flush();
+                        }
+                    }
+                    else
+                    {
+                        string disconnectionString = (int)EServiceCommunication.Disconnected + "/" + _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "/0/0$";
                         byte[] outStream = System.Text.Encoding.ASCII.GetBytes(disconnectionString);
                         _serverStream.Write(outStream, 0, outStream.Length);
-                        //_serverStream.Flush();
-                    }
+                    }                    
                 }
             }
             catch(Exception ex)

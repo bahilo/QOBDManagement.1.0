@@ -88,14 +88,14 @@ namespace QOBDManagement.Models
 
         public string TxtInvoiceDate
         {
-            get { return _statistic.InvoiceDate.ToString(); }
-            set { _statistic.InvoiceDate = Convert.ToDateTime(value); onPropertyChange(); }
+            get { return _statistic.Bill_datetime.ToString(); }
+            set { _statistic.Bill_datetime = Convert.ToDateTime(value); onPropertyChange(); }
         }
 
         public string TxtInvoiceId
         {
-            get { return _statistic.InvoiceId.addPrefix(Enums.EPrefix.INVOICE); }
-            set { _statistic.InvoiceId = Convert.ToInt32(value.deletePrefix()); onPropertyChange(); }
+            get { return _statistic.BillId.addPrefix(Enums.EPrefix.INVOICE); }
+            set { _statistic.BillId = Convert.ToInt32(value.deletePrefix()); onPropertyChange(); }
         }
 
         public string TxtCompanyName

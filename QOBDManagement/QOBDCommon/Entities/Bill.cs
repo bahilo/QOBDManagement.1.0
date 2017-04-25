@@ -38,7 +38,7 @@ namespace QOBDCommon.Entities
 
         public DateTime DateLimit {get; set;}
 
-        public DateTime PayDate {get; set;}
+        public DateTime DatePay {get; set;}
         
     }
 }

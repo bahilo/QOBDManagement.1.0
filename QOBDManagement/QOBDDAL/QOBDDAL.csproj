@@ -48,6 +48,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,14 +58,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Data\QOBDSet.cs">
-      <DependentUpon>QOBDSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="App_Data\QOBDSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>QOBDSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Classes\QOBDDataSet.cs" />
     <Compile Include="Core\DALAgent.cs" />
     <Compile Include="Core\DALChatRoom.cs" />
@@ -115,28 +108,13 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="App_Data\QOBDSet.xsc">
-      <DependentUpon>QOBDSet.xsd</DependentUpon>
-    </None>
-    <None Include="App_Data\QOBDSet.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>QOBDSet.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="App_Data\QOBDSet.xss">
-      <DependentUpon>QOBDSet.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\QCBDDatabase.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Data\QCBDDatabase_log.ldf">
-      <DependentUpon>QCBDDatabase.mdf</DependentUpon>
+    <Content Include="App_Data\QCBDDatabase.sdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -1,7 +1,5 @@
 ﻿using QOBDCommon.Entities;
 using QOBDCommon.Enum;
-using QOBDDAL.App_Data;
-using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,43 +26,36 @@ namespace QOBDDAL.Interfaces
 
         // update
 
-        int UpdateOrder(QOBDSet.commandsDataTable orderDataTable);
+        int UpdateOrder(List<Order> orderList);
         int LoadOrder(Order order);
-        int UpdateTax_order(QOBDSet.tax_commandsDataTable tax_orderDataTable);
+        int UpdateTax_order(List<Tax_order> tax_orderList);
         int LoadTax_order(Tax_order tax_order);
-        int UpdateOrder_item(QOBDSet.command_itemsDataTable order_itemDataTable);
+        int UpdateOrder_item(List<Order_item> order_itemList);
         int LoadOrder_item(Order_item order_item);
-        int UpdateTax(QOBDSet.taxesDataTable taxDataTable);
+        int UpdateTax(List<Tax> taxList);
         int LoadTax(Tax tax);
-        int UpdateBill(QOBDSet.billsDataTable billDataTable);
+        int UpdateBill(List<Bill> billList);
         int LoadBill(Bill bill);
-        int UpdateDelivery(QOBDSet.deliveriesDataTable deliveryDataTable);
-        int UpdateDelivery(Delivery delivery);
+        int UpdateDelivery(List<Delivery> deliveryList);
         int LoadDelivery(Delivery delivery);
 
         // getting
 
         List<Order> GetOrderData();
         List<Order> GetOrderDataById(int id);
-        void FillOrderDataTableById(QOBDSet.commandsDataTable irderDataTable, int id);
         List<Tax_order> GetTax_orderData();
         List<Tax_order> GetTax_orderByOrderId(int orderId);
         List<Tax_order> GetTax_orderDataById(int id);
-        void FillTax_orderDataTableById(QOBDSet.tax_commandsDataTable taxOrderDataTable, int id);
         List<Order_item> GetOrder_itemData();
         List<Order_item> GetOrder_itemDataById(int id);
-        void FillOrder_itemDataTableById(QOBDSet.command_itemsDataTable orderItemDataTable, int id);
         List<Order_item> GetOrder_itemDataByOrderId(int orderId);
         List<Tax> GetTaxData();
         List<Tax> GetTaxDataById(int id);
-        void FillTaxDataTableById(QOBDSet.taxesDataTable taxDataTable, int id);
         List<Bill> GetBillData();
         List<Bill> GetBillDataById(int id);
-        void FillBillDataTableById(QOBDSet.billsDataTable billDataTable, int id);
         List<Bill> GetBillDataByOrderId(int orderId);
         List<Delivery> GetDeliveryData();
         List<Delivery> GetDeliveryDataById(int id);
-        void FillDeliveryDataTableById(QOBDSet.deliveriesDataTable deliveryDataTable, int id);
         List<Delivery> GetDeliveryDataByOrderId(int orderId);
 
         // search
@@ -91,41 +82,35 @@ namespace QOBDDAL.Interfaces
 
         // update
 
-        int UpdateItem(QOBDSet.itemsDataTable itemDataTable);
+        int UpdateItem(List<Item> itemList);
         int LoadItem(Item item);
-        int UpdateProvider(QOBDSet.providersDataTable providerDataTable);
+        int UpdateProvider(List<Provider> providerList);
         int LoadProvider(Provider provider);
-        int UpdateProvider_item(QOBDSet.provider_itemsDataTable provider_itemDataTable);
+        int UpdateProvider_item(List<Provider_item> provider_itemList);
         int LoadProvider_item(Provider_item provider_item);
-        int UpdateItem_delivery(QOBDSet.item_deliveriesDataTable item_deliveryDataTable);
+        int UpdateItem_delivery(List<Item_delivery> item_deliveryList);
         int LoadItem_delivery(Item_delivery item_delivery);
-        int UpdateAuto_ref(QOBDSet.auto_refsDataTable auto_refDataTable);
+        int UpdateAuto_ref(List<Auto_ref> auto_refList);
         int LoadAuto_ref(Auto_ref auto_ref);
-        int UpdateTax_item(QOBDSet.tax_itemsDataTable tax_itemDataTable);
+        int UpdateTax_item(List<Tax_item> tax_itemList);
         int LoadTax_item(Tax_item tax_item);
 
         // getting 
 
         List<Item> GetItemData();
         List<Item> GetItemDataById(int id);
-        void FillItemDataTableById(QOBDSet.itemsDataTable itemDataTable, int id);
         List<Provider> GetProviderData();
         List<Provider> GetProviderDataById(int id);
-        void FillProviderDataTableById(QOBDSet.providersDataTable providerDataTable, int id);
         List<Provider_item> GetProvider_itemData();
         List<Provider_item> GetProvider_itemDataById(int id);
-        void FillProvider_itemDataTableById(QOBDSet.provider_itemsDataTable provider_itemDataTable, int id);
         List<Item_delivery> GetItem_deliveryData();
         List<Item_delivery> GetItem_deliveryDataById(int id);
-        void FillItem_deliveryDataTableById(QOBDSet.item_deliveriesDataTable item_deliveryDataTable, int id);
         List<Item_delivery> GetItem_deliveryDataByItemRefId(string itemRef);
         List<Item_delivery> GetItem_deliveryDataByDeliveryId(int deliveryId);
         List<Auto_ref> GetAuto_refData();
         List<Auto_ref> GetAuto_refDataById(int id);
-        void FillAuto_refDataTableById(QOBDSet.auto_refsDataTable auto_refDataTable, int id);
         List<Tax_item> GetTax_itemData();
         List<Tax_item> GetTax_itemDataById(int id);
-        void FillTax_itemDataTableById(QOBDSet.tax_itemsDataTable tax_itemDataTable, int id);
 
         // search 
 
@@ -148,11 +133,11 @@ namespace QOBDDAL.Interfaces
 
         // update
 
-        int UpdateClient(QOBDSet.clientsDataTable clientDataTable);
+        int UpdateClient(List<Client> clientList);
         int LoadClient(Client client);
-        int UpdateContact(QOBDSet.contactsDataTable contactDataTable);
+        int UpdateContact(List<Contact> ContactList);
         int LoadContact(Contact contact);
-        int UpdateAddress(QOBDSet.addressesDataTable addressDataTable);
+        int UpdateAddress(List<Address> AddressList);
         int LoadAddress(Address address);
 
         // getting 
@@ -161,11 +146,8 @@ namespace QOBDDAL.Interfaces
         List<Contact> GetContactData();
         List<Address> GetAddressData();
         List<Client> GetClientDataById(int id);
-        void FillClientDataTableById(QOBDSet.clientsDataTable clientDataTable, int id);
         List<Contact> GetContactDataById(int id);
-        void FillContactDataTableById(QOBDSet.contactsDataTable contactDataTable, int id);
         List<Address> GetAddressDataById(int id);
-        void FilladdressDataTableById(QOBDSet.addressesDataTable addressDataTable, int id);
 
         // search
 
@@ -183,14 +165,13 @@ namespace QOBDDAL.Interfaces
 
         // update
 
-        int UpdateAgent(QOBDSet.agentsDataTable agentDataTable);
+        int UpdateAgent(List<Agent> agentList);
         int LoadAgent(Agent agent);
 
         // getting 
 
         List<Agent> GetAgentData();
         List<Agent> GetAgentDataById(int id);
-        void FillAgentDataTableById(QOBDSet.agentsDataTable agentDataTable, int id);
 
         // search 
 
@@ -206,14 +187,13 @@ namespace QOBDDAL.Interfaces
 
         // update
 
-        int UpdateNotification(QOBDSet.notificationsDataTable notificationDataTable);
+        int UpdateNotification(List<Notification> notificationList);
         int LoadNotification(Notification notification);
 
         // getting 
 
         List<Notification> GetNotificationData();
         List<Notification> GetNotificationDataById(int id);
-        void FillNotificationDataTableById(QOBDSet.notificationsDataTable notificationDataTable, int id);
 
         // search
 
@@ -229,13 +209,12 @@ namespace QOBDDAL.Interfaces
 
         // update
 
-        int UpdateInfo(QOBDSet.infosDataTable infoDataTable);
+        int UpdateInfo(List<Info> infoList);
         int LoadInfo(Info info);
         // getting 
 
         List<Info> GetInfosData();
         List<Info> GetInfosDataById(int id);
-        void FillInfoDataTableById(QOBDSet.infosDataTable infoDataTable, int id);
 
         // search
 
@@ -251,14 +230,13 @@ namespace QOBDDAL.Interfaces
 
         // update
 
-        int UpdateStatistic(QOBDSet.statisticsDataTable statisticDataTable);
+        int UpdateStatistic(List<Statistic> statisticList);
         int LoadStatistic(Statistic statistic);        
 
         // getting 
 
         List<Statistic> GetStatisticData();
         List<Statistic> GetStatisticDataById(int id);
-        void FillStatisticDataTableById(QOBDSet.statisticsDataTable statisticDataTable, int id);
 
         // search
 

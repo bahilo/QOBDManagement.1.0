@@ -2,8 +2,6 @@ using QOBDCommon.Classes;
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDCommon.Interfaces.DAC;
-using QOBDDAL.App_Data;
-using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDDAL.Helper.ChannelHelper;
 using QOBDGateway.Core;
 using QOBDGateway.QOBDServiceReference;
@@ -285,25 +283,10 @@ namespace QOBDDAL.Core
 
 
         public async Task<List<Item>> UpdateItemAsync(List<Item> itemList)
-        {
-            List<Item> result = new List<Item>();
-            QOBDSet dataSet = new QOBDSet();
+        {            
             checkServiceCommunication();
             List<Item> gateWayResultList = await _gateWayItem.UpdateItemAsync(itemList);
-
-            foreach (var item in gateWayResultList)
-            {
-                QOBDSet dataSetLocal = new QOBDSet();
-                _dataSet.FillItemDataTableById(dataSetLocal.items, item.ID);
-                dataSet.items.Merge(dataSetLocal.items);
-            }
-
-            if (gateWayResultList.Count > 0)
-            {
-                int returnValue = _dataSet.UpdateItem(gateWayResultList.ItemTypeToDataTable(dataSet));
-                if (returnValue == gateWayResultList.Count)
-                    result = gateWayResultList;
-            }
+            List<Item> result = LoadItem(gateWayResultList);
             return result;
         }
 
@@ -322,24 +305,9 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider>> UpdateProviderAsync(List<Provider> providerList)
         {
-            List<Provider> result = new List<Provider>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Provider> gateWayResultList = await _gateWayItem.UpdateProviderAsync(providerList);
-
-            foreach (var provider in gateWayResultList)
-            {
-                QOBDSet dataSetLocal = new QOBDSet();
-                _dataSet.FillProviderDataTableById(dataSetLocal.providers, provider.ID);
-                dataSet.providers.Merge(dataSetLocal.providers);
-            }
-
-            if (gateWayResultList.Count > 0)
-            {
-                int returnValue = _dataSet.UpdateProvider(gateWayResultList.ProviderTypeToDataTable(dataSet));
-                if (returnValue == gateWayResultList.Count)
-                    result = gateWayResultList;
-            }
+            List<Provider> result = LoadProvider(gateWayResultList);
             return result;
         }
 
@@ -357,24 +325,10 @@ namespace QOBDDAL.Core
 
         public async Task<List<Provider_item>> UpdateProvider_itemAsync(List<Provider_item> provider_itemList)
         {
-            List<Provider_item> result = new List<Provider_item>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Provider_item> gateWayResultList = await _gateWayItem.UpdateProvider_itemAsync(provider_itemList);
+            List<Provider_item> result = LoadProvider_item(gateWayResultList);
 
-            foreach (var provider_item in gateWayResultList)
-            {
-                QOBDSet dataSetLocal = new QOBDSet();
-                _dataSet.FillProvider_itemDataTableById(dataSetLocal.provider_items, provider_item.ID);
-                dataSet.provider_items.Merge(dataSetLocal.provider_items);
-            }
-
-            if (gateWayResultList.Count > 0)
-            {
-                int returnValue = _dataSet.UpdateProvider_item(gateWayResultList.Provider_itemTypeToDataTable(dataSet));
-                if (returnValue == gateWayResultList.Count)
-                    result = gateWayResultList;
-            }
             return result;
         }
 
@@ -392,24 +346,9 @@ namespace QOBDDAL.Core
 
         public async Task<List<Item_delivery>> UpdateItem_deliveryAsync(List<Item_delivery> item_deliveryList)
         {
-            List<Item_delivery> result = new List<Item_delivery>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Item_delivery> gateWayResultList = await _gateWayItem.UpdateItem_deliveryAsync(item_deliveryList);
-
-            foreach (var item_delivery in gateWayResultList)
-            {
-                QOBDSet dataSetLocal = new QOBDSet();
-                _dataSet.FillItem_deliveryDataTableById(dataSetLocal.item_deliveries, item_delivery.ID);
-                dataSet.item_deliveries.Merge(dataSetLocal.item_deliveries);
-            }
-
-            if (gateWayResultList.Count > 0)
-            {
-                int returnValue = _dataSet.UpdateItem_delivery(gateWayResultList.Item_deliveryTypeToDataTable(dataSet));
-                if (returnValue == gateWayResultList.Count)
-                    result = gateWayResultList;
-            }
+            List<Item_delivery> result = LoadItem_delivery(gateWayResultList);
             return result;
         }
 
@@ -427,24 +366,9 @@ namespace QOBDDAL.Core
 
         public async Task<List<Auto_ref>> UpdateAuto_refAsync(List<Auto_ref> auto_refList)
         {
-            List<Auto_ref> result = new List<Auto_ref>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Auto_ref> gateWayResultList = await _gateWayItem.UpdateAuto_refAsync(auto_refList);
-
-            foreach (var auto_ref in gateWayResultList)
-            {
-                QOBDSet dataSetLocal = new QOBDSet();
-                _dataSet.FillAuto_refDataTableById(dataSetLocal.auto_refs, auto_ref.ID);
-                dataSet.auto_refs.Merge(dataSetLocal.auto_refs);
-            }
-
-            if (gateWayResultList.Count > 0)
-            {
-                int returnValue = _dataSet.UpdateAuto_ref(gateWayResultList.Auto_refTypeToDataTable(dataSet));
-                if (returnValue == gateWayResultList.Count)
-                    result = gateWayResultList;
-            }
+            List<Auto_ref> result = LoadAuto_ref(gateWayResultList);
             return result;
         }
 
@@ -462,24 +386,9 @@ namespace QOBDDAL.Core
 
         public async Task<List<Tax_item>> UpdateTax_itemAsync(List<Tax_item> tax_itemList)
         {
-            List<Tax_item> result = new List<Tax_item>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Tax_item> gateWayResultList = await _gateWayItem.UpdateTax_itemAsync(tax_itemList);
-
-            foreach (var tax_item in gateWayResultList)
-            {
-                QOBDSet dataSetLocal = new QOBDSet();
-                _dataSet.FillTax_itemDataTableById(dataSetLocal.tax_items, tax_item.ID);
-                dataSet.tax_items.Merge(dataSetLocal.tax_items);
-            }
-
-            if (gateWayResultList.Count > 0)
-            {
-                int returnValue = _dataSet.UpdateTax_item(gateWayResultList.Tax_itemTypeToDataTable(dataSet));
-                if (returnValue == gateWayResultList.Count)
-                    result = gateWayResultList;
-            }
+            List<Tax_item> result = LoadTax_item(gateWayResultList);
             return result;
         }
 

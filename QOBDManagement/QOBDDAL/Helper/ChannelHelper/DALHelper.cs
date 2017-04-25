@@ -7,159 +7,107 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using QOBDCommon.Classes;
-using QOBDDAL.App_Data;
 using QOBDCommon.Enum;
+using System.Data.SqlServerCe;
 
 namespace QOBDDAL.Helper.ChannelHelper
 {
 
     public static class DALHelper
     {
-
-        public static Task<TResult> doActionAsync<TInput, TResult>(this Func<TInput, TResult> func, TInput param, [CallerMemberName] string callerName = null) where TResult : new()
+        public static string convertDateToStringFormat(string dateToConvert, string dateFormat)
         {
-            TResult result = new TResult();
-            QOBDCommon.Classes.NotifyTaskCompletion<TResult> ntc = new QOBDCommon.Classes.NotifyTaskCompletion<TResult>();
-            TaskCompletionSource<TResult> taskCompletionSource = new TaskCompletionSource<TResult>();
-            Task.Factory
-                    .StartNew(() =>
-                    {
-                        TResult taskResult = new TResult();
-                        try
-                        {
-                            taskResult = (TResult)func(param);
-                            taskCompletionSource.SetResult(taskResult);
-                        }
-                        catch (Exception ex)
-                        {
-                            string ErrorMessage = string.Format("Custom [{0}]: One Error occured - {1}", callerName, ex.InnerException.Message);
-                            taskCompletionSource.SetException(new Exception(ErrorMessage));
-                            //Log.error(ErrorMessage, EErrorFrom.);
-                        }
-                        return taskResult;
-                    });
-
-            ntc.initializeNewTask(taskCompletionSource.Task);
-            return ntc.Task;
+            string output = "0000-00-00 00:00:00";
+            DateTime date = Utility.convertToDateTime(dateToConvert);
+            if (date > Utility.DateTimeMinValueInSQL2005)
+                return date.ToString(dateFormat);
+            return output;
         }
 
-        public static Task<TResult> doActionAsync<TResult>(this Func<TResult> func, [CallerMemberName] string callerName = null) where TResult : new()
+        public static string getAllDataSqlText(this string tableName, Dictionary<string, string> columsDict)
         {
-            TResult result = new TResult();
-            QOBDCommon.Classes.NotifyTaskCompletion<TResult> ntc = new QOBDCommon.Classes.NotifyTaskCompletion<TResult>();
-            TaskCompletionSource<TResult> taskCompletionSource = new TaskCompletionSource<TResult>();
-            Task.Factory
-                    .StartNew(() =>
-                    {
-                        TResult taskResult = new TResult();
-                        try
-                        {
-                            taskResult = (TResult)func();
-                            taskCompletionSource.SetResult(taskResult);
-                        }
-                        catch (Exception ex)
-                        {
-                            string ErrorMessage = string.Format("Custom [{0}]: One Error occured - {1}", callerName, ex.InnerException.Message);
-                            taskCompletionSource.SetException(new Exception(ErrorMessage));
-                            //Log.error(ErrorMessage);
-                        }
-                        return taskResult;
-                    });
+            string output = "SELECT ";
 
-            ntc.initializeNewTask(taskCompletionSource.Task);
-            return ntc.Task;
+            // append column 
+            foreach (var dictElement in columsDict)
+                output += "["+dictElement.Key + "], ";
+
+            output += "FROM [" + tableName + "];";
+
+            output = output.Replace(", [" + tableName, " [" + tableName).Replace(", FROM", " FROM");
+
+            return output;
         }
 
-        public static void doActionAsync(this System.Action action, [CallerMemberName]string callerName = null)
+        public static string getInsertSqlText(this string tableName, Dictionary<string, string> columsDict)
         {
-            QOBDCommon.Classes.NotifyTaskCompletion<object> ntc = new QOBDCommon.Classes.NotifyTaskCompletion<object>();
-            TaskCompletionSource<object> taskCompletionSource = new TaskCompletionSource<object>();
+            string output = "INSERT INTO [" + tableName + "] (";
 
-            Task<object>.Factory.StartNew(() =>
-            {
-                try
-                {
-                    action();
-                    taskCompletionSource.SetResult(null);
-                }
-                catch (Exception ex)
-                {
-                    string ErrorMessage = string.Format("Custom [{0}]: One Error occured - {1}", callerName, (ex.InnerException != null) ? ex.InnerException.Message : ex.Message);
-                    taskCompletionSource.SetException(new Exception(ErrorMessage));
-                    //Log.error(ErrorMessage);
-                }
-                return null;
-            });
+            // append column 
+            foreach (var dictElement in columsDict)
+                output += "["+dictElement.Key + "], ";
 
-            ntc.initializeNewTask(taskCompletionSource.Task);
+            output += ") VALUES ('";
+
+            // append values
+            foreach (var dictElement in columsDict)
+                output += dictElement.Value.Replace("'", "''") + "', '";
+
+            output += ");";
+            output = output.Replace(", )", ")").Replace(", ')", ")");//.Replace("'", "''");
+
+            return output;
         }
 
+        public static string getUpdateSqlText(this string tableName, Dictionary<string, string> columsDict)
+        {
+            string output = "UPDATE [" + tableName + "] SET ";
+            var IDDict = columsDict.Where(x => x.Key == "ID").SingleOrDefault();
+            columsDict = columsDict.Where(x => x.Key != "ID").ToDictionary(x => x.Key, x => x.Value);
+
+            // append column 
+            foreach (var dictElement in columsDict)
+                output += "["+dictElement.Key + "] = '" + dictElement.Value.Replace("'", "''") + "', ";
+
+            output += " WHERE [" + IDDict.Key + "] = '" + IDDict.Value + "';";
+            output = output.Replace(",  WHERE", " WHERE");
+
+            return output;
+        }
+
+        public static string getDeleteSqlText(this string tableName, Dictionary<string, string> columsDict)
+        {
+            string output = "DELETE FROM TABLE [" + tableName + "] ";
+            var IDDict = columsDict.Where(x => x.Key == "ID").SingleOrDefault();
+
+            output += " WHERE [" + IDDict.Key + "] = '" + IDDict.Value + "';";
+
+            return output;
+        }
 
         //====================================================================================
-        //===============================[ Sql Commands ]=====================================
+        //===============================[ Sql CE Commands ]=====================================
         //====================================================================================
 
-        public static DataTable getDataTableFromSqlQuery<T>(string sql) where T : new()
+        public static DataTable getDataTableFromSqlCEQuery(this string sql)
         {
-            DataTable table = new DataTable();
             object _lock = new object();
-            string _constr = "";
-            SqlCommand cmd = new SqlCommand();
 
-            _constr = System.Configuration.ConfigurationManager.ConnectionStrings["QCBDDatabaseConnectionString"].ConnectionString;
+            string _constr = System.Configuration.ConfigurationManager.ConnectionStrings["QCBDDatabaseCEConnectionString"].ConnectionString;
+            _constr = _constr.Replace("|DataDirectory|", Utility.getDirectory("App_Data"));
 
-            using (var connection = new SqlConnection(_constr))
-            {         
-                using (cmd = new SqlCommand(sql, connection))
+            DataSet dataSet = new DataSet("QOBDData");
+            DataTable dataTable = new DataTable("QOBDTable");
+
+            using (SqlCeConnection connection = new SqlCeConnection(_constr))
+            {
+                using (SqlCeCommand cmd = new SqlCeCommand(sql, connection))
                 {
                     try
                     {
-                        if (typeof(T).Equals(typeof(QOBDSet.billsDataTable)))
-                            table = new QOBDSet.billsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.tax_commandsDataTable)))
-                            table = new QOBDSet.tax_commandsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.taxesDataTable)))
-                            table = new QOBDSet.taxesDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.deliveriesDataTable)))
-                            table = new QOBDSet.deliveriesDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.commandsDataTable)))
-                            table = new QOBDSet.commandsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.command_itemsDataTable)))
-                            table = new QOBDSet.command_itemsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.clientsDataTable)))
-                            table = new QOBDSet.clientsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.contactsDataTable)))
-                            table = new QOBDSet.contactsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.addressesDataTable)))
-                            table = new QOBDSet.addressesDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.itemsDataTable)))
-                            table = new QOBDSet.itemsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.item_deliveriesDataTable)))
-                            table = new QOBDSet.item_deliveriesDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.providersDataTable)))
-                            table = new QOBDSet.providersDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.provider_itemsDataTable)))
-                            table = new QOBDSet.provider_itemsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.agentsDataTable)))
-                            table = new QOBDSet.agentsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.auto_refsDataTable)))
-                            table = new QOBDSet.auto_refsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.tax_itemsDataTable)))
-                            table = new QOBDSet.tax_itemsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.actionRecordsDataTable)))
-                            table = new QOBDSet.actionRecordsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.actionRecordsDataTable)))
-                            table = new QOBDSet.actionRecordsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.infosDataTable)))
-                            table = new QOBDSet.infosDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.statisticsDataTable)))
-                            table = new QOBDSet.statisticsDataTable();
-                        else if (typeof(T).Equals(typeof(QOBDSet.notificationsDataTable)))
-                            table = new QOBDSet.notificationsDataTable();
-
                         cmd.Connection.Open();
                         cmd.CommandTimeout = 0;
-                        table.Load(cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection));
+                        dataTable.Load(cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection));
                     }
                     catch (Exception ex)
                     {
@@ -172,7 +120,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     }
                 }
             }
-            return table;
+            return dataTable;
         }
 
 
@@ -180,65 +128,23 @@ namespace QOBDDAL.Helper.ChannelHelper
         //===============================[ Auto_ref ]===========================================
         //====================================================================================
 
-        public static List<Auto_ref> DataTableTypeToAuto_ref(this QOBDSet.auto_refsDataTable Auto_refDataTable)
+        public static List<Auto_ref> DataTableTypeToAuto_ref(this DataTable auto_refDataTable)
         {
             object _lock = new object(); List<Auto_ref> returnList = new List<Auto_ref>();
 
-            foreach (var Auto_refQCBD in Auto_refDataTable)
+            for (int i = 0; i < auto_refDataTable.Rows.Count; i++)
             {
-                Auto_ref Auto_ref = new Auto_ref();
-                Auto_ref.ID = Auto_refQCBD.ID;
-                Auto_ref.RefId = Auto_refQCBD.RefId;
+                Auto_ref auto_ref = new Auto_ref();
+                auto_ref.ID = Utility.intTryParse(auto_refDataTable.Rows[i].ItemArray[auto_refDataTable.Columns["ID"].Ordinal].ToString());
+                auto_ref.RefId = Utility.intTryParse(auto_refDataTable.Rows[i].ItemArray[auto_refDataTable.Columns["RefId"].Ordinal].ToString());
 
-                lock (_lock) returnList.Add(Auto_ref);
+                lock (_lock) returnList.Add(auto_ref);
             }
 
             return returnList;
         }
 
-        public static QOBDSet.auto_refsDataTable Auto_refTypeToDataTable(this List<Auto_ref> Auto_refList)
-        {
-            object _lock = new object();
-            QOBDSet.auto_refsDataTable returnQCBDDataTable = new QOBDSet.auto_refsDataTable();
-
-            foreach (var Auto_ref in Auto_refList)
-            {
-                QOBDSet.auto_refsRow Auto_refQCBD = returnQCBDDataTable.Newauto_refsRow();
-                Auto_refQCBD.ID = Auto_ref.ID;
-                Auto_refQCBD.RefId = Auto_ref.RefId;
-
-                lock (_lock)
-                {
-                    if (!returnQCBDDataTable.Rows.Contains(Auto_refQCBD.ID))
-                    {
-                        returnQCBDDataTable.Rows.Add(Auto_refQCBD);
-                    }
-                }
-            }
-
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.auto_refsDataTable Auto_refTypeToDataTable(this List<Auto_ref> auto_refList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (auto_refList != null)
-            {
-                if (dataSet != null && dataSet.auto_refs.Count > 0)
-                {
-                    foreach (var Auto_ref in auto_refList)
-                    {
-                        QOBDSet.auto_refsRow Auto_refQCBD = dataSet.auto_refs.Where(x => x.ID == Auto_ref.ID).First();
-                        Auto_refQCBD.RefId = Auto_ref.RefId;
-                    }
-                }
-            }
-
-            return dataSet.auto_refs;
-        }
-
-        public static List<Auto_ref> Auto_refTypeToFilterDataTable(this Auto_ref Auto_ref, ESearchOption filterOperator)
+        public static List<Auto_ref> filterDataTableToAuto_refType(this Auto_ref Auto_ref, ESearchOption filterOperator)
         {
             if (Auto_ref != null)
             {
@@ -257,10 +163,20 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToAuto_ref((QOBDSet.auto_refsDataTable)getDataTableFromSqlQuery<QOBDSet.auto_refsDataTable>(baseSqlString));
+                return DataTableTypeToAuto_ref(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Auto_ref>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Auto_ref auto_ref)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = auto_ref.ID.ToString();
+            output["RefId"] = auto_ref.RefId.ToString();
+
+            return output;
         }
 
 
@@ -268,73 +184,25 @@ namespace QOBDDAL.Helper.ChannelHelper
         //===============================[ Notification ]===========================================
         //====================================================================================
 
-        public static List<Notification> DataTableTypeToNotification(this QOBDSet.notificationsDataTable NotificationDataTable)
+        public static List<Notification> DataTableTypeToNotification(this DataTable NotificationDataTable)
         {
             object _lock = new object(); List<Notification> returnList = new List<Notification>();
 
-            foreach (var NotificationQCBD in NotificationDataTable)
+            for (int i = 0; i < NotificationDataTable.Rows.Count; i++)
             {
-                Notification Notification = new Notification();
-                Notification.ID = NotificationQCBD.ID;
-                Notification.BillId = NotificationQCBD.BillId;
-                Notification.Reminder1 = NotificationQCBD.Reminder1;
-                Notification.Reminder2 = NotificationQCBD.Reminder2;
+                Notification notification = new Notification();
+                notification.ID = Utility.intTryParse(NotificationDataTable.Rows[i].ItemArray[NotificationDataTable.Columns["ID"].Ordinal].ToString());
+                notification.BillId = Utility.intTryParse(NotificationDataTable.Rows[i].ItemArray[NotificationDataTable.Columns["BillId"].Ordinal].ToString());
+                notification.Reminder1 = Utility.convertToDateTime(NotificationDataTable.Rows[i].ItemArray[NotificationDataTable.Columns["Reminder1"].Ordinal].ToString());
+                notification.Reminder2 = Utility.convertToDateTime(NotificationDataTable.Rows[i].ItemArray[NotificationDataTable.Columns["Reminder2"].Ordinal].ToString());
 
-                lock (_lock) returnList.Add(Notification);
+                lock (_lock) returnList.Add(notification);
             }
 
             return returnList;
         }
 
-        public static QOBDSet.notificationsDataTable NotificationTypeToDataTable(this List<Notification> NotificationList)
-        {
-            object _lock = new object();
-            QOBDSet.notificationsDataTable returnQCBDDataTable = new QOBDSet.notificationsDataTable();
-
-            foreach (var Notification in NotificationList)
-            {
-                QOBDSet.notificationsRow NotificationQCBD = returnQCBDDataTable.NewnotificationsRow();
-                NotificationQCBD.ID = Notification.ID;
-                NotificationQCBD.BillId = Notification.BillId;
-                NotificationQCBD.Reminder1 = Notification.Reminder1;
-                NotificationQCBD.Reminder2 = Notification.Reminder2;
-
-                lock (_lock)
-                {
-                    if (!returnQCBDDataTable.Rows.Contains(NotificationQCBD.ID))
-                    {
-                        returnQCBDDataTable.Rows.Add(NotificationQCBD);
-                    }
-                }
-            }
-
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.notificationsDataTable NotificationTypeToDataTable(this List<Notification> notificationList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (notificationList != null)
-            {
-                if (dataSet != null && dataSet.notifications.Count > 0)
-                {
-                    foreach (var Notification in notificationList)
-                    {
-                        QOBDSet.notificationsRow NotificationQCBD = dataSet.notifications.Where(x => x.ID == Notification.ID).First();
-                        if (NotificationQCBD.ID != Notification.ID && Notification.ID != 0)
-                            NotificationQCBD.ID = Notification.ID;
-                        NotificationQCBD.BillId = Notification.BillId;
-                        NotificationQCBD.Reminder1 = Notification.Reminder1;
-                        NotificationQCBD.Reminder2 = Notification.Reminder2;
-                    }
-                }
-            }
-
-            return dataSet.notifications;
-        }
-
-        public static List<Notification> NotificationTypeToFilterDataTable(this Notification Notification, ESearchOption filterOperator)
+        public static List<Notification> filterDataTableToNotificationType(this Notification Notification, ESearchOption filterOperator)
         {
             if (Notification != null)
             {
@@ -353,36 +221,47 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToNotification((QOBDSet.notificationsDataTable)getDataTableFromSqlQuery<QOBDSet.notificationsDataTable>(baseSqlString));
+                return DataTableTypeToNotification(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Notification>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Notification notification)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = notification.ID.ToString();
+            output["BillId"] = notification.BillId.ToString();
+            output["Reminder1"] = convertDateToStringFormat(notification.Reminder1.ToString(), "yyyy-MM-dd H:mm:ss");
+            output["Reminder2"] = convertDateToStringFormat(notification.Reminder2.ToString(), "yyyy-MM-dd H:mm:ss");
+
+            return output;
         }
 
         //====================================================================================
         //===============================[ Statistic ]===========================================
         //====================================================================================
 
-        public static List<Statistic> DataTableTypeToStatistic(this QOBDSet.statisticsDataTable StatisticDataTable)
+        public static List<Statistic> DataTableTypeToStatistic(this DataTable statisticDataTable)
         {
             object _lock = new object(); List<Statistic> returnList = new List<Statistic>();
-
-            foreach (var statisticQCBD in StatisticDataTable)
+            for (int i = 0; i < statisticDataTable.Rows.Count; i++)
             {
                 Statistic statistic = new Statistic();
-                statistic.ID = statisticQCBD.ID;
-                statistic.InvoiceId = statisticQCBD.BillId;
-                statistic.InvoiceDate = statisticQCBD.Bill_datetime;
-                statistic.Company = statisticQCBD.Company;
-                statistic.Date_limit = statisticQCBD.Date_limit;
-                statistic.Income = statisticQCBD.Income;
-                statistic.Income_percent = statisticQCBD.Income_percent;
-                statistic.Pay_date = statisticQCBD.Pay_datetime;
-                statistic.Pay_received = statisticQCBD.Pay_received;
-                statistic.Price_purchase_total = statisticQCBD.Price_purchase_total;
-                statistic.Tax_value = statisticQCBD.Tax_value;
-                statistic.Total = statisticQCBD.Total;
-                statistic.Total_tax_included = statisticQCBD.Total_tax_included;
+                statistic.ID = Utility.intTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["ID"].Ordinal].ToString());
+                statistic.BillId = Utility.intTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["BillId"].Ordinal].ToString());
+                statistic.Company = statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Company"].Ordinal].ToString();
+                statistic.Income = Utility.decimalTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Income"].Ordinal].ToString());
+                statistic.Income_percent = Utility.doubleTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Income_percent"].Ordinal].ToString());
+                statistic.Pay_received = Utility.decimalTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Pay_received"].Ordinal].ToString());
+                statistic.Price_purchase_total = Utility.decimalTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Price_purchase_total"].Ordinal].ToString());
+                statistic.Tax_value = Utility.doubleTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Tax_value"].Ordinal].ToString());
+                statistic.Total = Utility.decimalTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Total"].Ordinal].ToString());
+                statistic.Total_tax_included = Utility.decimalTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Total_tax_included"].Ordinal].ToString());
+                statistic.Bill_datetime = Utility.convertToDateTime(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Bill_datetime"].Ordinal].ToString());
+                statistic.Date_limit = Utility.convertToDateTime(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Date_limit"].Ordinal].ToString());
+                statistic.Pay_date = Utility.convertToDateTime(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Pay_date"].Ordinal].ToString());
 
                 lock (_lock) returnList.Add(statistic);
             }
@@ -390,84 +269,18 @@ namespace QOBDDAL.Helper.ChannelHelper
             return returnList;
         }
 
-        public static QOBDSet.statisticsDataTable StatisticTypeToDataTable(this List<Statistic> StatisticList)
-        {
-            object _lock = new object();
-            QOBDSet.statisticsDataTable returnQCBDDataTable = new QOBDSet.statisticsDataTable();
-
-            foreach (var statistic in StatisticList)
-            {
-                QOBDSet.statisticsRow statisticQCBD = returnQCBDDataTable.NewstatisticsRow();
-                statisticQCBD.ID = statistic.ID;
-                statisticQCBD.BillId = statistic.InvoiceId;
-                statisticQCBD.Bill_datetime = statistic.InvoiceDate;
-                statisticQCBD.Company = statistic.Company;
-                statisticQCBD.Date_limit = statistic.Date_limit;
-                statisticQCBD.Income = statistic.Income;
-                statisticQCBD.Income_percent = statistic.Income_percent;
-                statisticQCBD.Pay_datetime = statistic.Pay_date;
-                statisticQCBD.Pay_received = statistic.Pay_received;
-                statisticQCBD.Price_purchase_total = statistic.Price_purchase_total;
-                statisticQCBD.Tax_value = statistic.Tax_value;
-                statisticQCBD.Total = statistic.Total;
-                statisticQCBD.Total_tax_included = statistic.Total_tax_included;
-
-                lock (_lock)
-                {
-                    if (!returnQCBDDataTable.Rows.Contains(statisticQCBD.ID))
-                    {
-                        returnQCBDDataTable.Rows.Add(statisticQCBD);
-                    }
-                }
-
-
-            }
-
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.statisticsDataTable StatisticTypeToDataTable(this List<Statistic> statisticsList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (statisticsList != null)
-            {
-                if (dataSet != null && dataSet.statistics.Count > 0)
-                {
-                    foreach (var statistic in statisticsList)
-                    {
-                        QOBDSet.statisticsRow statisticQCBD = dataSet.statistics.Where(x => x.ID == statistic.ID).First();
-                        statisticQCBD.BillId = statistic.InvoiceId;
-                        statisticQCBD.Bill_datetime = statistic.InvoiceDate;
-                        statisticQCBD.Company = statistic.Company;
-                        statisticQCBD.Date_limit = statistic.Date_limit;
-                        statisticQCBD.Income = statistic.Income;
-                        statisticQCBD.Income_percent = statistic.Income_percent;
-                        statisticQCBD.Pay_datetime = statistic.Pay_date;
-                        statisticQCBD.Pay_received = statistic.Pay_received;
-                        statisticQCBD.Price_purchase_total = statistic.Price_purchase_total;
-                        statisticQCBD.Tax_value = statistic.Tax_value;
-                        statisticQCBD.Total = statistic.Total;
-                        statisticQCBD.Total_tax_included = statistic.Total_tax_included;
-                    }
-                }
-            }
-
-            return dataSet.statistics;
-        }
-
-        public static List<Statistic> FilterDataTableToStatisticType(this Statistic Statistic, ESearchOption filterOperator)
+        public static List<Statistic> filterDataTableToStatisticType(this Statistic Statistic, ESearchOption filterOperator)
         {
             if (Statistic != null)
             {
-                string baseSqlString = "SELECT * FROM Statistics WHERE ";
-                string defaultSqlString = "SELECT * FROM Statistics WHERE 1=0 ";
+                string baseSqlString = "SELECT * FROM [Statistics] WHERE ";
+                string defaultSqlString = "SELECT * FROM [Statistics] WHERE 1=0 ";
                 object _lock = new object(); string query = "";
 
                 if (Statistic.ID != 0)
                     query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Statistic.ID);
-                if (Statistic.InvoiceId != 0)
-                    query = string.Format(query + " {0} BillId LIKE '{1}' ", filterOperator.ToString(), Statistic.InvoiceId);
+                if (Statistic.BillId != 0)
+                    query = string.Format(query + " {0} BillId LIKE '{1}' ", filterOperator.ToString(), Statistic.BillId);
                 if (Statistic.Pay_received != 0)
                     query = string.Format(query + " {0} Pay_received LIKE '{1}' ", filterOperator.ToString(), Statistic.Pay_received);
                 if (Statistic.Price_purchase_total != 0)
@@ -491,79 +304,53 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToStatistic((QOBDSet.statisticsDataTable)getDataTableFromSqlQuery<QOBDSet.statisticsDataTable>(baseSqlString));
+                return DataTableTypeToStatistic(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Statistic>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Statistic statistic)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = statistic.ID.ToString();
+            output["BillId"] = statistic.BillId.ToString();
+            output["Bill_datetime"] = convertDateToStringFormat(statistic.Bill_datetime.ToString(), "yyyy-MM-dd H:mm:ss");
+            output["Company"] = (statistic.Company ?? "").ToString();
+            output["Date_limit"] = convertDateToStringFormat(statistic.Date_limit.ToString(), "yyyy-MM-dd H:mm:ss");
+            output["Income"] = statistic.Income.ToString();
+            output["Income_percent"] = statistic.Income_percent.ToString();
+            output["Pay_datetime"] = convertDateToStringFormat(statistic.Pay_date.ToString(), "yyyy-MM-dd H:mm:ss");
+            output["Pay_received"] = statistic.Pay_received.ToString();
+            output["Price_purchase_total"] = statistic.Price_purchase_total.ToString();
+            output["Tax_value"] = statistic.Tax_value.ToString();
+            output["Total"] = statistic.Total.ToString();
+            output["Total_tax_included"] = statistic.Total_tax_included.ToString();
+
+            return output;
         }
 
         //====================================================================================
         //===============================[ Infos ]===========================================
         //====================================================================================
 
-        public static List<Info> DataTableTypeToInfos(this QOBDSet.infosDataTable InfosDataTable)
+        public static List<Info> DataTableTypeToInfos(this DataTable InfosDataTable)
         {
             object _lock = new object(); List<Info> returnList = new List<Info>();
-
-            foreach (var InfosQCBD in InfosDataTable)
+            for (int i = 0; i < InfosDataTable.Rows.Count; i++)
             {
-                Info Infos = new Info();
-                Infos.ID = InfosQCBD.ID;
-                Infos.Name = InfosQCBD.Name;
-                Infos.Value = InfosQCBD.Value;
+                Info infos = new Info();
+                infos.ID = Utility.intTryParse(InfosDataTable.Rows[i].ItemArray[InfosDataTable.Columns["ID"].Ordinal].ToString());
+                infos.Name = InfosDataTable.Rows[i].ItemArray[InfosDataTable.Columns["Name"].Ordinal].ToString();
+                infos.Value = InfosDataTable.Rows[i].ItemArray[InfosDataTable.Columns["Value"].Ordinal].ToString();
 
-                lock (_lock) returnList.Add(Infos);
+                lock (_lock) returnList.Add(infos);
             }
             return returnList;
         }
 
-        public static QOBDSet.infosDataTable InfosTypeToDataTable(this List<Info> InfosList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.infosDataTable returnQCBDDataTable = new QOBDSet.infosDataTable();
-
-            foreach (var Infos in InfosList)
-            {
-                QOBDSet.infosRow InfosQCBD = returnQCBDDataTable.NewinfosRow();
-                InfosQCBD.ID = Infos.ID;
-                InfosQCBD.Name = Infos.Name;
-                InfosQCBD.Value = Infos.Value;
-
-                lock (_lock)
-                {
-                    if (!returnQCBDDataTable.Rows.Contains(InfosQCBD.ID))
-                    {
-                        returnQCBDDataTable.Rows.Add(InfosQCBD);
-                        idList.Add(InfosQCBD.ID);
-                    }
-                }
-            }
-
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.infosDataTable InfosTypeToDataTable(this List<Info> infoList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (infoList != null)
-            {
-                if (dataSet != null && dataSet.infos.Count > 0)
-                {
-                    foreach (var Infos in infoList)
-                    {
-                        QOBDSet.infosRow InfosQCBD = dataSet.infos.Where(x => x.ID == Infos.ID).First();
-                        InfosQCBD.Name = Infos.Name;
-                        InfosQCBD.Value = Infos.Value;
-                    }
-                }
-            }
-
-            return dataSet.infos;
-        }
-
-        public static List<Info> FilterDataTableToInfoType(this Info Info, ESearchOption filterOperator)
+        public static List<Info> filterDataTableToInfoType(this Info Info, ESearchOption filterOperator)
         {
             if (Info != null)
             {
@@ -584,139 +371,45 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToInfos((QOBDSet.infosDataTable)getDataTableFromSqlQuery<QOBDSet.infosDataTable>(baseSqlString));
+                return DataTableTypeToInfos(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Info>();
         }
 
-
-        //====================================================================================
-        //===============================[ ActionRecord ]===========================================
-        //====================================================================================
-
-        public static List<ActionRecord> DataTableTypeToActionRecord(this QOBDSet.actionRecordsDataTable ActionRecordDataTable)
+        public static Dictionary<string, string> getColumDictionary(this Info info)
         {
-            object _lock = new object(); List<ActionRecord> returnList = new List<ActionRecord>();
+            Dictionary<string, string> output = new Dictionary<string, string>();
 
-            foreach (var ActionRecordQCBD in ActionRecordDataTable)
-            {
-                ActionRecord ActionRecord = new ActionRecord();
-                ActionRecord.ID = ActionRecordQCBD.ID;
-                ActionRecord.TargetName = ActionRecordQCBD.TargetName;
-                ActionRecord.AgentId = ActionRecordQCBD.AgentId;
-                ActionRecord.TargetId = ActionRecordQCBD.TargetId;
-                ActionRecord.Action = ActionRecordQCBD.Action;
+            output["ID"] = info.ID.ToString();
+            output["Name"] = (info.Name ?? "").ToString();
+            output["Value"] = (info.Value ?? "").ToString();
 
-                lock (_lock) returnList.Add(ActionRecord);
-            }
-
-            return returnList;
-        }
-
-        public static QOBDSet.actionRecordsDataTable ActionRecordTypeToDataTable(this List<ActionRecord> ActionRecordList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.actionRecordsDataTable returnQCBDDataTable = new QOBDSet.actionRecordsDataTable();
-
-            foreach (var ActionRecord in ActionRecordList)
-            {
-                QOBDSet.actionRecordsRow ActionRecordQCBD = returnQCBDDataTable.NewactionRecordsRow();
-                ActionRecordQCBD.ID = ActionRecord.ID;
-                ActionRecordQCBD.TargetName = ActionRecord.TargetName;
-                ActionRecordQCBD.AgentId = ActionRecord.AgentId;
-                ActionRecordQCBD.TargetId = ActionRecord.TargetId;
-                ActionRecordQCBD.Action = ActionRecord.Action;
-
-                lock (_lock)
-                {
-                    if (!returnQCBDDataTable.Rows.Contains(ActionRecordQCBD.ID))
-                    {
-                        returnQCBDDataTable.Rows.Add(ActionRecordQCBD);
-                        idList.Add(ActionRecordQCBD.ID);
-                    }
-                }
-            }
-
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.actionRecordsDataTable ActionRecordTypeToDataTable(this List<ActionRecord> actionRecordsList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (actionRecordsList != null)
-            {
-                if (dataSet != null && dataSet.actionRecords.Count > 0)
-                {
-                    foreach (var ActionRecord in actionRecordsList)
-                    {
-                        QOBDSet.actionRecordsRow ActionRecordQCBD = dataSet.actionRecords.Where(x => x.ID == ActionRecord.ID).First();
-                        ActionRecordQCBD.TargetName = ActionRecord.TargetName;
-                        ActionRecordQCBD.AgentId = ActionRecord.AgentId;
-                        ActionRecordQCBD.TargetId = ActionRecord.TargetId;
-                        ActionRecordQCBD.Action = ActionRecord.Action;
-                    }
-                }
-            }
-            return dataSet.actionRecords;
-        }
-
-        public static List<ActionRecord> ActionRecordTypeToFilterDataTable(this ActionRecord ActionRecord, ESearchOption filterOperator)
-        {
-            if (ActionRecord != null)
-            {
-                string baseSqlString = "SELECT * FROM ActionRecords WHERE ";
-                string defaultSqlString = "SELECT * FROM ActionRecords WHERE 1=0 ";
-                object _lock = new object(); string query = "";
-
-                if (ActionRecord.ID != 0)
-                    query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), ActionRecord.ID);
-                if (ActionRecord.AgentId != 0)
-                    query = string.Format(query + " {0} AgentId LIKE '{1}' ", filterOperator.ToString(), ActionRecord.AgentId);
-                if (ActionRecord.TargetId != 0)
-                    query = string.Format(query + " {0} TargetId LIKE '{1}' ", filterOperator.ToString(), ActionRecord.TargetId);
-                if (!string.IsNullOrEmpty(ActionRecord.TargetName))
-                    query = string.Format(query + " {0} TargetName LIKE '{1}' ", filterOperator.ToString(), ActionRecord.TargetName);
-                if (!string.IsNullOrEmpty(ActionRecord.Action))
-                    query = string.Format(query + " {0} Action LIKE '{1}' ", filterOperator.ToString(), ActionRecord.Action);
-
-                lock (_lock)
-                    if (!string.IsNullOrEmpty(query))
-                        baseSqlString = baseSqlString + query.Substring(query.IndexOf(filterOperator.ToString()) + filterOperator.ToString().Length);
-                    else
-                        baseSqlString = defaultSqlString;
-
-                return DataTableTypeToActionRecord((QOBDSet.actionRecordsDataTable)getDataTableFromSqlQuery<QOBDSet.actionRecordsDataTable>(baseSqlString));
-
-            }
-            return new List<ActionRecord>();
+            return output;
         }
 
         //====================================================================================
         //===============================[ Agent ]===========================================
         //====================================================================================
 
-        public static List<Agent> DataTableTypeToAgent(this QOBDSet.agentsDataTable agentDataTable)
+        public static List<Agent> DataTableTypeToAgent(this DataTable agentDataTable)
         {
             object _lock = new object(); List<Agent> returnList = new List<Agent>();
-
-            foreach (var agentQCBD in agentDataTable)
+            for (int i = 0; i < agentDataTable.Rows.Count; i++)
             {
                 Agent agent = new Agent();
-                agent.ID = agentQCBD.ID;
-                agent.FirstName = agentQCBD.FirstName;
-                agent.LastName = agentQCBD.LastName;
-                agent.UserName = agentQCBD.Login;
-                agent.HashedPassword = agentQCBD.Password;
-                agent.Picture = agentQCBD.Picture;
-                agent.Phone = agentQCBD.Phone;
-                agent.Status = agentQCBD.Status;
-                agent.Admin = agentQCBD.Admin;
-                agent.Email = agentQCBD.Email;
-                agent.Fax = agentQCBD.Fax;
-                agent.ListSize = agentQCBD.ListSize;
+                agent.ID = Utility.intTryParse(agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["ID"].Ordinal].ToString());
+                agent.FirstName = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["FirstName"].Ordinal].ToString();
+                agent.LastName = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["LastName"].Ordinal].ToString();
+                agent.UserName = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Login"].Ordinal].ToString();
+                agent.HashedPassword = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Password"].Ordinal].ToString();
+                agent.Picture = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Picture"].Ordinal].ToString();
+                agent.Phone = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Phone"].Ordinal].ToString();
+                agent.Status = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Status"].Ordinal].ToString();
+                agent.Admin = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Admin"].Ordinal].ToString();
+                agent.Email = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Email"].Ordinal].ToString();
+                agent.Fax = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Fax"].Ordinal].ToString();
+                agent.ListSize = Utility.intTryParse(agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["ListSize"].Ordinal].ToString());
 
                 lock (_lock) returnList.Add(agent);
             }
@@ -724,70 +417,7 @@ namespace QOBDDAL.Helper.ChannelHelper
             return returnList;
         }
 
-        public static QOBDSet.agentsDataTable AgentTypeToDataTable(this List<Agent> agentList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.agentsDataTable outputQCBDDataTable = new QOBDSet.agentsDataTable();
-            if (agentList != null)
-            {
-                foreach (var agent in agentList)
-                {
-                    QOBDSet.agentsRow agentQCBD = outputQCBDDataTable.NewagentsRow();
-                    agentQCBD.FirstName = agent.FirstName;
-                    agentQCBD.LastName = agent.LastName;
-                    agentQCBD.Login = agent.UserName;
-                    agentQCBD.Password = agent.HashedPassword;
-                    agentQCBD.Picture = agent.Picture;
-                    agentQCBD.Phone = agent.Phone;
-                    agentQCBD.Status = agent.Status;
-                    agentQCBD.Admin = agent.Admin;
-                    agentQCBD.Email = agent.Email;
-                    agentQCBD.Fax = agent.Fax;
-                    agentQCBD.ListSize = agent.ListSize;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(agentQCBD.ID))
-                        {
-                            outputQCBDDataTable.Rows.Add(agentQCBD);
-                            idList.Add(agentQCBD.ID);
-                        }
-                    }
-                }
-            }
-            return outputQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.agentsDataTable AgentTypeToDataTable(this List<Agent> agentList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (agentList != null)
-            {
-                if (dataSet != null && dataSet.agents.Count > 0)
-                {
-                    foreach (var agent in agentList)
-                    {
-                        QOBDSet.agentsRow agentQCBD = dataSet.agents.Where(x => x.ID == agent.ID).First();
-                        agentQCBD.FirstName = agent.FirstName;
-                        agentQCBD.LastName = agent.LastName;
-                        agentQCBD.Login = agent.UserName;
-                        agentQCBD.Password = agent.HashedPassword;
-                        agentQCBD.Picture = agent.Picture;
-                        agentQCBD.Phone = agent.Phone;
-                        agentQCBD.Status = agent.Status;
-                        agentQCBD.Admin = agent.Admin;
-                        agentQCBD.Email = agent.Email;
-                        agentQCBD.Fax = agent.Fax;
-                        agentQCBD.ListSize = agent.ListSize;
-                    }
-                }
-            }
-            return dataSet.agents;
-        }
-
-        public static List<Agent> AgentTypeToFilterDataTable(this Agent agent, ESearchOption filterOperator)
+        public static List<Agent> filterDataTableToAgentType(this Agent agent, ESearchOption filterOperator)
         {
             if (agent != null)
             {
@@ -826,10 +456,29 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToAgent((QOBDSet.agentsDataTable)DALHelper.getDataTableFromSqlQuery<QOBDSet.agentsDataTable>(baseSqlString));
-
+                return DataTableTypeToAgent(baseSqlString.getDataTableFromSqlCEQuery());
             }
             return new List<Agent>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Agent agent)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = agent.ID.ToString();
+            output["FirstName"] = (agent.FirstName ?? "").ToString();
+            output["LastName"] = (agent.LastName ?? "").ToString();
+            output["Login"] = (agent.UserName ?? "").ToString();
+            output["Password"] = (agent.HashedPassword ?? "").ToString();
+            output["Picture"] = (agent.Picture ?? "").ToString();
+            output["Phone"] = (agent.Phone ?? "").ToString();
+            output["Status"] = (agent.Status ?? "").ToString();
+            output["Admin"] = (agent.Admin ?? "").ToString();
+            output["Email"] = (agent.Email ?? "").ToString();
+            output["Fax"] = (agent.Fax ?? "").ToString();
+            output["ListSize"] = agent.ListSize.ToString();
+
+            return output;
         }
 
 
@@ -837,122 +486,59 @@ namespace QOBDDAL.Helper.ChannelHelper
         //===============================[ Order ]===========================================
         //====================================================================================
 
-        public static List<Order> DataTableTypeToOrder(this QOBDSet.commandsDataTable OrderDataTable)
+        public static List<Order> DataTableTypeToOrder(this DataTable OrderDataTable)
         {
             object _lock = new object(); List<Order> returnList = new List<Order>();
 
-            Parallel.ForEach(OrderDataTable, (OrderQCBD) =>
+            for (int i = 0; i < OrderDataTable.Rows.Count; i++)
             {
                 Order Order = new Order();
-                Order.ID = OrderQCBD.ID;
-                Order.AgentId = OrderQCBD.AgentId;
-                Order.BillAddress = OrderQCBD.BillAddress;
-                Order.ClientId = OrderQCBD.ClientId;
-                Order.Comment1 = OrderQCBD.Comment1;
-                Order.Comment2 = OrderQCBD.Comment2;
-                Order.Comment3 = OrderQCBD.Comment3;
-                Order.Status = OrderQCBD.Status;
-                Order.Date = OrderQCBD.Date;
-                Order.DeliveryAddress = OrderQCBD.DeliveryAddress;
-                Order.Tax = OrderQCBD.Tax;
+                Order.ID = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["ID"].Ordinal].ToString());
+                Order.AgentId = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["AgentId"].Ordinal].ToString());
+                Order.BillAddress = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["BillAddress"].Ordinal].ToString());
+                Order.ClientId = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["ClientId"].Ordinal].ToString());
+                Order.Comment1 = OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment1"].Ordinal].ToString();
+                Order.Comment2 = OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment2"].Ordinal].ToString();
+                Order.Comment3 = OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment3"].Ordinal].ToString();
+                Order.Status = OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Status"].Ordinal].ToString();
+                Order.Date = Utility.convertToDateTime(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Date"].Ordinal].ToString());
+                Order.DeliveryAddress = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["DeliveryAddress"].Ordinal].ToString());
+                Order.Tax = Utility.doubleTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Tax"].Ordinal].ToString());
 
                 lock (_lock) returnList.Add(Order);
-            });
-
+            }
             return returnList;
         }
 
-        public static QOBDSet.commandsDataTable OrderTypeToDataTable(this List<Order> OrderList)
+        public static List<Order> filterDataTableToOrderType(this Order order, ESearchOption filterOperator)
         {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.commandsDataTable returnQCBDDataTable = new QOBDSet.commandsDataTable();
-            if (OrderList != null)
-            {
-                foreach (var Order in OrderList)
-                {
-                    QOBDSet.commandsRow OrderQCBD = returnQCBDDataTable.NewcommandsRow();
-                    OrderQCBD.ID = Order.ID;
-                    OrderQCBD.AgentId = Order.AgentId;
-                    OrderQCBD.BillAddress = Order.BillAddress;
-                    OrderQCBD.ClientId = Order.ClientId;
-                    OrderQCBD.Comment1 = Order.Comment1;
-                    OrderQCBD.Comment2 = Order.Comment2;
-                    OrderQCBD.Comment3 = Order.Comment3;
-                    OrderQCBD.Status = Order.Status;
-                    OrderQCBD.Date = Order.Date;
-                    OrderQCBD.DeliveryAddress = Order.DeliveryAddress;
-                    OrderQCBD.Tax = Order.Tax;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(OrderQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(OrderQCBD);
-                            idList.Add(OrderQCBD.ID);
-                        }
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.commandsDataTable OrderTypeToDataTable(this List<Order> ordersList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (ordersList != null)
-            {
-                if (dataSet != null && dataSet.commands.Count > 0)
-                {
-                    foreach (var Order in ordersList)
-                    {
-                        QOBDSet.commandsRow OrderQCBD = dataSet.commands.Where(x => x.ID == Order.ID).First();
-                        OrderQCBD.AgentId = Order.AgentId;
-                        OrderQCBD.BillAddress = Order.BillAddress;
-                        OrderQCBD.ClientId = Order.ClientId;
-                        OrderQCBD.Comment1 = Order.Comment1;
-                        OrderQCBD.Comment2 = Order.Comment2;
-                        OrderQCBD.Comment3 = Order.Comment3;
-                        OrderQCBD.Status = Order.Status;
-                        OrderQCBD.Date = Order.Date;
-                        OrderQCBD.DeliveryAddress = Order.DeliveryAddress;
-                        OrderQCBD.Tax = Order.Tax;
-                    }
-                }
-            }
-            return dataSet.commands;
-        }
-
-        public static List<Order> orderTypeToFilterDataTable(this Order command, ESearchOption filterOperator)
-        {
-            string baseSqlString = "SELECT * FROM Commands WHERE ";
-            string defaultSqlString = "SELECT * FROM Commands WHERE 1=0 ";
+            string baseSqlString = "SELECT * FROM Orders WHERE ";
+            string defaultSqlString = "SELECT * FROM Orders WHERE 1=0 ";
             string orderBy = " ORDER BY ID DESC";
             object _lock = new object(); string query = "";
 
-            if (command != null)
+            if (order != null)
             {
-                if (command.ID != 0)
-                    query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), command.ID);
-                if (command.AgentId != 0)
-                    query = string.Format(query + " {0} AgentId LIKE '{1}' ", filterOperator.ToString(), command.AgentId);
-                if (!string.IsNullOrEmpty(command.Comment1))
-                    query = string.Format(query + " {0} Comment1 LIKE '{1}' ", filterOperator.ToString(), command.Comment1.Replace("'", "''"));
-                if (!string.IsNullOrEmpty(command.Comment2))
-                    query = string.Format(query + " {0} Comment2 LIKE '{1}' ", filterOperator.ToString(), command.Comment2.Replace("'", "''"));
-                if (!string.IsNullOrEmpty(command.Comment3))
-                    query = string.Format(query + " {0} Comment3 LIKE '{1}' ", filterOperator.ToString(), command.Comment3.Replace("'", "''"));
-                if (!string.IsNullOrEmpty(command.Status))
-                    query = string.Format(query + " {0} Status LIKE '{1}' ", filterOperator.ToString(), command.Status.Replace("'", "''"));
-                if (command.Tax != 0)
-                    query = string.Format(query + " {0} Tax LIKE '{1}' ", filterOperator.ToString(), command.Tax);
-                if (command.ClientId != 0)
-                    query = string.Format(query + " {0} ClientId LIKE '{1}' ", filterOperator.ToString(), command.ClientId);
-                if (command.BillAddress != 0)
-                    query = string.Format(query + " {0} BillAddress LIKE '{1}' ", filterOperator.ToString(), command.BillAddress);
-                if (command.DeliveryAddress != 0)
-                    query = string.Format(query + " {0} DeliveryAddress LIKE '{1}' ", filterOperator.ToString(), command.DeliveryAddress);
+                if (order.ID != 0)
+                    query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), order.ID);
+                if (order.AgentId != 0)
+                    query = string.Format(query + " {0} AgentId LIKE '{1}' ", filterOperator.ToString(), order.AgentId);
+                if (!string.IsNullOrEmpty(order.Comment1))
+                    query = string.Format(query + " {0} Comment1 LIKE '{1}' ", filterOperator.ToString(), order.Comment1.Replace("'", "''"));
+                if (!string.IsNullOrEmpty(order.Comment2))
+                    query = string.Format(query + " {0} Comment2 LIKE '{1}' ", filterOperator.ToString(), order.Comment2.Replace("'", "''"));
+                if (!string.IsNullOrEmpty(order.Comment3))
+                    query = string.Format(query + " {0} Comment3 LIKE '{1}' ", filterOperator.ToString(), order.Comment3.Replace("'", "''"));
+                if (!string.IsNullOrEmpty(order.Status))
+                    query = string.Format(query + " {0} Status LIKE '{1}' ", filterOperator.ToString(), order.Status.Replace("'", "''"));
+                if (order.Tax != 0)
+                    query = string.Format(query + " {0} Tax LIKE '{1}' ", filterOperator.ToString(), order.Tax);
+                if (order.ClientId != 0)
+                    query = string.Format(query + " {0} ClientId LIKE '{1}' ", filterOperator.ToString(), order.ClientId);
+                if (order.BillAddress != 0)
+                    query = string.Format(query + " {0} BillAddress LIKE '{1}' ", filterOperator.ToString(), order.BillAddress);
+                if (order.DeliveryAddress != 0)
+                    query = string.Format(query + " {0} DeliveryAddress LIKE '{1}' ", filterOperator.ToString(), order.DeliveryAddress);
 
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))
@@ -960,105 +546,73 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToOrder((QOBDSet.commandsDataTable)getDataTableFromSqlQuery<QOBDSet.commandsDataTable>(baseSqlString));
+                return DataTableTypeToOrder(baseSqlString.getDataTableFromSqlCEQuery());
             }
             return new List<Order>();
         }
 
+        public static Dictionary<string, string> getColumDictionary(this Order order)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["AgentId"] = order.AgentId.ToString();
+            output["BillAddress"] = order.BillAddress.ToString();
+            output["ClientId"] = order.ClientId.ToString();
+            output["Comment1"] = (order.Comment1 ?? "").ToString();
+            output["Comment2"] = (order.Comment2 ?? "").ToString();
+            output["Comment3"] = (order.Comment3 ?? "").ToString();
+            output["Date"] = convertDateToStringFormat(order.Date.ToString(), "yyyy-MM-dd H:mm:ss");
+            output["DeliveryAddress"] = order.DeliveryAddress.ToString();
+            output["ID"] = order.ID.ToString();
+            output["Status"] = (order.Status ?? "").ToString();
+            output["Tax"] = order.Tax.ToString();
+
+            return output;
+        }
+
 
         //====================================================================================
-        //===============================[ Tax_command ]======================================
+        //===============================[ Tax_order ]======================================
         //====================================================================================
 
-        public static List<Tax_order> DataTableTypeToTax_order(this QOBDSet.tax_commandsDataTable Tax_OrderDataTableList)
+        public static List<Tax_order> DataTableTypeToTax_order(this DataTable Tax_OrderDataTableList)
         {
             object _lock = new object(); List<Tax_order> returnList = new List<Tax_order>();
 
-            foreach (var Tax_commandQCBD in Tax_OrderDataTableList)
+            for (int i = 0; i < Tax_OrderDataTableList.Rows.Count; i++)
             {
-                Tax_order Tax_command = new Tax_order();
-                Tax_command.ID = Tax_commandQCBD.ID;
-                Tax_command.OrderId = Tax_commandQCBD.CommandId;
-                Tax_command.Date_insert = Tax_commandQCBD.Date_insert;
-                Tax_command.Target = Tax_commandQCBD.Target;
-                Tax_command.Tax_value = Tax_commandQCBD.Tax_value;
-                Tax_command.TaxId = Tax_commandQCBD.TaxId;
+                Tax_order Tax_order = new Tax_order();
+                Tax_order.ID = Utility.intTryParse(Tax_OrderDataTableList.Rows[i].ItemArray[Tax_OrderDataTableList.Columns["ID"].Ordinal].ToString());
+                Tax_order.OrderId = Utility.intTryParse(Tax_OrderDataTableList.Rows[i].ItemArray[Tax_OrderDataTableList.Columns["OrderId"].Ordinal].ToString());
+                Tax_order.Target = Tax_OrderDataTableList.Rows[i].ItemArray[Tax_OrderDataTableList.Columns["Target"].Ordinal].ToString();
+                Tax_order.Tax_value = Utility.doubleTryParse(Tax_OrderDataTableList.Rows[i].ItemArray[Tax_OrderDataTableList.Columns["Tax_value"].Ordinal].ToString());
+                Tax_order.TaxId = Utility.intTryParse(Tax_OrderDataTableList.Rows[i].ItemArray[Tax_OrderDataTableList.Columns["TaxId"].Ordinal].ToString());
+                Tax_order.Date_insert = Utility.convertToDateTime(Tax_OrderDataTableList.Rows[i].ItemArray[Tax_OrderDataTableList.Columns["Date_insert"].Ordinal].ToString());
 
-                lock (_lock) returnList.Add(Tax_command);
+                lock (_lock) returnList.Add(Tax_order);
             }
 
             return returnList;
         }
 
-        public static QOBDSet.tax_commandsDataTable Tax_orderTypeToDataTable(this List<Tax_order> Tax_commandList)
+        public static List<Tax_order> filterDataTableToTax_orderType(this Tax_order Tax_order, ESearchOption filterOperator)
         {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.tax_commandsDataTable returnQCBDDataTable = new QOBDSet.tax_commandsDataTable();
-
-            foreach (var Tax_order in Tax_commandList)
-            {
-                QOBDSet.tax_commandsRow Tax_orderQCBD = returnQCBDDataTable.Newtax_commandsRow();
-                Tax_orderQCBD.ID = Tax_order.ID;
-                Tax_orderQCBD.CommandId = Tax_order.OrderId;
-                Tax_orderQCBD.Date_insert = Tax_order.Date_insert;
-                Tax_orderQCBD.Target = Tax_order.Target;
-                Tax_orderQCBD.Tax_value = Tax_order.Tax_value;
-                Tax_orderQCBD.TaxId = Tax_order.TaxId;
-
-                lock (_lock)
-                {
-                    if (!idList.Contains(Tax_order.ID))
-                    {
-                        returnQCBDDataTable.Rows.Add(Tax_order);
-                        idList.Add(Tax_order.ID);
-                    }
-                }
-            }
-
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.tax_commandsDataTable Tax_orderTypeToDataTable(this List<Tax_order> tax_ordersList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (tax_ordersList != null)
-            {
-                if (dataSet != null && dataSet.tax_commands.Count > 0)
-                {
-                    foreach (var Tax_order in tax_ordersList)
-                    {
-                        QOBDSet.tax_commandsRow Tax_orderQCBD = dataSet.tax_commands.Where(x => x.ID == Tax_order.ID).First();
-                        Tax_orderQCBD.CommandId = Tax_order.OrderId;
-                        Tax_orderQCBD.Date_insert = Tax_order.Date_insert;
-                        Tax_orderQCBD.Target = Tax_order.Target;
-                        Tax_orderQCBD.Tax_value = Tax_order.Tax_value;
-                        Tax_orderQCBD.TaxId = Tax_order.TaxId;
-                    }
-                }
-            }
-            return dataSet.tax_commands;
-        }
-
-        public static List<Tax_order> Tax_orderTypeToFilterDataTable(this Tax_order Tax_command, ESearchOption filterOperator)
-        {
-            string baseSqlString = "SELECT * FROM Tax_commands WHERE ";
-            string defaultSqlString = "SELECT * FROM Tax_commands WHERE 1=0 ";
+            string baseSqlString = "SELECT * FROM Tax_orders WHERE ";
+            string defaultSqlString = "SELECT * FROM Tax_orders WHERE 1=0 ";
             object _lock = new object(); string query = "";
 
-            if (Tax_command != null)
+            if (Tax_order != null)
             {
-                if (Tax_command.ID != 0)
-                    query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Tax_command.ID);
-                if (Tax_command.OrderId != 0)
-                    query = string.Format(query + " {0} CommandId LIKE '{1}' ", filterOperator.ToString(), Tax_command.OrderId);
-                if (Tax_command.TaxId != 0)
-                    query = string.Format(query + " {0} TaxId LIKE '{1}' ", filterOperator.ToString(), Tax_command.TaxId);
-                if (Tax_command.Tax_value != 0)
-                    query = string.Format(query + " {0} Tax_value LIKE '{1}' ", filterOperator.ToString(), Tax_command.Tax_value);
-                if (!string.IsNullOrEmpty(Tax_command.Target))
-                    query = string.Format(query + " {0} Target LIKE '{1}' ", filterOperator.ToString(), Tax_command.Target);
+                if (Tax_order.ID != 0)
+                    query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Tax_order.ID);
+                if (Tax_order.OrderId != 0)
+                    query = string.Format(query + " {0} OrderId LIKE '{1}' ", filterOperator.ToString(), Tax_order.OrderId);
+                if (Tax_order.TaxId != 0)
+                    query = string.Format(query + " {0} TaxId LIKE '{1}' ", filterOperator.ToString(), Tax_order.TaxId);
+                if (Tax_order.Tax_value != 0)
+                    query = string.Format(query + " {0} Tax_value LIKE '{1}' ", filterOperator.ToString(), Tax_order.Tax_value);
+                if (!string.IsNullOrEmpty(Tax_order.Target))
+                    query = string.Format(query + " {0} Target LIKE '{1}' ", filterOperator.ToString(), Tax_order.Target);
 
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))
@@ -1066,121 +620,62 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToTax_order((QOBDSet.tax_commandsDataTable)getDataTableFromSqlQuery<QOBDSet.tax_commandsDataTable>(baseSqlString));
+                return DataTableTypeToTax_order(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
 
             return new List<Tax_order>();
         }
 
+        public static Dictionary<string, string> getColumDictionary(this Tax_order tax_order)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["OrderId"] = tax_order.OrderId.ToString();
+            output["Date_insert"] = convertDateToStringFormat(tax_order.Date_insert.ToString(), "yyyy-MM-dd H:mm:ss");
+            output["Target"] = (tax_order.Target ?? "").ToString();
+            output["Tax_value"] = tax_order.Tax_value.ToString();
+            output["TaxId"] = tax_order.TaxId.ToString();
+            output["ID"] = tax_order.ID.ToString();
+
+            return output;
+        }
+
         //====================================================================================
         //===============================[ Client ]===========================================
         //====================================================================================
 
-        public static List<Client> DataTableTypeToClient(this QOBDSet.clientsDataTable ClientDataTable)
+        public static List<Client> DataTableTypeToClient(this DataTable clientDataTable)
         {
             object _lock = new object(); List<Client> returnList = new List<Client>();
-            if (ClientDataTable != null)
+            if (clientDataTable != null)
             {
-                //foreach (var ClientQCBD in ClientDataTable)
-                Parallel.ForEach(ClientDataTable, (ClientQCBD) =>
+                for (int i = 0; i < clientDataTable.Rows.Count; i++)
                 {
-                    Client Client = new Client();
-                    Client.ID = ClientQCBD.ID;
-                    Client.FirstName = ClientQCBD.FirstName;
-                    Client.LastName = ClientQCBD.LastName;
-                    Client.AgentId = ClientQCBD.AgentId;
-                    Client.Comment = ClientQCBD.Comment;
-                    Client.Phone = ClientQCBD.Phone;
-                    Client.Status = ClientQCBD.Status;
-                    Client.Company = ClientQCBD.Company;
-                    Client.Email = ClientQCBD.Email;
-                    Client.Fax = ClientQCBD.Fax;
-                    Client.CompanyName = ClientQCBD.CompanyName;
-                    Client.CRN = ClientQCBD.CRN;
-                    Client.MaxCredit = ClientQCBD.MaxCredit;
-                    Client.Rib = ClientQCBD.Rib;
-                    Client.PayDelay = ClientQCBD.PayDelay;
+                    Client client = new Client();
+                    client.ID = Utility.intTryParse(clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["ID"].Ordinal].ToString());
+                    client.AgentId = Utility.intTryParse(clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["AgentId"].Ordinal].ToString());
+                    client.FirstName = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["FirstName"].Ordinal].ToString();
+                    client.LastName = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["LastName"].Ordinal].ToString();
+                    client.Comment = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Comment"].Ordinal].ToString();
+                    client.Phone = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Phone"].Ordinal].ToString();
+                    client.Status = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Status"].Ordinal].ToString();
+                    client.Company = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Company"].Ordinal].ToString();
+                    client.Email = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Email"].Ordinal].ToString();
+                    client.Fax = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Fax"].Ordinal].ToString();
+                    client.CompanyName = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["CompanyName"].Ordinal].ToString();
+                    client.CRN = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["CRN"].Ordinal].ToString();
+                    client.MaxCredit = Utility.intTryParse(clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["MaxCredit"].Ordinal].ToString());
+                    client.Rib = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Rib"].Ordinal].ToString();
+                    client.PayDelay = Utility.intTryParse(clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["PayDelay"].Ordinal].ToString());
 
-                    lock (_lock) returnList.Add(Client);
-                });
+                    lock (_lock) returnList.Add(client);
+                }
             }
             return returnList;
         }
 
-        // insert new row into database
-        public static QOBDSet.clientsDataTable ClientTypeToDataTable(this List<Client> ClientList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.clientsDataTable returnQCBDDataTable = new QOBDSet.clientsDataTable();
-            if (ClientList != null)
-            {
-                foreach (var Client in ClientList)
-                {
-                    QOBDSet.clientsRow ClientQCBD = returnQCBDDataTable.NewclientsRow();
-                    ClientQCBD.ID = Client.ID;
-                    ClientQCBD.FirstName = Client.FirstName;
-                    ClientQCBD.LastName = Client.LastName;
-                    ClientQCBD.AgentId = Client.AgentId;
-                    ClientQCBD.Comment = Client.Comment;
-                    ClientQCBD.Phone = Client.Phone;
-                    ClientQCBD.Status = Client.Status;
-                    ClientQCBD.Company = Client.Company;
-                    ClientQCBD.Email = Client.Email;
-                    ClientQCBD.Fax = Client.Fax;
-                    ClientQCBD.CompanyName = Client.CompanyName;
-                    ClientQCBD.CRN = Client.CRN;
-                    ClientQCBD.MaxCredit = Client.MaxCredit;
-                    ClientQCBD.Rib = Client.Rib;
-                    ClientQCBD.PayDelay = Client.PayDelay;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(ClientQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(ClientQCBD);
-                            idList.Add(ClientQCBD.ID);
-                        }
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.clientsDataTable ClientTypeToDataTable(this List<Client> ClientList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (ClientList != null)
-            {
-                if (dataSet != null && dataSet.clients.Count > 0)
-                {
-                    foreach (var Client in ClientList)
-                    {
-                        QOBDSet.clientsRow ClientQCBD = dataSet.clients.Where(x => x.ID == Client.ID).First();
-                        ClientQCBD.FirstName = Client.FirstName;
-                        ClientQCBD.LastName = Client.LastName;
-                        ClientQCBD.AgentId = Client.AgentId;
-                        ClientQCBD.Comment = Client.Comment;
-                        ClientQCBD.Phone = Client.Phone;
-                        ClientQCBD.Status = Client.Status;
-                        ClientQCBD.Company = Client.Company;
-                        ClientQCBD.Email = Client.Email;
-                        ClientQCBD.Fax = Client.Fax;
-                        ClientQCBD.CompanyName = Client.CompanyName;
-                        ClientQCBD.CRN = Client.CRN;
-                        ClientQCBD.MaxCredit = Client.MaxCredit;
-                        ClientQCBD.Rib = Client.Rib;
-                        ClientQCBD.PayDelay = Client.PayDelay;
-                    }
-                }
-            }
-
-            return dataSet.clients;
-        }
-
-        public static List<Client> ClientTypeToFilterDataTable(this Client client, ESearchOption filterOperator)
+        public static List<Client> filterDataTableToClientType(this Client client, ESearchOption filterOperator)
         {
             if (client != null)
             {
@@ -1227,103 +722,65 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToClient((QOBDSet.clientsDataTable)getDataTableFromSqlQuery<QOBDSet.clientsDataTable>(baseSqlString));
+                return DataTableTypeToClient(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Client>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Client client)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = client.ID.ToString();
+            output["AgentId"] = client.AgentId.ToString();
+            output["FirstName"] = (client.FirstName ?? "").ToString();
+            output["LastName"] = (client.LastName ?? "").ToString();
+            output["Comment"] = (client.Comment ?? "").ToString();
+            output["Phone"] = (client.Phone ?? "").ToString();
+            output["Status"] = (client.Status ?? "").ToString();
+            output["Company"] = (client.Company ?? "").ToString();
+            output["Email"] = (client.Email ?? "").ToString();
+            output["Fax"] = (client.Fax ?? "").ToString();
+            output["CompanyName"] = (client.CompanyName ?? "").ToString();
+            output["CRN"] = (client.CRN ?? "").ToString();
+            output["MaxCredit"] = client.MaxCredit.ToString();
+            output["Rib"] = (client.Rib ?? "").ToString();
+            output["PayDelay"] = client.PayDelay.ToString();
+
+            return output;
         }
 
         //====================================================================================
         //===============================[ Contact ]===========================================
         //====================================================================================
 
-        public static List<Contact> DataTableTypeToContact(this QOBDSet.contactsDataTable ContactDataTable)
+        public static List<Contact> DataTableTypeToContact(this DataTable contactDataTable)
         {
             object _lock = new object(); List<Contact> returnList = new List<Contact>();
-            if (ContactDataTable != null)
+            if (contactDataTable != null)
             {
-                foreach (var ContactQCBD in ContactDataTable)
+                for (int i = 0; i < contactDataTable.Rows.Count; i++)
                 {
-                    Contact Contact = new Contact();
-                    Contact.ID = ContactQCBD.ID;
-                    Contact.Cellphone = ContactQCBD.Cellphone;
-                    Contact.ClientId = ContactQCBD.ClientId;
-                    Contact.Comment = ContactQCBD.Comment;
-                    Contact.Email = ContactQCBD.Email;
-                    Contact.Phone = ContactQCBD.Phone;
-                    Contact.Fax = ContactQCBD.Fax;
-                    Contact.Firstname = ContactQCBD.Firstname;
-                    Contact.LastName = ContactQCBD.LastName;
-                    Contact.Position = ContactQCBD.Position;
+                    Contact contact = new Contact();
+                    contact.ID = Utility.intTryParse(contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["ID"].Ordinal].ToString());
+                    contact.Cellphone = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Cellphone"].Ordinal].ToString();
+                    contact.ClientId = Utility.intTryParse(contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["ClientId"].Ordinal].ToString());
+                    contact.LastName = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["LastName"].Ordinal].ToString();
+                    contact.Comment = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Comment"].Ordinal].ToString();
+                    contact.Phone = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Phone"].Ordinal].ToString();
+                    contact.Firstname = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Firstname"].Ordinal].ToString();
+                    contact.Position = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Position"].Ordinal].ToString();
+                    contact.Email = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Email"].Ordinal].ToString();
+                    contact.Fax = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Fax"].Ordinal].ToString();
 
-                    lock (_lock) returnList.Add(Contact);
+                    lock (_lock) returnList.Add(contact);
                 }
             }
             return returnList;
         }
 
-        public static QOBDSet.contactsDataTable ContactTypeToDataTable(this List<Contact> ContactList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.contactsDataTable returnQCBDDataTable = new QOBDSet.contactsDataTable();
-            if (ContactList != null)
-            {
-                foreach (var Contact in ContactList)
-                {
-                    QOBDSet.contactsRow ContactQCBD = returnQCBDDataTable.NewcontactsRow();
-                    ContactQCBD.ID = Contact.ID;
-                    ContactQCBD.Position = Contact.Position;
-                    ContactQCBD.LastName = Contact.LastName;
-                    ContactQCBD.Firstname = Contact.Firstname;
-                    ContactQCBD.Comment = Contact.Comment;
-                    ContactQCBD.Phone = Contact.Phone;
-                    ContactQCBD.ClientId = Contact.ClientId;
-                    ContactQCBD.Cellphone = Contact.Cellphone;
-                    ContactQCBD.Email = Contact.Email;
-                    ContactQCBD.Fax = Contact.Fax;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(ContactQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(ContactQCBD);
-                            idList.Add(ContactQCBD.ID);
-                        }
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.contactsDataTable ContactTypeToDataTable(this List<Contact> contactList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (contactList != null)
-            {
-                if (dataSet != null && dataSet.contacts.Count > 0)
-                {
-                    foreach (var Contact in contactList)
-                    {
-                        QOBDSet.contactsRow ContactQCBD = dataSet.contacts.Where(x => x.ID == Contact.ID).First();
-                        ContactQCBD.Position = Contact.Position;
-                        ContactQCBD.LastName = Contact.LastName;
-                        ContactQCBD.Firstname = Contact.Firstname;
-                        ContactQCBD.Comment = Contact.Comment;
-                        ContactQCBD.Phone = Contact.Phone;
-                        ContactQCBD.ClientId = Contact.ClientId;
-                        ContactQCBD.Cellphone = Contact.Cellphone;
-                        ContactQCBD.Email = Contact.Email;
-                        ContactQCBD.Fax = Contact.Fax;
-                    }
-                }
-            }
-
-            return dataSet.contacts;
-        }
-
-        public static List<Contact> ContactTypeToFilterDataTable(this Contact Contact, ESearchOption filterOperator)
+        public static List<Contact> filterDataTableToContactType(this Contact Contact, ESearchOption filterOperator)
         {
             if (Contact != null)
             {
@@ -1358,10 +815,28 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToContact((QOBDSet.contactsDataTable)getDataTableFromSqlQuery<QOBDSet.contactsDataTable>(baseSqlString));
+                return DataTableTypeToContact(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Contact>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Contact contact)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = contact.ID.ToString();
+            output["Position"] = (contact.Position ?? "").ToString();
+            output["ClientId"] = contact.ClientId.ToString();
+            output["LastName"] = (contact.LastName ?? "").ToString();
+            output["Comment"] = (contact.Comment ?? "").ToString();
+            output["Phone"] = (contact.Phone ?? "").ToString();
+            output["Cellphone"] = (contact.Cellphone ?? "").ToString();
+            output["Firstname"] = (contact.Firstname ?? "").ToString();
+            output["Email"] = (contact.Email ?? "").ToString();
+            output["Fax"] = (contact.Fax ?? "").ToString();
+
+            return output;
         }
 
 
@@ -1370,102 +845,35 @@ namespace QOBDDAL.Helper.ChannelHelper
         //===============================[ Address ]===========================================
         //====================================================================================
 
-        public static List<Address> DataTableTypeToAddress(this QOBDSet.addressesDataTable AddressesDataTable)
+        public static List<Address> DataTableTypeToAddress(this DataTable addressesDataTable)
         {
             object _lock = new object(); List<Address> returnList = new List<Address>();
-            if (AddressesDataTable != null)
+            if (addressesDataTable != null)
             {
-                foreach (var AddressQCBD in AddressesDataTable)
+                for (int i = 0; i < addressesDataTable.Rows.Count; i++)
                 {
-                    Address Address = new Address();
-                    Address.ID = AddressQCBD.ID;
-                    Address.AddressName = AddressQCBD.Address;
-                    Address.ClientId = AddressQCBD.ClientId;
-                    Address.Comment = AddressQCBD.Comment;
-                    Address.Email = AddressQCBD.Email;
-                    Address.Phone = AddressQCBD.Phone;
-                    Address.CityName = AddressQCBD.CityName;
-                    Address.Country = AddressQCBD.Country;
-                    Address.LastName = AddressQCBD.LastName;
-                    Address.FirstName = AddressQCBD.FirstName;
-                    Address.Name = AddressQCBD.Name;
-                    Address.Name2 = AddressQCBD.Name2;
-                    Address.Postcode = AddressQCBD.Postcode;
+                    Address address = new Address();
+                    address.ID = (int)addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["ID"].Ordinal];
+                    address.AddressName = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Address"].Ordinal].ToString();
+                    address.ClientId = Utility.intTryParse(addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["ClientId"].Ordinal].ToString());
+                    address.Comment = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Comment"].Ordinal].ToString();
+                    address.Email = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Email"].Ordinal].ToString();
+                    address.Phone = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Phone"].Ordinal].ToString();
+                    address.CityName = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["CityName"].Ordinal].ToString();
+                    address.Country = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Country"].Ordinal].ToString();
+                    address.LastName = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["LastName"].Ordinal].ToString();
+                    address.FirstName = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["FirstName"].Ordinal].ToString();
+                    address.Name = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Name"].Ordinal].ToString();
+                    address.Name2 = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Name2"].Ordinal].ToString();
+                    address.Postcode = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Postcode"].Ordinal].ToString();
 
-                    lock (_lock) lock (_lock) returnList.Add(Address);
+                    lock (_lock) returnList.Add(address);
                 }
             }
             return returnList;
         }
 
-        public static QOBDSet.addressesDataTable AddressTypeToDataTable(this List<Address> AddressList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.addressesDataTable returnQCBDDataTable = new QOBDSet.addressesDataTable();
-            if (AddressList != null)
-            {
-                foreach (var Address in AddressList)
-                {
-                    QOBDSet.addressesRow AddressQCBD = returnQCBDDataTable.NewaddressesRow();
-                    AddressQCBD.ID = Address.ID;
-                    AddressQCBD.Address = Address.AddressName;
-                    AddressQCBD.ClientId = Address.ClientId;
-                    AddressQCBD.Comment = Address.Comment;
-                    AddressQCBD.Email = Address.Email;
-                    AddressQCBD.Phone = Address.Phone;
-                    AddressQCBD.CityName = Address.CityName;
-                    AddressQCBD.Country = Address.Country;
-                    AddressQCBD.LastName = Address.LastName;
-                    AddressQCBD.FirstName = Address.FirstName;
-                    AddressQCBD.Name = Address.Name;
-                    AddressQCBD.Name2 = Address.Name2;
-                    AddressQCBD.Postcode = Address.Postcode;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(AddressQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(AddressQCBD);
-                            idList.Add(AddressQCBD.ID);
-                        }
-
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.addressesDataTable AddressTypeToDataTable(this List<Address> addressesList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (addressesList != null)
-            {
-                if (dataSet != null && dataSet.addresses.Count > 0)
-                {
-                    foreach (var Address in addressesList)
-                    {
-                        QOBDSet.addressesRow AddressQCBD = dataSet.addresses.Where(x => x.ID == Address.ID).First();
-                        AddressQCBD.Address = Address.AddressName;
-                        AddressQCBD.ClientId = Address.ClientId;
-                        AddressQCBD.Comment = Address.Comment;
-                        AddressQCBD.Email = Address.Email;
-                        AddressQCBD.Phone = Address.Phone;
-                        AddressQCBD.CityName = Address.CityName;
-                        AddressQCBD.Country = Address.Country;
-                        AddressQCBD.LastName = Address.LastName;
-                        AddressQCBD.FirstName = Address.FirstName;
-                        AddressQCBD.Name = Address.Name;
-                        AddressQCBD.Name2 = Address.Name2;
-                        AddressQCBD.Postcode = Address.Postcode;
-                    }
-                }
-            }
-            return dataSet.addresses;
-        }
-
-        public static List<Address> AddressTypeToFilterDataTable(this Address Address, ESearchOption filterOperator)
+        public static List<Address> filterDataTableToAddressType(this Address Address, ESearchOption filterOperator)
         {
             if (Address != null)
             {
@@ -1506,10 +914,32 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToAddress((QOBDSet.addressesDataTable)getDataTableFromSqlQuery<QOBDSet.addressesDataTable>(baseSqlString));
+                return DataTableTypeToAddress(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Address>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Address address)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = address.ID.ToString();
+            output["Address"] = (address.AddressName ?? "").ToString();
+            output["ClientId"] = address.ClientId.ToString();
+            output["LastName"] = (address.LastName ?? "").ToString();
+            output["Comment"] = (address.Comment ?? "").ToString();
+            output["Phone"] = (address.Phone ?? "").ToString();
+            output["ClientId"] = address.ClientId.ToString();
+            output["FirstName"] = (address.FirstName ?? "").ToString();
+            output["Email"] = (address.Email ?? "").ToString();
+            output["CityName"] = (address.CityName ?? "").ToString();
+            output["Country"] = (address.Country ?? "").ToString();
+            output["Name"] = (address.Name ?? "").ToString();
+            output["Name2"] = (address.Name2 ?? "").ToString();
+            output["Postcode"] = (address.Postcode ?? "").ToString();
+
+            return output;
         }
 
 
@@ -1517,95 +947,33 @@ namespace QOBDDAL.Helper.ChannelHelper
         //===============================[ Bill ]===========================================
         //====================================================================================
 
-        public static List<Bill> DataTableTypeToBill(this QOBDSet.billsDataTable BillDataTable)
+        public static List<Bill> DataTableTypeToBill(this DataTable BillDataTable)
         {
             object _lock = new object(); List<Bill> returnList = new List<Bill>();
             if (BillDataTable != null)
             {
-                foreach (var BillQCBD in BillDataTable)
+                for (int i = 0; i < BillDataTable.Rows.Count; i++)
                 {
-                    Bill Bill = new Bill();
-                    Bill.ID = BillQCBD.ID;
-                    Bill.ClientId = BillQCBD.ClientId;
-                    Bill.OrderId = BillQCBD.CommandId;
-                    Bill.Comment1 = BillQCBD.Comment1;
-                    Bill.Comment2 = BillQCBD.Comment2;
-                    Bill.Date = BillQCBD.Date;
-                    Bill.DateLimit = BillQCBD.DateLimit;
-                    Bill.Pay = BillQCBD.Pay;
-                    Bill.PayDate = BillQCBD.DatePay;
-                    Bill.PayMod = BillQCBD.PayMod;
-                    Bill.PayReceived = BillQCBD.PayReceived;
+                    Bill bill = new Bill();
+                    bill.ID = Utility.intTryParse(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["ID"].Ordinal].ToString());
+                    bill.OrderId = Utility.intTryParse(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["OrderId"].Ordinal].ToString());
+                    bill.ClientId = Utility.intTryParse(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["ClientId"].Ordinal].ToString());
+                    bill.Date = Utility.convertToDateTime(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["Date"].Ordinal].ToString());
+                    bill.DatePay = Utility.convertToDateTime(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["DatePay"].Ordinal].ToString());
+                    bill.DateLimit = Utility.convertToDateTime(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["DateLimit"].Ordinal].ToString());
+                    bill.Pay = Utility.decimalTryParse(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["Pay"].Ordinal].ToString());
+                    bill.Comment1 = BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["Comment1"].Ordinal].ToString();
+                    bill.Comment2 = BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["Comment2"].Ordinal].ToString();
+                    bill.PayMod = BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["PayMod"].Ordinal].ToString();
+                    bill.PayReceived = Utility.decimalTryParse(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["PayReceived"].Ordinal].ToString());
 
-                    lock (_lock) returnList.Add(Bill);
+                    lock (_lock) returnList.Add(bill);
                 }
             }
             return returnList;
         }
 
-        public static QOBDSet.billsDataTable BillTypeToDataTable(this List<Bill> BillList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.billsDataTable returnQCBDDataTable = new QOBDSet.billsDataTable();
-            if (BillList != null)
-            {
-                foreach (var Bill in BillList)
-                {
-                    QOBDSet.billsRow BillQCBD = returnQCBDDataTable.NewbillsRow();
-                    BillQCBD.ID = Bill.ID;
-                    BillQCBD.ClientId = Bill.ClientId;
-                    BillQCBD.CommandId = Bill.OrderId;
-                    BillQCBD.Comment1 = Bill.Comment1;
-                    BillQCBD.Comment2 = Bill.Comment2;
-                    BillQCBD.Date = Bill.Date;
-                    BillQCBD.DateLimit = Bill.DateLimit;
-                    BillQCBD.Pay = Bill.Pay;
-                    BillQCBD.DatePay = Bill.PayDate;
-                    BillQCBD.PayMod = Bill.PayMod;
-                    BillQCBD.PayReceived = Bill.PayReceived;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(BillQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(BillQCBD);
-                            idList.Add(BillQCBD.ID);
-                        }
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.billsDataTable BillTypeToDataTable(this List<Bill> billList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (billList != null)
-            {
-                if (dataSet != null && dataSet.bills.Count > 0)
-                {
-                    foreach (var Bill in billList)
-                    {
-                        QOBDSet.billsRow BillQCBD = dataSet.bills.Where(x => x.ID == Bill.ID).First();
-                        BillQCBD.ClientId = Bill.ClientId;
-                        BillQCBD.CommandId = Bill.OrderId;
-                        BillQCBD.Comment1 = Bill.Comment1;
-                        BillQCBD.Comment2 = Bill.Comment2;
-                        BillQCBD.Date = Bill.Date;
-                        BillQCBD.DateLimit = Bill.DateLimit;
-                        BillQCBD.Pay = Bill.Pay;
-                        BillQCBD.DatePay = Bill.PayDate;
-                        BillQCBD.PayMod = Bill.PayMod;
-                        BillQCBD.PayReceived = Bill.PayReceived;
-                    }
-                }
-            }
-            return dataSet.bills;
-        }
-
-        public static List<Bill> BillTypeToFilterDataTable(this Bill Bill, ESearchOption filterOperator)
+        public static List<Bill> filterDataTableToBillType(this Bill Bill, ESearchOption filterOperator)
         {
             if (Bill != null)
             {
@@ -1618,7 +986,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 if (Bill.ClientId != 0)
                     query = string.Format(query + " {0} ClientId LIKE '{1}' ", filterOperator.ToString(), Bill.ClientId);
                 if (Bill.OrderId != 0)
-                    query = string.Format(query + " {0} CommandId LIKE '{1}' ", filterOperator.ToString(), Bill.OrderId);
+                    query = string.Format(query + " {0} OrderId LIKE '{1}' ", filterOperator.ToString(), Bill.OrderId);
                 if (Bill.Pay != 0)
                     query = string.Format(query + " {0} Pay LIKE '{1}' ", filterOperator.ToString(), Bill.Pay);
                 if (!string.IsNullOrEmpty(Bill.PayMod))
@@ -1636,7 +1004,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToBill((QOBDSet.billsDataTable)DALHelper.getDataTableFromSqlQuery<QOBDSet.billsDataTable>(baseSqlString));
+                return DataTableTypeToBill(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Bill>();
@@ -1646,92 +1014,58 @@ namespace QOBDDAL.Helper.ChannelHelper
         {
             string baseSqlString = "SELECT TOP 1 * FROM Bills ORDER BY ID DESC ";
 
-            var FoundList = DataTableTypeToBill((QOBDSet.billsDataTable)DALHelper.getDataTableFromSqlQuery<QOBDSet.billsDataTable>(baseSqlString));
+            var FoundList = DataTableTypeToBill(baseSqlString.getDataTableFromSqlCEQuery());
             if (FoundList.Count > 0)
                 return FoundList[0];
 
             return new Bill();
         }
 
+        public static Dictionary<string, string> getColumDictionary(this Bill bill)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = bill.ID.ToString();
+            output["OrderId"] = bill.OrderId.ToString();
+            output["ClientId"] = bill.ClientId.ToString();
+            output["Comment1"] = (bill.Comment1 ?? "").ToString();
+            output["Comment2"] = (bill.Comment2 ?? "").ToString();
+            output["Pay"] = bill.Pay.ToString();
+            output["Date"] = convertDateToStringFormat(bill.Date.ToString(), "yyyy-MM-dd H:mm:ss");
+            output["DatePay"] = convertDateToStringFormat(bill.DatePay.ToString(), "yyyy-MM-dd H:mm:ss");
+            output["DateLimit"] = convertDateToStringFormat(bill.DateLimit.ToString(), "yyyy-MM-dd H:mm:ss");
+            output["PayMod"] = (bill.PayMod ?? "").ToString();
+            output["PayReceived"] = bill.PayReceived.ToString();
+
+            return output;
+        }
+
         //====================================================================================
         //===============================[ Delivery ]===========================================
         //====================================================================================
 
-        public static List<Delivery> DataTableTypeToDelivery(this QOBDSet.deliveriesDataTable DeliveryDataTable)
+        public static List<Delivery> DataTableTypeToDelivery(this DataTable DeliveryDataTable)
         {
             object _lock = new object(); List<Delivery> returnList = new List<Delivery>();
             if (DeliveryDataTable != null)
             {
-                foreach (var DeliveryQCBD in DeliveryDataTable)
+                for (int i = 0; i < DeliveryDataTable.Rows.Count; i++)
                 {
-                    Delivery Delivery = new Delivery();
-                    Delivery.ID = DeliveryQCBD.ID;
-                    Delivery.BillId = DeliveryQCBD.BillId;
-                    Delivery.OrderId = DeliveryQCBD.CommandId;
-                    Delivery.Date = DeliveryQCBD.Date;
-                    Delivery.Package = DeliveryQCBD.Package;
-                    Delivery.Status = DeliveryQCBD.Status;
+                    Delivery delivery = new Delivery();
+                    delivery.ID = Utility.intTryParse(DeliveryDataTable.Rows[i].ItemArray[DeliveryDataTable.Columns["ID"].Ordinal].ToString());
+                    delivery.OrderId = Utility.intTryParse(DeliveryDataTable.Rows[i].ItemArray[DeliveryDataTable.Columns["OrderId"].Ordinal].ToString());
+                    delivery.BillId = Utility.intTryParse(DeliveryDataTable.Rows[i].ItemArray[DeliveryDataTable.Columns["BillId"].Ordinal].ToString());
+                    delivery.Date = Utility.convertToDateTime(DeliveryDataTable.Rows[i].ItemArray[DeliveryDataTable.Columns["Date"].Ordinal].ToString());
+                    delivery.Package = Utility.intTryParse(DeliveryDataTable.Rows[i].ItemArray[DeliveryDataTable.Columns["Package"].Ordinal].ToString());
+                    delivery.Status = DeliveryDataTable.Rows[i].ItemArray[DeliveryDataTable.Columns["Status"].Ordinal].ToString();
 
-                    lock (_lock) returnList.Add(Delivery);
+                lock (_lock) returnList.Add(delivery);
                 }
             }
             return returnList;
         }
 
-        public static QOBDSet.deliveriesDataTable DeliveryTypeToDataTable(this List<Delivery> DeliveryList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.deliveriesDataTable returnQCBDDataTable = new QOBDSet.deliveriesDataTable();
-            if (DeliveryList != null)
-            {
-                foreach (var Delivery in DeliveryList)
-                {
-                    QOBDSet.deliveriesRow DeliveryQCBD = returnQCBDDataTable.NewdeliveriesRow();
-                    DeliveryQCBD.ID = Delivery.ID;
-                    DeliveryQCBD.BillId = Delivery.BillId;
-                    DeliveryQCBD.CommandId = Delivery.OrderId;
-                    DeliveryQCBD.Date = Delivery.Date;
-                    DeliveryQCBD.Package = Delivery.Package;
-                    DeliveryQCBD.Status = Delivery.Status;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(DeliveryQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(DeliveryQCBD);
-                            idList.Add(DeliveryQCBD.ID);
-                        }
-
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.deliveriesDataTable DeliveryTypeToDataTable(this List<Delivery> deliveriesList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (deliveriesList != null)
-            {
-                if (dataSet != null && dataSet.deliveries.Count > 0)
-                {
-                    foreach (var Delivery in deliveriesList)
-                    {
-                        QOBDSet.deliveriesRow DeliveryQCBD = dataSet.deliveries.Where(x => x.ID == Delivery.ID).First();
-                        DeliveryQCBD.BillId = Delivery.BillId;
-                        DeliveryQCBD.CommandId = Delivery.OrderId;
-                        DeliveryQCBD.Date = Delivery.Date;
-                        DeliveryQCBD.Package = Delivery.Package;
-                        DeliveryQCBD.Status = Delivery.Status;
-                    }
-                }
-            }
-            return dataSet.deliveries;
-        }
-
-        public static List<Delivery> DeliveryTypeToFilterDataTable(this Delivery Delivery, ESearchOption filterOperator)
+        public static List<Delivery> filterDataTableToDeliveryType(this Delivery Delivery, ESearchOption filterOperator)
         {
             if (Delivery != null)
             {
@@ -1744,7 +1078,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 if (!string.IsNullOrEmpty(Delivery.Status))
                     query = string.Format(query + " {0} Status LIKE '{1}' ", filterOperator.ToString(), Delivery.Status);
                 if (Delivery.OrderId != 0)
-                    query = string.Format(query + " {0} CommandId LIKE '{1}' ", filterOperator.ToString(), Delivery.OrderId);
+                    query = string.Format(query + " {0} OrderId LIKE '{1}' ", filterOperator.ToString(), Delivery.OrderId);
                 if (Delivery.BillId != 0)
                     query = string.Format(query + " {0} BillId LIKE '{1}' ", filterOperator.ToString(), Delivery.BillId);
                 if (Delivery.Package != 0)
@@ -1756,115 +1090,68 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToDelivery((QOBDSet.deliveriesDataTable)DALHelper.getDataTableFromSqlQuery<QOBDSet.deliveriesDataTable>(baseSqlString));
+                return DataTableTypeToDelivery(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Delivery>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Delivery delivery)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = delivery.ID.ToString();
+            output["OrderId"] = delivery.OrderId.ToString();
+            output["BillId"] = delivery.BillId.ToString();
+            output["Date"] = convertDateToStringFormat(delivery.Date.ToString(), "yyyy-MM-dd H:mm:ss");
+            output["Package"] = delivery.Package.ToString();
+            output["Status"] = (delivery.Status ?? "").ToString();
+
+            return output;
         }
 
         //====================================================================================
         //================================[ Order_item ]====================================
         //====================================================================================
 
-        public static List<Order_item> DataTableTypeToOrder_item(this QOBDSet.command_itemsDataTable Order_itemDataTable)
+        public static List<Order_item> DataTableTypeToOrder_item(this DataTable Order_itemDataTable)
         {
             object _lock = new object(); List<Order_item> returnList = new List<Order_item>();
             if (Order_itemDataTable != null)
             {
-                Parallel.ForEach(Order_itemDataTable, (Action<QOBDSet.command_itemsRow>)((Order_itemQCBD) =>
+                for (int i = 0; i < Order_itemDataTable.Rows.Count; i++)
                 {
                     Order_item Order_item = new Order_item();
-                    Order_item.ID = Order_itemQCBD.ID;
-                    Order_item.OrderId = Order_itemQCBD.CommandId;
-                    Order_item.Comment_Purchase_Price = Order_itemQCBD.Comment_Purchase_Price;
-                    Order_item.Item_ref = Order_itemQCBD.Item_ref;
-                    Order_item.Rank = Order_itemQCBD.Order;
-                    Order_item.Price = Order_itemQCBD.Price;
-                    Order_item.Price_purchase = Order_itemQCBD.Price_purchase;
-                    Order_item.Quantity = Order_itemQCBD.Quantity;
-                    Order_item.Quantity_current = Order_itemQCBD.Quantity_current;
-                    Order_item.Quantity_delivery = Order_itemQCBD.Quantity_delivery;
+                    Order_item.ID = Utility.intTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["ID"].Ordinal].ToString());
+                    Order_item.OrderId = Utility.intTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["OrderId"].Ordinal].ToString());
+                    Order_item.Comment_Purchase_Price = Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Comment_Purchase_Price"].Ordinal].ToString();
+                    Order_item.Item_ref = Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Item_ref"].Ordinal].ToString();
+                    Order_item.Rank = Utility.intTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Rank"].Ordinal].ToString());
+                    Order_item.Price = Utility.decimalTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Price"].Ordinal].ToString());
+                    Order_item.Price_purchase = Utility.decimalTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Price_purchase"].Ordinal].ToString());
+                    Order_item.Quantity = Utility.intTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Quantity"].Ordinal].ToString());
+                    Order_item.Quantity_current = Utility.intTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Quantity_current"].Ordinal].ToString());
+                    Order_item.Quantity_delivery = Utility.intTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Quantity_delivery"].Ordinal].ToString());
 
                     lock (_lock) returnList.Add(Order_item);
-                }));
+                }
             }
             var test = returnList.Where(x => x.OrderId == 3410).ToList(); ;
             return returnList;
         }
 
-        public static QOBDSet.command_itemsDataTable Order_itemTypeToDataTable(this List<Order_item> Order_itemList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.command_itemsDataTable returnQCBDDataTable = new QOBDSet.command_itemsDataTable();
-            if (Order_itemList != null)
-            {
-                foreach (var Order_item in Order_itemList)
-                {
-                    QOBDSet.command_itemsRow Order_itemQCBD = returnQCBDDataTable.Newcommand_itemsRow();
-                    Order_itemQCBD.ID = Order_item.ID;
-                    Order_itemQCBD.CommandId = Order_item.OrderId;
-                    Order_itemQCBD.Comment_Purchase_Price = Order_item.Comment_Purchase_Price;
-                    Order_itemQCBD.Item_ref = Order_item.Item_ref;
-                    Order_itemQCBD.Order = Order_item.Rank;
-                    Order_itemQCBD.Price = Order_item.Price;
-                    Order_itemQCBD.Price_purchase = Order_item.Price_purchase;
-                    Order_itemQCBD.Quantity = Order_item.Quantity;
-                    Order_itemQCBD.Quantity_current = Order_item.Quantity_current;
-                    Order_itemQCBD.Quantity_delivery = Order_item.Quantity_delivery;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(Order_itemQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(Order_itemQCBD);
-                            idList.Add(Order_itemQCBD.ID);
-                        }
-
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.command_itemsDataTable Order_itemTypeToDataTable(this List<Order_item> order_itemsList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (order_itemsList != null)
-            {
-                if (dataSet != null && dataSet.command_items.Count > 0)
-                {
-                    foreach (var Order_item in order_itemsList)
-                    {
-                        QOBDSet.command_itemsRow Order_itemQCBD = dataSet.command_items.Where(x => x.ID == Order_item.ID).First();
-                        Order_itemQCBD.CommandId = Order_item.OrderId;
-                        Order_itemQCBD.Comment_Purchase_Price = Order_item.Comment_Purchase_Price;
-                        Order_itemQCBD.Item_ref = Order_item.Item_ref;
-                        Order_itemQCBD.Order = Order_item.Rank;
-                        Order_itemQCBD.Price = Order_item.Price;
-                        Order_itemQCBD.Price_purchase = Order_item.Price_purchase;
-                        Order_itemQCBD.Quantity = Order_item.Quantity;
-                        Order_itemQCBD.Quantity_current = Order_item.Quantity_current;
-                        Order_itemQCBD.Quantity_delivery = Order_item.Quantity_delivery;
-                    }
-                }
-            }
-            return dataSet.command_items;
-        }
-
-        public static List<Order_item> order_itemTypeToFilterDataTable(this Order_item Order_item, ESearchOption filterOperator)
+        public static List<Order_item> filterDataTableToOrder_itemType(this Order_item Order_item, ESearchOption filterOperator)
         {
             if (Order_item != null)
             {
-                string baseSqlString = "SELECT * FROM Command_items WHERE ";
-                string defaultSqlString = "SELECT * FROM Command_items WHERE 1=0 ";
+                string baseSqlString = "SELECT * FROM Order_items WHERE ";
+                string defaultSqlString = "SELECT * FROM Order_items WHERE 1=0 ";
                 object _lock = new object(); string query = "";
 
                 if (Order_item.ID != 0)
                     query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Order_item.ID);
                 if (Order_item.OrderId != 0)
-                    query = string.Format(query + " {0} CommandId LIKE '{1}' ", filterOperator.ToString(), Order_item.OrderId);
+                    query = string.Format(query + " {0} OrderId LIKE '{1}' ", filterOperator.ToString(), Order_item.OrderId);
                 if (Order_item.Quantity != 0)
                     query = string.Format(query + " {0} Quantity LIKE '{1}' ", filterOperator.ToString(), Order_item.Quantity);
                 if (Order_item.Quantity_delivery != 0)
@@ -1882,7 +1169,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 if (!string.IsNullOrEmpty(Order_item.Comment_Purchase_Price))
                     query = string.Format(query + " {0} Comment_Purchase_Price LIKE '{1}' ", filterOperator.ToString(), Order_item.Comment_Purchase_Price.Replace("'", "''"));
                 if (Order_item.Rank != 0)
-                    query = string.Format(query + " {0} [Order] LIKE '{1}' ", filterOperator.ToString(), Order_item.Rank);
+                    query = string.Format(query + " {0} [Rank] LIKE '{1}' ", filterOperator.ToString(), Order_item.Rank);
 
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))
@@ -1890,12 +1177,30 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToOrder_item((QOBDSet.command_itemsDataTable)getDataTableFromSqlQuery<QOBDSet.command_itemsDataTable>(baseSqlString));
+                return DataTableTypeToOrder_item(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
 
             return new List<Order_item>();
+        }
 
+        public static Dictionary<string, string> getColumDictionary(this Order_item order_item)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["OrderId"] = order_item.OrderId.ToString();
+            output["Price"] = order_item.Price.ToString();
+            output["Price_purchase"] = order_item.Price_purchase.ToString();
+            output["Comment_Purchase_Price"] = (order_item.Comment_Purchase_Price ?? "").ToString();
+            output["ItemId"] = order_item.ItemId.ToString();
+            output["Item_ref"] = (order_item.Item_ref ?? "").ToString();
+            output["Quantity"] = order_item.Quantity.ToString();
+            output["Quantity_current"] = order_item.Quantity_current.ToString();
+            output["Quantity_delivery"] = order_item.Quantity_delivery.ToString();
+            output["Rank"] = order_item.Rank.ToString();
+            output["ID"] = order_item.ID.ToString();
+
+            return output;
         }
 
 
@@ -1903,81 +1208,28 @@ namespace QOBDDAL.Helper.ChannelHelper
         //==================================[ Tax ]===========================================
         //====================================================================================
 
-        public static List<Tax> DataTableTypeToTax(this QOBDSet.taxesDataTable TaxDataTable)
+        public static List<Tax> DataTableTypeToTax(this DataTable TaxDataTable)
         {
             object _lock = new object(); List<Tax> returnList = new List<Tax>();
             if (TaxDataTable != null)
             {
-                foreach (var TaxQCBD in TaxDataTable)
+                for (int i = 0; i < TaxDataTable.Rows.Count; i++)
                 {
-                    Tax Tax = new Tax();
-                    Tax.ID = TaxQCBD.ID;
-                    Tax.Tax_current = TaxQCBD.Tax_current;
-                    Tax.Type = TaxQCBD.Type;
-                    Tax.Value = TaxQCBD.Value;
-                    Tax.Date_insert = TaxQCBD.Date_insert;
-                    Tax.Comment = TaxQCBD.Comment;
+                    Tax tax = new Tax();
+                    tax.ID = Utility.intTryParse(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["ID"].Ordinal].ToString());
+                    tax.Tax_current = Utility.intTryParse(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Tax_current"].Ordinal].ToString());
+                    tax.Type = TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Type"].Ordinal].ToString();
+                    tax.Value = Utility.doubleTryParse(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Value"].Ordinal].ToString());
+                    tax.Date_insert = Utility.convertToDateTime(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Date_insert"].Ordinal].ToString());
+                    tax.Comment = TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Comment"].Ordinal].ToString();
 
-                    lock (_lock) returnList.Add(Tax);
+                    lock (_lock) returnList.Add(tax);
                 }
             }
             return returnList;
         }
 
-        public static QOBDSet.taxesDataTable TaxTypeToDataTable(this List<Tax> TaxList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.taxesDataTable returnQCBDDataTable = new QOBDSet.taxesDataTable();
-            if (TaxList != null)
-            {
-                foreach (var Tax in TaxList)
-                {
-                    QOBDSet.taxesRow TaxQCBD = returnQCBDDataTable.NewtaxesRow();
-                    TaxQCBD.ID = Tax.ID;
-                    TaxQCBD.Tax_current = Tax.Tax_current;
-                    TaxQCBD.Type = Tax.Type;
-                    TaxQCBD.Value = Tax.Value;
-                    TaxQCBD.Date_insert = Tax.Date_insert;
-                    TaxQCBD.Comment = Tax.Comment;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(TaxQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(TaxQCBD);
-                            idList.Add(TaxQCBD.ID);
-                        }
-
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.taxesDataTable TaxTypeToDataTable(this List<Tax> taxesList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (taxesList != null)
-            {
-                if (dataSet != null && dataSet.taxes.Count > 0)
-                {
-                    foreach (var Tax in taxesList)
-                    {
-                        QOBDSet.taxesRow TaxQCBD = dataSet.taxes.Where(x => x.ID == Tax.ID).First();
-                        TaxQCBD.Tax_current = Tax.Tax_current;
-                        TaxQCBD.Type = Tax.Type;
-                        TaxQCBD.Value = Tax.Value;
-                        TaxQCBD.Date_insert = Tax.Date_insert;
-                        TaxQCBD.Comment = Tax.Comment;
-                    }
-                }
-            }
-            return dataSet.taxes;
-        }
-
-        public static List<Tax> TaxTypeToFilterDataTable(this Tax Tax, ESearchOption filterOperator)
+        public static List<Tax> filterDataTableToTaxType(this Tax Tax, ESearchOption filterOperator)
         {
             if (Tax != null)
             {
@@ -2002,10 +1254,24 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToTax((QOBDSet.taxesDataTable)DALHelper.getDataTableFromSqlQuery<QOBDSet.taxesDataTable>(baseSqlString));
+                return DataTableTypeToTax(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Tax>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Tax tax)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["Comment"] = (tax.Comment ?? "").ToString();
+            output["Date_insert"] = convertDateToStringFormat(tax.Date_insert.ToString(), "yyyy-MM-dd H:mm:ss");
+            output["Tax_current"] = tax.Tax_current.ToString();
+            output["Type"] = (tax.Type ?? "").ToString();
+            output["Value"] = tax.Value.ToString();
+            output["ID"] = tax.ID.ToString();
+
+            return output;
         }
 
 
@@ -2014,72 +1280,25 @@ namespace QOBDDAL.Helper.ChannelHelper
         //===============================[ Provider_item ]===========================================
         //====================================================================================
 
-        public static List<Provider_item> DataTableTypeToProvider_item(this QOBDSet.provider_itemsDataTable Provider_itemDataTable)
+        public static List<Provider_item> DataTableTypeToProvider_item(this DataTable provider_itemDataTable)
         {
             object _lock = new object(); List<Provider_item> returnList = new List<Provider_item>();
-            if (Provider_itemDataTable != null)
+            if (provider_itemDataTable != null)
             {
-                foreach (var Provider_itemQCBD in Provider_itemDataTable)
+                for (int i = 0; i < provider_itemDataTable.Rows.Count; i++)
                 {
-                    Provider_item Provider_item = new Provider_item();
-                    Provider_item.ID = Provider_itemQCBD.ID;
-                    Provider_item.Item_ref = Provider_itemQCBD.Item_ref;
-                    Provider_item.Provider_name = Provider_itemQCBD.Provider_name;
+                    Provider_item provider_item = new Provider_item();
+                    provider_item.ID = Utility.intTryParse(provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["ID"].Ordinal].ToString());
+                    provider_item.Item_ref = provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["Item_ref"].Ordinal].ToString();
+                    provider_item.Provider_name = provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["Provider_name"].Ordinal].ToString();
 
-                    lock (_lock) returnList.Add(Provider_item);
+                    lock (_lock) returnList.Add(provider_item);
                 }
             }
             return returnList;
         }
 
-        public static QOBDSet.provider_itemsDataTable Provider_itemTypeToDataTable(this List<Provider_item> Provider_itemList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.provider_itemsDataTable returnQCBDDataTable = new QOBDSet.provider_itemsDataTable();
-            if (Provider_itemList != null)
-            {
-                foreach (var Provider_item in Provider_itemList)
-                {
-                    QOBDSet.provider_itemsRow Provider_itemQCBD = returnQCBDDataTable.Newprovider_itemsRow();
-                    Provider_itemQCBD.ID = Provider_item.ID;
-                    Provider_itemQCBD.Item_ref = Provider_item.Item_ref;
-                    Provider_itemQCBD.Provider_name = Provider_item.Provider_name;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(Provider_itemQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(Provider_itemQCBD);
-                            idList.Add(Provider_itemQCBD.ID);
-                        }
-
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.provider_itemsDataTable Provider_itemTypeToDataTable(this List<Provider_item> provider_itemsList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (provider_itemsList != null)
-            {
-                if (dataSet != null && dataSet.provider_items.Count > 0)
-                {
-                    foreach (var Provider_item in provider_itemsList)
-                    {
-                        QOBDSet.provider_itemsRow Provider_itemQCBD = dataSet.provider_items.Where(x => x.ID == Provider_item.ID).First();
-                        Provider_itemQCBD.Item_ref = Provider_item.Item_ref;
-                        Provider_itemQCBD.Provider_name = Provider_item.Provider_name;
-                    }
-                }
-            }
-            return dataSet.provider_items;
-        }
-
-        public static List<Provider_item> Provider_itemTypeToFilterDataTable(this Provider_item Provider_item, ESearchOption filterOperator)
+        public static List<Provider_item> filterDataTableToProvider_itemType(this Provider_item Provider_item, ESearchOption filterOperator)
         {
             if (Provider_item != null)
             {
@@ -2100,82 +1319,46 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToProvider_item((QOBDSet.provider_itemsDataTable)DALHelper.getDataTableFromSqlQuery<QOBDSet.provider_itemsDataTable>(baseSqlString));
+                return DataTableTypeToProvider_item(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Provider_item>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Provider_item provider_item)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = provider_item.ID.ToString();
+            output["Item_ref"] = (provider_item.Item_ref ?? "").ToString();
+            output["Provider_name"] = (provider_item.Provider_name ?? "").ToString();
+
+            return output;
         }
 
         //====================================================================================
         //===============================[ Provider ]===========================================
         //====================================================================================
 
-        public static List<Provider> DataTableTypeToProvider(this QOBDSet.providersDataTable ProviderDataTable)
+        public static List<Provider> DataTableTypeToProvider(this DataTable providerDataTable)
         {
             object _lock = new object(); List<Provider> returnList = new List<Provider>();
-            if (ProviderDataTable != null)
+            if (providerDataTable != null)
             {
-                foreach (var ProviderQCBD in ProviderDataTable)
+                for (int i = 0; i < providerDataTable.Rows.Count; i++)
                 {
-                    Provider Provider = new Provider();
-                    Provider.ID = ProviderQCBD.ID;
-                    Provider.Name = ProviderQCBD.Name;
-                    Provider.Source = ProviderQCBD.Source;
+                    Provider provider = new Provider();
+                    provider.ID = Utility.intTryParse(providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["ID"].Ordinal].ToString());
+                    provider.Name = providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Name"].Ordinal].ToString();
+                    provider.Source = Utility.intTryParse(providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Source"].Ordinal].ToString());
 
-                    lock (_lock) returnList.Add(Provider);
+                    lock (_lock) returnList.Add(provider);
                 }
             }
             return returnList;
         }
 
-        public static QOBDSet.providersDataTable ProviderTypeToDataTable(this List<Provider> ProviderList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.providersDataTable returnQCBDDataTable = new QOBDSet.providersDataTable();
-            if (ProviderList != null)
-            {
-                foreach (var Provider in ProviderList)
-                {
-                    QOBDSet.providersRow ProviderQCBD = returnQCBDDataTable.NewprovidersRow();
-                    ProviderQCBD.ID = Provider.ID;
-                    ProviderQCBD.Name = Provider.Name;
-                    ProviderQCBD.Source = Provider.Source;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(ProviderQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(ProviderQCBD);
-                            idList.Add(ProviderQCBD.ID);
-                        }
-
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.providersDataTable ProviderTypeToDataTable(this List<Provider> providersList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (providersList != null)
-            {
-                if (dataSet != null && dataSet.providers.Count > 0)
-                {
-                    foreach (var Provider in providersList)
-                    {
-                        QOBDSet.providersRow ProviderQCBD = dataSet.providers.Where(x => x.ID == Provider.ID).First();
-                        ProviderQCBD.Name = Provider.Name;
-                        ProviderQCBD.Source = Provider.Source;
-                    }
-                }
-            }
-            return dataSet.providers;
-        }
-
-        public static List<Provider> ProviderTypeToFilterDataTable(this Provider Provider, ESearchOption filterOperator)
+        public static List<Provider> filterDataTableToProviderType(this Provider Provider, ESearchOption filterOperator)
         {
             if (Provider != null)
             {
@@ -2196,109 +1379,55 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToProvider((QOBDSet.providersDataTable)DALHelper.getDataTableFromSqlQuery<QOBDSet.providersDataTable>(baseSqlString));
+                return DataTableTypeToProvider(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Provider>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Provider provider)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = provider.ID.ToString();
+            output["Name"] = (provider.Name ?? "").ToString();
+            output["Source"] = provider.Source.ToString();
+
+            return output;
         }
 
         //====================================================================================
         //===============================[ Item ]===========================================
         //====================================================================================
 
-        public static List<Item> DataTableTypeToItem(this QOBDSet.itemsDataTable ItemDataTable)
+        public static List<Item> DataTableTypeToItem(this DataTable itemDataTable)
         {
             object _lock = new object(); List<Item> returnList = new List<Item>();
-            if (ItemDataTable != null)
+            if (itemDataTable != null)
             {
-                Parallel.ForEach(ItemDataTable, (ItemQCBD) =>
+                for (int i = 0; i < itemDataTable.Rows.Count; i++)
                 {
                     Item Item = new Item();
-                    Item.ID = ItemQCBD.ID;
-                    Item.Comment = ItemQCBD.Comment;
-                    Item.Erasable = ItemQCBD.Erasable;
-                    Item.Name = ItemQCBD.Name;
-                    Item.Price_purchase = ItemQCBD.Price_purchase;
-                    Item.Price_sell = ItemQCBD.Price_sell;
-                    Item.Ref = ItemQCBD.Ref;
-                    Item.Type_sub = ItemQCBD.Type_sub;
-                    Item.Source = ItemQCBD.Source;
-                    Item.Type = ItemQCBD.Type;
-                    Item.Picture = ItemQCBD.Picture;
-                    Item.Stock = ItemQCBD.Stock;
+                    Item.ID = (int)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["ID"].Ordinal];
+                    Item.Comment = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Comment"].Ordinal];
+                    Item.Erasable = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Erasable"].Ordinal];
+                    Item.Name = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Name"].Ordinal];
+                    Item.Price_purchase = Utility.decimalTryParse(itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Price_purchase"].Ordinal].ToString());
+                    Item.Price_sell = Utility.decimalTryParse(itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Price_sell"].Ordinal].ToString());
+                    Item.Ref = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Ref"].Ordinal];
+                    Item.Type_sub = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Type_sub"].Ordinal];
+                    Item.Source = (int)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Source"].Ordinal];
+                    Item.Type = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Type"].Ordinal];
+                    Item.Picture = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Picture"].Ordinal];
+                    Item.Stock = (int)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Stock"].Ordinal];
 
                     lock (_lock) returnList.Add(Item);
-                });
+                }
             }
             return returnList;
         }
 
-        public static QOBDSet.itemsDataTable ItemTypeToDataTable(this List<Item> ItemList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.itemsDataTable returnQCBDDataTable = new QOBDSet.itemsDataTable();
-            if (ItemList != null)
-            {
-                foreach (var Item in ItemList)
-                {
-                    QOBDSet.itemsRow ItemQCBD = returnQCBDDataTable.NewitemsRow();
-                    ItemQCBD.ID = Item.ID;
-                    ItemQCBD.Comment = Item.Comment;
-                    ItemQCBD.Erasable = Item.Erasable;
-                    ItemQCBD.Name = Item.Name;
-                    ItemQCBD.Price_purchase = Item.Price_purchase;
-                    ItemQCBD.Price_sell = Item.Price_sell;
-                    ItemQCBD.Ref = Item.Ref;
-                    ItemQCBD.Type_sub = Item.Type_sub;
-                    ItemQCBD.Source = Item.Source;
-                    ItemQCBD.Type = Item.Type;
-                    ItemQCBD.Picture = Item.Picture;
-                    ItemQCBD.Stock = Item.Stock;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(ItemQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(ItemQCBD);
-                            idList.Add(ItemQCBD.ID);
-                        }
-
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.itemsDataTable ItemTypeToDataTable(this List<Item> itemsList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (itemsList != null)
-            {
-                if (dataSet != null && dataSet.items.Count > 0)
-                {
-                    foreach (var Item in itemsList)
-                    {
-                        QOBDSet.itemsRow ItemQCBD = dataSet.items.Where(x => x.ID == Item.ID).First();
-                        ItemQCBD.Comment = Item.Comment;
-                        ItemQCBD.Erasable = Item.Erasable;
-                        ItemQCBD.Name = Item.Name;
-                        ItemQCBD.Price_purchase = Item.Price_purchase;
-                        ItemQCBD.Price_sell = Item.Price_sell;
-                        ItemQCBD.Ref = Item.Ref;
-                        ItemQCBD.Type_sub = Item.Type_sub;
-                        ItemQCBD.Source = Item.Source;
-                        ItemQCBD.Type = Item.Type;
-                        ItemQCBD.Picture = Item.Picture;
-                        ItemQCBD.Stock = Item.Stock;
-                    }
-                }
-            }
-            return dataSet.items;
-        }
-
-        public static List<Item> ItemTypeToFilterDataTable(this Item item, ESearchOption filterOperator)
+        public static List<Item> filterDataTableToItemType(this Item item, ESearchOption filterOperator)
         {
             if (item != null)
             {
@@ -2337,89 +1466,57 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToItem((QOBDSet.itemsDataTable)DALHelper.getDataTableFromSqlQuery<QOBDSet.itemsDataTable>(baseSqlString));
+                return DataTableTypeToItem(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Item>();
         }
 
+        public static Dictionary<string, string> getColumDictionary(this Item item)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
 
+            output["ID"] = item.ID.ToString();
+            output["Comment"] = (item.Comment ?? "").ToString();
+            output["Erasable"] = (item.Erasable ?? "").ToString();
+            output["Name"] = (item.Name ?? "").ToString();
+            output["Price_purchase"] = item.Price_purchase.ToString();
+            output["Price_sell"] = item.Price_sell.ToString();
+            output["Ref"] = (item.Ref ?? "").ToString();
+            output["Type_sub"] = (item.Type_sub ?? "").ToString();
+            output["Source"] = item.Source.ToString();
+            output["Type"] = (item.Type ?? "").ToString();
+            output["Picture"] = (item.Picture ?? "").ToString();
+            output["Stock"] = item.Stock.ToString();
 
+            return output;
+        }
 
         //====================================================================================
         //===============================[ Item_delivery ]===========================================
         //====================================================================================
 
 
-        public static List<Item_delivery> DataTableTypeToItem_delivery(this QOBDSet.item_deliveriesDataTable Item_deliveryDataTable)
+        public static List<Item_delivery> DataTableTypeToItem_delivery(this DataTable item_deliveryDataTable)
         {
             object _lock = new object(); List<Item_delivery> returnList = new List<Item_delivery>();
-            if (Item_deliveryDataTable != null)
+            if (item_deliveryDataTable != null)
             {
-                foreach (var Item_deliveryQCBD in Item_deliveryDataTable)
+                for (int i = 0; i < item_deliveryDataTable.Rows.Count; i++)
                 {
-                    Item_delivery Item_delivery = new Item_delivery();
-                    Item_delivery.ID = Item_deliveryQCBD.ID;
-                    Item_delivery.DeliveryId = Item_deliveryQCBD.DeliveryId;
-                    Item_delivery.Item_ref = Item_deliveryQCBD.Item_ref;
-                    Item_delivery.Quantity_delivery = Item_deliveryQCBD.Quantity_delivery;
+                    Item_delivery item_delivery = new Item_delivery();
+                    item_delivery.ID = Utility.intTryParse(item_deliveryDataTable.Rows[i].ItemArray[item_deliveryDataTable.Columns["ID"].Ordinal].ToString());
+                    item_delivery.DeliveryId = Utility.intTryParse(item_deliveryDataTable.Rows[i].ItemArray[item_deliveryDataTable.Columns["DeliveryId"].Ordinal].ToString());
+                    item_delivery.Item_ref = item_deliveryDataTable.Rows[i].ItemArray[item_deliveryDataTable.Columns["Item_ref"].Ordinal].ToString();
+                    item_delivery.Quantity_delivery = Utility.intTryParse(item_deliveryDataTable.Rows[i].ItemArray[item_deliveryDataTable.Columns["Quantity_delivery"].Ordinal].ToString());
 
-                    lock (_lock) returnList.Add(Item_delivery);
+                    lock (_lock) returnList.Add(item_delivery);
                 }
             }
             return returnList;
         }
 
-        public static QOBDSet.item_deliveriesDataTable Item_deliveryTypeToDataTable(this List<Item_delivery> Item_deliveryList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.item_deliveriesDataTable returnQCBDDataTable = new QOBDSet.item_deliveriesDataTable();
-            if (Item_deliveryList != null)
-            {
-                foreach (var Item_delivery in Item_deliveryList)
-                {
-                    QOBDSet.item_deliveriesRow Item_deliveryQCBD = returnQCBDDataTable.Newitem_deliveriesRow();
-                    Item_deliveryQCBD.ID = Item_delivery.ID;
-                    Item_deliveryQCBD.DeliveryId = Item_delivery.DeliveryId;
-                    Item_deliveryQCBD.Item_ref = Item_delivery.Item_ref;
-                    Item_deliveryQCBD.Quantity_delivery = Item_delivery.Quantity_delivery;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(Item_deliveryQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(Item_deliveryQCBD);
-                            idList.Add(Item_deliveryQCBD.ID);
-                        }
-
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.item_deliveriesDataTable Item_deliveryTypeToDataTable(this List<Item_delivery> item_deliveriesList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (item_deliveriesList != null)
-            {
-                if (dataSet != null && dataSet.item_deliveries.Count > 0)
-                {
-                    foreach (var Item_delivery in item_deliveriesList)
-                    {
-                        QOBDSet.item_deliveriesRow Item_deliveryQCBD = dataSet.item_deliveries.Where(x => x.ID == Item_delivery.ID).First();
-                        Item_deliveryQCBD.DeliveryId = Item_delivery.DeliveryId;
-                        Item_deliveryQCBD.Item_ref = Item_delivery.Item_ref;
-                        Item_deliveryQCBD.Quantity_delivery = Item_delivery.Quantity_delivery;
-                    }
-                }
-            }
-            return dataSet.item_deliveries;
-        }
-
-        public static List<Item_delivery> Item_deliveryTypeToFilterDataTable(this Item_delivery Item_delivery, ESearchOption filterOperator)
+        public static List<Item_delivery> filterDataTableToItem_deliveryType(this Item_delivery Item_delivery, ESearchOption filterOperator)
         {
             if (Item_delivery != null)
             {
@@ -2442,10 +1539,22 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToItem_delivery((QOBDSet.item_deliveriesDataTable)DALHelper.getDataTableFromSqlQuery<QOBDSet.item_deliveriesDataTable>(baseSqlString));
+                return DataTableTypeToItem_delivery(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Item_delivery>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Item_delivery item_delivery)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = item_delivery.ID.ToString();
+            output["DeliveryId"] = item_delivery.DeliveryId.ToString();
+            output["Item_ref"] = (item_delivery.Item_ref ?? "").ToString();
+            output["Quantity_delivery"] = item_delivery.Quantity_delivery.ToString();
+
+            return output;
         }
 
         //====================================================================================
@@ -2453,78 +1562,27 @@ namespace QOBDDAL.Helper.ChannelHelper
         //====================================================================================
 
 
-        public static List<Tax_item> DataTableTypeToTax_item(this QOBDSet.tax_itemsDataTable Tax_itemDataTable)
+        public static List<Tax_item> DataTableTypeToTax_item(this DataTable tax_itemDataTable)
         {
             object _lock = new object(); List<Tax_item> returnList = new List<Tax_item>();
-            if (Tax_itemDataTable != null)
+            if (tax_itemDataTable != null)
             {
-                foreach (var Tax_itemQCBD in Tax_itemDataTable)
+                for (int i = 0; i < tax_itemDataTable.Rows.Count; i++)
                 {
-                    Tax_item Tax_item = new Tax_item();
-                    Tax_item.ID = Tax_itemQCBD.ID;
-                    Tax_item.Item_ref = Tax_itemQCBD.Item_ref;
-                    Tax_item.Tax_value = Tax_itemQCBD.Tax_value;
-                    Tax_item.Tax_type = Tax_itemQCBD.Tax_type;
-                    Tax_item.TaxId = Tax_itemQCBD.TaxId;
+                    Tax_item tax_item = new Tax_item();
+                    tax_item.ID = Utility.intTryParse(tax_itemDataTable.Rows[i].ItemArray[tax_itemDataTable.Columns["ID"].Ordinal].ToString());
+                    tax_item.Item_ref = tax_itemDataTable.Rows[i].ItemArray[tax_itemDataTable.Columns["Item_ref"].Ordinal].ToString();
+                    tax_item.Tax_value = Utility.doubleTryParse(tax_itemDataTable.Rows[i].ItemArray[tax_itemDataTable.Columns["Tax_value"].Ordinal].ToString());
+                    tax_item.Tax_type = tax_itemDataTable.Rows[i].ItemArray[tax_itemDataTable.Columns["Tax_type"].Ordinal].ToString();
+                    tax_item.TaxId = Utility.intTryParse(tax_itemDataTable.Rows[i].ItemArray[tax_itemDataTable.Columns["TaxId"].Ordinal].ToString());
 
-                    lock (_lock) returnList.Add(Tax_item);
+                    lock (_lock) returnList.Add(tax_item);
                 }
             }
             return returnList;
         }
 
-        public static QOBDSet.tax_itemsDataTable Tax_itemTypeToDataTable(this List<Tax_item> Tax_itemList)
-        {
-            object _lock = new object();
-            List<int> idList = new List<int>();
-            QOBDSet.tax_itemsDataTable returnQCBDDataTable = new QOBDSet.tax_itemsDataTable();
-            if (Tax_itemList != null)
-            {
-                foreach (var Tax_item in Tax_itemList)
-                {
-                    QOBDSet.tax_itemsRow Tax_itemQCBD = returnQCBDDataTable.Newtax_itemsRow();
-                    Tax_itemQCBD.ID = Tax_item.ID;
-                    Tax_itemQCBD.Item_ref = Tax_item.Item_ref;
-                    Tax_itemQCBD.Tax_value = Tax_item.Tax_value;
-                    Tax_itemQCBD.Tax_type = Tax_item.Tax_type;
-                    Tax_itemQCBD.TaxId = Tax_item.TaxId;
-
-                    lock (_lock)
-                    {
-                        if (!idList.Contains(Tax_itemQCBD.ID))
-                        {
-                            returnQCBDDataTable.Rows.Add(Tax_itemQCBD);
-                            idList.Add(Tax_itemQCBD.ID);
-                        }
-
-                    }
-                }
-            }
-            return returnQCBDDataTable;
-        }
-
-        // update the given dataset 
-        public static QOBDSet.tax_itemsDataTable Tax_itemTypeToDataTable(this List<Tax_item> tax_itemsList, QOBDSet dataSet)
-        {
-            object _lock = new object();
-            if (tax_itemsList != null)
-            {
-                if (dataSet != null && dataSet.tax_items.Count > 0)
-                {
-                    foreach (var Tax_item in tax_itemsList)
-                    {
-                        QOBDSet.tax_itemsRow Tax_itemQCBD = dataSet.tax_items.Where(x => x.ID == Tax_item.ID).First();
-                        Tax_itemQCBD.Item_ref = Tax_item.Item_ref;
-                        Tax_itemQCBD.Tax_value = Tax_item.Tax_value;
-                        Tax_itemQCBD.Tax_type = Tax_item.Tax_type;
-                        Tax_itemQCBD.TaxId = Tax_item.TaxId;
-                    }
-                }
-            }
-            return dataSet.tax_items;
-        }
-
-        public static List<Tax_item> Tax_itemTypeToFilterDataTable(this Tax_item Tax_item, ESearchOption filterOperator)
+        public static List<Tax_item> filterDataTableToTax_itemType(this Tax_item Tax_item, ESearchOption filterOperator)
         {
             if (Tax_item != null)
             {
@@ -2547,10 +1605,23 @@ namespace QOBDDAL.Helper.ChannelHelper
                     else
                         baseSqlString = defaultSqlString;
 
-                return DataTableTypeToTax_item((QOBDSet.tax_itemsDataTable)DALHelper.getDataTableFromSqlQuery<QOBDSet.tax_itemsDataTable>(baseSqlString));
+                return DataTableTypeToTax_item(baseSqlString.getDataTableFromSqlCEQuery());
 
             }
             return new List<Tax_item>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Tax_item tax_item)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = tax_item.ID.ToString();
+            output["Tax_value"] = tax_item.Tax_value.ToString();
+            output["Item_ref"] = (tax_item.Item_ref ?? "").ToString();
+            output["Tax_type"] = (tax_item.Tax_type ?? "").ToString();
+            output["TaxId"] = tax_item.TaxId.ToString();
+
+            return output;
         }
 
 

@@ -2,7 +2,6 @@ using QOBDCommon;
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDCommon.Interfaces.DAC;
-using QOBDDAL.App_Data;
 using QOBDDAL.Helper.ChannelHelper;
 using QOBDGateway.Core;
 using System;
@@ -21,7 +20,6 @@ using System.Linq;
 using System.Threading;
 using System.Collections.Concurrent;
 using QOBDCommon.Classes;
-using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDGateway.QOBDServiceReference;
 using QOBDDAL.Classes;
 using QOBDDAL.Interfaces;
@@ -224,24 +222,9 @@ namespace QOBDDAL.Core
 
         public async Task<List<Client>> UpdateClientAsync(List<Client> clientList)
         {
-            List<Client> result = new List<Client>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Client> gateWayResultList = await _gateWayClient.UpdateClientAsync(clientList);
-
-                foreach (var client in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _dataSet.FillClientDataTableById(dataSetLocal.clients, client.ID);
-                    dataSet.clients.Merge(dataSetLocal.clients);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _dataSet.UpdateClient(gateWayResultList.ClientTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
+            List<Client> result = LoadClient(gateWayResultList);
             return result;
         }
 
@@ -259,24 +242,9 @@ namespace QOBDDAL.Core
 
         public async Task<List<Contact>> UpdateContactAsync(List<Contact> contactList)
         {
-            List<Contact> result = new List<Contact>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Contact> gateWayResultList = await _gateWayClient.UpdateContactAsync(contactList);
-
-                foreach (var contact in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _dataSet.FillContactDataTableById(dataSetLocal.contacts, contact.ID);
-                    dataSet.contacts.Merge(dataSetLocal.contacts);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _dataSet.UpdateContact(gateWayResultList.ContactTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
+            List<Contact> result = LoadContact(gateWayResultList);
             return result;
         }
 
@@ -294,24 +262,9 @@ namespace QOBDDAL.Core
 
         public async Task<List<Address>> UpdateAddressAsync(List<Address> addressList)
         {
-            List<Address> result = new List<Address>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Address> gateWayResultList = await _gateWayClient.UpdateAddressAsync(addressList);
-
-                foreach (var address in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _dataSet.FilladdressDataTableById(dataSetLocal.addresses, address.ID);
-                    dataSet.addresses.Merge(dataSetLocal.addresses);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _dataSet.UpdateAddress(gateWayResultList.AddressTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
+            List<Address> result = LoadAddress(gateWayResultList);
             return result;
         }
 
@@ -469,14 +422,12 @@ namespace QOBDDAL.Core
 
         public List<Order> GetOrderClient(int id)
         {
-            using (ordersTableAdapter _ordersTableAdapter = new ordersTableAdapter())
-                return _ordersTableAdapter.get_order_by_id(id).DataTableTypeToOrder();
+            return _dataSet.searchOrder(new Order { ClientId = id }, ESearchOption.AND);
         }
 
         public List<Order> GetQuoteCLient(int id)
-        {
-            using (ordersTableAdapter _ordersTableAdapter = new ordersTableAdapter())
-                return _ordersTableAdapter.get_order_by_id(id).DataTableTypeToOrder();
+        {            
+            return _dataSet.GetOrderDataById(id);
         }
 
         public List<Client> GetClientDataById(int id)

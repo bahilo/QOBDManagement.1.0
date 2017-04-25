@@ -421,6 +421,7 @@ namespace QOBDManagement
             ChatRoomViewModel.Dispose();
             _startup.Dal.Dispose();
             _startup.ProxyClient.Close();
+
         }
 
         //----------------------------[ Event Handler ]------------------

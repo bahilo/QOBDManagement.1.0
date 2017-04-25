@@ -1,6 +1,5 @@
 using QOBDCommon.Entities;
 using QOBDCommon.Interfaces.DAC;
-using QOBDDAL.App_Data;
 using QOBDDAL.Helper.ChannelHelper;
 using QOBDGateway.Core;
 using System;
@@ -12,7 +11,6 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.Concurrent;
 using QOBDCommon.Classes;
-using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDCommon.Enum;
 using QOBDGateway.QOBDServiceReference;
 using QOBDDAL.Classes;
@@ -165,24 +163,10 @@ namespace QOBDDAL.Core
         
         public async Task<List<Info>> UpdateInfoAsync(List<Info> infoList)
         {
-            List<Info> result = new List<Info>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Info> gateWayResultList = await _gateWayReferential.UpdateInfoAsync(infoList);
+            List<Info> result = LoadInfos(gateWayResultList);
 
-                foreach (var info in gateWayResultList)
-                {
-                    QOBDSet dataSetLocal = new QOBDSet();
-                    _dataSet.FillInfoDataTableById(dataSetLocal.infos, info.ID);
-                    dataSet.infos.Merge(dataSetLocal.infos);
-                }
-
-                if (gateWayResultList.Count > 0)
-                {
-                    int returnValue = _dataSet.UpdateInfo(gateWayResultList.InfosTypeToDataTable(dataSet));
-                    if (returnValue == gateWayResultList.Count)
-                        result = gateWayResultList;
-                }
             return result;
         }
 

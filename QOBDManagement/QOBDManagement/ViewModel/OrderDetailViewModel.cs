@@ -948,7 +948,7 @@ namespace QOBDManagement.ViewModel
                 }
 
                 // deleting the related statistics
-                var statisticsFoundList = await Bl.BlStatisitc.searchStatisticAsync(new Statistic { InvoiceId = obj.Bill.ID }, ESearchOption.AND);
+                var statisticsFoundList = await Bl.BlStatisitc.searchStatisticAsync(new Statistic { BillId = obj.Bill.ID }, ESearchOption.AND);
                 if (statisticsFoundList.Count > 0)
                     await Bl.BlStatisitc.DeleteStatisticAsync(new List<Statistic> { statisticsFoundList[0] });
 
@@ -1653,7 +1653,7 @@ namespace QOBDManagement.ViewModel
                 if (invoicelFound != null)
                 {
                     invoicelFound.Pay = totalInvoiceAmount;
-                    invoicelFound.PayDate = DateTime.Now;
+                    invoicelFound.DatePay = DateTime.Now;
                     var savedInvoice = await Bl.BlOrder.UpdateBillAsync(new List<Bill> { invoicelFound });
                 }
             }
@@ -1664,9 +1664,9 @@ namespace QOBDManagement.ViewModel
             {
                 StatisticModel statisticModel = new StatisticModel();
                 statisticModel = totalCalcul(order_itemFoundList);
-                statisticModel.Statistic.InvoiceDate = invoicelFound.Date;
+                statisticModel.Statistic.Bill_datetime = invoicelFound.Date;
                 statisticModel.Statistic.Date_limit = invoicelFound.DateLimit;
-                statisticModel.Statistic.InvoiceId = (invoicelFound != null) ? invoicelFound.ID : 0;
+                statisticModel.Statistic.BillId = (invoicelFound != null) ? invoicelFound.ID : 0;
                 statisticModel.TxtCompanyName = (!string.IsNullOrEmpty(OrderSelected.CLientModel.TxtCompany)) ? OrderSelected.CLientModel.TxtCompany : OrderSelected.CLientModel.TxtCompanyName;
 
                 // statistics saving
@@ -1753,14 +1753,14 @@ namespace QOBDManagement.ViewModel
             var savedBillList = await Bl.BlOrder.UpdateBillAsync(new List<Bill> { obj.Bill });
             if (savedBillList.Count > 0)
             {
-                var statisticsFoundList = await Bl.BlStatisitc.searchStatisticAsync(new Statistic { InvoiceId = savedBillList[0].ID }, ESearchOption.AND);
+                var statisticsFoundList = await Bl.BlStatisitc.searchStatisticAsync(new Statistic { BillId = savedBillList[0].ID }, ESearchOption.AND);
                 if (statisticsFoundList.Count > 0)
                 {
                     var order_itemFoundList = Order_ItemModelList.GroupBy(x => x.TxtItem_ref).Select(x => x.First()).Where(x => x.ItemModel.Item_deliveryModelList.Where(y => y.DeliveryModel.Delivery.BillId == savedBillList[0].ID).Count() > 0).ToList();
                     StatisticModel statisticModel = totalCalcul(order_itemFoundList);
 
                     statisticsFoundList[0].Date_limit = statisticModel.Statistic.Date_limit;
-                    statisticsFoundList[0].InvoiceDate = statisticModel.Statistic.InvoiceDate;
+                    statisticsFoundList[0].Bill_datetime = statisticModel.Statistic.Bill_datetime;
                     statisticsFoundList[0].Pay_date = statisticModel.Statistic.Pay_date;
                     statisticsFoundList[0].Pay_received = statisticModel.Statistic.Pay_received;
                     statisticsFoundList[0].Price_purchase_total = statisticModel.Statistic.Price_purchase_total;

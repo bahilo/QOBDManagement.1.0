@@ -139,8 +139,8 @@ namespace QOBDManagement.Models
 
         public string TxtPayDate
         {
-            get { return _bill.PayDate.ToString("MM/dd/yyyy"); }
-            set { _bill.PayDate = Utility.convertToDateTime(value, true); onPropertyChange(); }
+            get { return _bill.DatePay.ToString("MM/dd/yyyy"); }
+            set { _bill.DatePay = Utility.convertToDateTime(value, true); onPropertyChange(); }
         }
 
 

@@ -295,7 +295,7 @@ namespace QOBDManagement.ViewModel
                 }
             };
 
-            PurchaseAndIncomeLabels = StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x=>x.Statistic.InvoiceDate.ToString("MMMM") ).ToArray();
+            PurchaseAndIncomeLabels = StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x=>x.Statistic.Bill_datetime.ToString("MMMM") ).ToArray();
             //Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
         }
 

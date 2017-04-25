@@ -323,8 +323,8 @@ namespace QOBDGateway.Helper.ChannelHelper
             List <Statistic> outputList = statisticQOBDList.AsParallel().Select(x => new Statistic
             {
                 ID = Utility.intTryParse(Utility.decodeBase64ToString(x.ID)),
-                InvoiceId = Utility.intTryParse(Utility.decodeBase64ToString(x.BillId)),
-                InvoiceDate = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Bill_date)),
+                BillId = Utility.intTryParse(Utility.decodeBase64ToString(x.BillId)),
+                Bill_datetime = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Bill_date)),
                 Company = Utility.decodeBase64ToString(x.Company),
                 Date_limit = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date_limit)),
                 Income = Utility.decimalTryParse(Utility.decodeBase64ToString(x.Income)),
@@ -345,8 +345,8 @@ namespace QOBDGateway.Helper.ChannelHelper
             StatisticQOBD[] outputArray = statisticList.AsParallel().Select(x => new StatisticQOBD
             {
                 ID = Utility.encodeStringToBase64(x.ID.ToString()),
-                BillId = Utility.encodeStringToBase64(x.InvoiceId.ToString()),
-                Bill_date = Utility.encodeStringToBase64(x.InvoiceDate.ToString("yyyy-MM-dd H:mm:ss")),
+                BillId = Utility.encodeStringToBase64(x.BillId.ToString()),
+                Bill_date = Utility.encodeStringToBase64(x.Bill_datetime.ToString("yyyy-MM-dd H:mm:ss")),
                 Company = Utility.encodeStringToBase64(x.Company),
                 Date_limit = Utility.encodeStringToBase64(x.Date_limit.ToString("yyyy-MM-dd H:mm:ss")),
                 Income = Utility.encodeStringToBase64(x.Income.ToString()),
@@ -369,8 +369,8 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 statisticQCBD.ID = Utility.encodeStringToBase64(statistic.ID.ToString());
                 statisticQCBD.Option = Utility.encodeStringToBase64(statistic.Option.ToString());
-                statisticQCBD.BillId = Utility.encodeStringToBase64(statistic.InvoiceId.ToString());
-                statisticQCBD.Bill_date = Utility.encodeStringToBase64(statistic.InvoiceDate.ToString("yyyy-MM-dd H:mm:ss"));
+                statisticQCBD.BillId = Utility.encodeStringToBase64(statistic.BillId.ToString());
+                statisticQCBD.Bill_date = Utility.encodeStringToBase64(statistic.Bill_datetime.ToString("yyyy-MM-dd H:mm:ss"));
                 statisticQCBD.Company = Utility.encodeStringToBase64(statistic.Company);
                 statisticQCBD.Date_limit = Utility.encodeStringToBase64(statistic.Date_limit.ToString("yyyy-MM-dd H:mm:ss"));
                 statisticQCBD.Income = Utility.encodeStringToBase64(statistic.Income.ToString());
@@ -1069,7 +1069,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Date = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date)),
                 DateLimit = Utility.convertToDateTime(Utility.decodeBase64ToString(x.DateLimit)),
                 Pay = x.Pay,
-                PayDate = Utility.convertToDateTime(Utility.decodeBase64ToString(x.DatePay)),
+                DatePay = Utility.convertToDateTime(Utility.decodeBase64ToString(x.DatePay)),
                 PayMod = Utility.decodeBase64ToString(x.PayMod),
                 PayReceived = x.PayReceived,
             }).ToList();
@@ -1089,7 +1089,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Date = Utility.encodeStringToBase64(x.Date.ToString("yyyy-MM-dd H:mm:ss")),
                 DateLimit = Utility.encodeStringToBase64(x.DateLimit.ToString("yyyy-MM-dd H:mm:ss")),
                 Pay = x.Pay,
-                DatePay = Utility.encodeStringToBase64(x.PayDate.ToString("yyyy-MM-dd H:mm:ss")),
+                DatePay = Utility.encodeStringToBase64(x.DatePay.ToString("yyyy-MM-dd H:mm:ss")),
                 PayMod = Utility.encodeStringToBase64(x.PayMod),
                 PayReceived = x.PayReceived,
             }).ToArray();
@@ -1110,7 +1110,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 BillQCBD.Date = Utility.encodeStringToBase64(Bill.Date.ToString("yyyy-MM-dd H:mm:ss"));
                 BillQCBD.DateLimit = Utility.encodeStringToBase64(Bill.DateLimit.ToString("yyyy-MM-dd H:mm:ss"));
                 BillQCBD.Pay = Bill.Pay;
-                BillQCBD.DatePay = Utility.encodeStringToBase64(Bill.PayDate.ToString("yyyy-MM-dd H:mm:ss"));
+                BillQCBD.DatePay = Utility.encodeStringToBase64(Bill.DatePay.ToString("yyyy-MM-dd H:mm:ss"));
                 BillQCBD.PayMod = Utility.encodeStringToBase64(Bill.PayMod);
                 BillQCBD.PayReceived = Bill.PayReceived;
                 BillQCBD.Operator = Utility.encodeStringToBase64(filterOperator.ToString());

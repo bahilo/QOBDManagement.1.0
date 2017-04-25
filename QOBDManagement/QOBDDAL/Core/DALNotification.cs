@@ -2,8 +2,6 @@ using QOBDCommon.Classes;
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDCommon.Interfaces.DAC;
-using QOBDDAL.App_Data;
-using QOBDDAL.App_Data.QOBDSetTableAdapters;
 using QOBDDAL.Helper.ChannelHelper;
 using QOBDGateway.Core;
 using QOBDGateway.QOBDServiceReference;
@@ -153,24 +151,9 @@ namespace QOBDDAL.Core
 
         public async Task<List<Notification>> UpdateNotificationAsync(List<Notification> notificationList)
         {
-            List<Notification> result = new List<Notification>();
-            QOBDSet dataSet = new QOBDSet();
             checkServiceCommunication();
             List<Notification> gateWayResultList = await _gateWayNotification.UpdateNotificationAsync(notificationList);
-
-            foreach (var notification in gateWayResultList)
-            {
-                QOBDSet dataSetLocal = new QOBDSet();
-                _dataSet.FillNotificationDataTableById(dataSetLocal.notifications, notification.ID);
-                dataSet.notifications.Merge(dataSetLocal.notifications);
-            }
-
-            if (gateWayResultList.Count > 0)
-            {
-                int returnValue = _dataSet.UpdateNotification(gateWayResultList.NotificationTypeToDataTable(dataSet));
-                if (returnValue == gateWayResultList.Count)
-                    result = gateWayResultList;
-            }
+            List<Notification> result = LoadNotification(gateWayResultList);
             return result;
         }
 

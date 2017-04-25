@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QOBDDAL.App_Data.QOBDSetTableAdapters;
-using QOBDDAL.App_Data;
 using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDDAL.Helper.ChannelHelper;
@@ -13,9 +11,9 @@ using QOBDDAL.Helper.ChannelHelper;
 namespace QOBDDAL.Classes
 {
     public class QOBDDataSet : IQOBDSet
-    {
-                       
-        
+    {    
+
+
         //----------------------------[ Actions ]------------------
 
         #region[ Order Commands ]
@@ -24,176 +22,169 @@ namespace QOBDDAL.Classes
 
         public int DeleteOrder(int orderId)
         {
-            using (var ordersTableAdapter = new ordersTableAdapter())
-                return ordersTableAdapter.Delete1(orderId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Orders", DALHelper.getColumDictionary(new Order { ID = orderId })));
+            return new Order { ID = orderId }.filterDataTableToOrderType(ESearchOption.AND).Count;
         }
 
         public int DeleteTax_order(int tax_orderId)
         {
-            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
-                return tax_ordersTableAdapter.Delete1(tax_orderId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Tax_orders", DALHelper.getColumDictionary(new Tax_order { ID = tax_orderId })));
+            return new Tax_order { ID = tax_orderId }.filterDataTableToTax_orderType(ESearchOption.AND).Count;
         }
 
         public int DeleteOrder_item(int order_itemId)
         {
-            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
-                return order_itemsTableAdapter.Delete1(order_itemId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Order_items", DALHelper.getColumDictionary(new Order_item { ID = order_itemId })));
+            return new Order_item { ID = order_itemId }.filterDataTableToOrder_itemType(ESearchOption.AND).Count;
         }
 
         public int DeleteTax(int taxId)
         {
-            using (var taxesTableAdapter = new taxesTableAdapter())
-                return taxesTableAdapter.Delete1(taxId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Taxes", DALHelper.getColumDictionary(new Tax { ID = taxId })));
+            return new Tax { ID = taxId }.filterDataTableToTaxType(ESearchOption.AND).Count;
         }
 
         public int DeleteBill(int billId)
         {
-            using (var billsTableAdapter = new billsTableAdapter())
-                return billsTableAdapter.Delete1(billId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Bills", DALHelper.getColumDictionary(new Bill { ID = billId })));
+            return new Bill { ID = billId }.filterDataTableToBillType(ESearchOption.AND).Count;
         }
 
         public int DeleteDelivery(int deliveryId)
         {
-            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
-                return deliveriesTableAdapter.Delete1(deliveryId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Deliveries", DALHelper.getColumDictionary(new Delivery { ID = deliveryId })));
+            return new Delivery { ID = deliveryId }.filterDataTableToDeliveryType(ESearchOption.AND).Count;
         }
 
 
         // update
 
-        public int UpdateOrder(QOBDSet.commandsDataTable orderDataTable)
+        public int UpdateOrder(List<Order> orderList)
         {
-            using (var ordersTableAdapter = new ordersTableAdapter())
-                return ordersTableAdapter.Update(orderDataTable);
+            int count = 0;
+            foreach (var order in orderList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Orders", DALHelper.getColumDictionary(order)));
+                count += order.filterDataTableToOrderType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
-        public int UpdateTax_order(QOBDSet.tax_commandsDataTable tax_orderDataTable)
+        public int UpdateTax_order(List<Tax_order> tax_orderList)
         {
-            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
-                return tax_ordersTableAdapter.Update(tax_orderDataTable);
+            int count = 0;
+            foreach (var tax_order in tax_orderList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Tax_orders", DALHelper.getColumDictionary(tax_order)));
+                count += tax_order.filterDataTableToTax_orderType(ESearchOption.AND).Count;
+            }
+            return count;
+
         }
 
-        public int UpdateOrder_item(QOBDSet.command_itemsDataTable order_itemDataTable)
+        public int UpdateOrder_item(List<Order_item> order_itemList)
         {
-            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
-                return order_itemsTableAdapter.Update(order_itemDataTable);
+            int count = 0;
+            foreach (var order_item in order_itemList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Order_items", DALHelper.getColumDictionary(order_item)));
+                count += order_item.filterDataTableToOrder_itemType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
-        public int UpdateTax(QOBDSet.taxesDataTable taxDataTable)
+        public int UpdateTax(List<Tax> taxList)
         {
-            using (var taxesTableAdapter = new taxesTableAdapter())
-                return taxesTableAdapter.Update(taxDataTable);
+            int count = 0;
+            foreach (var tax in taxList)
+            {
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Taxes", DALHelper.getColumDictionary(tax)));
+                count += tax.filterDataTableToTaxType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
-        public int UpdateBill(QOBDSet.billsDataTable billDataTable)
+        public int UpdateBill(List<Bill> billList)
         {
-            using (var billsTableAdapter = new billsTableAdapter())
-                return billsTableAdapter.Update(billDataTable);
+            int count = 0;
+            foreach (var bill in billList)
+            {
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Bills", DALHelper.getColumDictionary(bill)));
+                count += bill.filterDataTableToBillType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
-        public int UpdateDelivery(QOBDSet.deliveriesDataTable deliveryDataTable)
+        public int UpdateDelivery(List<Delivery> deliveryList)
         {
-            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
-                return deliveriesTableAdapter.Update(deliveryDataTable);
-        }
-
-        public int UpdateDelivery(Delivery delivery)
-        {
-            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
-                return deliveriesTableAdapter.Update1(
-                                                delivery.OrderId,
-                                                delivery.BillId,
-                                                delivery.Package,
-                                                delivery.Date,
-                                                delivery.Status,
-                                                delivery.ID);
+            int count = 0;
+            foreach (var delivery in deliveryList)
+            {
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Deliveries", DALHelper.getColumDictionary(delivery)));
+                count += delivery.filterDataTableToDeliveryType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
         public int LoadOrder(Order order)
         {
-            using (var ordersTableAdapter = new ordersTableAdapter())
-                return ordersTableAdapter.load_data_order(
-                                                order.AgentId,
-                                                order.ClientId,
-                                                order.Comment1,
-                                                order.Comment2,
-                                                order.Comment3,
-                                                order.BillAddress,
-                                                order.DeliveryAddress,
-                                                order.Status,
-                                                order.Date,
-                                                order.Tax,
-                                                order.ID); ;
+            var dataFoundList = new Order { ID = order.ID }.filterDataTableToOrderType(ESearchOption.AND);
+            if(dataFoundList.Count != 0)  
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Orders", DALHelper.getColumDictionary(order)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Orders", DALHelper.getColumDictionary(order)));
+
+            return new Order { ID = order.ID }.filterDataTableToOrderType(ESearchOption.AND).Count;
         }
 
         public int LoadTax_order(Tax_order tax_order)
         {
-            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
-                return tax_ordersTableAdapter.load_data_tax_order(
-                                                tax_order.OrderId,
-                                                tax_order.TaxId,
-                                                tax_order.Date_insert,
-                                                tax_order.Tax_value.ToString(),
-                                                tax_order.Target,
-                                                tax_order.ID);
+            var dataFoundList = new Tax_order { ID = tax_order.ID }.filterDataTableToTax_orderType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Tax_orders", DALHelper.getColumDictionary(tax_order)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Tax_orders", DALHelper.getColumDictionary(tax_order)));
+            return new Tax_order { ID = tax_order.ID }.filterDataTableToTax_orderType(ESearchOption.AND).Count;
         }
 
         public int LoadOrder_item(Order_item order_item)
         {
-            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
-                return order_itemsTableAdapter.load_order_item(
-                                                order_item.OrderId,
-                                                order_item.ItemId,
-                                                order_item.Item_ref,
-                                                order_item.Quantity,
-                                                order_item.Quantity_delivery,
-                                                order_item.Quantity_current,
-                                                order_item.Comment_Purchase_Price,
-                                                order_item.Price,
-                                                order_item.Price_purchase,
-                                                order_item.Rank,
-                                                order_item.ID);
+            var dataFoundList = new Order_item { ID = order_item.ID }.filterDataTableToOrder_itemType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Order_items", DALHelper.getColumDictionary(order_item)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Order_items", DALHelper.getColumDictionary(order_item)));
+            return new Order_item { ID = order_item.ID }.filterDataTableToOrder_itemType(ESearchOption.AND).Count;
         }
 
         public int LoadTax(Tax tax)
         {
-            using (var taxesTableAdapter = new taxesTableAdapter())
-                return taxesTableAdapter.load_data_tax(
-                                            tax.Type,
-                                            tax.Date_insert,
-                                            tax.Value.ToString(),
-                                            tax.Comment,
-                                            tax.Tax_current,
-                                            tax.ID);
+            var dataFoundList = new Tax { ID = tax.ID }.filterDataTableToTaxType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Taxes", DALHelper.getColumDictionary(tax)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Taxes", DALHelper.getColumDictionary(tax)));
+            return new Tax { ID = tax.ID }.filterDataTableToTaxType(ESearchOption.AND).Count;
         }
 
         public int LoadBill(Bill bill)
         {
-            using (var billsTableAdapter = new billsTableAdapter())
-                return billsTableAdapter.load_data_bill(
-                                            bill.ClientId,
-                                            bill.OrderId,
-                                            bill.PayMod,
-                                            bill.Pay,
-                                            bill.PayReceived,
-                                            bill.Comment1,
-                                            bill.Comment2,
-                                            bill.Date,
-                                            bill.DateLimit,
-                                            bill.PayDate,
-                                            bill.ID);
+            var dataFoundList = new Bill { ID = bill.ID }.filterDataTableToBillType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Bills", DALHelper.getColumDictionary(bill)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Bills", DALHelper.getColumDictionary(bill)));
+            return new Bill { ID = bill.ID }.filterDataTableToBillType(ESearchOption.AND).Count;
         }
 
         public int LoadDelivery(Delivery delivery)
         {
-            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
-                return deliveriesTableAdapter.load_data_delivery(
-                                            delivery.OrderId,
-                                            delivery.BillId,
-                                            delivery.Package,
-                                            delivery.Date,
-                                            delivery.Status,
-                                            delivery.ID);
+            var dataFoundList = new Delivery { ID = delivery.ID }.filterDataTableToDeliveryType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Deliveries", DALHelper.getColumDictionary(delivery)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Deliveries", DALHelper.getColumDictionary(delivery)));
+            return new Delivery { ID = delivery.ID }.filterDataTableToDeliveryType(ESearchOption.AND).Count;
         }
 
 
@@ -201,166 +192,114 @@ namespace QOBDDAL.Classes
 
         public List<Order> GetOrderData()
         {
-            using (var ordersTableAdapter = new ordersTableAdapter())
-                return ordersTableAdapter.GetData().DataTableTypeToOrder();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Orders", DALHelper.getColumDictionary(new Order()))).DataTableTypeToOrder();
         }
 
         public List<Order> GetOrderDataById(int id)
         {
-            using (var ordersTableAdapter = new ordersTableAdapter())
-                return ordersTableAdapter.get_order_by_id(id).DataTableTypeToOrder();
+            return new Order { ID = id }.filterDataTableToOrderType(ESearchOption.AND);
         }
 
         public List<Tax_order> GetTax_orderData()
         {
-            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
-                return tax_ordersTableAdapter.GetData().DataTableTypeToTax_order();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Tax_orders", DALHelper.getColumDictionary(new Tax_order()))).DataTableTypeToTax_order();
         }
 
         public List<Tax_order> GetTax_orderByOrderId(int orderId)
         {
-            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
-                return tax_ordersTableAdapter.get_tax_order_by_order_id(orderId).DataTableTypeToTax_order();
+            return new Tax_order { OrderId = orderId }.filterDataTableToTax_orderType(ESearchOption.AND);
         }
 
         public List<Tax_order> GetTax_orderDataById(int id)
         {
-            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
-                return tax_ordersTableAdapter.get_tax_order_by_id(id).DataTableTypeToTax_order();
+            return new Tax_order { ID = id }.filterDataTableToTax_orderType(ESearchOption.AND);
         }
 
         public List<Order_item> GetOrder_itemData()
         {
-            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
-                return order_itemsTableAdapter.GetData().DataTableTypeToOrder_item();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Order_items", DALHelper.getColumDictionary(new Order_item()))).DataTableTypeToOrder_item();
         }
 
         public List<Order_item> GetOrder_itemDataById(int id)
         {
-            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
-                return order_itemsTableAdapter.get_order_item_by_id(id).DataTableTypeToOrder_item();
+            return new Order_item { ID = id }.filterDataTableToOrder_itemType(ESearchOption.AND);
         }
 
         public List<Order_item> GetOrder_itemDataByOrderId(int orderId)
         {
-            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
-                return order_itemsTableAdapter.get_order_item_by_order_id(orderId).DataTableTypeToOrder_item();
+            return new Order_item { OrderId = orderId }.filterDataTableToOrder_itemType(ESearchOption.AND);
         }
 
         public List<Tax> GetTaxData()
         {
-            using (var taxesTableAdapter = new taxesTableAdapter())
-                return taxesTableAdapter.GetData().DataTableTypeToTax();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Taxes", DALHelper.getColumDictionary(new Tax()))).DataTableTypeToTax();
         }
 
         public List<Tax> GetTaxDataById(int id)
         {
-            using (var taxesTableAdapter = new taxesTableAdapter())
-                return taxesTableAdapter.get_tax_by_id(id).DataTableTypeToTax();
+            return new Tax { ID = id }.filterDataTableToTaxType(ESearchOption.AND);
         }
 
         public List<Bill> GetBillData()
         {
-            using (var billsTableAdapter = new billsTableAdapter())
-                return billsTableAdapter.GetData().DataTableTypeToBill();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Bills", DALHelper.getColumDictionary(new Bill()))).DataTableTypeToBill();
         }
 
         public List<Bill> GetBillDataById(int id)
         {
-            using (var billsTableAdapter = new billsTableAdapter())
-                return billsTableAdapter.get_bill_by_id(id).DataTableTypeToBill();
+            return new Bill { ID = id }.filterDataTableToBillType(ESearchOption.AND);
         }
 
         public List<Bill> GetBillDataByOrderId(int orderId)
         {
-            using (var billsTableAdapter = new billsTableAdapter())
-                return billsTableAdapter.get_bill_by_order_id(orderId).DataTableTypeToBill();
+            return new Bill { OrderId = orderId }.filterDataTableToBillType(ESearchOption.AND);
         }
 
         public List<Delivery> GetDeliveryData()
         {
-            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
-                return deliveriesTableAdapter.GetData().DataTableTypeToDelivery();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Deliveries", DALHelper.getColumDictionary(new Delivery()))).DataTableTypeToDelivery();
         }
 
         public List<Delivery> GetDeliveryDataById(int id)
         {
-            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
-                return deliveriesTableAdapter.get_delivery_by_id(id).DataTableTypeToDelivery();
+            return new Delivery { ID = id }.filterDataTableToDeliveryType(ESearchOption.AND);
         }
 
         public List<Delivery> GetDeliveryDataByOrderId(int orderId)
         {
-            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
-                return deliveriesTableAdapter.get_delivery_by_order_id(orderId).DataTableTypeToDelivery();
-        }
-
-        public void FillOrderDataTableById(QOBDSet.commandsDataTable irderDataTable, int id)
-        {
-            using (var ordersTableAdapter = new ordersTableAdapter())
-                ordersTableAdapter.FillById(irderDataTable, id);
-        }
-
-        public void FillTax_orderDataTableById(QOBDSet.tax_commandsDataTable taxOrderDataTable, int id)
-        {
-            using (var tax_ordersTableAdapter = new tax_ordersTableAdapter())
-                tax_ordersTableAdapter.FillById(taxOrderDataTable, id);
-        }
-
-        public void FillOrder_itemDataTableById(QOBDSet.command_itemsDataTable orderItemDataTable, int id)
-        {
-            using (var order_itemsTableAdapter = new order_itemsTableAdapter())
-                order_itemsTableAdapter.FillById(orderItemDataTable, id);
-        }
-
-        public void FillTaxDataTableById(QOBDSet.taxesDataTable taxDataTable, int id)
-        {
-            using (var taxesTableAdapter = new taxesTableAdapter())
-                taxesTableAdapter.FillById(taxDataTable, id);
-        }
-
-        public void FillBillDataTableById(QOBDSet.billsDataTable billDataTable, int id)
-        {
-            using (var billsTableAdapter = new billsTableAdapter())
-                billsTableAdapter.FillById(billDataTable, id);
-        }
-
-        public void FillDeliveryDataTableById(QOBDSet.deliveriesDataTable deliveryDataTable, int id)
-        {
-            using (var deliveriesTableAdapter = new deliveriesTableAdapter())
-                deliveriesTableAdapter.FillById(deliveryDataTable, id);
-        }
+            return new Delivery { OrderId = orderId }.filterDataTableToDeliveryType(ESearchOption.AND);
+        }        
 
         // search
 
         public List<Order> searchOrder(Order order, ESearchOption filterOperator)
         {
-            return order.orderTypeToFilterDataTable(filterOperator);
+            return order.filterDataTableToOrderType(filterOperator);
         }
 
         public List<Tax_order> searchTax_order(Tax_order Tax_order, ESearchOption filterOperator)
         {
-            return Tax_order.Tax_orderTypeToFilterDataTable(filterOperator);
+            return Tax_order.filterDataTableToTax_orderType(filterOperator);
         }
 
         public List<Order_item> searchOrder_item(Order_item order_item, ESearchOption filterOperator)
         {
-            return order_item.order_itemTypeToFilterDataTable(filterOperator);
+            return order_item.filterDataTableToOrder_itemType(filterOperator);
         }
 
         public List<Tax> searchTax(Tax Tax, ESearchOption filterOperator)
         {
-            return Tax.TaxTypeToFilterDataTable(filterOperator);
+            return Tax.filterDataTableToTaxType(filterOperator);
         }
 
         public List<Bill> searchBill(Bill Bill, ESearchOption filterOperator)
         {
-            return Bill.BillTypeToFilterDataTable(filterOperator);
+            return Bill.filterDataTableToBillType(filterOperator);
         }
 
         public List<Delivery> searchDelivery(Delivery Delivery, ESearchOption filterOperator)
         {
-            return Delivery.DeliveryTypeToFilterDataTable(filterOperator);
+            return Delivery.filterDataTableToDeliveryType(filterOperator);
         }        
 
         #endregion
@@ -371,263 +310,238 @@ namespace QOBDDAL.Classes
 
         public int DeleteItem(int itemId)
         {
-            using (var itemsTableAdapter = new itemsTableAdapter())
-                return itemsTableAdapter.Delete1(itemId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Items", DALHelper.getColumDictionary(new Item { ID = itemId })));
+            return new Item { ID = itemId }.filterDataTableToItemType(ESearchOption.AND).Count;
         }
 
         public int DeleteProvider(int providerId)
         {
-            using (var providersTableAdapter = new providersTableAdapter())
-                return providersTableAdapter.Delete1(providerId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Providers", DALHelper.getColumDictionary(new Provider { ID = providerId })));
+            return new Provider { ID = providerId }.filterDataTableToProviderType(ESearchOption.AND).Count;
         }
 
         public int DeleteProvider_item(int provider_itemId)
         {
-            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
-                return provider_itemsTableAdapter.Delete1(provider_itemId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Provider_items", DALHelper.getColumDictionary(new Provider_item { ID = provider_itemId })));
+            return new Provider_item { ID = provider_itemId }.filterDataTableToProvider_itemType(ESearchOption.AND).Count;
         }
 
         public int DeleteItem_delivery(int item_deliveryId)
         {
-            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
-                return item_deliveriesTableAdapter.Delete1(item_deliveryId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Item_deliveries", DALHelper.getColumDictionary(new Item_delivery { ID = item_deliveryId })));
+            return new Item_delivery { ID = item_deliveryId }.filterDataTableToItem_deliveryType(ESearchOption.AND).Count;
         }
 
         public int DeleteAuto_ref(int auto_refId)
         {
-            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
-                return auto_refsTableAdapter.Delete1(auto_refId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Auto_refs", DALHelper.getColumDictionary(new Auto_ref { ID = auto_refId })));
+            return new Auto_ref { ID = auto_refId }.filterDataTableToAuto_refType(ESearchOption.AND).Count;
         }
 
         public int DeleteTax_item(int tax_itemId)
         {
-            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
-                return tax_itemsTableAdapter.Delete1(tax_itemId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Tax_items", DALHelper.getColumDictionary(new Tax_item { ID = tax_itemId })));
+            return new Tax_item { ID = tax_itemId }.filterDataTableToTax_itemType(ESearchOption.AND).Count;
         }
 
         // update
 
-        public int UpdateItem(QOBDSet.itemsDataTable itemDataTable)
+        public int UpdateItem(List<Item> itemList)
         {
-            using (var itemsTableAdapter = new itemsTableAdapter())
-                return itemsTableAdapter.Update(itemDataTable);
+            int count = 0;
+            foreach (var item in itemList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Items", DALHelper.getColumDictionary(item)));
+                count += item.filterDataTableToItemType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
-        public int UpdateProvider(QOBDSet.providersDataTable providerDataTable)
+        public int UpdateProvider(List<Provider> providerList)
         {
-            using (var providersTableAdapter = new providersTableAdapter())
-                return providersTableAdapter.Update(providerDataTable);
+            int count = 0;
+            foreach (var provider in providerList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Providers", DALHelper.getColumDictionary(provider)));
+                count += provider.filterDataTableToProviderType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
-        public int UpdateProvider_item(QOBDSet.provider_itemsDataTable provider_itemDataTable)
+        public int UpdateProvider_item(List<Provider_item> provider_itemList)
         {
-            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
-                return provider_itemsTableAdapter.Update(provider_itemDataTable);
+            int count = 0;
+            foreach (var provider_item in provider_itemList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Provider_items", DALHelper.getColumDictionary(provider_item)));
+                count += provider_item.filterDataTableToProvider_itemType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
-        public int UpdateItem_delivery(QOBDSet.item_deliveriesDataTable item_deliveryDataTable)
+        public int UpdateItem_delivery(List<Item_delivery> item_deliveryList)
         {
-            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
-                return item_deliveriesTableAdapter.Update(item_deliveryDataTable);
+            int count = 0;
+            foreach (var item_delivery in item_deliveryList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Item_deliveries", DALHelper.getColumDictionary(item_delivery)));
+                count += item_delivery.filterDataTableToItem_deliveryType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
-        public int UpdateAuto_ref(QOBDSet.auto_refsDataTable auto_refDataTable)
+        public int UpdateAuto_ref(List<Auto_ref> auto_refList)
         {
-            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
-                return auto_refsTableAdapter.Update(auto_refDataTable);
+            int count = 0;
+            foreach (var auto_ref in auto_refList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Auto_refs", DALHelper.getColumDictionary(auto_ref)));
+                count += auto_ref.filterDataTableToAuto_refType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
-        public int UpdateTax_item(QOBDSet.tax_itemsDataTable tax_itemDataTable)
+        public int UpdateTax_item(List<Tax_item> tax_itemList)
         {
-            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
-                return tax_itemsTableAdapter.Update(tax_itemDataTable);
+            int count = 0;
+            foreach (var tax_item in tax_itemList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Tax_items", DALHelper.getColumDictionary(tax_item)));
+                count += tax_item.filterDataTableToTax_itemType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
         public int LoadItem(Item item)
         {
-            using (var itemsTableAdapter = new itemsTableAdapter())
-                return itemsTableAdapter.load_data_item(
-                                                item.Ref,
-                                                item.Name,
-                                                item.Type,
-                                                item.Type_sub,
-                                                item.Price_purchase,
-                                                item.Price_sell,
-                                                item.Source,
-                                                item.Comment,
-                                                item.Erasable,
-                                                item.Picture,
-                                                item.Stock,
-                                                item.ID);
+            var dataFoundList = new Item { ID = item.ID }.filterDataTableToItemType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Items", DALHelper.getColumDictionary(item)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Items", DALHelper.getColumDictionary(item)));
+            return new Item { ID = item.ID }.filterDataTableToItemType(ESearchOption.AND).Count;
         }
 
         public int LoadProvider(Provider provider)
         {
-            using (var providersTableAdapter = new providersTableAdapter())
-                return providersTableAdapter.load_data_provider(
-                                                provider.Name,
-                                                provider.Source,
-                                                provider.ID);
+            var dataFoundList = new Provider { ID = provider.ID }.filterDataTableToProviderType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Providers", DALHelper.getColumDictionary(provider)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Providers", DALHelper.getColumDictionary(provider)));
+            return new Provider { ID = provider.ID }.filterDataTableToProviderType(ESearchOption.AND).Count;
         }
 
         public int LoadProvider_item(Provider_item provider_item)
         {
-            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
-                return provider_itemsTableAdapter.load_data_provider_item(
-                                                provider_item.Provider_name,
-                                                provider_item.Item_ref,
-                                                provider_item.ID);
+            var dataFoundList = new Provider_item { ID = provider_item.ID }.filterDataTableToProvider_itemType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Provider_items", DALHelper.getColumDictionary(provider_item)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Provider_items", DALHelper.getColumDictionary(provider_item)));
+            return new Provider_item { ID = provider_item.ID }.filterDataTableToProvider_itemType(ESearchOption.AND).Count;
         }
 
         public int LoadItem_delivery(Item_delivery item_delivery)
         {
-            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
-                return item_deliveriesTableAdapter.load_data_item_delivery(
-                                        item_delivery.DeliveryId,
-                                        item_delivery.Item_ref,
-                                        item_delivery.Quantity_delivery,
-                                        item_delivery.ID);
+            var dataFoundList = new Item_delivery { ID = item_delivery.ID }.filterDataTableToItem_deliveryType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Item_deliveries", DALHelper.getColumDictionary(item_delivery)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Item_deliveries", DALHelper.getColumDictionary(item_delivery)));
+            return new Item_delivery { ID = item_delivery.ID }.filterDataTableToItem_deliveryType(ESearchOption.AND).Count;
         }
 
         public int LoadAuto_ref(Auto_ref auto_ref)
         {
-            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
-                return auto_refsTableAdapter.load_auto_ref(
-                                                        auto_ref.RefId,
-                                                        auto_ref.ID);
+            var dataFoundList = new Auto_ref { ID = auto_ref.ID }.filterDataTableToAuto_refType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Auto_refs", DALHelper.getColumDictionary(auto_ref)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Auto_refs", DALHelper.getColumDictionary(auto_ref)));
+            return new Auto_ref { ID = auto_ref.ID }.filterDataTableToAuto_refType(ESearchOption.AND).Count;
         }
 
         public int LoadTax_item(Tax_item tax_item)
         {
-            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
-                return tax_itemsTableAdapter.load_data_tax_item(
-                                                            tax_item.TaxId,
-                                                            tax_item.Item_ref,
-                                                            tax_item.Tax_value,
-                                                            tax_item.Tax_type,
-                                                            tax_item.ID);
+            var dataFoundList = new Tax_item { ID = tax_item.ID }.filterDataTableToTax_itemType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Tax_items", DALHelper.getColumDictionary(tax_item)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Tax_items", DALHelper.getColumDictionary(tax_item)));
+            return new Tax_item { ID = tax_item.ID }.filterDataTableToTax_itemType(ESearchOption.AND).Count;
         }
 
         // getting 
 
         public List<Item> GetItemData()
         {
-            using (var itemsTableAdapter = new itemsTableAdapter())
-                return itemsTableAdapter.GetData().DataTableTypeToItem();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Items", DALHelper.getColumDictionary(new Item()))).DataTableTypeToItem();
         }
 
         public List<Item> GetItemDataById(int id)
         {
-            using (var itemsTableAdapter = new itemsTableAdapter())
-                return itemsTableAdapter.get_item_by_id(id).DataTableTypeToItem();
+            return new Item { ID = id }.filterDataTableToItemType(ESearchOption.AND);
         }
 
         public List<Provider> GetProviderData()
         {
-            using (var providersTableAdapter = new providersTableAdapter())
-                return providersTableAdapter.GetData().DataTableTypeToProvider();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Providers", DALHelper.getColumDictionary(new Provider()))).DataTableTypeToProvider();
         }
 
         public List<Provider> GetProviderDataById(int id)
         {
-            using (var providersTableAdapter = new providersTableAdapter())
-                return providersTableAdapter.get_provider_by_id(id).DataTableTypeToProvider();
+            return new Provider { ID = id }.filterDataTableToProviderType(ESearchOption.AND);
         }
 
         public List<Provider_item> GetProvider_itemData()
         {
-            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
-                return provider_itemsTableAdapter.GetData().DataTableTypeToProvider_item();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Provider_items", DALHelper.getColumDictionary(new Provider_item()))).DataTableTypeToProvider_item();
         }
 
         public List<Provider_item> GetProvider_itemDataById(int id)
         {
-            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
-                return provider_itemsTableAdapter.get_provider_item_by_id(id).DataTableTypeToProvider_item();
+            return new Provider_item { ID = id }.filterDataTableToProvider_itemType(ESearchOption.AND);
         }
 
         public List<Item_delivery> GetItem_deliveryData()
         {
-            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
-                return item_deliveriesTableAdapter.GetData().DataTableTypeToItem_delivery();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Item_deliverys", DALHelper.getColumDictionary(new Item_delivery()))).DataTableTypeToItem_delivery();
         }
 
         public List<Item_delivery> GetItem_deliveryDataById(int id)
         {
-            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
-                return item_deliveriesTableAdapter.get_item_delivery_by_id(id).DataTableTypeToItem_delivery();
+            return new Item_delivery { ID = id }.filterDataTableToItem_deliveryType(ESearchOption.AND);
         }
 
         public List<Item_delivery> GetItem_deliveryDataByItemRefId(string itemRef)
         {
-            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
-                return item_deliveriesTableAdapter.get_item_delivery_by_item_ref(itemRef).DataTableTypeToItem_delivery();
+            return new Item_delivery { Item_ref = itemRef }.filterDataTableToItem_deliveryType(ESearchOption.AND);
         }
 
         public List<Item_delivery> GetItem_deliveryDataByDeliveryId(int deliveryId)
         {
-            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
-                return item_deliveriesTableAdapter.get_item_delivery_by_delivery_id(deliveryId).DataTableTypeToItem_delivery();
+            return new Item_delivery { DeliveryId = deliveryId }.filterDataTableToItem_deliveryType(ESearchOption.AND);
         }
 
         public List<Auto_ref> GetAuto_refData()
         {
-            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
-                return auto_refsTableAdapter.GetData().DataTableTypeToAuto_ref();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Auto_refs", DALHelper.getColumDictionary(new Auto_ref()))).DataTableTypeToAuto_ref();
         }
 
         public List<Auto_ref> GetAuto_refDataById(int id)
         {
-            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
-                return auto_refsTableAdapter.get_auto_ref_by_id(id).DataTableTypeToAuto_ref();
+            return new Auto_ref { ID = id }.filterDataTableToAuto_refType(ESearchOption.AND);
         }
 
         public List<Tax_item> GetTax_itemData()
         {
-            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
-                return tax_itemsTableAdapter.GetData().DataTableTypeToTax_item();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Tax_items", DALHelper.getColumDictionary(new Tax_item()))).DataTableTypeToTax_item();
         }
 
         public List<Tax_item> GetTax_itemDataById(int id)
         {
-            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
-                return tax_itemsTableAdapter.get_tax_item_by_id(id).DataTableTypeToTax_item();
-        }
-
-        public void FillItemDataTableById(QOBDSet.itemsDataTable itemDataTable, int id)
-        {
-            using (var itemsTableAdapter = new itemsTableAdapter())
-                itemsTableAdapter.FillById(itemDataTable, id);
-        }
-
-        public void FillProviderDataTableById(QOBDSet.providersDataTable providerDataTable, int id)
-        {
-            using (var providersTableAdapter = new providersTableAdapter())
-                providersTableAdapter.FillById(providerDataTable, id);
-        }
-
-        public void FillProvider_itemDataTableById(QOBDSet.provider_itemsDataTable provider_itemDataTable, int id)
-        {
-            using (var provider_itemsTableAdapter = new provider_itemsTableAdapter())
-                provider_itemsTableAdapter.FillById(provider_itemDataTable, id);
-        }
-
-        public void FillItem_deliveryDataTableById(QOBDSet.item_deliveriesDataTable item_deliveryDataTable, int id)
-        {
-            using (var item_deliveriesTableAdapter = new item_deliveriesTableAdapter())
-                item_deliveriesTableAdapter.FillById(item_deliveryDataTable, id);
-        }
-
-        public void FillAuto_refDataTableById(QOBDSet.auto_refsDataTable auto_refDataTable, int id)
-        {
-            using (var auto_refsTableAdapter = new auto_refsTableAdapter())
-                auto_refsTableAdapter.FillById(auto_refDataTable, id);
-        }
-        
-        public void FillTax_itemDataTableById(QOBDSet.tax_itemsDataTable tax_itemDataTable, int id)
-        {
-            using (var tax_itemsTableAdapter = new tax_itemsTableAdapter())
-                tax_itemsTableAdapter.FillById(tax_itemDataTable, id);
+            return new Tax_item { ID = id }.filterDataTableToTax_itemType(ESearchOption.AND);
         }
 
 
@@ -635,32 +549,32 @@ namespace QOBDDAL.Classes
 
         public List<Item> searchItem(Item item, ESearchOption filterOperator)
         {
-            return item.ItemTypeToFilterDataTable(filterOperator);
+            return item.filterDataTableToItemType(filterOperator);
         }
 
         public List<Provider> searchProvider(Provider Provider, ESearchOption filterOperator)
         {
-            return Provider.ProviderTypeToFilterDataTable(filterOperator);
+            return Provider.filterDataTableToProviderType(filterOperator);
         }
 
         public List<Provider_item> searchProvider_item(Provider_item Provider_item, ESearchOption filterOperator)
         {
-            return Provider_item.Provider_itemTypeToFilterDataTable(filterOperator);
+            return Provider_item.filterDataTableToProvider_itemType(filterOperator);
         }
 
         public List<Item_delivery> searchItem_delivery(Item_delivery Item_delivery, ESearchOption filterOperator)
         {
-            return Item_delivery.Item_deliveryTypeToFilterDataTable(filterOperator);
+            return Item_delivery.filterDataTableToItem_deliveryType(filterOperator);
         }
 
         public List<Auto_ref> searchAuto_ref(Auto_ref Auto_ref, ESearchOption filterOperator)
         {
-            return Auto_ref.Auto_refTypeToFilterDataTable(filterOperator);
+            return Auto_ref.filterDataTableToAuto_refType(filterOperator);
         }
 
         public List<Tax_item> searchTax_item(Tax_item Tax_item, ESearchOption filterOperator)
         {
-            return Tax_item.Tax_itemTypeToFilterDataTable(filterOperator);
+            return Tax_item.filterDataTableToTax_itemType(filterOperator);
         }
 
         #endregion
@@ -671,170 +585,134 @@ namespace QOBDDAL.Classes
 
         public int DeleteClient(int clientId)
         {
-            using (var clientsTableAdapter = new clientsTableAdapter())
-                return clientsTableAdapter.Delete1(clientId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Clients", DALHelper.getColumDictionary(new Client { ID = clientId })));
+            return new Client { ID = clientId }.filterDataTableToClientType(ESearchOption.AND).Count;
         }
 
         public int DeleteContact(int contactId)
         {
-            using (var contactsTableAdapter = new contactsTableAdapter())
-                return contactsTableAdapter.Delete1(contactId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Contacts", DALHelper.getColumDictionary(new Contact { ID = contactId })));
+            return new Contact { ID = contactId }.filterDataTableToContactType(ESearchOption.AND).Count;
         }
 
         public int DeleteAddress(int addressId)
         {
-            using (var addressesTableAdapter = new addressesTableAdapter())
-                return addressesTableAdapter.Delete1(addressId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Addresses", DALHelper.getColumDictionary(new Address { ID = addressId })));
+            return new Address { ID = addressId }.filterDataTableToAddressType(ESearchOption.AND).Count;
         }
 
         // update
 
-        public int UpdateClient(QOBDSet.clientsDataTable clientDataTable)
+        public int UpdateClient(List<Client> clientList)
         {
-            using (var clientsTableAdapter = new clientsTableAdapter())
-                return clientsTableAdapter.Update(clientDataTable);
+            int count = 0;
+            foreach (var client in clientList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Clients", DALHelper.getColumDictionary(client)));
+                count += client.filterDataTableToClientType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
-        public int UpdateContact(QOBDSet.contactsDataTable contactDataTable)
+        public int UpdateContact(List<Contact> contactList)
         {
-            using (var contactsTableAdapter = new contactsTableAdapter())
-                return contactsTableAdapter.Update(contactDataTable);
+            int count = 0;
+            foreach (var contact in contactList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Contacts", DALHelper.getColumDictionary(contact)));
+                count += contact.filterDataTableToContactType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
-        public int UpdateAddress(QOBDSet.addressesDataTable addressDataTable)
+        public int UpdateAddress(List<Address> addressList)
         {
-            using (var addressesTableAdapter = new addressesTableAdapter())
-                return addressesTableAdapter.Update(addressDataTable);
+            int count = 0;
+            foreach (var address in addressList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Addresses", DALHelper.getColumDictionary(address)));
+                count += address.filterDataTableToAddressType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
         public int LoadClient(Client client)
         {
-            using (var clientsTableAdapter = new clientsTableAdapter())
-                return clientsTableAdapter.load_data_client(
-                                                    client.AgentId,
-                                                    client.FirstName,
-                                                    client.LastName,
-                                                    client.Company,
-                                                    client.Email,
-                                                    client.Phone,
-                                                    client.Fax,
-                                                    client.Rib,
-                                                    client.CRN,
-                                                    client.PayDelay,
-                                                    client.Comment,
-                                                    client.Status,
-                                                    client.MaxCredit,
-                                                    client.CompanyName,
-                                                    client.ID);
+            var dataFoundList = new Client { ID = client.ID }.filterDataTableToClientType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Clients", DALHelper.getColumDictionary(client)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Clients", DALHelper.getColumDictionary(client)));
+            return new Client { ID = client.ID }.filterDataTableToClientType(ESearchOption.AND).Count;
         }
 
         public int LoadContact(Contact contact)
         {
-            using (var contactsTableAdapter = new contactsTableAdapter())
-                return contactsTableAdapter.load_data_contact(
-                                                    contact.ClientId,
-                                                    contact.LastName,
-                                                    contact.Firstname,
-                                                    contact.Position,
-                                                    contact.Email,
-                                                    contact.Phone,
-                                                    contact.Cellphone,
-                                                    contact.Fax,
-                                                    contact.Comment,
-                                                    contact.ID);
+            var dataFoundList = new Contact { ID = contact.ID }.filterDataTableToContactType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Contacts", DALHelper.getColumDictionary(contact)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Contacts", DALHelper.getColumDictionary(contact)));
+            return new Contact { ID = contact.ID }.filterDataTableToContactType(ESearchOption.AND).Count;
         }
 
         public int LoadAddress(Address address)
         {
-            using (var addressesTableAdapter = new addressesTableAdapter())
-                return addressesTableAdapter.load_data_address(
-                                                    address.ClientId,
-                                                    address.Name,
-                                                    address.Name2,
-                                                    address.CityName,
-                                                    address.AddressName,
-                                                    address.Postcode,
-                                                    address.Country,
-                                                    address.Comment,
-                                                    address.FirstName,
-                                                    address.LastName,
-                                                    address.Phone,
-                                                    address.Email,
-                                                    address.ID);
+            var dataFoundList = new Address { ID = address.ID }.filterDataTableToAddressType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Addresses", DALHelper.getColumDictionary(address)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Addresses", DALHelper.getColumDictionary(address)));
+            return new Address { ID = address.ID }.filterDataTableToAddressType(ESearchOption.AND).Count;
         }
 
         // getting 
 
         public List<Client>  GetClientData()
         {
-            using (var clientsTableAdapter = new clientsTableAdapter())
-                return clientsTableAdapter.GetData().DataTableTypeToClient();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Clients", DALHelper.getColumDictionary(new Client()))).DataTableTypeToClient();
         }
 
         public List<Contact> GetContactData()
         {
-            using (var contactsTableAdapter = new contactsTableAdapter())
-                return contactsTableAdapter.GetData().DataTableTypeToContact();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Contacts", DALHelper.getColumDictionary(new Contact()))).DataTableTypeToContact();
         }
 
         public List<Address> GetAddressData()
         {
-            using (var addressesTableAdapter = new addressesTableAdapter())
-                return addressesTableAdapter.GetData().DataTableTypeToAddress();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Addresses", DALHelper.getColumDictionary(new Address()))).DataTableTypeToAddress();
         }
 
         public List<Client> GetClientDataById(int id)
         {
-            using (var clientsTableAdapter = new clientsTableAdapter())
-                return clientsTableAdapter.get_client_by_id(id).DataTableTypeToClient();
+            return new Client { ID = id }.filterDataTableToClientType(ESearchOption.AND);
         }
 
         public List<Contact> GetContactDataById(int id)
         {
-            using (var contactsTableAdapter = new contactsTableAdapter())
-                return contactsTableAdapter.get_contact_by_id(id).DataTableTypeToContact();
+            return new Contact { ID = id }.filterDataTableToContactType(ESearchOption.AND);
         }
 
         public List<Address> GetAddressDataById(int id)
         {
-            using (var addressesTableAdapter = new addressesTableAdapter())
-                return addressesTableAdapter.get_address_by_id(id).DataTableTypeToAddress();
+            return new Address { ID = id }.filterDataTableToAddressType(ESearchOption.AND);
         }
-
-        public void FillClientDataTableById(QOBDSet.clientsDataTable clientDataTable, int id)
-        {
-            using (var clientsTableAdapter = new clientsTableAdapter())
-                clientsTableAdapter.FillById(clientDataTable, id);
-        }
-
-        public void FillContactDataTableById(QOBDSet.contactsDataTable contactDataTable, int id)
-        {
-            using (var contactsTableAdapter = new contactsTableAdapter())
-                contactsTableAdapter.FillById(contactDataTable, id);
-        }
-
-        public void FilladdressDataTableById(QOBDSet.addressesDataTable addressDataTable, int id)
-        {
-            using (var addressesTableAdapter = new addressesTableAdapter())
-                addressesTableAdapter.FillById(addressDataTable, id);
-        }
-
 
         // search
 
         public List<Client> searchClient(Client client, ESearchOption filterOperator)
         {
-            return client.ClientTypeToFilterDataTable(filterOperator);
+            return client.filterDataTableToClientType(filterOperator);
         }
 
         public List<Contact> searchContact(Contact Contact, ESearchOption filterOperator)
         {
-            return Contact.ContactTypeToFilterDataTable(filterOperator);
+            return Contact.filterDataTableToContactType(filterOperator);
         }
 
         public List<Address> searchAddress(Address Address, ESearchOption filterOperator)
         {
-            return Address.AddressTypeToFilterDataTable(filterOperator);
+            return Address.filterDataTableToAddressType(filterOperator);
         }
 
         #endregion
@@ -845,61 +723,50 @@ namespace QOBDDAL.Classes
 
         public int DeleteAgent(int agentId)
         {
-            using (var agentsTableAdapter = new agentsTableAdapter())
-                return agentsTableAdapter.Delete1(agentId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Agents", DALHelper.getColumDictionary(new Agent { ID = agentId })));
+            return new Agent { ID = agentId }.filterDataTableToAgentType(ESearchOption.AND).Count;
         }
 
         // update
 
-        public int UpdateAgent(QOBDSet.agentsDataTable agentDataTable)
+        public int UpdateAgent(List<Agent> agentList)
         {
-            using (var agentsTableAdapter = new agentsTableAdapter())
-                return agentsTableAdapter.Update(agentDataTable);
+            int count = 0;
+            foreach (var agent in agentList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Agents", DALHelper.getColumDictionary(agent)));
+                count += agent.filterDataTableToAgentType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
         public int LoadAgent(Agent agent)
         {
-            using (var agentsTableAdapter = new agentsTableAdapter())
-                return agentsTableAdapter.load_data_agent(
-                                            agent.LastName,
-                                            agent.FirstName,
-                                            agent.Phone,
-                                            agent.Fax,
-                                            agent.Email,
-                                            agent.UserName,
-                                            agent.HashedPassword,
-                                            agent.Admin,
-                                            agent.Status,
-                                            agent.ListSize,
-                                            agent.Picture,
-                                            agent.ID);
+            var dataFoundList = new Agent { ID = agent.ID }.filterDataTableToAgentType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Agents", DALHelper.getColumDictionary(agent)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Agents", DALHelper.getColumDictionary(agent)));
+            return new Agent { ID = agent.ID }.filterDataTableToAgentType(ESearchOption.AND).Count;
         }
 
         // getting 
 
         public List<Agent> GetAgentData()
         {
-            using (var agentsTableAdapter = new agentsTableAdapter())
-                return agentsTableAdapter.GetData().DataTableTypeToAgent();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Agents", DALHelper.getColumDictionary(new Agent()))).DataTableTypeToAgent();
         }
 
         public List<Agent> GetAgentDataById(int id)
         {
-            using (var agentsTableAdapter = new agentsTableAdapter())
-                return agentsTableAdapter.get_agent_by_id(id).DataTableTypeToAgent();
-        }
-
-        public void FillAgentDataTableById(QOBDSet.agentsDataTable agentDataTable, int id)
-        {
-            using (var agentsTableAdapter = new agentsTableAdapter())
-                agentsTableAdapter.FillById(agentDataTable, id);
+            return new Agent { ID = id }.filterDataTableToAgentType(ESearchOption.AND);
         }
 
         // search
 
         public List<Agent> searchAgent(Agent agent, ESearchOption filterOperator)
         {
-            return agent.AgentTypeToFilterDataTable(filterOperator);
+            return agent.filterDataTableToAgentType(filterOperator);
         }
 
         #endregion
@@ -910,54 +777,50 @@ namespace QOBDDAL.Classes
 
         public int DeleteNotification(int notificationId)
         {
-            using (var notificationsTableAdapter = new notificationsTableAdapter())
-                return notificationsTableAdapter.Delete1(notificationId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Notifications", DALHelper.getColumDictionary(new Notification { ID = notificationId })));
+            return new Notification { ID = notificationId }.filterDataTableToNotificationType(ESearchOption.AND).Count;
         }
 
         // update
 
-        public int UpdateNotification(QOBDSet.notificationsDataTable notificationDataTable)
+        public int UpdateNotification(List<Notification> notificationList)
         {
-            using (var notificationsTableAdapter = new notificationsTableAdapter())
-                return notificationsTableAdapter.Update(notificationDataTable);
+            int count = 0;
+            foreach (var notification in notificationList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Notifications", DALHelper.getColumDictionary(notification)));
+                count += notification.filterDataTableToNotificationType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
         public int LoadNotification(Notification notification)
         {
-            using (var notificationsTableAdapter = new notificationsTableAdapter())
-                return notificationsTableAdapter.load_data_notification(
-                                            notification.Reminder1,
-                                            notification.Reminder2,
-                                            notification.BillId,
-                                            notification.Date,
-                                            notification.ID);
+            var dataFoundList = new Notification { ID = notification.ID }.filterDataTableToNotificationType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Notifications", DALHelper.getColumDictionary(notification)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Notifications", DALHelper.getColumDictionary(notification)));
+            return new Notification { ID = notification.ID }.filterDataTableToNotificationType(ESearchOption.AND).Count;
         }
 
         // getting 
 
         public List<Notification> GetNotificationData()
         {
-            using (var notificationsTableAdapter = new notificationsTableAdapter())
-                return notificationsTableAdapter.GetData().DataTableTypeToNotification();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Notifications", DALHelper.getColumDictionary(new Notification()))).DataTableTypeToNotification();
         }
 
         public List<Notification> GetNotificationDataById(int id)
         {
-            using (var notificationsTableAdapter = new notificationsTableAdapter())
-                return notificationsTableAdapter.get_notification_by_id(id).DataTableTypeToNotification();
-        }
-
-        public void FillNotificationDataTableById(QOBDSet.notificationsDataTable notificationDataTable, int id)
-        {
-            using (var notificationsTableAdapter = new notificationsTableAdapter())
-                notificationsTableAdapter.FillById(notificationDataTable,id);
+            return new Notification { ID = id }.filterDataTableToNotificationType(ESearchOption.AND);
         }
 
         // search
 
         public List<Notification> searchNotification(Notification notification, ESearchOption filterOperator)
         {
-            return notification.NotificationTypeToFilterDataTable(filterOperator);
+            return notification.filterDataTableToNotificationType(filterOperator);
         }
 
         #endregion
@@ -968,52 +831,50 @@ namespace QOBDDAL.Classes
 
         public int DeleteInfo(int infoId)
         {
-            using (var infosTableAdapter = new infosTableAdapter())
-                return infosTableAdapter.Delete1(infoId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Infos", DALHelper.getColumDictionary(new Info { ID = infoId })));
+            return new Info { ID = infoId }.filterDataTableToInfoType(ESearchOption.AND).Count;
         }
 
         // update
 
-        public int UpdateInfo(QOBDSet.infosDataTable infoDataTable)
+        public int UpdateInfo(List<Info> infoList)
         {
-            using (var infosTableAdapter = new infosTableAdapter())
-                return infosTableAdapter.Update(infoDataTable);
+            int count = 0;
+            foreach (var info in infoList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Infos", DALHelper.getColumDictionary(info)));
+                count += info.filterDataTableToInfoType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
         public int LoadInfo(Info info)
         {
-            using (var infosTableAdapter = new infosTableAdapter())
-                return infosTableAdapter.load_data_infos(
-                                                        info.Name,
-                                                        info.Value,
-                                                        info.ID);
+            var dataFoundList = new Info { ID = info.ID }.filterDataTableToInfoType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Infos", DALHelper.getColumDictionary(info)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Infos", DALHelper.getColumDictionary(info)));
+            return new Info { ID = info.ID }.filterDataTableToInfoType(ESearchOption.AND).Count;
         }
 
         // getting 
 
         public List<Info> GetInfosData()
         {
-            using (var infosTableAdapter = new infosTableAdapter())
-                return infosTableAdapter.GetData().DataTableTypeToInfos();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Infos", DALHelper.getColumDictionary(new Info()))).DataTableTypeToInfos();
         }
 
         public List<Info> GetInfosDataById(int id)
         {
-            using (var infosTableAdapter = new infosTableAdapter())
-                return infosTableAdapter.get_infos_by_id(id).DataTableTypeToInfos();
+            return new Info { ID = id }.filterDataTableToInfoType(ESearchOption.AND);
         }   
-        
-        public void FillInfoDataTableById(QOBDSet.infosDataTable infoDataTable, int id)
-        {
-            using (var infosTableAdapter = new infosTableAdapter())
-                infosTableAdapter.FillById(infoDataTable, id);
-        }
 
         // search
 
         public List<Info> searchInfo(Info Infos, ESearchOption filterOperator)
         {
-            return Infos.FilterDataTableToInfoType(filterOperator);
+            return Infos.filterDataTableToInfoType(filterOperator);
         }
 
         #endregion
@@ -1024,63 +885,50 @@ namespace QOBDDAL.Classes
 
         public int DeleteStatistic(int statisticId)
         {
-            using (var statisticsTableAdapter = new statisticsTableAdapter())
-                return statisticsTableAdapter.Delete1(statisticId);
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Statistics", DALHelper.getColumDictionary(new Statistic { ID = statisticId })));
+            return new Statistic { ID = statisticId }.filterDataTableToStatisticType(ESearchOption.AND).Count;
         }
 
         // update
 
-        public int UpdateStatistic(QOBDSet.statisticsDataTable statisticDataTable)
+        public int UpdateStatistic(List<Statistic> statisticList)
         {
-            using (var statisticsTableAdapter = new statisticsTableAdapter())
-                return statisticsTableAdapter.Update(statisticDataTable);
+            int count = 0;
+            foreach (var statistic in statisticList)
+            {
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Statistics", DALHelper.getColumDictionary(statistic)));
+                count += statistic.filterDataTableToStatisticType(ESearchOption.AND).Count;
+            }
+            return count;
         }
 
         public int LoadStatistic(Statistic statistic)
         {
-            using (var statisticsTableAdapter = new statisticsTableAdapter())
-                return statisticsTableAdapter
-                                        .load_data_statistic(
-                                            statistic.InvoiceDate,
-                                            statistic.InvoiceId,
-                                            statistic.Company,
-                                            statistic.Price_purchase_total,
-                                            statistic.Total,
-                                            statistic.Total_tax_included,
-                                            statistic.Income_percent,
-                                            statistic.Income,
-                                            statistic.Pay_received,
-                                            statistic.Date_limit,
-                                            statistic.Pay_date,
-                                            statistic.Tax_value,
-                                            statistic.ID);
+            var dataFoundList = new Statistic { ID = statistic.ID }.filterDataTableToStatisticType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Statistics", DALHelper.getColumDictionary(statistic)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Statistics", DALHelper.getColumDictionary(statistic)));
+            return new Statistic { ID = statistic.ID }.filterDataTableToStatisticType(ESearchOption.AND).Count;
         }
 
         // getting 
 
         public List<Statistic> GetStatisticData()
         {
-            using (var statisticsTableAdapter = new statisticsTableAdapter())
-                return statisticsTableAdapter.GetData().DataTableTypeToStatistic(); ;
-        }
-
-        public void FillStatisticDataTableById(QOBDSet.statisticsDataTable statisticDataTable, int id)
-        {
-            using (var statisticsTableAdapter = new statisticsTableAdapter())
-                statisticsTableAdapter.FillById(statisticDataTable, id);
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Statistics", DALHelper.getColumDictionary(new Statistic()))).DataTableTypeToStatistic();
         }
 
         public List<Statistic> GetStatisticDataById(int id)
         {
-            using (var statisticsTableAdapter = new statisticsTableAdapter())
-                return statisticsTableAdapter.get_statistic_by_id(id).DataTableTypeToStatistic();
+            return new Statistic { ID = id }.filterDataTableToStatisticType(ESearchOption.AND);
         }
 
         //search
 
         public List<Statistic> searchStatistic(Statistic statistic, ESearchOption filterOperator)
         {
-            return statistic.FilterDataTableToStatisticType(filterOperator);
+            return statistic.filterDataTableToStatisticType(filterOperator);
         }
 
         #endregion
