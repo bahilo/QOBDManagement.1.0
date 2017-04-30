@@ -58,16 +58,16 @@ public class DataAccess : IDataAccessManager
         }
         else
         {
-            /**/// Order
+            /*/// Order
             DALOrder.progressBarManagement(ProgressBarFunc);
             DALOrder.initializeCredential(authenticatedUser);
             DALOrder.cacheWebServiceData();
-
+            */
             // Agent
             DALAgent.progressBarManagement(ProgressBarFunc);
             DALAgent.initializeCredential(authenticatedUser);
             DALAgent.cacheWebServiceData();
-
+            /*
             // Client 
             DALClient.progressBarManagement(ProgressBarFunc);
             DALClient.initializeCredential(authenticatedUser);
@@ -95,7 +95,7 @@ public class DataAccess : IDataAccessManager
             // Statistic
             DALStatistic.progressBarManagement(ProgressBarFunc);
             DALStatistic.initializeCredential(authenticatedUser);
-            DALStatistic.cacheWebServiceData();     /**/      
+            DALStatistic.cacheWebServiceData();     */      
         }
 
         // ChatRoom

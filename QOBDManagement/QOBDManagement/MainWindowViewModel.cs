@@ -261,11 +261,11 @@ namespace QOBDManagement
             CommandNavig.raiseCanExecuteActionChanged();
             AgentViewModel.GetCurrentAgentCommand.raiseCanExecuteActionChanged();
 
-            // chat room initialization
-            loadChatRoom();
+            // display the chat view
+            ChatRoomCurrentView = ChatRoomViewModel;
         }
 
-        private async void loadChatRoom()
+        /*public async void loadChatRoom()
         {
             // load chat user
             await AgentViewModel.loadAgents();
@@ -274,8 +274,8 @@ namespace QOBDManagement
             ChatRoomCurrentView = ChatRoomViewModel;
 
             // connect user to the chat server
-            ChatRoomViewModel.connectToServer();
-        }
+            ChatRoomViewModel.start();
+        }*/
 
         private void downloadHeaderImages()
         {
@@ -404,7 +404,7 @@ namespace QOBDManagement
             PropertyChanged -= OrderViewModel.OrderSideBarViewModel.onCurrentPageChange_updateCommand;
         }
 
-        public override void Dispose()
+        public async Task<bool> DisposeAsync()
         {
             Dialog.showSearch("Closing...");
             unsubscribeEvents();
@@ -418,10 +418,8 @@ namespace QOBDManagement
             SecurityLoginViewModel.Dispose();
             HomeViewModel.Dispose();
             ChatRoomCurrentView = null;
-            ChatRoomViewModel.Dispose();
-            _startup.Dal.Dispose();
-            _startup.ProxyClient.Close();
-
+            await ChatRoomViewModel.DisposeAsync();
+            return true;
         }
 
         //----------------------------[ Event Handler ]------------------

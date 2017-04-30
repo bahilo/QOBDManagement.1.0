@@ -9,7 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -20,29 +23,28 @@ namespace QOBDManagement.ViewModel
 {
     public class ChatRoomViewModel : BindBase, IChatRoomViewModel
     {
-        private System.Net.Sockets.TcpClient _clientSocket;
-        private NetworkStream _serverStream;
+        private int _port = 0;
+        private System.Net.IPAddress _ipAddress;
         private Context _context;
         private Object _currentViewModel;
         private bool _isServerConnectionError;
         private IMainWindowViewModel _main;
 
-
         //----------------------------[ ViewModels ]------------------
 
         public DiscussionViewModel DiscussionViewModel { get; set; }
         public MessageViewModel MessageViewModel { get; set; }
-        
+
 
 
         //----------------------------[ Commands ]------------------
 
         public ButtonCommand<string> CommandNavig { get; set; }
-        
+
 
         public ChatRoomViewModel()
         {
-            initializer(); 
+            initializer();
         }
 
         public ChatRoomViewModel(IMainWindowViewModel mainWindowViewModel) : this()
@@ -66,7 +68,7 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Initialization ]------------------
 
         private void initializer()
-        {         
+        {
             DiscussionViewModel = new DiscussionViewModel(this);
             MessageViewModel = new MessageViewModel(this);
             _context = new Context(navigation);
@@ -82,11 +84,27 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Properties ]------------------
 
-
         public Object CurrentViewModel
         {
             get { return _currentViewModel; }
             set { setProperty(ref _currentViewModel, value); }
+        }
+
+        public AgentViewModel AgentViewModel
+        {
+            get { return _main.AgentViewModel; }
+        }
+
+        public NetworkStream ServerStream
+        {
+            get { return DiscussionViewModel.ServerStream; }
+            set { DiscussionViewModel.ServerStream = value; onPropertyChange(); }
+        }
+
+        public TcpListener TcpListener
+        {
+            get { return DiscussionViewModel.TcpListener; }
+            set { DiscussionViewModel.TcpListener = value; onPropertyChange(); }
         }
 
         public IMainWindowViewModel MainWindowViewModel
@@ -113,35 +131,55 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Actions ]------------------
 
-        public async void connectToServer()
+        /// <summary>
+        /// start the chat server
+        /// </summary>
+        public async void start()
+        {            
+            // load chat user
+            await _main.AgentViewModel.loadAgents();
+
+            // loading users dicussions
+            await MessageViewModel.loadAsync();
+
+            // getting available port number
+            string myIpAddress = GetAddresses();
+            using (Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+            {
+                sock.Bind(new IPEndPoint(IPAddress.Parse(myIpAddress), 0));
+                _port = ((IPEndPoint)sock.LocalEndPoint).Port;
+                System.Net.IPAddress.TryParse(myIpAddress, out _ipAddress);
+            }
+
+            _startup.Bl.BlSecurity.GetAuthenticatedUser().IPAddress = myIpAddress + ":" + _port;
+
+            // listening incoming messages
+            await receiverAsync();
+        }
+
+        /// <summary>
+        /// broadcast 
+        /// </summary>
+        private async Task receiverAsync()
         {
             Agent authenticatedUser = _startup.Bl.BlSecurity.GetAuthenticatedUser();
             try
             {
-                // updating the user status
-                
-                authenticatedUser.IsOnline = true;
-                var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
-                
-                // initialize the communication with the server
-                int port = int.Parse(ConfigurationManager.AppSettings["Port"]);
-                string ipAddress = ConfigurationManager.AppSettings["IP"];
-                _clientSocket = new System.Net.Sockets.TcpClient();
-                _serverStream = default(NetworkStream);
-
-                // sign in the authenticated user on the server
-                _clientSocket.Connect(ipAddress, port);
-                DiscussionViewModel.ClientSocket = _clientSocket;
-                DiscussionViewModel.ServerStream = _serverStream;
-                _serverStream = _clientSocket.GetStream();
-                byte[] outStream = System.Text.Encoding.ASCII.GetBytes((int)EServiceCommunication.Connected + "/" + _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "/0/" + _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "|" + "$");//textBox3.Text
-                _serverStream.Write(outStream, 0, outStream.Length);
-                _serverStream.Flush();                
+                IPEndPoint localEndPoint = new IPEndPoint(_ipAddress, _port);
+                TcpListener = new TcpListener(localEndPoint);
+                                
+                string message = (int)EServiceCommunication.Connected + "/" + authenticatedUser.ID + "/0/" + authenticatedUser.ID + "|" + "$";
+                DiscussionViewModel.broadcastMessage(message);
 
                 // create discussion thread
                 Thread ctThread = new Thread(DiscussionViewModel.getMessage);
                 ctThread.SetApartmentState(ApartmentState.STA);
+                ctThread.IsBackground = true;
                 ctThread.Start();
+
+                // updating the user status                
+                authenticatedUser.IsOnline = true;
+                var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
             }
             catch (Exception ex)
             {
@@ -151,8 +189,34 @@ namespace QOBDManagement.ViewModel
 
                 // updating the user status
                 authenticatedUser.IsOnline = false;
-                var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });                
+                var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
             }
+        }
+
+        public static string GetAddresses()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+
+            var addressList = (from ip in host.AddressList where ip.AddressFamily == AddressFamily.InterNetwork select ip.ToString()).ToList();
+            foreach (string address in addressList)
+            {
+                IPAddress ipAddress = GetIPAddress(address);
+                if (ipAddress != null)
+                    return ipAddress.ToString();
+            }
+            return "";
+        }
+
+        public static IPAddress GetIPAddress(string hostName)
+        {
+            Ping ping = new Ping();
+            var replay = ping.Send(hostName);
+
+            if (replay.Status == IPStatus.Success)
+            {
+                return replay.Address;
+            }
+            return null;
         }
 
         public object navigation(object centralPageContent = null)
@@ -169,17 +233,6 @@ namespace QOBDManagement.ViewModel
             return CurrentViewModel;
         }
 
-        public void cleanUp()
-        {
-            if (_clientSocket != null && _clientSocket.Connected)
-            {
-
-                _clientSocket.GetStream().Close();
-                _clientSocket.Close();
-                _serverStream.Close();
-            }
-        }
-
         private void unSubscribeEvents()
         {
             // unsubscribe events
@@ -187,52 +240,47 @@ namespace QOBDManagement.ViewModel
             DiscussionViewModel.PropertyChanged -= onUpdateUsersStatusChange;
         }
 
-        public async Task signOutFromServer(List<DiscussionModel> discussionList)
+        private async Task signOutFromServerAsync(List<DiscussionModel> discussionList)
         {
             try
             {
-                // update user status to disconnected
+                // disconnect the authenticated user
                 Agent authenticatedUser = _startup.Bl.BlSecurity.GetAuthenticatedUser();
                 authenticatedUser.IsOnline = false;
-                await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
+                await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { _startup.Bl.BlSecurity.GetAuthenticatedUser() });
 
-                if (_serverStream != null )
-                {
-                    if (discussionList.Count > 0)
-                    {
-                        foreach (DiscussionModel discussionModel in discussionList)
-                        {
-                            string disconnectionString = (int)EServiceCommunication.Disconnected + "/" + _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "/0/" + discussionModel.TxtGroupName.Split('-')[1] + "$";
-                            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(disconnectionString);
-                            _serverStream.Write(outStream, 0, outStream.Length);
-                            //_serverStream.Flush();
-                        }
-                    }
-                    else
-                    {
-                        string disconnectionString = (int)EServiceCommunication.Disconnected + "/" + _startup.Bl.BlSecurity.GetAuthenticatedUser().ID + "/0/0$";
-                        byte[] outStream = System.Text.Encoding.ASCII.GetBytes(disconnectionString);
-                        _serverStream.Write(outStream, 0, outStream.Length);
-                    }                    
-                }
+                string message = (int)EServiceCommunication.Disconnected + "/" + authenticatedUser.ID + "/0/" + authenticatedUser.ID + "|" + "$";
+                DiscussionViewModel.broadcastMessage(message);
+
+                foreach (var tcpClientElement in DiscussionViewModel.ServerClientsDictionary)
+                    tcpClientElement.Value.Close();   
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
             }
         }
 
-        public async override void Dispose()
-        {            
+        public void cleanUp()
+        {
+            if (TcpListener != null)
+                TcpListener.Stop();
+            if (ServerStream != null)
+                ServerStream.Dispose();
+        }
+
+        public async Task DisposeAsync()
+        {
             unSubscribeEvents();
-            await chatLogOut(null);
-            //cleanUp();
+            await chatLogOutAsync(null);
             DiscussionViewModel.Dispose();
             MessageViewModel.Dispose();
+            _startup.Dal.Dispose();
+            _startup.ProxyClient.Close();
         }
 
         //----------------------------[ Event Handler ]------------------
-        
+
         private void onChatRoomChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("ChatRoom") && _isServerConnectionError)
@@ -252,7 +300,12 @@ namespace QOBDManagement.ViewModel
         {
             if (e.PropertyName.Equals("updateStatus"))
             {
-                await _main.AgentViewModel.loadAgents();
+                if (Application.Current.Dispatcher.CheckAccess())
+                    await _main.AgentViewModel.loadAgents();
+                else
+                    await Application.Current.Dispatcher.Invoke(async()=> {
+                        await _main.AgentViewModel.loadAgents();
+                    });
             }
         }
 
@@ -283,11 +336,11 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
-        private async Task chatLogOut(object obj)
+        private async Task chatLogOutAsync(object obj)
         {
-            await signOutFromServer(DiscussionViewModel.DiscussionList);
+            await signOutFromServerAsync(DiscussionViewModel.DiscussionList);
             DiscussionViewModel.DiscussionList = new List<DiscussionModel>();
-            CurrentViewModel = null;
+            CurrentViewModel = null;            
         }
     }
 }

@@ -85,7 +85,7 @@
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Text="{Binding DiscussionViewModel.InputMessage, UpdateSourceTrigger=PropertyChanged}" Margin="6" Name="textBox2" 
+                <TextBox Name="tbxMessage" Text="{Binding DiscussionViewModel.InputMessage, UpdateSourceTrigger=PropertyChanged}" Margin="6" 
                          TextWrapping="Wrap" 
                          AcceptsReturn="True"
                          Height="80"
@@ -94,7 +94,8 @@
                          HorizontalScrollBarVisibility="Auto"
                          materialDesign:HintAssist.Hint="messages..."/>
                 <Button Grid.Column="1" Name="btn_send" IsDefault="True" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
-                                Command="{Binding DiscussionViewModel.SendMessageCommand}">Send</Button>
+                        CommandParameter="{Binding Text, ElementName=tbxMessage, UpdateSourceTrigger=PropertyChanged}"
+                        Command="{Binding DiscussionViewModel.SendMessageCommand}">Send</Button>
             </Grid>
 
         </StackPanel>

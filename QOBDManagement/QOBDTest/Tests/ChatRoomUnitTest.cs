@@ -193,7 +193,7 @@ namespace QOBDTest.Tests
             _main = new MainWindowViewModel(new MockStartup(_mockProxy.Mock));
 
             // Act
-            await _main.ChatRoomViewModel.MessageViewModel.load();
+            await _main.ChatRoomViewModel.MessageViewModel.loadAsync();
 
             // Assert
             Assert.AreEqual(_main.ChatRoomViewModel.MessageViewModel.MessageGroupHistoryList.Count, 0);
@@ -207,7 +207,7 @@ namespace QOBDTest.Tests
             _main = new MainWindowViewModel(new MockStartup(_mockProxy.Mock));
 
             // Act
-            await _main.ChatRoomViewModel.MessageViewModel.load();
+            await _main.ChatRoomViewModel.MessageViewModel.loadAsync();
 
             // Assert
             Assert.AreEqual(_main.ChatRoomViewModel.MessageViewModel.MessageIndividualHistoryList.Count, 1);

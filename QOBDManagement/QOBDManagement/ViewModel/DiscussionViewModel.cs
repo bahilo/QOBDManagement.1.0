@@ -13,37 +13,37 @@ using QOBDCommon.Classes;
 using QOBDManagement.Command;
 using QOBDCommon.Entities;
 using QOBDManagement.Enums;
+using System.Net;
+using System.Configuration;
+using System.Threading;
 
 namespace QOBDManagement.ViewModel
 {
     public class DiscussionViewModel : BindBase, IDiscussionViewModel
     {
-        private const int _maxMessage = 5;
+        private int _nbNewMessage;
+        private IChatRoom _chatRoom;
         private string _inputMessage;
         private string _outputMessage;
-        private int _nbNewMessage;
-        private System.Net.Sockets.TcpClient _clientSocket;
-        private NetworkStream _serverStream;
-        private IChatRoom _chatRoom;
-        private IChatRoomViewModel _mainChatRoom;
-        private List<AgentModel> _userDiscussionGroupList;
-        private List<DiscussionModel> _discussionList;
+        private const int _maxMessage = 5;
         private Func<object, object> _page;
+        private NetworkStream _serverStream;
+        private IChatRoomViewModel _mainChatRoom;
+        private List<DiscussionModel> _discussionList;
+        private List<AgentModel> _userDiscussionGroupList;
+        private System.Net.Sockets.TcpListener _tcpListener;
+        public static Dictionary<AgentModel, TcpClient> _clientsList;
         private NotifyTaskCompletion<bool> _discussionGroupCreationTask;
-        //private bool _isGroupDiscussion;
-        //private string _groupId;
-
 
         //----------------------------[ Models ]------------------
 
         private DiscussionModel _discussionModel;
         private AgentModel _selectedAgentModel;
-        private IAgentViewModel _agentViewModel;
 
 
         //----------------------------[ Commands ]------------------
 
-        public ButtonCommand<object> SendMessageCommand { get; set; }
+        public ButtonCommand<string> SendMessageCommand { get; set; }
         public ButtonCommand<AgentModel> SelectUserForDiscussionCommand { get; set; }
         public ButtonCommand<AgentModel> SaveUserForDiscussionGroupCommand { get; set; }
         public ButtonCommand<object> DiscussionGroupCreationCommand { get; set; }
@@ -63,7 +63,7 @@ namespace QOBDManagement.ViewModel
             initEvents();
         }
 
-        public DiscussionViewModel(IChatRoomViewModel mainChatRoom): this()
+        public DiscussionViewModel(IChatRoomViewModel mainChatRoom) : this()
         {
             _mainChatRoom = mainChatRoom;
             this._page = _mainChatRoom.navigation;
@@ -81,10 +81,10 @@ namespace QOBDManagement.ViewModel
 
         private void instances()
         {
-            _clientSocket = new System.Net.Sockets.TcpClient();
             _serverStream = default(NetworkStream);
-            _userDiscussionGroupList = new List<AgentModel>();
             _discussionList = new List<DiscussionModel>();
+            _userDiscussionGroupList = new List<AgentModel>();
+            _clientsList = new Dictionary<AgentModel, TcpClient>();
             _discussionGroupCreationTask = new NotifyTaskCompletion<bool>();
         }
 
@@ -97,7 +97,7 @@ namespace QOBDManagement.ViewModel
 
         private void instancesCommand()
         {
-            SendMessageCommand = new ButtonCommand<object>(sendMessage, canSendMessage);
+            SendMessageCommand = new ButtonCommand<string>(broadcast, canBroadcast);
             SelectUserForDiscussionCommand = new ButtonCommand<AgentModel>(selectUserForDiscussion, canSelectUserForDiscussion);
             SaveUserForDiscussionGroupCommand = new ButtonCommand<AgentModel>(saveUserForDiscussionGroup, canSelectUserForDiscussion);
             DiscussionGroupCreationCommand = new ButtonCommand<object>(createDiscussionGroup, canCreateDiscussionGroup);
@@ -114,6 +114,11 @@ namespace QOBDManagement.ViewModel
         public int MaxMessageLength
         {
             get { return _maxMessage; }
+        }
+
+        public IChatRoomViewModel MainChatRoom
+        {
+            get { return _mainChatRoom; }
         }
 
         public Agent AuthenticatedUser
@@ -150,12 +155,6 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _selectedAgentModel, value); }
         }
 
-        /*public bool IsGroupDiscussion
-        {
-            get { return _isGroupDiscussion; }
-            set { setProperty(ref _isGroupDiscussion, value); }
-        }*/
-
         public List<DiscussionModel> DiscussionList
         {
             get { return _discussionList; }
@@ -174,16 +173,22 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _outputMessage, value); }
         }
 
-        public System.Net.Sockets.TcpClient ClientSocket
+        public System.Net.Sockets.TcpListener TcpListener
         {
-            get { return _clientSocket; }
-            set { setProperty(ref _clientSocket, value); }
+            get { return _tcpListener; }
+            set { setProperty(ref _tcpListener, value); }
         }
 
         public NetworkStream ServerStream
         {
             get { return _serverStream; }
             set { setProperty(ref _serverStream, value); }
+        }
+
+        public Dictionary<AgentModel, TcpClient> ServerClientsDictionary
+        {
+            get { return _clientsList; }
+            set { setProperty(ref _clientsList, value); }
         }
 
 
@@ -201,7 +206,7 @@ namespace QOBDManagement.ViewModel
                 discussionFoundList = DiscussionList.Where(x => x.UserList.Where(y => y.Agent.ID == SelectedAgentModel.Agent.ID).Count() > 0 && x.UserList.Count == 1).ToList();
             else
                 discussionFoundList = DiscussionList.Where(x => x.TxtGroupName == DiscussionModel.TxtGroupName).ToList();
-            
+
             // display discussion messages
             if (discussionFoundList.Count > 0)
             {
@@ -217,7 +222,7 @@ namespace QOBDManagement.ViewModel
                 }
                 // update the displayed group name ( calling the on property change event )
                 DiscussionModel.TxtGroupName = DiscussionModel.TxtGroupName;
-            }            
+            }
 
             Dialog.IsChatDialogOpen = false;
         }
@@ -229,7 +234,7 @@ namespace QOBDManagement.ViewModel
             lock (_lock)
                 DiscussionList = new List<DiscussionModel>();
 
-            if(user.ID != 0)
+            if (user.ID != 0)
                 allUser_discussionOfAuthencatedUserList = await BL.BlChatRoom.searchUser_discussionAsync(new User_discussion { UserId = user.ID }, QOBDCommon.Enum.ESearchOption.AND);
 
             _nbNewMessage = 0;
@@ -264,9 +269,12 @@ namespace QOBDManagement.ViewModel
                         {
                             if (discussionModel.UserList.Where(x => x.Agent.ID == user_discussionOfOthers.UserId).Count() == 0)
                             {
-                                List<Agent> userFoundList = BL.BlAgent.searchAgent(new Agent { ID = user_discussionOfOthers.UserId }, QOBDCommon.Enum.ESearchOption.AND);
-                                if (discussionList.Count > 0 && userFoundList.Count > 0)
-                                    discussionModel.addUser(new AgentModel { Agent = userFoundList[0] });
+                                //List<Agent> userFoundList = await BL.BlAgent.searchAgentAsync(new Agent { ID = user_discussionOfOthers.UserId }, QOBDCommon.Enum.ESearchOption.AND);
+                                AgentModel agentModelFound = _mainChatRoom.AgentViewModel.AgentModelList.Where(x => x.Agent.ID == user_discussionOfOthers.UserId).SingleOrDefault();
+                                if (discussionList.Count > 0 && agentModelFound != null)
+                                {
+                                    discussionModel.addUser(agentModelFound);
+                                }
                             }
                         }
                         lock (_lock)
@@ -299,8 +307,10 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        public async void getMessage()
+        public void getMessage()
         {
+            TcpListener.Start();
+            TcpClient clientSocket = default(TcpClient);
             try
             {
                 while (true)
@@ -309,70 +319,36 @@ namespace QOBDManagement.ViewModel
                     int userId = 0;
                     int messageId = 0;
                     List<string> composer = new List<string>();
+                    HandleDiscussion client = default(HandleDiscussion);
                     string returndata = "";
 
-                    _serverStream = _clientSocket.GetStream();
+                    clientSocket = TcpListener.AcceptTcpClient();
+
+                    ServerStream = clientSocket.GetStream();
                     int buffSize = 0;
-                    buffSize = _clientSocket.ReceiveBufferSize;
+                    buffSize = clientSocket.ReceiveBufferSize;
                     byte[] inStream = new byte[buffSize];
-                    _serverStream.Read(inStream, 0, buffSize);
+                    ServerStream.Read(inStream, 0, buffSize);
                     returndata = System.Text.Encoding.ASCII.GetString(inStream);
                     returndata = returndata.Substring(0, returndata.IndexOf("$"));
+
+                    // checking if user already connected (same user id)
+                    if (returndata.Split('/').Count() > 2)
+                        setUserCommunicationSocket(Utility.intTryParse(returndata.Split('/')[1]), clientSocket, discussionId);
+
                     composer = returndata.Split('/').ToList();
+                    int.TryParse(composer[0], out discussionId);
+                    int.TryParse(composer[1], out userId);
 
-                    // current discussion management
-                    if (composer.Count > 2
-                        && int.TryParse(composer[0], out discussionId)
-                            && int.TryParse(composer[1], out userId)
-                                && int.TryParse(composer[2], out messageId)
-                                    && discussionId != (int)EServiceCommunication.Disconnected
-                                        && discussionId != (int)EServiceCommunication.Connected)
+
+                    if (composer.Count > 2 || discussionId == (int)EServiceCommunication.Connected)
                     {
-                        var messageFoundList = await BL.BlChatRoom.GetMessageDataByIdAsync(messageId);
-                        var userFoundList = BL.BlAgent.searchAgent(new Agent { ID = userId }, QOBDCommon.Enum.ESearchOption.AND);
-
-                        if (discussionId == DiscussionModel.Discussion.ID)
-                        {
-                            // new user to the current discussion detected  
-                            List<string> discussionUserIDs = composer[3].Split('|').Where(x => !string.IsNullOrEmpty(x)).ToList();
-                            if (discussionUserIDs.Count() > DiscussionModel.UserList.Count)
-                            {
-                                updateDiscussionUserList(DiscussionModel, discussionUserIDs);
-                                displayMessage(messageFoundList[0], userFoundList[0]);
-                            }
-
-                            // display the new incoming message
-                            else if (DiscussionModel.MessageList.Where(x => x.Message.ID == messageId).Count() == 0)
-                            {
-                                if (messageFoundList.Count > 0 && userFoundList.Count > 0)
-                                {
-                                    DiscussionModel.addMessage(messageFoundList);
-                                    displayMessage(messageFoundList[0], userFoundList[0]);
-                                }
-                            }
-                        }
-
-                        // notification of a new incoming message
-                        else
-                        {
-                            if (messageFoundList.Count > 0)
-                            {
-                                var discussionModelFound = DiscussionList.Where(x => x.Discussion.ID == discussionId).FirstOrDefault();
-                                if (discussionModelFound != null)
-                                {
-                                    discussionModelFound.addMessage(messageFoundList.Select(x => new MessageModel { Message = x, IsNewMessage = true }).ToList());
-                                    TxtNbNewMessage = (_nbNewMessage + 1).ToString();
-                                }
-                                else
-                                    await retrieveUserDiscussions(AuthenticatedUser);
-
-                                System.Media.SystemSounds.Asterisk.Play();
-                            }
-                        }
+                        client = new HandleDiscussion(Startup);
+                        client.startClient(this, clientSocket);
                     }
 
                     // update the authenticated user online status
-                    else if (userId != AuthenticatedUser.ID)
+                    if (userId != AuthenticatedUser.ID)
                         onPropertyChange("updateStatus");
 
                     // exit the application
@@ -380,7 +356,7 @@ namespace QOBDManagement.ViewModel
                     {
                         _mainChatRoom.cleanUp();
                         break;
-                    }                        
+                    }
                 }
             }
             catch (Exception ex)
@@ -389,7 +365,7 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        private List<Agent> updateDiscussionUserList(DiscussionModel discussionModel, List<string> userIDList)
+        public List<Agent> updateDiscussionUserList(DiscussionModel discussionModel, List<string> userIDList)
         {
             List<Agent> newUserList = new List<Agent>();
             foreach (string id in userIDList)
@@ -497,6 +473,136 @@ namespace QOBDManagement.ViewModel
             }
         }
 
+        /// <summary>
+        /// sending the authenticated user last message
+        /// </summary>
+        /// <param name="obj"></param>
+        private void sendMessage(TcpClient tcpClient, string messageToSend)
+        {
+            TcpClient broadcastSocket;
+            broadcastSocket = tcpClient;
+            try
+            {
+                if (broadcastSocket.Connected)
+                {
+                    NetworkStream broadcastStream = broadcastSocket.GetStream();
+
+                    byte[] outStream = System.Text.Encoding.ASCII.GetBytes(messageToSend);
+                    broadcastStream.Write(outStream, 0, outStream.Length);
+                    broadcastStream.Flush();                    
+                }                
+            }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
+                msg("info", "Error while trying to send the message!");
+            }
+            finally
+            {
+                InputMessage = "";
+            }
+
+            Dialog.IsChatDialogOpen = false;
+        }
+
+        private async Task<Message> saveMessageToDBAsync(Message message)
+        {
+            if (!string.IsNullOrEmpty(message.Content))
+            {
+                Message savedMdessage = (await BL.BlChatRoom.InsertMessageAsync(new List<Message> { message })).FirstOrDefault();
+                if (savedMdessage != null)
+                {
+                    DiscussionModel.addMessage(new MessageModel { Message = savedMdessage });
+                    markMessageAsUnRead(DiscussionModel, new MessageModel { Message = savedMdessage });
+                    displayMessage(savedMdessage, AuthenticatedUser);
+                    return savedMdessage;
+                }
+            }
+            return new Message();
+        }
+
+        public void broadcastMessage(string message)
+        {
+            // broadcast the message to the current discussion users only
+            if (DiscussionModel.Discussion.ID != 0 && SelectedAgentModel.Agent.ID != 0)
+            {
+                foreach (var agentModel in DiscussionModel.UserList)
+                {
+                    try
+                    {
+                        sendMessageToDiscussionUser(agentModel, message);
+                    }
+                    catch (Exception)
+                    { }
+                }
+            }
+
+            // broadcasting message users
+            else
+            {
+                foreach (AgentModel agentModel in MainChatRoom.AgentViewModel.AgentModelList.Where(x => x.Agent.ID != AuthenticatedUser.ID).ToList())
+                {
+                    try
+                    {
+                        sendMessageToDiscussionUser(agentModel, message);
+                    }
+                    catch (Exception)
+                    { }
+                }
+            }
+        }
+
+        private void sendMessageToDiscussionUser(AgentModel agentModel, string message, DiscussionModel currentDiscussionMode = null)
+        {
+            int port = 0;
+            TcpClient tcpClient;
+            string ipAddress = agentModel.TxtIPAddress.Split(':')[0];
+            int.TryParse(agentModel.TxtIPAddress.Split(':')[1], out port);
+
+            var tcpClientFound = ServerClientsDictionary.Where(x => x.Key.TxtID == agentModel.TxtID).Select(x => x.Value).SingleOrDefault();
+            if (tcpClientFound != default(TcpClient))
+            {
+                if(!tcpClientFound.Connected)
+                    tcpClientFound.Connect(ipAddress, port);
+                tcpClient = tcpClientFound;
+            }                
+            else
+                tcpClient = new TcpClient(ipAddress, port);
+            
+            sendMessage(tcpClient, message);
+            if(message.Split('/').Count() > 2)
+                setUserCommunicationSocket(agentModel.Agent.ID, tcpClient, Utility.intTryParse(message.Split('/')[0]));
+            else
+                setUserCommunicationSocket(agentModel.Agent.ID, tcpClient);
+
+            HandleDiscussion client = new HandleDiscussion(Startup);
+            client.startClient(this, tcpClient);
+            Thread.Sleep(1000);
+        }
+
+        private void setUserCommunicationSocket(int userId, TcpClient clientSocket, int discussionId = 0)
+        {
+            // checking if user already connected
+            var clientsToUpdate = ServerClientsDictionary.Where(x => x.Key.Agent.ID == userId).Select(x => x.Key).SingleOrDefault();
+            if (clientsToUpdate != null)
+            {
+                if (discussionId == (int)EServiceCommunication.Disconnected)
+                {
+                    ServerClientsDictionary[clientsToUpdate].Close();
+                    ServerClientsDictionary.Remove(clientsToUpdate);
+                }
+            }
+            else
+            {
+                var agentFound = MainChatRoom.AgentViewModel.AgentModelList.SingleOrDefault(x => x.Agent.ID == userId);
+                if (agentFound != null)
+                {
+                    ServerClientsDictionary.Add(agentFound, clientSocket);
+                    
+                }
+            }
+        }
+
         public override void Dispose()
         {
             base.Dispose();
@@ -529,56 +635,49 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Action Commands ]------------------
 
         /// <summary>
-        /// sending the authenticated user last message
+        /// broadcast message to discussion members ()
         /// </summary>
-        /// <param name="obj"></param>
-        private async void sendMessage(object obj)
+        /// <param name="msg">message to send (discussion ID / sender ID / message ID / discussion members IDs)</param>
+        /// <param name="flag"></param>
+        public async void broadcast(string msg)//(string msg, bool flag = false)
         {
-            if (!string.IsNullOrEmpty(InputMessage) && SelectedAgentModel.Agent.ID != 0)
+            // creating and saving a new discussion
+            if (DiscussionModel.Discussion.ID == 0 && SelectedAgentModel.Agent.ID != 0)
             {
-                // creating and saving a new discussion
-                if (DiscussionModel.Discussion.ID == 0)
+                Dialog.showSearch("Creating a discussion with " + SelectedAgentModel.TxtLogin + "...", isChatDialogBox: true);
+                var discussionCreatedList = await BL.BlChatRoom.InsertDiscussionAsync(new List<Discussion> { new Discussion { Date = DateTime.Now } });
+                if (discussionCreatedList.Count > 0)
                 {
-                    Dialog.showSearch("Creating a discussion with " + SelectedAgentModel.TxtLogin + "...", isChatDialogBox: true);
-                    var discussionCreatedList = await BL.BlChatRoom.InsertDiscussionAsync(new List<Discussion> { new Discussion { Date = DateTime.Now } });
-                    if (discussionCreatedList.Count > 0)
-                    {
-                        var user_discussionCreatedList = await BL.BlChatRoom.InsertUser_discussionAsync(new List<User_discussion> {
+                    var user_discussionCreatedList = await BL.BlChatRoom.InsertUser_discussionAsync(new List<User_discussion> {
                             new User_discussion { DiscussionId = discussionCreatedList[0].ID, UserId = SelectedAgentModel.Agent.ID },
                             new User_discussion { DiscussionId = discussionCreatedList[0].ID, UserId = AuthenticatedUser.ID }
                         });
-                        var discussionList = await retrieveUserDiscussions(AuthenticatedUser);
-                        DiscussionModel = discussionList.Where(x => x.Discussion.ID == discussionCreatedList[0].ID).FirstOrDefault() ?? new DiscussionModel { Discussion = discussionCreatedList[0] };
-                    }
-                }
-
-                // saving and sending the authenticated user last message
-                try
-                {
-                    Message inputMessage = new Message { DiscussionId = DiscussionModel.Discussion.ID, Content = InputMessage, Date = DateTime.Now, UserId = AuthenticatedUser.ID };
-                    displayMessage(inputMessage, AuthenticatedUser);
-
-                    Message savedMdessage = (await BL.BlChatRoom.InsertMessageAsync(new List<Message> { inputMessage })).FirstOrDefault();
-                    if (savedMdessage != null)
-                    {
-                        DiscussionModel.addMessage(new MessageModel { Message = savedMdessage });
-                        markMessageAsUnRead(DiscussionModel, new MessageModel { Message = savedMdessage });
-                        byte[] outStream = System.Text.Encoding.ASCII.GetBytes(DiscussionModel.TxtID + "/" + AuthenticatedUser.ID + "/" + savedMdessage.ID + "/" + DiscussionModel.TxtGroupName.Split('-')[1] + "/" + InputMessage + "$");
-                        _serverStream.Write(outStream, 0, outStream.Length);
-                        _serverStream.Flush();
-                        InputMessage = "";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
-                    msg("info", "Error while trying to send the message!");
+                    var discussionList = await retrieveUserDiscussions(AuthenticatedUser);
+                    DiscussionModel = discussionList.Where(x => x.Discussion.ID == discussionCreatedList[0].ID).FirstOrDefault() ?? new DiscussionModel { Discussion = discussionCreatedList[0] };
                 }
             }
+
+            Message messageToSend = new Message { DiscussionId = DiscussionModel.Discussion.ID, Content = InputMessage, Date = DateTime.Now, UserId = AuthenticatedUser.ID };
+            Message savedMessage = await saveMessageToDBAsync(messageToSend);
+
+            // creating the message for
+            if (msg.Split('/').Count() < 2)
+            {
+                msg = DiscussionModel.TxtID;
+                msg += "/" + AuthenticatedUser.ID;
+                msg += "/" + savedMessage.ID;
+                msg += "/" + DiscussionModel.TxtGroupName.Split('-')[1];
+                msg += "/" + savedMessage.Content;
+                msg += "/" + savedMessage.Date.ToString("yyyy-MM-dd H:mm:ss");
+                msg += "$";
+            }
+
+
+            broadcastMessage(msg);
             Dialog.IsChatDialogOpen = false;
         }
 
-        private bool canSendMessage(object arg)
+        private bool canBroadcast(string arg)
         {
             return true;
         }
@@ -685,7 +784,7 @@ namespace QOBDManagement.ViewModel
             if (!string.IsNullOrEmpty(obj))
             {
                 Dialog.IsLeftBarClosed = false;
-                DiscussionModel = new DiscussionModel();
+                //DiscussionModel = new DiscussionModel();
                 SelectedAgentModel = new AgentModel { TxtID = obj.Split('-')[1].Split('|')[0] };
                 DiscussionModel.IsGroupDiscussion = false;
                 DiscussionModel.TxtGroupName = obj;

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.ComponentModel;
+using QOBDManagement.Enums;
 
 namespace QOBDManagement.ViewModel
 {
@@ -54,7 +55,7 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _messageGroupHistoryList, value); }
         }
 
-        public async Task load()
+        public async Task loadAsync()
         {
             Dialog.showSearchMessage("Loding...", isChatDialogBox: true);
 
@@ -100,7 +101,8 @@ namespace QOBDManagement.ViewModel
                         }
                     }
                 }
-            }
+            }            
+
             Dialog.IsChatDialogOpen = false;
         }
 

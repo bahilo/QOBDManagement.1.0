@@ -17,7 +17,7 @@
         xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
         xmlns:Classes="clr-namespace:QOBDManagement.Classes"
         Title="AVA" 
-        Closed="Window_Closing"
+        Closing="Window_Closing"
         Icon="ava_logo.ico">
     <Window.Resources>
         <ResourceDictionary>

@@ -30,8 +30,9 @@ namespace QOBDManagement.Views
         private async void ChatRoomHistoryWindow_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext dataContext = new DataContext();
+            dataContext.setChatWindowContext(this);
             if (dataContext.setChatWindowContext(this) != null)
-                await ((ChatRoomViewModel)this.DataContext).MessageViewModel.load();                            
+                await ((ChatRoomViewModel)this.DataContext).MessageViewModel.loadAsync();
         }
     }
 }

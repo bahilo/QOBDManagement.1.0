@@ -89,9 +89,7 @@ namespace QOBDManagement.Models
         public Agent Agent
         {
             get { return _agent; }
-            set {
-                _agent = value; onPropertyChange();
-                /*setProperty(ref _agent, value, "Agent");*/ }
+            set { _agent = value; onPropertyChange(); }
         }
 
         public string TxtID
@@ -182,6 +180,12 @@ namespace QOBDManagement.Models
         {
             get { return _agent.IsOnline; }
             set { _agent.IsOnline = value; onPropertyChange(); }
+        }
+
+        public string TxtIPAddress
+        {
+            get { return _agent.IPAddress; }
+            set { _agent.IPAddress = value; onPropertyChange(); }
         }
 
         public string TxtListSize

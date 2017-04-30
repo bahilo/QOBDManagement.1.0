@@ -30,7 +30,7 @@ namespace QOBDDAL.Helper.ChannelHelper
 
             // append column 
             foreach (var dictElement in columsDict)
-                output += "["+dictElement.Key + "], ";
+                output += "[" + dictElement.Key + "], ";
 
             output += "FROM [" + tableName + "];";
 
@@ -45,7 +45,7 @@ namespace QOBDDAL.Helper.ChannelHelper
 
             // append column 
             foreach (var dictElement in columsDict)
-                output += "["+dictElement.Key + "], ";
+                output += "[" + dictElement.Key + "], ";
 
             output += ") VALUES ('";
 
@@ -67,7 +67,7 @@ namespace QOBDDAL.Helper.ChannelHelper
 
             // append column 
             foreach (var dictElement in columsDict)
-                output += "["+dictElement.Key + "] = '" + dictElement.Value.Replace("'", "''") + "', ";
+                output += "[" + dictElement.Key + "] = '" + dictElement.Value.Replace("'", "''") + "', ";
 
             output += " WHERE [" + IDDict.Key + "] = '" + IDDict.Value + "';";
             output = output.Replace(",  WHERE", " WHERE");
@@ -251,7 +251,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 Statistic statistic = new Statistic();
                 statistic.ID = Utility.intTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["ID"].Ordinal].ToString());
                 statistic.BillId = Utility.intTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["BillId"].Ordinal].ToString());
-                statistic.Company = statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Company"].Ordinal].ToString();
+                statistic.Company = (statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Company"].Ordinal] ?? "").ToString();
                 statistic.Income = Utility.decimalTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Income"].Ordinal].ToString());
                 statistic.Income_percent = Utility.doubleTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Income_percent"].Ordinal].ToString());
                 statistic.Pay_received = Utility.decimalTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Pay_received"].Ordinal].ToString());
@@ -342,8 +342,8 @@ namespace QOBDDAL.Helper.ChannelHelper
             {
                 Info infos = new Info();
                 infos.ID = Utility.intTryParse(InfosDataTable.Rows[i].ItemArray[InfosDataTable.Columns["ID"].Ordinal].ToString());
-                infos.Name = InfosDataTable.Rows[i].ItemArray[InfosDataTable.Columns["Name"].Ordinal].ToString();
-                infos.Value = InfosDataTable.Rows[i].ItemArray[InfosDataTable.Columns["Value"].Ordinal].ToString();
+                infos.Name = (InfosDataTable.Rows[i].ItemArray[InfosDataTable.Columns["Name"].Ordinal] ?? "").ToString();
+                infos.Value = (InfosDataTable.Rows[i].ItemArray[InfosDataTable.Columns["Value"].Ordinal] ?? "").ToString();
 
                 lock (_lock) returnList.Add(infos);
             }
@@ -399,16 +399,17 @@ namespace QOBDDAL.Helper.ChannelHelper
             {
                 Agent agent = new Agent();
                 agent.ID = Utility.intTryParse(agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["ID"].Ordinal].ToString());
-                agent.FirstName = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["FirstName"].Ordinal].ToString();
-                agent.LastName = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["LastName"].Ordinal].ToString();
-                agent.UserName = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Login"].Ordinal].ToString();
-                agent.HashedPassword = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Password"].Ordinal].ToString();
-                agent.Picture = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Picture"].Ordinal].ToString();
-                agent.Phone = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Phone"].Ordinal].ToString();
-                agent.Status = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Status"].Ordinal].ToString();
-                agent.Admin = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Admin"].Ordinal].ToString();
-                agent.Email = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Email"].Ordinal].ToString();
-                agent.Fax = agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Fax"].Ordinal].ToString();
+                agent.FirstName = (agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["FirstName"].Ordinal] ?? "").ToString();
+                agent.LastName = (agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["LastName"].Ordinal] ?? "").ToString();
+                agent.UserName = (agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Login"].Ordinal] ?? "").ToString();
+                agent.HashedPassword = (agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Password"].Ordinal] ?? "").ToString();
+                agent.Picture = (agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Picture"].Ordinal] ?? "").ToString();
+                agent.Phone = (agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Phone"].Ordinal] ?? "").ToString();
+                agent.Status = (agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Status"].Ordinal] ?? "").ToString();
+                agent.IPAddress = (agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["IPAddress"].Ordinal] ?? "").ToString();
+                agent.Admin = (agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Admin"].Ordinal] ?? "").ToString();
+                agent.Email = (agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Email"].Ordinal] ?? "").ToString();
+                agent.Fax = (agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["Fax"].Ordinal] ?? "").ToString();
                 agent.ListSize = Utility.intTryParse(agentDataTable.Rows[i].ItemArray[agentDataTable.Columns["ListSize"].Ordinal].ToString());
 
                 lock (_lock) returnList.Add(agent);
@@ -449,6 +450,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} Admin LIKE '{1}' ", filterOperator.ToString(), agent.Admin.Replace("'", "''"));
                 if (!string.IsNullOrEmpty(agent.Status))
                     query = string.Format(query + " {0} Status LIKE '{1}' ", filterOperator.ToString(), agent.Status.Replace("'", "''"));
+                if (!string.IsNullOrEmpty(agent.IPAddress))
+                    query = string.Format(query + " {0} IPAddress LIKE '{1}' ", filterOperator.ToString(), agent.IPAddress);
 
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))
@@ -473,6 +476,7 @@ namespace QOBDDAL.Helper.ChannelHelper
             output["Picture"] = (agent.Picture ?? "").ToString();
             output["Phone"] = (agent.Phone ?? "").ToString();
             output["Status"] = (agent.Status ?? "").ToString();
+            output["IPAddress"] = (agent.IPAddress ?? "").ToString();
             output["Admin"] = (agent.Admin ?? "").ToString();
             output["Email"] = (agent.Email ?? "").ToString();
             output["Fax"] = (agent.Fax ?? "").ToString();
@@ -497,10 +501,10 @@ namespace QOBDDAL.Helper.ChannelHelper
                 Order.AgentId = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["AgentId"].Ordinal].ToString());
                 Order.BillAddress = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["BillAddress"].Ordinal].ToString());
                 Order.ClientId = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["ClientId"].Ordinal].ToString());
-                Order.Comment1 = OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment1"].Ordinal].ToString();
-                Order.Comment2 = OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment2"].Ordinal].ToString();
-                Order.Comment3 = OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment3"].Ordinal].ToString();
-                Order.Status = OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Status"].Ordinal].ToString();
+                Order.Comment1 = (OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment1"].Ordinal] ?? "").ToString();
+                Order.Comment2 = (OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment2"].Ordinal] ?? "").ToString();
+                Order.Comment3 = (OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment3"].Ordinal] ?? "").ToString();
+                Order.Status = (OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Status"].Ordinal] ?? "").ToString();
                 Order.Date = Utility.convertToDateTime(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Date"].Ordinal].ToString());
                 Order.DeliveryAddress = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["DeliveryAddress"].Ordinal].ToString());
                 Order.Tax = Utility.doubleTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Tax"].Ordinal].ToString());
@@ -655,18 +659,18 @@ namespace QOBDDAL.Helper.ChannelHelper
                     Client client = new Client();
                     client.ID = Utility.intTryParse(clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["ID"].Ordinal].ToString());
                     client.AgentId = Utility.intTryParse(clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["AgentId"].Ordinal].ToString());
-                    client.FirstName = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["FirstName"].Ordinal].ToString();
-                    client.LastName = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["LastName"].Ordinal].ToString();
-                    client.Comment = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Comment"].Ordinal].ToString();
-                    client.Phone = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Phone"].Ordinal].ToString();
-                    client.Status = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Status"].Ordinal].ToString();
-                    client.Company = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Company"].Ordinal].ToString();
-                    client.Email = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Email"].Ordinal].ToString();
-                    client.Fax = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Fax"].Ordinal].ToString();
-                    client.CompanyName = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["CompanyName"].Ordinal].ToString();
-                    client.CRN = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["CRN"].Ordinal].ToString();
+                    client.FirstName = (clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["FirstName"].Ordinal] ?? "").ToString();
+                    client.LastName = (clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["LastName"].Ordinal] ?? "").ToString();
+                    client.Comment = (clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Comment"].Ordinal] ?? "").ToString();
+                    client.Phone = (clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Phone"].Ordinal] ?? "").ToString();
+                    client.Status = (clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Status"].Ordinal] ?? "").ToString();
+                    client.Company = (clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Company"].Ordinal] ?? "").ToString();
+                    client.Email = (clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Email"].Ordinal] ?? "").ToString();
+                    client.Fax = (clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Fax"].Ordinal] ?? "").ToString();
+                    client.CompanyName = (clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["CompanyName"].Ordinal] ?? "").ToString();
+                    client.CRN = (clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["CRN"].Ordinal] ?? "").ToString();
                     client.MaxCredit = Utility.intTryParse(clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["MaxCredit"].Ordinal].ToString());
-                    client.Rib = clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Rib"].Ordinal].ToString();
+                    client.Rib = (clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["Rib"].Ordinal] ?? "").ToString();
                     client.PayDelay = Utility.intTryParse(clientDataTable.Rows[i].ItemArray[clientDataTable.Columns["PayDelay"].Ordinal].ToString());
 
                     lock (_lock) returnList.Add(client);
@@ -764,15 +768,15 @@ namespace QOBDDAL.Helper.ChannelHelper
                 {
                     Contact contact = new Contact();
                     contact.ID = Utility.intTryParse(contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["ID"].Ordinal].ToString());
-                    contact.Cellphone = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Cellphone"].Ordinal].ToString();
+                    contact.Cellphone = (contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Cellphone"].Ordinal] ?? "").ToString();
                     contact.ClientId = Utility.intTryParse(contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["ClientId"].Ordinal].ToString());
-                    contact.LastName = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["LastName"].Ordinal].ToString();
-                    contact.Comment = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Comment"].Ordinal].ToString();
-                    contact.Phone = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Phone"].Ordinal].ToString();
-                    contact.Firstname = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Firstname"].Ordinal].ToString();
-                    contact.Position = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Position"].Ordinal].ToString();
-                    contact.Email = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Email"].Ordinal].ToString();
-                    contact.Fax = contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Fax"].Ordinal].ToString();
+                    contact.LastName = (contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["LastName"].Ordinal] ?? "").ToString();
+                    contact.Comment = (contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Comment"].Ordinal] ?? "").ToString();
+                    contact.Phone = (contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Phone"].Ordinal] ?? "").ToString();
+                    contact.Firstname = (contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Firstname"].Ordinal] ?? "").ToString();
+                    contact.Position = (contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Position"].Ordinal] ?? "").ToString();
+                    contact.Email = (contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Email"].Ordinal] ?? "").ToString();
+                    contact.Fax = (contactDataTable.Rows[i].ItemArray[contactDataTable.Columns["Fax"].Ordinal] ?? "").ToString();
 
                     lock (_lock) returnList.Add(contact);
                 }
@@ -856,16 +860,16 @@ namespace QOBDDAL.Helper.ChannelHelper
                     address.ID = (int)addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["ID"].Ordinal];
                     address.AddressName = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Address"].Ordinal].ToString();
                     address.ClientId = Utility.intTryParse(addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["ClientId"].Ordinal].ToString());
-                    address.Comment = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Comment"].Ordinal].ToString();
-                    address.Email = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Email"].Ordinal].ToString();
-                    address.Phone = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Phone"].Ordinal].ToString();
-                    address.CityName = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["CityName"].Ordinal].ToString();
-                    address.Country = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Country"].Ordinal].ToString();
-                    address.LastName = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["LastName"].Ordinal].ToString();
-                    address.FirstName = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["FirstName"].Ordinal].ToString();
-                    address.Name = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Name"].Ordinal].ToString();
-                    address.Name2 = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Name2"].Ordinal].ToString();
-                    address.Postcode = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Postcode"].Ordinal].ToString();
+                    address.Comment = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Comment"].Ordinal] ?? "").ToString();
+                    address.Email = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Email"].Ordinal] ?? "").ToString();
+                    address.Phone = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Phone"].Ordinal] ?? "").ToString();
+                    address.CityName = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["CityName"].Ordinal] ?? "").ToString();
+                    address.Country = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Country"].Ordinal] ?? "").ToString();
+                    address.LastName = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["LastName"].Ordinal] ?? "").ToString();
+                    address.FirstName = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["FirstName"].Ordinal] ?? "").ToString();
+                    address.Name = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Name"].Ordinal] ?? "").ToString();
+                    address.Name2 = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Name2"].Ordinal] ?? "").ToString();
+                    address.Postcode = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Postcode"].Ordinal] ?? "").ToString();
 
                     lock (_lock) returnList.Add(address);
                 }
@@ -962,8 +966,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     bill.DatePay = Utility.convertToDateTime(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["DatePay"].Ordinal].ToString());
                     bill.DateLimit = Utility.convertToDateTime(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["DateLimit"].Ordinal].ToString());
                     bill.Pay = Utility.decimalTryParse(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["Pay"].Ordinal].ToString());
-                    bill.Comment1 = BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["Comment1"].Ordinal].ToString();
-                    bill.Comment2 = BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["Comment2"].Ordinal].ToString();
+                    bill.Comment1 = (BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["Comment1"].Ordinal] ?? "").ToString();
+                    bill.Comment2 = (BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["Comment2"].Ordinal] ?? "").ToString();
                     bill.PayMod = BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["PayMod"].Ordinal].ToString();
                     bill.PayReceived = Utility.decimalTryParse(BillDataTable.Rows[i].ItemArray[BillDataTable.Columns["PayReceived"].Ordinal].ToString());
 
@@ -1057,9 +1061,9 @@ namespace QOBDDAL.Helper.ChannelHelper
                     delivery.BillId = Utility.intTryParse(DeliveryDataTable.Rows[i].ItemArray[DeliveryDataTable.Columns["BillId"].Ordinal].ToString());
                     delivery.Date = Utility.convertToDateTime(DeliveryDataTable.Rows[i].ItemArray[DeliveryDataTable.Columns["Date"].Ordinal].ToString());
                     delivery.Package = Utility.intTryParse(DeliveryDataTable.Rows[i].ItemArray[DeliveryDataTable.Columns["Package"].Ordinal].ToString());
-                    delivery.Status = DeliveryDataTable.Rows[i].ItemArray[DeliveryDataTable.Columns["Status"].Ordinal].ToString();
+                    delivery.Status = (DeliveryDataTable.Rows[i].ItemArray[DeliveryDataTable.Columns["Status"].Ordinal] ?? "").ToString();
 
-                lock (_lock) returnList.Add(delivery);
+                    lock (_lock) returnList.Add(delivery);
                 }
             }
             return returnList;
@@ -1124,8 +1128,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     Order_item Order_item = new Order_item();
                     Order_item.ID = Utility.intTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["ID"].Ordinal].ToString());
                     Order_item.OrderId = Utility.intTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["OrderId"].Ordinal].ToString());
-                    Order_item.Comment_Purchase_Price = Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Comment_Purchase_Price"].Ordinal].ToString();
-                    Order_item.Item_ref = Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Item_ref"].Ordinal].ToString();
+                    Order_item.Comment_Purchase_Price = (Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Comment_Purchase_Price"].Ordinal] ?? "").ToString();
+                    Order_item.Item_ref = (Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Item_ref"].Ordinal] ?? "").ToString();
                     Order_item.Rank = Utility.intTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Rank"].Ordinal].ToString());
                     Order_item.Price = Utility.decimalTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Price"].Ordinal].ToString());
                     Order_item.Price_purchase = Utility.decimalTryParse(Order_itemDataTable.Rows[i].ItemArray[Order_itemDataTable.Columns["Price_purchase"].Ordinal].ToString());
@@ -1136,7 +1140,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     lock (_lock) returnList.Add(Order_item);
                 }
             }
-            var test = returnList.Where(x => x.OrderId == 3410).ToList(); ;
+            var test = returnList.Where(x => x.OrderId == 3410).ToList();
             return returnList;
         }
 
@@ -1218,12 +1222,12 @@ namespace QOBDDAL.Helper.ChannelHelper
                     Tax tax = new Tax();
                     tax.ID = Utility.intTryParse(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["ID"].Ordinal].ToString());
                     tax.Tax_current = Utility.intTryParse(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Tax_current"].Ordinal].ToString());
-                    tax.Type = TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Type"].Ordinal].ToString();
+                    tax.Type = (TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Type"].Ordinal] ?? "").ToString();
                     tax.Value = Utility.doubleTryParse(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Value"].Ordinal].ToString());
                     tax.Date_insert = Utility.convertToDateTime(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Date_insert"].Ordinal].ToString());
-                    tax.Comment = TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Comment"].Ordinal].ToString();
+                    tax.Comment = (TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Comment"].Ordinal] ?? "").ToString();
 
-                    lock (_lock) returnList.Add(tax);
+                lock (_lock) returnList.Add(tax);
                 }
             }
             return returnList;
@@ -1289,10 +1293,10 @@ namespace QOBDDAL.Helper.ChannelHelper
                 {
                     Provider_item provider_item = new Provider_item();
                     provider_item.ID = Utility.intTryParse(provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["ID"].Ordinal].ToString());
-                    provider_item.Item_ref = provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["Item_ref"].Ordinal].ToString();
-                    provider_item.Provider_name = provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["Provider_name"].Ordinal].ToString();
+                    provider_item.Item_ref = (provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["Item_ref"].Ordinal] ?? "").ToString();
+                    provider_item.Provider_name = (provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["Provider_name"].Ordinal] ?? "").ToString();
 
-                    lock (_lock) returnList.Add(provider_item);
+                lock (_lock) returnList.Add(provider_item);
                 }
             }
             return returnList;
@@ -1349,7 +1353,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 {
                     Provider provider = new Provider();
                     provider.ID = Utility.intTryParse(providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["ID"].Ordinal].ToString());
-                    provider.Name = providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Name"].Ordinal].ToString();
+                    provider.Name = (providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Name"].Ordinal] ?? "").ToString();
                     provider.Source = Utility.intTryParse(providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Source"].Ordinal].ToString());
 
                     lock (_lock) returnList.Add(provider);
@@ -1408,18 +1412,18 @@ namespace QOBDDAL.Helper.ChannelHelper
                 for (int i = 0; i < itemDataTable.Rows.Count; i++)
                 {
                     Item Item = new Item();
-                    Item.ID = (int)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["ID"].Ordinal];
-                    Item.Comment = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Comment"].Ordinal];
-                    Item.Erasable = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Erasable"].Ordinal];
-                    Item.Name = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Name"].Ordinal];
+                    Item.ID = Utility.intTryParse(itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["ID"].Ordinal].ToString());
+                    Item.Comment = (itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Comment"].Ordinal] ?? "").ToString();
+                    Item.Erasable = (itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Erasable"].Ordinal] ?? "").ToString();
+                    Item.Name = (itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Name"].Ordinal] ?? "").ToString();
                     Item.Price_purchase = Utility.decimalTryParse(itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Price_purchase"].Ordinal].ToString());
                     Item.Price_sell = Utility.decimalTryParse(itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Price_sell"].Ordinal].ToString());
-                    Item.Ref = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Ref"].Ordinal];
-                    Item.Type_sub = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Type_sub"].Ordinal];
-                    Item.Source = (int)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Source"].Ordinal];
-                    Item.Type = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Type"].Ordinal];
-                    Item.Picture = (string)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Picture"].Ordinal];
-                    Item.Stock = (int)itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Stock"].Ordinal];
+                    Item.Ref = (itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Ref"].Ordinal] ?? "").ToString();
+                    Item.Type_sub = (itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Type_sub"].Ordinal] ?? "").ToString();
+                    Item.Source = Utility.intTryParse(itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Source"].Ordinal].ToString());
+                    Item.Type = (itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Type"].Ordinal] ?? "").ToString();
+                    Item.Picture = (itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Picture"].Ordinal] ?? "").ToString();
+                    Item.Stock = Utility.intTryParse(itemDataTable.Rows[i].ItemArray[itemDataTable.Columns["Stock"].Ordinal].ToString());
 
                     lock (_lock) returnList.Add(Item);
                 }
@@ -1507,7 +1511,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     Item_delivery item_delivery = new Item_delivery();
                     item_delivery.ID = Utility.intTryParse(item_deliveryDataTable.Rows[i].ItemArray[item_deliveryDataTable.Columns["ID"].Ordinal].ToString());
                     item_delivery.DeliveryId = Utility.intTryParse(item_deliveryDataTable.Rows[i].ItemArray[item_deliveryDataTable.Columns["DeliveryId"].Ordinal].ToString());
-                    item_delivery.Item_ref = item_deliveryDataTable.Rows[i].ItemArray[item_deliveryDataTable.Columns["Item_ref"].Ordinal].ToString();
+                    item_delivery.Item_ref = (item_deliveryDataTable.Rows[i].ItemArray[item_deliveryDataTable.Columns["Item_ref"].Ordinal] ?? "").ToString();
                     item_delivery.Quantity_delivery = Utility.intTryParse(item_deliveryDataTable.Rows[i].ItemArray[item_deliveryDataTable.Columns["Quantity_delivery"].Ordinal].ToString());
 
                     lock (_lock) returnList.Add(item_delivery);
@@ -1571,7 +1575,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 {
                     Tax_item tax_item = new Tax_item();
                     tax_item.ID = Utility.intTryParse(tax_itemDataTable.Rows[i].ItemArray[tax_itemDataTable.Columns["ID"].Ordinal].ToString());
-                    tax_item.Item_ref = tax_itemDataTable.Rows[i].ItemArray[tax_itemDataTable.Columns["Item_ref"].Ordinal].ToString();
+                    tax_item.Item_ref = (tax_itemDataTable.Rows[i].ItemArray[tax_itemDataTable.Columns["Item_ref"].Ordinal] ?? "").ToString();
                     tax_item.Tax_value = Utility.doubleTryParse(tax_itemDataTable.Rows[i].ItemArray[tax_itemDataTable.Columns["Tax_value"].Ordinal].ToString());
                     tax_item.Tax_type = tax_itemDataTable.Rows[i].ItemArray[tax_itemDataTable.Columns["Tax_type"].Ordinal].ToString();
                     tax_item.TaxId = Utility.intTryParse(tax_itemDataTable.Rows[i].ItemArray[tax_itemDataTable.Columns["TaxId"].Ordinal].ToString());

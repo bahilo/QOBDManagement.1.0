@@ -44,6 +44,8 @@ namespace QOBDCommon.Entities
 
         public bool IsOnline { get; set; }
 
+        public string IPAddress { get; set; }
+
         public List<Role> RoleList { get; set; }
 
     } /* end class Agent */
