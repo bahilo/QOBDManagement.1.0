@@ -81,10 +81,10 @@ namespace QOBDManagement
             _heightDataList = 600;
 
             //------[ Images ]
-            _headerImageDisplay = new InfoManager.Display("header_image", new List<string> { "header_image", "header_image_width", "header_image_height" },ConfigurationManager.AppSettings["ftp_image_folder"], ConfigurationManager.AppSettings["local_image_folder"], "","");
+            _headerImageDisplay = new InfoManager.Display("header_image", new List<string> { "header_image", "header_image_width", "header_image_height" }, ConfigurationManager.AppSettings["ftp_image_folder"], ConfigurationManager.AppSettings["local_image_folder"], "", "");
             _logoImageDisplay = new InfoManager.Display("logo_image", new List<string> { "logo_image", "logo_image_width", "logo_image_height" }, ConfigurationManager.AppSettings["ftp_image_folder"], ConfigurationManager.AppSettings["local_image_folder"], "", "");
             _billImageDisplay = new InfoManager.Display("bill_image", new List<string> { "bill_image", "bill_image_width", "bill_image_height" }, ConfigurationManager.AppSettings["ftp_image_folder"], ConfigurationManager.AppSettings["local_image_folder"], "", "");
-            
+
             Startup = startup;
             Dialog = new ConfirmationViewModel();
 
@@ -101,7 +101,7 @@ namespace QOBDManagement
             QuoteViewModel = new QuoteViewModel(this, Startup, Dialog);
             SecurityLoginViewModel = new SecurityLoginViewModel(this, Startup, Dialog);
 
-            
+
         }
 
         private void instancesOrder()
@@ -255,7 +255,7 @@ namespace QOBDManagement
                 _startup.Dal.ProgressBarFunc = progressBarManagement;
                 _startup.Dal.SetUserCredential(AuthenticatedUserModel.Agent);
                 _startup.Dal.DALReferential.PropertyChanged += onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage;
-                
+
             }
 
             CommandNavig.raiseCanExecuteActionChanged();
@@ -282,7 +282,7 @@ namespace QOBDManagement
             // set ftp credentials
             if (string.IsNullOrEmpty(_headerImageDisplay.TxtLogin) || string.IsNullOrEmpty(_logoImageDisplay.TxtLogin) || string.IsNullOrEmpty(_billImageDisplay.TxtLogin))
             {
-                 _headerImageDisplay.TxtLogin = _logoImageDisplay.TxtLogin = _billImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+                _headerImageDisplay.TxtLogin = _logoImageDisplay.TxtLogin = _billImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
                 _headerImageDisplay.TxtPassword = _logoImageDisplay.TxtPassword = _billImageDisplay.TxtPassword = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
             }
 
@@ -433,7 +433,7 @@ namespace QOBDManagement
         {
             if (e.PropertyName.Equals("Agent"))
             {
-                if ( _startup.Bl.BlSecurity.IsUserAuthenticated())
+                if (_startup.Bl.BlSecurity.IsUserAuthenticated())
                     load();
                 onPropertyChange("AuthenticatedUserModel");
                 onPropertyChange("TxtUserName");
@@ -453,7 +453,14 @@ namespace QOBDManagement
             {
                 // if not unit testing download images
                 if (Application.Current != null)
-                    downloadHeaderImages();
+                {
+                    if (Application.Current.Dispatcher.CheckAccess())
+                        downloadHeaderImages();
+                    else
+                        Application.Current.Dispatcher.Invoke(()=> {
+                            downloadHeaderImages();
+                        });
+                }
             }
         }
 

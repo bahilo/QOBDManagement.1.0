@@ -45,11 +45,11 @@ namespace QOBDManagement
             try
             {
                 // delete database if exists
-                /*if (File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
-                    File.Delete(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));*/
+                if (File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
+                    File.Delete(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
 
+                // copy the database to user local folder
                 if (!File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
-                    // copy the database to user local folder
                     File.Copy(System.IO.Path.Combine(unWritableAppDataDir, "QCBDDatabase.sdf"), System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
 
             }

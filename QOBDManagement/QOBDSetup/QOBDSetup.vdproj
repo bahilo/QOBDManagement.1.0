@@ -81,12 +81,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_160C1067997E42AEAF4EBC20B27F085F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_16187B22C55E4BA8B7C796A665E7BDA7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -472,6 +466,12 @@
         "Entry"
         {
         "MsmKey" = "8:_71524E5FFDAA437D851B7C32DB640A68"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7191A48906FA467E8BFA4A96291BB6D7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -874,7 +874,7 @@
         "Entry"
         {
         "MsmKey" = "8:_DF6593C96804167D7F10F008C9ED71D2"
-        "OwnerKey" = "8:_8D0208A96FCD496CB674E6542F51B6A8"
+        "OwnerKey" = "8:_E3A743A4344784B2B58EC561CA499B77"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -886,7 +886,7 @@
         "Entry"
         {
         "MsmKey" = "8:_DF6593C96804167D7F10F008C9ED71D2"
-        "OwnerKey" = "8:_E3A743A4344784B2B58EC561CA499B77"
+        "OwnerKey" = "8:_8D0208A96FCD496CB674E6542F51B6A8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -969,6 +969,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F57ABB72E45C09847516E31535506ABF"
+        "OwnerKey" = "8:_D5408DAF503E8F68B2B61C84B0FF5AAB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F57ABB72E45C09847516E31535506ABF"
+        "OwnerKey" = "8:_8D0208A96FCD496CB674E6542F51B6A8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F7AA45F78B7E476D910EB2DA765E7684"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -994,49 +1006,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E34D61531FDCC3C1F09B30F71B18FF49"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7A892873F7A857C0B22BB2DB3EB14488"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AC50A9748ABE3B2A41E5F628BAB31578"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5D9B364B3642379DB641775A9661AFF0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EA8B09DA15C6D5E17D48950A0731B7A7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_89E1AF71CB0C4EC42213144FAB14ECE9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DF6593C96804167D7F10F008C9ED71D2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BE78E9F049B0A7AFB07855EF9E5D3836"
+        "OwnerKey" = "8:_D5408DAF503E8F68B2B61C84B0FF5AAB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1048,7 +1018,55 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D5408DAF503E8F68B2B61C84B0FF5AAB"
+        "OwnerKey" = "8:_F57ABB72E45C09847516E31535506ABF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BE78E9F049B0A7AFB07855EF9E5D3836"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_DF6593C96804167D7F10F008C9ED71D2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_89E1AF71CB0C4EC42213144FAB14ECE9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EA8B09DA15C6D5E17D48950A0731B7A7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5D9B364B3642379DB641775A9661AFF0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_AC50A9748ABE3B2A41E5F628BAB31578"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7A892873F7A857C0B22BB2DB3EB14488"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_E34D61531FDCC3C1F09B30F71B18FF49"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -1352,26 +1370,6 @@
             "TargetName" = "8:MaterialDesignColor.Teal.Named.Accent.xaml"
             "Tag" = "8:"
             "Folder" = "8:_F381D573E8634CFF90F8801B205864A2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_160C1067997E42AEAF4EBC20B27F085F"
-            {
-            "SourcePath" = "8:..\\QOBDDAL\\App_Data\\QCBDDatabase.sdf"
-            "TargetName" = "8:QCBDDatabase.sdf"
-            "Tag" = "8:"
-            "Folder" = "8:_14AE393F35474829BD0D4B98BC44A1CC"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2253,6 +2251,11 @@
             "AssemblyAsmDisplayName" = "8:MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_5D9B364B3642379DB641775A9661AFF0"
+                    {
+                    "Name" = "8:MaterialDesignColors.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:MaterialDesignColors.dll"
             "TargetName" = "8:"
@@ -2692,6 +2695,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7191A48906FA467E8BFA4A96291BB6D7"
+            {
+            "SourcePath" = "8:..\\QOBDDAL\\App_Data\\QCBDDatabase.sdf"
+            "TargetName" = "8:QCBDDatabase.sdf"
+            "Tag" = "8:"
+            "Folder" = "8:_14AE393F35474829BD0D4B98BC44A1CC"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_72C1419E8D1D48DEA452D82DCE215BE1"
             {
             "SourcePath" = "8:..\\QOBDManagement\\Themes\\MaterialDesignColor.LightBlue.Primary.xaml"
@@ -2779,6 +2802,11 @@
             "AssemblyAsmDisplayName" = "8:Livecharts, Version=0.8.0.0, Culture=neutral, PublicKeyToken=c5935629d38af058, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_7A892873F7A857C0B22BB2DB3EB14488"
+                    {
+                    "Name" = "8:Livecharts.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Livecharts.dll"
             "TargetName" = "8:"
@@ -3025,6 +3053,11 @@
             "AssemblyAsmDisplayName" = "8:Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_89E1AF71CB0C4EC42213144FAB14ECE9"
+                    {
+                    "Name" = "8:Microsoft.Expression.Drawing.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Microsoft.Expression.Drawing.dll"
             "TargetName" = "8:"
@@ -3391,6 +3424,11 @@
             "AssemblyAsmDisplayName" = "8:LiveCharts.Wpf, Version=0.8.0.0, Culture=neutral, PublicKeyToken=3b585c2a5f1a92c1, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_AC50A9748ABE3B2A41E5F628BAB31578"
+                    {
+                    "Name" = "8:LiveCharts.Wpf.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:LiveCharts.Wpf.dll"
             "TargetName" = "8:"
@@ -3597,6 +3635,11 @@
             "AssemblyAsmDisplayName" = "8:QOBDBusiness, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_BE78E9F049B0A7AFB07855EF9E5D3836"
+                    {
+                    "Name" = "8:QOBDBusiness.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:QOBDBusiness.dll"
             "TargetName" = "8:"
@@ -3863,6 +3906,11 @@
             "AssemblyAsmDisplayName" = "8:QOBDDAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_D5408DAF503E8F68B2B61C84B0FF5AAB"
+                    {
+                    "Name" = "8:QOBDDAL.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:QOBDDAL.dll"
             "TargetName" = "8:"
@@ -3989,6 +4037,11 @@
             "AssemblyAsmDisplayName" = "8:QOBDCommon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_DF6593C96804167D7F10F008C9ED71D2"
+                    {
+                    "Name" = "8:QOBDCommon.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:QOBDCommon.dll"
             "TargetName" = "8:"
@@ -4055,6 +4108,11 @@
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
+                    "_E34D61531FDCC3C1F09B30F71B18FF49"
+                    {
+                    "Name" = "8:System.Net.Http.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
@@ -4081,6 +4139,11 @@
             "AssemblyAsmDisplayName" = "8:QOBDGateway, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_E3A743A4344784B2B58EC561CA499B77"
+                    {
+                    "Name" = "8:QOBDGateway.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:QOBDGateway.dll"
             "TargetName" = "8:"
@@ -4167,6 +4230,11 @@
             "AssemblyAsmDisplayName" = "8:MaterialDesignThemes.Wpf, Version=2.2.1.750, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_EA8B09DA15C6D5E17D48950A0731B7A7"
+                    {
+                    "Name" = "8:MaterialDesignThemes.Wpf.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:MaterialDesignThemes.Wpf.dll"
             "TargetName" = "8:"
@@ -4264,6 +4332,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F57ABB72E45C09847516E31535506ABF"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_F57ABB72E45C09847516E31535506ABF"
+                    {
+                    "Name" = "8:System.Data.SqlServerCe.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Data.SqlServerCe.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_9DE5E58254014C8295FC30BC403B80DC"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F7AA45F78B7E476D910EB2DA765E7684"
@@ -4449,7 +4548,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AVA"
         "ProductCode" = "8:{E1A5D0E3-76CC-4A4C-AA0B-E5578D3B6957}"
-        "PackageCode" = "8:{14888A85-E63F-47C9-A053-E8AD90FBCB5A}"
+        "PackageCode" = "8:{66FCF6DC-18CD-47A1-8549-04C9D89AD26C}"
         "UpgradeCode" = "8:{D06193F5-741A-401F-9E94-D6C729E09DAD}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

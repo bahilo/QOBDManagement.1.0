@@ -317,7 +317,6 @@ namespace QOBDManagement.ViewModel
                 {
                     int discussionId = 0;
                     int userId = 0;
-                    int messageId = 0;
                     List<string> composer = new List<string>();
                     HandleDiscussion client = default(HandleDiscussion);
                     string returndata = "";

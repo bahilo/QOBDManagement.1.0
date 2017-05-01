@@ -57,45 +57,54 @@ public class DataAccess : IDataAccessManager
             DALClient.cacheWebServiceData();            
         }
         else
-        {
-            /*/// Order
-            DALOrder.progressBarManagement(ProgressBarFunc);
-            DALOrder.initializeCredential(authenticatedUser);
-            DALOrder.cacheWebServiceData();
-            */
-            // Agent
-            DALAgent.progressBarManagement(ProgressBarFunc);
-            DALAgent.initializeCredential(authenticatedUser);
-            DALAgent.cacheWebServiceData();
-            /*
-            // Client 
-            DALClient.progressBarManagement(ProgressBarFunc);
-            DALClient.initializeCredential(authenticatedUser);
-            DALClient.cacheWebServiceData();
+        {            
+            Task.Factory.StartNew(() =>
+            {
+                // Order
+                DALOrder.progressBarManagement(ProgressBarFunc);
+                DALOrder.initializeCredential(authenticatedUser);
+                DALOrder.cacheWebServiceData();
 
-            // Security
-            DALSecurity.progressBarManagement(ProgressBarFunc);
-            DALSecurity.initializeCredential(authenticatedUser);
+                // Security
+                DALSecurity.progressBarManagement(ProgressBarFunc);
+                DALSecurity.initializeCredential(authenticatedUser);
 
-            // Item 
-            DALItem.progressBarManagement(ProgressBarFunc);
-            DALItem.initializeCredential(authenticatedUser);
-            DALItem.cacheWebServiceData();
+                // Agent
+                DALAgent.progressBarManagement(ProgressBarFunc);
+                DALAgent.initializeCredential(authenticatedUser);
+                DALAgent.cacheWebServiceData();
 
-            // Referential
-            DALReferential.progressBarManagement(ProgressBarFunc);
-            DALReferential.initializeCredential(authenticatedUser);
-            DALReferential.cacheWebServiceData();
+            }).ContinueWith((tsk)=> {
 
-            // Notification
-            DALNotification.progressBarManagement(ProgressBarFunc);
-            DALNotification.initializeCredential(authenticatedUser);
-            DALNotification.cacheWebServiceData();
+                // Referential
+                DALReferential.progressBarManagement(ProgressBarFunc);
+                DALReferential.initializeCredential(authenticatedUser);
+                DALReferential.cacheWebServiceData();
 
-            // Statistic
-            DALStatistic.progressBarManagement(ProgressBarFunc);
-            DALStatistic.initializeCredential(authenticatedUser);
-            DALStatistic.cacheWebServiceData();     */      
+                // Notification
+                DALNotification.progressBarManagement(ProgressBarFunc);
+                DALNotification.initializeCredential(authenticatedUser);
+                DALNotification.cacheWebServiceData();
+
+                // Statistic
+                DALStatistic.progressBarManagement(ProgressBarFunc);
+                DALStatistic.initializeCredential(authenticatedUser);
+                DALStatistic.cacheWebServiceData();
+
+            }).ContinueWith((tsk)=> {
+                
+                // Item 
+                DALItem.progressBarManagement(ProgressBarFunc);
+                DALItem.initializeCredential(authenticatedUser);
+                DALItem.cacheWebServiceData();
+
+            }).ContinueWith((tsk)=> {
+
+                // Client 
+                DALClient.progressBarManagement(ProgressBarFunc);
+                DALClient.initializeCredential(authenticatedUser);
+                DALClient.cacheWebServiceData();
+            });    
         }
 
         // ChatRoom

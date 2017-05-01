@@ -43,12 +43,6 @@ namespace QOBDManagement.Classes
             get { return BL.BlSecurity.GetAuthenticatedUser(); }
         }
 
-        /*internal void startClient(IDiscussionViewModel discussionViewModel, TcpClient clientSocket, string messageHeader, string username, Dictionary<TcpClient, string> clientsList)
-        {
-            msgHeader = messageHeader;
-            this.startClient(clientSocket, username, clientsList);
-        }*/
-
         private async void doChat()
         {
             if (clientSocket.Connected)
@@ -125,20 +119,14 @@ namespace QOBDManagement.Classes
                                 }
                             }
                         }
-
-                        //DiscussionViewModel.broadcast(dataFromClient);
                     }
                     catch (ApplicationException)
                     {
                         var agentFound = DiscussionViewModel.ServerClientsDictionary.Where(x => x.Key.TxtID == dataFromClient.Split('/')[1]).Select(x => x.Key).SingleOrDefault();
-                        if (agentFound != null)//(clientsList.Keys.Contains(clientSocket))
+                        if (agentFound != null)
                         {
-                            //Debug.WriteLine("User(id = " + agentFound.TxtID + ")" + " has exited!");
-
                             string message = (int)EServiceCommunication.Disconnected + "/" + agentFound.TxtID + "/0/" + agentFound.TxtID + "|" + "$";
                             DiscussionViewModel.broadcast(dataFromClient);
-                            //DiscussionViewModel.ServerClientsDictionary.Remove(agentFound);
-                            //networkStream.Dispose();
                             break;
                         }
                     }
