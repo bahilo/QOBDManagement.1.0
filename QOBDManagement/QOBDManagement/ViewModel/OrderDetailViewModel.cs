@@ -141,7 +141,7 @@ namespace QOBDManagement.ViewModel
             CancelBillCreatedCommand = new ButtonCommand<BillModel>(deleteCreatedInvoice, canCancelCreatedInvoice);
             GeneratePdfCreatedBillCommand = new ButtonCommand<BillModel>(generateOrderBillPdf, canGenerateOrderBillPdf);
             DeleteItemCommand = new ButtonCommand<Order_itemModel>(deleteItem, canDeleteItem);
-            BilledCommand = new ButtonCommand<object>(billing, canBilling);
+            BilledCommand = new ButtonCommand<object>(orderBilling, canBillOrder);
             DeliveryAddressSelectionCommand = new ButtonCommand<Address>(selectDeliveryAddress, canSelectDeliveryAddress);
             TaxCommand = new ButtonCommand<Tax>(saveOrderNewTax, canSaveOrderNewTax);
             GeneratePdfCreatedQuoteCommand = new ButtonCommand<object>(generateQuotePdf, canGenerateQuotePdf);
@@ -435,14 +435,14 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         public async Task loadOrder_items()
         {
-            Dialog.showSearch("Loading items...");
+            Dialog.showSearch("Loading...");
             Order_ItemModelList = await Order_ItemListToModelViewListAsync(Bl.BlOrder.searchOrder_item(new Order_item { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
 
-            StatisticModel = totalCalcul(Order_ItemModelList);
-
+            StatisticModel = totalCalcul(Order_ItemModelList);            
+            loadEmail();
 
             refreshBindings();
-            loadEmail();
+            BilledCommand.raiseCanExecuteActionChanged();
             Dialog.IsDialogOpen = false;
 
         }
@@ -500,7 +500,7 @@ namespace QOBDManagement.ViewModel
 
             if (itemFoundList.Count > 0)
             {
-                ItemModel itemModelFound = _main.ItemViewModel.itemListToModelViewList(new List<Item> { itemFoundList[0] }).FirstOrDefault();
+                ItemModel itemModelFound = new ItemViewModel(_main, Startup, Dialog).itemListToModelViewList(new List<Item> { itemFoundList[0] }).FirstOrDefault();
                 if(itemModelFound != null)
                     itemModelFound.Item_deliveryModelList = getItemsDeliveryReceipt(new List<ItemModel> { itemModelFound });
                 return itemModelFound;
@@ -797,9 +797,18 @@ namespace QOBDManagement.ViewModel
             if (canDelete || BillModelList.Count == 0)
             {
                 Dialog.showSearchMessage("Please wait, almost done...");
+                
+                // update item stock
+                await _main.ItemViewModel.updateStockAsync(Order_ItemModelList, isStockReset: true);
 
                 foreach (BillModel billModel in BillModelList.Select(x => new BillModel { Bill = x.Bill }).ToList())
+                {
+                    // deleting the related statistics
+                    var statisticsFoundList = await Bl.BlStatisitc.searchStatisticAsync(new Statistic { BillId = billModel.Bill.ID }, ESearchOption.AND);
+                    if (statisticsFoundList.Count > 0)
+                        await Bl.BlStatisitc.DeleteStatisticAsync(new List<Statistic> { statisticsFoundList[0] });
                     await deleteInvoice(billModel, isLastest: true);
+                }                    
 
                 var Item_deliveryToDeleteList = new List<Item_delivery>();// Bl.BlItem.GetItem_deliveryDataByDeliveryList(DeliveryModelList.Select(x => x.Delivery).ToList());
 
@@ -888,9 +897,13 @@ namespace QOBDManagement.ViewModel
                     int quentityPending = quantity - (quantityDelivery + quantityReceived);
                     if (quentityPending >= 0)
                     {
-                        // Checking that the number of received Item matches the expected number
+                        // Checking that the number of received items matches the expected number
                         if (quantityReceived > (quantity - quantityDelivery))
                             quantityReceived = (quantity - quantityDelivery);
+
+                        // checking that the number of received items is not greater than the stock
+                        if (quantityReceived > order_itemModel.ItemModel.Item.Stock)
+                            quantityReceived = order_itemModel.ItemModel.Item.Stock;
 
                         quantityDelivery += quantityReceived;
                         quantityCurrent += quantityReceived;
@@ -968,10 +981,7 @@ namespace QOBDManagement.ViewModel
             else
                 await Dialog.showAsync("Deletion Failed! Order's invoice is not the latest.");
 
-            Dialog.IsDialogOpen = false;
-
-            // update item stock
-            _main.ItemViewModel.updateStock(Order_ItemModelList, isStockReset: true);
+            Dialog.IsDialogOpen = false;            
 
             return isInvoiceDeleted;
         }
@@ -1281,6 +1291,7 @@ namespace QOBDManagement.ViewModel
 
             var savedOrder_itemList = await Bl.BlOrder.UpdateOrder_itemAsync(Order_itemToSave);
 
+            BilledCommand.raiseCanExecuteActionChanged();
             refreshBindingByCallingPropertyChange();
             refreshBindings();
             Dialog.IsDialogOpen = false;
@@ -1347,9 +1358,9 @@ namespace QOBDManagement.ViewModel
                 return false;
 
             // if order different from quote status prevent item deletion
-            if (OrderSelected != null
-                || OrderSelected.TxtStatus != null
-                || OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString()))
+            if (OrderSelected == null
+                || OrderSelected.TxtStatus == null
+                || !OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString()))
                 return false;
 
             return true;
@@ -1542,7 +1553,7 @@ namespace QOBDManagement.ViewModel
         }
 
         /// <summary>
-        /// check that all requirements are respected in order to delete the deleivery receipt
+        /// check that all requirements are respected in order to delete the delivery's receipt
         /// </summary>
         /// <param name="arg"></param>
         /// <returns></returns>
@@ -1681,7 +1692,7 @@ namespace QOBDManagement.ViewModel
                 _item_deliveryModelBillingInProcessList.Remove(item_deliveryModel);
 
             // update item stock
-            _main.ItemViewModel.updateStock(Order_ItemModelList);
+            //await _main.ItemViewModel.updateStockAsync(Order_ItemModelList);
 
             refreshBindings();
             Dialog.IsDialogOpen = false;
@@ -1786,6 +1797,7 @@ namespace QOBDManagement.ViewModel
         private void generateOrderBillPdf(BillModel obj)
         {
             Dialog.showSearch("Invoice pdf generating...");
+            _paramOrderToPdf.ParamEmail = new ParamEmail();
             _paramOrderToPdf.BillId = obj.Bill.ID;
             _paramOrderToPdf.OrderId = OrderSelected.Order.ID;
             Bl.BlOrder.GeneratePdfOrder(_paramOrderToPdf);
@@ -1809,6 +1821,7 @@ namespace QOBDManagement.ViewModel
         private void generateQuotePdf(object obj)
         {
             Dialog.showSearch("Quote pdf generating...");
+            _paramQuoteToPdf.ParamEmail = new ParamEmail();
             _paramQuoteToPdf.OrderId = OrderSelected.Order.ID;
             Bl.BlOrder.GeneratePdfQuote(_paramQuoteToPdf);
             Dialog.IsDialogOpen = false;
@@ -1828,15 +1841,32 @@ namespace QOBDManagement.ViewModel
         /// close the order
         /// </summary>
         /// <param name="obj"></param>
-        private async void billing(object obj)
+        private async void orderBilling(object obj)
         {
-            Dialog.showSearch("Billing...");
-            updateOrderStatus(EOrderStatus.Bill_Order);
-            if (OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()))
+            if (OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString()))
             {
-                await Dialog.showAsync("Successfully Billed");
-                _page(this);
+                Dialog.showSearch("Billing...");
+                updateOrderStatus(EOrderStatus.Bill_Order);
+                if (OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()))
+                {
+                    // update item stock
+                    await _main.ItemViewModel.updateStockAsync(Order_ItemModelList);
+
+                    await Dialog.showAsync("Billing Completed Successfully!");
+                    _page(this);
+                }
             }
+            else if (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
+            {
+                Dialog.showSearch("Credit Billing...");
+                updateOrderStatus(EOrderStatus.Bill_Credit);
+                if (OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Credit.ToString()))
+                {
+                    await Dialog.showAsync("Credit Billing Completed Successfully!");
+                    _page(this);
+                }
+            }
+            
             Dialog.IsDialogOpen = false;
         }
 
@@ -1845,12 +1875,23 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="arg"></param>
         /// <returns></returns>
-        private bool canBilling(object arg)
+        private bool canBillOrder(object arg)
         {
             bool isUpdate = _main.securityCheck(EAction.Order_Billed, ESecurity._Update) && _main.securityCheck(EAction.Order_Billed, ESecurity._Update);
             bool isWrite = _main.securityCheck(EAction.Order_Billed, ESecurity._Write);
-            if (isUpdate && isWrite)
-                return true;
+            if (!isUpdate || !isWrite)
+                return false;
+
+            if (Order_ItemModelList != null)
+            {
+                bool isValid = true;
+                foreach (var order_itemModel in Order_ItemModelList)
+                {
+                    if ( Utility.intTryParse(order_itemModel.TxtQuantity_pending) > 0 )
+                        isValid = false;
+                }
+                return isValid;
+            } 
 
             return false;
         }

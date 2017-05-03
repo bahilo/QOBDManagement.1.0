@@ -31,7 +31,7 @@ namespace QOBDDAL.Core
         private bool _isLodingDataFromWebServiceToLocal;
         private int _loadSize;
         private int _progressStep;
-        private Func<double, double> _rogressBarFunc;
+        private Func<double, double> _progressBarFunc;
         private object _lock;
         private Interfaces.IQOBDSet _dataSet;
         private ICommunication _serviceCommunication;
@@ -43,8 +43,8 @@ namespace QOBDDAL.Core
             _lock = new object();
             _servicePortType = servicePort;
             _gateWayStatistic = new GateWayStatistic(_servicePortType);
-            _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
-            _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
+            _loadSize = Utility.intTryParse(ConfigurationManager.AppSettings["load_size"]);
+            _progressStep = Utility.intTryParse(ConfigurationManager.AppSettings["progress_step"]);
         }
 
         public DALStatisitc(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
@@ -107,18 +107,20 @@ namespace QOBDDAL.Core
             }
             finally
             {
-                lock (_lock)
+
+                lock (_lock) IsLodingDataFromWebServiceToLocal = false;
+                try
                 {
-                    _rogressBarFunc(_rogressBarFunc(0) + 100 / _progressStep);
-                    IsLodingDataFromWebServiceToLocal = false;
-                }
+                    _progressBarFunc((double)100 / _progressStep);
+                } catch (DivideByZeroException ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
+                //Log.debug("Loaded[" + _progressBarFunc(0) + "%]!", EErrorFrom.STATISTIC);
             }
 
         }
 
         public void progressBarManagement(Func<double, double> progressBarFunc)
         {
-            _rogressBarFunc = progressBarFunc;
+            _progressBarFunc = progressBarFunc;
         }
 
         private void checkServiceCommunication()
@@ -177,7 +179,7 @@ namespace QOBDDAL.Core
         {
             List<Statistic> result = new List<Statistic>();
             result = _dataSet.GetStatisticData();
-            if (nbLine == 999 || result.Count == 0  || result.Count < nbLine)
+            if (nbLine == 999 || result.Count == 0 || result.Count < nbLine)
                 return result;
             return result.GetRange(0, nbLine);
         }

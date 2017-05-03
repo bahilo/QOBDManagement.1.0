@@ -77,7 +77,7 @@ namespace QOBDDAL.Helper.ChannelHelper
 
         public static string getDeleteSqlText(this string tableName, Dictionary<string, string> columsDict)
         {
-            string output = "DELETE FROM TABLE [" + tableName + "] ";
+            string output = "DELETE FROM [" + tableName + "] ";
             var IDDict = columsDict.Where(x => x.Key == "ID").SingleOrDefault();
 
             output += " WHERE [" + IDDict.Key + "] = '" + IDDict.Value + "';";

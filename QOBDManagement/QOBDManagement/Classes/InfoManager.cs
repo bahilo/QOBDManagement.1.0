@@ -77,7 +77,6 @@ namespace QOBDManagement.Classes
             {
                 _password = "";
                 _login = "";
-                //_infoDataList = new List<Info>();
                 _filter = new List<string>();
                 _dictionary = new Dictionary<string, Info>();
             }
@@ -148,7 +147,6 @@ namespace QOBDManagement.Classes
             public Display(List<Info> infoList, string fileNameWithoutExtension, List<string> filter, string ftpPath, string localPath, string login = "", string password = "")
                 : this(fileNameWithoutExtension, filter, ftpPath, localPath, login, password)
             {
-                //_infoDataList = infoList;
                 _dictionary = new InfoManager().GeneralInfo.retrieveInfoDataDictionaryFromList(infoList, _filter);
             }
 
@@ -220,19 +218,19 @@ namespace QOBDManagement.Classes
             public string TxtInfoItem
             {
                 get { if (_filter.Count > 0 && _dictionary.ContainsKey(_filter[0])) { return _dictionary[_filter[0]].Value; } return ""; }
-                set { if (_filter.Count > 0 && _dictionary.ContainsKey(_filter[0])) { _dictionary[_filter[0]].Value = value; onPropertyChange(); } }
+                set { if (_filter.Count > 0 && _dictionary.ContainsKey(_filter[0])) { _dictionary[_filter[0]].Value = value; onPropertyChange("TxtInfoItem"); } }
             }
 
             public string TxtInfoItem1
             {
                 get { if (_filter.Count > 1 && _dictionary.ContainsKey(_filter[1])) { return _dictionary[_filter[1]].Value; } return ""; }
-                set { if (_filter.Count > 1 && _dictionary.ContainsKey(_filter[1])) { _dictionary[_filter[1]].Value = value; onPropertyChange(); } }
+                set { if (_filter.Count > 1 && _dictionary.ContainsKey(_filter[1])) { _dictionary[_filter[1]].Value = value; onPropertyChange("TxtInfoItem1"); } }
             }
 
             public string TxtInfoItem2
             {
                 get { if (_filter.Count() > 2 && _dictionary.ContainsKey(_filter[2])) { return _dictionary[_filter[2]].Value; } return ""; }
-                set { if (_filter.Count() > 2 && _dictionary.ContainsKey(_filter[2])) { _dictionary[_filter[2]].Value = value; onPropertyChange(); } }
+                set { if (_filter.Count() > 2 && _dictionary.ContainsKey(_filter[2])) { _dictionary[_filter[2]].Value = value; onPropertyChange("TxtInfoItem2"); } }
             }
 
             public string TxtFtpUrl

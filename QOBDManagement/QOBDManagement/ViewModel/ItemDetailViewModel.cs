@@ -349,7 +349,7 @@ namespace QOBDManagement.ViewModel
 
             Dialog.IsDialogOpen = false;
             _main.ItemViewModel.checkBoxToCartCommand.raiseCanExecuteActionChanged();
-            OpenFileExplorerCommand.raiseCanExecuteActionChanged();
+            OpenFileExplorerCommand.raiseCanExecuteActionChanged();            
         }
 
         private bool canSaveItem(string arg)

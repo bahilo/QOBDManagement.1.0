@@ -19,7 +19,7 @@ namespace QOBDCommon.Interfaces.DAC
 
         void cacheWebServiceData();
 
-        Task UpdateOrderDependenciesAsync(List<Order> orderList, bool isActiveProgress = false);
+        Task UpdateOrderDependenciesAsync(List<Order> orderList);
 
         void progressBarManagement(Func<double, double> progressBarFunc);
 

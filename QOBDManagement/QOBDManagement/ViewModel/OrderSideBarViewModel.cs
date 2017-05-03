@@ -221,11 +221,11 @@ namespace QOBDManagement.ViewModel
                 && arg.Equals("valid-credit"))
                 return false;
 
-            if ((SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Order_Close.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Order.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Billed.ToString()))
+            if ((SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Order_Close.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()) )//|| !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Billed.ToString())
                 && arg.Equals("close-order"))
                 return false;
 
-            if ((SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Credit_CLose.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Credit.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Billed.ToString()))
+            if ((SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Credit_CLose.ToString()) || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Bill_Credit.ToString()) ) // || !SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Billed.ToString())
                 && arg.Equals("close-credit"))
                 return false;
 

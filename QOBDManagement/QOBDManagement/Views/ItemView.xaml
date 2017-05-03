@@ -81,10 +81,20 @@
                             <StackPanel Orientation="Vertical">
                                 <materialDesign:ColorZone Mode="PrimaryMid" Margin="0 0 10 10">
                                     <StackPanel Orientation="Vertical">
-                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="CartOutline"/>
-                                            <TextBlock>Card</TextBlock>
-                                        </StackPanel>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="CartOutline"/>
+                                                <TextBlock>Card</TextBlock>
+                                            </StackPanel>
+                                            <Button Grid.Column="1" Command="{Binding ItemViewModel.ClearCartCommand}" 
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Clear cart">
+                                                <materialDesign:PackIcon Kind="DeleteSweep"/>
+                                            </Button>
+                                        </Grid>                                        
                                         <DataGrid Name="dgCart" ItemsSource="{Binding ItemViewModel.Cart.CartItemList,IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
                                           AutoGenerateColumns="False" MaxHeight="140" Width="430" EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False">
                                             <DataGrid.Columns>

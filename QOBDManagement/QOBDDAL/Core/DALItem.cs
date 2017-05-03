@@ -31,7 +31,7 @@ namespace QOBDDAL.Core
     public class DALItem : IItemManager
     {
         public Agent AuthenticatedUser { get; set; }
-        private Func<double, double> _rogressBarFunc;
+        private Func<double, double> _progressBarFunc;
         private QOBDCommon.Interfaces.REMOTE.IItemManager _gateWayItem;
         private ClientProxy _servicePortType;
         private bool _isLodingDataFromWebServiceToLocal;
@@ -47,8 +47,8 @@ namespace QOBDDAL.Core
         {
             _servicePortType = servicePort;
             _gateWayItem = new GateWayItem(_servicePortType);
-            _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
-            _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
+            _loadSize = Utility.intTryParse(ConfigurationManager.AppSettings["load_size"]);
+            _progressStep = Utility.intTryParse(ConfigurationManager.AppSettings["progress_step"]);
         }
 
         public DALItem(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
@@ -119,17 +119,19 @@ namespace QOBDDAL.Core
             }
             finally
             {
-                lock (_lock)
+                lock (_lock) IsLodingDataFromWebServiceToLocal = false;
+                try
                 {
-                    IsLodingDataFromWebServiceToLocal = false;
-                    _rogressBarFunc(_rogressBarFunc(0) + 100 / _progressStep);
+                    _progressBarFunc((double)100 / _progressStep);
                 }
+                catch (DivideByZeroException ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
+                // Log.debug("Loaded[" + _progressBarFunc(0) + "%]!", EErrorFrom.ITEM);
             }
         }
 
         public void progressBarManagement(Func<double, double> progressBarFunc)
         {
-            _rogressBarFunc = progressBarFunc;
+            _progressBarFunc = progressBarFunc;
         }
 
         private void checkServiceCommunication()

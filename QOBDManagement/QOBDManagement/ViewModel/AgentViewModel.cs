@@ -216,8 +216,12 @@ namespace QOBDManagement.ViewModel
         public override void Dispose()
         {
             // closing the image file before closing the app
-            if (SelectedAgentModel != null && SelectedAgentModel.Image != null)
-                SelectedAgentModel.Image.closeImageSource();
+            /*if (SelectedAgentModel != null && SelectedAgentModel.Image != null)
+                SelectedAgentModel.Image.closeImageSource();*/
+
+            foreach (var agentModel in AgentModelList)
+                if(agentModel.Image != null)
+                    agentModel.Image.closeImageSource();
 
             Bl.BlAgent.Dispose();
             AgentDetailViewModel.Dispose();

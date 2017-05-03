@@ -226,11 +226,14 @@ namespace QOBDManagement
             get { return _progressBarPercentValue; }
             set
             {
-                if (Application.Current != null)
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        setProperty(ref _progressBarPercentValue, value);
+                        _progressBarPercentValue = value;
                     });
+                else
+                    _progressBarPercentValue = value;
+                onPropertyChange();
             }
         }
 
@@ -264,18 +267,6 @@ namespace QOBDManagement
             // display the chat view
             ChatRoomCurrentView = ChatRoomViewModel;
         }
-
-        /*public async void loadChatRoom()
-        {
-            // load chat user
-            await AgentViewModel.loadAgents();
-
-            // display the chat view
-            ChatRoomCurrentView = ChatRoomViewModel;
-
-            // connect user to the chat server
-            ChatRoomViewModel.start();
-        }*/
 
         private void downloadHeaderImages()
         {
@@ -357,13 +348,17 @@ namespace QOBDManagement
             object _lock = new object();
 
             lock (_lock)
+            {
                 if (status != 0)
                 {
-                    ProgressBarPercentValue = status;
+                    _progressBarPercentValue += status;
                     if (status > 0)
                         SearchProgressVisibility = "Hidden";
+                    onPropertyChange("ProgressBarPercentValue");
                 }
-            return ProgressBarPercentValue;
+            }
+                
+            return _progressBarPercentValue;
         }
 
         public InfoManager.Display ImageManagement(InfoManager.Display newImage = null, string fileType = null)
@@ -419,6 +414,9 @@ namespace QOBDManagement
             HomeViewModel.Dispose();
             ChatRoomCurrentView = null;
             await ChatRoomViewModel.DisposeAsync();
+            LogoImageDisplay.Dispose();
+            HeaderImageDisplay.Dispose();
+            BillImageDisplay.Dispose();
             return true;
         }
 

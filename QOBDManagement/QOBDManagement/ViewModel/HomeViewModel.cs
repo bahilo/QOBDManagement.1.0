@@ -17,6 +17,8 @@ using System.Xml.Serialization;
 using QOBDManagement.Interfaces;
 using QOBDCommon.Enum;
 using QOBDManagement.Enums;
+using QOBDCommon.Classes;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
@@ -28,6 +30,8 @@ namespace QOBDManagement.ViewModel
         private List<StatisticModel> _statisticList;
         private List<ToDo> _toDoList;
         private string _newTask;
+        private string _taskFileName;
+        private string _taskFileFullName;
 
         //private Func<double, string> _xFormatter;
         //private Func<double, string> _yFormatter;
@@ -69,6 +73,7 @@ namespace QOBDManagement.ViewModel
 
         private void initEvents()
         {
+            PropertyChanged += onNewTaskChange_SaveToToDoList;
         }
 
         private void instances()
@@ -78,6 +83,8 @@ namespace QOBDManagement.ViewModel
             _secondBestSeller = new ItemModel();
             _ThirdBestSeller = new ItemModel();
             _fourthBestSeller = new ItemModel();
+            _taskFileName = "tasks.xml";
+            _taskFileFullName = Utility.getDirectory(ConfigurationManager.AppSettings["local_doc_task_folder"], _taskFileName);
             _purchaseAndSalePriceseriesCollection = new SeriesCollection();
             _payReceivedSeries = new SeriesCollection();
             _creditSeries = new SeriesCollection();
@@ -98,11 +105,19 @@ namespace QOBDManagement.ViewModel
         public List<StatisticModel> StatisticDataList
         {
             get { return _statisticList; }
-            set {
+            set
+            {
                 if (Application.Current != null)
-                        Application.Current.Dispatcher.Invoke(()=> {
-                        _statisticList = value; onPropertyChange("StatisticDataList");
-                    });                
+                {
+                    if (Application.Current.Dispatcher.CheckAccess())
+                        _statisticList = value;
+                    else
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _statisticList = value;
+                        });
+                    onPropertyChange("StatisticDataList");
+                }
             }
         }
 
@@ -112,9 +127,16 @@ namespace QOBDManagement.ViewModel
             set
             {
                 if (Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _firstBestSeller = value; onPropertyChange("FirstBestItemModelSeller");
-                    });
+                {
+                    if (Application.Current.Dispatcher.CheckAccess())
+                        _firstBestSeller = value;
+                    else
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _firstBestSeller = value;
+                        });
+                    onPropertyChange("FirstBestItemModelSeller");
+                }
             }
         }
 
@@ -124,10 +146,17 @@ namespace QOBDManagement.ViewModel
             set
             {
                 if (Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _secondBestSeller = value; onPropertyChange("SecondBestItemModelSeller");
-                    });
-             }
+                {
+                    if (Application.Current.Dispatcher.CheckAccess())
+                        _secondBestSeller = value;
+                    else
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _secondBestSeller = value;
+                        });
+                    onPropertyChange("SecondBestItemModelSeller");
+                }
+            }
         }
 
         public ItemModel ThirdBestItemModelSeller
@@ -136,10 +165,17 @@ namespace QOBDManagement.ViewModel
             set
             {
                 if (Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _ThirdBestSeller = value; onPropertyChange("ThirdBestItemModelSeller");
-                    });
+                {
+                    if (Application.Current.Dispatcher.CheckAccess())
+                        _ThirdBestSeller = value;
+                    else
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _ThirdBestSeller = value;
+                        });
+                    onPropertyChange("ThirdBestItemModelSeller");
                 }
+            }
         }
 
         public ItemModel FourthBestItemModelSeller
@@ -148,21 +184,36 @@ namespace QOBDManagement.ViewModel
             set
             {
                 if (Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _fourthBestSeller = value; onPropertyChange("FourthBestItemModelSeller");
-                    }); 
+                {
+                    if (Application.Current.Dispatcher.CheckAccess())
+                        _fourthBestSeller = value;
+                    else
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _fourthBestSeller = value;
+                        });
+                    onPropertyChange("FourthBestItemModelSeller");
+                }
             }
         }
 
         public List<ToDo> ToDoList
         {
             get { return _toDoList; }
-            set {
-                if(Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() => {
-                        _toDoList = value; onPropertyChange("ToDoList");
-                    });
+            set
+            {
+                if (Application.Current != null)
+                {
+                    if (Application.Current.Dispatcher.CheckAccess())
+                        _toDoList = value;
+                    else
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _toDoList = value;
+                        });
+                    onPropertyChange("ToDoList");
                 }
+            }
         }
 
         public string TxtNewTask
@@ -177,10 +228,11 @@ namespace QOBDManagement.ViewModel
             set
             {
                 if (Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() => {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
                         _purchaseAndSalePriceseriesCollection = value; onPropertyChange("PurchaseAndIncomeSeriesCollection");
                     });
-             }
+            }
         }
 
         public SeriesCollection PayReceivedSeriesCollection
@@ -189,7 +241,8 @@ namespace QOBDManagement.ViewModel
             set
             {
                 if (Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() => {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
                         setProperty(ref _payReceivedSeries, value, "PayReceivedSeriesCollection");
                     });
             }
@@ -201,7 +254,8 @@ namespace QOBDManagement.ViewModel
             set
             {
                 if (Application.Current != null)
-                    Application.Current.Dispatcher.Invoke(() => {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
                         setProperty(ref _creditSeries, value, "CreditSeriesCollection");
                     });
             }
@@ -222,10 +276,10 @@ namespace QOBDManagement.ViewModel
             _newTask = task;
         }
         //----------------------------[ Actions ]------------------
-        
+
         public void loadData()
         {
-            load();            
+            load();
         }
 
         private async void load()
@@ -272,7 +326,7 @@ namespace QOBDManagement.ViewModel
             var IncomeChartValue = new ChartValues<decimal>();
             var BillAmountChartValue = new ChartValues<decimal>();
 
-            purchaseChartValue.AddRange(StatisticDataList.OrderBy(x=>x.Statistic.ID).Select(x=>x.Statistic.Price_purchase_total).ToList());
+            purchaseChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Price_purchase_total).ToList());
             IncomeChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Income).ToList());
             BillAmountChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Total_tax_included).ToList());
 
@@ -295,7 +349,7 @@ namespace QOBDManagement.ViewModel
                 }
             };
 
-            PurchaseAndIncomeLabels = StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x=>x.Statistic.Bill_datetime.ToString("MMMM") ).ToArray();
+            PurchaseAndIncomeLabels = StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Bill_datetime.ToString("MMMM")).ToArray();
             //Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
         }
 
@@ -307,12 +361,12 @@ namespace QOBDManagement.ViewModel
         public async void getBestSellers()
         {
             // getting four best sellers
-            var itemBestSsellerList = await Bl.BlItem.searchItemAsync(new Item { Option = (int)EStatisticOption.GET10BESTSELLERS  }, ESearchOption.AND);
+            var itemBestSsellerList = await Bl.BlItem.searchItemAsync(new Item { Option = (int)EStatisticOption.GET10BESTSELLERS }, ESearchOption.AND);
             FirstBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault() ?? new ItemModel();
             SecondBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Where(x => x.Number_of_sale < FirstBestItemModelSeller.Item.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault() ?? new ItemModel();
             ThirdBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Where(x => x.Number_of_sale < SecondBestItemModelSeller.Item.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault() ?? new ItemModel();
             FourthBestItemModelSeller = itemBestSsellerList.OrderByDescending(x => x.Number_of_sale).Where(x => x.Number_of_sale < ThirdBestItemModelSeller.Item.Number_of_sale).Select(x => new ItemModel { Item = x }).FirstOrDefault() ?? new ItemModel();
-                        
+
         }
 
         private void loadChartPayreceivedData()
@@ -347,10 +401,10 @@ namespace QOBDManagement.ViewModel
         {
             loadStatisticPayReceived();
             return _chartValueList;
-        }        
+        }
 
         private void loadStatisticPayReceived()
-        {            
+        {
             _chartValueList = new ChartValues<DateTimePoint>();
             var statistics = StatisticDataList.OrderBy(x => x.Statistic.Date_limit).ToList();
             foreach (var statisticModel in statistics)
@@ -370,17 +424,10 @@ namespace QOBDManagement.ViewModel
 
         private void saveToDoTasks(List<ToDo> taskList)
         {
-            string path = Directory.GetCurrentDirectory();
-            string fileName = "tasks.xml";
-            string fullFileName = string.Format(@"{0}\Docs\Files\{1}", path, fileName);
+            //if (taskList.Count == 0)
+            //    return;
 
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-            
-            if (taskList.Count == 0)
-                return;
-
-            using (StreamWriter sw = new StreamWriter(fullFileName))
+            using (StreamWriter sw = new StreamWriter(_taskFileFullName))
             {
                 XmlSerializer xs = new XmlSerializer(taskList.GetType());
                 xs.Serialize(sw, taskList);
@@ -389,14 +436,11 @@ namespace QOBDManagement.ViewModel
 
         private List<ToDo> getToDoTasks()
         {
-            string path = Directory.GetCurrentDirectory();
-            string fileName = "tasks.xml";
-            string fullFileName = string.Format(@"{0}\Docs\Files\{1}", path, fileName);
-
             List<ToDo> results = new List<ToDo>();
-            if (File.Exists(fullFileName))
+            FileInfo fileInfo = new FileInfo(_taskFileFullName);
+            if (File.Exists(_taskFileFullName) && fileInfo.Length > 0)
             {
-                using (StreamReader sr = new StreamReader(fullFileName))
+                using (StreamReader sr = new StreamReader(_taskFileFullName))
                 {
                     XmlSerializer xs = new XmlSerializer(typeof(List<ToDo>));
                     results = (List<ToDo>)xs.Deserialize(sr);

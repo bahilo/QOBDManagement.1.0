@@ -602,8 +602,12 @@ namespace QOBDGateway.Core
             try
             {
                 client.Credentials = new NetworkCredential(_channel.ClientCredentials.UserName.UserName, _channel.ClientCredentials.UserName.Password);
-                var uri = ConfigurationManager.AppSettings["remote_host"] + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"] + "bin/BL_Codsimex.php?";
-                uri += "num_dev=" + paramDeliveryToPdf.OrderId;
+                //var uri = ConfigurationManager.AppSettings["remote_host"] + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"] + "bin/BL_Codsimex.php?";
+                var uri = ConfigurationManager.AppSettings["remote_host"];
+
+                uri += "pdf=delivery";
+                uri += "&path=" + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"];
+                uri += "&num_dev=" + paramDeliveryToPdf.OrderId;
                 uri += "&num_bl=" + paramDeliveryToPdf.DeliveryId;
                 uri += "&lang=" + paramDeliveryToPdf.Lang;
 
@@ -625,9 +629,11 @@ namespace QOBDGateway.Core
             try
             {
                 client.Credentials = new NetworkCredential(_channel.ClientCredentials.UserName.UserName, _channel.ClientCredentials.UserName.Password);
-                string uri = ConfigurationManager.AppSettings["remote_host"] + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"] +  "bin/Facture_Codsimex.php?";
+                string uri = ConfigurationManager.AppSettings["remote_host"];
 
-                uri += "num_dev=" + paramOrderToPdf.OrderId;
+                uri += "pdf=invoice";
+                uri += "&path=" + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"];
+                uri += "&num_dev=" + paramOrderToPdf.OrderId;
                 uri += "&num_fact=" + paramOrderToPdf.BillId;
                 uri += "&currency=" + paramOrderToPdf.Currency;
                 uri += "&lang=" + paramOrderToPdf.Lang;
@@ -658,9 +664,11 @@ namespace QOBDGateway.Core
             try
             {
                 client.Credentials = new NetworkCredential(_channel.ClientCredentials.UserName.UserName, _channel.ClientCredentials.UserName.Password);
-                string uri = ConfigurationManager.AppSettings["remote_host"] + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"] + "bin/Devis_Codsimex.php?";
+                string uri = ConfigurationManager.AppSettings["remote_host"];
 
-                uri += "num_dev=" + paramOrderToPdf.OrderId;
+                uri += "pdf=quote";
+                uri += "&path=" + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"];
+                uri += "&num_dev=" + paramOrderToPdf.OrderId;
                 uri += "&delay=" + paramOrderToPdf.ValidityDay;
                 uri += "&quote=" + paramOrderToPdf.TypeQuoteOrProformat.ToString();
                 uri += "&currency=" + paramOrderToPdf.Currency;

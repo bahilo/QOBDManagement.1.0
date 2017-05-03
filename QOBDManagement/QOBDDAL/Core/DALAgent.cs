@@ -23,7 +23,7 @@ namespace QOBDDAL.Core
 {
     public class DALAgent : IAgentManager
     {
-        private Func<double, double> _rogressBarFunc;
+        private Func<double, double> _progressBarFunc;
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.IAgentManager _gateWayAgent;
         private ClientProxy _servicePortType;
@@ -40,8 +40,8 @@ namespace QOBDDAL.Core
         {
             _servicePortType = servicePort;
             _gateWayAgent = new GateWayAgent(_servicePortType);
-            _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
-            _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
+            _loadSize = Utility.intTryParse(ConfigurationManager.AppSettings["load_size"]);
+            _progressStep = Utility.intTryParse(ConfigurationManager.AppSettings["progress_step"]);
 
         }
 
@@ -105,17 +105,19 @@ namespace QOBDDAL.Core
             }
             finally
             {
-                lock (_lock)
+                lock (_lock) IsLodingDataFromWebServiceToLocal = false;
+                try
                 {
-                    _rogressBarFunc(_rogressBarFunc(0) + 100 / _progressStep);
-                    _isLodingDataFromWebServiceToLocal = false;
+                    _progressBarFunc((double)100 / _progressStep);
                 }
+                catch (DivideByZeroException ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
+                //Log.debug("Loaded[" + _progressBarFunc(0) + "%]!", EErrorFrom.AGENT);
             }
         }
 
         public void progressBarManagement(Func<double, double> progressBarFunc)
         {
-            _rogressBarFunc = progressBarFunc;
+            _progressBarFunc = progressBarFunc;
         }
 
         private void checkServiceCommunication()

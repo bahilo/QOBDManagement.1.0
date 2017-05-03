@@ -56,10 +56,10 @@ namespace QOBDBusiness.Core
                 DAC.DALOrder.progressBarManagement(progressBarFunc);
         }
 
-        public async Task UpdateOrderDependenciesAsync(List<Order> orderList, bool isActiveProgress = false)
+        public async Task UpdateOrderDependenciesAsync(List<Order> orderList)
         {
             if (orderList != null)
-                await DAC.DALOrder.UpdateOrderDependenciesAsync(orderList, isActiveProgress);            
+                await DAC.DALOrder.UpdateOrderDependenciesAsync(orderList);            
         }
 
         #region [ Order ]

@@ -225,20 +225,11 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        /*private void onProfileImageChange_updateUIImage(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("TxtFileFullPath") && !string.IsNullOrEmpty(((InfoManager.Display)sender).TxtFileFullPath))
-            {
-                ProfileImageDisplay = _main.ImageManagement((InfoManager.Display)sender, "profile");
-            }
-        }*/
-
         private async void onProfileImageSizeChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("ImageInfoUpdated"))
             {
                 var infoUpdatedList = await _main.ReferentialViewModel.OptionDataAndDisplayViewModel.saveInfo(((InfoManager.Display)sender).InfoDataList);
-                //((InfoManager.Display)sender).updateFields(infoUpdatedList);
             }                
         }
 

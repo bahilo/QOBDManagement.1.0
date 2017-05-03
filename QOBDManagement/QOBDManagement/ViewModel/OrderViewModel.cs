@@ -76,7 +76,7 @@ namespace QOBDManagement.ViewModel
         {
             this.Startup = startup;
             this.Dialog = dialog;
-
+            
             OrderDetailViewModel.Dialog = Dialog;
             OrderSideBarViewModel.Dialog = Dialog;
 

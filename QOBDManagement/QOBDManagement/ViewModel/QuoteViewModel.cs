@@ -64,8 +64,9 @@ namespace QOBDManagement.ViewModel
             this.Startup = startup;
             this.Dialog = dialog;
 
-            QuoteDetailViewModel.Dialog = Dialog;
-            QuoteDetailViewModel.Startup = Startup;
+            QuoteDetailViewModel = _main.OrderViewModel.OrderDetailViewModel;
+            //QuoteDetailViewModel.Dialog = Dialog;
+            //QuoteDetailViewModel.Startup = Startup;
         }
 
 
@@ -161,7 +162,7 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Actions ]------------------
 
         public void loadQuotations()
-        {
+        {       
             //-------[ initializing the items brand and family list ]
             _main.ItemViewModel.loadItems();
 

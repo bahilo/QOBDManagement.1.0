@@ -63,7 +63,7 @@ namespace QOBDManagement
 
         private async void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (!confirmed)
+            if (!confirmed && mainWindowViewModel.AuthenticatedUserModel.Agent.ID != 0)
             {
                 e.Cancel = true;
                 if (await mainWindowViewModel.DisposeAsync())

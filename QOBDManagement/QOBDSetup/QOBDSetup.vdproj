@@ -51,6 +51,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_0A1B30206D53405F80BE600B6A22ED29"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_0D0FBC0872F34BCABAC78078B1E423B0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -687,6 +693,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_AC171C0350064AAEA796941016B70A52"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_AC36CF0D6990478EBB5442A2E0860214"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1270,6 +1282,26 @@
             "TargetName" = "8:MaterialDesignColor.Amber.xaml"
             "Tag" = "8:"
             "Folder" = "8:_D2F8665FA9084F9587128C4E36A7DF83"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0A1B30206D53405F80BE600B6A22ED29"
+            {
+            "SourcePath" = "8:C:\\Users\\eric\\Downloads\\ava_logo_2_SsK_icon.ico"
+            "TargetName" = "8:ava_logo_2_SsK_icon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_9DE5E58254014C8295FC30BC403B80DC"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3397,6 +3429,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AC171C0350064AAEA796941016B70A52"
+            {
+            "SourcePath" = "8:C:\\Users\\eric\\Downloads\\ava_logo_2_vOy_icon.ico"
+            "TargetName" = "8:ava_logo_2_vOy_icon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_9DE5E58254014C8295FC30BC403B80DC"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AC36CF0D6990478EBB5442A2E0860214"
             {
             "SourcePath" = "8:..\\QOBDManagement\\Themes\\MaterialDesignColor.LightBlue.Named.Primary.xaml"
@@ -4548,7 +4600,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AVA"
         "ProductCode" = "8:{E1A5D0E3-76CC-4A4C-AA0B-E5578D3B6957}"
-        "PackageCode" = "8:{66FCF6DC-18CD-47A1-8549-04C9D89AD26C}"
+        "PackageCode" = "8:{D62FF969-1091-4CEB-BA6D-420FFB5F9C7D}"
         "UpgradeCode" = "8:{D06193F5-741A-401F-9E94-D6C729E09DAD}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -4679,7 +4731,7 @@
             "Target" = "8:_8D0208A96FCD496CB674E6542F51B6A8"
             "Folder" = "8:_9E62D23201DE48F4AD86EB292FAF3ECD"
             "WorkingFolder" = "8:_9DE5E58254014C8295FC30BC403B80DC"
-            "Icon" = "8:_FA24AB4ACEEB4F7B8AFBB5F2AADC3DED"
+            "Icon" = "8:_0A1B30206D53405F80BE600B6A22ED29"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7B169671141542E7871FADE0DFFF8C02"
@@ -4707,7 +4759,7 @@
             "Target" = "8:_8D0208A96FCD496CB674E6542F51B6A8"
             "Folder" = "8:_38095217ECAA46A084BB87F95C97A9A8"
             "WorkingFolder" = "8:_9DE5E58254014C8295FC30BC403B80DC"
-            "Icon" = "8:_FA24AB4ACEEB4F7B8AFBB5F2AADC3DED"
+            "Icon" = "8:_0A1B30206D53405F80BE600B6A22ED29"
             "Feature" = "8:"
             }
         }

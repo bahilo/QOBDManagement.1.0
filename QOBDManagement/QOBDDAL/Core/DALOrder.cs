@@ -43,8 +43,8 @@ namespace QOBDDAL.Core
         {
             _servicePortType = servicePort;
             _gatewayOrder = new GateWayOrder(_servicePortType);
-            _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
-            _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
+            _loadSize = Utility.intTryParse(ConfigurationManager.AppSettings["load_size"]);
+            _progressStep = Utility.intTryParse(ConfigurationManager.AppSettings["progress_step"]);
         }
 
         public DALOrder(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
@@ -94,10 +94,19 @@ namespace QOBDDAL.Core
             try
             {
                 lock (_lock) _isLodingDataFromWebServiceToLocal = true;
-                await UpdateOrderDependenciesAsync((await _gatewayOrder.searchOrderAsync(new Order { AgentId = AuthenticatedUser.ID }, ESearchOption.AND)).Take(_loadSize).ToList(), true);
+                await UpdateOrderDependenciesAsync((await _gatewayOrder.searchOrderAsync(new Order { AgentId = AuthenticatedUser.ID }, ESearchOption.AND)).Take(_loadSize).ToList());
             }
             catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
-            finally { lock (_lock) IsLodingDataFromWebServiceToLocal = true; }
+            finally
+            {
+                lock (_lock) IsLodingDataFromWebServiceToLocal = false;
+                try
+                {
+                    _progressBarFunc((double)100 / _progressStep);
+                }
+                catch (DivideByZeroException ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
+                //Log.debug("Loaded[" + _progressBarFunc(0) + "%]!", EErrorFrom.ORDER);
+            }
 
         }
 
@@ -269,7 +278,7 @@ namespace QOBDDAL.Core
         }
 
         public async Task<List<Tax_order>> UpdateTax_orderAsync(List<Tax_order> tax_orderList)
-        {            
+        {
             checkServiceCommunication();
             List<Tax_order> gateWayResultList = await _gatewayOrder.UpdateTax_orderAsync(tax_orderList);
             List<Tax_order> result = LoadTax_order(gateWayResultList);
@@ -372,12 +381,12 @@ namespace QOBDDAL.Core
         public List<Order> GetOrderData(int nbLine)
         {
             List<Order> result = _dataSet.GetOrderData();
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
         }
-        
+
         public async Task<List<Order>> GetOrderDataAsync(int nbLine)
         {
             checkServiceCommunication();
@@ -393,7 +402,7 @@ namespace QOBDDAL.Core
         public List<Tax_order> GetTax_orderData(int nbLine)
         {
             List<Tax_order> result = _dataSet.GetTax_orderData();
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
@@ -437,7 +446,7 @@ namespace QOBDDAL.Core
         public List<Order_item> GetOrder_itemData(int nbLine)
         {
             List<Order_item> result = _dataSet.GetOrder_itemData();
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
@@ -482,7 +491,7 @@ namespace QOBDDAL.Core
         {
             List<Tax> result = _dataSet.GetTaxData();
 
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
@@ -503,7 +512,7 @@ namespace QOBDDAL.Core
         {
             List<Bill> result = _dataSet.GetBillData();
 
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
@@ -558,7 +567,7 @@ namespace QOBDDAL.Core
         public List<Delivery> GetDeliveryData(int nbLine)
         {
             List<Delivery> result = _dataSet.GetDeliveryData();
-            if (nbLine.Equals(999) || result.Count == 0|| result.Count < nbLine)
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
                 return result;
 
             return result.GetRange(0, nbLine);
@@ -690,7 +699,7 @@ namespace QOBDDAL.Core
         //----------------------------------------------------------------------------------------//
         //----------------------------------------------------------------------------------------//
 
-        public async Task UpdateOrderDependenciesAsync(List<Order> orders, bool isActiveProgress = false)
+        public async Task UpdateOrderDependenciesAsync(List<Order> orders)
         {
             int loadUnit = 25;
 
@@ -731,7 +740,6 @@ namespace QOBDDAL.Core
                 addressList = new ConcurrentBag<Address>(addressList.Concat(new ConcurrentBag<Address>(addressfoundList)));
                 var savedAddressList = dalClient.LoadAddress(addressList.ToList());
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
 
             // Tax_order Loading
             if (orderList.Count > 0)
@@ -743,12 +751,10 @@ namespace QOBDDAL.Core
             }
 
             // Tax Loading
-            var taxFoundList = await _gatewayOrder.GetTaxDataAsync(999); 
+            var taxFoundList = await _gatewayOrder.GetTaxDataAsync(999);
             taxList = new ConcurrentBag<Tax>(new ConcurrentBag<Tax>(taxFoundList));
             List<Tax> savedTaxList = LoadTax(taxList.ToList());
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
-
-
+            
             // Bills Loading
             if (orderList.Count > 0)
             {
@@ -757,8 +763,7 @@ namespace QOBDDAL.Core
                 billList = new ConcurrentBag<Bill>(billList.Concat(new ConcurrentBag<Bill>(billfoundList)));
                 List<Bill> savedBillList = LoadBill(billList.ToList());
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
-
+            
             // Delivery Loading
             if (orderList.Count > 0)
             {
@@ -767,8 +772,7 @@ namespace QOBDDAL.Core
                 deliveryList = new ConcurrentBag<Delivery>(deliveryList.Concat(new ConcurrentBag<Delivery>(deliveryfoundList)));
                 List<Delivery> savedDeliveryList = LoadDelivery(deliveryList.ToList());
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
-
+            
             // Order_item Loading
             if (orderList.Count > 0)
             {
@@ -780,9 +784,7 @@ namespace QOBDDAL.Core
                 }
                 var savedOrder_itemList = new ConcurrentBag<Order_item>(LoadOrder_item(order_itemList.ToList()));
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
-
-
+            
             // Item Loading
             if (order_itemList.Count > 0)
             {
@@ -794,9 +796,7 @@ namespace QOBDDAL.Core
                 }
                 var savedItemList = new ConcurrentBag<Item>(dalItem.LoadItem(itemList.ToList()));
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
-
-
+            
             // Provider_item Loading
             if (itemList.Count > 0)
             {
@@ -808,9 +808,7 @@ namespace QOBDDAL.Core
                 }
                 var savedProvider_itemList = new ConcurrentBag<Provider_item>(dalItem.LoadProvider_item(provider_itemList.ToList()));
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
-
-
+            
             // Provider Loading
             if (provider_itemList.Count > 0)
             {
@@ -819,9 +817,7 @@ namespace QOBDDAL.Core
                 providerList = new ConcurrentBag<Provider>(providerList.Concat(new ConcurrentBag<Provider>(providerFoundList)).OrderBy(x => x.Name).Distinct());
                 List<Provider> savedProviderList = dalItem.LoadProvider(providerList.ToList());
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
-
-
+            
             // Item_delivery Loading
             if (deliveryList.Count > 0)
             {
@@ -830,8 +826,7 @@ namespace QOBDDAL.Core
                 item_deliveryList = new ConcurrentBag<Item_delivery>(item_deliveryList.Concat(new ConcurrentBag<Item_delivery>(item_deliveryFoundList)));
                 List<Item_delivery> savedItem_deliveryList = dalItem.LoadItem_delivery(item_deliveryList.ToList());
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
-
+            
             // Tax_item Loading
             if (itemList.Count > 0)
             {
@@ -844,7 +839,6 @@ namespace QOBDDAL.Core
                 var savedTax_itemList = new ConcurrentBag<Tax_item>(dalItem.LoadTax_item(tax_itemList.ToList()));
 
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
             
             // Client Loading
             if (orderList.Count > 0)
@@ -857,8 +851,7 @@ namespace QOBDDAL.Core
                 }
                 List<Client> savedClientList = dalClient.LoadClient(clientList.ToList());
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
-
+            
             // Contacts Loading
             if (clientList.Count > 0)
             {
@@ -867,14 +860,12 @@ namespace QOBDDAL.Core
                 contactList = new ConcurrentBag<Contact>(contactList.Concat(new ConcurrentBag<Contact>(contactFoundList)));
                 List<Contact> savedContactList = dalClient.LoadContact(contactList.ToList());
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
-
+            
             // saving orders
             if (orderList.Count > 0)
             {
                 var savedOrderList = LoadOrder(orderList.ToList());
             }
-            if (isActiveProgress) _progressBarFunc(_progressBarFunc(0) + step);
         }
     } /* end class BLOrdere */
 }

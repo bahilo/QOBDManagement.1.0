@@ -25,7 +25,7 @@ namespace QOBDDAL.Core
 {
     public class DALNotification : INotificationManager
     {
-        private Func<double, double> _rogressBarFunc;
+        private Func<double, double> _progressBarFunc;
         public Agent AuthenticatedUser { get; set; }
         private QOBDCommon.Interfaces.REMOTE.INotificationManager _gateWayNotification;
         private ClientProxy _servicePortType;
@@ -42,8 +42,8 @@ namespace QOBDDAL.Core
         {
             _servicePortType = servicePort;
             _gateWayNotification = new GateWayNotification(_servicePortType);
-            _loadSize = Convert.ToInt32(ConfigurationManager.AppSettings["load_size"]);
-            _progressStep = Convert.ToInt32(ConfigurationManager.AppSettings["progress_step"]);
+            _loadSize = Utility.intTryParse(ConfigurationManager.AppSettings["load_size"]);
+            _progressStep = Utility.intTryParse(ConfigurationManager.AppSettings["progress_step"]);
         }
 
         public DALNotification(ClientProxy servicePort, Interfaces.IQOBDSet _dataSet) : this(servicePort)
@@ -103,17 +103,19 @@ namespace QOBDDAL.Core
             }
             finally
             {
-                lock (_lock)
+                lock (_lock) IsLodingDataFromWebServiceToLocal = false;
+                try
                 {
-                    _rogressBarFunc(_rogressBarFunc(0) + 100 / _progressStep);
-                    _isLodingDataFromWebServiceToLocal = false;
+                    _progressBarFunc((double)100 / _progressStep);
                 }
+                catch (DivideByZeroException ex) { Log.error(ex.Message, EErrorFrom.STATISTIC); }
+                // Log.debug("Loaded[" + _progressBarFunc(0) + "%]!", EErrorFrom.NOTIFICATION);
             }
         }
 
         public void progressBarManagement(Func<double, double> progressBarFunc)
         {
-            _rogressBarFunc = progressBarFunc;
+            _progressBarFunc = progressBarFunc;
         }
 
         private void checkServiceCommunication()
