@@ -23,8 +23,6 @@ namespace QOBDManagement.ViewModel
 {
     public class ChatRoomViewModel : BindBase, IChatRoomViewModel
     {
-        private int _port = 0;
-        private System.Net.IPAddress _ipAddress;
         private Context _context;
         private Object _currentViewModel;
         private bool _isServerConnectionError;
@@ -95,16 +93,16 @@ namespace QOBDManagement.ViewModel
             get { return _main.AgentViewModel; }
         }
 
-        public NetworkStream ServerStream
+        public IPEndPoint EndPoint
         {
-            get { return DiscussionViewModel.ServerStream; }
-            set { DiscussionViewModel.ServerStream = value; onPropertyChange(); }
+            get { return DiscussionViewModel.EndPoint; }
+            set { DiscussionViewModel.EndPoint = value; onPropertyChange(); }
         }
 
-        public TcpListener TcpListener
+        public UdpClient UdpClient
         {
-            get { return DiscussionViewModel.TcpListener; }
-            set { DiscussionViewModel.TcpListener = value; onPropertyChange(); }
+            get { return DiscussionViewModel.UdpClient; }
+            set { DiscussionViewModel.UdpClient = value; onPropertyChange(); }
         }
 
         public IMainWindowViewModel MainWindowViewModel
@@ -135,7 +133,9 @@ namespace QOBDManagement.ViewModel
         /// start the chat server
         /// </summary>
         public async void start()
-        {            
+        {
+            int port = 0;
+              
             // load chat user
             await _main.AgentViewModel.loadAgents();
 
@@ -147,11 +147,10 @@ namespace QOBDManagement.ViewModel
             using (Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
                 sock.Bind(new IPEndPoint(IPAddress.Parse(myIpAddress), 0));
-                _port = ((IPEndPoint)sock.LocalEndPoint).Port;
-                System.Net.IPAddress.TryParse(myIpAddress, out _ipAddress);
+                port = ((IPEndPoint)sock.LocalEndPoint).Port;
             }
 
-            _startup.Bl.BlSecurity.GetAuthenticatedUser().IPAddress = myIpAddress + ":" + _port;
+            _startup.Bl.BlSecurity.GetAuthenticatedUser().IPAddress = myIpAddress + ":" + port;
 
             // listening incoming messages
             await receiverAsync();
@@ -165,27 +164,37 @@ namespace QOBDManagement.ViewModel
             Agent authenticatedUser = _startup.Bl.BlSecurity.GetAuthenticatedUser();
             try
             {
-                IPEndPoint localEndPoint = new IPEndPoint(_ipAddress, _port);
-                TcpListener = new TcpListener(localEndPoint);
-                                
-                string message = (int)EServiceCommunication.Connected + "/" + authenticatedUser.ID + "/0/" + authenticatedUser.ID + "|" + "$";
-                DiscussionViewModel.broadcastMessage(message);
-
-                // create discussion thread
-                Thread ctThread = new Thread(DiscussionViewModel.getMessage);
-                ctThread.SetApartmentState(ApartmentState.STA);
-                ctThread.IsBackground = true;
-                ctThread.Start();
-
                 // updating the user status                
                 authenticatedUser.IsOnline = true;
                 var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
+
+                if (updatedUserList.Count > 0)
+                {
+                    int port = Utility.intTryParse(updatedUserList[0].IPAddress.Split(':')[1]);
+                    IPAddress ipAddress = default(IPAddress);
+                    IPAddress.TryParse(updatedUserList[0].IPAddress.Split(':')[0], out ipAddress);
+
+                    EndPoint = new IPEndPoint(ipAddress, port);
+                    UdpClient = new UdpClient(port);
+                    
+                    // updating authenticated user online status 
+                    DiscussionViewModel.SelectedAgentModel = new AgentModel();
+                    DiscussionViewModel.broadcastMessage(DiscussionViewModel.WelcomeMessage);
+
+                    // create discussion thread
+                    Thread ctThread = new Thread(DiscussionViewModel.getMessage);
+                    ctThread.SetApartmentState(ApartmentState.STA);
+                    ctThread.IsBackground = true;
+                    ctThread.Start();
+                }
+                else
+                    new ApplicationException("Error while updating the user["+ authenticatedUser.ID + "|"+ authenticatedUser .IPAddress+ "] network information");
             }
             catch (Exception ex)
             {
                 _isServerConnectionError = true;
                 CurrentViewModel = DiscussionViewModel;
-                Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
+                Log.error("<[" + _startup.Bl.BlSecurity.GetAuthenticatedUser().UserName + "]Localhost =" + _startup.Bl.BlSecurity.GetAuthenticatedUser().IPAddress + "> " + ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
 
                 // updating the user status
                 authenticatedUser.IsOnline = false;
@@ -249,24 +258,27 @@ namespace QOBDManagement.ViewModel
                 authenticatedUser.IsOnline = false;
                 await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { _startup.Bl.BlSecurity.GetAuthenticatedUser() });
 
-                string message = (int)EServiceCommunication.Disconnected + "/" + authenticatedUser.ID + "/0/" + authenticatedUser.ID + "|" + "$";
-                DiscussionViewModel.broadcastMessage(message);
+                // ending the discussions
+                DiscussionViewModel.SelectedAgentModel = new AgentModel();
+                DiscussionViewModel.broadcastMessage(DiscussionViewModel.ByeMessage);
 
-                foreach (var tcpClientElement in DiscussionViewModel.ServerClientsDictionary)
-                    tcpClientElement.Value.Close();   
+                foreach (var ClientElement in DiscussionViewModel.ServerClientsDictionary)
+                {
+                    ClientElement.Value.Item2.Close();
+                }
             }
+            catch (System.IO.IOException) { }
+            catch (System.Net.Sockets.SocketException) { }
             catch (Exception ex)
             {
-                Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
+                Log.error("<[" + _startup.Bl.BlSecurity.GetAuthenticatedUser().UserName + "]Localhost =" + _startup.Bl.BlSecurity.GetAuthenticatedUser().IPAddress + "> " + ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
             }
         }
 
         public void cleanUp()
         {
-            if (TcpListener != null)
-                TcpListener.Stop();
-            if (ServerStream != null)
-                ServerStream.Dispose();
+            if (UdpClient != null)
+                UdpClient.Close();
         }
 
         public async Task DisposeAsync()
@@ -277,6 +289,7 @@ namespace QOBDManagement.ViewModel
             MessageViewModel.Dispose();
             _startup.Dal.Dispose();
             _startup.ProxyClient.Close();
+            cleanUp();
         }
 
         //----------------------------[ Event Handler ]------------------

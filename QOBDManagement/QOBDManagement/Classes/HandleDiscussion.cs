@@ -16,17 +16,20 @@ namespace QOBDManagement.Classes
 {
     public class HandleDiscussion : BindBase
     {
-        TcpClient clientSocket;
+        string message;
+        UdpClient clientSocket;
         IDiscussionViewModel DiscussionViewModel;
 
         public HandleDiscussion(IStartup startup)
         {
             this.Startup = startup;
+            message = "";
         }
 
-        public void startClient(IDiscussionViewModel discussionViewModel, TcpClient inClientSocket)
+        public void startClient(IDiscussionViewModel discussionViewModel, UdpClient inClientSocket, string message)
         {
             this.clientSocket = inClientSocket;
+            this.message = message;
             DiscussionViewModel = discussionViewModel;
             Thread ctThread = new Thread(doChat);
             ctThread.IsBackground = true;
@@ -45,97 +48,64 @@ namespace QOBDManagement.Classes
 
         private async void doChat()
         {
-            if (clientSocket.Connected)
+
+            int discussionId = 0;
+            int userId = 0;
+            int messageId = 0;
+            List<string> composer = new List<string>();
+
+            composer = message.Split('/').ToList();
+
+            // current discussion management
+            if (composer.Count > 3
+                && int.TryParse(composer[0], out discussionId)
+                    && int.TryParse(composer[1], out userId)
+                        && int.TryParse(composer[2], out messageId)
+                            && discussionId != (int)EServiceCommunication.Disconnected
+                                && discussionId != (int)EServiceCommunication.Connected)
             {
-                byte[] bytesFrom = new byte[(int)clientSocket.ReceiveBufferSize];
-                string dataFromClient = null;
+                var message = new Message { ID = messageId, DiscussionId = discussionId, UserId = userId, Content = composer[4], Date = Utility.convertToDateTime(composer[5]) };
+                var userFoundList = BL.BlAgent.searchAgent(new Agent { ID = userId }, QOBDCommon.Enum.ESearchOption.AND);
 
-                while ((true))
+                if (discussionId == DiscussionViewModel.DiscussionModel.Discussion.ID)
                 {
-                    int discussionId = 0;
-                    int userId = 0;
-                    int messageId = 0;
-                    List<string> composer = new List<string>();
-                    NetworkStream networkStream = default(NetworkStream);
-
-                    try
+                    // new user to the current discussion detected  
+                    List<string> discussionUserIDs = composer[3].Split('|').Where(x => !string.IsNullOrEmpty(x)).ToList();
+                    if (discussionUserIDs.Count() > DiscussionViewModel.DiscussionModel.UserList.Count)
                     {
-                        networkStream = clientSocket.GetStream();
-                        networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);
-                        dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
-                        dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
-                        if (Utility.intTryParse(dataFromClient.Split('/')[0]) == (int)EServiceCommunication.Disconnected)
-                            throw new ApplicationException("Exit application.");
+                        DiscussionViewModel.updateDiscussionUserList(DiscussionViewModel.DiscussionModel, discussionUserIDs);
+                        DiscussionViewModel.displayMessage(message, userFoundList[0]);
+                    }
 
-                        composer = dataFromClient.Split('/').ToList();
-
-                        // current discussion management
-                        if (composer.Count > 3
-                            && int.TryParse(composer[0], out discussionId)
-                                && int.TryParse(composer[1], out userId)
-                                    && int.TryParse(composer[2], out messageId)
-                                        && discussionId != (int)EServiceCommunication.Disconnected
-                                            && discussionId != (int)EServiceCommunication.Connected)
+                    // display the new incoming message
+                    else if (DiscussionViewModel.DiscussionModel.MessageList.Where(x => x.Message.ID == messageId).Count() == 0)
+                    {
+                        if (message.ID > 0 && userFoundList.Count > 0)
                         {
-                            var message = new Message { ID = messageId, DiscussionId = discussionId, UserId = userId, Content = composer[4], Date = Utility.convertToDateTime(composer[5]) };
-                            var userFoundList = BL.BlAgent.searchAgent(new Agent { ID = userId }, QOBDCommon.Enum.ESearchOption.AND);
-
-                            if (discussionId == DiscussionViewModel.DiscussionModel.Discussion.ID)
-                            {
-                                // new user to the current discussion detected  
-                                List<string> discussionUserIDs = composer[3].Split('|').Where(x => !string.IsNullOrEmpty(x)).ToList();
-                                if (discussionUserIDs.Count() > DiscussionViewModel.DiscussionModel.UserList.Count)
-                                {
-                                    DiscussionViewModel.updateDiscussionUserList(DiscussionViewModel.DiscussionModel, discussionUserIDs);
-                                    DiscussionViewModel.displayMessage(message, userFoundList[0]);
-                                }
-
-                                // display the new incoming message
-                                else if (DiscussionViewModel.DiscussionModel.MessageList.Where(x => x.Message.ID == messageId).Count() == 0)
-                                {
-                                    if (message.ID > 0 && userFoundList.Count > 0)
-                                    {
-                                        DiscussionViewModel.DiscussionModel.addMessage(new MessageModel { Message = message });
-                                        DiscussionViewModel.displayMessage(message, userFoundList[0]);
-                                    }
-                                }
-                            }
-
-                            // notification of a new incoming message
-                            else
-                            {
-                                if (message.ID > 0)
-                                {
-                                    var discussionModelFound = DiscussionViewModel.DiscussionList.Where(x => x.Discussion.ID == discussionId).FirstOrDefault();
-                                    if (discussionModelFound != null)
-                                    {
-                                        discussionModelFound.addMessage(new MessageModel { Message = message, IsNewMessage = true });
-                                        DiscussionViewModel.TxtNbNewMessage = (Utility.intTryParse(DiscussionViewModel.TxtNbNewMessage) + 1).ToString();
-                                    }
-                                    else
-                                        await DiscussionViewModel.retrieveUserDiscussions(AuthenticatedUser);
-
-                                    System.Media.SystemSounds.Asterisk.Play();
-                                }
-                            }
+                            DiscussionViewModel.DiscussionModel.addMessage(new MessageModel { Message = message });
+                            DiscussionViewModel.displayMessage(message, userFoundList[0]);
                         }
                     }
-                    catch (ApplicationException)
+                }
+
+                // notification of a new incoming message
+                else
+                {
+                    if (message.ID > 0)
                     {
-                        var agentFound = DiscussionViewModel.ServerClientsDictionary.Where(x => x.Key.TxtID == dataFromClient.Split('/')[1]).Select(x => x.Key).SingleOrDefault();
-                        if (agentFound != null)
+                        var discussionModelFound = DiscussionViewModel.DiscussionList.Where(x => x.Discussion.ID == discussionId).FirstOrDefault();
+                        if (discussionModelFound != null)
                         {
-                            string message = (int)EServiceCommunication.Disconnected + "/" + agentFound.TxtID + "/0/" + agentFound.TxtID + "|" + "$";
-                            DiscussionViewModel.broadcast(dataFromClient);
-                            break;
+                            discussionModelFound.addMessage(new MessageModel { Message = message, IsNewMessage = true });
+                            DiscussionViewModel.TxtNbNewMessage = (Utility.intTryParse(DiscussionViewModel.TxtNbNewMessage) + 1).ToString();
                         }
+                        else
+                            await DiscussionViewModel.retrieveUserDiscussions(AuthenticatedUser);
+
+                        System.Media.SystemSounds.Asterisk.Play();
                     }
-                    catch (Exception ex)
-                    {
-                        Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
-                    }
-                }//end while
-            }// end if
+                }
+            }
 
         }//end doChat
     }

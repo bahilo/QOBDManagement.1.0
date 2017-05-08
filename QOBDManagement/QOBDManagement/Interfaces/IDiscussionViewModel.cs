@@ -15,8 +15,10 @@ namespace QOBDManagement.Interfaces
         string TxtNbNewMessage { get; set; }
         IChatRoomViewModel MainChatRoom { get; }
         DiscussionModel DiscussionModel { get; set; }
+        string ByeMessage { get; }
+        string WelcomeMessage { get; }
         List<DiscussionModel> DiscussionList { get; set; }
-        Dictionary<AgentModel, TcpClient> ServerClientsDictionary { get; set; }
+        Dictionary<AgentModel, Tuple<Guid, UdpClient>> ServerClientsDictionary { get; set; }
 
         // void broadcastMessage(string message);
         void broadcast(string msg);
