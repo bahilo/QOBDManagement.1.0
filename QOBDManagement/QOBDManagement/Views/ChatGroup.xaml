@@ -10,19 +10,37 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="dgGroup" ItemsSource="{Binding UserViewModel.UserModelList, UpdateSourceTrigger=PropertyChanged}" 
-                  AutoGenerateColumns="False" CanUserAddRows="False">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Margin="0 0 10 0">Discussion ID</TextBlock>
+                <TextBox MinWidth="50" VerticalAlignment="Center" IsEnabled="False"
+                         Text="{Binding DiscussionViewModel.DiscussionModel.TxtID, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <Button Grid.Column="2" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding DiscussionViewModel.ResetDiscussionGroupCommand}">
+                Reset Discussion
+            </Button>
+        </Grid>
+        <DataGrid Grid.Row="1" Name="dgGroup" ItemsSource="{Binding DiscussionViewModel.ChatAgentModelList, UpdateSourceTrigger=PropertyChanged}" 
+                  AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Group Creation">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox Name="cbUser"
+                                <CheckBox Name="cbUser" 
+                                          IsChecked="{Binding IsModified, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                <!--<CheckBox Name="cbUser" IsChecked="{Binding IsModified, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                     Command="{Binding DataContext.DiscussionViewModel.SaveUserForDiscussionGroupCommand, ElementName=dgGroup}"
-                                    CommandParameter="{Binding}"/>
+                                    CommandParameter="{Binding}"/>-->
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -57,18 +75,18 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Left"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
                 <Button.CommandParameter>
-                    <system:Int32>1</system:Int32>
+                    <system:Boolean>True</system:Boolean>
                 </Button.CommandParameter>
                 ACCEPT
             </Button>
             <Button Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Left"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
                 <Button.CommandParameter>
-                    <system:Int32>2</system:Int32>
+                    <system:Boolean>False</system:Boolean>
                 </Button.CommandParameter>
                 CANCEL
             </Button>

@@ -59,7 +59,7 @@ namespace QOBDManagement.Models
 
         public string TxtID
         {
-            get { return _discussion.ID.ToString(); }
+            get { return "#"+_discussion.ID.ToString(); }
             set { _discussion.ID = Convert.ToInt32(value); onPropertyChange("TxtID"); }
         }
 

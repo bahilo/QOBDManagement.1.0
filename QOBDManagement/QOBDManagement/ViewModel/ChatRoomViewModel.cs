@@ -138,6 +138,7 @@ namespace QOBDManagement.ViewModel
               
             // load chat user
             await _main.AgentViewModel.loadAgents();
+            DiscussionViewModel.ChatAgentModelList = _main.AgentViewModel.AgentModelList;
 
             // loading users dicussions
             await MessageViewModel.loadAsync();

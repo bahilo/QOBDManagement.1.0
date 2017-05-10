@@ -15,6 +15,7 @@ namespace QOBDManagement.Interfaces
         string TxtNbNewMessage { get; set; }
         IChatRoomViewModel MainChatRoom { get; }
         DiscussionModel DiscussionModel { get; set; }
+        List<AgentModel> ChatAgentModelList { get; set; }
         string ByeMessage { get; }
         string WelcomeMessage { get; }
         List<DiscussionModel> DiscussionList { get; set; }
