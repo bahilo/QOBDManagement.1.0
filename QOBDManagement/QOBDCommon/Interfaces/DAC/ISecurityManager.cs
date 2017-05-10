@@ -15,8 +15,7 @@ namespace QOBDCommon.Interfaces.DAC
     public interface ISecurityManager : REMOTE.ISecurityManager, INotifyPropertyChanged, IDisposable
     {
         void initializeCredential(Agent user);
-
-        void progressBarManagement(Func<double, double> progressBarFunc);
+        
 
     } /* end interface Isecurity */
 }

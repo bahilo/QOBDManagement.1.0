@@ -74,7 +74,7 @@ namespace QOBDDAL.Core
         }
         
 
-        public async Task<Agent> AuthenticateUserAsync(string username, string password , bool isClearPassword = true)
+        public async Task<Agent> AuthenticateUserAsync(string username, string password)
         {
             if (!string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && !string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
                 setServiceCredential(new ClientProxy("QOBDWebServicePort"));                
@@ -83,11 +83,6 @@ namespace QOBDDAL.Core
             _servicePortType.ClientCredentials.UserName.Password = password;
 
             return await _gateWaySecurity.AuthenticateUserAsync(username, password);
-        }
-
-        public void progressBarManagement(Func<double, double> progressBarFunc)
-        {
-            _progressBarFunc = progressBarFunc;
         }
 
         private void checkServiceCommunication()

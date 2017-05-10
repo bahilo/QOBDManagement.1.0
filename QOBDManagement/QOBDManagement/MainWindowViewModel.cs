@@ -468,7 +468,14 @@ namespace QOBDManagement
             {
                 // if not unit testing update displaying
                 if (Application.Current != null)
-                    NewMessageHomePageCommand.raiseCanExecuteActionChanged();
+                {
+                    if (Application.Current.Dispatcher.CheckAccess())
+                        NewMessageHomePageCommand.raiseCanExecuteActionChanged();
+                    else
+                        Application.Current.Dispatcher.BeginInvoke(new System.Action(() => {
+                            NewMessageHomePageCommand.raiseCanExecuteActionChanged();
+                        }));                       
+                }                    
             }
         }
 

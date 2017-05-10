@@ -24,7 +24,7 @@ namespace QOBDCommon.Interfaces.BL
 
         Task<List<Agent>> EnableAgent(List<Agent> listAgent);
 
-        Agent UseAgent(Agent inAgent);
+        Task<Agent> UseAgentAsync(Agent inAgent);
 
         string CalculateHash(string clearTextPassword);
 

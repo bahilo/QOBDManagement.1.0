@@ -43,62 +43,118 @@ namespace QOBDManagement.Views
 
         public async void showMyReply(string message, bool isNewDiscussion = false)
         {
-            await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            if (Application.Current != null)
             {
-                int cpt = chatRoomZone.Children.Count;
-                Button btnMessage = new Button();
-                btnMessage.Width = 300;
-                btnMessage.HorizontalAlignment = HorizontalAlignment.Right;
-                btnMessage.Name = "btnMessage" + cpt;
-                TextBlock txtBlock = new TextBlock();
-                txtBlock.Text = message;
-                btnMessage.Style = (Style)FindResource("Reply");
-                btnMessage.Content = txtBlock;
-                chatRoomZone.Children.Add(btnMessage);
-                displayMaxOfMessage();
-            }));
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    int cpt = chatRoomZone.Children.Count;
+                    Button btnMessage = new Button();
+                    btnMessage.Width = 300;
+                    btnMessage.HorizontalAlignment = HorizontalAlignment.Right;
+                    btnMessage.Name = "btnMessage" + cpt;
+                    TextBlock txtBlock = new TextBlock();
+                    txtBlock.Text = message;
+                    btnMessage.Style = (Style)FindResource("Reply");
+                    btnMessage.Content = txtBlock;
+                    chatRoomZone.Children.Add(btnMessage);
+                    displayMaxOfMessage();
+                }
+                else
+                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        int cpt = chatRoomZone.Children.Count;
+                        Button btnMessage = new Button();
+                        btnMessage.Width = 300;
+                        btnMessage.HorizontalAlignment = HorizontalAlignment.Right;
+                        btnMessage.Name = "btnMessage" + cpt;
+                        TextBlock txtBlock = new TextBlock();
+                        txtBlock.Text = message;
+                        btnMessage.Style = (Style)FindResource("Reply");
+                        btnMessage.Content = txtBlock;
+                        chatRoomZone.Children.Add(btnMessage);
+                        displayMaxOfMessage();
+                    }));
+            }            
         }
 
         public async void showInfo(string message)
         {
-            await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            if (Application.Current != null)
             {
-                int cpt = chatRoomZone.Children.Count;
-                TextBlock txtBlock = new TextBlock();
-                txtBlock.Name = "btnErrMessage" + cpt;
-                txtBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                txtBlock.Text = message;
-                chatRoomZone.Children.Add(txtBlock);
-            }));
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    int cpt = chatRoomZone.Children.Count;
+                    TextBlock txtBlock = new TextBlock();
+                    txtBlock.Name = "btnErrMessage" + cpt;
+                    txtBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                    txtBlock.Text = message;
+                    chatRoomZone.Children.Add(txtBlock);
+                }
+                else
+                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        int cpt = chatRoomZone.Children.Count;
+                        TextBlock txtBlock = new TextBlock();
+                        txtBlock.Name = "btnErrMessage" + cpt;
+                        txtBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                        txtBlock.Text = message;
+                        chatRoomZone.Children.Add(txtBlock);
+                    }));
+            }                
         }
 
         public async void showRecipientReply(string message, bool isNewDiscussion = false)
         {
-            await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            if (Application.Current != null)
             {
-                int cpt = chatRoomZone.Children.Count;
-                Button btnMessage = new Button();
-                btnMessage.Width = 300;
-                btnMessage.HorizontalAlignment = HorizontalAlignment.Left;
-                btnMessage.Name = "btnMessage" + cpt;
-                TextBlock txtBlock = new TextBlock();
-                txtBlock.Name = "txtMessage" + cpt;
-                txtBlock.Text = message;
-                btnMessage.Style = (Style)FindResource("RecipientReply");
-                btnMessage.Content = txtBlock;
-                chatRoomZone.Children.Add(btnMessage);
-                displayMaxOfMessage();
-            }));
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    int cpt = chatRoomZone.Children.Count;
+                    Button btnMessage = new Button();
+                    btnMessage.Width = 300;
+                    btnMessage.HorizontalAlignment = HorizontalAlignment.Left;
+                    btnMessage.Name = "btnMessage" + cpt;
+                    TextBlock txtBlock = new TextBlock();
+                    txtBlock.Name = "txtMessage" + cpt;
+                    txtBlock.Text = message;
+                    btnMessage.Style = (Style)FindResource("RecipientReply");
+                    btnMessage.Content = txtBlock;
+                    chatRoomZone.Children.Add(btnMessage);
+                    displayMaxOfMessage();
+                }
+                else
+                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        int cpt = chatRoomZone.Children.Count;
+                        Button btnMessage = new Button();
+                        btnMessage.Width = 300;
+                        btnMessage.HorizontalAlignment = HorizontalAlignment.Left;
+                        btnMessage.Name = "btnMessage" + cpt;
+                        TextBlock txtBlock = new TextBlock();
+                        txtBlock.Name = "txtMessage" + cpt;
+                        txtBlock.Text = message;
+                        btnMessage.Style = (Style)FindResource("RecipientReply");
+                        btnMessage.Content = txtBlock;
+                        chatRoomZone.Children.Add(btnMessage);
+                        displayMaxOfMessage();
+                    }));
+            }                
         }
 
         private async void displayMaxOfMessage()
         {
             if (chatRoomZone.Children.Count > maxMessage)
             {
-                await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                if (Application.Current != null)
                 {
-                    chatRoomZone.Children.RemoveRange(0, chatRoomZone.Children.Count - maxMessage);
-                }));
+                    if (Application.Current.Dispatcher.CheckAccess())
+                        chatRoomZone.Children.RemoveRange(0, chatRoomZone.Children.Count - maxMessage);
+                    else
+                        await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            chatRoomZone.Children.RemoveRange(0, chatRoomZone.Children.Count - maxMessage);
+                        }));
+                }                    
             }
         }
 

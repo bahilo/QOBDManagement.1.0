@@ -24,6 +24,7 @@
             <View:ChatHistoryView/>
         </DataTemplate>
         <class:DiscussionGroupNameConverter x:Key="discussionGroupConverter"/>
+        <class:TriggerConverter x:Key="TriggerConverter"/>
     </UserControl.Resources>
     <materialDesign:DialogHost Name="DialogBoxChatRoom" Identifier="RootDialogChatRoom" IsOpen="{Binding Dialog.IsChatDialogOpen, UpdateSourceTrigger=PropertyChanged}" Loaded="DialogBoxChatRoom_Loaded">
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
@@ -50,8 +51,14 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                                    Command="{Binding DataContext.DiscussionViewModel.SelectUserForDiscussionCommand,ElementName=dgUserList}"
                                                     CommandParameter="{Binding}">
+                                                <Button.Command>
+                                                    <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                                        <Binding Path="DataContext.DiscussionViewModel.SelectUserForDiscussionCommand"
+                                                                 ElementName="dgUserList" />
+                                                        <Binding />
+                                                    </MultiBinding>
+                                                </Button.Command>
                                                 <StackPanel>
                                                     <TextBlock Text="{Binding TxtLogin}"/>
                                                 </StackPanel>
@@ -62,9 +69,14 @@
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button 
-                                                    Command="{Binding DataContext.DiscussionViewModel.AddUserToDiscussionCommand,ElementName=dgUserList}"
-                                                    CommandParameter="{Binding}">
+                                            <Button CommandParameter="{Binding}">
+                                                <Button.Command>
+                                                    <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                                        <Binding Path="DataContext.DiscussionViewModel.AddUserToDiscussionCommand"
+                                                                 ElementName="dgUserList" />
+                                                        <Binding />
+                                                    </MultiBinding>
+                                                </Button.Command>
                                                 <StackPanel>
                                                     <TextBlock Text="Add to discussion"/>
                                                 </StackPanel>
@@ -121,8 +133,8 @@
                                     <Button Command="{Binding DiscussionViewModel.NavigToHomeCommand}">
                                         Home
                                     </Button>
-                                    <Button Command="{Binding DiscussionViewModel.DiscussionGroupCreationCommand}">
-                                        New Group
+                                    <Button Command="{Binding DiscussionViewModel.OpenDiscussionGroupCommand}">
+                                        Discussion Group
                                     </Button>
                                 </StackPanel>
                             </materialDesign:PopupBox>

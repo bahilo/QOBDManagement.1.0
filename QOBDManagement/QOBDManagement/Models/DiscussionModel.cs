@@ -69,7 +69,7 @@ namespace QOBDManagement.Models
             set { _discussion.Date = Utility.convertToDateTime(value); onPropertyChange("TxtDate"); }
         }
 
-        public void addUser(AgentModel userModel)
+        public bool addUser(AgentModel userModel)
         {
             if (userModel != null)
             {
@@ -79,8 +79,9 @@ namespace QOBDManagement.Models
                     IsGroupDiscussion = true;
                 onPropertyChange("UserList");
                 TxtGroupName = generateDiscussionGroupName(Discussion.ID, UserList);
+                return true;
             }
-
+            return false;
         }
 
         public void addUser(List<AgentModel> userModelList)
@@ -95,14 +96,16 @@ namespace QOBDManagement.Models
                 addUser(new AgentModel { Agent = user });
         }
 
-        public void addMessage(MessageModel messageModel)
+        public bool addMessage(MessageModel messageModel)
         {
-            if (messageModel != null)
+            if (messageModel != null && MessageList.Where(x=>x.Message.ID == messageModel.Message.ID).Count() == 0)
             {
                 if (MessageList.Where(x => x.Message.ID == messageModel.Message.ID).Count() == 0)
                     MessageList.Add(messageModel);
-                onPropertyChange("MessageList");                
+                onPropertyChange("MessageList");
+                return true;             
             }
+            return false;
         }
 
         public void addMessage(List<MessageModel> messageModelList)

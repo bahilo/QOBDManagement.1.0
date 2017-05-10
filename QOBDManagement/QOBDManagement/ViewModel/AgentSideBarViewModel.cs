@@ -76,7 +76,7 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Actions ]------------------
 
-        private async Task<Agent> loadNewUser(string login, string password)
+        private async Task<Agent> loadNewUser(Agent agent)
         {
             Agent newAgent = new Agent();
             if (_main != null)
@@ -85,9 +85,12 @@ namespace QOBDManagement.ViewModel
                 await Task.Factory.StartNew(() => {
                     _main.ChatRoomViewModel.Dispose();
                 });
-                newAgent = await Bl.BlSecurity.AuthenticateUserAsync(login, password, isClearPassword: false);
-                _main.isNewAgentAuthentication = true;
-                _main.SecurityLoginViewModel.AgentModel.Agent = Bl.BlSecurity.GetAuthenticatedUser();
+                newAgent = await Bl.BlSecurity.UseAgentAsync(agent);
+                if (Bl.BlSecurity.IsUserAuthenticated())
+                {
+                    _main.isNewAgentAuthentication = true;
+                    _main.SecurityLoginViewModel.AgentModel.Agent = Bl.BlSecurity.GetAuthenticatedUser();
+                }
             }
             return newAgent;
         }
@@ -175,7 +178,7 @@ namespace QOBDManagement.ViewModel
                     break;
                 case "use": // connect a new user
                     Dialog.showSearch("Please wait while we are dealing with your request...");
-                    var newAgent = await loadNewUser(SelectedAgentModel.Agent.UserName, SelectedAgentModel.Agent.HashedPassword);
+                    var newAgent = await loadNewUser(SelectedAgentModel.Agent);
                     if (newAgent.ID != 0)
                         await Dialog.showAsync("Your are successfully connected as " + newAgent.FirstName + " " + newAgent.LastName);
                    break;

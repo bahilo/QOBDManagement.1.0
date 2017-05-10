@@ -19,6 +19,7 @@ namespace QOBDCommon.Enum
         NOTIFICATION,
         UTILITY,
         HELPER,
-        MAIN
+        MAIN,
+        COMMAND
     }
 }

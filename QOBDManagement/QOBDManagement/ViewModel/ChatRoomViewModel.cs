@@ -179,7 +179,7 @@ namespace QOBDManagement.ViewModel
                     
                     // updating authenticated user online status 
                     DiscussionViewModel.SelectedAgentModel = new AgentModel();
-                    DiscussionViewModel.broadcastMessage(DiscussionViewModel.WelcomeMessage);
+                    await DiscussionViewModel.broadcastMessageAsync(DiscussionViewModel.WelcomeMessage);
 
                     // create discussion thread
                     Thread ctThread = new Thread(DiscussionViewModel.getMessage);
@@ -260,7 +260,7 @@ namespace QOBDManagement.ViewModel
 
                 // ending the discussions
                 DiscussionViewModel.SelectedAgentModel = new AgentModel();
-                DiscussionViewModel.broadcastMessage(DiscussionViewModel.ByeMessage);
+                await DiscussionViewModel.broadcastMessageAsync(DiscussionViewModel.ByeMessage);
 
                 foreach (var ClientElement in DiscussionViewModel.ServerClientsDictionary)
                 {
@@ -314,10 +314,16 @@ namespace QOBDManagement.ViewModel
             if (e.PropertyName.Equals("updateStatus"))
             {
                 if (Application.Current.Dispatcher.CheckAccess())
+                {
                     await _main.AgentViewModel.loadAgents();
+                    DiscussionViewModel.SelectUserForDiscussionCommand.raiseCanExecuteActionChanged();
+                    DiscussionViewModel.AddUserToDiscussionCommand.raiseCanExecuteActionChanged();
+                }                    
                 else
                     await Application.Current.Dispatcher.Invoke(async()=> {
                         await _main.AgentViewModel.loadAgents();
+                        DiscussionViewModel.SelectUserForDiscussionCommand.raiseCanExecuteActionChanged();
+                        DiscussionViewModel.AddUserToDiscussionCommand.raiseCanExecuteActionChanged();
                     });
             }
         }

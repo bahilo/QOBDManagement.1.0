@@ -46,7 +46,7 @@ namespace QOBDManagement.ViewModel
         public ButtonCommand<string> SendMessageCommand { get; set; }
         public ButtonCommand<AgentModel> SelectUserForDiscussionCommand { get; set; }
         public ButtonCommand<AgentModel> SaveUserForDiscussionGroupCommand { get; set; }
-        public ButtonCommand<object> DiscussionGroupCreationCommand { get; set; }
+        public ButtonCommand<object> OpenDiscussionGroupCommand { get; set; }
         public ButtonCommand<object> NavigToHomeCommand { get; set; }
         public ButtonCommand<object> ReadNewMessageCommand { get; set; }
         public ButtonCommand<AgentModel> AddUserToDiscussionCommand { get; set; }
@@ -100,7 +100,7 @@ namespace QOBDManagement.ViewModel
             SendMessageCommand = new ButtonCommand<string>(broadcast, canBroadcast);
             SelectUserForDiscussionCommand = new ButtonCommand<AgentModel>(selectUserForDiscussion, canSelectUserForDiscussion);
             SaveUserForDiscussionGroupCommand = new ButtonCommand<AgentModel>(saveUserForDiscussionGroup, canSelectUserForDiscussion);
-            DiscussionGroupCreationCommand = new ButtonCommand<object>(createDiscussionGroup, canCreateDiscussionGroup);
+            OpenDiscussionGroupCommand = new ButtonCommand<object>(displayDiscussionGroupMenu, canDisplayDiscussionGroupMenu);
             NavigToHomeCommand = new ButtonCommand<object>(goToHomePage, canGoToHomePage);
             ReadNewMessageCommand = new ButtonCommand<object>(readNewMessages, canReadNewMessages);
             AddUserToDiscussionCommand = new ButtonCommand<AgentModel>(addUserToCurrentDiscussion, canAddUserToCurrentDiscussion);
@@ -399,13 +399,16 @@ namespace QOBDManagement.ViewModel
                     }
 
                     // update the authenticated user online status
-                    if (userId != AuthenticatedUser.ID)
+                    if (userId != AuthenticatedUser.ID && ( discussionId == (int)EServiceCommunication.Connected || discussionId == (int)EServiceCommunication.Disconnected) )
                         onPropertyChange("updateStatus");
                 }
             }
+            catch (System.IO.IOException) { }
+            catch (System.Net.Sockets.SocketException) { }
             catch (Exception ex)
             {
                 Log.error("<["+ BL.BlSecurity.GetAuthenticatedUser().UserName+ "]Localhost =" + BL.BlSecurity.GetAuthenticatedUser().IPAddress + "> " + ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
+                throw;
             }
         }
 
@@ -530,6 +533,7 @@ namespace QOBDManagement.ViewModel
                 byte[] outStream = System.Text.Encoding.ASCII.GetBytes(messageToSend);
                 broadcastSocket.Send(outStream, outStream.Length);
             }
+            catch (ObjectDisposedException) { }
             catch (Exception ex)
             {
                 Log.error("<[" + BL.BlSecurity.GetAuthenticatedUser().UserName + "]Localhost =" + BL.BlSecurity.GetAuthenticatedUser().IPAddress + "> " + ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
@@ -559,7 +563,7 @@ namespace QOBDManagement.ViewModel
             return new Message();
         }
 
-        public async void broadcastMessage(string message)
+        public async Task broadcastMessageAsync(string message)
         {
             // broadcast the message to the current discussion users only
             if (DiscussionModel.Discussion.ID != 0 && SelectedAgentModel.Agent.ID != 0)
@@ -709,7 +713,7 @@ namespace QOBDManagement.ViewModel
             }
 
 
-            broadcastMessage(msg);
+            await broadcastMessageAsync(msg);
             Dialog.IsChatDialogOpen = false;
         }
 
@@ -747,12 +751,12 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
-        private void createDiscussionGroup(object obj)
+        private void displayDiscussionGroupMenu(object obj)
         {
             _discussionGroupCreationTask.initializeNewTask(Dialog.showAsync(new Views.ChatGroup(), isChatDialogBox: true));
         }
 
-        private bool canCreateDiscussionGroup(object arg)
+        private bool canDisplayDiscussionGroupMenu(object arg)
         {
             return true;
         }
@@ -779,22 +783,21 @@ namespace QOBDManagement.ViewModel
 
         private async void addUserToCurrentDiscussion(AgentModel obj)
         {
-            Dialog.showSearch("Adding " + obj.TxtLogin + " to discussion...", isChatDialogBox: true);
-            Dialog.IsLeftBarClosed = false;
-            var user_discussionSavedList = await BL.BlChatRoom.InsertUser_discussionAsync(new List<User_discussion> { new User_discussion { DiscussionId = DiscussionModel.Discussion.ID, UserId = obj.Agent.ID } });
-            DiscussionModel.addUser(obj);
-            Dialog.IsChatDialogOpen = false;
+            if (DiscussionModel != null && DiscussionModel.Discussion.ID != 0 && DiscussionModel.addUser(obj))
+            {
+                Dialog.showSearch("Adding " + obj.TxtLogin + " to discussion...", isChatDialogBox: true);
+                Dialog.IsLeftBarClosed = false;
+                var user_discussionSavedList = await BL.BlChatRoom.InsertUser_discussionAsync(new List<User_discussion> { new User_discussion { DiscussionId = DiscussionModel.Discussion.ID, UserId = obj.Agent.ID } });
+                Dialog.IsChatDialogOpen = false;
+            }            
         }
 
         private bool canAddUserToCurrentDiscussion(AgentModel arg)
         {
-            if (DiscussionModel.Discussion.ID == 0)
-                return false;
+            if (arg != null && DiscussionModel != null && DiscussionModel.Discussion.ID != 0 && DiscussionModel.UserList.Where(x => x.Agent.ID == arg.Agent.ID).Count() == 0)
+                return true;
 
-            if (arg != null && DiscussionModel.UserList.Where(x => x.Agent.ID == arg.Agent.ID).Count() > 0)
-                return false;
-
-            return true;
+            return false;
         }
 
         private void getDiscussionGroup(string obj)

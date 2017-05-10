@@ -26,22 +26,40 @@ namespace QOBDBusiness.Core
         public QOBDCommon.Interfaces.DAC.IDataAccessManager DAC { get; private set; }
         public Safe Safe { get; private set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public BlSecurity(QOBDCommon.Interfaces.DAC.IDataAccessManager DataAccessComponent)
         {
             DAC = DataAccessComponent;
             Safe = new Safe();
         }
+        
+        public void setServiceCredential(object channel)
+        {
+            DAC.DALSecurity.setServiceCredential(channel);
+        }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public void initializeCredential(Agent user)
+        {
+            if (user != null)
+                DAC.DALSecurity.initializeCredential(user);
+        }
 
-        public async Task<Agent> AuthenticateUserAsync(string username, string password, bool isClearPassword = true)
+        public Agent GetAuthenticatedUser()
+        {
+            return Safe.AuthenticatedUser;
+        }
+
+        public bool IsUserAuthenticated()
+        {
+            return Safe.IsAuthenticated;
+        }
+
+        public async Task<Agent> AuthenticateUserAsync(string username, string password)
         {
             try
-            {
-                if(isClearPassword)
-                    Safe.AuthenticatedUser = await DAC.DALSecurity.AuthenticateUserAsync(username, CalculateHash(password));  //DAC.DALSecurity.AuthenticateUser(username, CalculateHash(password));
-                else
-                    Safe.AuthenticatedUser = await DAC.DALSecurity.AuthenticateUserAsync(username, password);  //DAC.DALSecurity.AuthenticateUser(username, CalculateHash(password));
+            {                
+               Safe.AuthenticatedUser = await DAC.DALSecurity.AuthenticateUserAsync(username, password);  //DAC.DALSecurity.AuthenticateUser(username, CalculateHash(password));
 
                 if(Safe.AuthenticatedUser.ID != 0)
                     Safe.IsAuthenticated = true;
@@ -49,26 +67,46 @@ namespace QOBDBusiness.Core
             catch (CommunicationException ex)
             {
                 Safe.IsAuthenticated = false;
-                Log.warning(ex.Message, EErrorFrom.SECURITY);
-                throw new ApplicationException("Remote communication error.");
+                if (!ex.Message.Contains("unauthorized"))
+                {
+                    Log.warning(ex.Message, EErrorFrom.SECURITY);
+                    throw new ApplicationException("Remote communication error.");
+                }
             }
             catch (Exception ex)
             {                                
                 Safe.IsAuthenticated = false;
                 Log.error(ex.Message, EErrorFrom.SECURITY);              
-            }      
-            
-            if(!Safe.IsAuthenticated)
-            {
-                return Safe.AuthenticatedUser;
-            }
+            } 
 
             return Safe.AuthenticatedUser;
         }
 
-        public void setServiceCredential(object channel)
+        public async Task<Agent> UseAgentAsync(Agent inAgent)
         {
-            DAC.DALSecurity.setServiceCredential(channel);
+            try
+            {
+                Safe.AuthenticatedUser = await DAC.DALSecurity.AuthenticateUserAsync(inAgent.UserName, CalculateHash(inAgent.HashedPassword));  //DAC.DALSecurity.AuthenticateUser(username, CalculateHash(password));
+
+                if (Safe.AuthenticatedUser.ID != 0)
+                    Safe.IsAuthenticated = true;
+            }
+            catch (CommunicationException ex)
+            {
+                Safe.IsAuthenticated = false;
+                if (!ex.Message.Contains("unauthorized"))
+                {
+                    Log.warning(ex.Message, EErrorFrom.SECURITY);
+                    throw new ApplicationException("Remote communication error.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Safe.IsAuthenticated = false;
+                Log.error(ex.Message, EErrorFrom.SECURITY);
+            }
+
+            return Safe.AuthenticatedUser;
         }
 
         public string CalculateHash(string clearTextPassword)
@@ -80,18 +118,6 @@ namespace QOBDBusiness.Core
             byte[] hash = algorithm.ComputeHash(saltedHashBytes);
             // Return the hash string
             return BitConverter.ToString(hash).Replace("-", "").ToLower();
-        }
-
-        public Agent UseAgent(Agent inAgent)
-        {
-            //var result = DAC.DALAgent.UseAgent(inAgent);
-            Agent result = new Agent();
-            try
-            {
-                //result = BlSecurity;
-            }
-            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.SECURITY); }
-            return result;
         }
 
         public async Task<List<Agent>> DisableAgent(List<Agent> agentList)
@@ -127,27 +153,11 @@ namespace QOBDBusiness.Core
             return result;
         }
 
-        public void initializeCredential(Agent user)
-        {
-            if (user != null)
-                DAC.DALSecurity.initializeCredential(user);
-        }
-
-        public void progressBarManagement(Func<double, double> progressBarFunc)
+        /*public void progressBarManagement(Func<double, double> progressBarFunc)
         {
             if (progressBarFunc != null)
                 DAC.DALSecurity.progressBarManagement(progressBarFunc);
-        }
-
-        public Agent GetAuthenticatedUser()
-        {
-            return Safe.AuthenticatedUser;
-        }
-
-        public bool IsUserAuthenticated()
-        {
-            return Safe.IsAuthenticated;
-        }
+        }*/
 
         public async Task DisconnectAuthenticatedUser()
         {

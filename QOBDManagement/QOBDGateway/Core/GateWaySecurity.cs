@@ -43,15 +43,13 @@ namespace QOBDGateway.Core
             _channel = (ClientProxy)channel;
         }
 
-        public async Task<Agent> AuthenticateUserAsync(string username, string password, bool isClearPassword = true)
+        public async Task<Agent> AuthenticateUserAsync(string username, string password)
         {
             Agent agentFound = new Agent();
             try
             {
                 AgentQOBD agentArray = await _channel.get_authenticate_userAsync(username, password);
                 agentFound = new AgentQOBD[] { agentArray}.ArrayTypeToAgent().FirstOrDefault();
-                if (agentFound == null || agentFound.ID == 0)
-                    throw new ApplicationException(string.Format("Your login {0} does not match any user in our database!", username));
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }

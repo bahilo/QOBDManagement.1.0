@@ -66,7 +66,6 @@ public class DataAccess : IDataAccessManager
                 DALOrder.cacheWebServiceData();
 
                 // Security
-                DALSecurity.progressBarManagement(ProgressBarFunc);
                 DALSecurity.initializeCredential(authenticatedUser);
 
                 // Agent
