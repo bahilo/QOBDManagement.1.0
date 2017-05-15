@@ -7,7 +7,7 @@
              xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
              xmlns:local="clr-namespace:QOBDManagement.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Loaded="ChatRoomWindow_Loaded">
+             d:DesignHeight="400" d:DesignWidth="300" Loaded="ChatRoomWindow_Loaded">
     <UserControl.Resources>
         <LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
@@ -82,20 +82,29 @@
                 <StackPanel Background="Beige" MinHeight="300" Name="chatRoomZone" Orientation="Vertical"/>
             </ScrollViewer>
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Name="tbxMessage" Text="{Binding DiscussionViewModel.InputMessage, UpdateSourceTrigger=PropertyChanged}" Margin="6" 
-                         TextWrapping="Wrap" 
+                <TextBox Grid.RowSpan="2" Name="tbxMessage" Text="{Binding DiscussionViewModel.InputMessage, UpdateSourceTrigger=PropertyChanged}" Margin="6" 
+                         TextWrapping="Wrap" MaxLength="{Binding DiscussionViewModel.MaxCharacterAllowed, UpdateSourceTrigger=PropertyChanged}"
                          AcceptsReturn="True"
                          Height="80"
                          HorizontalAlignment="Stretch"
                          VerticalScrollBarVisibility="Auto"
                          HorizontalScrollBarVisibility="Auto"
                          materialDesign:HintAssist.Hint="messages..."/>
-                <Button Grid.Column="1" Name="btn_send" IsDefault="True" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding DiscussionViewModel.InputCharactersCount, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock>/</TextBlock>
+                    <TextBlock Text="{Binding DiscussionViewModel.MaxCharacterAllowed, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <Button Grid.Row="1" Grid.Column="1" Name="btn_send" IsDefault="True" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
                         CommandParameter="{Binding Text, ElementName=tbxMessage, UpdateSourceTrigger=PropertyChanged}"
                         Command="{Binding DiscussionViewModel.SendMessageCommand}">Send</Button>
             </Grid>

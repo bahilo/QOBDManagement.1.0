@@ -25,10 +25,11 @@ namespace QOBDManagement.ViewModel
         private IChatRoom _chatRoom;
         private string _inputMessage;
         private string _outputMessage;
-        private const int _maxMessage = 5;
-        private Func<object, object> _page;
         private IPEndPoint _endPoint;
         private UdpClient _udpClient;
+        private int _maxCharacterAllowed;
+        private int _inputCharactersCount;
+        private Func<object, object> _page;
         private List<AgentModel> _chatAgentList;
         private IChatRoomViewModel _mainChatRoom;
         private List<DiscussionModel> _discussionList;
@@ -96,6 +97,8 @@ namespace QOBDManagement.ViewModel
         {
             _selectedAgentModel = new AgentModel();
             _discussionModel = new DiscussionModel();
+            _maxCharacterAllowed = 60;
+            _inputCharactersCount = 0;
         }
 
         private void instancesCommand()
@@ -114,12 +117,7 @@ namespace QOBDManagement.ViewModel
 
 
         //----------------------------[ Properties ]------------------
-
-        public int MaxMessageLength
-        {
-            get { return _maxMessage; }
-        }
-
+        
         public IChatRoomViewModel MainChatRoom
         {
             get { return _mainChatRoom; }
@@ -134,6 +132,18 @@ namespace QOBDManagement.ViewModel
         {
             get { return _nbNewMessage.ToString(); }
             set { setProperty(ref _nbNewMessage, Utility.intTryParse(value)); }
+        }
+
+        public int InputCharactersCount
+        {
+            get { return _inputCharactersCount; }
+            set { setProperty(ref _inputCharactersCount, value); }
+        }
+
+        public int MaxCharacterAllowed
+        {
+            get { return _maxCharacterAllowed; }
+            set { setProperty(ref _maxCharacterAllowed, value); }
         }
 
         public QOBDBusiness.BusinessLogic BL
@@ -184,7 +194,7 @@ namespace QOBDManagement.ViewModel
         public string InputMessage
         {
             get { return _inputMessage; }
-            set { setProperty(ref _inputMessage, value); }
+            set { setProperty(ref _inputMessage, value); InputCharactersCount = value.Length; }
         }
 
         public string OutputMessage

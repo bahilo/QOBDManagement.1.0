@@ -11,7 +11,6 @@ namespace QOBDManagement.Interfaces
 {
     public interface IDiscussionViewModel
     {
-        int MaxMessageLength { get; }
         string TxtNbNewMessage { get; set; }
         IChatRoomViewModel MainChatRoom { get; }
         DiscussionModel DiscussionModel { get; set; }

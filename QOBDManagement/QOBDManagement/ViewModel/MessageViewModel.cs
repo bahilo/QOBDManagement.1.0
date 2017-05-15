@@ -17,6 +17,7 @@ namespace QOBDManagement.ViewModel
 {
     public class MessageViewModel : BindBase
     {
+        private int _maxMessageCharacters;
         private Func<object, object> _page;
         private Dictionary<AgentModel, MessageModel> _messageIndividualHistoryList;
         private Dictionary<AgentModel, MessageModel> _messageGroupHistoryList;
@@ -24,6 +25,7 @@ namespace QOBDManagement.ViewModel
 
         public MessageViewModel()
         {
+            _maxMessageCharacters = 40;
             _messageIndividualHistoryList = new Dictionary<AgentModel, MessageModel>();
             _messageGroupHistoryList = new Dictionary<AgentModel, MessageModel>();
         }
@@ -37,6 +39,11 @@ namespace QOBDManagement.ViewModel
         public Agent AuthenticatedUser
         {
             get { return BL.BlSecurity.GetAuthenticatedUser(); }
+        }
+
+        public int MaxMessageLength
+        {
+            get { return _maxMessageCharacters; }
         }
 
         public QOBDBusiness.BusinessLogic BL
@@ -81,8 +88,8 @@ namespace QOBDManagement.ViewModel
                             lastMessage = discussionModel.MessageList.OrderByDescending(x => x.Message.ID).Select(x => new MessageModel { Message = new Message { Content = x.TxtContent }, IsNewMessage = x.IsNewMessage }).First();
 
                         // limit the amount of message characters to display in the history
-                        if (lastMessage.TxtContent.Length > _mainChatRoom.DiscussionViewModel.MaxMessageLength)
-                            lastMessage.TxtContent = lastMessage.TxtContent.Substring(0, _mainChatRoom.DiscussionViewModel.MaxMessageLength) + "...";
+                        if (lastMessage.TxtContent.Length > MaxMessageLength)
+                            lastMessage.TxtContent = lastMessage.TxtContent.Substring(0, MaxMessageLength) + "...";
 
                         if (discussionModel.UserList.Count() > 0)
                         {
