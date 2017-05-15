@@ -17,6 +17,7 @@ using System.Xml.Serialization;
 using QOBDManagement.Interfaces;
 using System.Windows.Threading;
 using System.Windows;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
@@ -282,7 +283,7 @@ namespace QOBDManagement.ViewModel
 
         private void load()
         {
-            Dialog.showSearch("Loading...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
             TaxList = Bl.BlOrder.GetTaxData(999);
             OrderSearchModel.AgentList = Bl.BlAgent.GetAgentData(999);
 
@@ -349,7 +350,7 @@ namespace QOBDManagement.ViewModel
                 List<Bill> billFoundList = await Bl.BlOrder.GetBillDataByOrderListAsync(new List<Entity.Order> { orderModel.Order });
                 if (billFoundList.Count() == 0 || await OrderDetailViewModel.checkIfLastBillAsync(billFoundList.Select(x => new BillModel { Bill = x }).ToList()))
                 {
-                    Dialog.showSearch("Deleting...");
+                    Dialog.showSearch(ConfigurationManager.AppSettings["deleting_message"]);
 
                     OrderDetailViewModel.OrderSelected = orderModel;
                     var order_itemModelFoundList = await OrderDetailViewModel.Order_ItemListToModelViewListAsync(Bl.BlOrder.GetOrder_itemByOrderList(new List<Entity.Order> { orderModel.Order }));
@@ -470,7 +471,7 @@ namespace QOBDManagement.ViewModel
 
         private async void searchOrder(object obj)
         {
-            Dialog.showSearch("Searching...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["searching_message"]);
 
             List<Entity.Order> billOrderList = new List<Entity.Order>();
             List<Entity.Order> CLientOrderList = new List<Entity.Order>();

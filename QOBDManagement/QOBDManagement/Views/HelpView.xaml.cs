@@ -17,23 +17,14 @@ using System.Windows.Shapes;
 namespace QOBDManagement.Views
 {
     /// <summary>
-    /// Interaction logic for ItemView.xaml
+    /// Interaction logic for HelpView.xaml
     /// </summary>
-    public partial class ItemView : UserControl
+    public partial class HelpView : UserControl
     {
-        public ItemView()
+        public HelpView()
         {
             InitializeComponent();
         }
-
-        private void ItemView_Loaded(object sender, RoutedEventArgs e)
-        {
-            UIContext dataContext = new UIContext();
-            if(dataContext.setWindowContext(this) != null)
-            {
-                if (!((MainWindowViewModel)this.DataContext).IsThroughContext)
-                    ((MainWindowViewModel)this.DataContext).ItemViewModel.loadItems();
-            }
-        }
+        
     }
 }

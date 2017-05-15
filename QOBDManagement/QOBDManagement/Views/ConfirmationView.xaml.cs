@@ -25,11 +25,6 @@ namespace QOBDManagement.Views
         {
             InitializeComponent();
         }
-
-        private void ConfirmationWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            DataContext dataContext = new DataContext();
-            dataContext.setWindowContext(this);
-        }
+        
     }
 }

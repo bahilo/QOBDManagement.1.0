@@ -16,7 +16,7 @@ namespace QOBDCommon.Classes
     public static class Utility
     {
         public static DateTime DateTimeMinValueInSQL2005 = new DateTime(1753, 1, 1);
-        public static string BaseDirectory = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), ConfigurationManager.AppSettings["company_name"]); //AppDomain.CurrentDomain.BaseDirectory;
+        public static string BaseDirectory = getDirectory(Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), ConfigurationManager.AppSettings["info_company_name"]); //AppDomain.CurrentDomain.BaseDirectory;
 
         public static DateTime convertToDateTime(string dateString, bool? isFromDatePicker = false)
         {          
@@ -247,9 +247,13 @@ namespace QOBDCommon.Classes
 
         public static string getDirectory(string directory, params string[] pathElements)
         {
+            string path = "";
             var dirElements = directory.Split('/');
             var allPathElements = dirElements.Concat(pathElements).ToArray();
-            string path = BaseDirectory;
+
+            if (!string.IsNullOrEmpty(BaseDirectory))
+                path = BaseDirectory;
+
             foreach (string pathElement in allPathElements)
             {
                 if (!string.IsNullOrEmpty(pathElement))

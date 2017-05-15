@@ -28,7 +28,7 @@ namespace QOBDManagement.Views
 
         private void HomeView_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext dataContext = new DataContext();
+            UIContext dataContext = new UIContext();
 
             if (dataContext.setWindowContext(this) != null && !((MainWindowViewModel)this.DataContext).IsThroughContext)
                 ((MainWindowViewModel)this.DataContext).HomeViewModel.loadData();

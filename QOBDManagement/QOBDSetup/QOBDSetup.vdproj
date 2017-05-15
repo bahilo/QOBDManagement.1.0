@@ -153,12 +153,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_2CD3016B7525409DB0EF130119BAAD4B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_2FFC71FC7E174F06A0E89D2766D47C29"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -867,6 +861,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DAA98F0DBFFB4F9DA9F7537BAE575289"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DD9A4D58E08C4E67B0594F3B686754B5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -994,12 +994,6 @@
         "Entry"
         {
         "MsmKey" = "8:_F7C8BF151DE94F10A7E761C39DA14311"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FA24AB4ACEEB4F7B8AFBB5F2AADC3DED"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1616,26 +1610,6 @@
             "TargetName" = "8:MaterialDesignColor.Amber.Primary.xaml"
             "Tag" = "8:"
             "Folder" = "8:_F381D573E8634CFF90F8801B205864A2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2CD3016B7525409DB0EF130119BAAD4B"
-            {
-            "SourcePath" = "8:C:\\Users\\eric\\Downloads\\old\\ava_logo_2_SsK_icon.ico"
-            "TargetName" = "8:ava_icon.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_9DE5E58254014C8295FC30BC403B80DC"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4036,6 +4010,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DAA98F0DBFFB4F9DA9F7537BAE575289"
+            {
+            "SourcePath" = "8:..\\QOBDManagement\\favicon.ico"
+            "TargetName" = "8:favicon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_9DE5E58254014C8295FC30BC403B80DC"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DD9A4D58E08C4E67B0594F3B686754B5"
             {
             "SourcePath" = "8:..\\QOBDManagement\\Themes\\MaterialDesignColor.BlueGrey.Primary.xaml"
@@ -4431,26 +4425,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FA24AB4ACEEB4F7B8AFBB5F2AADC3DED"
-            {
-            "SourcePath" = "8:..\\..\\ava_logo.ico"
-            "TargetName" = "8:ava_logo.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_9DE5E58254014C8295FC30BC403B80DC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -4574,7 +4548,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AVA"
         "ProductCode" = "8:{E1A5D0E3-76CC-4A4C-AA0B-E5578D3B6957}"
-        "PackageCode" = "8:{D62FF969-1091-4CEB-BA6D-420FFB5F9C7D}"
+        "PackageCode" = "8:{2A891742-4001-415A-8B52-CE0BA1199EFC}"
         "UpgradeCode" = "8:{D06193F5-741A-401F-9E94-D6C729E09DAD}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -4705,7 +4679,7 @@
             "Target" = "8:_8D0208A96FCD496CB674E6542F51B6A8"
             "Folder" = "8:_9E62D23201DE48F4AD86EB292FAF3ECD"
             "WorkingFolder" = "8:_9DE5E58254014C8295FC30BC403B80DC"
-            "Icon" = "8:_FA24AB4ACEEB4F7B8AFBB5F2AADC3DED"
+            "Icon" = "8:_DAA98F0DBFFB4F9DA9F7537BAE575289"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7B169671141542E7871FADE0DFFF8C02"
@@ -4733,7 +4707,7 @@
             "Target" = "8:_8D0208A96FCD496CB674E6542F51B6A8"
             "Folder" = "8:_38095217ECAA46A084BB87F95C97A9A8"
             "WorkingFolder" = "8:_9DE5E58254014C8295FC30BC403B80DC"
-            "Icon" = "8:_FA24AB4ACEEB4F7B8AFBB5F2AADC3DED"
+            "Icon" = "8:_DAA98F0DBFFB4F9DA9F7537BAE575289"
             "Feature" = "8:"
             }
         }

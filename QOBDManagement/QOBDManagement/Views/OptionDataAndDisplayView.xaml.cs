@@ -28,7 +28,7 @@ namespace QOBDManagement.Views
 
         private void OptionDataAndDisplayView_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext dataContex = new DataContext();
+            UIContext dataContex = new UIContext();
             if (dataContex.setWindowContext(this) != null)
             {
                 if (!((MainWindowViewModel)this.DataContext).IsThroughContext)

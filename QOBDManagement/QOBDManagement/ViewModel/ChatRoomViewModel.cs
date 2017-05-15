@@ -300,7 +300,7 @@ namespace QOBDManagement.ViewModel
             if (e.PropertyName.Equals("ChatRoom") && _isServerConnectionError)
             {
                 _isServerConnectionError = false;
-                DiscussionViewModel.msg("info", "Error while trying to connect to server!");
+                DiscussionViewModel.msg("info", new MessageModel { Message = new Message { Content = "Error while trying to connect to server!" } });
             }
         }
 

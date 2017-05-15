@@ -197,7 +197,7 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         public void loadItems()
         {
-            Dialog.showSearch("Loading...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
 
             // if not in searching mode
             if (!_isSearchResult)
@@ -277,37 +277,6 @@ namespace QOBDManagement.ViewModel
             return output;
         }
 
-        /*/// <summary>
-        /// loading the item's picture from ftp server
-        /// </summary>
-        /// <param name="imageFileName">picture filename</param>
-        /// <param name="infoList">ftp credential</param>
-        public InfoManager.Display loadPicture(ItemModel itemModel, List<Info> infoList)
-        {           
-            Info usernameInfo = infoList.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
-            Info passwordInfo = infoList.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
-
-            if (infoList.Count > 0 && ItemModel != null)
-            {
-                string fileName = itemModel.TxtRef.Replace(' ', '_').Replace(':', '_');
-
-                // closing item picture file before update
-                if (itemModel.Image != null)
-                    itemModel.Image.closeImageSource();
-                else
-                    itemModel.Image = new InfoManager.Display(ConfigurationManager.AppSettings["ftp_catalogue_image_folder"], ConfigurationManager.AppSettings["local_catalogue_image_folder"], usernameInfo.Value, passwordInfo.Value);
-
-                if (!string.IsNullOrEmpty(itemModel.TxtPicture) && itemModel.TxtPicture.Split('.').Count() > 1 && !string.IsNullOrEmpty(itemModel.TxtPicture.Split('.')[0]))
-                    fileName = itemModel.TxtPicture.Split('.')[0].Replace(' ', '_').Replace(':', '_');
-
-                itemModel.Image.TxtFileNameWithoutExtension = fileName;
-                itemModel.Image.FilterList = new List<string> { fileName };
-                itemModel.Image.InfoDataList = new List<Info> { new Info { Name = fileName, Value = itemModel.TxtPicture } };
-                itemModel.Image.downloadFile();                
-            }
-            return itemModel.Image;
-        }*/
-
         private List<Provider> loadProviderFromProvider_item(List<Provider_item> provider_itemFoundList, int userSourceId)
         {
             List<Provider> returnResult = new List<Provider>();
@@ -386,8 +355,6 @@ namespace QOBDManagement.ViewModel
                             await increaseStockAsync(new List<Order_itemModel> { order_itemModel }, Utility.intTryParse(order_itemModel.TxtQuantity_current));
                         else if (order_itemModel.Order_Item.Quantity > Utility.intTryParse(order_itemModel.TxtOldQuantity))
                             await decreaseStockAsync(new List<Order_itemModel> { order_itemModel }, Utility.intTryParse(order_itemModel.TxtQuantity_current));
-                        
-                        //await decreaseStockAsync(new List<Order_itemModel> { order_itemModel }, order_itemModel.Order_Item.Quantity - Utility.intTryParse(order_itemModel.TxtOldQuantity));
                     }
                 }
             }
@@ -440,9 +407,6 @@ namespace QOBDManagement.ViewModel
                 if (itemModel.Image != null)
                     itemModel.Image.closeImageSource();
         }
-
-        //----------------------------[ Event Handler ]------------------
-
 
         //----------------------------[ Action Commands ]------------------
 

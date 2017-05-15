@@ -18,7 +18,7 @@
         xmlns:Classes="clr-namespace:QOBDManagement.Classes"
         Title="AVA" 
         Closing="Window_Closing"
-        Icon="ava_logo_3.ico">
+        Icon="favicon.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -98,7 +98,7 @@
     <materialDesign:DialogHost Identifier="RootDialog" Loaded="DialogHost_Loaded"
                                IsOpen="{Binding Dialog.IsDialogOpen, UpdateSourceTrigger=PropertyChanged}">
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120"/>
@@ -110,7 +110,7 @@
                 <Grid x:Name="gvHeader">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -124,35 +124,40 @@
                            Width="{Binding DataContext.HeaderImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
                            Height="{Binding DataContext.HeaderImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="1"  HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnEmail" ToolTip="New Messages"
+                    <ToolBarTray Grid.Column="1"  HorizontalAlignment="Right" Orientation="Horizontal">
+                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
+                            <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnEmail" ToolTip="New Messages"
                                         Command="{Binding NewMessageHomePageCommand}">
-                            <WrapPanel>
-                                <TextBlock Text="{Binding ChatRoomViewModel.DiscussionViewModel.TxtNbNewMessage, UpdateSourceTrigger=PropertyChanged}" Foreground="Black"/>
-                                <materialDesign:PackIcon Kind="MessageAlert" />
-                            </WrapPanel>
-                        </Button>
-                        <Separator Margin="10 0 10 0" />
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="AccountCircle" FontSize="10"/>
-                            <TextBlock x:Name="txbWelcomeUser" Text="{Binding TxtUserName, UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>
-                        <Separator Margin="10 0 10 0" />
-                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="True">
-                            <StackPanel>
-                                <Button CommandParameter="{Binding AuthenticatedUserModel, UpdateSourceTrigger=PropertyChanged}">
-                                    <Button.Command>
-                                        <MultiBinding Converter="{StaticResource TriggerConverter}">
-                                            <Binding Path="AgentViewModel.GetCurrentAgentCommand"/>
-                                        </MultiBinding>
-                                    </Button.Command>
-                                    Profile
-                                </Button>
-                                <Button Content="Log Out" Command="{Binding SecurityLoginViewModel.LogoutCommand}"/>
+                                <WrapPanel>
+                                    <TextBlock Text="{Binding ChatRoomViewModel.DiscussionViewModel.TxtNbNewMessage, UpdateSourceTrigger=PropertyChanged}" Foreground="Black"/>
+                                    <materialDesign:PackIcon Kind="MessageAlert" />
+                                </WrapPanel>
+                            </Button>
+                            <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnHelp" ToolTip="Help"
+                                        Command="{Binding InformationDisplayCommand}">
+                                <materialDesign:PackIcon Kind="Help" />
+                            </Button>
+                            <Separator />
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="AccountCircle" FontSize="10"/>
+                                <TextBlock x:Name="txbWelcomeUser" Text="{Binding TxtUserName, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
-                        </materialDesign:PopupBox>
-
-                    </StackPanel>
+                            <Separator />
+                            <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="True">
+                                <StackPanel>
+                                    <Button CommandParameter="{Binding AuthenticatedUserModel, UpdateSourceTrigger=PropertyChanged}">
+                                        <Button.Command>
+                                            <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                                <Binding Path="AgentViewModel.GetCurrentAgentCommand"/>
+                                            </MultiBinding>
+                                        </Button.Command>
+                                        Profile
+                                    </Button>
+                                    <Button Content="Log Out" Command="{Binding SecurityLoginViewModel.LogoutCommand}"/>
+                                </StackPanel>
+                            </materialDesign:PopupBox>
+                        </ToolBar>
+                    </ToolBarTray>
                     <StackPanel Grid.Column="0" Grid.ColumnSpan="2"  Grid.Row="1" VerticalAlignment="Bottom">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -252,13 +257,13 @@
                 <!-- End -->
 
                 <!-- Here come all views -->
-                
+
                 <Grid x:Name="gvCentral" Grid.Row="1" Margin="0 0 0 10">
                     <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
-                
+
                 <!-- End -->
-                
+
             </Grid>
         </ScrollViewer>
     </materialDesign:DialogHost>

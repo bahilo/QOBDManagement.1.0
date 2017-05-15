@@ -180,7 +180,7 @@ namespace QOBDManagement.ViewModel
        
         private void loadImages()
         {
-            Dialog.showSearch("Loading...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
             Dispose();
             ImageList.Clear();
 
@@ -245,7 +245,7 @@ namespace QOBDManagement.ViewModel
 
         public async Task<List<Info>> saveInfo(List<Info> infoDataList)
         {
-            Dialog.showSearch("File saving...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
             var infoToUpdateList = infoDataList.Where(x => x.ID != 0).ToList();
             var infoToCreateList = infoDataList.Where(x => x.ID == 0).ToList();
             var infoUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infoToUpdateList);
@@ -289,7 +289,6 @@ namespace QOBDManagement.ViewModel
             if (e.PropertyName.Equals("ImageInfoUpdated"))
             {
                 var infoUpdatedList = await saveInfo(((InfoManager.Display)sender).InfoDataList);
-                //((InfoManager.Display.Image)sender).updateFields(infoUpdatedList);
             }                
         }
 
@@ -328,7 +327,7 @@ namespace QOBDManagement.ViewModel
 
         private async void deleteImage(InfoManager.Display obj)
         {
-            Dialog.showSearch("Image deleting...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["deleting_message"]);
             var notDeletedInfosList = await Bl.BlReferential.DeleteInfoAsync(obj.InfoDataList);
             var whereImageInfosIDIsZeroList = obj.InfoDataList.Where(x=>x.ID == 0 && x.Name.Equals(obj.TxtFileNameWithoutExtension)).ToList();
             if ((notDeletedInfosList.Count == 0 || whereImageInfosIDIsZeroList.Count > 0) && obj.deleteFiles())
@@ -353,7 +352,6 @@ namespace QOBDManagement.ViewModel
         {
             new PaletteHelper().SetLightDark(obj);
             Theme.TxtInfoItem = obj ? "Dark" : "Light";
-            //Theme.updateFields(await saveInfo(Theme.getInfoDataList()));
         }
 
         private bool canChangeTheme(bool arg)
@@ -365,7 +363,6 @@ namespace QOBDManagement.ViewModel
         {
             new PaletteHelper().ReplacePrimaryColor(obj);
             Theme.TxtInfoItem1 = obj.Name;
-            // Theme.updateFields( await saveInfo(Theme.getInfoDataList()));
         }
 
         private bool canApplyThemePrimaryStyle(Swatch arg)
@@ -377,7 +374,6 @@ namespace QOBDManagement.ViewModel
         {
             new PaletteHelper().ReplaceAccentColor(obj);
             Theme.TxtInfoItem2 = obj.Name;
-            // Theme.updateFields(await saveInfo(Theme.getInfoDataList()));
         }
 
         private bool canApplyThemeAccentStyle(Swatch arg)

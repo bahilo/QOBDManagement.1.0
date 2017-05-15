@@ -28,7 +28,7 @@ namespace QOBDManagement.Views
 
         private void OptionEmailView_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext dataContext = new DataContext();
+            UIContext dataContext = new UIContext();
             if (dataContext.setWindowContext(this) != null)
             {
                 ((MainWindowViewModel)this.DataContext).ReferentialViewModel.OptionEmailViewModel.loadData();

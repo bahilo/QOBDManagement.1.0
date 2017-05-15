@@ -28,9 +28,10 @@ namespace QOBDManagement.Views
 
         private void AgentDetailView_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext dataContext = new DataContext();
+            UIContext dataContext = new UIContext();
             if (dataContext.setWindowContext(this) != null)
             {
+                ((MainWindowViewModel)this.DataContext).AgentViewModel.AgentDetailViewModel.load();
                 pwdBox.Password = ((MainWindowViewModel)this.DataContext).AgentViewModel.AgentDetailViewModel.SelectedAgentModel.TxtHashedPassword;
                 pwdBoxVerification.Password = ((MainWindowViewModel)this.DataContext).AgentViewModel.AgentDetailViewModel.SelectedAgentModel.TxtHashedPassword;
                 pwdBox.LostFocus += ((MainWindowViewModel)this.DataContext).AgentViewModel.AgentDetailViewModel.onPwdBoxPasswordChange_updateTxtClearPassword;

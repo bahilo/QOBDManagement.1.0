@@ -77,7 +77,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\DataContext.cs" />
+    <Compile Include="Classes\UIContext.cs" />
     <Compile Include="Classes\DiscussionGroupNameConverter.cs" />
     <Compile Include="Classes\StringLengthConverter.cs" />
     <Compile Include="Classes\Themes\Hue.cs" />
@@ -169,6 +169,9 @@
     </Compile>
     <Compile Include="Views\ConfirmationView.xaml.cs">
       <DependentUpon>ConfirmationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HelpView.xaml.cs">
+      <DependentUpon>HelpView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
@@ -869,6 +872,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\HelpView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\HomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1019,13 +1026,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ava_logo.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ava_logo_2.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ava_logo_3.ico" />
+    <Resource Include="favicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

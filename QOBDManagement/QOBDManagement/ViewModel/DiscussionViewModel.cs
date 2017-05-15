@@ -227,7 +227,7 @@ namespace QOBDManagement.ViewModel
 
         public void load()
         {
-            Dialog.showSearch("Loading...", isChatDialogBox: true);
+            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"], isChatDialogBox: true);
 
             // find the discussion where the selected user appears
             List<DiscussionModel> discussionFoundList = new List<DiscussionModel>();
@@ -241,8 +241,9 @@ namespace QOBDManagement.ViewModel
             if (discussionFoundList.Count > 0)
             {
                 DiscussionModel = discussionFoundList[0];
-                var messageList = DiscussionModel.MessageList.Where(x => x.Message.DiscussionId == DiscussionModel.Discussion.ID).OrderByDescending(x => x.Message.ID).Take(MaxMessageLength).ToList();// (await BL.BlChatRoom.searchMessageAsync(new Message { DiscussionId = DiscussionModel.Discussion.ID }, QOBDCommon.Enum.ESearchOption.AND)).OrderByDescending(x => x.ID).Take(5).ToList();
-                foreach (var messageModel in messageList.OrderBy(x => x.Message.ID).ToList())
+                var messageList = DiscussionModel.MessageList.Where(x => x.Message.DiscussionId == DiscussionModel.Discussion.ID).OrderByDescending(x => x.Message.ID).ToList();//.Take(MaxMessageLength).ToList();// (await BL.BlChatRoom.searchMessageAsync(new Message { DiscussionId = DiscussionModel.Discussion.ID }, QOBDCommon.Enum.ESearchOption.AND)).OrderByDescending(x => x.ID).Take(5).ToList();
+
+                foreach (var messageModel in messageList)
                 {
                     Agent user = DiscussionModel.UserList.Where(x => x.Agent.ID == messageModel.Message.UserId).Select(x => x.Agent).FirstOrDefault();
                     if (user != null)
@@ -250,6 +251,7 @@ namespace QOBDManagement.ViewModel
                     else
                         displayMessage(messageModel.Message, AuthenticatedUser);
                 }
+
                 // update the displayed group name ( calling the on property change event )
                 DiscussionModel.TxtGroupName = DiscussionModel.TxtGroupName;
             }
@@ -353,8 +355,6 @@ namespace QOBDManagement.ViewModel
                     returndata = returndata.Substring(0, returndata.IndexOf("$"));
 
                     composer = returndata.Split('/').ToList();
-                    int.TryParse(composer[0], out discussionId);
-                    int.TryParse(composer[1], out userId);
 
                     if (composer.Count > 3
                             && int.TryParse(composer[0], out discussionId)
@@ -458,26 +458,36 @@ namespace QOBDManagement.ViewModel
                 // update the discussion messages status from unread (status = 1) to read (status = 0)
                 markMessageAsRead(DiscussionModel, new MessageModel { Message = message });
 
+                Message MessageToDisplay = new Message { ID = message.ID, Date = message.Date, DiscussionId = message.DiscussionId, UserId = message.UserId, Status = message.Status };
+
                 if (AuthenticatedUser.ID == message.UserId)
-                    msg("reply", message.Date + Environment.NewLine + message.Content);
+                {
+                    MessageToDisplay.Content = message.Date + Environment.NewLine + message.Content;
+                    msg("reply", new MessageModel { Message = MessageToDisplay });
+                }
                 else
-                    msg("recipient", user.UserName + " Says:" + Environment.NewLine + message.Date + Environment.NewLine + message.Content);
+                {
+                    MessageToDisplay.Content = user.UserName + " Says:" + Environment.NewLine + message.Date + Environment.NewLine + message.Content;
+                    msg("recipient", new MessageModel { Message = MessageToDisplay });
+                }                    
             }
         }
 
-        public void msg(string type, string message)
+        public void msg(string type, MessageModel messageModel)
         {
             if (ChatRoom != null)
                 switch (type)
                 {
                     case "info":
-                        ChatRoom.showInfo(message);
+                        ChatRoom.showInfo(messageModel);
                         break;
                     case "reply":
-                        ChatRoom.showMyReply(Environment.NewLine + " >> " + message);
+                        messageModel.TxtContent = Environment.NewLine + " >> " + messageModel.TxtContent;
+                        ChatRoom.showMyReply(messageModel);
                         break;
                     case "recipient":
-                        ChatRoom.showRecipientReply(Environment.NewLine + " >> " + message);
+                        messageModel.TxtContent = Environment.NewLine + " >> " + messageModel.TxtContent;
+                        ChatRoom.showRecipientReply(messageModel);
                         break;
                 }
         }
@@ -563,7 +573,7 @@ namespace QOBDManagement.ViewModel
             catch (Exception ex)
             {
                 Log.error("<[" + BL.BlSecurity.GetAuthenticatedUser().UserName + "]Localhost =" + BL.BlSecurity.GetAuthenticatedUser().IPAddress + "> " + ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
-                msg("info", "Error while trying to send the message!");
+                msg("info", new MessageModel { Message = new Message { Content = "Error while trying to send the message!", Date = DateTime.Now } });
             }
             finally
             {
@@ -710,7 +720,7 @@ namespace QOBDManagement.ViewModel
             // creating and saving a new discussion
             if (DiscussionModel.Discussion.ID == 0 && SelectedAgentModel.Agent.ID != 0)
             {
-                Dialog.showSearch("Creating a discussion with " + SelectedAgentModel.TxtLogin + "...", isChatDialogBox: true);
+                Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"], isChatDialogBox: true);
                 var discussionCreatedList = await BL.BlChatRoom.InsertDiscussionAsync(new List<Discussion> { new Discussion { Date = DateTime.Now } });
                 if (discussionCreatedList.Count > 0)
                 {
@@ -764,27 +774,8 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
-        /*public void saveUserForDiscussionGroup(AgentModel param)
-        {
-            if (!_userDiscussionGroupList.Contains(param))
-                _userDiscussionGroupList.Add(param);
-            else
-                _userDiscussionGroupList.Remove(param);
-        }
-
-        private bool canaveUserForDiscussionGroup(AgentModel arg)
-        {
-            return true;
-        }*/
-
         private void displayDiscussionGroupMenu(object obj)
         {
-            /*foreach (AgentModel agentModel in DiscussionModel.UserList)
-            {
-                if(agentModel.IsModified)
-                    saveUserForDiscussionGroup(agentModel);
-            }*/
-
             _discussionGroupCreationTask.initializeNewTask(Dialog.showAsync(new Views.ChatGroup(), isChatDialogBox: true));
         }
 
@@ -831,7 +822,7 @@ namespace QOBDManagement.ViewModel
         {
             if (DiscussionModel != null && DiscussionModel.Discussion.ID != 0 && DiscussionModel.addUser(obj))
             {
-                Dialog.showSearch("Adding " + obj.TxtLogin + " to discussion...", isChatDialogBox: true);
+                Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"], isChatDialogBox: true);
                 Dialog.IsLeftBarClosed = false;
                 var user_discussionSavedList = await BL.BlChatRoom.InsertUser_discussionAsync(new List<User_discussion> { new User_discussion { DiscussionId = DiscussionModel.Discussion.ID, UserId = obj.Agent.ID } });
                 Dialog.IsChatDialogOpen = false;

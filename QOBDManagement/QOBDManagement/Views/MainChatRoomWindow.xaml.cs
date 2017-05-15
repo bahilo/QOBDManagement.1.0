@@ -29,7 +29,7 @@ namespace QOBDManagement.Views
 
         private void DialogBoxChatRoom_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext dataContext = new DataContext();
+            UIContext dataContext = new UIContext();
             dataContext.setChatWindowContext(this);
 
             // chat room initialization

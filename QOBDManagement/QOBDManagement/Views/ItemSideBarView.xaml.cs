@@ -28,7 +28,7 @@ namespace QOBDManagement.Views
 
         private void ItemSideBarView_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext dataContext = new DataContext();
+            UIContext dataContext = new UIContext();
             dataContext.setWindowContext(this);
         }
     }

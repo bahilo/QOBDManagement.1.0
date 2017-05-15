@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="0Vuc34cb7VwUYYFGUCSnTtbc3I0=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="VQXmFGED5jVnNcs4bWjMyB+envk=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="QOBDWebServiceBinding">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="QOBDWebServicePort" contract="QOBDServiceReference.QOBDWebServicePortType" bindingType="basicHttpBinding" address="http://bahilo-001-site2.ftempurl.com/server.php" bindingConfiguration="QOBDWebServiceBinding">
+    <endpoint name="QOBDWebServicePort" contract="QOBDServiceReference.QOBDWebServicePortType" bindingType="basicHttpBinding" address="http://bahilo-001-site2.ftempurl.com/webservice/server.php" bindingConfiguration="QOBDWebServiceBinding">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://bahilo-001-site2.ftempurl.com/server.php</serializedValue>
+          <serializedValue>http://bahilo-001-site2.ftempurl.com/webservice/server.php</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using QOBDManagement.Interfaces;
 using QOBDCommon.Enum;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
@@ -102,7 +103,7 @@ namespace QOBDManagement.ViewModel
 
         public void loadData()
         {
-            Dialog.showSearch("Loading...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
             
             string login = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
             string password = ( _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;

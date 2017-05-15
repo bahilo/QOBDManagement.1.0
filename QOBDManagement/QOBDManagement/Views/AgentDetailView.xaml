@@ -62,8 +62,8 @@
                     <TextBlock HorizontalAlignment="Center">My Picture</TextBlock>
                     <Grid Margin="0 10 0 0" Grid.Row="1">
                         <Image Source="{Binding AgentViewModel.AgentDetailViewModel.SelectedAgentModel.Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
-                               Width="175"
-                               Height="200"/>
+                               Width="150"
+                               Height="175"/>
                     </Grid>
                     <Grid Grid.Row="2">
                         <Button Command="{Binding AgentViewModel.AgentDetailViewModel.OpenFileExplorerCommand}">

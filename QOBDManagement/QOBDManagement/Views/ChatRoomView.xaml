@@ -78,7 +78,9 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
-            <StackPanel Background="Beige" MinHeight="300" Name="chatRoomZone" Orientation="Vertical"/>
+            <ScrollViewer Name="svChatRoom"  ScrollChanged="ScrollViewer_ScrollChanged" MaxHeight="280">
+                <StackPanel Background="Beige" MinHeight="300" Name="chatRoomZone" Orientation="Vertical"/>
+            </ScrollViewer>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

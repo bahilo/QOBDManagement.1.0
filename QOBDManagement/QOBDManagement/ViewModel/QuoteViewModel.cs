@@ -12,6 +12,7 @@ using QOBDCommon.Enum;
 using System.ComponentModel;
 using QOBDManagement.Interfaces;
 using QOBDCommon.Classes;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
@@ -65,8 +66,6 @@ namespace QOBDManagement.ViewModel
             this.Dialog = dialog;
 
             QuoteDetailViewModel = _main.OrderViewModel.OrderDetailViewModel;
-            //QuoteDetailViewModel.Dialog = Dialog;
-            //QuoteDetailViewModel.Startup = Startup;
         }
 
 
@@ -189,7 +188,7 @@ namespace QOBDManagement.ViewModel
 
         private async Task updateQuote()
         {
-            Dialog.showSearch("Quote updating...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
 
             List<Entity.Order_item> order_itemList = new List<Entity.Order_item>();
             SelectedQuoteModel.TxtDate = DateTime.Now.ToString();
@@ -267,7 +266,7 @@ namespace QOBDManagement.ViewModel
 
         private async Task createNewQuote()
         {
-            Dialog.showSearch("Quote creation...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
             
             List<Order_itemModel> order_itemModelList = new List<Order_itemModel>();
             OrderModel quote = new OrderModel();

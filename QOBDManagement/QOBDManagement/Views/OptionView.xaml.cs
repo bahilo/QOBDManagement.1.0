@@ -28,7 +28,7 @@ namespace QOBDManagement.Views
 
         private void OptionView_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext dataContex = new DataContext();
+            UIContext dataContex = new UIContext();
             dataContex.setWindowContext(this);
         }
     }

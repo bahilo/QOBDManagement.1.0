@@ -1,5 +1,7 @@
-﻿using QOBDManagement.Classes;
+﻿using QOBDCommon.Classes;
+using QOBDManagement.Classes;
 using QOBDManagement.Interfaces;
+using QOBDManagement.Models;
 using QOBDManagement.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -23,16 +25,19 @@ namespace QOBDManagement.Views
     /// </summary>
     public partial class ChatRoomView : UserControl, IChatRoom
     {
-        private const int maxMessage = 5;
-        
+        private int _offset = -1;
+        private const int _maxMessage = 3;
+        private List<UIElement> _messageHistory;
+
         public ChatRoomView()
         {
             InitializeComponent();
+            _messageHistory = new List<UIElement>();
         }
 
         private void ChatRoomWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext dataContext = new DataContext();
+            UIContext dataContext = new UIContext();
             if (dataContext.setChatWindowContext(this) != null)
             {
                 ((ChatRoomViewModel)this.DataContext).DiscussionViewModel.ChatRoom = this;
@@ -41,7 +46,7 @@ namespace QOBDManagement.Views
             tbxMessage.Focus();
         }
 
-        public async void showMyReply(string message, bool isNewDiscussion = false)
+        public async void showMyReply(MessageModel messageModel, bool isNewDiscussion = false)
         {
             if (Application.Current != null)
             {
@@ -51,13 +56,15 @@ namespace QOBDManagement.Views
                     Button btnMessage = new Button();
                     btnMessage.Width = 300;
                     btnMessage.HorizontalAlignment = HorizontalAlignment.Right;
-                    btnMessage.Name = "btnMessage" + cpt;
+                    btnMessage.Uid = messageModel.TxtDate;
+                    btnMessage.Name = "btnMessage_" + cpt;// ((messageModel.Message.ID != 0) ? messageModel.TxtID : cpt.ToString());
                     TextBlock txtBlock = new TextBlock();
-                    txtBlock.Text = message;
+                    txtBlock.Text = messageModel.TxtContent;
                     btnMessage.Style = (Style)FindResource("Reply");
                     btnMessage.Content = txtBlock;
-                    chatRoomZone.Children.Add(btnMessage);
-                    displayMaxOfMessage();
+                    //chatRoomZone.Children.Add(btnMessage);
+                    _messageHistory.Add(btnMessage);
+                    displayMessage(btnMessage);
                 }
                 else
                     await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -66,18 +73,20 @@ namespace QOBDManagement.Views
                         Button btnMessage = new Button();
                         btnMessage.Width = 300;
                         btnMessage.HorizontalAlignment = HorizontalAlignment.Right;
-                        btnMessage.Name = "btnMessage" + cpt;
+                        btnMessage.Uid = messageModel.TxtDate;
+                        btnMessage.Name = "btnMessage_" + cpt;// ((messageModel.Message.ID != 0) ? messageModel.TxtID : cpt.ToString());
                         TextBlock txtBlock = new TextBlock();
-                        txtBlock.Text = message;
+                        txtBlock.Text = messageModel.TxtContent;
                         btnMessage.Style = (Style)FindResource("Reply");
                         btnMessage.Content = txtBlock;
-                        chatRoomZone.Children.Add(btnMessage);
-                        displayMaxOfMessage();
+                        //chatRoomZone.Children.Add(btnMessage);
+                        _messageHistory.Add(btnMessage);
+                        displayMessage(btnMessage);
                     }));
-            }            
+            }
         }
 
-        public async void showInfo(string message)
+        public async void showInfo(MessageModel messageModel)
         {
             if (Application.Current != null)
             {
@@ -85,25 +94,29 @@ namespace QOBDManagement.Views
                 {
                     int cpt = chatRoomZone.Children.Count;
                     TextBlock txtBlock = new TextBlock();
-                    txtBlock.Name = "btnErrMessage" + cpt;
+                    txtBlock.Name = "txtErrMessage_" + cpt;// ((messageModel.Message.ID != 0) ? messageModel.TxtID : cpt.ToString());
+                    txtBlock.Uid = messageModel.TxtDate;
                     txtBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                    txtBlock.Text = message;
+                    txtBlock.Text = messageModel.TxtContent;
                     chatRoomZone.Children.Add(txtBlock);
+                    _messageHistory.Add(txtBlock);
                 }
                 else
                     await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
                         int cpt = chatRoomZone.Children.Count;
                         TextBlock txtBlock = new TextBlock();
-                        txtBlock.Name = "btnErrMessage" + cpt;
+                        txtBlock.Name = "txtErrMessage_" + cpt;// ((messageModel.Message.ID != 0) ? messageModel.TxtID : cpt.ToString());
+                        txtBlock.Uid = messageModel.TxtDate;
                         txtBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                        txtBlock.Text = message;
+                        txtBlock.Text = messageModel.TxtContent;
                         chatRoomZone.Children.Add(txtBlock);
+                        _messageHistory.Add(txtBlock);
                     }));
-            }                
+            }
         }
 
-        public async void showRecipientReply(string message, bool isNewDiscussion = false)
+        public async void showRecipientReply(MessageModel messageModel, bool isNewDiscussion = false)
         {
             if (Application.Current != null)
             {
@@ -113,14 +126,16 @@ namespace QOBDManagement.Views
                     Button btnMessage = new Button();
                     btnMessage.Width = 300;
                     btnMessage.HorizontalAlignment = HorizontalAlignment.Left;
-                    btnMessage.Name = "btnMessage" + cpt;
+                    btnMessage.Name = "btnMessage_" + cpt;// cpt;
+                    btnMessage.Uid = messageModel.TxtDate;
                     TextBlock txtBlock = new TextBlock();
-                    txtBlock.Name = "txtMessage" + cpt;
-                    txtBlock.Text = message;
+                    txtBlock.Name = "txtMessage_" + cpt;//  ((messageModel.Message.ID != 0) ? messageModel.TxtID : cpt.ToString());
+                    txtBlock.Text = messageModel.TxtContent;
                     btnMessage.Style = (Style)FindResource("RecipientReply");
                     btnMessage.Content = txtBlock;
-                    chatRoomZone.Children.Add(btnMessage);
-                    displayMaxOfMessage();
+                    //chatRoomZone.Children.Add(btnMessage);
+                    _messageHistory.Add(btnMessage);
+                    displayMessage(btnMessage);
                 }
                 else
                     await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -129,35 +144,81 @@ namespace QOBDManagement.Views
                         Button btnMessage = new Button();
                         btnMessage.Width = 300;
                         btnMessage.HorizontalAlignment = HorizontalAlignment.Left;
-                        btnMessage.Name = "btnMessage" + cpt;
+                        btnMessage.Name = "btnMessage_" + cpt;
+                        btnMessage.Uid = messageModel.TxtDate;
                         TextBlock txtBlock = new TextBlock();
-                        txtBlock.Name = "txtMessage" + cpt;
-                        txtBlock.Text = message;
+                        txtBlock.Name = "txtMessage_" + cpt;//  ((messageModel.Message.ID != 0) ? messageModel.TxtID : cpt.ToString());
+                        txtBlock.Text = messageModel.TxtContent;
                         btnMessage.Style = (Style)FindResource("RecipientReply");
                         btnMessage.Content = txtBlock;
-                        chatRoomZone.Children.Add(btnMessage);
-                        displayMaxOfMessage();
+                        //chatRoomZone.Children.Add(btnMessage);
+                        _messageHistory.Add(btnMessage);
+                        displayMessage(btnMessage);
                     }));
-            }                
-        }
-
-        private async void displayMaxOfMessage()
-        {
-            if (chatRoomZone.Children.Count > maxMessage)
-            {
-                if (Application.Current != null)
-                {
-                    if (Application.Current.Dispatcher.CheckAccess())
-                        chatRoomZone.Children.RemoveRange(0, chatRoomZone.Children.Count - maxMessage);
-                    else
-                        await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            chatRoomZone.Children.RemoveRange(0, chatRoomZone.Children.Count - maxMessage);
-                        }));
-                }                    
             }
         }
 
+        private void displayMessage(UIElement message)
+        {
+            populateMessageZone(_messageHistory.OrderByDescending(x => Utility.convertToDateTime(x.Uid)).Take(_maxMessage).ToList());
+        }
 
+        private async void populateMessageZone(List<UIElement> messageList)
+        {
+            if (Application.Current.Dispatcher.CheckAccess())
+            {
+                chatRoomZone.Children.Clear();
+                foreach (UIElement message in messageList.OrderBy(x => Utility.convertToDateTime(x.Uid)).ToList())
+                {
+                    chatRoomZone.Children.Add(message);
+                }
+                chatRoomZone.UpdateLayout();
+            }
+            else
+                await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    chatRoomZone.Children.Clear();
+                    foreach (UIElement message in messageList.OrderBy(x => Utility.convertToDateTime(x.Uid)).ToList())
+                    {
+                        chatRoomZone.Children.Add(message);
+                    }
+                    chatRoomZone.UpdateLayout();
+                }));
+        }
+
+        private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            var scrollViewer = (ScrollViewer)sender;
+
+            if (scrollViewer.VerticalOffset == 0 && ((_maxMessage - 1) * _offset + _maxMessage) <= _messageHistory.Count())
+            {
+                if (_offset > 0)
+                {
+                    populateMessageZone(_messageHistory.OrderByDescending(x => Utility.convertToDateTime(x.Uid)).Skip((_maxMessage - 1) * _offset).Take(_maxMessage).ToList());
+                    svChatRoom.ScrollToVerticalOffset(10);
+                    _offset++;
+                }
+                else
+                {
+                    _offset = 0;
+                    svChatRoom.ScrollToVerticalOffset(svChatRoom.ScrollableHeight);
+                }
+            }
+
+            else if (scrollViewer.VerticalOffset == scrollViewer.ScrollableHeight)
+            {
+                if (_offset >= 0)
+                {
+                    populateMessageZone(_messageHistory.OrderByDescending(x => Utility.convertToDateTime(x.Uid)).Skip((_maxMessage - 1) * _offset).Take(_maxMessage).ToList());
+                    svChatRoom.ScrollToVerticalOffset(svChatRoom.ScrollableHeight - 10);
+
+                    if (_offset > 0)
+                        _offset--;
+                    else
+                        _offset++;
+                }
+            }
+
+        }
     }
 }

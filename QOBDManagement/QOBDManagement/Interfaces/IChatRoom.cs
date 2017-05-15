@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QOBDManagement.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,8 @@ namespace QOBDManagement.Interfaces
 {
     public interface IChatRoom
     {      
-        void showRecipientReply(string message, bool isNewDiscussion = false);
-        void showMyReply(string message, bool isNewDiscussion = false);
-        void showInfo(string message);
+        void showRecipientReply(MessageModel messageModel, bool isNewDiscussion = false);
+        void showMyReply(MessageModel messageModel, bool isNewDiscussion = false);
+        void showInfo(MessageModel messageModel);
     }
 }

@@ -118,7 +118,7 @@ namespace QOBDManagement.ViewModel
             if (!string.IsNullOrEmpty(TxtLogin) && !string.IsNullOrEmpty(TxtClearPassword) && result)
             {
                 await authenticateAgent();
-                if (!Bl.BlSecurity.IsUserAuthenticated())
+                if (!Bl.BlSecurity.IsUserAuthenticated() || !Bl.BlSecurity.GetAuthenticatedUser().Status.Equals(EStatus.Active.ToString()))
                     await showLoginView();
             }
             else

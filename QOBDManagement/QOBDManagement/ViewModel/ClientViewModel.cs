@@ -8,16 +8,9 @@ using QOBDManagement.Command;
 using QOBDManagement.Interfaces;
 using QOBDManagement.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
 
 namespace QOBDManagement.ViewModel
 {
@@ -160,7 +153,7 @@ namespace QOBDManagement.ViewModel
 
         public void loadClients()
         {
-            Dialog.showSearch("Loading...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
             AgentList = Bl.BlAgent.GetAgentData(999);
             ClientModelList = clientListToModelViewList(Bl.BlClient.searchClient(new Client { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND));
             Dialog.IsDialogOpen = false;
@@ -234,7 +227,7 @@ namespace QOBDManagement.ViewModel
 
         private async void moveCLientAgent(Agent obj)
         {
-            Dialog.showSearch("Moving clients...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["processing_message"]);
             var movedClientList = await Bl.BlClient.MoveClientAgentBySelection(_saveResultParametersList, obj);
             if (movedClientList.Count > 0)
                 await Dialog.showAsync(movedClientList.Count +" client(s) have been moved to "+obj.LastName+" successfully!");
@@ -263,7 +256,7 @@ namespace QOBDManagement.ViewModel
             ClientModel clientModel = new ClientModel();
             string restrict = "";
             bool isDeep = false;
-            Dialog.showSearch("Searching...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["searching_message"]);
 
             clientModel.TxtID = obj;
             foreach (string checkedValue in _saveSearchParametersList)
@@ -327,7 +320,6 @@ namespace QOBDManagement.ViewModel
 
         public void saveResultGridChecks(ClientModel param)
         {
-            //Properties.Settings.Default.cbResultArrayValue.Add(param._client);
             if (!_saveResultParametersList.Contains(param.Client))
                 _saveResultParametersList.Add(param.Client);
             else

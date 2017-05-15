@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="b68a9c6d-7f82-497e-ab79-54683267d8e2" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="af776d5f-41a2-4c4e-aaf7-eaf8eb7a0af8" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,10 +19,10 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://bahilo-001-site2.ftempurl.com/server.php?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://bahilo-001-site2.ftempurl.com/webservice/server.php?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="server.wsdl" MetadataType="Wsdl" ID="bd296874-23d8-490e-83a8-256069cffcc9" SourceId="1" SourceUrl="http://bahilo-001-site2.ftempurl.com/server.php?wsdl" />
+    <MetadataFile FileName="server.wsdl" MetadataType="Wsdl" ID="31f91874-11ce-42a6-9380-23d9de24fc59" SourceId="1" SourceUrl="http://bahilo-001-site2.ftempurl.com/webservice/server.php?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

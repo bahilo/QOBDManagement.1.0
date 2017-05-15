@@ -28,7 +28,7 @@ namespace QOBDManagement.Views
 
         private void ItemDetailView_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext dataContext = new DataContext();
+            UIContext dataContext = new UIContext();
             dataContext.setWindowContext(this);
         }
     }

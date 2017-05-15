@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="QOBDManagement.Views.HelpView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QOBDManagement.Views"
+             xmlns:Class="clr-namespace:QOBDManagement.Classes"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Class:StringLengthConverter x:Key="StringConverter"/>
+    </UserControl.Resources>
+    <Grid Width="600" Height="300">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="11*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- help image -->
+            <materialDesign:PackIcon Kind="Help" Foreground="{Binding Foreground, ElementName=btnClose}" materialDesign:ShadowAssist.ShadowDepth="Depth5"
+                                     Margin="64,18,63,17" Height="Auto" Width="40" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+
+            <!-- close button -->
+            <Button Name="btnClose" Grid.Column="3" Style="{DynamicResource MaterialDesignFlatButton}" Margin="20,10,20,0" VerticalAlignment="Top" Height="60"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                <materialDesign:PackIcon Width="30" Height="30" Kind="CloseBox" HorizontalAlignment="Center"/>
+            </Button>
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="4" Margin="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Activation code -->
+                    <TextBlock VerticalAlignment="Center">Activation Code</TextBlock>
+                    <TextBlock Grid.Column="1" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center">-</TextBlock>
+                    <TextBlock Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding DataContext.TxtInfoActivationCode, Converter={StaticResource StringConverter}, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                               IsEnabled="False" VerticalAlignment="Center"/>
+                    <!-- software version -->
+                    <TextBlock Grid.Row="1" VerticalAlignment="Center">Version</TextBlock>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center">-</TextBlock>
+                    <TextBlock  Grid.Row="1"  Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding DataContext.TxtInfoVersion, Converter={StaticResource StringConverter}, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                               VerticalAlignment="Center"/>
+                    <!-- all rights reserved -->
+                    <TextBlock Grid.Row="2" Grid.ColumnSpan="4" Text="{Binding DataContext.TxtInfoAllRightText, Converter={StaticResource StringConverter}, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <!-- free text -->
+                    <TextBlock  Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding DataContext.TxtInfo, Converter={StaticResource StringConverter}, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+            
+            <!-- company image -->
+            <Image Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Source="{Binding DataContext.HeaderImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Stretch="Uniform" Margin="100,0"/>
+
+        </Grid>
+    </Grid>
+</UserControl>

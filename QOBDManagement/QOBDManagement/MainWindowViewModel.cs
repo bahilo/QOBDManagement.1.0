@@ -60,6 +60,7 @@ namespace QOBDManagement
 
         public ButtonCommand<string> CommandNavig { get; set; }
         public ButtonCommand<string> NewMessageHomePageCommand { get; set; }
+        public ButtonCommand<string> InformationDisplayCommand { get; set; }
 
 
         public MainWindowViewModel(IStartup startup) : base()
@@ -108,6 +109,7 @@ namespace QOBDManagement
         {
             CommandNavig = new ButtonCommand<string>(appNavig, canAppNavig);
             NewMessageHomePageCommand = new ButtonCommand<string>(goToMessageHome, canGoToMessageHome);
+            InformationDisplayCommand = new ButtonCommand<string>(displayInformation, canDisplayInformation);
         }
 
         private void setInitEvents()
@@ -161,30 +163,6 @@ namespace QOBDManagement
             set { setProperty(ref _context, value); }
         }
 
-        public InfoManager.Display HeaderImageDisplay
-        {
-            get { return _headerImageDisplay; }
-            set { setProperty(ref _headerImageDisplay, value); }
-        }
-
-        public InfoManager.Display LogoImageDisplay
-        {
-            get { return _logoImageDisplay; }
-            set { setProperty(ref _logoImageDisplay, value); }
-        }
-
-        public InfoManager.Display BillImageDisplay
-        {
-            get { return _billImageDisplay; }
-            set { setProperty(ref _billImageDisplay, value); }
-        }
-
-        public string SearchProgressVisibility
-        {
-            get { return _searchProgressVisibolity; }
-            set { setProperty(ref _searchProgressVisibolity, value); }
-        }
-
         public Cart Cart
         {
             get { return _cart; }
@@ -195,16 +173,74 @@ namespace QOBDManagement
             get { return OrderViewModel.OrderSideBarViewModel; }
         }
 
+        public string SearchProgressVisibility
+        {
+            get { return _searchProgressVisibolity; }
+            set { setProperty(ref _searchProgressVisibolity, value); }
+        }
+
+        public InfoManager.Display HeaderImageDisplay
+        {
+            get { return _headerImageDisplay; }
+            set
+            {
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        _headerImageDisplay = value;
+                    });
+                else
+                    _headerImageDisplay = value;
+                onPropertyChange();
+                InformationDisplayCommand.raiseCanExecuteActionChanged();
+            }
+        }
+
+        public InfoManager.Display LogoImageDisplay
+        {
+            get { return _logoImageDisplay; }
+            set
+            {
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        _logoImageDisplay = value;
+                    });
+                else
+                    _logoImageDisplay = value;
+                onPropertyChange();
+            }
+        }
+
+        public InfoManager.Display BillImageDisplay
+        {
+            get { return _billImageDisplay; }
+            set
+            {
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        _billImageDisplay = value;
+                    });
+                else
+                    _billImageDisplay = value;
+                onPropertyChange();
+            }
+        }
+
         public Object CurrentViewModel
         {
             get { return _currentViewModel; }
             set
             {
-                if (Application.Current != null)
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        setProperty(ref _currentViewModel, value);
+                        _currentViewModel = value;
                     });
+                else
+                    _currentViewModel = value;
+                onPropertyChange();
             }
         }
 
@@ -213,11 +249,14 @@ namespace QOBDManagement
             get { return _chatRoomCurrentView; }
             set
             {
-                if (Application.Current != null)
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        setProperty(ref _chatRoomCurrentView, value);
+                        _chatRoomCurrentView = value;
                     });
+                else
+                    _chatRoomCurrentView = value;
+                onPropertyChange();
             }
         }
 
@@ -234,6 +273,92 @@ namespace QOBDManagement
                 else
                     _progressBarPercentValue = value;
                 onPropertyChange();
+            }
+        }
+
+        //----------------------------[ information properties ]------------------
+
+        public string TxtInfo
+        {
+            get
+            {
+                try
+                {
+                    return  ConfigurationManager.AppSettings["info_description"];
+                }
+                catch (Exception) { return ""; }
+            }
+            set
+            {
+                try
+                {
+                    ConfigurationManager.AppSettings["info_description"] = value;
+                    onPropertyChange();
+                }
+                catch (Exception) { }
+            }
+        }
+
+        public string TxtInfoAllRightText
+        {
+            get
+            {
+                try
+                {
+                    return ConfigurationManager.AppSettings["info_all_right"];
+                }
+                catch (Exception) { return ""; }
+            }
+            set
+            {
+                try
+                {
+                    ConfigurationManager.AppSettings["info_all_right"] = value;
+                    onPropertyChange();
+                }
+                catch (Exception) { }
+            }
+        }
+
+        public string TxtInfoActivationCode
+        {
+            get
+            {
+                try
+                {
+                    return ConfigurationManager.AppSettings["info_activation_code"];
+                }
+                catch (Exception) { return ""; }
+            }
+            set
+            {
+                try
+                {
+                    ConfigurationManager.AppSettings["info_activation_code"] = value;
+                    onPropertyChange();
+                }
+                catch (Exception) { }
+            }
+        }
+
+        public string TxtInfoVersion
+        {
+            get
+            {
+                try
+                {
+                    return ConfigurationManager.AppSettings["info_software_version"];
+                }
+                catch (Exception) { return ""; }
+            }
+            set
+            {
+                try
+                {
+                    ConfigurationManager.AppSettings["info_software_version"] = value;
+                    onPropertyChange();
+                }
+                catch (Exception) { }
             }
         }
 
@@ -282,11 +407,7 @@ namespace QOBDManagement
             {
                 var headerImageFoundDisplay = loadImage(HeaderImageDisplay);
                 if (!string.IsNullOrEmpty(headerImageFoundDisplay.TxtFileFullPath) && File.Exists(headerImageFoundDisplay.TxtFileFullPath))
-                    if (Application.Current != null)
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            HeaderImageDisplay = headerImageFoundDisplay;
-                        });
+                    HeaderImageDisplay = headerImageFoundDisplay;
             }
 
             // download header logo
@@ -294,11 +415,7 @@ namespace QOBDManagement
             {
                 var logoImageFoundDisplay = loadImage(LogoImageDisplay);
                 if (!string.IsNullOrEmpty(logoImageFoundDisplay.TxtFileFullPath) && File.Exists(logoImageFoundDisplay.TxtFileFullPath))
-                    if (Application.Current != null)
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            LogoImageDisplay = logoImageFoundDisplay;
-                        });
+                    LogoImageDisplay = logoImageFoundDisplay;
             }
 
             // download the bill image
@@ -306,11 +423,7 @@ namespace QOBDManagement
             {
                 var billImageFoundDisplay = loadImage(BillImageDisplay);
                 if (!string.IsNullOrEmpty(billImageFoundDisplay.TxtFileFullPath) && File.Exists(billImageFoundDisplay.TxtFileFullPath))
-                    if (Application.Current != null)
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            BillImageDisplay = billImageFoundDisplay;
-                        });
+                    BillImageDisplay = billImageFoundDisplay;
             }
         }
 
@@ -399,6 +512,17 @@ namespace QOBDManagement
             PropertyChanged -= OrderViewModel.OrderSideBarViewModel.onCurrentPageChange_updateCommand;
         }
 
+        private void deleteCache()
+        {
+            try
+            {
+                // delete local temp database if exists
+                if (File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
+                    File.Delete(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
+            }
+            catch (Exception) { }
+        }
+
         public async Task<bool> DisposeAsync()
         {
             Dialog.showSearch("Closing...");
@@ -417,6 +541,7 @@ namespace QOBDManagement
             LogoImageDisplay.Dispose();
             HeaderImageDisplay.Dispose();
             BillImageDisplay.Dispose();
+            deleteCache();
             return true;
         }
 
@@ -491,6 +616,18 @@ namespace QOBDManagement
         private bool canGoToMessageHome(string arg)
         {
             if (ChatRoomViewModel.DiscussionViewModel.TxtNbNewMessage != "0")
+                return true;
+            return false;
+        }
+
+        private async void displayInformation(string obj)
+        {
+            await Dialog.showAsync(new Views.HelpView());
+        }
+
+        private bool canDisplayInformation(string arg)
+        {
+            if (HeaderImageDisplay != null && !string.IsNullOrEmpty(HeaderImageDisplay.TxtFileFullPath))
                 return true;
             return false;
         }

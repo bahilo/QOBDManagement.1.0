@@ -39,7 +39,7 @@ namespace QOBDManagement
             // initialize the DataDirectory to the user local folder
             AppDomain.CurrentDomain.SetData("DataDirectory", Utility.BaseDirectory);
 
-            var unWritableAppDataDir = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
+            var unWritableAppDataDir = Utility.getDirectory(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
             var writableAppDataDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
 
             try
@@ -63,11 +63,11 @@ namespace QOBDManagement
 
         private async void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (!confirmed && mainWindowViewModel.AuthenticatedUserModel.Agent.ID != 0)
+            if (!confirmed && mainWindowViewModel.AuthenticatedUserModel.Agent.ID != 0 && mainWindowViewModel.AuthenticatedUserModel.TxtStatus.Equals(EStatus.Active.ToString()))
             {
                 e.Cancel = true;
                 if (await mainWindowViewModel.DisposeAsync())
-                {
+                {     
                     confirmed = true;
                     this.Close();
                 }

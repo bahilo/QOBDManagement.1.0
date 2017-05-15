@@ -14,6 +14,7 @@ using QOBDCommon.Structures;
 using QOBDCommon.Classes;
 using System.Globalization;
 using QOBDCommon.Enum;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
@@ -135,7 +136,7 @@ namespace QOBDManagement.ViewModel
 
         public async Task loadNotifications()
         {
-            Dialog.showSearch("Loading...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
             ClientList = (await Bl.BlClient.GetClientMaxCreditOverDataByAgentAsync(Bl.BlSecurity.GetAuthenticatedUser().ID)).Select(x=> new ClientModel { Client = x }).ToList();
             ClientList = await getClientBillInfoAsync(ClientList);
             BillNotPaidList = await billListToModelViewList(await Bl.BlOrder.GetUnpaidBillDataByAgentAsync(Bl.BlSecurity.GetAuthenticatedUser().ID));

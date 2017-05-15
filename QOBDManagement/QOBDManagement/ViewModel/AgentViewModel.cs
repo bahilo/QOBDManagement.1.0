@@ -192,7 +192,7 @@ namespace QOBDManagement.ViewModel
             {
                 AgentModel avm = new AgentModel();
                 avm.Agent = Agent;
-                avm.Image = avm.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], avm.TxtPicture, avm.TxtProfileImageFileNameBase + "_" + Agent.ID, credentialInfoList);
+                //avm.Image = avm.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], avm.TxtPicture, avm.TxtProfileImageFileNameBase + "_" + Agent.ID, credentialInfoList);
                 output.Add(avm);
             }
             return output;
@@ -216,9 +216,6 @@ namespace QOBDManagement.ViewModel
         public override void Dispose()
         {
             // closing the image file before closing the app
-            /*if (SelectedAgentModel != null && SelectedAgentModel.Image != null)
-                SelectedAgentModel.Image.closeImageSource();*/
-
             foreach (var agentModel in AgentModelList)
                 if(agentModel.Image != null)
                     agentModel.Image.closeImageSource();
@@ -233,7 +230,7 @@ namespace QOBDManagement.ViewModel
 
         public async void moveAgentCLient(AgentModel obj)
         {
-            Dialog.showSearch("Moving CLients to "+obj.TxtLastName+" in progress...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"]);
             List<Client> clientMovedList = new List<Client>();
             if(obj != null)
                 foreach (var fromAgent in _clientAgentToMoveList)

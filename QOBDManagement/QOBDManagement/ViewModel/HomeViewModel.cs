@@ -33,9 +33,6 @@ namespace QOBDManagement.ViewModel
         private string _taskFileName;
         private string _taskFileFullName;
 
-        //private Func<double, string> _xFormatter;
-        //private Func<double, string> _yFormatter;
-
         //----------------------------[ Models ]------------------
 
         private ItemModel _firstBestSeller;
@@ -284,7 +281,7 @@ namespace QOBDManagement.ViewModel
 
         private async void load()
         {
-            Dialog.showSearch("Loading...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
             StatisticDataList = (await Bl.BlStatisitc.searchStatisticAsync(new Statistic { Option = 1 }, ESearchOption.AND)).Select(x => new StatisticModel { Statistic = x }).ToList();
             ToDoList = getToDoTasks();
             loadUIData();
@@ -294,9 +291,7 @@ namespace QOBDManagement.ViewModel
         private void loadUIData()
         {
             loadDataGauge();
-            //loadChartPayreceivedData();
             loadPurchaseAndIncomeChart();
-            //salesChart();
         }
 
         private void salesChart()
@@ -305,8 +300,7 @@ namespace QOBDManagement.ViewModel
             var invoiceAmountChartValue = new ChartValues<decimal>();
 
             payReceivedChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Total).ToList());
-            //invoiceAmountChartValue.AddRange(StatisticDataList.OrderBy(x => x.Statistic.ID).Select(x => x.Statistic.Total_tax_included).ToList());
-
+            
             CreditSeriesCollection = new SeriesCollection
             {
                 new LineSeries
@@ -424,9 +418,6 @@ namespace QOBDManagement.ViewModel
 
         private void saveToDoTasks(List<ToDo> taskList)
         {
-            //if (taskList.Count == 0)
-            //    return;
-
             using (StreamWriter sw = new StreamWriter(_taskFileFullName))
             {
                 XmlSerializer xs = new XmlSerializer(taskList.GetType());

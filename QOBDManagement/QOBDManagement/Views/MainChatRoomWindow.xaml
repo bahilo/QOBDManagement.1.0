@@ -15,7 +15,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QOBDManagement"
              mc:Ignorable="d" 
-             d:DesignHeight="300" Height="450" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type ViewModel:DiscussionViewModel}">
             <View:ChatRoomView/>
@@ -141,15 +141,15 @@
                         </StackPanel>
 
                         <TextBlock Text="{Binding DiscussionViewModel.DiscussionModel.TxtGroupName, Converter={StaticResource ResourceKey=discussionGroupConverter}, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                        <!--<StackPanel Orientation="Horizontal" Margin="50 0 0 0">
-                                <materialDesign:PackIcon Kind="AccountCircle" FontSize="10"/>
-                                <TextBlock x:Name="txbWelcomeUser" Text="{Binding TxtUserName, UpdateSourceTrigger=PropertyChanged}"/>
-                            </StackPanel>-->
-                    </DockPanel>
+                     </DockPanel>
                 </materialDesign:ColorZone>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                
+                <!-- central view -->
+                <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
-                </ScrollViewer>
+                </ScrollViewer>-->
             </DockPanel>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>

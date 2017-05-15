@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.ComponentModel;
 using QOBDManagement.Enums;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
@@ -57,7 +58,7 @@ namespace QOBDManagement.ViewModel
 
         public async Task loadAsync()
         {
-            Dialog.showSearchMessage("Loding...", isChatDialogBox: true);
+            Dialog.showSearchMessage(ConfigurationManager.AppSettings["loading_message"], isChatDialogBox: true);
 
             MessageIndividualHistoryList.Clear();
             MessageGroupHistoryList.Clear();

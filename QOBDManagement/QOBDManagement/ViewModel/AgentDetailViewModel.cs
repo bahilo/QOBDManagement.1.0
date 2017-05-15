@@ -115,8 +115,7 @@ namespace QOBDManagement.ViewModel
 
         public void load()
         {            
-
-            /*bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
+            bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
                              && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
                                  && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
                                      && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
@@ -127,57 +126,22 @@ namespace QOBDManagement.ViewModel
             {
                 // closing the image source if image already displayed
                 if (SelectedAgentModel.Image != null)
-                {
-                    SelectedAgentModel.Image.closeImageSource();
-                    //ProfileImageDisplay.PropertyChanged -= onProfileImageChange_updateUIImage;
-                    SelectedAgentModel.Image.PropertyChanged -= onProfileImageSizeChange;
                     SelectedAgentModel.Image.Dispose();
-                }
+
                 SelectedAgentModel.Image = null;
             }
 
-            // loadUserProfileImage();
-
-            var credentialInfoList = _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp" }, ESearchOption.OR);
-
-            SelectedAgentModel.Image = SelectedAgentModel.Image.downloadPicture(SelectedAgentModel.TxtPicture, _profileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID, credentialInfoList);
-            */
+             loadUserProfileImage();
         }
 
         private void loadUserProfileImage()
         {
             if (SelectedAgentModel.Image == null)
             {
-                var username = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
-                var password = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
-
-                if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
-                {
-                    string fileName = _profileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID;
-
-                    // get profile image for updating
-                    SelectedAgentModel.Image = new InfoManager.Display(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], username, password);// _main.ImageManagement(null, "profile");
-                    
-                    SelectedAgentModel.Image.TxtFileNameWithoutExtension = fileName;
-                    SelectedAgentModel.Image.FilterList = new List<string> { fileName };
-                    SelectedAgentModel.Image.InfoDataList = new List<Info> { new Info { Name = fileName, Value = SelectedAgentModel.TxtPicture } };
-                    SelectedAgentModel.Image.downloadFile();
-
-
-                    /*// get the picture info from the database
-                    SelectedAgentModel.Image.TxtFileNameWithoutExtension = _profileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID;
-                    var loadedImage = _main.loadImage(SelectedAgentModel.Image);
-
-                    // display the picture
-                    if (Application.Current != null)
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            SelectedAgentModel.Image = loadedImage;
-                            SelectedAgentModel.TxtPicture = loadedImage.TxtFileName;
-                            //ProfileImageDisplay.PropertyChanged += onProfileImageChange_updateUIImage;
-                            SelectedAgentModel.Image.PropertyChanged += onProfileImageSizeChange;
-                        });*/
-                }                
+                var credentialInfoList = _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_" }, ESearchOption.OR);
+                
+                if (credentialInfoList.Count > 0)
+                    SelectedAgentModel.Image = SelectedAgentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], SelectedAgentModel.TxtPicture, SelectedAgentModel.TxtProfileImageFileNameBase + "_" + Bl.BlSecurity.GetAuthenticatedUser().ID, credentialInfoList);
             }
         }
 
@@ -185,11 +149,7 @@ namespace QOBDManagement.ViewModel
         {
             PropertyChanged -= onSelectedAgentModelChange;
             if (SelectedAgentModel.Image != null)
-            {
-                //ProfileImageDisplay.PropertyChanged -= onProfileImageChange_updateUIImage;
-                SelectedAgentModel.Image.PropertyChanged -= onProfileImageSizeChange;
                 SelectedAgentModel.Image.Dispose();
-            }
         }
 
         //----------------------------[ Event Handler ]------------------
@@ -224,15 +184,7 @@ namespace QOBDManagement.ViewModel
                 load();
             }
         }
-
-        private async void onProfileImageSizeChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("ImageInfoUpdated"))
-            {
-                var infoUpdatedList = await _main.ReferentialViewModel.OptionDataAndDisplayViewModel.saveInfo(((InfoManager.Display)sender).InfoDataList);
-            }                
-        }
-
+        
         //----------------------------[ Action Commands ]------------------
 
         private async void updateAgent(object obj)

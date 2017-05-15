@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace QOBDManagement.Classes
 {
-    class DataContext
+    class UIContext
     {
         public object setWindowContext(UserControl view)
         {
