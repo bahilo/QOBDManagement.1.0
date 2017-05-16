@@ -14,6 +14,7 @@ namespace QOBDManagement.Models
         private Message _message;
         private bool _isNewMesage;
         private string _groupName;
+        private string _userName;
 
         public MessageModel()
         {
@@ -72,6 +73,12 @@ namespace QOBDManagement.Models
         {
             get { return _message.Status.ToString(); }
             set { _message.Status = Convert.ToInt32(value); onPropertyChange(); }
+        }
+
+        public string TxtUserName
+        {
+            get { return _userName; }
+            set { _userName = value; onPropertyChange(); }
         }
     }
 }

@@ -12,34 +12,7 @@ namespace QOBDManagement.Classes
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string valueToProcess = value as string;
-            string output = "";
-            if (valueToProcess != null)
-            {
-                int nbCharToDisplay = 40;
-                if (valueToProcess.Length > nbCharToDisplay)
-                {
-                    int index = 0;
-                    string newContent = "";
-                    var stringTable = valueToProcess.Split(' ').ToList();
-                    while (index < stringTable.Count)
-                    {
-                        newContent += stringTable[index] + " ";
-                        if (newContent.Length >= nbCharToDisplay)
-                        {
-                            output += newContent + Environment.NewLine;
-                            newContent = "";
-                        }     
-                        index++;
-                    }
-                    output += newContent;
-                }
-                else
-                    output = valueToProcess;
-
-                return output;
-            }
-            return value;
+            return QOBDCommon.Classes.Utility.stringSpliter(value as string);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

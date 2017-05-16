@@ -301,6 +301,37 @@ namespace QOBDCommon.Classes
             return Target;
         }
 
+        public static string stringSpliter(string stringToSplit, int nbCharToDisplay = 40)
+        {
+            string valueToProcess = stringToSplit as string;
+            string output = "";
+            if (valueToProcess != null)
+            {
+                if (valueToProcess.Length > nbCharToDisplay)
+                {
+                    int index = 0;
+                    string newContent = "";
+                    var stringTable = valueToProcess.Split(' ').ToList();
+                    while (index < stringTable.Count)
+                    {
+                        newContent += stringTable[index] + " ";
+                        if (newContent.Length >= nbCharToDisplay)
+                        {
+                            output += newContent + Environment.NewLine;
+                            newContent = "";
+                        }
+                        index++;
+                    }
+                    output += newContent;
+                }
+                else
+                    output = valueToProcess;
+
+                return output;
+            }
+            return stringToSplit;
+        }
+
 
     }
 }

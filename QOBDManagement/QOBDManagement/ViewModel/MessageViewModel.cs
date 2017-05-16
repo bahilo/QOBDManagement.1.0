@@ -25,7 +25,7 @@ namespace QOBDManagement.ViewModel
 
         public MessageViewModel()
         {
-            _maxMessageCharacters = 40;
+            _maxMessageCharacters = 10;
             _messageIndividualHistoryList = new Dictionary<AgentModel, MessageModel>();
             _messageGroupHistoryList = new Dictionary<AgentModel, MessageModel>();
         }

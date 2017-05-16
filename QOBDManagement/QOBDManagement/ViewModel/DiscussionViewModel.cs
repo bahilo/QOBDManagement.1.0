@@ -97,7 +97,7 @@ namespace QOBDManagement.ViewModel
         {
             _selectedAgentModel = new AgentModel();
             _discussionModel = new DiscussionModel();
-            _maxCharacterAllowed = 60;
+            _maxCharacterAllowed = 80;
             _inputCharactersCount = 0;
         }
 
@@ -468,17 +468,17 @@ namespace QOBDManagement.ViewModel
                 // update the discussion messages status from unread (status = 1) to read (status = 0)
                 markMessageAsRead(DiscussionModel, new MessageModel { Message = message });
 
-                Message MessageToDisplay = new Message { ID = message.ID, Date = message.Date, DiscussionId = message.DiscussionId, UserId = message.UserId, Status = message.Status };
+                MessageModel MessageModelToDisplay = new MessageModel { Message = message, TxtUserName = user.UserName };
 
                 if (AuthenticatedUser.ID == message.UserId)
                 {
-                    MessageToDisplay.Content = message.Date + Environment.NewLine + message.Content;
-                    msg("reply", new MessageModel { Message = MessageToDisplay });
+                    //MessageModelToDisplay.TxtContent = message.Date + Environment.NewLine + message.Content;
+                    msg("reply", MessageModelToDisplay);
                 }
                 else
                 {
-                    MessageToDisplay.Content = user.UserName + " Says:" + Environment.NewLine + message.Date + Environment.NewLine + message.Content;
-                    msg("recipient", new MessageModel { Message = MessageToDisplay });
+                    //MessageModelToDisplay.TxtContent = user.UserName + " Says:" + Environment.NewLine + message.Date + Environment.NewLine + message.Content;
+                    msg("recipient", MessageModelToDisplay );
                 }                    
             }
         }
@@ -492,11 +492,11 @@ namespace QOBDManagement.ViewModel
                         ChatRoom.showInfo(messageModel);
                         break;
                     case "reply":
-                        messageModel.TxtContent = Environment.NewLine + " >> " + messageModel.TxtContent;
+                        //messageModel.TxtContent = Environment.NewLine + " >> " + messageModel.TxtContent;
                         ChatRoom.showMyReply(messageModel);
                         break;
                     case "recipient":
-                        messageModel.TxtContent = Environment.NewLine + " >> " + messageModel.TxtContent;
+                        //messageModel.TxtContent = Environment.NewLine + " >> " + messageModel.TxtContent;
                         ChatRoom.showRecipientReply(messageModel);
                         break;
                 }

@@ -155,6 +155,9 @@
     <Compile Include="Views\ChatHistoryView.xaml.cs">
       <DependentUpon>ChatHistoryView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChatMessageBubble.xaml.cs">
+      <DependentUpon>ChatMessageBubble.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ChatRoomView.xaml.cs">
       <DependentUpon>ChatRoomView.xaml</DependentUpon>
     </Compile>
@@ -852,6 +855,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ChatMessageBubble.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ChatRoomView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1027,6 +1034,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ReadMe.Coding4Fun.Toolkit.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

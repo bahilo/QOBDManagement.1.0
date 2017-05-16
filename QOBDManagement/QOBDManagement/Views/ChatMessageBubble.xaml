@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="QOBDManagement.Views.ChatMessageBubble"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             Background="{DynamicResource MaterialDesignPaper}"
+             TextElement.FontWeight="Medium"
+             TextElement.FontSize="14"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QOBDManagement.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FFF" Offset="0.0"/>
+                    <GradientStop Color="#EEE" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
+    </UserControl.Resources>
+    <StackPanel>
+
+        <!-- Recipient bubble chat-->
+
+        <Grid Margin="25 0 0 0" 
+              >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Path Fill="Wheat" Margin="0,10,0,10">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathGeometry.Figures>
+                            <PathFigure StartPoint="0,30">
+                                <LineSegment Point="30,5"/>
+                                <LineSegment Point="30,60"/>
+                            </PathFigure>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+            <Border Grid.Column="1" MinWidth="200" Margin="0,10,0,10" CornerRadius="10" Padding="5" Background="Wheat" BorderBrush="{StaticResource SolidBorderBrush}" MinHeight="65">
+                <ContentPresenter />
+            </Border>
+        </Grid>
+
+
+        <!-- Reply bubble chat-->
+
+        <Grid Margin="25 0 0 0" 
+              >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Border CornerRadius="10" Margin="0,10,0,10" MinWidth="200" Padding="5" Background="GreenYellow" MinHeight="65" BorderBrush="{StaticResource SolidBorderBrush}">
+                <ContentPresenter />
+            </Border>
+            <Path Grid.Column="1" Fill="GreenYellow" Margin="0,10,0,10">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathGeometry.Figures>
+                            <PathFigure StartPoint="30,30">
+                                <LineSegment Point="0,8"/>
+                                <LineSegment Point="0,60"/>
+                            </PathFigure>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </Grid> 
+    </StackPanel>
+</UserControl>
