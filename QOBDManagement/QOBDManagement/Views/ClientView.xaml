@@ -9,8 +9,6 @@
              xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
              xmlns:Views="clr-namespace:QOBDManagement.Views"
              xmlns:Main="clr-namespace:QOBDManagement"
-             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-             Background="{DynamicResource MaterialDesignPaper}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="700" Loaded="ClientView_Loaded">
 
@@ -22,14 +20,14 @@
 
     <Grid Grid.Row="1" x:Name="gvMain" VerticalAlignment="Top" Margin="0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="270"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Here comes the side menu-->
 
         <Grid x:Name="gvLeftSide"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" 
-                          VerticalAlignment="Top" Width="270" HorizontalAlignment="Left">
+                          VerticalAlignment="Top" HorizontalAlignment="Left">
             <ContentControl Content="{Binding ClientViewModel.ClientSideBarViewModel, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
@@ -38,11 +36,13 @@
 
         <!-- Here comes the main content of the view -->
 
-        <Grid Grid.Column="1" Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 20" >
-            <StackPanel Orientation="Vertical">
-                <StackPanel Height="80">
-                    <Label FontSize="20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding ClientViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
+        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label FontSize="20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding ClientViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
+            <StackPanel Grid.Row="1">
                 <materialDesign:Card HorizontalAlignment="Stretch">
                     <materialDesign:ColorZone>
                         <StackPanel Orientation="Vertical" Margin="30" HorizontalAlignment="Center">
@@ -86,7 +86,7 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        
+
                         <materialDesign:ColorZone Mode="PrimaryMid">
                             <TextBlock Name="txtBTitleSearch" HorizontalAlignment="Center">Search results</TextBlock>
                         </materialDesign:ColorZone>
@@ -163,11 +163,10 @@
                     </Grid>
                 </materialDesign:ColorZone>
             </StackPanel>
-
         </Grid>
 
         <!-- End -->
 
     </Grid>
-    
+
 </UserControl>

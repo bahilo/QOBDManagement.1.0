@@ -27,19 +27,10 @@ namespace QOBDManagement.Views
             InitializeComponent();
         }
 
-        private void DialogBoxChatRoom_Loaded(object sender, RoutedEventArgs e)
+        private void MainChatRoom_Unloaded(object sender, RoutedEventArgs e)
         {
-            UIContext dataContext = new UIContext();
-            dataContext.setChatWindowContext(this);
-
-            // chat room initialization
-            ((ChatRoomViewModel)this.DataContext).start();
-
-            /*if (dataContext.setChatWindowContext(this) != null)
-            {
-                await ((ChatRoomViewModel)this.DataContext).MessageViewModel.loadAsync();
-            }*/
+            if(this.DataContext as ChatRoomViewModel != null)
+                ((ChatRoomViewModel)this.DataContext).DiscussionViewModel.DiscussionModel = new Models.DiscussionModel();
         }
-        
     }
 }

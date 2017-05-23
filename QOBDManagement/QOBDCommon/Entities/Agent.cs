@@ -42,6 +42,8 @@ namespace QOBDCommon.Entities
 
         public int ListSize { get; set; }
 
+        public string Comment { get; set; }
+
         public bool IsOnline { get; set; }
 
         public string IPAddress { get; set; }

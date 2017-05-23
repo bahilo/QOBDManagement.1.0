@@ -28,7 +28,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        
+
                         <!-- Reply bubble chat-->
 
                         <Grid HorizontalAlignment="Right"
@@ -38,16 +38,16 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <Border CornerRadius="10" Margin="0,10,0,10" MinWidth="200" Padding="5" Background="GreenYellow" MinHeight="65" BorderBrush="{StaticResource SolidBorderBrush}">
+                            <Border CornerRadius="10 0 10 10" Margin="0,10,0,10" MinWidth="200" Padding="5" Background="GreenYellow" MinHeight="65" BorderBrush="{StaticResource SolidBorderBrush}">
                                 <ContentPresenter />
                             </Border>
                             <Path Grid.Column="1" Fill="GreenYellow" Margin="0,10,0,10">
                                 <Path.Data>
                                     <PathGeometry>
                                         <PathGeometry.Figures>
-                                            <PathFigure StartPoint="30,30">
-                                                <LineSegment Point="0,8"/>
-                                                <LineSegment Point="0,60"/>
+                                            <PathFigure StartPoint="30,0">
+                                                <LineSegment Point="0,0"/>
+                                                <LineSegment Point="0,30"/>
                                             </PathFigure>
                                         </PathGeometry.Figures>
                                     </PathGeometry>
@@ -78,18 +78,19 @@
                                 <Path.Data>
                                     <PathGeometry>
                                         <PathGeometry.Figures>
-                                            <PathFigure StartPoint="0,30">
-                                                <LineSegment Point="30,5"/>
-                                                <LineSegment Point="30,60"/>
+                                            <PathFigure StartPoint="0,0">
+                                                <LineSegment Point="30,0"/>
+                                                <LineSegment Point="30,30"/>
                                             </PathFigure>
                                         </PathGeometry.Figures>
                                     </PathGeometry>
                                 </Path.Data>
                             </Path>
-                            <Border Grid.Column="1" MinWidth="200" Margin="0,10,0,10" CornerRadius="10" Padding="5" Background="Wheat" BorderBrush="{StaticResource SolidBorderBrush}" MinHeight="65">
+                            <Border Grid.Column="1" MinWidth="200" Margin="0,10,0,10" CornerRadius="0 10 10 10" Padding="5" Background="Wheat" BorderBrush="{StaticResource SolidBorderBrush}" MinHeight="65">
                                 <ContentPresenter />
                             </Border>
                         </Grid>
+                        
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -110,8 +111,8 @@
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.RowSpan="2" Name="tbxMessage" Text="{Binding DiscussionViewModel.InputMessage, UpdateSourceTrigger=PropertyChanged}" Margin="6" 
-                         TextWrapping="Wrap" MaxLength="{Binding DiscussionViewModel.MaxCharacterAllowed, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Grid.RowSpan="2" Name="tbxMessage" Text="{Binding InputMessage, UpdateSourceTrigger=PropertyChanged}" Margin="6" 
+                         TextWrapping="Wrap" MaxLength="{Binding MaxCharacterAllowed, UpdateSourceTrigger=PropertyChanged}"
                          AcceptsReturn="True"
                          Height="80"
                          HorizontalAlignment="Stretch"
@@ -119,13 +120,13 @@
                          HorizontalScrollBarVisibility="Auto"
                          materialDesign:HintAssist.Hint="messages..."/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="{Binding DiscussionViewModel.InputCharactersCount, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="{Binding InputCharactersCount, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock>/</TextBlock>
-                    <TextBlock Text="{Binding DiscussionViewModel.MaxCharacterAllowed, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="{Binding MaxCharacterAllowed, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <Button Grid.Row="1" Grid.Column="1" Name="btn_send" IsDefault="True" Style="{DynamicResource MaterialDesignFloatingActionLightButton}"
                         CommandParameter="{Binding Text, ElementName=tbxMessage, UpdateSourceTrigger=PropertyChanged}"
-                        Command="{Binding DiscussionViewModel.SendMessageCommand}">Send</Button>
+                        Command="{Binding SendMessageCommand}">Send</Button>
             </Grid>
 
         </StackPanel>

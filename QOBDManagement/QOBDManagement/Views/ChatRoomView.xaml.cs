@@ -37,11 +37,10 @@ namespace QOBDManagement.Views
 
         private void ChatRoomWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            UIContext dataContext = new UIContext();
-            if (dataContext.setChatWindowContext(this) != null)
+            if(this.DataContext as DiscussionViewModel != null)
             {
-                ((ChatRoomViewModel)this.DataContext).DiscussionViewModel.ChatRoom = this;
-                ((ChatRoomViewModel)this.DataContext).DiscussionViewModel.load();
+                ((DiscussionViewModel)this.DataContext).ChatRoom = this;
+                ((DiscussionViewModel)this.DataContext).load();
             }
             tbxMessage.Focus();
         }
@@ -68,7 +67,8 @@ namespace QOBDManagement.Views
             Button btnMessage = new Button();
             btnMessage.Uid = messageModel.TxtDate;
             btnMessage.Name = "btnMessage_" + cpt;
-            //btnMessage.Width = 300;
+            btnMessage.HorizontalAlignment = HorizontalAlignment.Right;
+            btnMessage.Width = 300;
 
             btnMessage.Style = (Style)FindResource("Reply");
             btnMessage.Content = messageLayout(messageModel);
@@ -97,7 +97,7 @@ namespace QOBDManagement.Views
             int cpt = chatRoomZone.Children.Count;
             Button btnMessage = new Button();
 
-            //btnMessage.Width = 300;
+            btnMessage.Width = 300;
             btnMessage.HorizontalAlignment = HorizontalAlignment.Left;
             btnMessage.Name = "btnMessage_" + cpt;
 
@@ -203,7 +203,8 @@ namespace QOBDManagement.Views
                     chatRoomZone.Children.Clear();
                     foreach (UIElement message in messageList.OrderBy(x => Utility.convertToDateTime(x.Uid)).ToList())
                     {
-                        chatRoomZone.Children.Add(message);
+                        if(!chatRoomZone.Children.Contains(message))
+                            chatRoomZone.Children.Add(message);
                     }
                     chatRoomZone.UpdateLayout();
                 }));

@@ -3,6 +3,7 @@ using QOBDCommon.Entities;
 using QOBDManagement.Classes;
 using QOBDManagement.Command;
 using QOBDManagement.Enums;
+using QOBDManagement.Helper;
 using QOBDManagement.Interfaces;
 using QOBDManagement.Models;
 using System;
@@ -27,6 +28,7 @@ namespace QOBDManagement.ViewModel
         private Object _currentViewModel;
         private bool _isServerConnectionError;
         private IMainWindowViewModel _main;
+        private AgentModel _authenticatedAgent;
 
         //----------------------------[ ViewModels ]------------------
 
@@ -38,6 +40,8 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Commands ]------------------
 
         public ButtonCommand<string> CommandNavig { get; set; }
+        public ButtonCommand<object> DisplayAccountCommand { get; set; }
+        public ButtonCommand<object> ChatValidUserAccountCommand { get; set; }
 
 
         public ChatRoomViewModel()
@@ -59,7 +63,7 @@ namespace QOBDManagement.ViewModel
             MessageViewModel.Dialog = Dialog;
             DiscussionViewModel.Dialog = Dialog;
             DiscussionViewModel.Startup = Startup;
-            MessageViewModel.Startup = Startup;
+            MessageViewModel.Startup = Startup;                        
         }
 
 
@@ -70,7 +74,10 @@ namespace QOBDManagement.ViewModel
             DiscussionViewModel = new DiscussionViewModel(this);
             MessageViewModel = new MessageViewModel(this);
             _context = new Context(navigation);
+            CurrentViewModel = MessageViewModel;
             CommandNavig = new ButtonCommand<string>(appNavig, canAppNavig);
+            DisplayAccountCommand = new ButtonCommand<object>(displayChatAgentAccount, canDisplayChatAgentAccount);
+            ChatValidUserAccountCommand = new ButtonCommand<object>(validChatAccount, canValidChatAccount);
         }
 
         private void setInitEvents()
@@ -86,6 +93,18 @@ namespace QOBDManagement.ViewModel
         {
             get { return _currentViewModel; }
             set { setProperty(ref _currentViewModel, value); }
+        }
+
+        public AgentModel AuthenticatedAgent
+        {
+            get { return _authenticatedAgent; }
+            set { _authenticatedAgent = value; onPropertyChange(); }
+        }
+
+        public string ChatAuthenticatedWelcomeMessage
+        {
+            get { return _startup.Bl.BlSecurity.GetAuthenticatedUser().Comment; }
+            set { _startup.Bl.BlSecurity.GetAuthenticatedUser().Comment = value; onPropertyChange(); }
         }
 
         public AgentViewModel AgentViewModel
@@ -128,17 +147,25 @@ namespace QOBDManagement.ViewModel
 
 
         //----------------------------[ Actions ]------------------
-
+        
         /// <summary>
         /// start the chat server
         /// </summary>
         public async void start()
+        {        
+            // loading chat information
+            loadChatData();
+
+            // listening incoming messages
+            await receiverAsync();
+        }
+
+        private async void loadChatData()
         {
             int port = 0;
-              
-            // load chat user
-            await _main.AgentViewModel.loadAgents();
-            DiscussionViewModel.ChatAgentModelList = _main.AgentViewModel.AgentModelList;
+
+            // get user details
+            getChatUserInformation();
 
             // loading users dicussions
             await MessageViewModel.loadAsync();
@@ -151,10 +178,31 @@ namespace QOBDManagement.ViewModel
                 port = ((IPEndPoint)sock.LocalEndPoint).Port;
             }
 
-            _startup.Bl.BlSecurity.GetAuthenticatedUser().IPAddress = myIpAddress + ":" + port;
+            AuthenticatedAgent.TxtIPAddress = myIpAddress + ":" + port;
+        }
 
-            // listening incoming messages
-            await receiverAsync();
+        public async void getChatUserInformation()
+        {
+            _authenticatedAgent = new AgentModel { Agent = _startup.Bl.BlSecurity.GetAuthenticatedUser() };
+
+            // load chat user
+            await _main.AgentViewModel.loadAgents();
+
+            // close user images
+            foreach (AgentModel agentModel in _main.AgentViewModel.AgentModelList)
+            {
+                if (agentModel.Image != null)
+                    agentModel.Image.closeImageSource();
+            }                
+
+            // download chat user's picture
+            foreach (AgentModel agentModel in _main.AgentViewModel.AgentModelList)
+                agentModel.Image = agentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], agentModel.TxtPicture, agentModel.TxtProfileImageFileNameBase + "_" + agentModel.Agent.ID, _startup.Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, QOBDCommon.Enum.ESearchOption.AND));
+
+            DiscussionViewModel.ChatAgentModelList = _main.AgentViewModel.AgentModelList.Where(x => x.Agent.ID != _startup.Bl.BlSecurity.GetAuthenticatedUser().ID).ToList();
+            AuthenticatedAgent.Image = _main.AgentViewModel.AgentModelList.Where(x => x.TxtID == AuthenticatedAgent.TxtID).Select(x => x.Image).SingleOrDefault();
+
+            Dialog.IsChatDialogOpen = false;
         }
 
         /// <summary>
@@ -162,12 +210,11 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         private async Task receiverAsync()
         {
-            Agent authenticatedUser = _startup.Bl.BlSecurity.GetAuthenticatedUser();
             try
             {
                 // updating the user status                
-                authenticatedUser.IsOnline = true;
-                var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
+                AuthenticatedAgent.IsOnline = true;
+                var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { AuthenticatedAgent.Agent });
 
                 if (updatedUserList.Count > 0)
                 {
@@ -189,7 +236,7 @@ namespace QOBDManagement.ViewModel
                     ctThread.Start();
                 }
                 else
-                    new ApplicationException("Error while updating the user["+ authenticatedUser.ID + "|"+ authenticatedUser .IPAddress+ "] network information");
+                    new ApplicationException("Error while updating the user["+ AuthenticatedAgent.TxtID + "|"+ AuthenticatedAgent.TxtIPAddress+ "] network information");
             }
             catch (Exception ex)
             {
@@ -198,8 +245,8 @@ namespace QOBDManagement.ViewModel
                 Log.error("<[" + _startup.Bl.BlSecurity.GetAuthenticatedUser().UserName + "]Localhost =" + _startup.Bl.BlSecurity.GetAuthenticatedUser().IPAddress + "> " + ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
 
                 // updating the user status
-                authenticatedUser.IsOnline = false;
-                var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
+                AuthenticatedAgent.IsOnline = false;
+                var updatedUserList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { AuthenticatedAgent.Agent });
             }
         }
 
@@ -227,6 +274,13 @@ namespace QOBDManagement.ViewModel
                 return replay.Address;
             }
             return null;
+        }
+
+        private void updateUsersOnlineStatus()
+        {
+            getChatUserInformation();
+            DiscussionViewModel.SelectUserForDiscussionCommand.raiseCanExecuteActionChanged();
+            DiscussionViewModel.DiscussionAddUserCommand.raiseCanExecuteActionChanged();
         }
 
         public object navigation(object centralPageContent = null)
@@ -280,16 +334,19 @@ namespace QOBDManagement.ViewModel
         {
             if (UdpClient != null)
                 UdpClient.Close();
+            
+            DiscussionViewModel.Dispose();
+            MessageViewModel.Dispose();
+            _startup.Dal.Dispose();
+
+            if (_startup.ProxyClient.State == System.ServiceModel.CommunicationState.Opened)
+                _startup.ProxyClient.Close();
         }
 
         public async Task DisposeAsync()
         {
             unSubscribeEvents();
-            await chatLogOutAsync(null);
-            DiscussionViewModel.Dispose();
-            MessageViewModel.Dispose();
-            _startup.Dal.Dispose();
-            _startup.ProxyClient.Close();
+            await chatLogOutAsync(null);            
             cleanUp();
         }
 
@@ -310,21 +367,15 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void onUpdateUsersStatusChange(object sender, PropertyChangedEventArgs e)
+        private void onUpdateUsersStatusChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("updateStatus"))
             {
                 if (Application.Current.Dispatcher.CheckAccess())
-                {
-                    await _main.AgentViewModel.loadAgents();
-                    DiscussionViewModel.SelectUserForDiscussionCommand.raiseCanExecuteActionChanged();
-                    DiscussionViewModel.AddUserToDiscussionCommand.raiseCanExecuteActionChanged();
-                }                    
+                    updateUsersOnlineStatus();
                 else
-                    await Application.Current.Dispatcher.Invoke(async()=> {
-                        await _main.AgentViewModel.loadAgents();
-                        DiscussionViewModel.SelectUserForDiscussionCommand.raiseCanExecuteActionChanged();
-                        DiscussionViewModel.AddUserToDiscussionCommand.raiseCanExecuteActionChanged();
+                    Application.Current.Dispatcher.Invoke(()=> {
+                        updateUsersOnlineStatus();
                     });
             }
         }
@@ -360,7 +411,33 @@ namespace QOBDManagement.ViewModel
         {
             await signOutFromServerAsync(DiscussionViewModel.DiscussionList);
             DiscussionViewModel.DiscussionList = new List<DiscussionModel>();
-            CurrentViewModel = null;            
+            CurrentViewModel = null;
         }
+
+        private void displayChatAgentAccount(object obj)
+        {
+            Dialog.showAsync(new Views.ChatAccount(), isChatDialogBox: true);
+        }
+
+        private bool canDisplayChatAgentAccount(object arg)
+        {
+            return true;
+        }
+
+        private async void validChatAccount(object obj)
+        {
+            var savedAgentList = await _startup.Bl.BlAgent.UpdateAgentAsync(new List<Agent> { AuthenticatedAgent.Agent });
+            if (savedAgentList.Count > 0)
+                await Dialog.showAsync("Account successfully updated!", isChatDialogBox: true);
+        }
+
+        private bool canValidChatAccount(object arg)
+        {
+            return true;
+        }
+
+
+
+
     }
 }

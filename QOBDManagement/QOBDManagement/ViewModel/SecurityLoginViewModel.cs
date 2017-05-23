@@ -16,6 +16,7 @@ using System.Windows.Controls;
 using QOBDCommon.Enum;
 using QOBDManagement.Interfaces;
 using QOBDCommon.Entities;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
@@ -80,6 +81,26 @@ namespace QOBDManagement.ViewModel
 
         }
         //----------------------------[ Properties ]------------------
+
+        public string TxtPathFavicon
+        {
+            get { return System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico"); }
+        }
+
+        public string TxtInfoAllRightText
+        {
+            get { return ConfigurationManager.AppSettings["info_all_right"]; }
+        }
+
+        public string TxtInfoCompanyName
+        {
+            get { return ConfigurationManager.AppSettings["info_company_name"]; }
+        }
+
+        public string TxtWelcomeMessage
+        {
+            get { return ConfigurationManager.AppSettings["info_welcome_message"]; }
+        }
 
         public AgentModel AgentModel
         {

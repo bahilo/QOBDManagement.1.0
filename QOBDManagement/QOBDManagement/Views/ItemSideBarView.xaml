@@ -12,41 +12,57 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Loaded="ItemSideBarView_Loaded">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <Expander IsExpanded="true" HorizontalAlignment="Stretch">
-                <Expander.Header>
-                    <TextBlock Text="Setups" />
-                </Expander.Header>
-                <StackPanel Orientation="Vertical" Margin="8">
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}"                                 
+        
+        <!-- begin -->
+
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel Width="200" MaxHeight="{Binding Height, ElementName=MainChatRoom, UpdateSourceTrigger=PropertyChanged}">
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Style="{DynamicResource MaterialDesignFlatButton}" 
                                 Command="{Binding ItemViewModel.ItemSideBarViewModel.SetupItemCommand}"
-                                CommandParameter="new-item"
-                                HorizontalAlignment="Left">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Plus"/>
-                            <TextBlock Margin="8 0 0 0">
-                                      Add New Item
-                            </TextBlock>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-            </Expander>
-            <Expander IsExpanded="False" HorizontalAlignment="Stretch">
-                <Expander.Header>
-                    <TextBlock Text="Utilities" />
-                </Expander.Header>
-                <StackPanel Orientation="Vertical" Margin="8">
-                    <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                                CommandParameter="new-item" ToolTip="Add New Item">
+                            <StackPanel>
+                                <materialDesign:PackIcon Kind="BasketFill" Width="35" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <ToggleButton Grid.Column="1" Style="{StaticResource MaterialDesignHamburgerToggleButton}"                                   
+                                  HorizontalAlignment="Right" Margin="10"
+                                  IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                    <StackPanel Orientation="Vertical">
+                        <Expander IsExpanded="False" HorizontalAlignment="Stretch">
+                            <Expander.Header>
+                                <TextBlock Text="Utilities" />
+                            </Expander.Header>
+                            <StackPanel Orientation="Vertical" Margin="8">
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
                                 Command="{Binding UtilitiesCommand}"
                                 CommandParameter="update-item"
                                 HorizontalAlignment="Left">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Pen"/>
-                            <TextBlock Margin="8 0 0 0">Update Inforamtions</TextBlock>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-            </Expander>
-        </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Pen"/>
+                                        <TextBlock Margin="8 0 0 0">Update Inforamtions</TextBlock>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Expander>
+
+                    </StackPanel>
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            <StackPanel>
+                <ToggleButton x:Name="MenuToggleButton" Style="{StaticResource MaterialDesignHamburgerToggleButton}" ToolTip="Display The Menu"
+                                  IsChecked="{Binding Dialog.IsLeftBarClosed, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
+            </StackPanel>
+        </materialDesign:DrawerHost>
+
+        <!-- end -->
+
+
     </Grid>
 </UserControl>

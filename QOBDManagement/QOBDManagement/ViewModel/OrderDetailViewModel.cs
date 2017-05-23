@@ -796,7 +796,7 @@ namespace QOBDManagement.ViewModel
             // invoice and delivery receipts deletion
             if (canDelete || BillModelList.Count == 0)
             {
-                Dialog.showSearchMessage("Please wait, almost done...");
+                Dialog.showSearchingMessage("Please wait, almost done...");
                 
                 // update item stock
                 await _main.ItemViewModel.updateStockAsync(Order_ItemModelList, isStockReset: true);

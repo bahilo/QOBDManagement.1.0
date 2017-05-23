@@ -29,14 +29,14 @@
 
     <Grid Grid.Row="1" x:Name="gvMain" VerticalAlignment="Top" Margin="0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="270"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Here comes the side menu-->
 
         <Grid x:Name="gvLeftSide"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" 
-                          VerticalAlignment="Top" Width="270" HorizontalAlignment="Left">
+                          VerticalAlignment="Top" HorizontalAlignment="Left">
             <ContentControl Content="{Binding OrderViewModel.OrderSideBarViewModel, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
@@ -45,293 +45,290 @@
 
         <!-- Here comes the main content of the view -->
 
-        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" >
+        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Label FontSize="20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding OrderViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
-            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0 0 0 20">
 
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="400">
+            <StackPanel Grid.Row="1">
+                <StackPanel HorizontalAlignment="Center" Margin="0 0 0 20">
+
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="400">
-                        <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtOrderId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Order/Credit/Quote ID" x:Name="tbTxtOrderId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                        <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtBillId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Bill ID" x:Name="tbTxtBillId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                        <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtClientId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Client ID" x:Name="tbTxtCLientId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                        <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtCompanyName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" materialDesign:HintAssist.Hint="Company Name" x:Name="tbTxtClientName" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                        <ComboBox ItemsSource="{Binding OrderViewModel.OrderSearchModel.AgentList, UpdateSourceTrigger=PropertyChanged }" SelectedItem="{Binding OrderViewModel.OrderSearchModel.SelectedAgent, UpdateSourceTrigger=PropertyChanged}"
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="400">
+                            <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtOrderId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Order/Credit/Quote ID" x:Name="tbTxtOrderId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                            <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtBillId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Bill ID" x:Name="tbTxtBillId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                            <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtClientId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Client ID" x:Name="tbTxtCLientId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                            <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtCompanyName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" materialDesign:HintAssist.Hint="Company Name" x:Name="tbTxtClientName" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                            <ComboBox ItemsSource="{Binding OrderViewModel.OrderSearchModel.AgentList, UpdateSourceTrigger=PropertyChanged }" SelectedItem="{Binding OrderViewModel.OrderSearchModel.SelectedAgent, UpdateSourceTrigger=PropertyChanged}"
                                   materialDesign:HintAssist.Hint="Agent in charge" x:Name="tbTxtAgent"  FontSize="16" Margin="0 16 0 0">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding FirstName}"  FontSize="16" Margin="0 16 0 0"/>
-                                        <TextBlock Text=" "/>
-                                        <TextBlock Text="{Binding LastName}"  FontSize="16" Margin="0 16 0 0"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock>Start Date</TextBlock>
-                            <DatePicker x:Name="tbTxtStartDate" SelectedDate="{Binding OrderViewModel.OrderSearchModel.TxtStartDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left"  FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="Start Date" />
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding FirstName}"  FontSize="16" Margin="0 16 0 0"/>
+                                            <TextBlock Text=" "/>
+                                            <TextBlock Text="{Binding LastName}"  FontSize="16" Margin="0 16 0 0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock>Start Date</TextBlock>
+                                <DatePicker x:Name="tbTxtStartDate" SelectedDate="{Binding OrderViewModel.OrderSearchModel.TxtStartDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left"  FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="Start Date" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock>End Date</TextBlock>
+                                <DatePicker x:Name="tbTxtEndDate" SelectedDate="{Binding OrderViewModel.OrderSearchModel.TxtEndDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left" FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="End Date" />
+                            </StackPanel>
+                            <ComboBox ItemsSource="{Binding OrderViewModel.OrderSearchModel.StatusList, UpdateSourceTrigger=PropertyChanged }"  SelectedItem="{Binding OrderViewModel.OrderSearchModel.TxtSelectedStatus, UpdateSourceTrigger=LostFocus}" materialDesign:HintAssist.Hint="Order Status" x:Name="tbTxtStatus" Margin="8 0 0 0"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock>End Date</TextBlock>
-                            <DatePicker x:Name="tbTxtEndDate" SelectedDate="{Binding OrderViewModel.OrderSearchModel.TxtEndDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left" FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="End Date" />
-                        </StackPanel>
-                        <ComboBox ItemsSource="{Binding OrderViewModel.OrderSearchModel.StatusList, UpdateSourceTrigger=PropertyChanged }"  SelectedItem="{Binding OrderViewModel.OrderSearchModel.TxtSelectedStatus, UpdateSourceTrigger=LostFocus}" materialDesign:HintAssist.Hint="Order Status" x:Name="tbTxtStatus" Margin="8 0 0 0"/>
+                        <CheckBox Content="Deep search" IsChecked="{Binding OrderViewModel.OrderSearchModel.IsDeepSearch, UpdateSourceTrigger=PropertyChanged}"  FontSize="16" Margin="0 16 0 0"/>
+                        <Button Command="{Binding OrderViewModel.SearchCommand}" HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Magnify"/>
+                        </Button>
                     </StackPanel>
-                    <CheckBox Content="Deep search" IsChecked="{Binding OrderViewModel.OrderSearchModel.IsDeepSearch, UpdateSourceTrigger=PropertyChanged}"  FontSize="16" Margin="0 16 0 0"/>
-                    <Button Command="{Binding OrderViewModel.SearchCommand}" HorizontalAlignment="Center">
-                        <materialDesign:PackIcon Kind="Magnify"/>
-                    </Button>
                 </StackPanel>
-            </StackPanel>
-            <materialDesign:Card Grid.Row="2" Visibility="{Binding OrderViewModel.BlockSearchResultVisibility, UpdateSourceTrigger=PropertyChanged }">
-                <StackPanel Orientation="Vertical">
-                    <materialDesign:ColorZone Mode="PrimaryMid">
-                        <TextBlock Name="txtSearch" HorizontalAlignment="Center">Search Result</TextBlock>
-                    </materialDesign:ColorZone>
-                    <DataGrid x:Name="dgSearch" AutoGenerateColumns="False"
+                <materialDesign:Card Visibility="{Binding OrderViewModel.BlockSearchResultVisibility, UpdateSourceTrigger=PropertyChanged }">
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:ColorZone Mode="PrimaryMid">
+                            <TextBlock Name="txtSearch" HorizontalAlignment="Center">Search Result</TextBlock>
+                        </materialDesign:ColorZone>
+                        <DataGrid x:Name="dgSearch" AutoGenerateColumns="False"
                             ItemsSource="{Binding OrderViewModel.OrderModelList, UpdateSourceTrigger=PropertyChanged}" 
                             Margin="0 0 8 0" EnableColumnVirtualization="True" EnableRowVirtualization="True"
                             materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8"       
                             CanUserAddRows="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
-                            <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
-                            <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
-                            <DataGridTemplateColumn Header="Detail">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
+                                <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
+                                <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
+                                <DataGridTemplateColumn Header="Detail">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                                 Content="Detail"
                                                 Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                 CommandParameter="{Binding ElementName=dgSearch,Path=CurrentItem}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Command="{Binding DataContext.OrderViewModel.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.OrderViewModel.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
                                                 CommandParameter="{Binding CurrentItem, ElementName=dgOrderWaitValidList}">
-                                            <materialDesign:PackIcon Kind="Delete"/>
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </materialDesign:Card>
-            <materialDesign:Card Grid.Row="2" Visibility="{Binding OrderViewModel.BlockOrderVisibility, UpdateSourceTrigger=PropertyChanged }">
+                                                <materialDesign:PackIcon Kind="Delete"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:Card>
+                <materialDesign:Card Visibility="{Binding OrderViewModel.BlockOrderVisibility, UpdateSourceTrigger=PropertyChanged }">
 
-                <StackPanel Orientation="Vertical">
-                    <materialDesign:ColorZone Mode="PrimaryMid">
-                        <TextBlock Name="txtBWaitValid" HorizontalAlignment="Center">Orders/Credits Waiting To Be Validate</TextBlock>
-                    </materialDesign:ColorZone>
-                    <DataGrid x:Name="dgOrderWaitValidList" AutoGenerateColumns="False"
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:ColorZone Mode="PrimaryMid">
+                            <TextBlock Name="txtBWaitValid" HorizontalAlignment="Center">Orders/Credits Waiting To Be Validate</TextBlock>
+                        </materialDesign:ColorZone>
+                        <DataGrid x:Name="dgOrderWaitValidList" AutoGenerateColumns="False"
                             ItemsSource="{Binding OrderViewModel.WaitValidOrderList, UpdateSourceTrigger=PropertyChanged}" 
                             Margin="0 0 8 0" EnableColumnVirtualization="True" EnableRowVirtualization="True"
                             materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8"       
                             CanUserAddRows="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
-                            <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
-                            <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
-                            <DataGridTemplateColumn Header="Detail">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
+                                <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
+                                <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
+                                <DataGridTemplateColumn Header="Detail">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                                 Content="Detail"
                                                 Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                 CommandParameter="{Binding ElementName=dgOrderWaitValidList,Path=CurrentItem}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Command="{Binding DataContext.OrderViewModel.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.OrderViewModel.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
                                                 CommandParameter="{Binding CurrentItem, ElementName=dgOrderWaitValidList}">
-                                            <materialDesign:PackIcon Kind="Delete"/>
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
+                                                <materialDesign:PackIcon Kind="Delete"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
 
-            </materialDesign:Card>
+                </materialDesign:Card>
 
-            <materialDesign:Card Grid.Row="3" Visibility="{Binding OrderViewModel.BlockOrderVisibility, UpdateSourceTrigger=PropertyChanged }">
-                <StackPanel Orientation="Vertical">
-                    <materialDesign:ColorZone Mode="PrimaryMid">
-                        <TextBlock Name="txtBWaitClientValid" HorizontalAlignment="Center">Orders Waiting to Be validate with CLient</TextBlock>
-                    </materialDesign:ColorZone>
-                    <DataGrid x:Name="dgOrderWaitValidClientList" AutoGenerateColumns="False"
+                <materialDesign:Card Visibility="{Binding OrderViewModel.BlockOrderVisibility, UpdateSourceTrigger=PropertyChanged }">
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:ColorZone Mode="PrimaryMid">
+                            <TextBlock Name="txtBWaitClientValid" HorizontalAlignment="Center">Orders Waiting to Be validate with CLient</TextBlock>
+                        </materialDesign:ColorZone>
+                        <DataGrid x:Name="dgOrderWaitValidClientList" AutoGenerateColumns="False"
                                   ItemsSource="{Binding OrderViewModel.WaitValidClientOrderList, UpdateSourceTrigger=PropertyChanged}" 
                                   Margin="0 0 8 0" EnableColumnVirtualization="True" EnableRowVirtualization="True" 
                                   materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8"  
                                   CanUserAddRows="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
-                            <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
-                            <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
-                            <DataGridTemplateColumn Header="Select">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox Name="cbMove"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
+                                <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
+                                <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
+                                <DataGridTemplateColumn Header="Select">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Name="cbMove"
                                                 HorizontalAlignment="Center" 
                                                 VerticalAlignment="Center"
                                                 Command="{Binding checkBoxCommand}"
                                                 CommandParameter="{Binding ElementName=dgOrderWaitValidClientList,Path=CurrentItem}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Detail">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="Detail">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                                 Content="Detail"
                                                 Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                 CommandParameter="{Binding ElementName=dgOrderWaitValidClientList,Path=CurrentItem}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Command="{Binding DataContext.OrderViewModel.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.OrderViewModel.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                 CommandParameter="{Binding CurrentItem, ElementName=dgOrderWaitValidClientList}">
-                                            <materialDesign:PackIcon Kind="Delete"/>
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                                                <materialDesign:PackIcon Kind="Delete"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
 
 
-                </StackPanel>
-            </materialDesign:Card>
+                    </StackPanel>
+                </materialDesign:Card>
 
-            <materialDesign:Card Grid.Row="4" Visibility="{Binding OrderViewModel.BlockOrderVisibility, UpdateSourceTrigger=PropertyChanged }">
-                <StackPanel Orientation="Vertical">
-                    <materialDesign:ColorZone Mode="PrimaryMid">
-                        <TextBlock Name="txtBInProcess" HorizontalAlignment="Center">Orders/Credits validated - In Process</TextBlock>
-                    </materialDesign:ColorZone>
-                    <DataGrid x:Name="dgOrderInProcessList" AutoGenerateColumns="False"
+                <materialDesign:Card Visibility="{Binding OrderViewModel.BlockOrderVisibility, UpdateSourceTrigger=PropertyChanged }">
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:ColorZone Mode="PrimaryMid">
+                            <TextBlock Name="txtBInProcess" HorizontalAlignment="Center">Orders/Credits validated - In Process</TextBlock>
+                        </materialDesign:ColorZone>
+                        <DataGrid x:Name="dgOrderInProcessList" AutoGenerateColumns="False"
                                 ItemsSource="{Binding OrderViewModel.InProcessOrderList, UpdateSourceTrigger=PropertyChanged}" 
                                 Margin="0 0 8 0" EnableColumnVirtualization="True" EnableRowVirtualization="True" 
                                 materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8"   
                                 CanUserAddRows="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
-                            <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
-                            <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
-                            <DataGridTemplateColumn Header="Detail">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
+                                <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
+                                <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
+                                <DataGridTemplateColumn Header="Detail">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                                     Content="Detail"
                                                     Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                     CommandParameter="{Binding ElementName=dgOrderInProcessList,Path=CurrentItem}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Command="{Binding DataContext.OrderViewModel.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.OrderViewModel.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                 CommandParameter="{Binding CurrentItem, ElementName=dgOrderInProcessList}">
-                                            <materialDesign:PackIcon Kind="Delete"/>
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </materialDesign:Card>
+                                                <materialDesign:PackIcon Kind="Delete"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:Card>
 
-            <materialDesign:Card Grid.Row="5" Visibility="{Binding OrderViewModel.BlockOrderVisibility, UpdateSourceTrigger=PropertyChanged }">
-                <StackPanel Orientation="Vertical">
-                    <materialDesign:ColorZone Mode="PrimaryMid">
-                        <TextBlock Name="txtBWaitPay" HorizontalAlignment="Center">Orders/Credits Delivered - Waiting To Be Pay</TextBlock>
-                    </materialDesign:ColorZone>
-                    <DataGrid x:Name="dgOrderWaitPayList" AutoGenerateColumns="False"
+                <materialDesign:Card Visibility="{Binding OrderViewModel.BlockOrderVisibility, UpdateSourceTrigger=PropertyChanged }">
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:ColorZone Mode="PrimaryMid">
+                            <TextBlock Name="txtBWaitPay" HorizontalAlignment="Center">Orders/Credits Delivered - Waiting To Be Pay</TextBlock>
+                        </materialDesign:ColorZone>
+                        <DataGrid x:Name="dgOrderWaitPayList" AutoGenerateColumns="False"
                                 ItemsSource="{Binding OrderViewModel.WaitPayOrderList, UpdateSourceTrigger=PropertyChanged}" 
                                 Margin="0 0 8 0" EnableColumnVirtualization="True" EnableRowVirtualization="True" 
                                 materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8"  
                                 CanUserAddRows="False"  MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
-                            <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
-                            <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
-                            <DataGridTemplateColumn Header="Detail">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
+                                <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
+                                <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
+                                <DataGridTemplateColumn Header="Detail">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                                     Content="Detail"
                                                     Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                     CommandParameter="{Binding ElementName=dgOrderWaitPayList,Path=CurrentItem}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </materialDesign:Card>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:Card>
 
-            <materialDesign:Card Grid.Row="6" Visibility="{Binding OrderViewModel.BlockOrderVisibility, UpdateSourceTrigger=PropertyChanged }">
-                <StackPanel Orientation="Vertical">
-                    <materialDesign:ColorZone Mode="PrimaryMid">
-                        <TextBlock Name="txtBPayed" HorizontalAlignment="Center">Orders/Credits Closed - Delivered And Payed</TextBlock>
-                    </materialDesign:ColorZone>
-                    <DataGrid x:Name="dgOrderPayedDeliveredList" AutoGenerateColumns="False"
+                <materialDesign:Card Visibility="{Binding OrderViewModel.BlockOrderVisibility, UpdateSourceTrigger=PropertyChanged }">
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:ColorZone Mode="PrimaryMid">
+                            <TextBlock Name="txtBPayed" HorizontalAlignment="Center">Orders/Credits Closed - Delivered And Payed</TextBlock>
+                        </materialDesign:ColorZone>
+                        <DataGrid x:Name="dgOrderPayedDeliveredList" AutoGenerateColumns="False"
                                 ItemsSource="{Binding OrderViewModel.ClosedOrderList, UpdateSourceTrigger=PropertyChanged}" 
                                 materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" 
                                 Margin="0 0 8 20" EnableColumnVirtualization="True" EnableRowVirtualization="True"                        
                                 CanUserAddRows="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
-                            <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
-                            <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
-                            <DataGridTemplateColumn Header="Detail">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
+                                <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
+                                <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
+                                <DataGridTemplateColumn Header="Detail">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                                 Content="Detail" Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                 CommandParameter="{Binding ElementName=dgOrderPayedDeliveredList,Path=CurrentItem}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </materialDesign:Card>
-
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:Card>
+            </StackPanel>
         </Grid>
 
         <!-- End -->

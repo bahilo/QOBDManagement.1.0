@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="QOBDManagement.Views.HomeChatRoomView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
+             xmlns:Views ="clr-namespace:QOBDManagement.Views"
+             xmlns:local="clr-namespace:QOBDManagement.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="HomeChatRoomView_Loaded">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type ViewModel:ChatRoomViewModel}">
+            <Views:MainChatRoomWindow/>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <materialDesign:Card>
+            <ContentControl Content="{Binding DataContext.ChatRoomCurrentView, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

@@ -7478,6 +7478,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string listSizeField;
         
+        private string commentField;
+        
         private RoleQOBD[] rolesField;
         
         /// <remarks/>
@@ -7631,6 +7633,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.listSizeField = value;
                 this.RaisePropertyChanged("ListSize");
+            }
+        }
+        
+        /// <remarks/>
+        public string Comment {
+            get {
+                return this.commentField;
+            }
+            set {
+                this.commentField = value;
+                this.RaisePropertyChanged("Comment");
             }
         }
         
@@ -13009,6 +13022,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string listSizeField;
         
+        private string commentField;
+        
         private string operatorField;
         
         /// <remarks/>
@@ -13162,6 +13177,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.listSizeField = value;
                 this.RaisePropertyChanged("ListSize");
+            }
+        }
+        
+        /// <remarks/>
+        public string Comment {
+            get {
+                return this.commentField;
+            }
+            set {
+                this.commentField = value;
+                this.RaisePropertyChanged("Comment");
             }
         }
         

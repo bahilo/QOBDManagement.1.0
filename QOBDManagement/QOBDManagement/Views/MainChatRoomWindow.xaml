@@ -1,7 +1,5 @@
 ﻿<UserControl x:Class="QOBDManagement.Views.MainChatRoomWindow"
              Name="MainChatRoom"
-             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-             Background="{DynamicResource MaterialDesignPaper}"
              TextElement.FontWeight="Medium"
              TextElement.FontSize="14"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -15,142 +13,201 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QOBDManagement"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             Height="470" Width="525" Unloaded="MainChatRoom_Unloaded">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type ViewModel:DiscussionViewModel}">
-            <View:ChatRoomView/>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type ViewModel:MessageViewModel}">
-            <View:ChatHistoryView/>
-        </DataTemplate>
         <class:DiscussionGroupNameConverter x:Key="discussionGroupConverter"/>
         <class:TriggerConverter x:Key="TriggerConverter"/>
     </UserControl.Resources>
-    <materialDesign:DialogHost Name="DialogBoxChatRoom" Identifier="RootDialogChatRoom" IsOpen="{Binding Dialog.IsChatDialogOpen, UpdateSourceTrigger=PropertyChanged}" Loaded="DialogBoxChatRoom_Loaded">
-        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
-            <materialDesign:DrawerHost.LeftDrawerContent>
-                <DockPanel Width="200" MaxHeight="{Binding Height, ElementName=MainChatRoom, UpdateSourceTrigger=PropertyChanged}">
-                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
-                                  DockPanel.Dock="Top"
-                                  HorizontalAlignment="Right" Margin="16"
+
+    <materialDesign:ColorZone Name="mdMainBackground" Mode="PrimaryDark"
+                              DataContext="{Binding DataContext.ChatRoomViewModel, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <materialDesign:ColorZone Mode="Light" Height="30">
+                <Grid>
+                    <materialDesign:PackIcon Kind="{Binding DiscussionViewModel.TxtMessageIcon, UpdateSourceTrigger=PropertyChanged}" materialDesign:ShadowAssist.ShadowDepth="Depth5"
+                                     Height="Auto" Width="25" Margin="5" HorizontalAlignment="left" Foreground="{Binding Foreground, ElementName=btnClose}"/>
+                    <Button Name="btnClose" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Right" Height="Auto" Width="60"
+                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                        <materialDesign:PackIcon Width="40" Height="Auto" Kind="CloseBox" HorizontalAlignment="Center"/>
+                    </Button>
+                </Grid>
+            </materialDesign:ColorZone>
+
+            <materialDesign:DialogHost Name="DialogBoxChatRoom" Grid.Row="1" Identifier="RootDialogChatRoom" IsOpen="{Binding Dialog.IsChatDialogOpen, UpdateSourceTrigger=PropertyChanged}">
+                <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+                    <materialDesign:DrawerHost.LeftDrawerContent>
+                        <DockPanel Width="200" MaxHeight="{Binding Height, ElementName=MainChatRoom, UpdateSourceTrigger=PropertyChanged}">
+                            <Grid DockPanel.Dock="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" CommandParameter="{Binding SelectedValue, ElementName=dgUserList}" ToolTip="Add selected user to discussion">
+                                    <Button.Command>
+                                        <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                            <Binding Path="DiscussionViewModel.DiscussionAddUserCommand" />
+                                        </MultiBinding>
+                                    </Button.Command>
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="AccountMultiplePlus" Width="35" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" VerticalAlignment="Stretch" ToolTip="My account"
+                                        Command="{Binding DisplayAccountCommand}">
+                                    <materialDesign:PackIcon Name="btnAccountIcon" Kind="Account" Width="35" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                </Button>
+                                <ToggleButton Grid.Column="2" Style="{StaticResource MaterialDesignHamburgerToggleButton}"                                   
+                                  HorizontalAlignment="Right" Margin="10" Foreground="{Binding Foreground, ElementName=btnAccountIcon}"
                                   IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <StackPanel Orientation="Vertical">
-                        <DataGrid Name="dgUserList" AutoGenerateColumns="False"  ItemsSource="{Binding UserViewModel.UserModelList, UpdateSourceTrigger=PropertyChanged}"
-                                  CanUserAddRows="False">
-                            <DataGrid.RowStyle>
-                                <Style TargetType="DataGridRow">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsOnline}" Value="True">
-                                            <Setter Property="Background" Value="Beige"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.RowStyle>
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                                    CommandParameter="{Binding}">
-                                                <Button.Command>
-                                                    <MultiBinding Converter="{StaticResource TriggerConverter}">
-                                                        <Binding Path="DataContext.DiscussionViewModel.SelectUserForDiscussionCommand"
-                                                                 ElementName="dgUserList" />
-                                                        <Binding />
-                                                    </MultiBinding>
-                                                </Button.Command>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding TxtLogin}"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button CommandParameter="{Binding}">
-                                                <Button.Command>
-                                                    <MultiBinding Converter="{StaticResource TriggerConverter}">
-                                                        <Binding Path="DataContext.DiscussionViewModel.AddUserToDiscussionCommand"
-                                                                 ElementName="dgUserList" />
-                                                        <Binding />
-                                                    </MultiBinding>
-                                                </Button.Command>
-                                                <StackPanel>
-                                                    <TextBlock Text="Add to discussion"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                            </Grid>
+                            <StackPanel Orientation="Vertical">
+                                <DataGrid Name="dgUserList" AutoGenerateColumns="False"  ItemsSource="{Binding DiscussionViewModel.ChatAgentModelList, UpdateSourceTrigger=PropertyChanged}"
+                                  CanUserAddRows="False" SelectedValue="{Binding DiscussionViewModel.ChatAgentModelListSelectedValue, UpdateSourceTrigger=PropertyChanged}">
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsOnline}" Value="True">
+                                                    <Setter Property="Background" Value="Beige"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <Grid Margin="0 0 0 5">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="35"/>
+                                                                <ColumnDefinition Width="2*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border CornerRadius="70" Background="{Binding TxtIconColour}" Width="30">
+                                                                <Image Source="{Binding Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" />
+                                                                <!--<TextBlock Text="{Binding TxtIcon}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                                                            </Border>
+                                                            <Button Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}"
+                                                                CommandParameter="{Binding}">
+                                                                <Button.Command>
+                                                                    <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                                                        <Binding Path="DataContext.DiscussionViewModel.SelectUserForDiscussionCommand"
+                                                                             ElementName="mdMainBackground" />
+                                                                        <Binding />
+                                                                    </MultiBinding>
+                                                                </Button.Command>
+                                                                <StackPanel>
+                                                                    <TextBlock Text="{Binding TxtLogin}"/>
+                                                                </StackPanel>
+                                                            </Button>
+                                                            <Button Grid.Column="2" Style="{DynamicResource MaterialDesignFlatButton}" ToolTip="Delete Discussion"
+                                                                    CommandParameter="{Binding}">
+                                                                <Button.Command>
+                                                                    <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                                                        <Binding Path="DataContext.DiscussionViewModel.DeleteDiscussionCommand"
+                                                                             ElementName="mdMainBackground" />
+                                                                        <Binding />
+                                                                    </MultiBinding>
+                                                                </Button.Command>
+                                                                <materialDesign:PackIcon Kind="DeleteForever" Foreground="{Binding Background, ElementName=mdMainBackground}"/>
+                                                            </Button>
+                                                        </Grid>
+                                                        <TextBlock Text="{Binding TxtComment, Converter={StaticResource discussionGroupConverter}}" TextWrapping="Wrap" Foreground="DarkGray"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
 
-                        <DataGrid Name="dgUserGroupList" AutoGenerateColumns="False"  ItemsSource="{Binding UserViewModel.UserGroupList, UpdateSourceTrigger=PropertyChanged}"
+                                <DataGrid Name="dgUserGroupList" AutoGenerateColumns="False"  ItemsSource="{Binding DiscussionViewModel.UserGroupList, UpdateSourceTrigger=PropertyChanged}"
                                   CanUserAddRows="False">
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                                    Command="{Binding DataContext.DiscussionViewModel.GetDiscussionGroupCommand,ElementName=dgUserGroupList}"
-                                                    CommandParameter="{Binding}">
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding Converter={StaticResource ResourceKey=discussionGroupConverter}}"/>
-                                                </StackPanel>
-                                            </Button>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </StackPanel>
-                </DockPanel>
-            </materialDesign:DrawerHost.LeftDrawerContent>
-            <DockPanel>
-                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" DockPanel.Dock="Top" Height="55">
-                    <DockPanel>
-                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
-                                      x:Name="MenuToggleButton" IsChecked="{Binding Dialog.IsLeftBarClosed, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button x:Name="btnBack" Style="{DynamicResource MaterialDesignFlatButton}" Margin="0,0,0,1" Command="{Binding CommandNavig}" CommandParameter="back">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="ArrowLeftBold"/>
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                                            Command="{Binding DataContext.DiscussionViewModel.selectDiscussionGroupCommand, ElementName=mdMainBackground}"
+                                                            CommandParameter="{Binding}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="2*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{Binding Converter={StaticResource ResourceKey=discussionGroupConverter}}" HorizontalAlignment="Left"/>
+                                                            <Button Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Right" ToolTip="Delete Discussion"
+                                                                    CommandParameter="{Binding}">
+                                                                <Button.Command>
+                                                                    <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                                                        <Binding Path="DataContext.DiscussionViewModel.DeleteGroupDiscussionCommand"
+                                                                             ElementName="mdMainBackground" />
+                                                                        <Binding />
+                                                                    </MultiBinding>
+                                                                </Button.Command>
+                                                                <materialDesign:PackIcon Kind="DeleteForever"/>
+                                                            </Button>
+                                                        </Grid>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
                             </StackPanel>
-                        </Button>
-                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                            <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnEmail" ToolTip="New Messages"
+                        </DockPanel>
+                    </materialDesign:DrawerHost.LeftDrawerContent>
+                    <DockPanel>
+                        <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" DockPanel.Dock="Top" Height="55">
+                            <DockPanel>
+                                <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                      x:Name="MenuToggleButton" IsChecked="{Binding Dialog.IsChatLeftBarOpen, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button x:Name="btnBack" Style="{DynamicResource MaterialDesignFlatButton}" Margin="0,0,0,1" Command="{Binding DataContext.CommandNavig, ElementName=mdMainBackground}" CommandParameter="back">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ArrowLeftBold" Foreground="White"/>
+                                    </StackPanel>
+                                </Button>
+                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnEmail" ToolTip="New Messages"
                                         Command="{Binding DiscussionViewModel.ReadNewMessageCommand}">
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding DiscussionViewModel.TxtNbNewMessage, UpdateSourceTrigger=PropertyChanged}" Foreground="White"/>
-                                    <materialDesign:PackIcon Kind="MessageAlert" />
-                                </WrapPanel>
-                            </Button>
-                            <materialDesign:PackIcon Kind="AccountCircle" FontSize="10" Margin="0 5 0 0"/>
-                            <TextBlock Margin="10 0 0 0" x:Name="txbWelcomeUser" Text="{Binding TxtUserName, UpdateSourceTrigger=PropertyChanged}"/>
-                            <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="True">
-                                <StackPanel>
-                                    <Button Command="{Binding DiscussionViewModel.NavigToHomeCommand}">
-                                        Home
+                                        <WrapPanel>
+                                            <TextBlock Text="{Binding DiscussionViewModel.TxtNbNewMessage, UpdateSourceTrigger=PropertyChanged}" Foreground="White"/>
+                                            <materialDesign:PackIcon Kind="{Binding DiscussionViewModel.TxtMessageIcon, UpdateSourceTrigger=PropertyChanged}" Foreground="White" />
+                                        </WrapPanel>
                                     </Button>
-                                    <Button Command="{Binding DiscussionViewModel.OpenDiscussionGroupCommand}">
-                                        Discussion Group
-                                    </Button>
+                                    <materialDesign:PackIcon Kind="AccountCircle" FontSize="10" Margin="0 5 0 0"/>
+                                    <TextBlock Margin="10 0 0 0" x:Name="txbWelcomeUser" Text="{Binding DataContext.TxtUserName, ElementName=mdMainBackground, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="True">
+                                        <StackPanel>
+                                            <Button Command="{Binding DiscussionViewModel.NavigToHomeCommand}">
+                                                Home
+                                            </Button>
+                                            <Button Command="{Binding DiscussionViewModel.OpenDiscussionGroupCommand}">
+                                                Discussion Group
+                                            </Button>
+                                        </StackPanel>
+                                    </materialDesign:PopupBox>
                                 </StackPanel>
-                            </materialDesign:PopupBox>
-                        </StackPanel>
 
-                        <TextBlock Text="{Binding DiscussionViewModel.DiscussionModel.TxtGroupName, Converter={StaticResource ResourceKey=discussionGroupConverter}, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                     </DockPanel>
-                </materialDesign:ColorZone>
-                
-                <!-- central view -->
-                <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Text="{Binding DiscussionViewModel.DiscussionModel.TxtGroupName, Converter={StaticResource ResourceKey=discussionGroupConverter}, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DockPanel>
+                        </materialDesign:ColorZone>
 
-                <!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <!-- central view -->
+                        <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                     <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
                 </ScrollViewer>-->
-            </DockPanel>
-        </materialDesign:DrawerHost>
-    </materialDesign:DialogHost>
+                    </DockPanel>
+                </materialDesign:DrawerHost>
+            </materialDesign:DialogHost>
+        </Grid>
+    </materialDesign:ColorZone>
 </UserControl>

@@ -1,5 +1,4 @@
-﻿using QOBDManagement.Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,19 +16,13 @@ using System.Windows.Shapes;
 namespace QOBDManagement.Views
 {
     /// <summary>
-    /// Interaction logic for OptionView.xaml
+    /// Interaction logic for ChatAccount.xaml
     /// </summary>
-    public partial class OptionView : UserControl
+    public partial class ChatAccount : UserControl
     {
-        public OptionView()
+        public ChatAccount()
         {
             InitializeComponent();
-        }
-
-        private void OptionView_Loaded(object sender, RoutedEventArgs e)
-        {
-            UIContext dataContex = new UIContext();
-            dataContex.setWindowContext(this);
         }
     }
 }

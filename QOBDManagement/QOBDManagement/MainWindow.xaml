@@ -22,12 +22,16 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!-- ViewModels -->
@@ -42,9 +46,6 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type ViewModel:AgentViewModel}">
                 <Views:AgentView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModel:ReferentialViewModel}">
-                <Views:OptionView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type ViewModel:StatisticViewModel}">
                 <Views:StatisticView/>
@@ -90,6 +91,17 @@
             <DataTemplate DataType="{x:Type ViewModel:OrderDetailViewModel}">
                 <Views:OrderDetailView/>
             </DataTemplate>
+            
+            <!-- Chat-->
+            <DataTemplate DataType="{x:Type ViewModel:ChatRoomViewModel}">
+                <Views:MainChatRoomWindow/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:DiscussionViewModel}">
+                <Views:ChatRoomView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModel:MessageViewModel}">
+                <Views:ChatHistoryView/>
+            </DataTemplate>
 
             <Classes:TriggerConverter x:Key="TriggerConverter"/>
         </ResourceDictionary>
@@ -97,81 +109,73 @@
 
     <materialDesign:DialogHost Identifier="RootDialog" Loaded="DialogHost_Loaded"
                                IsOpen="{Binding Dialog.IsDialogOpen, UpdateSourceTrigger=PropertyChanged}">
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- header -->
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="120"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <!-- Here is the header -->
-
-                <Grid x:Name="gvHeader">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="300"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Left">
-                        <Image Source="{Binding LogoImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
-                           Width="{Binding DataContext.LogoImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
-                           Height="{Binding DataContext.LogoImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Image Source="{Binding HeaderImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform" Margin="10 0 0 0"
-                           Width="{Binding DataContext.HeaderImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
-                           Height="{Binding DataContext.HeaderImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
-                    </StackPanel>
-                    <ToolBarTray Grid.Column="1"  HorizontalAlignment="Right" Orientation="Horizontal">
-                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
-                            <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnEmail" ToolTip="New Messages"
-                                        Command="{Binding NewMessageHomePageCommand}">
-                                <WrapPanel>
-                                    <TextBlock Text="{Binding ChatRoomViewModel.DiscussionViewModel.TxtNbNewMessage, UpdateSourceTrigger=PropertyChanged}" Foreground="Black"/>
-                                    <materialDesign:PackIcon Kind="MessageAlert" />
-                                </WrapPanel>
-                            </Button>
-                            <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnHelp" ToolTip="Help"
-                                        Command="{Binding InformationDisplayCommand}">
-                                <materialDesign:PackIcon Kind="Help" />
-                            </Button>
-                            <Separator />
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <materialDesign:PackIcon Kind="AccountCircle" FontSize="10"/>
-                                <TextBlock x:Name="txbWelcomeUser" Text="{Binding TxtUserName, UpdateSourceTrigger=PropertyChanged}"/>
-                            </StackPanel>
-                            <Separator />
-                            <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="True">
-                                <StackPanel>
-                                    <Button CommandParameter="{Binding AuthenticatedUserModel, UpdateSourceTrigger=PropertyChanged}">
-                                        <Button.Command>
-                                            <MultiBinding Converter="{StaticResource TriggerConverter}">
-                                                <Binding Path="AgentViewModel.GetCurrentAgentCommand"/>
-                                            </MultiBinding>
-                                        </Button.Command>
-                                        Profile
-                                    </Button>
-                                    <Button Content="Log Out" Command="{Binding SecurityLoginViewModel.LogoutCommand}"/>
+            <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth5">
+                <materialDesign:ColorZone Background="{Binding Background, ElementName=tbMenu, UpdateSourceTrigger=PropertyChanged}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.RowSpan="2" Orientation="Horizontal" Margin="0" HorizontalAlignment="Left">
+                            <Image Source="{Binding LogoImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+                                       Width="{Binding DataContext.LogoImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
+                                       Height="{Binding DataContext.LogoImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Image Source="{Binding HeaderImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform" Margin="10 0 0 0"
+                                       Width="{Binding DataContext.HeaderImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
+                                       Height="{Binding DataContext.HeaderImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                        <ToolBarTray Name="tbMenu" Grid.Column="1"  HorizontalAlignment="Right" Orientation="Horizontal">
+                            <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnEmail" ToolTip="New Messages"
+                                            Command="{Binding NewMessageHomePageCommand}">
+                                    <WrapPanel>
+                                        <TextBlock Text="{Binding ChatRoomViewModel.DiscussionViewModel.TxtNbNewMessage, UpdateSourceTrigger=PropertyChanged}" Foreground="Black"/>
+                                        <materialDesign:PackIcon Kind="{Binding ChatRoomViewModel.DiscussionViewModel.TxtMessageIcon, UpdateSourceTrigger=PropertyChanged}" />
+                                    </WrapPanel>
+                                </Button>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnHelp" ToolTip="Help"
+                                            Command="{Binding InformationDisplayCommand}">
+                                    <materialDesign:PackIcon Kind="Help" />
+                                </Button>
+                                <Separator />
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon Kind="AccountCircle" Width="40"/>
+                                    <TextBlock x:Name="txbWelcomeUser" Text="{Binding TxtUserName, UpdateSourceTrigger=PropertyChanged}" Margin="10 0 0 0"/>
                                 </StackPanel>
-                            </materialDesign:PopupBox>
-                        </ToolBar>
-                    </ToolBarTray>
-                    <StackPanel Grid.Column="0" Grid.ColumnSpan="2"  Grid.Row="1" VerticalAlignment="Bottom">
-                        <Grid>
+                                <Separator />
+                                <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="True">
+                                    <StackPanel>
+                                        <Button CommandParameter="{Binding AuthenticatedUserModel, UpdateSourceTrigger=PropertyChanged}">
+                                            <Button.Command>
+                                                <MultiBinding Converter="{StaticResource TriggerConverter}">
+                                                    <Binding Path="AgentViewModel.GetCurrentAgentCommand"/>
+                                                </MultiBinding>
+                                            </Button.Command>
+                                            Profile
+                                        </Button>
+                                        <Button Content="Log Out" Command="{Binding SecurityLoginViewModel.LogoutCommand}"/>
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
+                            </ToolBar>
+                        </ToolBarTray>
+                        <Grid Grid.Row="2" Grid.ColumnSpan="2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition  Width="*"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="70"/>
                             </Grid.ColumnDefinitions>
                             <Button x:Name="btnBack" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="back">
                                 <StackPanel Orientation="Horizontal">
@@ -184,87 +188,35 @@
                                 </StackPanel>
                             </Button>
                             <Button x:Name="btnHome" Grid.Column="2" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="home">
-                                <StackPanel Orientation="Vertical">
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Home"/>
-                                        <TextBlock Margin="5 0 0 0">Home</TextBlock>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Button>
-                            <Button Grid.Column="3" x:Name="btnCLient" Style="{DynamicResource MaterialDesignFlatButton}"  Command="{Binding CommandNavig}" CommandParameter="client">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="HumanMaleFemale"/>
-                                    <TextBlock Margin="5 0 0 0">Client</TextBlock>
-                                </StackPanel>
-                            </Button>
-                            <Button Grid.Column="4" x:Name="btnCatalog" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="item">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="FolderMultipleOutline"/>
-                                    <TextBlock Margin="5 0 0 0">Catalog</TextBlock>
-                                </StackPanel>
-                            </Button>
-                            <Button Grid.Column="5" x:Name="btnQuote" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="quote">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="FormatFloatLeft"/>
-                                    <TextBlock Margin="5 0 0 0">Quote</TextBlock>
-                                </StackPanel>
-                            </Button>
-                            <Button Grid.Column="6" x:Name="btnOrder" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="order">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="FormatFloatRight"/>
-                                    <TextBlock Margin="5 0 0 0">Orders</TextBlock>
-                                </StackPanel>
-                            </Button>
-                            <Button Grid.Column="7" x:Name="btnStatistic" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="statistic">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="ChartBar"/>
-                                    <TextBlock Margin="5 0 0 0">Statistic</TextBlock>
-                                </StackPanel>
-                            </Button>
-                            <Button Grid.Column="8" x:Name="btnAgent" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="agent">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="Alarm"/>
-                                    <TextBlock Margin="5 0 0 0">Agent</TextBlock>
-                                </StackPanel>
-                            </Button>
-                            <Button Grid.Column="9" x:Name="btnNotification" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="notification">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="Alarm"/>
-                                    <TextBlock Margin="5 0 0 0">Notification</TextBlock>
-                                </StackPanel>
-                            </Button>
-                            <Button Grid.Column="10" x:Name="btnOption" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="option">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="Apps"/>
-                                    <TextBlock Margin="5 0 0 0">Option</TextBlock>
-                                </StackPanel>
+                                <materialDesign:PackIcon Kind="Home"/>
                             </Button>
                         </Grid>
-                        <Grid Grid.ColumnSpan="10" Height="3">
+                        <Grid Grid.Row="3" Grid.ColumnSpan="2" Height="3">
                             <ProgressBar x:Name="pbarTop"
-                             materialDesign:ShadowAssist.ShadowDepth="Depth4" 
-                             VerticalAlignment="Center"
-                             Minimum="0"
-                             Value="{Binding ProgressBarPercentValue,UpdateSourceTrigger=PropertyChanged}"
-                             Maximum="100"/>
+                                             materialDesign:ShadowAssist.ShadowDepth="Depth4" 
+                                             VerticalAlignment="Center"
+                                             Minimum="0"
+                                             Value="{Binding ProgressBarPercentValue,UpdateSourceTrigger=PropertyChanged}"
+                                             Maximum="100"/>
                             <ProgressBar IsIndeterminate="True" materialDesign:ShadowAssist.ShadowDepth="Depth4" 
-                             Visibility="{Binding SearchProgressVisibility, UpdateSourceTrigger=PropertyChanged}"
-                             VerticalAlignment="Top" />
+                                             Visibility="{Binding SearchProgressVisibility, UpdateSourceTrigger=PropertyChanged}"
+                                             VerticalAlignment="Top" />
                         </Grid>
-                    </StackPanel>
-                </Grid>
 
-                <!-- End -->
+                    </Grid>
+                </materialDesign:ColorZone>
+            </materialDesign:Card>
 
-                <!-- Here come all views -->
+            <!-- body -->
 
-                <Grid x:Name="gvCentral" Grid.Row="1" Margin="0 0 0 10">
+            <!-- Here come all views -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                          Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=ActualWidth}">
+                <Grid x:Name="gvCentral" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=ActualWidth}">
                     <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
-
-                <!-- End -->
-
-            </Grid>
-        </ScrollViewer>
+            </ScrollViewer>
+            <!-- End -->
+        </Grid>
     </materialDesign:DialogHost>
 </Window>

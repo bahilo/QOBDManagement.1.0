@@ -78,7 +78,7 @@ namespace QOBDManagement
             _context = new Context(navigation);
             _currentViewModel = null;
             _cart = new Cart();
-            _widthDataList = 1000;
+            _widthDataList = 1200;
             _heightDataList = 600;
 
             //------[ Images ]
@@ -284,7 +284,7 @@ namespace QOBDManagement
             {
                 try
                 {
-                    return  ConfigurationManager.AppSettings["info_description"];
+                    return ConfigurationManager.AppSettings["info_description"];
                 }
                 catch (Exception) { return ""; }
             }
@@ -362,6 +362,27 @@ namespace QOBDManagement
             }
         }
 
+        public string TxtInfoCompanyName
+        {
+            get
+            {
+                try
+                {
+                    return ConfigurationManager.AppSettings["info_company_name"];
+                }
+                catch (Exception) { return ""; }
+            }
+            set
+            {
+                try
+                {
+                    ConfigurationManager.AppSettings["info_company_name"] = value;
+                    onPropertyChange();
+                }
+                catch (Exception) { }
+            }
+        }
+
         //----------------------------[ Actions ]------------------
 
 
@@ -383,7 +404,6 @@ namespace QOBDManagement
                 _startup.Dal.ProgressBarFunc = progressBarManagement;
                 _startup.Dal.SetUserCredential(AuthenticatedUserModel.Agent);
                 _startup.Dal.DALReferential.PropertyChanged += onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage;
-
             }
 
             CommandNavig.raiseCanExecuteActionChanged();
@@ -391,6 +411,9 @@ namespace QOBDManagement
 
             // display the chat view
             ChatRoomCurrentView = ChatRoomViewModel;
+
+            // start the chat application
+            ChatRoomViewModel.start();
         }
 
         private void downloadHeaderImages()
@@ -470,7 +493,7 @@ namespace QOBDManagement
                     onPropertyChange("ProgressBarPercentValue");
                 }
             }
-                
+
             return _progressBarPercentValue;
         }
 
@@ -577,10 +600,21 @@ namespace QOBDManagement
                 // if not unit testing download images
                 if (Application.Current != null)
                 {
+                    Dialog.showSearchingMessage(ConfigurationManager.AppSettings["wait_message"]);
+
                     if (Application.Current.Dispatcher.CheckAccess())
+                    {
+                        // reload user information
+                        ChatRoomViewModel.getChatUserInformation();
+
                         downloadHeaderImages();
+                    }
                     else
-                        Application.Current.Dispatcher.Invoke(()=> {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            // reload user information
+                            ChatRoomViewModel.getChatUserInformation();
+
                             downloadHeaderImages();
                         });
                 }
@@ -597,29 +631,36 @@ namespace QOBDManagement
                     if (Application.Current.Dispatcher.CheckAccess())
                         NewMessageHomePageCommand.raiseCanExecuteActionChanged();
                     else
-                        Application.Current.Dispatcher.BeginInvoke(new System.Action(() => {
+                        Application.Current.Dispatcher.BeginInvoke(new System.Action(() =>
+                        {
                             NewMessageHomePageCommand.raiseCanExecuteActionChanged();
-                        }));                       
-                }                    
+                        }));
+                }
             }
         }
 
 
         //----------------------------[ Action Commands ]------------------
 
-        private void goToMessageHome(string obj)
-        {
-            appNavig("home");
-            ChatRoomViewModel.DiscussionViewModel.readNewMessages(null);
+        /// <summary>
+        /// display chat application
+        /// </summary>
+        /// <param name="obj"></param>
+        private async void goToMessageHome(string obj)
+        {     
+            // display the chat app
+            await Dialog.showAsync(ChatRoomViewModel);
         }
 
         private bool canGoToMessageHome(string arg)
         {
-            if (ChatRoomViewModel.DiscussionViewModel.TxtNbNewMessage != "0")
-                return true;
-            return false;
+            return true;
         }
 
+        /// <summary>
+        /// display the software information
+        /// </summary>
+        /// <param name="obj"></param>
         private async void displayInformation(string obj)
         {
             await Dialog.showAsync(new Views.HelpView());
@@ -632,6 +673,10 @@ namespace QOBDManagement
             return false;
         }
 
+        /// <summary>
+        /// allows navigating through the application
+        /// </summary>
+        /// <param name="propertyName"></param>
         private void appNavig(string propertyName)
         {
 
@@ -672,6 +717,9 @@ namespace QOBDManagement
                     onPropertyChange("CurrentViewModel");
                     IsRefresh = true;
                     break;
+                case "test":
+                    CurrentViewModel = 't';
+                    break;
             }
         }
 
@@ -694,7 +742,7 @@ namespace QOBDManagement
             if (arg.Equals("order"))
                 return securityCheck(QOBDCommon.Enum.EAction.Order, QOBDCommon.Enum.ESecurity._Read);
             if (arg.Equals("statistic"))
-                return false;// securityCheck(QOBDCommon.Enum.EAction.Statistic, QOBDCommon.Enum.ESecurity._Read);
+                return securityCheck(QOBDCommon.Enum.EAction.Statistic, QOBDCommon.Enum.ESecurity._Read);
             if (arg.Equals("option"))
                 return securityCheck(QOBDCommon.Enum.EAction.Option, QOBDCommon.Enum.ESecurity._Read);
             if (arg.Equals("home") || arg.Equals("back") || arg.Equals("refresh"))

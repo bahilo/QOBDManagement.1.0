@@ -20,6 +20,7 @@ namespace QOBDCommon.Enum
         UTILITY,
         HELPER,
         MAIN,
-        COMMAND
+        COMMAND,
+        DIALOGBOXCONFIRMATION
     }
 }

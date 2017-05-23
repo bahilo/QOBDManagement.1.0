@@ -12,6 +12,7 @@ namespace QOBDManagement.Models
 {
     public class AgentModel : BindBase
     {
+        private Random _rd;
         private Agent _agent;
         private List<RoleModel> _roleModelList;
         private string _clearPassword;
@@ -22,10 +23,11 @@ namespace QOBDManagement.Models
         private string _profileImageFileNameBase;
         private Dictionary<int, int> _rolePosition;
         private InfoManager.Display _image;
-
+        private List<string> _iconColourList;
 
         public AgentModel()
         {
+            _rd = new Random();
             _agent = new Agent();
             _roleModelList = new List<RoleModel>();
             _roleToAddList = new List<RoleModel>();
@@ -36,6 +38,7 @@ namespace QOBDManagement.Models
             _clearPassword = "";
             _clearPasswordVerification = "";
             PropertyChanged += onRoleModelListChange_updateUIRole;
+            _iconColourList = new List<string> { "DarkBlue", "DarkGreen", "DarkMagenta", "DarkOrange", "DarkRed", "DarkOrchid" };
         }
 
         private void onRoleModelListChange_updateUIRole(object sender, PropertyChangedEventArgs e)
@@ -131,7 +134,7 @@ namespace QOBDManagement.Models
         public string TxtLogin
         {
             get { return _agent.UserName; }
-            set { _agent.UserName = value; onPropertyChange(); }
+            set { _agent.UserName = value; onPropertyChange(); onPropertyChange("TxtIcon"); }
         }
 
         public string TxtHashedPassword
@@ -174,6 +177,22 @@ namespace QOBDManagement.Models
         {
             get { return _agent.Status; }
             set { _agent.Status = value; onPropertyChange(); }
+        }
+
+        public string TxtComment
+        {
+            get { return _agent.Comment; }
+            set { _agent.Comment = value; onPropertyChange(); }
+        }
+
+        public string TxtIcon
+        {
+            get { return TxtLogin.Substring(0,2).ToUpper() ; }
+        }
+
+        public string TxtIconColour
+        {
+            get { return _iconColourList[_rd.Next(0, _iconColourList.Count - 1)]; }
         }
 
         public bool IsOnline

@@ -12,63 +12,82 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Loaded="OptionSideBarView_Loaded">
     <Grid>
-        <Grid>
-            <StackPanel Orientation="Vertical">
+        
+        <!-- begin -->
 
-
-                <Expander IsExpanded="true" HorizontalAlignment="Stretch">
-                    <Expander.Header>
-                        <TextBlock Text="Security" />
-                    </Expander.Header>
-                    <StackPanel Orientation="Vertical" Margin="8">
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel Width="200" Height="Auto">
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
                         <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                			Command="{Binding ReferentialViewModel.ReferentialSideBarViewModel.SetupCommand}"
-                			CommandParameter="credential"
-                			HorizontalAlignment="Left">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="LockOutline"/>
-                                <TextBlock Margin="8 0 0 0"><Run Text="Agents Credentials"/></TextBlock>
+                                Command="{Binding ReferentialViewModel.ReferentialSideBarViewModel.SetupCommand}"
+                			CommandParameter="credential" ToolTip="Security Settings">
+                            <StackPanel>
+                                <materialDesign:PackIcon Kind="FolderLock" Width="35" Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                        <ToggleButton Grid.Column="1" Style="{StaticResource MaterialDesignHamburgerToggleButton}"                                   
+                                  HorizontalAlignment="Right" Margin="10"
+                                  IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                    <StackPanel Orientation="Vertical">
+                        <Expander IsExpanded="true" HorizontalAlignment="Stretch">
+                            <Expander.Header>
+                                <TextBlock Text="Setup" />
+                            </Expander.Header>
+                            <StackPanel Orientation="Vertical" Margin="8">
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
                 			Command="{Binding ReferentialViewModel.ReferentialSideBarViewModel.SetupCommand}"
                 			CommandParameter="data-display"
                 			HorizontalAlignment="Left">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Database"/>
-                                <TextBlock Margin="8 0 0 0"><Run Text="Data / Display"/></TextBlock>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Database"/>
+                                        <TextBlock Margin="8 0 0 0"><Run Text="Data / Display"/></TextBlock>
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </Expander>
-
-
-                <Expander IsExpanded="True" HorizontalAlignment="Stretch">
-                    <Expander.Header>
-                        <TextBlock Text="Utilities" />
-                    </Expander.Header>
-                    <StackPanel Orientation="Vertical" Margin="8">
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding DataContext.ReferentialViewModel.ReferentialSideBarViewModel.UtilitiesCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                CommandParameter="monitoring"
-                                HorizontalAlignment="Left">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Monitor"/>
-                                <TextBlock Margin="8 0 0 0"><Run Text="Activities Monitoring"/></TextBlock>
-                            </StackPanel>
-                        </Button>
-                        <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                        </Expander>
+                        <Expander IsExpanded="True" HorizontalAlignment="Stretch">
+                            <Expander.Header>
+                                <TextBlock Text="Utilities" />
+                            </Expander.Header>
+                            <StackPanel Orientation="Vertical" Margin="8">
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                                        Command="{Binding DataContext.ReferentialViewModel.ReferentialSideBarViewModel.UtilitiesCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        CommandParameter="monitoring"
+                                        HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Monitor"/>
+                                        <TextBlock Margin="8 0 0 0"><Run Text="Activities Monitoring"/></TextBlock>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
                                 Command="{Binding DataContext.ReferentialViewModel.ReferentialSideBarViewModel.UtilitiesCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                 CommandParameter="email"
                                 HorizontalAlignment="Left">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Email"/>
-                                <TextBlock Margin="8 0 0 0"><Run Text="Email"/></TextBlock>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Email"/>
+                                        <TextBlock Margin="8 0 0 0"><Run Text="Email"/></TextBlock>
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
-                        </Button>
+                        </Expander>
+
                     </StackPanel>
-                </Expander>
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+            <StackPanel>
+                <ToggleButton x:Name="MenuToggleButton" Style="{StaticResource MaterialDesignHamburgerToggleButton}" ToolTip="Display The Menu"
+                                  IsChecked="{Binding Dialog.IsLeftBarClosed, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"/>
             </StackPanel>
-        </Grid>
+        </materialDesign:DrawerHost>
+
+        <!-- end -->
+
+
     </Grid>
 </UserControl>

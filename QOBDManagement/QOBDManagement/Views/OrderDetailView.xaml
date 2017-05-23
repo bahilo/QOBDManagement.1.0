@@ -22,14 +22,14 @@
 
     <Grid Grid.Row="1" x:Name="gvMain" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="270"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Here comes the side menu-->
 
         <Grid x:Name="gvLeftSide"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" 
-                          VerticalAlignment="Top" Width="270" HorizontalAlignment="Left">
+                          VerticalAlignment="Top" HorizontalAlignment="Left">
             <ContentControl Content="{Binding OrderViewModel.OrderSideBarViewModel, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
@@ -42,24 +42,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!-- Header zone -->
 
             <Label FontSize="20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding OrderViewModel.OrderDetailViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
-            <materialDesign:ColorZone Grid.Row="1"  Mode="Accent">
+            <StackPanel Grid.Row="1">
+            <materialDesign:ColorZone Mode="Accent">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <TextBlock FontWeight="DemiBold" Margin="0 0 10 0" Text="{Binding OrderViewModel.OrderDetailViewModel.OrderSelected.TxtStatus, UpdateSourceTrigger=PropertyChanged}"/>
@@ -76,7 +65,7 @@
 
             <!-- Item list zone -->
 
-            <materialDesign:Card Grid.Row="2" Margin="0 0 0 15" Name="mdItemList">
+            <materialDesign:Card Margin="0 0 0 15" Name="mdItemList">
                 <StackPanel Orientation="Vertical">
                     <materialDesign:ColorZone Mode="PrimaryMid">
                         <TextBlock Name="txtBWaitValid" HorizontalAlignment="Center">Items List</TextBlock>
@@ -199,7 +188,7 @@
 
             <!-- Summary zone -->
 
-            <Grid Grid.Row="3" Margin="0 0 0 15">
+            <Grid Margin="0 0 0 15">
                 <StackPanel Margin="0 10 0 0" Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock  Margin="0 0 10 0">Total (Taxes Included)</TextBlock>
                     <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalTaxIncluded, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Margin="0 0 10 0" Width="50" HorizontalAlignment="Center"  />
@@ -218,7 +207,7 @@
 
             <!-- Comments zone -->
 
-            <Grid Grid.Row="4" Margin="0 0 0 15">
+            <Grid Margin="0 0 0 15">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <materialDesign:Card Margin="0 0 10 0">
@@ -257,7 +246,7 @@
 
             <!-- Tax zone -->
 
-            <materialDesign:Card Grid.Row="5" Margin="0 0 0 15" HorizontalAlignment="Center">
+            <materialDesign:Card Margin="0 0 0 15" HorizontalAlignment="Center">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -302,7 +291,7 @@
 
             <!-- Delivery Address Zone -->
 
-            <Border Grid.Row="6" BorderBrush="Beige" BorderThickness="5" MaxWidth="980" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockDeliveryAddressVisiblity}">
+            <Border BorderBrush="Beige" BorderThickness="5" MaxWidth="980" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockDeliveryAddressVisiblity}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -345,7 +334,7 @@
 
             <!-- Delivery receipt creation zone -->
 
-            <StackPanel Orientation="Vertical"  Grid.Row="7" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockDeliveryReceiptCreationVisiblity, UpdateSourceTrigger=PropertyChanged}">
+            <StackPanel Orientation="Vertical" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockDeliveryReceiptCreationVisiblity, UpdateSourceTrigger=PropertyChanged}">
                 <materialDesign:Card >
                     <StackPanel Orientation="Vertical">
                         <materialDesign:ColorZone Mode="PrimaryMid">
@@ -394,7 +383,7 @@
 
             <!-- Bill creation zone -->
 
-            <StackPanel Grid.Row="8" Orientation="Vertical" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockBillCreationVisibility}">
+            <StackPanel Orientation="Vertical" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockBillCreationVisibility}">
                 <materialDesign:Card>
                     <Grid >
                         <Grid.RowDefinitions>
@@ -443,13 +432,7 @@
                                                                 <Binding />
                                                             </MultiBinding>
                                                         </Button.Command>
-
                                                     </Button>
-                                                    <!--<Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                                            Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.CancelDeliveryReceiptCreatedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                            CommandParameter="{Binding}">
-                                                            Cancel this ref.
-                                                        </Button>-->
                                                 </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -503,7 +486,7 @@
 
             <!-- Delivery Created zone -->
 
-            <Grid Grid.Row="9" Margin="0 0 0 15" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockDeliveryReceiptCreatedVisibility}">
+            <Grid Margin="0 0 0 15" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockDeliveryReceiptCreatedVisibility}">
                 <Grid>
                     <materialDesign:Card>
                         <StackPanel Orientation="Vertical">
@@ -544,7 +527,7 @@
 
             <!-- Bill created zone -->
 
-            <materialDesign:Card Grid.Row="10" Margin="0 0 0 15" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockBillCreatedVisibility}">
+            <materialDesign:Card Margin="0 0 0 15" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockBillCreatedVisibility}">
                 <StackPanel Orientation="Vertical">
                     <materialDesign:ColorZone Mode="PrimaryMid">
                         <TextBlock HorizontalAlignment="Center">Invoices Created</TextBlock>
@@ -582,11 +565,6 @@
                                             <CheckBox  IsChecked="{Binding DataContext.OrderViewModel.OrderDetailViewModel.IsOrderReferencesVisible, ElementName=dgBillCreated, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                                 Refs Constructor visible.
                                             </CheckBox>
-                                            <!--<Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                                            Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.CancelBillCreatedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                            CommandParameter="{Binding CurrentItem, ElementName=dgBillCreated}">
-                                                    Cancel this ref.
-                                                </Button>-->
                                             <Button Style="{DynamicResource MaterialDesignFlatButton}"
                                                                 Content="Cancel this ref."
                                                                 CommandParameter="{Binding}">
@@ -661,7 +639,7 @@
 
             <!-- Email zone -->
 
-            <Grid Grid.Row="11" Margin="0 0 0 15">
+            <Grid Margin="0 0 0 15">
                 <materialDesign:ColorZone>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -729,7 +707,7 @@
                     </Grid>
                 </materialDesign:ColorZone>
             </Grid>
-
+            </StackPanel>
         </Grid>
 
         <!-- End -->

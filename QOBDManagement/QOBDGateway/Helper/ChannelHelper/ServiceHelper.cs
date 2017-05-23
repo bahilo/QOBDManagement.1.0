@@ -216,6 +216,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 IPAddress = Utility.decodeBase64ToString(x.IPAddress),
                 IsOnline = (Utility.intTryParse(Utility.decodeBase64ToString(x.IsOnline)) == 1) ? true : false,
                 ListSize = Utility.intTryParse(Utility.decodeBase64ToString(x.ListSize)),
+                Comment = Utility.decodeBase64ToString(x.Comment),
                 Email = Utility.decodeBase64ToString(x.Email),
                 Fax = Utility.decodeBase64ToString(x.Fax),
                 RoleList = x.Roles.ArrayTypeToRole(),
@@ -239,6 +240,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 IPAddress = Utility.encodeStringToBase64(x.IPAddress),
                 IsOnline = (x.IsOnline) ? Utility.encodeStringToBase64("1") : Utility.encodeStringToBase64("0"),
                 ListSize = Utility.encodeStringToBase64(x.ListSize.ToString()),
+                Comment = Utility.encodeStringToBase64(x.Comment),
                 Email = Utility.encodeStringToBase64(x.Email),
                 Fax = Utility.encodeStringToBase64(x.Fax),
             }).ToArray();
@@ -261,6 +263,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 agentQCBD.Status = Utility.encodeStringToBase64(agent.Status);
                 agentQCBD.IPAddress = Utility.encodeStringToBase64(agent.IPAddress);
                 agentQCBD.ListSize = Utility.encodeStringToBase64(agent.ListSize.ToString());
+                agentQCBD.Comment = Utility.encodeStringToBase64(agent.Comment);
                 agentQCBD.IsOnline = (agent.IsOnline) ? Utility.encodeStringToBase64("1") : Utility.encodeStringToBase64("0");
                 agentQCBD.Email = Utility.encodeStringToBase64(agent.Email);
                 agentQCBD.Fax = Utility.encodeStringToBase64(agent.Fax);

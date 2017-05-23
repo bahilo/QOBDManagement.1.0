@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QOBDManagement.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,13 +17,20 @@ using System.Windows.Shapes;
 namespace QOBDManagement.Views
 {
     /// <summary>
-    /// Interaction logic for ChatMessageBubble.xaml
+    /// Interaction logic for HomeChatRoomView.xaml
     /// </summary>
-    public partial class ChatMessageBubble : UserControl
+    public partial class HomeChatRoomView : UserControl
     {
-        public ChatMessageBubble()
+        public HomeChatRoomView()
         {
             InitializeComponent();
         }
+
+        private void HomeChatRoomView_Loaded(object sender, RoutedEventArgs e)
+        {
+            UIContext dataContext = new UIContext();
+            dataContext.setWindowContext(this);
+        }
     }
+
 }

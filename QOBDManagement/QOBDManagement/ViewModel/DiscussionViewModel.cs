@@ -22,18 +22,23 @@ namespace QOBDManagement.ViewModel
     public class DiscussionViewModel : BindBase, IDiscussionViewModel
     {
         private int _nbNewMessage;
+        private string _messageIcon;
         private IChatRoom _chatRoom;
         private string _inputMessage;
-        private string _outputMessage;
         private IPEndPoint _endPoint;
         private UdpClient _udpClient;
+        private string _outputMessage;
         private int _maxCharacterAllowed;
         private int _inputCharactersCount;
         private Func<object, object> _page;
+        private string _messageDefaultIcon;
+        private string _messageReceivedIcon;
+        private List<string> _chatUserGroupList;
         private List<AgentModel> _chatAgentList;
         private IChatRoomViewModel _mainChatRoom;
         private List<DiscussionModel> _discussionList;
         private List<AgentModel> _userDiscussionGroupList;
+        private AgentModel _chatAgentModelListSelectedValue;
         public static Dictionary<AgentModel, Tuple<Guid, UdpClient>> _clientsList;
         private NotifyTaskCompletion<bool> _discussionGroupCreationTask;
 
@@ -47,14 +52,16 @@ namespace QOBDManagement.ViewModel
 
         public ButtonCommand<string> SendMessageCommand { get; set; }
         public ButtonCommand<AgentModel> SelectUserForDiscussionCommand { get; set; }
-        //public ButtonCommand<AgentModel> SaveUserForDiscussionGroupCommand { get; set; }
+        public ButtonCommand<AgentModel> DeleteDiscussionCommand { get; set; }
+        public ButtonCommand<string> selectDiscussionGroupCommand { get; set; }
         public ButtonCommand<object> ResetDiscussionGroupCommand { get; set; }
         public ButtonCommand<object> OpenDiscussionGroupCommand { get; set; }
         public ButtonCommand<object> NavigToHomeCommand { get; set; }
         public ButtonCommand<object> ReadNewMessageCommand { get; set; }
-        public ButtonCommand<AgentModel> AddUserToDiscussionCommand { get; set; }
+        public ButtonCommand<object> DiscussionAddUserCommand { get; set; }
         public ButtonCommand<string> GetDiscussionGroupCommand { get; set; }
         public ButtonCommand<string> GetIndividualDiscussionCommand { get; set; }
+        public ButtonCommand<string> DeleteGroupDiscussionCommand { get; set; }
 
 
 
@@ -85,9 +92,13 @@ namespace QOBDManagement.ViewModel
         private void instances()
         {
             _endPoint = default(IPEndPoint);
+            _messageDefaultIcon = "CommentMultipleOutline";
+            _messageReceivedIcon = "CommentText";
+            _messageIcon = _messageDefaultIcon;
             _chatAgentList = new List<AgentModel>();
             _discussionList = new List<DiscussionModel>();
             _userDiscussionGroupList = new List<AgentModel>();
+            _chatAgentModelListSelectedValue = new AgentModel();
             _clientsList = new Dictionary<AgentModel, Tuple<Guid, UdpClient>>();
             _discussionGroupCreationTask = new NotifyTaskCompletion<bool>();
         }
@@ -105,19 +116,21 @@ namespace QOBDManagement.ViewModel
         {
             SendMessageCommand = new ButtonCommand<string>(broadcast, canBroadcast);
             SelectUserForDiscussionCommand = new ButtonCommand<AgentModel>(selectUserForDiscussion, canSelectUserForDiscussion);
-            //SaveUserForDiscussionGroupCommand = new ButtonCommand<AgentModel>(saveUserForDiscussionGroup, canSelectUserForDiscussion);
+            selectDiscussionGroupCommand = new ButtonCommand<string>(selectDiscussionGroup, canSelectDiscussionGroup);
             ResetDiscussionGroupCommand = new ButtonCommand<object>(resetDiscussionGroup, canResetDiscussionGroup);
             OpenDiscussionGroupCommand = new ButtonCommand<object>(displayDiscussionGroupMenu, canDisplayDiscussionGroupMenu);
             NavigToHomeCommand = new ButtonCommand<object>(goToHomePage, canGoToHomePage);
             ReadNewMessageCommand = new ButtonCommand<object>(readNewMessages, canReadNewMessages);
-            AddUserToDiscussionCommand = new ButtonCommand<AgentModel>(addUserToCurrentDiscussion, canAddUserToCurrentDiscussion);
             GetDiscussionGroupCommand = new ButtonCommand<string>(getDiscussionGroup, canGetDiscussionGroup);
             GetIndividualDiscussionCommand = new ButtonCommand<string>(getIndividualDiscussion, canGetIndividualDiscussion);
+            DiscussionAddUserCommand = new ButtonCommand<object>(discussionAddUser, canDiscussionAddUser);
+            DeleteDiscussionCommand = new ButtonCommand<AgentModel>(deleteUserDiscussion, canDeleteUserDiscussion);
+            DeleteGroupDiscussionCommand = new ButtonCommand<string>(deleteGroupDiscussion, canDeleteGroupDiscussion);
         }
 
 
         //----------------------------[ Properties ]------------------
-        
+
         public IChatRoomViewModel MainChatRoom
         {
             get { return _mainChatRoom; }
@@ -128,10 +141,28 @@ namespace QOBDManagement.ViewModel
             get { return BL.BlSecurity.GetAuthenticatedUser(); }
         }
 
+        public AgentModel ChatAgentModelListSelectedValue
+        {
+            get { return _chatAgentModelListSelectedValue; }
+            set
+            {
+                if(_chatAgentModelListSelectedValue.Image != null)
+                    _chatAgentModelListSelectedValue.Image.closeImageSource();
+                setProperty(ref _chatAgentModelListSelectedValue, value);
+                DiscussionAddUserCommand.raiseCanExecuteActionChanged();
+            }
+        }
+
         public string TxtNbNewMessage
         {
             get { return _nbNewMessage.ToString(); }
             set { setProperty(ref _nbNewMessage, Utility.intTryParse(value)); }
+        }
+
+        public string TxtMessageIcon
+        {
+            get { return _messageIcon; }
+            set { setProperty(ref _messageIcon, value); }
         }
 
         public int InputCharactersCount
@@ -231,6 +262,12 @@ namespace QOBDManagement.ViewModel
             get { return (int)EServiceCommunication.Connected + "/" + BL.BlSecurity.GetAuthenticatedUser().ID + "/0/" + BL.BlSecurity.GetAuthenticatedUser().ID + "|" + "$"; }
         }
 
+        public List<string> UserGroupList
+        {
+            get { return _chatUserGroupList; }
+            set { setProperty(ref _chatUserGroupList, value); }
+        }
+
 
         //----------------------------[ Actions ]------------------
 
@@ -274,7 +311,10 @@ namespace QOBDManagement.ViewModel
             object _lock = new object();
             List<User_discussion> allUser_discussionOfAuthencatedUserList = new List<User_discussion>();
             lock (_lock)
+            {
                 DiscussionList = new List<DiscussionModel>();
+                UserGroupList = new List<string>();
+            }                
 
             if (user.ID != 0)
                 allUser_discussionOfAuthencatedUserList = await BL.BlChatRoom.searchUser_discussionAsync(new User_discussion { UserId = user.ID }, QOBDCommon.Enum.ESearchOption.AND);
@@ -304,6 +344,7 @@ namespace QOBDManagement.ViewModel
                             var lastMessage = discussionModel.MessageList.Where(x => x.Message.DiscussionId == user_discussionOfAuthenticatedUser.DiscussionId).OrderByDescending(x => x.Message.ID).FirstOrDefault();
                             if (lastMessage != null)
                                 lastMessage.IsNewMessage = true;
+                            TxtMessageIcon = _messageReceivedIcon;
                         }
 
                         // Save all discussions and their users
@@ -319,7 +360,11 @@ namespace QOBDManagement.ViewModel
                             }
                         }
                         lock (_lock)
+                        {
                             DiscussionList.Add(discussionModel);
+                            if(discussionModel.UserList.Count > 1 && UserGroupList.Where(x=>x == discussionModel.TxtGroupName).Count() == 0)
+                                UserGroupList.Add(discussionModel.TxtGroupName);
+                        }                            
                     }
                 }
             }
@@ -341,7 +386,7 @@ namespace QOBDManagement.ViewModel
                     _page(this);
                     break;
                 case "home":
-                    _page(new MessageViewModel());
+                    _page(_mainChatRoom.MessageViewModel);
                     break;
                 default:
                     goto case "home";
@@ -407,6 +452,7 @@ namespace QOBDManagement.ViewModel
                                 {
                                     discussionModelFound.addMessage(new MessageModel { Message = message, IsNewMessage = true });
                                     TxtNbNewMessage = (Utility.intTryParse(TxtNbNewMessage) + 1).ToString();
+                                    TxtMessageIcon = _messageReceivedIcon;
                                 }
                                 else
                                     await retrieveUserDiscussions(AuthenticatedUser);
@@ -564,6 +610,7 @@ namespace QOBDManagement.ViewModel
                 // reset the unread message notification
                 TxtNbNewMessage = ((_nbNewMessage > 0) ? _nbNewMessage - 1 : 0).ToString();
             }
+            TxtMessageIcon = _messageDefaultIcon;
         }
 
         /// <summary>
@@ -689,6 +736,29 @@ namespace QOBDManagement.ViewModel
             return outputUdpClient;
         }
 
+        private async void deleteDiscussion(DiscussionModel discussionModel)
+        {
+            var user_discussionFoundList = await BL.BlChatRoom.searchUser_discussionAsync(new User_discussion { DiscussionId = discussionModel.Discussion.ID }, QOBDCommon.Enum.ESearchOption.AND);
+            var messageFoundList = await BL.BlChatRoom.searchMessageAsync(new Message { DiscussionId = discussionModel.Discussion.ID }, QOBDCommon.Enum.ESearchOption.AND);
+
+            var discussionDeletionFailedList = await BL.BlChatRoom.DeleteDiscussionAsync(new List<Discussion> { discussionModel.Discussion });
+            var user_discussionDeletionFailedList = await BL.BlChatRoom.DeleteUser_discussionAsync(user_discussionFoundList);
+            var messageDeletionFailedList = await BL.BlChatRoom.DeleteMessageAsync(messageFoundList);
+
+            if (discussionDeletionFailedList.Count == 0 && user_discussionDeletionFailedList.Count == 0 && messageDeletionFailedList.Count == 0)
+                await Dialog.showAsync("Discussion has been deleted successfully", isChatDialogBox: true);
+            else
+            {
+                string errorMessage = "Error while deleting the discussion [ID=" + discussionModel.TxtID + "]";
+                Log.error(errorMessage, QOBDCommon.Enum.EErrorFrom.CHATROOM);
+                await Dialog.showAsync(errorMessage, isChatDialogBox: true);
+            }
+
+            onPropertyChange("UserGroupList");
+            DeleteDiscussionCommand.raiseCanExecuteActionChanged();
+            DeleteGroupDiscussionCommand.raiseCanExecuteActionChanged();
+        }
+
         public override void Dispose()
         {
             base.Dispose();
@@ -713,7 +783,7 @@ namespace QOBDManagement.ViewModel
         {
             if (string.Equals(e.PropertyName, "DiscussionModel"))
             {
-                AddUserToDiscussionCommand.raiseCanExecuteActionChanged();
+                DiscussionAddUserCommand.raiseCanExecuteActionChanged();
             }
         }
 
@@ -770,7 +840,7 @@ namespace QOBDManagement.ViewModel
 
         private void selectUserForDiscussion(AgentModel obj)
         {
-            Dialog.IsLeftBarClosed = false;
+            Dialog.IsChatLeftBarOpen = false;
             DiscussionModel = new DiscussionModel();
             DiscussionModel.IsGroupDiscussion = false;
             SelectedAgentModel = obj;
@@ -780,6 +850,22 @@ namespace QOBDManagement.ViewModel
         }
 
         private bool canSelectUserForDiscussion(AgentModel arg)
+        {
+            return true;
+        }
+
+        private void selectDiscussionGroup(string groupID)
+        {
+            Dialog.IsChatLeftBarOpen = false;
+            DiscussionModel = new DiscussionModel();
+            DiscussionModel.TxtGroupName = groupID;
+            DiscussionModel.IsGroupDiscussion = true;
+            
+            // navig to discussion page
+            executeNavig("chatroom");
+        }
+
+        private bool canSelectDiscussionGroup(string groupID)
         {
             return true;
         }
@@ -828,20 +914,20 @@ namespace QOBDManagement.ViewModel
             return true;
         }
 
-        private async void addUserToCurrentDiscussion(AgentModel obj)
+        private async void discussionAddUser(object obj)
         {
-            if (DiscussionModel != null && DiscussionModel.Discussion.ID != 0 && DiscussionModel.addUser(obj))
+            if (await Dialog.showAsync("Do you confirm adding "+ ChatAgentModelListSelectedValue.TxtLogin+" to discussion?", isChatDialogBox: true) && DiscussionModel != null && DiscussionModel.Discussion.ID != 0 && DiscussionModel.addUser(ChatAgentModelListSelectedValue))
             {
                 Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"], isChatDialogBox: true);
-                Dialog.IsLeftBarClosed = false;
-                var user_discussionSavedList = await BL.BlChatRoom.InsertUser_discussionAsync(new List<User_discussion> { new User_discussion { DiscussionId = DiscussionModel.Discussion.ID, UserId = obj.Agent.ID } });
+                Dialog.IsChatLeftBarOpen = false;
+                var user_discussionSavedList = await BL.BlChatRoom.InsertUser_discussionAsync(new List<User_discussion> { new User_discussion { DiscussionId = DiscussionModel.Discussion.ID, UserId = ChatAgentModelListSelectedValue.Agent.ID } });
                 Dialog.IsChatDialogOpen = false;
             }
         }
 
-        private bool canAddUserToCurrentDiscussion(AgentModel arg)
+        private bool canDiscussionAddUser(object arg)
         {
-            if (arg != null && DiscussionModel != null && DiscussionModel.Discussion.ID != 0 && DiscussionModel.UserList.Where(x => x.Agent.ID == arg.Agent.ID).Count() == 0)
+            if (DiscussionModel != null && DiscussionModel.Discussion.ID != 0 && DiscussionModel.UserList.Where(x => x.Agent.ID == ChatAgentModelListSelectedValue.Agent.ID).Count() == 0)
                 return true;
 
             return false;
@@ -851,7 +937,7 @@ namespace QOBDManagement.ViewModel
         {
             if (!string.IsNullOrEmpty(obj))
             {
-                Dialog.IsLeftBarClosed = false;
+                Dialog.IsChatLeftBarOpen = false;
                 DiscussionModel = new DiscussionModel();
                 SelectedAgentModel = new AgentModel { TxtID = obj.Split('-')[1].Split('|')[0] };
                 DiscussionModel.IsGroupDiscussion = true;
@@ -869,7 +955,7 @@ namespace QOBDManagement.ViewModel
         {
             if (!string.IsNullOrEmpty(obj))
             {
-                Dialog.IsLeftBarClosed = false;
+                Dialog.IsChatLeftBarOpen = false;
                 SelectedAgentModel = new AgentModel { TxtID = obj.Split('-')[1].Split('|')[0] };
                 DiscussionModel.IsGroupDiscussion = false;
                 DiscussionModel.TxtGroupName = obj;
@@ -880,6 +966,48 @@ namespace QOBDManagement.ViewModel
         private bool canGetIndividualDiscussion(string arg)
         {
             return true;
+        }
+
+        private async void deleteUserDiscussion(AgentModel obj)
+        {
+            if (obj!= null && await Dialog.showAsync("Do you Confirm deleting ["+ obj.TxtLogin + "] discussion?", isChatDialogBox:true))
+            {
+                var discussionFound = DiscussionList.Where(x => x.UserList.Where(y => y.Agent.ID == obj.Agent.ID).Count() > 0 && x.UserList.Count == 1).SingleOrDefault();
+                if (discussionFound != null)
+                    deleteDiscussion(discussionFound);
+            }
+        }
+
+        private bool canDeleteUserDiscussion(AgentModel arg)
+        {
+            if (arg != null)
+            {
+                var discussionFound = DiscussionList.Where(x => x.UserList.Where(y => y.Agent.ID == arg.Agent.ID).Count() > 0 && x.UserList.Count == 1).SingleOrDefault();
+                if (discussionFound != null)
+                    return true;
+            }
+            return false;
+        }
+
+        private async void deleteGroupDiscussion(string obj)
+        {
+            if (obj != null && await Dialog.showAsync("Do you Confirm deleting [" + obj.Split('-')[0] + "] discussion?", isChatDialogBox:true))
+            {
+                var discussionFound = DiscussionList.Where(x => x.TxtGroupName == obj).SingleOrDefault();
+                if (discussionFound != null)
+                    deleteDiscussion(discussionFound);
+            }
+        }
+
+        private bool canDeleteGroupDiscussion(string arg)
+        {
+            if (arg != null)
+            {
+                var discussionFound = DiscussionList.Where(x => x.TxtGroupName == arg).SingleOrDefault();
+                if (discussionFound != null)
+                    return true;
+            }
+            return false;
         }
 
 

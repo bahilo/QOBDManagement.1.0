@@ -48,9 +48,17 @@ namespace QOBDManagement
                 if (File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
                     File.Delete(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
 
+                // delete icon if exists
+                if (File.Exists(System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico")))
+                    File.Delete(System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico"));
+
                 // copy the database to user local folder
                 if (!File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
                     File.Copy(System.IO.Path.Combine(unWritableAppDataDir, "QCBDDatabase.sdf"), System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
+                
+                // copy the favicon to user local folder
+                if (!File.Exists(System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico")))
+                    File.Copy(System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico"), System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico"));
 
             }
             catch (Exception ex)

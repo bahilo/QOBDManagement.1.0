@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QOBDManagement.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,14 @@ namespace QOBDManagement.Views
         public StatisticView()
         {
             InitializeComponent();
+        }
+
+        private void StatisticView_Loaded(object sender, RoutedEventArgs e)
+        {
+            UIContext dataContext = new UIContext();
+
+            if (dataContext.setWindowContext(this) != null && !((MainWindowViewModel)this.DataContext).IsThroughContext)
+                ((MainWindowViewModel)this.DataContext).HomeViewModel.loadData();
         }
     }
 }

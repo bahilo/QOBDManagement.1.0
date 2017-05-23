@@ -194,6 +194,7 @@
           <xsd:element name="IsOnline" type="xsd:string" />
           <xsd:element name="IPAddress" type="xsd:string" />
           <xsd:element name="ListSize" type="xsd:string" />
+          <xsd:element name="Comment" type="xsd:string" />
           <xsd:element name="Roles" type="tns:AllRoleQOBD" />
         </xsd:all>
       </xsd:complexType>
@@ -220,6 +221,7 @@
           <xsd:element name="IPAddress" type="xsd:string" />
           <xsd:element name="IsOnline" type="xsd:string" />
           <xsd:element name="ListSize" type="xsd:string" />
+          <xsd:element name="Comment" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>

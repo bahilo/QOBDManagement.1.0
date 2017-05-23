@@ -76,11 +76,17 @@ namespace QOBDDAL.Core
 
         public async Task<Agent> AuthenticateUserAsync(string username, string password)
         {
-            if (!string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.UserName) && !string.IsNullOrEmpty(_servicePortType.ClientCredentials.UserName.Password))
-                setServiceCredential(new ClientProxy("QOBDWebServicePort"));                
-
-            _servicePortType.ClientCredentials.UserName.UserName = username;
-            _servicePortType.ClientCredentials.UserName.Password = password;
+            try
+            {
+                _servicePortType.ClientCredentials.UserName.UserName = username;
+                _servicePortType.ClientCredentials.UserName.Password = password;
+            }
+            catch (Exception)
+            {
+                _serviceCommunication.resetCommunication();
+                _servicePortType.ClientCredentials.UserName.UserName = username;
+                _servicePortType.ClientCredentials.UserName.Password = password;
+            }
 
             return await _gateWaySecurity.AuthenticateUserAsync(username, password);
         }

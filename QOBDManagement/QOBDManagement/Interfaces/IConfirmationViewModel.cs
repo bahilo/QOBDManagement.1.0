@@ -14,10 +14,11 @@ namespace QOBDManagement.Interfaces
         bool IsDialogOpen { get; set; }
         bool IsChatDialogOpen { get; set; }
         bool IsLeftBarClosed { get; set; }
+        bool IsChatLeftBarOpen { get; set; }
 
         void showSearch(string message, bool isChatDialogBox = false);
         Task<bool> showAsync(string message, bool isChatDialogBox = false);
         Task<bool> showAsync(object viewModel, bool isChatDialogBox = false);
-        void showSearchMessage(string message, bool isChatDialogBox = false);
+        void showSearchingMessage(string message, bool isChatDialogBox = false);
     }
 }

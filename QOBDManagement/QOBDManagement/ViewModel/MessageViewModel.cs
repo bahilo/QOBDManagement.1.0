@@ -65,7 +65,7 @@ namespace QOBDManagement.ViewModel
 
         public async Task loadAsync()
         {
-            Dialog.showSearchMessage(ConfigurationManager.AppSettings["loading_message"], isChatDialogBox: true);
+            Dialog.showSearchingMessage(ConfigurationManager.AppSettings["loading_message"], isChatDialogBox: true);
 
             MessageIndividualHistoryList.Clear();
             MessageGroupHistoryList.Clear();

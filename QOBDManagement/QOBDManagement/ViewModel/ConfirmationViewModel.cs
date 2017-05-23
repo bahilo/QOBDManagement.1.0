@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using QOBDCommon.Classes;
 using QOBDManagement.Classes;
 using QOBDManagement.Interfaces;
 using QOBDManagement.Views;
@@ -61,14 +62,20 @@ namespace QOBDManagement.ViewModel
         public bool IsLeftBarClosed
         {
             get { return _isLeftBarClosed; }
-            set { _isLeftBarClosed = value; onPropertyChange("IsLeftBarClosed"); }
+            set { _isLeftBarClosed = value; onPropertyChange(); }
+        }
+
+        public bool IsChatLeftBarOpen
+        {
+            get { return _isLeftBarClosed; }
+            set { _isLeftBarClosed = value; onPropertyChange(); }
         }
 
         public void showSearch(string message, bool isChatDialogBox = false)
         {
             if (Application.Current != null)
                 Application.Current.Dispatcher.Invoke(() => {
-                    showSearchMessage(message, isChatDialogBox);
+                    showSearchingMessage(message, isChatDialogBox);
                 });
         }
 
@@ -94,12 +101,20 @@ namespace QOBDManagement.ViewModel
             return result;
         }
 
-        public async void showSearchMessage(string message, bool isChatDialogBox = false)
+        public async void showSearchingMessage(string message, bool isChatDialogBox = false)
         {
             TxtMessage = message;
 
-            if (Application.Current != null)
-                await DialogHost.Show(new Views.SearchConfirmationView(), getDialogBox(isChatDialogBox));
+            try
+            {
+                if (Application.Current != null)
+                    await DialogHost.Show(new Views.SearchConfirmationView(), getDialogBox(isChatDialogBox));
+            }
+            catch (System.InvalidOperationException) { }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.DIALOGBOXCONFIRMATION);
+            }
         }
 
         private async Task<bool> showMessageAsync(string message, bool isChatDialogBox = false)
@@ -107,8 +122,16 @@ namespace QOBDManagement.ViewModel
             TxtMessage = message;
             object result = new object();
 
-            if (Application.Current != null)
-                result = await DialogHost.Show(this, getDialogBox(isChatDialogBox));
+            try
+            {
+                if (Application.Current != null)
+                    result = await DialogHost.Show(this, getDialogBox(isChatDialogBox));
+            }
+            catch (System.InvalidOperationException) { }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.DIALOGBOXCONFIRMATION);
+            }
 
             if ((result as bool?) != null)
                 Response = (bool)result;
@@ -119,8 +142,16 @@ namespace QOBDManagement.ViewModel
         {
             object result = new object();
 
-            if (Application.Current != null)
-                result = await DialogHost.Show(viewModel, getDialogBox(isChatDialogBox));
+            try
+            {
+                if (Application.Current != null)
+                    result = await DialogHost.Show(viewModel, getDialogBox(isChatDialogBox));
+            }
+            catch (System.InvalidOperationException) { }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.DIALOGBOXCONFIRMATION);
+            }
 
             if ((result as bool?) != null)
                 Response = (bool)result;

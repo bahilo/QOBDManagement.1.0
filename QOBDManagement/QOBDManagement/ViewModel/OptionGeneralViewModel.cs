@@ -76,7 +76,7 @@ namespace QOBDManagement.ViewModel
             _bankDetails = new List<InfoManager.Bank>();
             _generalInfos = new GeneralInfos();
             _emailfilterList = new List<string> { "email", "invoice_email", "quote_email", "reminder_email", "validation_email" };
-            _title = "Option Management";
+            _title = "Settings";
         }
 
         private void instancesModel()

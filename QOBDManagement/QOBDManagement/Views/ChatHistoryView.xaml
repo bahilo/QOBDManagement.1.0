@@ -7,7 +7,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QOBDManagement.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Loaded="ChatRoomHistoryWindow_Loaded">
+             d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <class:DiscussionGroupNameConverter x:Key="discussionGroupConverter"/>
     </UserControl.Resources>
@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="dgIndividualHistory" ItemsSource="{Binding MessageViewModel.MessageIndividualHistoryList, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" 
+        <DataGrid Name="dgIndividualHistory" ItemsSource="{Binding MessageIndividualHistoryList, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" 
                   AutoGenerateColumns="False">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
@@ -35,7 +35,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                    Command="{Binding DataContext.DiscussionViewModel.GetIndividualDiscussionCommand, ElementName=dgIndividualHistory}" 
+                                    Command="{Binding DataContext.ChatRoomViewModel.DiscussionViewModel.GetIndividualDiscussionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
                                     CommandParameter="{Binding CurrentItem.Value.TxtGroupName, ElementName=dgIndividualHistory}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Key.TxtLogin}"/>
@@ -58,7 +58,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid Grid.Row="1" Name="dgGroupHistory" ItemsSource="{Binding MessageViewModel.MessageGroupHistoryList, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" 
+        <DataGrid Grid.Row="1" Name="dgGroupHistory" ItemsSource="{Binding MessageGroupHistoryList, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" 
                   AutoGenerateColumns="False">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
@@ -74,7 +74,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                                    Command="{Binding DataContext.DiscussionViewModel.GetDiscussionGroupCommand, ElementName=dgGroupHistory}" 
+                                    Command="{Binding DataContext.ChatRoomViewModel.DiscussionViewModel.GetDiscussionGroupCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
                                     CommandParameter="{Binding CurrentItem.Value.TxtGroupName, ElementName=dgGroupHistory}">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Value.TxtGroupName, Converter={StaticResource ResourceKey=discussionGroupConverter}}"/>
