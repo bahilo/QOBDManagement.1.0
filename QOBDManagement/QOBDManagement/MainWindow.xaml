@@ -164,9 +164,15 @@
                                                     <Binding Path="AgentViewModel.GetCurrentAgentCommand"/>
                                                 </MultiBinding>
                                             </Button.Command>
-                                            Profile
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="AccountCircle" Margin="0 0 5 0"/>
+                                                <TextBlock>Profile</TextBlock>
+                                            </StackPanel>                                            
                                         </Button>
-                                        <Button Content="Log Out" Command="{Binding SecurityLoginViewModel.LogoutCommand}"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Logout" Margin="0 0 5 0"/>
+                                            <Button Content="Log Out" Command="{Binding SecurityLoginViewModel.LogoutCommand}"/>
+                                        </StackPanel>
                                     </StackPanel>
                                 </materialDesign:PopupBox>
                             </ToolBar>
@@ -177,17 +183,17 @@
                                 <ColumnDefinition Width="70"/>
                                 <ColumnDefinition Width="70"/>
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="btnBack" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="back">
+                            <Button x:Name="btnBack" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="back" ToolTip="Back">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="ArrowLeftBold"/>
                                 </StackPanel>
                             </Button>
-                            <Button x:Name="btnRefresh" Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="refresh">
+                            <Button x:Name="btnRefresh" Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="refresh" ToolTip="Refresh">
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Refresh"/>
                                 </StackPanel>
                             </Button>
-                            <Button x:Name="btnHome" Grid.Column="2" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="home">
+                            <Button x:Name="btnHome" Grid.Column="2" Style="{DynamicResource MaterialDesignFlatButton}" Command="{Binding CommandNavig}" CommandParameter="home" ToolTip="Home">
                                 <materialDesign:PackIcon Kind="Home"/>
                             </Button>
                         </Grid>

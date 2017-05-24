@@ -58,33 +58,96 @@
 
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="400">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="400">
-                            <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtOrderId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Order/Credit/Quote ID" x:Name="tbTxtOrderId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                            <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtBillId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Bill ID" x:Name="tbTxtBillId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                            <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtClientId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Client ID" x:Name="tbTxtCLientId" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                            <TextBox Text="{Binding OrderViewModel.OrderSearchModel.TxtCompanyName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" materialDesign:HintAssist.Hint="Company Name" x:Name="tbTxtClientName" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
-                            <ComboBox ItemsSource="{Binding OrderViewModel.OrderSearchModel.AgentList, UpdateSourceTrigger=PropertyChanged }" SelectedItem="{Binding OrderViewModel.OrderSearchModel.SelectedAgent, UpdateSourceTrigger=PropertyChanged}"
-                                  materialDesign:HintAssist.Hint="Agent in charge" x:Name="tbTxtAgent"  FontSize="16" Margin="0 16 0 0">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding FirstName}"  FontSize="16" Margin="0 16 0 0"/>
-                                            <TextBlock Text=" "/>
-                                            <TextBlock Text="{Binding LastName}"  FontSize="16" Margin="0 16 0 0"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                            <Grid Margin="0 8 0 0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="Key" VerticalAlignment="Bottom" Foreground="{Binding ElementName=txbOrderID, Path=BorderBrush}" />
+                                <TextBox Name="txbOrderID" Grid.Column="1" Text="{Binding OrderViewModel.OrderSearchModel.TxtOrderId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Order/Credit/Quote ID" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                            </Grid>
+                            <Grid Margin="0 8 0 0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="Key" VerticalAlignment="Bottom" Foreground="{Binding ElementName=txbBillID, Path=BorderBrush}" />
+                                <TextBox Name="txbBillID" Grid.Column="1" Text="{Binding OrderViewModel.OrderSearchModel.TxtBillId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Bill ID" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                            </Grid>
+                            <Grid Margin="0 8 0 0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="Key" VerticalAlignment="Bottom" Foreground="{Binding ElementName=txbClientID, Path=BorderBrush}" />
+                                <TextBox Name="txbClientID" Grid.Column="1" Text="{Binding OrderViewModel.OrderSearchModel.TxtClientId, UpdateSourceTrigger=LostFocus, Mode=TwoWay }" materialDesign:HintAssist.Hint="Client ID" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                            </Grid>
+                            <Grid Margin="0 8 0 0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="Briefcase" VerticalAlignment="Bottom" Foreground="{Binding ElementName=txbCompanyName, Path=BorderBrush}" />
+                                <TextBox Name="txbCompanyName" Grid.Column="1" Text="{Binding OrderViewModel.OrderSearchModel.TxtCompanyName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" materialDesign:HintAssist.Hint="Company Name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontSize="16" Margin="0 16 0 0"/>
+                            </Grid>
+                            <Grid Margin="0 8 0 0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="Account" VerticalAlignment="Bottom" Foreground="{Binding ElementName=cbxAgent, Path=BorderBrush}" />
+                                <ComboBox Name="cbxAgent" Grid.Column="1" ItemsSource="{Binding OrderViewModel.OrderSearchModel.AgentList, UpdateSourceTrigger=PropertyChanged }" SelectedItem="{Binding OrderViewModel.OrderSearchModel.SelectedAgent, UpdateSourceTrigger=PropertyChanged}"
+                                  materialDesign:HintAssist.Hint="Agent in charge"  FontSize="16" Margin="0 16 0 0">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding FirstName}"  FontSize="16" Margin="0 16 0 0"/>
+                                                <TextBlock Text=" "/>
+                                                <TextBlock Text="{Binding LastName}"  FontSize="16" Margin="0 16 0 0"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </Grid>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock>Start Date</TextBlock>
-                                <DatePicker x:Name="tbTxtStartDate" SelectedDate="{Binding OrderViewModel.OrderSearchModel.TxtStartDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left"  FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="Start Date" />
+                                <TextBlock VerticalAlignment="Bottom" Margin="0 0 10 0">Start Date</TextBlock>
+                                <Grid Margin="0 8 0 0" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="Calendar" VerticalAlignment="Bottom" Foreground="{Binding ElementName=dpStartDate, Path=BorderBrush}" />
+                                    <DatePicker Name="dpStartDate" Grid.Column="1" SelectedDate="{Binding OrderViewModel.OrderSearchModel.TxtStartDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left"  FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="Start Date" />
+                                </Grid>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock>End Date</TextBlock>
-                                <DatePicker x:Name="tbTxtEndDate" SelectedDate="{Binding OrderViewModel.OrderSearchModel.TxtEndDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left" FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="End Date" />
+                                <TextBlock VerticalAlignment="Bottom" Margin="0 0 10 0">End Date</TextBlock>
+                                <Grid Margin="0 8 0 0" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="Calendar" VerticalAlignment="Bottom" Foreground="{Binding ElementName=dpEndDate, Path=BorderBrush}"/>
+                                    <DatePicker Name="dpEndDate" Grid.Column="1" SelectedDate="{Binding OrderViewModel.OrderSearchModel.TxtEndDate, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" HorizontalAlignment="Left" FontSize="16" Margin="0 16 0 0" materialDesign:HintAssist.Hint="End Date" />
+                                </Grid>
                             </StackPanel>
-                            <ComboBox ItemsSource="{Binding OrderViewModel.OrderSearchModel.StatusList, UpdateSourceTrigger=PropertyChanged }"  SelectedItem="{Binding OrderViewModel.OrderSearchModel.TxtSelectedStatus, UpdateSourceTrigger=LostFocus}" materialDesign:HintAssist.Hint="Order Status" x:Name="tbTxtStatus" Margin="8 0 0 0"/>
+                            <Grid Margin="0 8 0 0" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="Calendar" VerticalAlignment="Bottom" Foreground="{Binding ElementName=cbxStatus, Path=BorderBrush}" />
+                                <ComboBox Name="cbxStatus" Grid.Column="1" ItemsSource="{Binding OrderViewModel.OrderSearchModel.StatusList, UpdateSourceTrigger=PropertyChanged }"  SelectedItem="{Binding OrderViewModel.OrderSearchModel.TxtSelectedStatus, UpdateSourceTrigger=LostFocus}" materialDesign:HintAssist.Hint="Order Status" Margin="8 0 0 0"/>
+                            </Grid>
                         </StackPanel>
-                        <CheckBox Content="Deep search" IsChecked="{Binding OrderViewModel.OrderSearchModel.IsDeepSearch, UpdateSourceTrigger=PropertyChanged}"  FontSize="16" Margin="0 16 0 0"/>
+                        <Grid Margin="0 8 0 0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Kind="ArrowCompress" VerticalAlignment="Bottom" Foreground="{Binding ElementName=ckbxDeepSearch, Path=BorderBrush}" />
+                            <CheckBox Name="ckbxDeepSearch" Grid.Column="1" Content="Deep search" IsChecked="{Binding OrderViewModel.OrderSearchModel.IsDeepSearch, UpdateSourceTrigger=PropertyChanged}"  FontSize="16" Margin="0 16 0 0"/>
+                        </Grid>
                         <Button Command="{Binding OrderViewModel.SearchCommand}" HorizontalAlignment="Center">
                             <materialDesign:PackIcon Kind="Magnify"/>
                         </Button>
@@ -108,11 +171,12 @@
                                 <DataGridTemplateColumn Header="Detail">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail" ToolTip="See Details"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Content="Detail"
                                                 Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                CommandParameter="{Binding ElementName=dgSearch,Path=CurrentItem}"/>
+                                                CommandParameter="{Binding ElementName=dgSearch,Path=CurrentItem}">
+                                                <materialDesign:PackIcon Kind="Eye"/>
+                                            </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -149,11 +213,12 @@
                                 <DataGridTemplateColumn Header="Detail">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail" ToolTip="See Details"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Content="Detail"
                                                 Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                CommandParameter="{Binding ElementName=dgOrderWaitValidList,Path=CurrentItem}"/>
+                                                CommandParameter="{Binding ElementName=dgOrderWaitValidList,Path=CurrentItem}">
+                                                <materialDesign:PackIcon Kind="Eye"/>
+                                            </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -202,11 +267,12 @@
                                 <DataGridTemplateColumn Header="Detail">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail" ToolTip="See Details"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Content="Detail"
                                                 Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                CommandParameter="{Binding ElementName=dgOrderWaitValidClientList,Path=CurrentItem}"/>
+                                                CommandParameter="{Binding ElementName=dgOrderWaitValidClientList,Path=CurrentItem}">
+                                                <materialDesign:PackIcon Kind="Eye"/>
+                                            </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -245,11 +311,12 @@
                                 <DataGridTemplateColumn Header="Detail">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail" ToolTip="See Details"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                    Content="Detail"
                                                     Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                    CommandParameter="{Binding ElementName=dgOrderInProcessList,Path=CurrentItem}"/>
+                                                    CommandParameter="{Binding ElementName=dgOrderInProcessList,Path=CurrentItem}">
+                                                <materialDesign:PackIcon Kind="Eye"/>
+                                            </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -286,11 +353,12 @@
                                 <DataGridTemplateColumn Header="Detail">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail" ToolTip="See Details"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                    Content="Detail"
                                                     Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                    CommandParameter="{Binding ElementName=dgOrderWaitPayList,Path=CurrentItem}"/>
+                                                    CommandParameter="{Binding ElementName=dgOrderWaitPayList,Path=CurrentItem}">
+                                                <materialDesign:PackIcon Kind="Eye"/>
+                                            </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -317,10 +385,12 @@
                                 <DataGridTemplateColumn Header="Detail">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail" ToolTip="See Details"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Content="Detail" Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                CommandParameter="{Binding ElementName=dgOrderPayedDeliveredList,Path=CurrentItem}"/>
+                                                Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                                CommandParameter="{Binding ElementName=dgOrderPayedDeliveredList,Path=CurrentItem}">
+                                                <materialDesign:PackIcon Kind="Eye"/>
+                                            </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

@@ -178,11 +178,12 @@
                                         <DataGridTemplateColumn Header="">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail" ToolTip="See Details"
                                                         HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                        Content="Detail"
                                                         Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, ElementName=dgQuoteModelList}"
-                                                        CommandParameter="{Binding ElementName=dgQuoteModelList,Path=CurrentItem}"/>
+                                                        CommandParameter="{Binding ElementName=dgQuoteModelList,Path=CurrentItem}">
+                                                        <materialDesign:PackIcon Kind="Eye"/>
+                                                    </Button>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>

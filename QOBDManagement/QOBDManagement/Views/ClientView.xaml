@@ -123,14 +123,15 @@
                                 <DataGridTextColumn Header="Company" Binding="{Binding TxtCompany}"/>
                                 <DataGridTextColumn Header="Status" Binding="{Binding TxtStatus}"/>
                                 <DataGridTextColumn Header="Agent" Binding="{Binding TxtAgentName}"/>
-                                <DataGridTemplateColumn Header="Detail">
+                                <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail" ToolTip="See Details"
                                                   HorizontalAlignment="Center"
-                                                  Content="Detail"
                                                   Command="{Binding DataContext.ClientViewModel.ClientDetailCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                                  CommandParameter="{Binding ElementName=dgSearchResult,Path=CurrentItem}"/>
+                                                  CommandParameter="{Binding ElementName=dgSearchResult,Path=CurrentItem}">
+                                                <materialDesign:PackIcon Kind="Eye"/>
+                                            </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

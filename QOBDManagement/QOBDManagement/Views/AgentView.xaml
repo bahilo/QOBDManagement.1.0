@@ -74,11 +74,11 @@
                             <DataGridTextColumn Header="Login" Binding="{Binding TxtLogin}"/>
                             <!--DataGridTextColumn Header="Role" Binding="{Binding TxtEmail}"/-->
 
-                            <DataGridTemplateColumn Header="Detail">
+                            <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!--  Checked="cbMove_Checked"-->
-                                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail" ToolTip="See Details"
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
                                                   CommandParameter="{Binding ElementName=dgAgentList,Path=CurrentItem}">
                                             <Button.Command>
@@ -87,9 +87,9 @@
                                                     <Binding />
                                                 </MultiBinding>
                                             </Button.Command>
-                                            Detail
-                                        </Button>
-                                    </DataTemplate>
+                                                <materialDesign:PackIcon Kind="Eye"/>
+                                            </Button>
+                                </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
@@ -123,11 +123,11 @@
                             <DataGridTextColumn Header="Fax" Binding="{Binding TxtFax}"/>
                             <DataGridTextColumn Header="Email" Binding="{Binding TxtEmail}"/>
                             <DataGridTextColumn Header="Login" Binding="{Binding TxtLogin}"/>
-                            <DataGridTemplateColumn Header="Detail">
+                            <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!--  Checked="cbMove_Checked"-->
-                                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail" ToolTip="See Details"
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
                                                   CommandParameter="{Binding ElementName=dgDeactivatedAgent,Path=CurrentItem}">
                                             <Button.Command>
@@ -135,11 +135,11 @@
                                                     <Binding Path="DataContext.AgentViewModel.GetCurrentAgentCommand" ElementName="dgDeactivatedAgent"/>
                                                     <Binding />
                                                 </MultiBinding>
-                                            </Button.Command>
-                                            Detail
-                                        </Button>
+                                        </Button.Command>
+                                            <materialDesign:PackIcon Kind="Eye"/>
+                                    </Button>
 
-                                    </DataTemplate>
+                                </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>

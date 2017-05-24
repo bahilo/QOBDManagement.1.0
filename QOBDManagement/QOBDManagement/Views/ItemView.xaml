@@ -223,11 +223,11 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Grid Height="100">
-                                                <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                                <Button Style="{DynamicResource MaterialDesignFlatButton}" ToolTip="See Details"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                                     Command="{Binding DataContext.ItemViewModel.GetCurrentItemCommand, ElementName=dgSearchResult}" 
                                                     CommandParameter="{Binding}">
-                                                    Detail
+                                                    <materialDesign:PackIcon Kind="Eye"/>
                                                 </Button>
                                             </Grid>
                                         </DataTemplate>
