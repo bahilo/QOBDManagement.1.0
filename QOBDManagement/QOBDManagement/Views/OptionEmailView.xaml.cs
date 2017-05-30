@@ -31,7 +31,7 @@ namespace QOBDManagement.Views
             UIContext dataContext = new UIContext();
             if (dataContext.setWindowContext(this) != null)
             {
-                ((MainWindowViewModel)this.DataContext).ReferentialViewModel.OptionEmailViewModel.loadData();
+                ((MainWindowViewModel)this.DataContext).ReferentialViewModel.OptionEmailViewModel.load();
             }
         }
     }

@@ -152,7 +152,22 @@ namespace QOBDManagement.Models
         public InfoManager.Display Image
         {
             get { return _image; }
-            set { _image = value; onPropertyChange(); }
+            set
+            {
+                if (!Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.BeginInvoke((System.Action)(() =>
+                    {
+                        _image = value;
+                        onPropertyChange("Image");
+                    }));
+                }
+                else
+                {
+                    _image = value;
+                    onPropertyChange();
+                }                
+            }
         }
 
         public List<Role> RoleList

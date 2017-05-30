@@ -77,7 +77,7 @@ namespace QOBDManagement.ViewModel
 
         private void instances()
         {
-            _title = "Client Management";
+            _title = ConfigurationManager.AppSettings["title_client"];
             _saveSearchParametersList = new List<string>();
             _saveResultParametersList = new List<Client>();
             _agentList = new List<Agent>();
@@ -153,7 +153,7 @@ namespace QOBDManagement.ViewModel
 
         public void loadClients()
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
             AgentList = Bl.BlAgent.GetAgentData(999);
             ClientModelList = clientListToModelViewList(Bl.BlClient.searchClient(new Client { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND));
             Dialog.IsDialogOpen = false;
@@ -227,7 +227,7 @@ namespace QOBDManagement.ViewModel
 
         private async void moveCLientAgent(Agent obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["processing_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"]);
             var movedClientList = await Bl.BlClient.MoveClientAgentBySelection(_saveResultParametersList, obj);
             if (movedClientList.Count > 0)
                 await Dialog.showAsync(movedClientList.Count +" client(s) have been moved to "+obj.LastName+" successfully!");
@@ -256,7 +256,7 @@ namespace QOBDManagement.ViewModel
             ClientModel clientModel = new ClientModel();
             string restrict = "";
             bool isDeep = false;
-            Dialog.showSearch(ConfigurationManager.AppSettings["searching_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["search_message"]);
 
             clientModel.TxtID = obj;
             foreach (string checkedValue in _saveSearchParametersList)

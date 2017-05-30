@@ -61,7 +61,7 @@
 
                     <TextBlock HorizontalAlignment="Center">Item Picture</TextBlock>
                     <Grid Margin="0 10 0 0" Grid.Row="1">
-                        <Image Source="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+                        <Image Source="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.Image.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
                            Width="175"
                            Height="200"/>
                     </Grid>
@@ -84,11 +84,11 @@
                         <TextBox materialDesign:HintAssist.Hint="Name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" TextWrapping="Wrap" AcceptsReturn="True"               
                                          Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtName, Mode=TwoWay,UpdateSourceTrigger=LostFocus, Converter={StaticResource ResourceKey=StringLengthConverter}}"/>
                         <TextBox materialDesign:HintAssist.Hint="Reference" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"  TextWrapping="Wrap" AcceptsReturn="True"
-                                  IsEnabled="{Binding Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.IsRefModifyEnable, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource ResourceKey=StringLengthConverter}}"               
+                                  IsEnabled="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.IsRefModifyEnable, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"               
                                          Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtRef, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBox materialDesign:HintAssist.Hint="Purchase price" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                         Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtPrice_purchase, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
-                        <TextBox materialDesign:HintAssist.Hint="Selling Price Adviced" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                        <TextBox materialDesign:HintAssist.Hint="Selling Price Advised" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                         Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtPrice_sell, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
                         <TextBox materialDesign:HintAssist.Hint="Stock" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                         Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtStock, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
@@ -114,21 +114,21 @@
                     <StackPanel Grid.Row="1" Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock HorizontalAlignment="Center">Brand</TextBlock>
-                            <ComboBox ItemsSource="{Binding ItemViewModel.ItemDetailViewModel.BrandList,IsAsync=True, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200"  Margin="8"
+                            <ComboBox ItemsSource="{Binding ItemViewModel.BrandList,IsAsync=True, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200"  Margin="8"
                                       SelectedItem="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                         <TextBox materialDesign:HintAssist.Hint="New Brand" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                         Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtNewBrand, UpdateSourceTrigger=PropertyChanged}"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock HorizontalAlignment="Center">Family</TextBlock>
-                            <ComboBox ItemsSource="{Binding ItemViewModel.ItemDetailViewModel.FamilyList,IsAsync=True, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="8"
+                            <ComboBox ItemsSource="{Binding ItemViewModel.FamilyList,IsAsync=True, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="8"
                                       SelectedItem="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtType_sub, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
                         <TextBox materialDesign:HintAssist.Hint="New family" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                  Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtNewFamily, UpdateSourceTrigger=PropertyChanged}"/>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock HorizontalAlignment="Center">Provider</TextBlock>
-                            <ComboBox ItemsSource="{Binding ItemViewModel.ItemDetailViewModel.AllProviderList}" HorizontalAlignment="Right" materialDesign:HintAssist.Hint="Provider"  Margin="8" Width="250"
+                            <ComboBox ItemsSource="{Binding ItemViewModel.ProviderList}" HorizontalAlignment="Right" materialDesign:HintAssist.Hint="Provider"  Margin="8" Width="250"
                                       SelectedItem="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.SelectedProvider, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>

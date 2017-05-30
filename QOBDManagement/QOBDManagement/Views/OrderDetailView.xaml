@@ -116,7 +116,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Reference" Binding="{Binding TxtItem_ref}"/>
                             <DataGridTextColumn Header="Item" Binding="{Binding ItemModel.TxtName}"/>
-                            <DataGridTemplateColumn>
+                            <!--<DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox Text="{Binding TxtPrice_purchase, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
@@ -125,7 +125,7 @@
                                                      materialDesign:HintAssist.Hint="Purchase Price"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+                            </DataGridTemplateColumn>-->
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

@@ -56,7 +56,7 @@ namespace QOBDDAL.Core
             _serviceCommunication = serviceCommunication;
         }
 
-        public bool IsLodingDataFromWebServiceToLocal
+        public bool IsDataDownloading
         {
             get { return _isLodingDataFromWebServiceToLocal; }
             set { _isLodingDataFromWebServiceToLocal = value; }
@@ -103,7 +103,7 @@ namespace QOBDDAL.Core
             }
             finally
             {
-                lock (_lock) IsLodingDataFromWebServiceToLocal = false;
+                lock (_lock) IsDataDownloading = false;
                 try
                 {
                     _progressBarFunc((double)100 / _progressStep);
@@ -145,7 +145,7 @@ namespace QOBDDAL.Core
                 foreach (Notification notification in gateWayResultList)
                 {
                     int returnResult = _dataSet.DeleteNotification(notification.ID);
-                    if (returnResult == 0)
+                    if (returnResult > 0)
                         result.Add(notification);
                 }
             return result;

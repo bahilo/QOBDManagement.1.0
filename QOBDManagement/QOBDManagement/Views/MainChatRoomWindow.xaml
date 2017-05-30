@@ -91,7 +91,7 @@
                                                                 <ColumnDefinition Width="*"/>
                                                             </Grid.ColumnDefinitions>
                                                             <Border CornerRadius="70" Background="{Binding TxtIconColour}" Width="30">
-                                                                <Image Source="{Binding Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" />
+                                                                <Image Source="{Binding Image.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" />
                                                                 <!--<TextBlock Text="{Binding TxtIcon}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                                                             </Border>
                                                             <Button Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}"

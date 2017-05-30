@@ -34,6 +34,7 @@ namespace QOBDManagement.Models
             _item_deliveryModelList = new List<Item_deliveryModel>();
             _providerList = new List<Provider>();
             _selectedProvider = new Provider();
+            _isModifyEnable = false;
             _item = new Item();
 
             PropertyChanged += onItemChange;

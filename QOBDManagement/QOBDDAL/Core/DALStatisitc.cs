@@ -79,10 +79,10 @@ namespace QOBDDAL.Core
             _gateWayStatistic.setServiceCredential(_servicePortType);
         }
 
-        public bool IsLodingDataFromWebServiceToLocal
+        public bool IsDataDownloading
         {
             get { return _isLodingDataFromWebServiceToLocal; }
-            set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsLodingDataFromWebServiceToLocal"); }
+            set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsDataDownloading"); }
         }
 
         public void onPropertyChange(string propertyName)
@@ -108,7 +108,7 @@ namespace QOBDDAL.Core
             finally
             {
 
-                lock (_lock) IsLodingDataFromWebServiceToLocal = false;
+                lock (_lock) IsDataDownloading = false;
                 try
                 {
                     _progressBarFunc((double)100 / _progressStep);
@@ -169,7 +169,7 @@ namespace QOBDDAL.Core
                 foreach (Statistic statistic in gateWayResultList)
                 {
                     int returnResult = _dataSet.DeleteStatistic(statistic.ID);
-                    if (returnResult == 0)
+                    if (returnResult > 0)
                         result.Add(statistic);
                 }
             return result;

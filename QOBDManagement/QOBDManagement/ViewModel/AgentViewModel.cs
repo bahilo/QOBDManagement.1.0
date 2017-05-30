@@ -23,8 +23,7 @@ namespace QOBDManagement.ViewModel
     public class AgentViewModel : BindBase, IAgentViewModel
     {
         private List<string> _saveSearchParametersList;
-        private Func<Object, Object> _page;    
-        //private List<Agent> _agents;
+        private Func<Object, Object> _page;
         private List<string> _chatUserGroupList;
         private List<Agent> _clientAgentToMoveList;
         private string _title;
@@ -72,10 +71,9 @@ namespace QOBDManagement.ViewModel
 
         private void instances()
         {
-            _title = "Agent Management";
+            _title = ConfigurationManager.AppSettings["title_agent"];
             _saveSearchParametersList = new List<string>();
             _clientAgentToMoveList = new List<Agent>();
-            //_agents = new List<Agent>();
         }
         
 
@@ -192,7 +190,6 @@ namespace QOBDManagement.ViewModel
             {
                 AgentModel avm = new AgentModel();
                 avm.Agent = Agent;
-                //avm.Image = avm.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], avm.TxtPicture, avm.TxtProfileImageFileNameBase + "_" + Agent.ID, credentialInfoList);
                 output.Add(avm);
             }
             return output;
@@ -271,29 +268,13 @@ namespace QOBDManagement.ViewModel
             return true;
         }
         
-        public async void selectAgent(AgentModel obj)
+        public void selectAgent(AgentModel obj)
         {
             if (obj != null)
-                SelectedAgentModel = obj;
-            else
             {
-                string errorMessage = "Error while selecting user [ "+Bl.BlSecurity.GetAuthenticatedUser().LastName+" ] for detail view!";
-                Log.error(errorMessage, EErrorFrom.AGENT);
-                await Dialog.showAsync(errorMessage);
-            }
-
-            // closing the image file before reloading
-            if(SelectedAgentModel.Image != null)
-                SelectedAgentModel.Image.closeImageSource();
-
-            // closing the image file if already opened in the application
-            var imageFound = AgentModelList.Where(x => x.Agent.ID == SelectedAgentModel.Agent.ID).Select(x=>x.Image).SingleOrDefault();
-            if (imageFound != null)
-                imageFound.closeImageSource();
-
-            // downloading the image file from the ftp server
-            SelectedAgentModel.Image = SelectedAgentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], SelectedAgentModel.TxtPicture, SelectedAgentModel.TxtProfileImageFileNameBase + "_" + SelectedAgentModel.Agent.ID, Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND));
-            executeNavig("agent-detail");
+                SelectedAgentModel = obj;
+                executeNavig("agent-detail");
+            }                
         }
 
         private bool canSelectAgent(AgentModel arg)
@@ -306,7 +287,7 @@ namespace QOBDManagement.ViewModel
                                          && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
 
             // none admin can only access their own profile
-            if (!isUserAdmin && arg != null && arg.Agent.ID == Bl.BlSecurity.GetAuthenticatedUser().ID)
+            if (!isUserAdmin && arg != null && arg.Agent.ID != 0 && arg.Agent.ID == Bl.BlSecurity.GetAuthenticatedUser().ID)
                 return true;
 
             if (isUserAdmin)

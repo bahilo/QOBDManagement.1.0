@@ -35,18 +35,18 @@
                                   IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
                     <StackPanel Orientation="Vertical">
-                        <Expander IsExpanded="False" HorizontalAlignment="Stretch">
+                        <Expander IsExpanded="True" HorizontalAlignment="Stretch">
                             <Expander.Header>
                                 <TextBlock Text="Utilities" />
                             </Expander.Header>
                             <StackPanel Orientation="Vertical" Margin="8">
                                 <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding UtilitiesCommand}"
-                                CommandParameter="update-item"
+                                Command="{Binding ItemViewModel.ItemSideBarViewModel.UtilitiesCommand}"
+                                CommandParameter="catalogue"
                                 HorizontalAlignment="Left">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Pen"/>
-                                        <TextBlock Margin="8 0 0 0">Update Inforamtions</TextBlock>
+                                        <TextBlock Margin="8 0 0 0">Catalogue</TextBlock>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

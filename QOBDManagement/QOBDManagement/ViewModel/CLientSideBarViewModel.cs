@@ -125,9 +125,6 @@ namespace QOBDManagement.ViewModel
             {
                 switch (obj)
                 {
-                    case "search-client":
-                        _page(new ClientDetailViewModel());
-                        break;
                     case "select-quote-client":
                         Cart.Client = SelectedClient;
                         _page(_main.QuoteViewModel);
@@ -139,6 +136,9 @@ namespace QOBDManagement.ViewModel
                     case "client-quote":
                         _main.QuoteViewModel.SelectedClient = SelectedClient;
                         _page(_main.QuoteViewModel);
+                        break;
+                    case "client":
+                        _page(_main.ClientViewModel);
                         break;
                 }
             }

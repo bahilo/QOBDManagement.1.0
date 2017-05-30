@@ -26,6 +26,8 @@ namespace QOBDManagement.Interfaces
         QuoteViewModel QuoteViewModel { get; set; }
         ChatRoomViewModel ChatRoomViewModel { get; set; }
         SecurityLoginViewModel SecurityLoginViewModel { get; set; }
+        bool IsRefresh { get; set; }
+        bool IsThroughContext { get; set; }
 
         Object CurrentViewModel { get; set; }
         Object ChatRoomCurrentView { get; set; }

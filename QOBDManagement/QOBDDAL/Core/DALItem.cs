@@ -61,10 +61,10 @@ namespace QOBDDAL.Core
             _serviceCommunication = serviceCommunication;
         }
 
-        public bool IsLodingDataFromWebServiceToLocal
+        public bool IsDataDownloading
         {
             get { return _isLodingDataFromWebServiceToLocal; }
-            set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsLodingDataFromWebServiceToLocal"); }
+            set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsDataDownloading"); }
         }
 
         public QOBDCommon.Interfaces.REMOTE.IItemManager GateWayItem
@@ -119,7 +119,7 @@ namespace QOBDDAL.Core
             }
             finally
             {
-                lock (_lock) IsLodingDataFromWebServiceToLocal = false;
+                lock (_lock) IsDataDownloading = false;
                 try
                 {
                     _progressBarFunc((double)100 / _progressStep);
@@ -201,7 +201,7 @@ namespace QOBDDAL.Core
                 foreach (Item item in listItem)
                 {
                     int returnValue = _dataSet.DeleteItem(item.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(item);
                 }
             return result;
@@ -216,7 +216,7 @@ namespace QOBDDAL.Core
                 foreach (Provider provider in listProvider)
                 {
                     int returnValue = _dataSet.DeleteProvider(provider.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(provider);
                 }
             return result;
@@ -231,7 +231,7 @@ namespace QOBDDAL.Core
                 foreach (Provider_item provider_item in listProvider_item)
                 {
                     int returnValue = _dataSet.DeleteProvider_item(provider_item.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(provider_item);
                 }
             return result;
@@ -247,7 +247,7 @@ namespace QOBDDAL.Core
                 foreach (Item_delivery item_delivery in listItem_delivery)
                 {
                     int returnValue = _dataSet.DeleteItem_delivery(item_delivery.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(item_delivery);
                 }
             return result;
@@ -262,7 +262,7 @@ namespace QOBDDAL.Core
                 foreach (Auto_ref Auto_ref in listAuto_ref)
                 {
                     int returnValue = _dataSet.DeleteAuto_ref(Auto_ref.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(Auto_ref);
                 }
             return result;
@@ -277,7 +277,7 @@ namespace QOBDDAL.Core
                 foreach (Tax_item Tax_item in listTax_item)
                 {
                     int returnValue = _dataSet.DeleteTax_item(Tax_item.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(Tax_item);
                 }
             return result;

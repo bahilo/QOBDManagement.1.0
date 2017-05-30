@@ -32,7 +32,7 @@ namespace QOBDManagement.Views
             if (dataContex.setWindowContext(this) != null)
             {
                 if (!((MainWindowViewModel)this.DataContext).IsThroughContext)
-                    ((MainWindowViewModel)this.DataContext).ReferentialViewModel.OptionDataAndDisplayViewModel.loadData();
+                    ((MainWindowViewModel)this.DataContext).ReferentialViewModel.OptionDataAndDisplayViewModel.load();
             }
         }
     }

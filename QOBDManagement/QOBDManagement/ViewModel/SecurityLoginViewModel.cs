@@ -264,8 +264,8 @@ namespace QOBDManagement.ViewModel
             if (e.PropertyName.Equals("Dialog"))
             {
                 if (Application.Current != null)
-                    await showLoginView();
-                    //await startAuthentication(); //"<< for dev mode >>";
+                    //await showLoginView();
+                    await startAuthentication(); //"<< for dev mode >>";
                 else
                     await startAuthentication();
             }

@@ -124,8 +124,8 @@
                                             </DataGrid.Columns>
                                         </DataGrid>
                                         <StackPanel Grid.Row="2" Orientation="Horizontal">
-                                            <TextBlock Text="Total Purchase Price:"/>
-                                            <TextBlock Text="{Binding ItemViewModel.Cart.TxtCartTotalPurchasePrice, UpdateSourceTrigger=PropertyChanged}" Margin="8 0 0 0"/>
+                                            <!--<TextBlock Text="Total Purchase Price:"/>
+                                            <TextBlock Text="{Binding ItemViewModel.Cart.TxtCartTotalPurchasePrice, UpdateSourceTrigger=PropertyChanged}" Margin="8 0 0 0"/>-->
                                             <TextBlock Text="Total Selling Price:" Margin="8 0 0 0"/>
                                             <TextBlock Text="{Binding ItemViewModel.Cart.TxtCartTotalSellingPrice, UpdateSourceTrigger=PropertyChanged}" Margin="8 0 0 0"/>
                                         </StackPanel>
@@ -152,7 +152,7 @@
                     <StackPanel Grid.Row="1" Orientation="Vertical">
                         <DataGrid x:Name="dgSearchResult" AutoGenerateColumns="False"
                                   ItemsSource="{Binding ItemViewModel.ItemModelList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
-                                  EnableColumnVirtualization="True" EnableRowVirtualization="True"  MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}"
+                                  EnableColumnVirtualization="True" EnableRowVirtualization="True" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}"
                                   CanUserAddRows="False" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Select To Cart">
@@ -181,7 +181,7 @@
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Image Source="{Binding Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+                                            <Image Source="{Binding Image.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
                                                     Width="150"
                                                     Height="100"/>
                                         </DataTemplate>
@@ -217,7 +217,7 @@
                                 <DataGridTextColumn Header="Brand" Binding="{Binding TxtType}"/>
                                 <DataGridTextColumn Header="Family" Binding="{Binding TxtType_sub}"/>
                                 <DataGridTextColumn Header="Provider" Binding="{Binding SelectedProvider.Name}"/>
-                                <DataGridTextColumn Header="Purchase Price" Binding="{Binding TxtPrice_purchase}"/>
+                                <!--<DataGridTextColumn Header="Purchase Price" Binding="{Binding TxtPrice_purchase}"/>-->
                                 <DataGridTextColumn Header="Selling Price" Binding="{Binding TxtPrice_sell}"/>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.CellTemplate>

@@ -19,7 +19,7 @@ namespace QOBDManagement.ViewModel
 
         private bool canExecuteUtilityAction(string arg)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         private async void executeUtilityAction(string obj)
@@ -27,7 +27,7 @@ namespace QOBDManagement.ViewModel
             switch (obj)
             {
                 case "email-unpaid":
-                    await Dialog.showAsync("Send email for unpaid bill");
+                    await Dialog.showAsync("TO DO: Send email for unpaid bill");
                     break;
             }
         }

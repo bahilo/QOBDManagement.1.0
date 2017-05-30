@@ -20,11 +20,7 @@ namespace QOBDManagement.Classes
         private DataAccess _dal { get; set; }
         private ClientProxy _proxyClient;
         private QOBDDAL.Interfaces.IQOBDSet _dataSet;
-
-        public Startup() {
-            initialize();
-        }
-
+        
         public void initialize()
         {
             _dataSet = new QOBDDAL.Classes.QOBDDataSet();

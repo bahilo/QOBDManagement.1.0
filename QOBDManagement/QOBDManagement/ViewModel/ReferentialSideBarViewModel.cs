@@ -18,16 +18,12 @@ namespace QOBDManagement.ViewModel
         public ButtonCommand<string> UtilitiesCommand { get; set; }
         public ButtonCommand<string> SetupCommand { get; set; }
         private Func<object, object> _page;
-        private string _navigTo;
         private IMainWindowViewModel _main;
 
 
         public ReferentialSideBarViewModel()
         {
             instancesCommand();
-            initEvents();
-
-
         }
 
         public ReferentialSideBarViewModel(IMainWindowViewModel main): this()
@@ -37,13 +33,7 @@ namespace QOBDManagement.ViewModel
         }
 
         //----------------------------[ Initialization ]------------------
-
-        private void initEvents()
-        {
-            PropertyChanged += onNavigToChange;
-
-        }
-
+        
         private void instancesCommand()
         {
             UtilitiesCommand = new ButtonCommand<string>(executeUtilityAction, canExecuteUtilityAction);
@@ -58,21 +48,12 @@ namespace QOBDManagement.ViewModel
             get { return _startup.Bl; }
         }
 
-        public string NavigTo
-        {
-            get { return _navigTo; }
-            set { setProperty(ref _navigTo, value, "NavigTo"); }
-        }
-
         //----------------------------[ Actions ]------------------
 
         public async void executeNavig(string obj)
         {
             switch (obj.ToLower())
             {
-                case "monitoring":
-                    await Dialog.showAsync("Navig to Monitoring");
-                    break;
                 case "credential":
                     _page(new OptionSecurityViewModel());
                     break;
@@ -82,25 +63,12 @@ namespace QOBDManagement.ViewModel
                 case "email":
                     _page(new OptionEmailViewModel());
                     break;
+                case "setting":
+                    _page(new OptionGeneralViewModel());
+                    break;
             }
         }
-
-
-        public override void Dispose()
-        {
-            PropertyChanged -= onNavigToChange;            
-        }
-
-        //----------------------------[ Event Handler ]------------------
-
-        private void onNavigToChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (string.Equals(e.PropertyName, "NavigTo"))
-            {
-                executeNavig(NavigTo);
-            }
-        }
-
+        
         //----------------------------[ Action Commands ]------------------
 
         private void executeSetupAction(string obj)
@@ -108,10 +76,10 @@ namespace QOBDManagement.ViewModel
             switch (obj)
             {
                 case "data-display":
-                    NavigTo = obj;
+                    executeNavig(obj);
                     break;
                 case "credential":
-                    NavigTo = obj;
+                    executeNavig(obj);
                     break;
             }
         }
@@ -142,10 +110,13 @@ namespace QOBDManagement.ViewModel
             switch (obj)
             {
                 case "monitoring":
-                    NavigTo = obj;
+                    executeNavig(obj);
                     break;
                 case "email":
-                    NavigTo = obj;
+                    executeNavig(obj);
+                    break;
+                case "setting":
+                    executeNavig(obj);
                     break;
             }
         }

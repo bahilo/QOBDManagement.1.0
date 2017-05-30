@@ -25,7 +25,6 @@ namespace QOBDManagement.ViewModel
         private string _title;
         private Func<string, object> _page;
         private IMainWindowViewModel _main;
-        private string _profileImageFileNameBase;
 
         //----------------------------[ Models ]------------------
 
@@ -47,7 +46,6 @@ namespace QOBDManagement.ViewModel
             instances();
             instancesModel();
             instancesCommand();
-            initEvents();
 
         }
 
@@ -58,16 +56,11 @@ namespace QOBDManagement.ViewModel
         }
 
         //----------------------------[ Initialization ]------------------
-
-        private void initEvents()
-        {
-            PropertyChanged += onSelectedAgentModelChange;
-        }
+        
 
         private void instances()
         {
-            _title = "Agent Description";
-            _profileImageFileNameBase = "profile_image";
+            _title = ConfigurationManager.AppSettings["title_agent_detail"];
         }
 
         private void instancesModel()
@@ -90,7 +83,7 @@ namespace QOBDManagement.ViewModel
         public AgentModel SelectedAgentModel
         {
             get { return _selectedAgentModel; }
-            set { setProperty(ref _selectedAgentModel, value); }
+            set { setProperty(ref _selectedAgentModel, value); AgentSideBarViewModel.SelectedAgentModel = value; }
         }
 
         public BusinessLogic Bl
@@ -134,20 +127,24 @@ namespace QOBDManagement.ViewModel
              loadUserProfileImage();
         }
 
-        private void loadUserProfileImage()
+        private async void loadUserProfileImage()
         {
             if (SelectedAgentModel.Image == null)
             {
+                Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
                 var credentialInfoList = _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_" }, ESearchOption.OR);
                 
                 if (credentialInfoList.Count > 0)
-                    SelectedAgentModel.Image = SelectedAgentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], SelectedAgentModel.TxtPicture, SelectedAgentModel.TxtProfileImageFileNameBase + "_" + Bl.BlSecurity.GetAuthenticatedUser().ID, credentialInfoList);
+                {
+                    SelectedAgentModel.Image = await Task.Factory.StartNew(()=> { return SelectedAgentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], SelectedAgentModel.TxtPicture, SelectedAgentModel.TxtProfileImageFileNameBase + "_" + Bl.BlSecurity.GetAuthenticatedUser().ID, credentialInfoList);}) ;
+                    onPropertyChange();
+                }
+                Dialog.IsDialogOpen = false;
             }
         }
 
         public override void Dispose()
         {
-            PropertyChanged -= onSelectedAgentModelChange;
             if (SelectedAgentModel.Image != null)
                 SelectedAgentModel.Image.Dispose();
         }
@@ -175,15 +172,6 @@ namespace QOBDManagement.ViewModel
                 SelectedAgentModel.TxtClearPassword = pwd.Password;
             }
         }
-
-        private void onSelectedAgentModelChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("SelectedAgentModel"))
-            {
-                AgentSideBarViewModel.SelectedAgentModel = SelectedAgentModel;
-                load();
-            }
-        }
         
         //----------------------------[ Action Commands ]------------------
 
@@ -203,7 +191,7 @@ namespace QOBDManagement.ViewModel
             {
                 if (isPasswordIdentical)
                 {
-                    Dialog.showSearch("Creating Agent " + SelectedAgentModel.Agent.LastName + "...");
+                    Dialog.showSearch(ConfigurationManager.AppSettings["create_message"]);
                     SelectedAgentModel.Agent.Status = EStatus.Deactivated.ToString();
                     var insertedAgentList = await Bl.BlAgent.InsertAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
                     if (insertedAgentList.Count > 0)
@@ -211,20 +199,20 @@ namespace QOBDManagement.ViewModel
                     Dialog.IsDialogOpen = false;
                 }
                 else
-                    await Dialog.showAsync("Password are not Identical!");
+                    await Dialog.showAsync("Passwords are not Identicals!");
             }
             else
             {
                 if (isPasswordIdentical || string.IsNullOrEmpty(SelectedAgentModel.TxtClearPasswordVerification))
                 {
-                    Dialog.showSearch("Updating Agent " + SelectedAgentModel.Agent.LastName + "...");
+                    Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
                     var updatedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
                     if (updatedAgentList.Count > 0)
                         await Dialog.showAsync("Agent " + SelectedAgentModel.Agent.LastName + " Successfully Updated!");
                     Dialog.IsDialogOpen = false;
                 }
                 else
-                    await Dialog.showAsync("Password are not Identical!");
+                    await Dialog.showAsync("Passwords are not Identicals!");
             }
             isPasswordIdentical = false;
         }
@@ -251,33 +239,45 @@ namespace QOBDManagement.ViewModel
 
         private async void getFileFromLocal(object obj)
         {
-            if (SelectedAgentModel.Image != null)
-                SelectedAgentModel.Image.closeImageSource();
-            else
-                SelectedAgentModel.Image = SelectedAgentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], SelectedAgentModel.TxtPicture, SelectedAgentModel.TxtProfileImageFileNameBase + "_" + Bl.BlSecurity.GetAuthenticatedUser().ID, Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND)); ;
-            
-            // opening the file explorer to choose an image file
-            SelectedAgentModel.Image.TxtChosenFile = InfoManager.ExecuteOpenFileDialog("Select an image file", new List<string> { "png", "jpeg", "jpg" });
-            SelectedAgentModel.TxtPicture = SelectedAgentModel.Image.TxtFileName;
-
-            Dialog.showSearch("Picture updating...");
-
-            // upload the image file to the FTP server
-            SelectedAgentModel.Image.uploadImage();
-
-            // update item image
-            var savedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
-
-            if (savedAgentList.Count > 0)
-                await Dialog.showAsync("The picture has been saved successfully!");
-            else
+            string newFileFullPath = InfoManager.ExecuteOpenFileDialog("Select an image file", new List<string> { "png", "jpeg", "jpg" });
+            if (!string.IsNullOrEmpty(newFileFullPath) && File.Exists(newFileFullPath))
             {
-                string errorMessage = "Error occured while updating the agent [" + SelectedAgentModel.TxtLastName + "] picture";
-                Log.error(errorMessage, EErrorFrom.ITEM);
-                await Dialog.showAsync(errorMessage);
-            }
+                var ftpCredentials = Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND);
 
-            Dialog.IsDialogOpen = false;
+                if (!string.IsNullOrEmpty(SelectedAgentModel.TxtPicture))
+                    WPFHelper.deleteFileFromFtpServer(ConfigurationManager.AppSettings["ftp_profile_image_folder"], SelectedAgentModel.TxtPicture, ftpCredentials);
+
+                if (SelectedAgentModel.Image != null)
+                {
+                    SelectedAgentModel.Image.closeImageSource();
+                    WPFHelper.deleteFileFromFtpServer(ConfigurationManager.AppSettings["ftp_profile_image_folder"], SelectedAgentModel.TxtPicture, ftpCredentials);
+                }
+                else
+                    SelectedAgentModel.Image = await Task.Factory.StartNew(() => { return SelectedAgentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], SelectedAgentModel.TxtPicture, SelectedAgentModel.TxtProfileImageFileNameBase + "_" + Bl.BlSecurity.GetAuthenticatedUser().ID, ftpCredentials); });
+
+                // opening the file explorer to choose and resize an image file
+                SelectedAgentModel.Image.TxtChosenFile = newFileFullPath.resizeImage();
+                SelectedAgentModel.TxtPicture = SelectedAgentModel.Image.TxtFileName;
+
+                Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
+
+                // upload the image file to the FTP server
+                SelectedAgentModel.Image.uploadImage();
+
+                // update item image
+                var savedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
+
+                if (savedAgentList.Count > 0)
+                    await Dialog.showAsync("The picture has been saved successfully!");
+                else
+                {
+                    string errorMessage = "Error occured while updating the agent [" + SelectedAgentModel.TxtLastName + "] picture";
+                    Log.error(errorMessage, EErrorFrom.ITEM);
+                    await Dialog.showAsync(errorMessage);
+                }
+
+                Dialog.IsDialogOpen = false;
+            }
         }
 
         private bool canGetFileFromLocal(object arg)

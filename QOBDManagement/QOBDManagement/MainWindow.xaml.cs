@@ -35,36 +35,7 @@ namespace QOBDManagement
         }
 
         private void load()
-        {
-            // initialize the DataDirectory to the user local folder
-            AppDomain.CurrentDomain.SetData("DataDirectory", Utility.BaseDirectory);
-
-            var unWritableAppDataDir = Utility.getDirectory(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
-            var writableAppDataDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
-
-            try
-            {
-                // delete database if exists
-                if (File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
-                    File.Delete(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
-
-                // delete icon if exists
-                if (File.Exists(System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico")))
-                    File.Delete(System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico"));
-
-                // copy the database to user local folder
-                if (!File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
-                    File.Copy(System.IO.Path.Combine(unWritableAppDataDir, "QCBDDatabase.sdf"), System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
-                
-                // copy the favicon to user local folder
-                if (!File.Exists(System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico")))
-                    File.Copy(System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico"), System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico"));
-
-            }
-            catch (Exception ex)
-            {
-                Log.error(ex.Message, EErrorFrom.MAIN);
-            }
+        {            
             mainWindowViewModel = new MainWindowViewModel(new Classes.Startup());
             this.DataContext = mainWindowViewModel;
         }

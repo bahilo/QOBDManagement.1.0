@@ -57,7 +57,7 @@ namespace QOBDDAL.Core
             _serviceCommunication = serviceCommunication;
         }
 
-        public bool IsLodingDataFromWebServiceToLocal
+        public bool IsDataDownloading
         {
             get { return _isLodingDataFromWebServiceToLocal; }
             set { _isLodingDataFromWebServiceToLocal = value; }
@@ -99,7 +99,7 @@ namespace QOBDDAL.Core
             catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
             finally
             {
-                lock (_lock) IsLodingDataFromWebServiceToLocal = false;
+                lock (_lock) IsDataDownloading = false;
                 try
                 {
                     _progressBarFunc((double)100 / _progressStep);
@@ -176,7 +176,7 @@ namespace QOBDDAL.Core
                 foreach (Order order in listOrder)
                 {
                     int returnValue = _dataSet.DeleteOrder(order.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(order);
                 }
             return result;
@@ -191,7 +191,7 @@ namespace QOBDDAL.Core
                 foreach (Tax_order tax_order in listTax_order)
                 {
                     int returnValue = _dataSet.DeleteTax_order(tax_order.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(tax_order);
                 }
             return result;
@@ -206,7 +206,7 @@ namespace QOBDDAL.Core
                 foreach (Order_item order_item in listOrder_item)
                 {
                     int returnValue = _dataSet.DeleteOrder_item(order_item.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(order_item);
                 }
             return result;
@@ -221,7 +221,7 @@ namespace QOBDDAL.Core
                 foreach (Tax tax in listTax)
                 {
                     int returnValue = _dataSet.DeleteTax(tax.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(tax);
                 }
             return result;
@@ -236,7 +236,7 @@ namespace QOBDDAL.Core
                 foreach (Bill bill in listBill)
                 {
                     int returnValue = _dataSet.DeleteBill(bill.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(bill);
                 }
             return result;
@@ -251,7 +251,7 @@ namespace QOBDDAL.Core
                 foreach (Delivery delivery in listDelivery)
                 {
                     int returnValue = _dataSet.DeleteDelivery(delivery.ID);
-                    if (returnValue == 0)
+                    if (returnValue > 0)
                         result.Add(delivery);
                 }
             return result;
@@ -723,12 +723,12 @@ namespace QOBDDAL.Core
             DALItem dalItem = new DALItem(_servicePortType, _dataSet);
             dalItem.AuthenticatedUser = AuthenticatedUser;
             dalItem.GateWayItem.setServiceCredential(_servicePortType);
-            dalItem.IsLodingDataFromWebServiceToLocal = true;
+            dalItem.IsDataDownloading = true;
 
             DALClient dalClient = new DALClient(_servicePortType, _dataSet);
             dalClient.AuthenticatedUser = AuthenticatedUser;
             dalClient.setServiceCredential(_servicePortType);
-            dalClient.IsLodingDataFromWebServiceToLocal = true;
+            dalClient.IsDataDownloading = true;
 
             orderList = new ConcurrentBag<Order>(orders);
 

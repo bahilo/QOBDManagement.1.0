@@ -15,6 +15,8 @@ using System.Configuration;
 using System.Windows.Threading;
 using System.Globalization;
 using QOBDCommon.Enum;
+using QOBDManagement.Helper;
+using System.Windows;
 
 namespace QOBDManagement.Classes
 {
@@ -177,11 +179,19 @@ namespace QOBDManagement.Classes
                 get { return _imageSource; }
                 set
                 {
-                    Dispatcher.CurrentDispatcher.Invoke(() =>
+                    if (!Application.Current.Dispatcher.CheckAccess())
+                    {
+                        Dispatcher.CurrentDispatcher.Invoke(() =>
+                        {
+                            _imageSource = value;
+                            onPropertyChange("ImageSource");
+                        });
+                    }
+                    else
                     {
                         _imageSource = value;
-                    });
-                    onPropertyChange();
+                        onPropertyChange();
+                    }
                 }
             }
 
@@ -331,7 +341,7 @@ namespace QOBDManagement.Classes
                 setup();
 
                 if (TxtFtpUrl != null && TxtFileFullPath != null)
-                    isFileFound = Utility.downloadFIle(TxtFtpUrl, TxtFileFullPath, _login, _password);
+                    isFileFound = WPFHelper.ftpGetFile(TxtFtpUrl, TxtFileFullPath, _login, _password);
 
                 if (isFileFound && File.Exists(TxtFileFullPath))
                     copyFile();
@@ -349,7 +359,7 @@ namespace QOBDManagement.Classes
                     // closing the images stream before updating
                     closeImageSource();
 
-                    isSavedSuccessfully = Utility.uploadFIle(TxtFtpUrl, TxtFileFullPath, _login, _password);
+                    isSavedSuccessfully = WPFHelper.ftpSendFile(TxtFtpUrl, TxtFileFullPath, _login, _password);
 
                     // open the images stream
                     if (isSavedSuccessfully)
@@ -400,7 +410,16 @@ namespace QOBDManagement.Classes
             /// <returns></returns>
             public bool closeImageSource()
             {
-                Stream stream = ImageSource.StreamSource;
+                Stream stream = default(Stream);
+                if (!Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(()=> {
+                        stream = ImageSource.StreamSource;
+                    });
+                }                    
+                else
+                    stream = ImageSource.StreamSource;
+
                 bool isClosed = false;
                 try
                 {
@@ -682,7 +701,7 @@ namespace QOBDManagement.Classes
                 bool isSavedSuccessfully = false;
 
                 File.WriteAllText(TxtFileFullPath, TxtContent);
-                isSavedSuccessfully = Utility.uploadFIle(TxtFtpUrl, TxtFileFullPath, _login, _password);
+                isSavedSuccessfully = WPFHelper.ftpSendFile(TxtFtpUrl, TxtFileFullPath, _login, _password);
                 TxtContent = File.ReadAllText(TxtFileFullPath);
 
                 return isSavedSuccessfully;
@@ -698,7 +717,7 @@ namespace QOBDManagement.Classes
                     && !string.IsNullOrEmpty(TxtFileFullPath)
                         && !string.IsNullOrEmpty(TxtLogin)
                             && !string.IsNullOrEmpty(TxtPassword))
-                    isFileFound = Utility.downloadFIle(TxtFtpUrl, TxtFileFullPath, TxtLogin, TxtPassword);
+                    isFileFound = WPFHelper.ftpGetFile(TxtFtpUrl, TxtFileFullPath, TxtLogin, TxtPassword);
 
 
                 if (isFileFound && File.Exists(TxtFileFullPath))

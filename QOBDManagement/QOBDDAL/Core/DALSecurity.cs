@@ -67,7 +67,7 @@ namespace QOBDDAL.Core
             _gateWaySecurity.setServiceCredential(_servicePortType);
         }
 
-        public bool IsLodingDataFromWebServiceToLocal
+        public bool IsDataDownloading
         {
             get { return _isLodingDataFromWebServiceToLocal; }
             set { _isLodingDataFromWebServiceToLocal = value; }

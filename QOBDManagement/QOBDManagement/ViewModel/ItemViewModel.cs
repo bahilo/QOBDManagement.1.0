@@ -20,12 +20,16 @@ using System.Globalization;
 using QOBDCommon.Classes;
 using System.Configuration;
 using QOBDManagement.Helper;
+using System.Windows;
 
 namespace QOBDManagement.ViewModel
 {
     public class ItemViewModel : BindBase, IItemViewModel
     {
         private Cart _cart;
+        private HashSet<string> _itemFamilyList;
+        private HashSet<string> _itemBrandList;
+        private HashSet<Provider> _providerList;
         private List<string> _cbSearchCriteriaList;
         private Func<Object, Object> _page;
         private List<Item> _items;
@@ -90,10 +94,10 @@ namespace QOBDManagement.ViewModel
 
         private void instances()
         {
-            _title = "Catalog Management";
             _cart = new Cart();
-            _cbSearchCriteriaList = new List<string>();
             _items = new List<Item>();
+            _cbSearchCriteriaList = new List<string>();
+            _title = ConfigurationManager.AppSettings["title_catalogue"];
         }
 
         private void instancesModel(IMainWindowViewModel main)
@@ -162,19 +166,70 @@ namespace QOBDManagement.ViewModel
         public List<ItemModel> ItemModelList
         {
             get { return _itemsModel; }
-            set { setProperty(ref _itemsModel, value); }
+            set
+            {
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        _itemsModel = value;
+                        onPropertyChange("ItemModelList");
+                    });
+                }
+                else
+                    setProperty(ref _itemsModel, value);
+            }
+        }
+
+        public HashSet<Provider> ProviderList
+        {
+            get { return _providerList; }
+            set
+            {
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        _providerList = value;
+                        onPropertyChange("ProviderList");
+                    });
+                }
+                else { _providerList = value; onPropertyChange(); }
+            }
         }
 
         public HashSet<string> FamilyList
         {
-            get { return ItemDetailViewModel.FamilyList; }
-            set { ItemDetailViewModel.FamilyList = value; onPropertyChange("FamilyList"); }
+            get { return _itemFamilyList; }
+            set
+            {
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        _itemFamilyList = value;
+                        onPropertyChange("FamilyList");
+                    });
+                }
+                else { _itemFamilyList = value; onPropertyChange(); }
+            }
         }
 
         public HashSet<string> BrandList
         {
-            get { return ItemDetailViewModel.BrandList; }
-            set { ItemDetailViewModel.BrandList = value; onPropertyChange("BrandList"); }
+            get { return _itemBrandList; }
+            set
+            {
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        _itemBrandList = value;
+                        onPropertyChange();
+                    });
+                }
+                else { _itemBrandList = value; onPropertyChange("BrandList"); }
+            }
         }
 
         public Cart Cart
@@ -186,7 +241,7 @@ namespace QOBDManagement.ViewModel
         public ItemModel SelectedItemModel
         {
             get { return ItemDetailViewModel.SelectedItemModel; }
-            set { ItemDetailViewModel.SelectedItemModel = value; onPropertyChange("SelectedItemModel"); }
+            set { ItemDetailViewModel.SelectedItemModel = value; onPropertyChange(); }
         }
 
 
@@ -195,28 +250,41 @@ namespace QOBDManagement.ViewModel
         /// <summary>
         /// loading the catalogue's items from cache
         /// </summary>
-        public void loadItems()
+        public async void loadItems()
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
 
             // if not in searching mode
             if (!_isSearchResult)
             {
                 var itemFoundList = Bl.BlItem.GetItemData(999);
-                ItemDetailViewModel.AllProviderList = new HashSet<Provider>(Bl.BlItem.GetProviderData(999));
+                ProviderList = new HashSet<Provider>(Bl.BlItem.GetProviderData(999));
+                FamilyList = new HashSet<string>(itemFoundList.Select(x => x.Type_sub).ToList());
+                BrandList = new HashSet<string>(itemFoundList.Select(x => x.Type).ToList());
 
                 // close items picture file before reloading
                 foreach (var itemModel in ItemModelList)
                 {
                     if (itemModel.Image != null)
                         itemModel.Image.closeImageSource();
-                }                    
+                }
 
                 // loading items
-                ItemModelList = itemListToModelViewList(itemFoundList);
+                ItemModelList = await itemListToModelViewList(itemFoundList);
 
-                FamilyList = new HashSet<string>(itemFoundList.Select(x=> x.Type_sub).ToList());
-                BrandList = new HashSet<string>(itemFoundList.Select(x=>x.Type).ToList());
+                // update the selected item in case of a refresh
+                if(SelectedItemModel != null && SelectedItemModel.Item.ID != 0)
+                {
+                    SelectedItemModel = ItemModelList.Where(x=>x.TxtID == SelectedItemModel.TxtID).SingleOrDefault();
+                    if(SelectedItemModel != null)
+                    {
+                        SelectedItemModel.PropertyChanged -= ItemDetailViewModel.onItemNameChange_generateReference;
+                        SelectedItemModel.PropertyChanged += ItemDetailViewModel.onItemNameChange_generateReference;
+                        onPropertyChange("TxtType");
+                        onPropertyChange("TxtType_sub");
+                        onPropertyChange("SelectedProvider");
+                    }                    
+                }                
                 _cbSearchCriteriaList = new List<string>();
             }
             _isSearchResult = false;
@@ -237,14 +305,11 @@ namespace QOBDManagement.ViewModel
             return output;
         }
 
-        public List<ItemModel> itemListToModelViewList(List<Item> itemtList)
+        public async Task<List<ItemModel>> itemListToModelViewList(List<Item> itemtList)
         {
             List<ItemModel> output = new List<ItemModel>();
-            ItemDetailViewModel.ItemRefList = new HashSet<string>();
-            var familyList = new HashSet<string>();
-            var brandList = new HashSet<string>();
 
-            var infoList = Bl.BlReferential.searchInfo(new Info { Name = "ftp_"}, ESearchOption.AND);
+            var infoList = Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND);
             Info usernameInfo = infoList.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
             Info passwordInfo = infoList.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
 
@@ -253,24 +318,22 @@ namespace QOBDManagement.ViewModel
                 ItemModel ivm = new ItemModel();
 
                 ivm.Item = item;
-                Provider_item searchProvider_item = new Provider_item();
 
-                searchProvider_item.Item_ref = item.Ref;
-                var provider_itemFoundList = Bl.BlItem.searchProvider_item(searchProvider_item, ESearchOption.AND);
+                var provider_itemFoundList = Bl.BlItem.searchProvider_item(new Provider_item { Item_ref = item.Ref }, ESearchOption.AND);
 
                 // getting all providers for each item
                 ivm.ProviderList = loadProviderFromProvider_item(provider_itemFoundList, item.Source);
 
-                if (ivm.ProviderList.Count > 0 && ivm.ProviderList.Count > 0 && ItemDetailViewModel.AllProviderList.Where(x => x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).Count() > 0)
-                    ivm.SelectedProvider = ItemDetailViewModel.AllProviderList.Where(x => x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).First();
-
+                if (ivm.ProviderList.Count > 0 && ProviderList.Where(x => x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).Count() > 0)
+                    ivm.SelectedProvider = ProviderList.Where(x => x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).Single();
+                
                 // select the items appearing in the cart
                 if (Cart.CartItemList.Where(x => x.Item.ID == ivm.Item.ID).Count() > 0)
                     ivm.IsItemSelected = true;
 
                 // loading the item's picture
-                ivm.Image = ivm.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_catalogue_image_folder"], ConfigurationManager.AppSettings["local_catalogue_image_folder"], ivm.TxtPicture, ivm.TxtRef.Replace(' ', '_').Replace(':', '_'), infoList);// loadPicture(ivm, infoList);
-                
+                ivm.Image = await Task.Factory.StartNew(() => { return ivm.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_catalogue_image_folder"], ConfigurationManager.AppSettings["local_catalogue_image_folder"], ivm.TxtPicture, ivm.TxtRef.Replace(' ', '_').Replace(':', '_'), infoList); });
+
                 output.Add(ivm);
             }
 
@@ -282,10 +345,7 @@ namespace QOBDManagement.ViewModel
             List<Provider> returnResult = new List<Provider>();
             foreach (var provider_item in provider_itemFoundList)
             {
-                Provider searchProvider = new Provider();
-                searchProvider.Source = userSourceId;
-                searchProvider.Name = provider_item.Provider_name;
-                var providerFoundList = Bl.BlItem.searchProvider(searchProvider, ESearchOption.AND);
+                var providerFoundList = Bl.BlItem.searchProvider(new Provider { Name = provider_item.Provider_name, Source = userSourceId }, ESearchOption.AND);
                 if (providerFoundList.Count > 0)
                     returnResult = returnResult.Concat(providerFoundList).ToList();
             }
@@ -404,15 +464,17 @@ namespace QOBDManagement.ViewModel
             ItemDetailViewModel.Dispose();
             ItemSideBarViewModel.Dispose();
             foreach (var itemModel in ItemModelList)
+            {
                 if (itemModel.Image != null)
-                    itemModel.Image.closeImageSource();
+                    itemModel.Image.Dispose();
+            }                
         }
 
         //----------------------------[ Action Commands ]------------------
 
         private async void filterItem(string obj)
         {
-            Dialog.showSearch("Searching...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"]);
             ItemModel itemModel = new ItemModel();
             List<Item> results = new List<Item>();
             ESearchOption filterOperator;
@@ -430,7 +492,7 @@ namespace QOBDManagement.ViewModel
 
             if (ItemModel.IsSearchByItemName) { results = results.Where(x => x.Name.IndexOf(obj, StringComparison.InvariantCultureIgnoreCase) >= 0).ToList(); }
 
-            ItemModelList = itemListToModelViewList(results);
+            ItemModelList = await itemListToModelViewList(results);
             _isSearchResult = true;
 
             ItemModel.SelectedBrand = null;
@@ -440,6 +502,7 @@ namespace QOBDManagement.ViewModel
             ItemModel.IsSearchByItemName = false;
             ItemModel.TxtName = "";
             Dialog.IsDialogOpen = false;
+            _main.IsRefresh = true;
             _page(this);
         }
 
@@ -502,7 +565,9 @@ namespace QOBDManagement.ViewModel
         }
 
         public void saveSelectedItem(ItemModel obj)
-        {            
+        {
+            obj.PropertyChanged -= _itemDetailViewModel.onItemNameChange_generateReference;
+            obj.PropertyChanged += _itemDetailViewModel.onItemNameChange_generateReference;
             SelectedItemModel = obj;
             ItemSideBarViewModel.SelectedItem = SelectedItemModel;
             executeNavig("item-detail");
@@ -522,12 +587,7 @@ namespace QOBDManagement.ViewModel
                     _page(this);
                     break;
                 case "item-detail":
-                    SelectedItemModel.IsRefModifyEnable = false;
                     _page(ItemDetailViewModel);
-                    break;
-                case "item-update":
-                    SelectedItemModel.IsRefModifyEnable = false;
-                    _page(_itemDetailViewModel);
                     break;
                 default:
                     goto case "item";
@@ -555,7 +615,7 @@ namespace QOBDManagement.ViewModel
         private void clearCart(object obj)
         {
             // add item to the cart and create an event on quantity change
-            foreach (var itemModel in Cart.CartItemList.Select(x=> new ItemModel { Item = x.Item }).ToList())
+            foreach (var itemModel in Cart.CartItemList.Select(x => new ItemModel { Item = x.Item }).ToList())
                 saveCartChecks(itemModel);
 
             Cart.Client.Client = new QOBDCommon.Entities.Client();

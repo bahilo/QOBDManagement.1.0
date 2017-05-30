@@ -74,7 +74,7 @@ namespace QOBDManagement.ViewModel
 
         private void instances()
         {
-            _title = "Notification Management";
+            _title = ConfigurationManager.AppSettings["title_notification"];
             _notification = new Notification();
             _notifications = new List<Notification>();                        
         }
@@ -136,7 +136,6 @@ namespace QOBDManagement.ViewModel
 
         public async Task loadNotifications()
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
             ClientList = (await Bl.BlClient.GetClientMaxCreditOverDataByAgentAsync(Bl.BlSecurity.GetAuthenticatedUser().ID)).Select(x=> new ClientModel { Client = x }).ToList();
             ClientList = await getClientBillInfoAsync(ClientList);
             BillNotPaidList = await billListToModelViewList(await Bl.BlOrder.GetUnpaidBillDataByAgentAsync(Bl.BlSecurity.GetAuthenticatedUser().ID));
@@ -192,9 +191,6 @@ namespace QOBDManagement.ViewModel
             NotificationSideBarViewModel.Dispose();
         }
 
-        //----------------------------[ Event Handler ]------------------
-        
-
         //----------------------------[ Action Commands ]------------------
         
         private void validateChanges(BillModel obj)
@@ -209,7 +205,7 @@ namespace QOBDManagement.ViewModel
 
         private async void sendUnpaidInvoiceReminderEmail(BillModel obj)
         {
-            Dialog.showSearch("Email sending...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"]);
             ParamOrderToPdf paramOrderToPdf = new ParamOrderToPdf();
             var paramEmail = new ParamEmail();
             paramEmail.IsCopyToAgent = await Dialog.showAsync("Do you want to receive a copy?");
@@ -263,7 +259,8 @@ namespace QOBDManagement.ViewModel
 
         private void showClientDetails(ClientModel obj)
         {
-            
+            _main.ClientViewModel.SelectedCLientModel = obj;
+            _page(new ClientDetailViewModel());
         }
 
         private bool canShowCLientDetails(ClientModel arg)

@@ -1,5 +1,6 @@
 ﻿<Window x:Class="QOBDManagement.MainWindow"
         x:Name="Window"
+        Title="AVA" 
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontWeight="Medium"
@@ -16,18 +17,17 @@
         xmlns:Views="clr-namespace:QOBDManagement.Views"
         xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
         xmlns:Classes="clr-namespace:QOBDManagement.Classes"
-        Title="AVA" 
         Closing="Window_Closing"
         Icon="favicon.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
-                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
@@ -91,7 +91,7 @@
             <DataTemplate DataType="{x:Type ViewModel:OrderDetailViewModel}">
                 <Views:OrderDetailView/>
             </DataTemplate>
-            
+
             <!-- Chat-->
             <DataTemplate DataType="{x:Type ViewModel:ChatRoomViewModel}">
                 <Views:MainChatRoomWindow/>
@@ -130,10 +130,10 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Grid.RowSpan="2" Orientation="Horizontal" Margin="0" HorizontalAlignment="Left">
-                            <Image Source="{Binding LogoImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+                            <Image Source="{Binding LogoImageDisplay.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
                                        Width="{Binding DataContext.LogoImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
                                        Height="{Binding DataContext.LogoImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Image Source="{Binding HeaderImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform" Margin="10 0 0 0"
+                            <Image Source="{Binding HeaderImageDisplay.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform" Margin="10 0 0 0"
                                        Width="{Binding DataContext.HeaderImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
                                        Height="{Binding DataContext.HeaderImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
@@ -167,12 +167,15 @@
                                             <StackPanel Orientation="Horizontal">
                                                 <materialDesign:PackIcon Kind="AccountCircle" Margin="0 0 5 0"/>
                                                 <TextBlock>Profile</TextBlock>
-                                            </StackPanel>                                            
+                                            </StackPanel>
                                         </Button>
-                                        <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="Logout" Margin="0 0 5 0"/>
-                                            <Button Content="Log Out" Command="{Binding SecurityLoginViewModel.LogoutCommand}"/>
-                                        </StackPanel>
+
+                                        <Button Command="{Binding SecurityLoginViewModel.LogoutCommand}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="Logout" Margin="0 0 5 0"/>
+                                                <TextBlock>Log Out</TextBlock>
+                                            </StackPanel>
+                                        </Button>
                                     </StackPanel>
                                 </materialDesign:PopupBox>
                             </ToolBar>

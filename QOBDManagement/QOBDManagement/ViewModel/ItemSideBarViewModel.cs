@@ -61,12 +61,6 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _selectedItem, value, "SelectedItem"); }
         }
 
-        //----------------------------[ Actions ]------------------
-          
-        
-        //----------------------------[ Event Handler ]------------------
-
-
         //----------------------------[ Action Commands ]------------------
 
         private async void executeUtilityAction(string obj)
@@ -76,12 +70,18 @@ namespace QOBDManagement.ViewModel
                 case "update-item":
                     await Dialog.showAsync("Update Item");
                     break;
+                case "catalogue":
+                    _page(_main.ItemViewModel);
+                    break;
             }
         }
 
         private bool canExecuteUtilityAction(string arg)
         {
-            return false;
+            if (arg.Equals("catalogue") && _page(null) as ItemViewModel != null)
+                return false;
+
+            return true;
         }
 
         private void executeSetupAction(string obj)
@@ -89,14 +89,17 @@ namespace QOBDManagement.ViewModel
             switch (obj)
             {
                 case "new-item":
-                    SelectedItem.IsRefModifyEnable = true;
-                    SelectedItem.Item = new QOBDCommon.Entities.Item();
-                    SelectedItem.Image = null;
-                    SelectedItem.SelectedBrand = "";
-                    SelectedItem.SelectedFamily = "";
-                    SelectedItem.Item_deliveryModelList = new List<Item_deliveryModel>();
-                    SelectedItem.ProviderList = new List<QOBDCommon.Entities.Provider>();
-                    _page(new ItemDetailViewModel());
+                    // resetting the selected item
+                    if(_main.ItemViewModel.SelectedItemModel != null)
+                    {
+                        _main.ItemViewModel.SelectedItemModel.PropertyChanged -= _main.ItemViewModel.ItemDetailViewModel.onItemNameChange_generateReference;
+                        if(_main.ItemViewModel.SelectedItemModel.Image != null)
+                            _main.ItemViewModel.SelectedItemModel.Image.Dispose();
+                    }
+                    
+                    _main.ItemViewModel.SelectedItemModel = new ItemModel();
+                    _main.ItemViewModel.SelectedItemModel.PropertyChanged += _main.ItemViewModel.ItemDetailViewModel.onItemNameChange_generateReference;
+                    _page(_main.ItemViewModel.ItemDetailViewModel);
                     break;
             }
         }
@@ -107,6 +110,9 @@ namespace QOBDManagement.ViewModel
             bool isWrite = _main.securityCheck(QOBDCommon.Enum.EAction.Item, QOBDCommon.Enum.ESecurity._Write);
             if ((!isUpdate || !isWrite)
                 && arg.Equals("new-item"))
+                return false;
+
+            if (arg.Equals("catalogue") && _page(null) as ItemViewModel != null)
                 return false;
 
             return true;

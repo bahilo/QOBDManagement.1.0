@@ -193,11 +193,12 @@ namespace QOBDManagement.ViewModel
             {
                 if (agentModel.Image != null)
                     agentModel.Image.closeImageSource();
-            }                
+            }
 
             // download chat user's picture
+            var ftpCredentials = _startup.Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, QOBDCommon.Enum.ESearchOption.AND);
             foreach (AgentModel agentModel in _main.AgentViewModel.AgentModelList)
-                agentModel.Image = agentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], agentModel.TxtPicture, agentModel.TxtProfileImageFileNameBase + "_" + agentModel.Agent.ID, _startup.Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, QOBDCommon.Enum.ESearchOption.AND));
+                agentModel.Image = await Task.Factory.StartNew(()=> { return agentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], agentModel.TxtPicture, agentModel.TxtProfileImageFileNameBase + "_" + agentModel.Agent.ID, ftpCredentials); });
 
             DiscussionViewModel.ChatAgentModelList = _main.AgentViewModel.AgentModelList.Where(x => x.Agent.ID != _startup.Bl.BlSecurity.GetAuthenticatedUser().ID).ToList();
             AuthenticatedAgent.Image = _main.AgentViewModel.AgentModelList.Where(x => x.TxtID == AuthenticatedAgent.TxtID).Select(x => x.Image).SingleOrDefault();

@@ -188,7 +188,7 @@ namespace QOBDManagement.ViewModel
 
         private async Task updateQuote()
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
 
             List<Entity.Order_item> order_itemList = new List<Entity.Order_item>();
             SelectedQuoteModel.TxtDate = DateTime.Now.ToString();
@@ -266,7 +266,7 @@ namespace QOBDManagement.ViewModel
 
         private async Task createNewQuote()
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["create_message"]);
             
             List<Order_itemModel> order_itemModelList = new List<Order_itemModel>();
             OrderModel quote = new OrderModel();

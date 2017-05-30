@@ -274,7 +274,7 @@ namespace QOBDManagement.ViewModel
 
         public void load()
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"], isChatDialogBox: true);
+            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"], isChatDialogBox: true);
 
             // find the discussion where the selected user appears
             List<DiscussionModel> discussionFoundList = new List<DiscussionModel>();
@@ -538,11 +538,9 @@ namespace QOBDManagement.ViewModel
                         ChatRoom.showInfo(messageModel);
                         break;
                     case "reply":
-                        //messageModel.TxtContent = Environment.NewLine + " >> " + messageModel.TxtContent;
                         ChatRoom.showMyReply(messageModel);
                         break;
                     case "recipient":
-                        //messageModel.TxtContent = Environment.NewLine + " >> " + messageModel.TxtContent;
                         ChatRoom.showRecipientReply(messageModel);
                         break;
                 }
@@ -694,7 +692,6 @@ namespace QOBDManagement.ViewModel
                             else
                                 sendMessage(setUserCommunicationSocket(agentFound, null), message);
                         }
-                        //sendMessageToDiscussionUser(agentModel, message);
                     }
                     catch (Exception)
                     { }
@@ -795,7 +792,7 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="msg">message to send (discussion ID / sender ID / message ID / discussion members IDs)</param>
         /// <param name="flag"></param>
-        public async void broadcast(string msg)//(string msg, bool flag = false)
+        public async void broadcast(string msg)
         {
             // creating and saving a new discussion
             if (DiscussionModel.Discussion.ID == 0 && SelectedAgentModel.Agent.ID != 0)
@@ -816,7 +813,7 @@ namespace QOBDManagement.ViewModel
             Message messageToSend = new Message { DiscussionId = DiscussionModel.Discussion.ID, Content = InputMessage, Date = DateTime.Now, UserId = AuthenticatedUser.ID };
             Message savedMessage = await saveMessageToDBAsync(messageToSend);
 
-            // creating the message for
+            // creating the message
             if (msg.Split('/').Count() < 2)
             {
                 msg = DiscussionModel.Discussion.ID.ToString();

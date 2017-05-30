@@ -58,20 +58,20 @@
                             <StackPanel Orientation="Vertical" Margin="8">
                                 <Button Style="{DynamicResource MaterialDesignFlatButton}" 
                                         Command="{Binding DataContext.ReferentialViewModel.ReferentialSideBarViewModel.UtilitiesCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        CommandParameter="monitoring"
+                                        CommandParameter="email"
                                         HorizontalAlignment="Left">
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Monitor"/>
-                                        <TextBlock Margin="8 0 0 0"><Run Text="Activities Monitoring"/></TextBlock>
-                                    </StackPanel>
-                                </Button>
-                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding DataContext.ReferentialViewModel.ReferentialSideBarViewModel.UtilitiesCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                CommandParameter="email"
-                                HorizontalAlignment="Left">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Email"/>
                                         <TextBlock Margin="8 0 0 0"><Run Text="Email"/></TextBlock>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                                        Command="{Binding DataContext.ReferentialViewModel.ReferentialSideBarViewModel.UtilitiesCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        CommandParameter="setting"
+                                        HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Settings"/>
+                                        <TextBlock Margin="8 0 0 0"><Run Text="Settings Home"/></TextBlock>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

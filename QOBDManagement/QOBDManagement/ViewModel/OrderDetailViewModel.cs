@@ -20,6 +20,7 @@ using System.Windows.Threading;
 using System.Threading;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
@@ -105,7 +106,7 @@ namespace QOBDManagement.ViewModel
 
         private void instances()
         {
-            _title = "Order Description";
+            _title = ConfigurationManager.AppSettings["title_order_detail"];
             _outputStringFormat = "F";
             _incomeHeaderWithCurrency = "Total Income (" + CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + ")";
             _taxes = new List<Tax>();
@@ -435,7 +436,7 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         public async Task loadOrder_items()
         {
-            Dialog.showSearch("Loading...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
             Order_ItemModelList = await Order_ItemListToModelViewListAsync(Bl.BlOrder.searchOrder_item(new Order_item { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
 
             StatisticModel = totalCalcul(Order_ItemModelList);            
@@ -500,7 +501,7 @@ namespace QOBDManagement.ViewModel
 
             if (itemFoundList.Count > 0)
             {
-                ItemModel itemModelFound = new ItemViewModel(_main, Startup, Dialog).itemListToModelViewList(new List<Item> { itemFoundList[0] }).FirstOrDefault();
+                ItemModel itemModelFound = (await new ItemViewModel(_main, Startup, Dialog).itemListToModelViewList(new List<Item> { itemFoundList[0] })).FirstOrDefault();
                 if(itemModelFound != null)
                     itemModelFound.Item_deliveryModelList = getItemsDeliveryReceipt(new List<ItemModel> { itemModelFound });
                 return itemModelFound;
@@ -697,7 +698,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="status">the status to convert to</param>
         public void updateOrderStatus(EOrderStatus status)
         {
-            Dialog.showSearch("Processing...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"]);
             _updateOrderStatusTask.initializeNewTask(updateOrderStatusAsync(status));
         }
 
@@ -796,7 +797,7 @@ namespace QOBDManagement.ViewModel
             // invoice and delivery receipts deletion
             if (canDelete || BillModelList.Count == 0)
             {
-                Dialog.showSearchingMessage("Please wait, almost done...");
+                Dialog.showSearchingMessage(ConfigurationManager.AppSettings["wait_message"]);
                 
                 // update item stock
                 await _main.ItemViewModel.updateStockAsync(Order_ItemModelList, isStockReset: true);
@@ -926,7 +927,7 @@ namespace QOBDManagement.ViewModel
         /// <returns></returns>
         private async Task<bool> deleteInvoice(BillModel obj, bool isLastest = false)
         {
-            Dialog.showSearch("Invoice deleting...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
 
             bool isInvoiceDeleted = false;
 
@@ -1328,7 +1329,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         private async void deleteItem(Order_itemModel obj)
         {
-            Dialog.showSearch("Deleting...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
             await Bl.BlOrder.DeleteOrder_itemAsync(new List<Order_item> { obj.Order_Item });
             Order_ItemModelList.Remove(obj);
 
@@ -1372,7 +1373,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         private void generateDeliveryReceiptPdf(DeliveryModel obj)
         {
-            Dialog.showSearch("Pdf creation...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["creation_message"]);
             _paramDeliveryToPdf.OrderId = OrderSelected.Order.ID;
             _paramDeliveryToPdf.DeliveryId = obj.Delivery.ID;
             Bl.BlOrder.GeneratePdfDelivery(_paramDeliveryToPdf);
@@ -1395,7 +1396,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         public async void createDeliveryReceipt(Order_itemModel obj)
         {
-            Dialog.showSearch("Delivery receipt creation...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["creation_message"]);
             int first = 0;
             List<Delivery> insertNewDeliveryList = new List<Delivery>();
             List<Delivery> savedDeliveryList = new List<Delivery>();
@@ -1462,7 +1463,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj">the delivery receipt to process</param>
         private async void deleteDeliveryReceiptInProcess(Item_deliveryModel obj)
         {
-            Dialog.showSearch("Delivery receipt creation cancelling...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
 
             var Order_itemFound = (from c in Order_ItemModelList
                                    where c.ItemModel.Item.Ref == obj.ItemModel.TxtRef && c.ItemModel.Item.ID == obj.ItemModel.Item.ID
@@ -1506,7 +1507,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj">the delivery receipt to process</param>
         private async void cancelDeliveryReceiptCreated(Item_deliveryModel obj)
         {
-            Dialog.showSearch("Delivery receipt created cancelling...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
 
             // Searching the targeting item for processing
             var Order_itemModelTargeted = (from c in Order_ItemModelList
@@ -1583,7 +1584,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         private async void createInvoice(Order_itemModel obj)
         {
-            Dialog.showSearch("Invoice creation...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["create_message"]);
 
             List<Bill> invoiceSavedList = new List<Bill>();
             var Order_itemInProcess = new List<Order_itemModel>();
@@ -1760,7 +1761,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         private async void updateInvoice(BillModel obj)
         {
-            Dialog.showSearch("Invoice updating...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             var savedBillList = await Bl.BlOrder.UpdateBillAsync(new List<Bill> { obj.Bill });
             if (savedBillList.Count > 0)
             {
@@ -1796,7 +1797,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         private void generateOrderBillPdf(BillModel obj)
         {
-            Dialog.showSearch("Invoice pdf generating...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["create_message"]);
             _paramOrderToPdf.ParamEmail = new ParamEmail();
             _paramOrderToPdf.BillId = obj.Bill.ID;
             _paramOrderToPdf.OrderId = OrderSelected.Order.ID;
@@ -1820,7 +1821,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         private void generateQuotePdf(object obj)
         {
-            Dialog.showSearch("Quote pdf generating...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["create_message"]);
             _paramQuoteToPdf.ParamEmail = new ParamEmail();
             _paramQuoteToPdf.OrderId = OrderSelected.Order.ID;
             Bl.BlOrder.GeneratePdfQuote(_paramQuoteToPdf);
@@ -1843,9 +1844,10 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         private async void orderBilling(object obj)
         {
+            Dialog.showSearch(ConfigurationManager.AppSettings["create_message"]);
+
             if (OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString()))
             {
-                Dialog.showSearch("Billing...");
                 updateOrderStatus(EOrderStatus.Bill_Order);
                 if (OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()))
                 {
@@ -1857,8 +1859,7 @@ namespace QOBDManagement.ViewModel
                 }
             }
             else if (OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
-            {
-                Dialog.showSearch("Credit Billing...");
+            {                
                 updateOrderStatus(EOrderStatus.Bill_Credit);
                 if (OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Credit.ToString()))
                 {
@@ -1904,7 +1905,7 @@ namespace QOBDManagement.ViewModel
         {
             if (obj != null)
             {
-                Dialog.showSearch("Address updating...");
+                Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
                 OrderSelected.TxtDeliveryAddress = obj.ID.ToString();
                 var savedOrderList = await Bl.BlOrder.UpdateOrderAsync(new List<Entity.Order> { OrderSelected.Order });
                 if (savedOrderList.Count > 0)
@@ -1939,7 +1940,7 @@ namespace QOBDManagement.ViewModel
         {
             if (obj != null)
             {
-                Dialog.showSearch("Tax updating...");
+                Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
                 OrderSelected.Tax = obj;
 
                 if (OrderSelected.Tax_orderModel.Tax_order.ID == 0)
@@ -1978,9 +1979,11 @@ namespace QOBDManagement.ViewModel
         {
             if (await Dialog.showAsync("Confirme sending email!"))
             {
-                Dialog.showSearch("Email sending...");
                 var paramEmail = new ParamEmail();
                 paramEmail.IsCopyToAgent = await Dialog.showAsync("Do you want to receive a copy of the email?");
+
+                Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"]);
+
                 paramEmail.Subject = EmailFile.TxtSubject;
                 paramEmail.IsSendEmail = true;
 
@@ -2072,7 +2075,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         private async void updateComment(object obj)
         {
-            Dialog.showSearch("Comment updating...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             var savedOrderList = await Bl.BlOrder.UpdateOrderAsync(new List<QOBDCommon.Entities.Order> { OrderSelected.Order });
             if (savedOrderList.Count > 0)
                 await Dialog.showAsync("Comment updated successfully!");

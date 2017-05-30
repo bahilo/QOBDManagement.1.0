@@ -103,6 +103,24 @@
                                         <TextBlock Margin="8 0 0 0">Close Credit</TextBlock>
                                     </StackPanel>
                                 </Button>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                                        Command="{Binding OrderViewModel.OrderSideBarViewModel.UtilitiesCommand}"
+                                        CommandParameter="order"
+                                        HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Cart"/>
+                                        <TextBlock Margin="8 0 0 0">Orders Home</TextBlock>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                                        Command="{Binding OrderViewModel.OrderSideBarViewModel.UtilitiesCommand}"
+                                        CommandParameter="quote"
+                                        HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="CartPlus"/>
+                                        <TextBlock Margin="8 0 0 0">Quotes Home</TextBlock>
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
                         </Expander>
 

@@ -18,7 +18,6 @@ namespace QOBDManagement.ViewModel
     public class OrderSideBarViewModel : BindBase
     {
         private Func<Object, Object> _page;
-        private string _navigTo;
         private Cart _cart;
         private NotifyTaskCompletion<List<Entity.Order_item>> _order_itemTask_updateItem;
         private NotifyTaskCompletion<List<Entity.Order_item>> _order_itemTask_updateCommand_Item;
@@ -57,9 +56,7 @@ namespace QOBDManagement.ViewModel
 
         private void initEvents()
         {
-            PropertyChanged += onNavigToChange;
             PropertyChanged += onSelectedCommandModelChange;
-            //_orderDetailViewModel.PropertyChanged += onorder_ItemModelListChange;
         }
 
         private void instances()
@@ -79,7 +76,6 @@ namespace QOBDManagement.ViewModel
         {
             UtilitiesCommand = new ButtonCommand<string>(executeUtilityAction, canExecuteUtilityAction);
             SetupOrderCommand = new Command.ButtonCommand<string>(executeSetupAction, canExecuteSetupAction);
-
         }
 
         //----------------------------[ Properties ]------------------
@@ -93,12 +89,6 @@ namespace QOBDManagement.ViewModel
         {
             get { return _selectedCommandModel; }
             set { setProperty(ref _selectedCommandModel, value); }
-        }
-
-        public string NavigTo
-        {
-            get { return _navigTo; }
-            set { setProperty(ref _navigTo, value); }
         }
 
         public Cart Cart
@@ -148,25 +138,11 @@ namespace QOBDManagement.ViewModel
 
         public override void Dispose()
         {
-            PropertyChanged -= onNavigToChange;
             PropertyChanged -= onSelectedCommandModelChange;
         }
 
         //----------------------------[ Event Handler ]------------------
         
-        /// <summary>
-        /// Navigate to the next page
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void onNavigToChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (string.Equals(e.PropertyName, "NavigTo"))
-            {
-                executeNavig(NavigTo);
-            }
-        }
-
         public void onCurrentPageChange_updateCommand(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("CurrentViewModel"))
@@ -263,6 +239,12 @@ namespace QOBDManagement.ViewModel
                     if (await Dialog.showAsync("Do you really want to close this credit?"))
                         orderDetail.updateOrderStatus(EOrderStatus.Credit_CLose);
                     break;
+                case "order":
+                    _page(_main.OrderViewModel);
+                    break;
+                case "quote":
+                    _page(_main.QuoteViewModel);
+                    break;
             }
             
         }
@@ -273,7 +255,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         private void executeSetupAction(string obj)
         {
-            NavigTo = obj;
+            executeNavig(obj);
         }
 
         private bool canExecuteSetupAction(string arg)

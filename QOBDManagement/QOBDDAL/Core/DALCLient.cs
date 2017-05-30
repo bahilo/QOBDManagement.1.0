@@ -66,7 +66,7 @@ namespace QOBDDAL.Core
             _serviceCommunication = serviceCommunication;
         }
 
-        public bool IsLodingDataFromWebServiceToLocal
+        public bool IsDataDownloading
         {
             get { return _isLodingDataFromWebServiceToLocal; }
             set { _isLodingDataFromWebServiceToLocal = value; }
@@ -128,7 +128,7 @@ namespace QOBDDAL.Core
             }
             finally
             {
-                lock (_lock) IsLodingDataFromWebServiceToLocal = false;
+                lock (_lock) IsDataDownloading = false;
                 try
                 {
                     _progressBarFunc((double)100 / _progressStep);
@@ -186,7 +186,7 @@ namespace QOBDDAL.Core
                     foreach (Client client in listClient)
                     {
                         int returnResult = _dataSet.DeleteClient(client.ID);
-                        if (returnResult == 0)
+                        if (returnResult > 0)
                             result.Add(client);
                     }
             return result;
@@ -201,7 +201,7 @@ namespace QOBDDAL.Core
                     foreach (Contact contact in listContact)
                     {
                         int returnResult = _dataSet.DeleteContact(contact.ID);
-                        if (returnResult == 0)
+                        if (returnResult > 0)
                             result.Add(contact);
                     }
             return result;
@@ -216,7 +216,7 @@ namespace QOBDDAL.Core
                     foreach (Address address in listAddress)
                     {
                         int returnResult = _dataSet.DeleteAddress(address.ID);
-                        if (returnResult == 0)
+                        if (returnResult > 0)
                             result.Add(address);
                     }
             return result;

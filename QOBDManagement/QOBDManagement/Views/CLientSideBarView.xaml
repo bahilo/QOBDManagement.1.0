@@ -41,39 +41,39 @@
                             </Expander.Header>
                             <StackPanel Orientation="Vertical" Margin="8">
                                 <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding ClientViewModel.ClientSideBarViewModel.ClientUtilitiesCommand}"
-                                CommandParameter="search-client"
-                                HorizontalAlignment="Left">
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Magnify"/>
-                                        <TextBlock Margin="8 0 0 0">Search Client/Prospect</TextBlock>
-                                    </StackPanel>
-                                </Button>
-                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding ClientViewModel.ClientSideBarViewModel.ClientUtilitiesCommand}"
-                                CommandParameter="select-quote-client"
-                                HorizontalAlignment="Left">
+                                        Command="{Binding ClientViewModel.ClientSideBarViewModel.ClientUtilitiesCommand}"
+                                        CommandParameter="select-quote-client"
+                                        HorizontalAlignment="Left">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Pin"/>
                                         <TextBlock Margin="8 0 0 0">Select Client For a Quote</TextBlock>
                                     </StackPanel>
                                 </Button>
                                 <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding ClientViewModel.ClientSideBarViewModel.ClientUtilitiesCommand}"
-                                CommandParameter="client-command"
-                                HorizontalAlignment="Left">
+                                        Command="{Binding ClientViewModel.ClientSideBarViewModel.ClientUtilitiesCommand}"
+                                        CommandParameter="client-command"
+                                        HorizontalAlignment="Left">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Eye"/>
                                         <TextBlock Margin="8 0 0 0">See Client Orders</TextBlock>
                                     </StackPanel>
                                 </Button>
                                 <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding ClientViewModel.ClientSideBarViewModel.ClientUtilitiesCommand}"
-                                CommandParameter="client-quote"
-                                HorizontalAlignment="Left">
+                                        Command="{Binding ClientViewModel.ClientSideBarViewModel.ClientUtilitiesCommand}"
+                                        CommandParameter="client-quote"
+                                        HorizontalAlignment="Left">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Eye"/>
                                         <TextBlock Margin="8 0 0 0">See Client Quote</TextBlock>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                                        Command="{Binding ClientViewModel.ClientSideBarViewModel.ClientUtilitiesCommand}"
+                                        CommandParameter="client"
+                                        HorizontalAlignment="Left">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="AccountMultiple"/>
+                                        <TextBlock Margin="8 0 0 0">Clients Home</TextBlock>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

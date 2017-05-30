@@ -65,6 +65,7 @@ namespace QOBDManagement
 
         public MainWindowViewModel(IStartup startup) : base()
         {
+            createCache();
             init(startup);
             instancesOrder();
             setInitEvents();
@@ -86,6 +87,7 @@ namespace QOBDManagement
             _logoImageDisplay = new InfoManager.Display("logo_image", new List<string> { "logo_image", "logo_image_width", "logo_image_height" }, ConfigurationManager.AppSettings["ftp_image_folder"], ConfigurationManager.AppSettings["local_image_folder"], "", "");
             _billImageDisplay = new InfoManager.Display("bill_image", new List<string> { "bill_image", "bill_image_width", "bill_image_height" }, ConfigurationManager.AppSettings["ftp_image_folder"], ConfigurationManager.AppSettings["local_image_folder"], "", "");
 
+            startup.initialize();
             Startup = startup;
             Dialog = new ConfirmationViewModel();
 
@@ -184,48 +186,21 @@ namespace QOBDManagement
             get { return _headerImageDisplay; }
             set
             {
-                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        _headerImageDisplay = value;
-                    });
-                else
-                    _headerImageDisplay = value;
+                _headerImageDisplay = value;
                 onPropertyChange();
-                InformationDisplayCommand.raiseCanExecuteActionChanged();
             }
         }
 
         public InfoManager.Display LogoImageDisplay
         {
             get { return _logoImageDisplay; }
-            set
-            {
-                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        _logoImageDisplay = value;
-                    });
-                else
-                    _logoImageDisplay = value;
-                onPropertyChange();
-            }
+            set { _logoImageDisplay = value; onPropertyChange();}
         }
 
         public InfoManager.Display BillImageDisplay
         {
             get { return _billImageDisplay; }
-            set
-            {
-                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        _billImageDisplay = value;
-                    });
-                else
-                    _billImageDisplay = value;
-                onPropertyChange();
-            }
+            set { _billImageDisplay = value; onPropertyChange(); }
         }
 
         public Object CurrentViewModel
@@ -234,13 +209,16 @@ namespace QOBDManagement
             set
             {
                 if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
-                    Application.Current.Dispatcher.Invoke(() =>
+                    Application.Current.Dispatcher.BeginInvoke((System.Action)(() =>
                     {
                         _currentViewModel = value;
-                    });
+                        onPropertyChange("CurrentViewModel");
+                    }));
                 else
+                {
                     _currentViewModel = value;
-                onPropertyChange();
+                    onPropertyChange();
+                }
             }
         }
 
@@ -385,6 +363,30 @@ namespace QOBDManagement
 
         //----------------------------[ Actions ]------------------
 
+        private void createCache()
+        {
+            // initialize the DataDirectory to the user local folder
+            AppDomain.CurrentDomain.SetData("DataDirectory", Utility.BaseDirectory);
+
+            var unWritableAppDataDir = Utility.getDirectory(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
+            var writableAppDataDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
+
+            try
+            {
+                // delete database if exists
+                if (File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
+                    File.Delete(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
+
+                // copy the database to user local folder
+                if (!File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
+                    File.Copy(System.IO.Path.Combine(unWritableAppDataDir, "QCBDDatabase.sdf"), System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
+
+            }
+            catch (Exception ex)
+            {
+                Log.error(ex.Message, EErrorFrom.MAIN);
+            }
+        }
 
         /// <summary>
         /// Initializing the User Interface
@@ -403,11 +405,14 @@ namespace QOBDManagement
             {
                 _startup.Dal.ProgressBarFunc = progressBarManagement;
                 _startup.Dal.SetUserCredential(AuthenticatedUserModel.Agent);
-                _startup.Dal.DALReferential.PropertyChanged += onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage;
+                _startup.Dal.DALReferential.PropertyChanged += onGeneralInfoDataDownloadingStatusChange;
+                _startup.Dal.DALItem.PropertyChanged += onCatalogueDataDownloadingStatusChange;
             }
 
             CommandNavig.raiseCanExecuteActionChanged();
             AgentViewModel.GetCurrentAgentCommand.raiseCanExecuteActionChanged();
+
+            
 
             // display the chat view
             ChatRoomCurrentView = ChatRoomViewModel;
@@ -416,38 +421,42 @@ namespace QOBDManagement
             ChatRoomViewModel.start();
         }
 
-        private void downloadHeaderImages()
+        private async void downloadHeaderImages()
         {
-            // set ftp credentials
-            if (string.IsNullOrEmpty(_headerImageDisplay.TxtLogin) || string.IsNullOrEmpty(_logoImageDisplay.TxtLogin) || string.IsNullOrEmpty(_billImageDisplay.TxtLogin))
-            {
-                _headerImageDisplay.TxtLogin = _logoImageDisplay.TxtLogin = _billImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
-                _headerImageDisplay.TxtPassword = _logoImageDisplay.TxtPassword = _billImageDisplay.TxtPassword = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
-            }
+            await Task.Factory.StartNew(()=> {
+                // set ftp credentials
+                if (string.IsNullOrEmpty(_headerImageDisplay.TxtLogin) || string.IsNullOrEmpty(_logoImageDisplay.TxtLogin) || string.IsNullOrEmpty(_billImageDisplay.TxtLogin))
+                {
+                    _headerImageDisplay.TxtLogin = _logoImageDisplay.TxtLogin = _billImageDisplay.TxtLogin = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+                    _headerImageDisplay.TxtPassword = _logoImageDisplay.TxtPassword = _billImageDisplay.TxtPassword = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+                }
 
-            // download header image
-            if (string.IsNullOrEmpty(_headerImageDisplay.TxtFileFullPath))
-            {
-                var headerImageFoundDisplay = loadImage(HeaderImageDisplay);
-                if (!string.IsNullOrEmpty(headerImageFoundDisplay.TxtFileFullPath) && File.Exists(headerImageFoundDisplay.TxtFileFullPath))
-                    HeaderImageDisplay = headerImageFoundDisplay;
-            }
+                // download header image
+                if (string.IsNullOrEmpty(_headerImageDisplay.TxtFileFullPath))
+                {
+                    var headerImageFoundDisplay = loadImage(HeaderImageDisplay);
+                    if (!string.IsNullOrEmpty(headerImageFoundDisplay.TxtFileFullPath) && File.Exists(headerImageFoundDisplay.TxtFileFullPath))
+                        HeaderImageDisplay = headerImageFoundDisplay;
+                }
 
-            // download header logo
-            if (string.IsNullOrEmpty(_logoImageDisplay.TxtFileFullPath))
-            {
-                var logoImageFoundDisplay = loadImage(LogoImageDisplay);
-                if (!string.IsNullOrEmpty(logoImageFoundDisplay.TxtFileFullPath) && File.Exists(logoImageFoundDisplay.TxtFileFullPath))
-                    LogoImageDisplay = logoImageFoundDisplay;
-            }
+                // download header logo
+                if (string.IsNullOrEmpty(_logoImageDisplay.TxtFileFullPath))
+                {
+                    var logoImageFoundDisplay = loadImage(LogoImageDisplay);
+                    if (!string.IsNullOrEmpty(logoImageFoundDisplay.TxtFileFullPath) && File.Exists(logoImageFoundDisplay.TxtFileFullPath))
+                        LogoImageDisplay = logoImageFoundDisplay;
+                }
 
-            // download the bill image
-            if (string.IsNullOrEmpty(_billImageDisplay.TxtFileFullPath))
-            {
-                var billImageFoundDisplay = loadImage(BillImageDisplay);
-                if (!string.IsNullOrEmpty(billImageFoundDisplay.TxtFileFullPath) && File.Exists(billImageFoundDisplay.TxtFileFullPath))
-                    BillImageDisplay = billImageFoundDisplay;
-            }
+                // download the bill image
+                if (string.IsNullOrEmpty(_billImageDisplay.TxtFileFullPath))
+                {
+                    var billImageFoundDisplay = loadImage(BillImageDisplay);
+                    if (!string.IsNullOrEmpty(billImageFoundDisplay.TxtFileFullPath) && File.Exists(billImageFoundDisplay.TxtFileFullPath))
+                        BillImageDisplay = billImageFoundDisplay;
+                }
+            });
+
+            //Dialog.IsDialogOpen = false;
         }
 
         public InfoManager.Display loadImage(InfoManager.Display image)
@@ -461,11 +470,11 @@ namespace QOBDManagement
         {
             if (centralPageContent != null)
             {
-                // reset the navigation to previous page
+                /*// reset the navigation to previous page
                 IsThroughContext = false;
 
                 // reset page refreshing
-                IsRefresh = false;
+                IsRefresh = false;*/
 
                 // save the previous page for later navigation
                 Context.PreviousState = CurrentViewModel as IState;
@@ -528,7 +537,7 @@ namespace QOBDManagement
         private void unsubscribeEvents()
         {
             SecurityLoginViewModel.AgentModel.PropertyChanged -= onAuthenticatedAgentChange;
-            _startup.Dal.DALReferential.PropertyChanged -= onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage;
+            _startup.Dal.DALReferential.PropertyChanged -= onGeneralInfoDataDownloadingStatusChange;
             ChatRoomViewModel.DiscussionViewModel.PropertyChanged -= onNewMessageReceived;
             PropertyChanged -= AgentViewModel.AgentSideBarViewModel.onCurrentPageChange_updateCommand;
             PropertyChanged -= ClientViewModel.ClientSideBarViewModel.onCurrentPageChange_updateCommand;
@@ -542,13 +551,16 @@ namespace QOBDManagement
                 // delete local temp database if exists
                 if (File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
                     File.Delete(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
+
+                foreach (var file in Directory.GetFiles(Utility.getDirectory(ConfigurationManager.AppSettings["local_tmp_folder"])))
+                    File.Delete(file);
             }
             catch (Exception) { }
         }
 
         public async Task<bool> DisposeAsync()
         {
-            Dialog.showSearch("Closing...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["close_message"]);
             unsubscribeEvents();
             ItemViewModel.Dispose();
             ClientViewModel.Dispose();
@@ -593,19 +605,20 @@ namespace QOBDManagement
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void onLodingGeneralInfosDataFromWebServiceToLocalChange_loadHeaderImage(object sender, PropertyChangedEventArgs e)
+        private void onGeneralInfoDataDownloadingStatusChange(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("IsLodingDataFromWebServiceToLocal"))
+            if (e.PropertyName.Equals("IsDataDownloading"))
             {
                 // if not unit testing download images
                 if (Application.Current != null)
                 {
-                    Dialog.showSearchingMessage(ConfigurationManager.AppSettings["wait_message"]);
-
                     if (Application.Current.Dispatcher.CheckAccess())
                     {
                         // reload user information
                         ChatRoomViewModel.getChatUserInformation();
+
+                        // load catalog items
+                        ItemViewModel.loadItems();
 
                         downloadHeaderImages();
                     }
@@ -615,7 +628,32 @@ namespace QOBDManagement
                             // reload user information
                             ChatRoomViewModel.getChatUserInformation();
 
+                            // load catalog items
+                            ItemViewModel.loadItems();
+
                             downloadHeaderImages();
+                        });
+                }
+            }
+        }
+
+        private void onCatalogueDataDownloadingStatusChange(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("IsDataDownloading"))
+            {
+                // if not unit testing download images
+                if (Application.Current != null)
+                {
+                    if (Application.Current.Dispatcher.CheckAccess())
+                    {
+                        // load catalog items
+                        ItemViewModel.loadItems();
+                    }
+                    else
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            // load catalog items
+                            ItemViewModel.loadItems();
                         });
                 }
             }
@@ -647,7 +685,7 @@ namespace QOBDManagement
         /// </summary>
         /// <param name="obj"></param>
         private async void goToMessageHome(string obj)
-        {     
+        {
             // display the chat app
             await Dialog.showAsync(ChatRoomViewModel);
         }
@@ -668,9 +706,7 @@ namespace QOBDManagement
 
         private bool canDisplayInformation(string arg)
         {
-            if (HeaderImageDisplay != null && !string.IsNullOrEmpty(HeaderImageDisplay.TxtFileFullPath))
-                return true;
-            return false;
+            return true;
         }
 
         /// <summary>
@@ -679,11 +715,10 @@ namespace QOBDManagement
         /// <param name="propertyName"></param>
         private void appNavig(string propertyName)
         {
-
             switch (propertyName)
             {
                 case "home":
-                    HomeViewModel.executeNavig(propertyName);
+                    CurrentViewModel = HomeViewModel;
                     break;
                 case "client":
                     ClientViewModel.executeNavig(propertyName);
@@ -710,15 +745,12 @@ namespace QOBDManagement
                     CurrentViewModel = StatisticViewModel;
                     break;
                 case "back":
-                    Context.Request();
                     IsThroughContext = true;
+                    Context.Request();
                     break;
                 case "refresh":
-                    onPropertyChange("CurrentViewModel");
                     IsRefresh = true;
-                    break;
-                case "test":
-                    CurrentViewModel = 't';
+                    onPropertyChange("CurrentViewModel");
                     break;
             }
         }

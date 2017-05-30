@@ -29,10 +29,13 @@ namespace QOBDManagement.Views
         private void ItemView_Loaded(object sender, RoutedEventArgs e)
         {
             UIContext dataContext = new UIContext();
-            if(dataContext.setWindowContext(this) != null)
+            if (dataContext.setWindowContext(this) != null)
             {
-                if (!((MainWindowViewModel)this.DataContext).IsThroughContext)
+                if (((MainWindowViewModel)this.DataContext).IsRefresh)
+                {
                     ((MainWindowViewModel)this.DataContext).ItemViewModel.loadItems();
+                    ((MainWindowViewModel)this.DataContext).IsRefresh = false;
+                }                    
             }
         }
     }

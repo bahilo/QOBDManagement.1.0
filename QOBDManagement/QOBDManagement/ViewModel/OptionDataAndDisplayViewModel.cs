@@ -63,7 +63,7 @@ namespace QOBDManagement.ViewModel
 
         private void instances()
         {
-            _title = "Data/Display Management";
+            _title = ConfigurationManager.AppSettings["title_setting_display"];
             _imageList = new ObservableCollection<InfoManager.Display>();
             _imageWidthSizeList = new List<string>();
             _imageHeightSizeList = new List<string>();
@@ -100,18 +100,6 @@ namespace QOBDManagement.ViewModel
             get { return _theme; }
             set { setProperty(ref _theme, value); }
         }
-
-        /*public string ThemeStylePrimary
-        {
-            get { return _theme.ThemeStylePrimary; }
-            set { _theme.ThemeStylePrimary = value; onPropertyChange(); }
-        }
-
-        public string ThemeStyleAccent
-        {
-            get { return _theme.ThemeStyleAccent; }
-            set { _theme.ThemeStyleAccent = value; onPropertyChange(); }
-        }*/
 
         public string Title
         {
@@ -155,8 +143,14 @@ namespace QOBDManagement.ViewModel
             get { return _dataList; }
             set { setProperty(ref _dataList, value); }
         }
-        
+
         //----------------------------[ Actions ]------------------
+
+        public void load()
+        {
+            loadImages();
+        }
+
 
         public List<LanguageModel> LanguageListToLanguageModelList(List<Language> languageList)
         {
@@ -172,15 +166,10 @@ namespace QOBDManagement.ViewModel
 
             return output;
         }
-        public void loadData()
-        {
-            loadImages();
-        }
-              
-       
+
         private void loadImages()
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
             Dispose();
             ImageList.Clear();
 
@@ -245,7 +234,7 @@ namespace QOBDManagement.ViewModel
 
         public async Task<List<Info>> saveInfo(List<Info> infoDataList)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             var infoToUpdateList = infoDataList.Where(x => x.ID != 0).ToList();
             var infoToCreateList = infoDataList.Where(x => x.ID == 0).ToList();
             var infoUpdatedList = await Bl.BlReferential.UpdateInfoAsync(infoToUpdateList);
@@ -327,7 +316,7 @@ namespace QOBDManagement.ViewModel
 
         private async void deleteImage(InfoManager.Display obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["deleting_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
             var notDeletedInfosList = await Bl.BlReferential.DeleteInfoAsync(obj.InfoDataList);
             var whereImageInfosIDIsZeroList = obj.InfoDataList.Where(x=>x.ID == 0 && x.Name.Equals(obj.TxtFileNameWithoutExtension)).ToList();
             if ((notDeletedInfosList.Count == 0 || whereImageInfosIDIsZeroList.Count > 0) && obj.deleteFiles())

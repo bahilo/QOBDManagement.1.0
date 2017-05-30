@@ -182,6 +182,9 @@ namespace QOBDManagement.ViewModel
                     if (newAgent.ID != 0)
                         await Dialog.showAsync("Your are successfully connected as " + newAgent.FirstName + " " + newAgent.LastName);
                    break;
+                case "agent": // connect a new user
+                    _page(_main.AgentViewModel);
+                    break;
             }
             Dialog.IsDialogOpen = false;
             UtilitiesCommand.raiseCanExecuteActionChanged();

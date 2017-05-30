@@ -76,7 +76,7 @@ namespace QOBDManagement.ViewModel
             _bankDetails = new List<InfoManager.Bank>();
             _generalInfos = new GeneralInfos();
             _emailfilterList = new List<string> { "email", "invoice_email", "quote_email", "reminder_email", "validation_email" };
-            _title = "Settings";
+            _title = ConfigurationManager.AppSettings["title_settings"];
         }
 
         private void instancesModel()
@@ -225,9 +225,9 @@ namespace QOBDManagement.ViewModel
             return output;
         }
 
-        public async void loadData()
+        public async void load()
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["loading_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
 
             var userListSizeFoundList = _generalInfos.ListSizeList.Where(x => x.Equals(Bl.BlSecurity.GetAuthenticatedUser().ListSize)).ToList();
             TxtSelectedListSize = (userListSizeFoundList.Count > 0) ? userListSizeFoundList[0] : 0;
@@ -303,7 +303,7 @@ namespace QOBDManagement.ViewModel
 
         private async void deleteTax(TaxModel obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["deleting_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
             var NotDeletedTax = await Bl.BlOrder.DeleteTaxAsync(new List<QOBDCommon.Entities.Tax> { obj.Tax });
             if (NotDeletedTax.Count == 0)
             {
@@ -321,7 +321,7 @@ namespace QOBDManagement.ViewModel
 
         private async void addTax(object obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             TaxModel.TxtDate = DateTime.Now.ToString();
             var savedTaxList = await Bl.BlOrder.InsertTaxAsync(new List<QOBDCommon.Entities.Tax> { TaxModel.Tax });
             if (savedTaxList.Count > 0)
@@ -339,7 +339,7 @@ namespace QOBDManagement.ViewModel
 
         private async void updateListSize(object obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             var authenticatedUser = Bl.BlSecurity.GetAuthenticatedUser();
             authenticatedUser.ListSize = Convert.ToInt32(_generalInfos.TxtSelectedListSize);
             var savedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
@@ -379,7 +379,7 @@ namespace QOBDManagement.ViewModel
 
         private async void updateLegalInformation(object obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             bool isSuccessful = LegalInformationFileManagement.save();
             if (isSuccessful)
                 await Dialog.showAsync("Legal Information content has been saved Successfully!");
@@ -393,7 +393,7 @@ namespace QOBDManagement.ViewModel
 
         private async void updateSaleGeneralCondition(object obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             bool isSuccessful = SaleGeneralConditionFileManagement.save();
             if (isSuccessful)
                 await Dialog.showAsync("Sale General Condition content has been saved Successfully!");
@@ -407,7 +407,7 @@ namespace QOBDManagement.ViewModel
 
         private async void updateBankDetail(object obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             var infosList = new InfoManager().GeneralInfo.retrieveInfoDataListFromDictionary(_bankDetails[0].BankDictionary);// _bankDetails[0].extractInfosListFromBankDictionary();
             var infosToUpdateList = infosList.Where(x => x.ID != 0).ToList();
             var infosToCreateList = infosList.Where(x => x.ID == 0).ToList();
@@ -431,7 +431,7 @@ namespace QOBDManagement.ViewModel
 
         private async void updateAddress(object obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             var infosList = new InfoManager().GeneralInfo.retrieveInfoDataListFromDictionary(_addressDetails[0].ContactDictionary);// _addressDetails[0].extractInfosListFromContactDictionary();
             var infosToUpdateList = infosList.Where(x => x.ID != 0).ToList();
             var infosToCreateList = infosList.Where(x => x.ID == 0).ToList();
@@ -455,7 +455,7 @@ namespace QOBDManagement.ViewModel
         private async void updateEmail(object obj)
         {
             List<Info> updateList = new List<Info>();
-            Dialog.showSearch(ConfigurationManager.AppSettings["updating_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             foreach (string filter in _emailfilterList)
             {
                 var infosFoundList = Bl.BlReferential.searchInfo(new Info { Name = filter }, ESearchOption.AND);

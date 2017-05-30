@@ -11,23 +11,23 @@ using System.Text;
 using System.Threading.Tasks;
 using QOBDManagement.Interfaces;
 using QOBDCommon.Enum;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
     public class OptionSecurityViewModel : BindBase
     {
+        private string _title;
+        private IMainWindowViewModel _main;
         private Func<object, object> _page;
         private List<RoleModel> _roleModelList;
         private List<AgentModel> _agentModelList;
         private Dictionary<int, Role> _agentCreddentailTableHeaders;
         private Dictionary<int, int> _rolePosition = new Dictionary<int, int>();
-        private string _title;
-        private IMainWindowViewModel _main;
 
         //----------------------------[ Models ]------------------
 
         public ReferentialSideBarViewModel ReferentialSideBarViewModel { get; set; }
-
 
         //----------------------------[ Commands ]------------------
 
@@ -57,7 +57,7 @@ namespace QOBDManagement.ViewModel
             _agentCreddentailTableHeaders = new Dictionary<int, Role>();
             _rolePosition = new Dictionary<int, int>();
             _agentModelList = new List<AgentModel>();
-            _title = "Security Management";
+            _title = ConfigurationManager.AppSettings["title_setting_security"];
         }
 
         private void instancesModel()
@@ -204,12 +204,10 @@ namespace QOBDManagement.ViewModel
             return output;
         }
 
-        public async void loadData()
+        public async void load()
         {
-            Dialog.showSearch("Security roles loading...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
             RoleModelList = await getRoleModelAsync();
-
-            Dialog.showSearch("Agent credentials loading...");
             AgentModelList = await getAgentModelAsync();
 
             Dialog.IsDialogOpen = false;
@@ -334,7 +332,7 @@ namespace QOBDManagement.ViewModel
 
         private async void updateSecurityCredential(object obj)
         {
-            Dialog.showSearch("Credentials updating...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
 
             // update role right on actions
             List<RoleModel> roleModifiedList = RoleModelList.Where(x => x.IsModified).ToList();

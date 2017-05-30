@@ -60,10 +60,10 @@ namespace QOBDDAL.Core
             _serviceCommunication = serviceCommunication;
         }
 
-        public bool IsLodingDataFromWebServiceToLocal
+        public bool IsDataDownloading
         {
             get { return _isLodingDataFromWebServiceToLocal; }
-            set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsLodingDataFromWebServiceToLocal"); }
+            set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsDataDownloading"); }
         }
 
         public void initializeCredential(Agent user)
@@ -107,7 +107,7 @@ namespace QOBDDAL.Core
             }
             finally
             {
-                lock (_lock) IsLodingDataFromWebServiceToLocal = false;
+                lock (_lock) IsDataDownloading = false;
                 try
                 {
                     _progressBarFunc((double)100 / _progressStep);
@@ -156,7 +156,7 @@ namespace QOBDDAL.Core
                     foreach (Info infos in listInfos)
                     {
                         int returnValue = _dataSet.DeleteInfo(infos.ID);
-                        if (returnValue == 0)
+                        if (returnValue > 0)
                             result.Add(infos);
                     }
                 }

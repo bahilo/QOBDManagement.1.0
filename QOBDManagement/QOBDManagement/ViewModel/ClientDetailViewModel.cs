@@ -12,6 +12,7 @@ using QOBDManagement.Command;
 using QOBDCommon.Classes;
 using QOBDManagement.Interfaces;
 using QOBDCommon.Enum;
+using System.Configuration;
 
 namespace QOBDManagement.ViewModel
 {
@@ -19,7 +20,6 @@ namespace QOBDManagement.ViewModel
     {
         private Cart _cart;
         private Func<Object, Object> _page;
-        //private NotifyTaskCompletion<ClientModel> _selectedCLientTask;
         private string _title;
         private List<string> _addressTypeList;
 
@@ -50,21 +50,15 @@ namespace QOBDManagement.ViewModel
         {
             this._main = main;
             _page = _main.navigation;
-            initEvents();
             
         }
 
         //----------------------------[ Initialization ]------------------
-
-        private void initEvents()
-        {
-            //_selectedCLientTask.PropertyChanged += onSelectedCLientTaskCompletion_saveSelectedClient;
-        }
+        
 
         private void instances()
         {
-            _title = "Client Description";
-            //_selectedCLientTask = new NotifyTaskCompletion<ClientModel>();
+            _title = ConfigurationManager.AppSettings["title_client_detail"];
             _addressTypeList = new List<string> { "Bill", "Delivery" };
         }
 
@@ -135,28 +129,11 @@ namespace QOBDManagement.ViewModel
             return cLientModel;
         }
 
-        public override void Dispose()
-        {
-            //_selectedCLientTask.PropertyChanged -= onSelectedCLientTaskCompletion_saveSelectedClient;
-        }
-
-        //----------------------------[ Event Handler ]------------------
-        
-
-
-        //private void onSelectedCLientTaskCompletion_saveSelectedClient(object sender, PropertyChangedEventArgs e)
-        //{
-        //    if (string.Equals(e.PropertyName, "IsSuccessfullyCompleted"))
-        //    {
-        //        SelectedCLientModel = _selectedCLientTask.Result;
-        //    }
-        //}
-
         //----------------------------[ Action Commands ]------------------
 
         private async void saveChanges(string obj)
         {
-            Dialog.showSearch("Please wait while we are dealing with your request...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             List<Client> savedClientList = new List<Client>();
             List<Address> savedAddressList = new List<Address>();
             List<Contact> savedContactList = new List<Contact>();
@@ -249,11 +226,11 @@ namespace QOBDManagement.ViewModel
             else
             {
                 if (!isClientMandatoryFieldEmpty)
-                    await Dialog.showAsync("Please fill up mandatory Main detail fields.");
+                    await Dialog.showAsync("[Main detail]: Please fill up mandatory fields.");
                 if (!isAddressMandatoryFieldEmpty)
-                    await Dialog.showAsync("Please fill up mandatory Address detail fields.");
+                    await Dialog.showAsync("[Address detail]: Please fill up mandatory fields.");
                 if (!isContactMandatoryFieldEmpty)
-                    await Dialog.showAsync("Please fill up mandatory Contact detail fields.");
+                    await Dialog.showAsync("[Contact detail]: Please fill up mandatory fields.");
             }
 
             Dialog.IsDialogOpen = false;       
@@ -296,7 +273,7 @@ namespace QOBDManagement.ViewModel
                 case "client":
                     if (SelectedCLientModel != null && SelectedCLientModel.Client.ID != 0 && await confirmDeleting(obj))
                     {
-                        Dialog.showSearch(string.Format("Client Deleting {0}...", obj));
+                        Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
                         var deletedAddressList = await Bl.BlClient.DeleteAddressAsync(_selectedCLientModel.AddressList);
                         var deletedContactList = await Bl.BlClient.DeleteContactAsync(_selectedCLientModel.ContactList);
                         var deletedClientList = await Bl.BlClient.DeleteClientAsync(new List<Client> { SelectedCLientModel.Client });
@@ -310,7 +287,7 @@ namespace QOBDManagement.ViewModel
                 case "address":
                     if (SelectedCLientModel.Address != null && SelectedCLientModel.Address.ID != 0 && await confirmDeleting(obj))
                     {
-                        Dialog.showSearch(string.Format("Address Deleting {0}...", obj));
+                        Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
                         var deletedAddressList = await Bl.BlClient.DeleteAddressAsync(new List<Address> { SelectedCLientModel.Address });
                         var clientModel = loadContactsAndAddresses(SelectedCLientModel);
                         SelectedCLientModel.AddressList = clientModel.AddressList;
@@ -318,14 +295,14 @@ namespace QOBDManagement.ViewModel
                         if (deletedAddressList.Count == 0)
                         {
                             Dialog.showSearch("Address deleted successfully!");
-                            _page(new ClientDetailViewModel());
+                            _page(this);
                         }                            
                     }
                     break;
                 case "contact":
                     if (SelectedCLientModel.Contact != null && SelectedCLientModel.Contact.ID != 0 && await confirmDeleting(obj))
                     {
-                        Dialog.showSearch(string.Format("Contact Deleting {0}...", obj));
+                        Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
                         var deletedContactList = await Bl.BlClient.DeleteContactAsync(new List<Contact> { SelectedCLientModel.Contact });
                         var clientModel = loadContactsAndAddresses(SelectedCLientModel);
                         SelectedCLientModel.ContactList = clientModel.ContactList;
@@ -333,7 +310,7 @@ namespace QOBDManagement.ViewModel
                         if (deletedContactList.Count == 0)
                         {
                             Dialog.showSearch("Contact deleted successfully!");
-                            _page(new ClientDetailViewModel());
+                            _page(this);
                         } 
                     }
                     break;
@@ -376,7 +353,6 @@ namespace QOBDManagement.ViewModel
         {
             SelectedCLientModel = loadContactsAndAddresses(obj);
             _page(this);
-            //_selectedCLientTask.initializeNewTask();
         }
 
         private bool canSelectNewClient(ClientModel arg)
