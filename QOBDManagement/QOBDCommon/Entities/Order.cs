@@ -38,7 +38,7 @@ namespace QOBDCommon.Entities
 
         public DateTime Date {get; set;}
 
-        public double Tax {get; set;}
+        public decimal Tax {get; set;}
         
         
     } /* end class Command */

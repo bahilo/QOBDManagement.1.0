@@ -95,7 +95,7 @@ namespace QOBDDAL.Core
         {
             object _lock = new object();
 
-            lock (_lock) _isLodingDataFromWebServiceToLocal = true;
+            lock (_lock) IsDataDownloading = true;
             try
             {
                 ConcurrentBag<Info> infosList = new ConcurrentBag<Info>(await _gateWayReferential.GetInfoDataAsync(_loadSize));

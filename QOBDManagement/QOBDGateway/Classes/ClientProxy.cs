@@ -2049,5 +2049,86 @@ namespace QOBDGateway.Classes
         {
             return base.Channel.get_filter_user_discussionAsync(user_discussion_array_list_filter);
         }
+        
+        public virtual CurrencyQOBD[] get_data_currency(string nbLine)
+        {
+            return base.Channel.get_data_currency(nbLine);
+        }
+        
+        public virtual Task<CurrencyQOBD[]> get_data_currencyAsync(string nbLine)
+        {
+            return base.Channel.get_data_currencyAsync(nbLine);
+        }
+
+        
+        public virtual CurrencyQOBD[] delete_data_currency(CurrencyQOBD[] currency_array_list)
+        {
+            return base.Channel.delete_data_currency(currency_array_list);
+        }
+
+        
+        public Task<CurrencyQOBD[]> delete_data_currencyAsync(CurrencyQOBD[] currency_array_list)
+        {
+            return base.Channel.delete_data_currencyAsync(currency_array_list);
+        }
+        
+        public virtual CurrencyQOBD[] insert_data_currency(CurrencyQOBD[] currency_array_list)
+        {
+            return base.Channel.insert_data_currency(currency_array_list);
+        }
+
+        
+        public Task<CurrencyQOBD[]> insert_data_currencyAsync(CurrencyQOBD[] currency_array_list)
+        {
+            return base.Channel.insert_data_currencyAsync(currency_array_list);
+        }
+
+        
+        public virtual CurrencyQOBD[] update_data_currency(CurrencyQOBD[] currency_array_list)
+        {
+            return base.Channel.update_data_currency(currency_array_list);
+        }
+
+        
+        public Task<CurrencyQOBD[]> update_data_currencyAsync(CurrencyQOBD[] currency_array_list)
+        {
+            return base.Channel.update_data_currencyAsync(currency_array_list);
+        }
+
+        
+        public virtual CurrencyQOBD[] get_data_currency_by_id(string id)
+        {
+            return base.Channel.get_data_currency_by_id(id);
+        }
+
+        
+        public Task<CurrencyQOBD[]> get_data_currency_by_idAsync(string id)
+        {
+            return base.Channel.get_data_currency_by_idAsync(id);
+        }
+
+        
+        public virtual CurrencyQOBD[] get_filter_currency(CurrencyFilterQOBD currency_array_list_filter)
+        {
+            return base.Channel.get_filter_currency(currency_array_list_filter);
+        }
+
+        
+        public Task<CurrencyQOBD[]> get_filter_currencyAsync(CurrencyFilterQOBD currency_array_list_filter)
+        {
+            return base.Channel.get_filter_currencyAsync(currency_array_list_filter);
+        }
+
+        
+        public virtual CurrencyQOBD[] get_data_currency_by_provider_item_list(Provider_itemQOBD[] provider_item_array_list)
+        {
+            return base.Channel.get_data_currency_by_provider_item_list(provider_item_array_list);
+        }
+
+        
+        public Task<CurrencyQOBD[]> get_data_currency_by_provider_item_listAsync(Provider_itemQOBD[] provider_item_array_list)
+        {
+            return base.Channel.get_data_currency_by_provider_item_listAsync(provider_item_array_list);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QOBDManagement.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace QOBDManagement.Views
         public NotificationSideBarView()
         {
             InitializeComponent();
+        }
+
+        private void NotificationSideBarView_Loaded(object sender, RoutedEventArgs e)
+        {
+            UIContext dataContext = new UIContext();
+            dataContext.setWindowContext(this);
         }
     }
 }

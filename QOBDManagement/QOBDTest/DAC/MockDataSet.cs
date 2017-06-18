@@ -485,14 +485,14 @@ namespace QOBDTest.DAC
         public List<Provider_item> GetProvider_itemData()
         {
             return new List<Provider_item> {
-                new Provider_item { ID = 1, Item_ref = "", Provider_name = "" },
-                new Provider_item { ID = 2, Item_ref = "", Provider_name = "" },
+                new Provider_item { ID = 1, ItemId = 1, ProviderId = 1 },
+                new Provider_item { ID = 2, ItemId = 1, ProviderId = 1 },
             };
         }
 
         public List<Provider_item> GetProvider_itemDataById(int id)
         {
-            return new List<Provider_item> { new Provider_item { ID = id, Item_ref = "", Provider_name = "" } };
+            return new List<Provider_item> { new Provider_item { ID = id, ItemId = 1, ProviderId = 1 } };
         }
 
         public List<Tax_item> GetTax_itemData()
@@ -717,22 +717,41 @@ namespace QOBDTest.DAC
         public void Dispose()
         {
             
-        }              
-             
-           
+        }
 
-        
+        public int DeleteCurrency(int currencyId)
+        {
+            throw new NotImplementedException();
+        }
 
-        
+        public int UpdateCurrency(List<Currency> currencyList)
+        {
+            throw new NotImplementedException();
+        }
 
-        
+        public int LoadCurrency(Currency currency)
+        {
+            throw new NotImplementedException();
+        }
 
-        
+        public List<Currency> GetCurrencyData()
+        {
+            throw new NotImplementedException();
+        }
 
-        
+        public List<Currency> GetCurrencyDataById(int id)
+        {
+            throw new NotImplementedException();
+        }
 
-        
+        public List<Currency> GetCurrencyDataByProvider_item(Provider_item provider_item)
+        {
+            throw new NotImplementedException();
+        }
 
-
+        public List<Currency> searchCurrency(Currency Currency, ESearchOption filterOperator)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

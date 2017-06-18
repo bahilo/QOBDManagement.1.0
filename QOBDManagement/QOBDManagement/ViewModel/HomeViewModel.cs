@@ -24,8 +24,6 @@ namespace QOBDManagement.ViewModel
 {
     public class HomeViewModel : BindBase//, IHomeViewModel
     {
-        //----------------------------[ Models ]------------------
-        
         private IMainWindowViewModel _main;
         private Func<object, object> _page;
 
@@ -66,7 +64,12 @@ namespace QOBDManagement.ViewModel
         }
 
         //----------------------------[ Properties ]------------------
-        
+
+        public string TxtMaterialDesignColourName
+        {
+            get { return Utility.getRandomMaterialDesignColour(); }
+        }
+
         //----------------------------[ Actions ]------------------
 
         public void loadData()

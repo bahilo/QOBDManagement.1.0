@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using QOBDBusiness;
 using QOBDManagement.Interfaces;
+using QOBDCommon.Classes;
+using QOBDCommon.Enum;
 
 namespace QOBDManagement.ViewModel
 {
@@ -76,23 +78,13 @@ namespace QOBDManagement.ViewModel
             set { _main.ClientViewModel.SelectedCLientModel = value; onPropertyChange(); }
         }
 
-        //----------------------------[ Actions ]------------------
-        
-        private object getCurrentPage()
+        public string TxtIconColour
         {
-            if (_page != null)
-            {
-                Object PageViewModel = _page(null) as ClientDetailViewModel;
-                if (PageViewModel != null)
-                    return PageViewModel;
-
-                PageViewModel = _page(null) as ClientViewModel;
-                if (PageViewModel != null)
-                    return PageViewModel;
-            }
-            return null;
+            get { return Utility.getRandomColour(); }
         }
 
+        //----------------------------[ Actions ]------------------
+        
         private void updateCommand()
         {
             ClientUtilitiesCommand.raiseCanExecuteActionChanged();
@@ -129,7 +121,7 @@ namespace QOBDManagement.ViewModel
                         Cart.Client = SelectedClient;
                         _page(_main.QuoteViewModel);
                         break;
-                    case "client-command":
+                    case "client-order":
                         _main.OrderViewModel.SelectedClient = SelectedClient;
                         _page(_main.OrderViewModel);
                         break;
@@ -146,15 +138,20 @@ namespace QOBDManagement.ViewModel
 
         private bool canExecuteUtilityAction(string arg)
         {
-            object currentPage = getCurrentPage();
+            bool canUpdate = _main.securityCheck(EAction.Client, ESecurity._Update) && _main.securityCheck(EAction.Quote, ESecurity._Update);
+            bool canWrite = _main.securityCheck(EAction.Client, ESecurity._Write) && _main.securityCheck(EAction.Quote, ESecurity._Write);
 
-            if (currentPage == null)
+            if (arg.Equals("client") && _page(null) as ClientViewModel == null)
                 return false;
-            if (currentPage.GetType() == typeof(ClientDetailViewModel)
-                && arg.Equals("search-client"))
+
+            if (_page(null) as ClientDetailViewModel == null)
                 return false;
-            if ((currentPage.GetType() != typeof(ClientDetailViewModel) || SelectedClient.Client.ID == 0)
-                && (arg.Equals("client-command")
+
+            if (arg.Equals("select-quote-client") && (!canWrite || !canUpdate))
+                return false;
+            
+            if ( SelectedClient.Client.ID == 0
+                && (arg.Equals("client-order")
                 || arg.Equals("client-quote")
                 || arg.Equals("select-quote-client")))
                 return false;
@@ -187,8 +184,6 @@ namespace QOBDManagement.ViewModel
 
         private bool canExecuteSetupAction(string arg)
         {
-            object currentPage = getCurrentPage();
-
             bool isUpdate = _main.securityCheck(QOBDCommon.Enum.EAction.Client, QOBDCommon.Enum.ESecurity._Update);
             bool isWrite = _main.securityCheck(QOBDCommon.Enum.EAction.Client, QOBDCommon.Enum.ESecurity._Write);
             if ((!isUpdate || !isWrite)
@@ -197,9 +192,10 @@ namespace QOBDManagement.ViewModel
                 || arg.Equals("new-address")))
                 return false;
 
-            if (currentPage == null)
+            if (_page(null) as ClientDetailViewModel == null)
                 return false;
-            if ((currentPage.GetType() != typeof(ClientDetailViewModel) || SelectedClient.Client.ID == 0)
+
+            if (SelectedClient.Client.ID == 0
                 && (arg.Equals("new-contact")
                 || arg.Equals("new-address")))
                 return false;

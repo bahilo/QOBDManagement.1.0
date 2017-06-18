@@ -178,6 +178,86 @@ namespace QOBDDAL.Helper.ChannelHelper
 
             return output;
         }
+        //====================================================================================
+        //===============================[ Currency ]===========================================
+        //====================================================================================
+
+        public static List<Currency> DataTableTypeToCurrency(this DataTable currencyDataTable)
+        {
+            object _lock = new object(); List<Currency> returnList = new List<Currency>();
+
+            for (int i = 0; i < currencyDataTable.Rows.Count; i++)
+            {
+                Currency currency = new Currency();
+                currency.ID = Utility.intTryParse(currencyDataTable.Rows[i].ItemArray[currencyDataTable.Columns["ID"].Ordinal].ToString());
+                currency.IsDefault = (Utility.intTryParse(currencyDataTable.Rows[i].ItemArray[currencyDataTable.Columns["IsDefault"].Ordinal].ToString()) == 1)? true : false;
+                currency.Name = (currencyDataTable.Rows[i].ItemArray[currencyDataTable.Columns["Name"].Ordinal] ?? "").ToString();
+                currency.Rate = Utility.decimalTryParse(currencyDataTable.Rows[i].ItemArray[currencyDataTable.Columns["Rate"].Ordinal].ToString());
+                currency.Symbol = (currencyDataTable.Rows[i].ItemArray[currencyDataTable.Columns["Symbol"].Ordinal] ?? "").ToString();
+                currency.CountryCode = (currencyDataTable.Rows[i].ItemArray[currencyDataTable.Columns["Country_code"].Ordinal] ?? "").ToString();
+                currency.CurrencyCode = (currencyDataTable.Rows[i].ItemArray[currencyDataTable.Columns["Currency_code"].Ordinal] ?? "").ToString();
+                currency.Country = (currencyDataTable.Rows[i].ItemArray[currencyDataTable.Columns["Country"].Ordinal] ?? "").ToString();
+                currency.Date = Utility.convertToDateTime(currencyDataTable.Rows[i].ItemArray[currencyDataTable.Columns["Date"].Ordinal].ToString());
+
+                lock (_lock) returnList.Add(currency);
+            }
+
+            return returnList;
+        }
+
+        public static List<Currency> filterDataTableToCurrencyType(this Currency Currency, ESearchOption filterOperator)
+        {
+            if (Currency != null)
+            {
+                string baseSqlString = "SELECT * FROM Currencies WHERE ";
+                string defaultSqlString = "SELECT * FROM Currencies WHERE 1=0 ";
+                object _lock = new object(); string query = "";
+
+                if (Currency.ID != 0)
+                    query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Currency.ID);
+                if (!string.IsNullOrEmpty(Currency.CurrencyCode))
+                    query = string.Format(query + " {0} Currency_code LIKE '{1}' ", filterOperator.ToString(), Currency.CurrencyCode);
+                if (Currency.IsDefault)
+                    query = string.Format(query + " {0} IsDefault LIKE '{1}' ", filterOperator.ToString(), Currency.IsDefault ? 1 : 0);
+                if (!string.IsNullOrEmpty(Currency.Name))
+                    query = string.Format(query + " {0} Name LIKE '{1}' ", filterOperator.ToString(), Currency.Name);
+                if (!string.IsNullOrEmpty(Currency.Symbol))
+                    query = string.Format(query + " {0} Symbol LIKE '{1}' ", filterOperator.ToString(), Currency.Symbol);
+                if (!string.IsNullOrEmpty(Currency.CountryCode))
+                    query = string.Format(query + " {0} Country_code LIKE '{1}' ", filterOperator.ToString(), Currency.CountryCode);
+                if (!string.IsNullOrEmpty(Currency.Country))
+                    query = string.Format(query + " {0} Country LIKE '{1}' ", filterOperator.ToString(), Currency.Country);
+                if (Currency.Rate != 0)
+                    query = string.Format(query + " {0} Rate LIKE '{1}' ", filterOperator.ToString(), Currency.Rate);
+                
+                lock (_lock)
+                    if (!string.IsNullOrEmpty(query))
+                        baseSqlString = baseSqlString + query.Substring(query.IndexOf(filterOperator.ToString()) + filterOperator.ToString().Length);
+                    else
+                        baseSqlString = defaultSqlString;
+
+                return DataTableTypeToCurrency(baseSqlString.getDataTableFromSqlCEQuery());
+
+            }
+            return new List<Currency>();
+        }
+
+        public static Dictionary<string, string> getColumDictionary(this Currency currency)
+        {
+            Dictionary<string, string> output = new Dictionary<string, string>();
+
+            output["ID"] = currency.ID.ToString();
+            output["IsDefault"] = (currency.IsDefault) ? "1" : "0";
+            output["Date"] = currency.Date.ToString("yyyy-MM-dd H:mm:ss");
+            output["Rate"] = currency.Rate.ToString();
+            output["Symbol"] = (currency.Symbol ?? "").ToString();
+            output["Name"] = (currency.Name ?? "").ToString();
+            output["Country_code"] = (currency.CountryCode ?? "").ToString();
+            output["Currency_code"] = (currency.CurrencyCode ?? "").ToString();
+            output["Country"] = (currency.Country ?? "").ToString();
+
+            return output;
+        }
 
 
         //====================================================================================
@@ -507,7 +587,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 Order.Status = (OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Status"].Ordinal] ?? "").ToString();
                 Order.Date = Utility.convertToDateTime(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Date"].Ordinal].ToString());
                 Order.DeliveryAddress = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["DeliveryAddress"].Ordinal].ToString());
-                Order.Tax = Utility.doubleTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Tax"].Ordinal].ToString());
+                Order.Tax = Utility.decimalTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Tax"].Ordinal].ToString());
 
                 lock (_lock) returnList.Add(Order);
             }
@@ -1223,7 +1303,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     tax.ID = Utility.intTryParse(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["ID"].Ordinal].ToString());
                     tax.Tax_current = Utility.intTryParse(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Tax_current"].Ordinal].ToString());
                     tax.Type = (TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Type"].Ordinal] ?? "").ToString();
-                    tax.Value = Utility.doubleTryParse(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Value"].Ordinal].ToString());
+                    tax.Value = Utility.decimalTryParse(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Value"].Ordinal].ToString());
                     tax.Date_insert = Utility.convertToDateTime(TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Date_insert"].Ordinal].ToString());
                     tax.Comment = (TaxDataTable.Rows[i].ItemArray[TaxDataTable.Columns["Comment"].Ordinal] ?? "").ToString();
 
@@ -1293,10 +1373,11 @@ namespace QOBDDAL.Helper.ChannelHelper
                 {
                     Provider_item provider_item = new Provider_item();
                     provider_item.ID = Utility.intTryParse(provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["ID"].Ordinal].ToString());
-                    provider_item.Item_ref = (provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["Item_ref"].Ordinal] ?? "").ToString();
-                    provider_item.Provider_name = (provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["Provider_name"].Ordinal] ?? "").ToString();
+                    provider_item.ItemId = Utility.intTryParse(provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["ItemId"].Ordinal].ToString());
+                    provider_item.ProviderId = Utility.intTryParse(provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["ProviderId"].Ordinal].ToString());
+                    provider_item.CurrencyId = Utility.intTryParse(provider_itemDataTable.Rows[i].ItemArray[provider_itemDataTable.Columns["CurrencyId"].Ordinal].ToString());
 
-                lock (_lock) returnList.Add(provider_item);
+                    lock (_lock) returnList.Add(provider_item);
                 }
             }
             return returnList;
@@ -1312,10 +1393,12 @@ namespace QOBDDAL.Helper.ChannelHelper
 
                 if (Provider_item.ID != 0)
                     query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Provider_item.ID);
-                if (!string.IsNullOrEmpty(Provider_item.Provider_name))
-                    query = string.Format(query + " {0} Provider_name LIKE '{1}' ", filterOperator.ToString(), Provider_item.Provider_name.Replace("'", "''"));
-                if (!string.IsNullOrEmpty(Provider_item.Item_ref))
-                    query = string.Format(query + " {0} Item_ref LIKE '{1}' ", filterOperator.ToString(), Provider_item.Item_ref.Replace("'", "''"));
+                if (Provider_item.ProviderId != 0)
+                    query = string.Format(query + " {0} ProviderId LIKE '{1}' ", filterOperator.ToString(), Provider_item.ProviderId);
+                if (Provider_item.ItemId != 0)
+                    query = string.Format(query + " {0} ItemId LIKE '{1}' ", filterOperator.ToString(), Provider_item.ItemId);
+                if (Provider_item.CurrencyId != 0)
+                    query = string.Format(query + " {0} CurrencyId LIKE '{1}' ", filterOperator.ToString(), Provider_item.CurrencyId);
 
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))
@@ -1334,8 +1417,9 @@ namespace QOBDDAL.Helper.ChannelHelper
             Dictionary<string, string> output = new Dictionary<string, string>();
 
             output["ID"] = provider_item.ID.ToString();
-            output["Item_ref"] = (provider_item.Item_ref ?? "").ToString();
-            output["Provider_name"] = (provider_item.Provider_name ?? "").ToString();
+            output["ItemId"] = provider_item.ItemId.ToString();
+            output["ProviderId"] = provider_item.ProviderId.ToString();
+            output["CurrencyId"] = provider_item.CurrencyId.ToString();
 
             return output;
         }
@@ -1354,6 +1438,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     Provider provider = new Provider();
                     provider.ID = Utility.intTryParse(providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["ID"].Ordinal].ToString());
                     provider.Name = (providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Name"].Ordinal] ?? "").ToString();
+                    provider.AddressId = Utility.intTryParse(providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["AddressId"].Ordinal].ToString());
                     provider.Source = Utility.intTryParse(providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Source"].Ordinal].ToString());
 
                     lock (_lock) returnList.Add(provider);
@@ -1376,6 +1461,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} Name LIKE '{1}' ", filterOperator.ToString(), Provider.Name.Replace("'", "''"));
                 if (Provider.Source != 0)
                     query = string.Format(query + " {0} Source LIKE '{1}' ", filterOperator.ToString(), Provider.Source);
+                if (Provider.AddressId != 0)
+                    query = string.Format(query + " {0} AddressId LIKE '{1}' ", filterOperator.ToString(), Provider.AddressId);
 
                 lock (_lock)
                     if (!string.IsNullOrEmpty(query))
@@ -1396,6 +1483,7 @@ namespace QOBDDAL.Helper.ChannelHelper
             output["ID"] = provider.ID.ToString();
             output["Name"] = (provider.Name ?? "").ToString();
             output["Source"] = provider.Source.ToString();
+            output["AddressId"] = provider.AddressId.ToString();
 
             return output;
         }

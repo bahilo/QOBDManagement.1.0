@@ -58,7 +58,7 @@ namespace QOBDDAL.Core
         public bool IsDataDownloading
         {
             get { return _isLodingDataFromWebServiceToLocal; }
-            set { _isLodingDataFromWebServiceToLocal = value; }
+            set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsDataDownloading"); }
         }
 
         public void initializeCredential(Agent user)
@@ -90,7 +90,7 @@ namespace QOBDDAL.Core
         {
             try
             {
-                lock (_lock) _isLodingDataFromWebServiceToLocal = true;
+                lock (_lock) IsDataDownloading = true;
                 checkServiceCommunication();
 
                 // getting agents without their credentials (_loadSize < 0)
@@ -124,6 +124,12 @@ namespace QOBDDAL.Core
         {
             if (_servicePortType.State == System.ServiceModel.CommunicationState.Closed || _servicePortType.State == System.ServiceModel.CommunicationState.Faulted)
                 _serviceCommunication.resetCommunication();
+        }
+
+        public void onPropertyChange(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #region [ Actions ]

@@ -23,6 +23,7 @@ namespace QOBDDAL.Interfaces
         int DeleteTax(int taxId);
         int DeleteBill(int billId);
         int DeleteDelivery(int deliveryId);
+        int DeleteCurrency(int currencyId);
 
         // update
 
@@ -38,6 +39,8 @@ namespace QOBDDAL.Interfaces
         int LoadBill(Bill bill);
         int UpdateDelivery(List<Delivery> deliveryList);
         int LoadDelivery(Delivery delivery);
+        int UpdateCurrency(List<Currency> currencyList);
+        int LoadCurrency(Currency currency);
 
         // getting
 
@@ -57,6 +60,9 @@ namespace QOBDDAL.Interfaces
         List<Delivery> GetDeliveryData();
         List<Delivery> GetDeliveryDataById(int id);
         List<Delivery> GetDeliveryDataByOrderId(int orderId);
+        List<Currency> GetCurrencyData();
+        List<Currency> GetCurrencyDataById(int id);
+        List<Currency> GetCurrencyDataByProvider_item(Provider_item provider_item);
 
         // search
 
@@ -66,6 +72,7 @@ namespace QOBDDAL.Interfaces
         List<Tax> searchTax(Tax Tax, ESearchOption filterOperator);
         List<Bill> searchBill(Bill Bill, ESearchOption filterOperator);
         List<Delivery> searchDelivery(Delivery Delivery, ESearchOption filterOperator);
+        List<Currency> searchCurrency(Currency Currency, ESearchOption filterOperator);
 
         #endregion
 

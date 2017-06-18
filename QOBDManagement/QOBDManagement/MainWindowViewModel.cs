@@ -19,13 +19,14 @@ using QOBDCommon.Classes;
 using System.Reflection;
 using QOBDManagement.Classes.Themes;
 using System.Configuration;
+using QOBDDAL.Core;
 
 namespace QOBDManagement
 {
 
     public class MainWindowViewModel : BindBase, IMainWindowViewModel
     {
-        public bool isNewAgentAuthentication { get; set; }
+        string _lang;
         private Object _currentViewModel;
         private object _chatRoomCurrentView;
         private Cart _cart;
@@ -35,7 +36,6 @@ namespace QOBDManagement
         private InfoManager.Display _headerImageDisplay;
         private InfoManager.Display _logoImageDisplay;
         private InfoManager.Display _billImageDisplay;
-        //private InfoManager.Display.Image _profileImageDisplay;
         private bool _isThroughContext;
         private bool _isRefresh;
         private int _heightDataList;
@@ -75,6 +75,7 @@ namespace QOBDManagement
 
         private void init(IStartup startup)
         {
+            _lang = Thread.CurrentThread.CurrentCulture.Name;
             _searchProgressVisibolity = "Visible";
             _context = new Context(navigation);
             _currentViewModel = null;
@@ -104,7 +105,6 @@ namespace QOBDManagement
             QuoteViewModel = new QuoteViewModel(this, Startup, Dialog);
             SecurityLoginViewModel = new SecurityLoginViewModel(this, Startup, Dialog);
 
-
         }
 
         private void instancesOrder()
@@ -125,9 +125,13 @@ namespace QOBDManagement
 
         //----------------------------[ Properties ]------------------
 
+        public bool isNewAgentAuthentication { get; set; }
+
+        public string Lang { get { return _lang; } }
+
         public string TxtUserName
         {
-            get { return (AuthenticatedUserModel != null) ? AuthenticatedUserModel.TxtLogin : ""; }
+            get { return AuthenticatedUserModel.TxtLogin ?? ""; }
         }
 
         public AgentModel AuthenticatedUserModel
@@ -407,6 +411,7 @@ namespace QOBDManagement
                 _startup.Dal.SetUserCredential(AuthenticatedUserModel.Agent);
                 _startup.Dal.DALReferential.PropertyChanged += onGeneralInfoDataDownloadingStatusChange;
                 _startup.Dal.DALItem.PropertyChanged += onCatalogueDataDownloadingStatusChange;
+                _startup.Dal.DALOrder.PropertyChanged += onOrdersDownloadingStatusChange;
             }
 
             CommandNavig.raiseCanExecuteActionChanged();
@@ -470,11 +475,11 @@ namespace QOBDManagement
         {
             if (centralPageContent != null)
             {
-                /*// reset the navigation to previous page
+                // reset the navigation to previous page
                 IsThroughContext = false;
 
                 // reset page refreshing
-                IsRefresh = false;*/
+                IsRefresh = false;
 
                 // save the previous page for later navigation
                 Context.PreviousState = CurrentViewModel as IState;
@@ -538,6 +543,8 @@ namespace QOBDManagement
         {
             SecurityLoginViewModel.AgentModel.PropertyChanged -= onAuthenticatedAgentChange;
             _startup.Dal.DALReferential.PropertyChanged -= onGeneralInfoDataDownloadingStatusChange;
+            _startup.Dal.DALItem.PropertyChanged -= onCatalogueDataDownloadingStatusChange;
+            _startup.Dal.DALOrder.PropertyChanged -= onOrdersDownloadingStatusChange;
             ChatRoomViewModel.DiscussionViewModel.PropertyChanged -= onNewMessageReceived;
             PropertyChanged -= AgentViewModel.AgentSideBarViewModel.onCurrentPageChange_updateCommand;
             PropertyChanged -= ClientViewModel.ClientSideBarViewModel.onCurrentPageChange_updateCommand;
@@ -607,7 +614,7 @@ namespace QOBDManagement
         /// <param name="e"></param>
         private void onGeneralInfoDataDownloadingStatusChange(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("IsDataDownloading"))
+            if (e.PropertyName.Equals("IsDataDownloading") && !((DALReferential)sender).IsDataDownloading)
             {
                 // if not unit testing download images
                 if (Application.Current != null)
@@ -616,10 +623,7 @@ namespace QOBDManagement
                     {
                         // reload user information
                         ChatRoomViewModel.getChatUserInformation();
-
-                        // load catalog items
-                        ItemViewModel.loadItems();
-
+                        
                         downloadHeaderImages();
                     }
                     else
@@ -627,10 +631,7 @@ namespace QOBDManagement
                         {
                             // reload user information
                             ChatRoomViewModel.getChatUserInformation();
-
-                            // load catalog items
-                            ItemViewModel.loadItems();
-
+                            
                             downloadHeaderImages();
                         });
                 }
@@ -639,7 +640,7 @@ namespace QOBDManagement
 
         private void onCatalogueDataDownloadingStatusChange(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("IsDataDownloading"))
+            if (e.PropertyName.Equals("IsDataDownloading") && !((DALItem)sender).IsDataDownloading)
             {
                 // if not unit testing download images
                 if (Application.Current != null)
@@ -654,6 +655,28 @@ namespace QOBDManagement
                         {
                             // load catalog items
                             ItemViewModel.loadItems();
+                        });
+                }
+            }
+        }
+
+        private void onOrdersDownloadingStatusChange(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("IsDataDownloading") && !((DALOrder)sender).IsDataDownloading)
+            {
+                // if not unit testing download images
+                if (Application.Current != null)
+                {
+                    if (Application.Current.Dispatcher.CheckAccess())
+                    {
+                        // load currencies
+                        OrderViewModel.loadCurrencies();
+                    }
+                    else
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            // load currencies
+                            OrderViewModel.loadCurrencies();
                         });
                 }
             }
@@ -727,9 +750,11 @@ namespace QOBDManagement
                     ItemViewModel.executeNavig(propertyName);
                     break;
                 case "order":
+                    IsRefresh = false;
                     OrderViewModel.executeNavig(propertyName);
                     break;
                 case "quote":
+                    IsRefresh = false;
                     QuoteViewModel.executeNavig(propertyName);
                     break;
                 case "agent":

@@ -105,7 +105,7 @@ namespace QOBDDAL.Core
 
         private async Task retrieveGateWayItemDataAsync()
         {
-            lock (_lock) _isLodingDataFromWebServiceToLocal = true;
+            lock (_lock) IsDataDownloading = true;
             try
             {
                 checkServiceCommunication();
@@ -116,6 +116,7 @@ namespace QOBDDAL.Core
             catch (Exception ex)
             {
                 Log.error(ex.Message, EErrorFrom.ITEM);
+                checkServiceCommunication();
             }
             finally
             {
@@ -462,7 +463,7 @@ namespace QOBDDAL.Core
             List<Provider> result = new List<Provider>();
             foreach (Provider_item provider_item in provider_itemList)
             {
-                var providerList = searchProvider(new Provider { Name = provider_item.Provider_name }, ESearchOption.AND);
+                var providerList = searchProvider(new Provider { ID = provider_item.ProviderId }, ESearchOption.AND);
                 if (providerList.Count() > 0)
                     result.Add(providerList.First());
             }
@@ -500,7 +501,7 @@ namespace QOBDDAL.Core
             List<Provider_item> result = new List<Provider_item>();
             foreach (Item item in itemList)
             {
-                var provider_itemList = searchProvider_item(new Provider_item { Item_ref = item.Ref }, ESearchOption.AND);
+                var provider_itemList = searchProvider_item(new Provider_item { ItemId = item.ID }, ESearchOption.AND);
                 if (provider_itemList.Count() > 0)
                     result.Add(provider_itemList.First());
             }
@@ -694,7 +695,7 @@ namespace QOBDDAL.Core
             {
                 savedProvider_itemList = LoadProvider_item(await _gateWayItem.GetProvider_itemDataByItemListAsync(savedItemList.Skip(i * loadUnit).Take(loadUnit).ToList()));
                 if(savedProvider_itemList.Count > 0)
-                    LoadProvider(await _gateWayItem.GetProviderDataByProvider_itemListAsync(savedProvider_itemList.OrderBy(x => x.Provider_name).Distinct().ToList()));
+                    LoadProvider(await _gateWayItem.GetProviderDataByProvider_itemListAsync(savedProvider_itemList.OrderBy(x => x.ProviderId).Distinct().ToList()));
             }
 
         }

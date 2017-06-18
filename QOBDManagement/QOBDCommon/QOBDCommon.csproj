@@ -54,6 +54,7 @@
     <Compile Include="Entities\Bill.cs" />
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Contact.cs" />
+    <Compile Include="Entities\Currency.cs" />
     <Compile Include="Entities\Delivery.cs" />
     <Compile Include="Entities\Discussion.cs" />
     <Compile Include="Entities\Infos.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Interfaces\BL\IChatRoomManager.cs" />
     <Compile Include="Interfaces\BL\IClientManager.cs" />
     <Compile Include="Interfaces\BL\IContactManager.cs" />
+    <Compile Include="Interfaces\BL\ICurrencyManager.cs" />
     <Compile Include="Interfaces\BL\IDeliveryManager.cs" />
     <Compile Include="Interfaces\BL\IDiscussionManager.cs" />
     <Compile Include="Interfaces\BL\IGeneratePDF.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Interfaces\DAC\IChatRoomManager.cs" />
     <Compile Include="Interfaces\DAC\IClientManager.cs" />
     <Compile Include="Interfaces\DAC\IContactManager.cs" />
+    <Compile Include="Interfaces\DAC\ICurrencyManager.cs" />
     <Compile Include="Interfaces\DAC\IDataAccessManager.cs" />
     <Compile Include="Interfaces\DAC\IDeliveryManager.cs" />
     <Compile Include="Interfaces\DAC\IDiscussionManager.cs" />
@@ -164,6 +167,7 @@
     <Compile Include="Interfaces\REMOTE\IChatRoomManager.cs" />
     <Compile Include="Interfaces\REMOTE\IClientManager.cs" />
     <Compile Include="Interfaces\REMOTE\IContactManager.cs" />
+    <Compile Include="Interfaces\REMOTE\ICurrencyManager.cs" />
     <Compile Include="Interfaces\REMOTE\IDeliveryManager.cs" />
     <Compile Include="Interfaces\REMOTE\IDiscussionManager.cs" />
     <Compile Include="Interfaces\REMOTE\IGeneratePDF.cs" />

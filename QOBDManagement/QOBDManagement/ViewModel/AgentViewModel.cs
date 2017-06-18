@@ -158,6 +158,16 @@ namespace QOBDManagement.ViewModel
             get { return AgentModelList.Where(x => x.Agent.ID != Bl.BlSecurity.GetAuthenticatedUser().ID).OrderByDescending(x => x.Agent.IsOnline).ToList(); }
         }
 
+        public bool IsAuthenticatedAgentAdmin
+        {
+            get { return _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
+                             && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
+                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
+            }
+        }
+
         public List<string> UserGroupList
         {
             get { return _chatUserGroupList; }

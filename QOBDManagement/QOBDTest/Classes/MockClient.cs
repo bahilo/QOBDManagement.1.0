@@ -1238,7 +1238,7 @@ namespace QOBDTest.Classes
             AgentQOBD[] output = new AgentQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                AgentQOBD AgentQOBD = new AgentQOBD { ID = i +"", Status = Utility.encodeStringToBase64("Active") };
+                AgentQOBD AgentQOBD = new AgentQOBD { ID = i.ToString(), Status = Utility.encodeStringToBase64("Active") };
                 output[i-1] = AgentQOBD;
             }
             output[output.Count() - 1].Status = Utility.encodeStringToBase64("Deactivated");
@@ -1257,7 +1257,7 @@ namespace QOBDTest.Classes
                 AgentQOBD[] output = new AgentQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i +"", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25+"", UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
+                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i.ToString(), Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25+"", UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
                     output[i-1] = AgentQOBD;
                 }
                 output[output.Count() - 1].Status = Utility.encodeStringToBase64("Deactivated");
@@ -1305,7 +1305,7 @@ namespace QOBDTest.Classes
             AgentQOBD[] output = new AgentQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                AgentQOBD AgentQOBD = new AgentQOBD { ID = i +"", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25 + "", UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
+                AgentQOBD AgentQOBD = new AgentQOBD { ID = i.ToString(), Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25 + "", UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
                 output[i-1] = AgentQOBD;
             }
             return output;
@@ -1318,7 +1318,7 @@ namespace QOBDTest.Classes
                 AgentQOBD[] output = new AgentQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i +"", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25 + "", UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
+                    AgentQOBD AgentQOBD = new AgentQOBD { ID = i.ToString(), Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("First Name"), LastName = Utility.encodeStringToBase64("last name"), ListSize = 25 + "", UserName = Utility.encodeStringToBase64("user name"), Password = "password" };
                     output[i-1] = AgentQOBD;
                 }
                 return output;
@@ -1403,7 +1403,7 @@ namespace QOBDTest.Classes
             AddressQOBD[] output = new AddressQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                AddressQOBD AddressQOBD = new AddressQOBD { ID = i +"", ClientId = i +"" + 1, FirstName = Utility.encodeStringToBase64("First name"), Name = Utility.encodeStringToBase64("name"), LastName = Utility.encodeStringToBase64("last name"), Name2 = Utility.encodeStringToBase64("name2") };
+                AddressQOBD AddressQOBD = new AddressQOBD { ID = i.ToString(), ClientId = i.ToString() + 1, FirstName = Utility.encodeStringToBase64("First name"), Name = Utility.encodeStringToBase64("name"), LastName = Utility.encodeStringToBase64("last name"), Name2 = Utility.encodeStringToBase64("name2") };
                 output[i-1] = AddressQOBD;
             }
             return output;
@@ -1415,7 +1415,7 @@ namespace QOBDTest.Classes
                 AddressQOBD[] output = new AddressQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    AddressQOBD AddressQOBD = new AddressQOBD { ID = i +"", ClientId = i +"" + 1, FirstName = Utility.encodeStringToBase64("First name"), Name = Utility.encodeStringToBase64("name"), LastName = Utility.encodeStringToBase64("last name"), Name2 = Utility.encodeStringToBase64("name2") };
+                    AddressQOBD AddressQOBD = new AddressQOBD { ID = i.ToString(), ClientId = i.ToString() + 1, FirstName = Utility.encodeStringToBase64("First name"), Name = Utility.encodeStringToBase64("name"), LastName = Utility.encodeStringToBase64("last name"), Name2 = Utility.encodeStringToBase64("name2") };
                     output[i-1] = AddressQOBD;
                 }
                 return output;
@@ -1446,7 +1446,7 @@ namespace QOBDTest.Classes
         {
             AddressQOBD[] output = new AddressQOBD[1];
             int i = 1;
-            AddressQOBD AddressQOBD = new AddressQOBD { ID = id, ClientId = i +"" + 1, FirstName = Utility.encodeStringToBase64("First name"), Name = Utility.encodeStringToBase64("name"), LastName = Utility.encodeStringToBase64("last name"), Name2 = Utility.encodeStringToBase64("name2") };
+            AddressQOBD AddressQOBD = new AddressQOBD { ID = id, ClientId = i.ToString() + 1, FirstName = Utility.encodeStringToBase64("First name"), Name = Utility.encodeStringToBase64("name"), LastName = Utility.encodeStringToBase64("last name"), Name2 = Utility.encodeStringToBase64("name2") };
             output[i-1] = AddressQOBD;
 
             return output;
@@ -1457,7 +1457,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 AddressQOBD[] output = new AddressQOBD[1];
                 int i = 1;
-                AddressQOBD AddressQOBD = new AddressQOBD { ID = id, ClientId = i +"" +1, FirstName = Utility.encodeStringToBase64("First name"), Name = Utility.encodeStringToBase64("name"), LastName = Utility.encodeStringToBase64("last name"), Name2 = Utility.encodeStringToBase64("name2") };
+                AddressQOBD AddressQOBD = new AddressQOBD { ID = id, ClientId = i.ToString() +1, FirstName = Utility.encodeStringToBase64("First name"), Name = Utility.encodeStringToBase64("name"), LastName = Utility.encodeStringToBase64("last name"), Name2 = Utility.encodeStringToBase64("name2") };
                 output[i-1] = AddressQOBD;
 
                 return output;
@@ -1469,7 +1469,7 @@ namespace QOBDTest.Classes
             ClientQOBD[] output = new ClientQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                ClientQOBD ClientQOBD = new ClientQOBD { ID = i +"", AgentId = i +"" + 1, MaxCredit = i +"" + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+                ClientQOBD ClientQOBD = new ClientQOBD { ID = i.ToString(), AgentId = i.ToString() + 1, MaxCredit = i.ToString() + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
                 output[i-1] = ClientQOBD;
             }
             return output;
@@ -1481,7 +1481,7 @@ namespace QOBDTest.Classes
                 ClientQOBD[] output = new ClientQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    ClientQOBD ClientQOBD = new ClientQOBD { ID = i +"", AgentId = i +"" + 1, MaxCredit = i +"" + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+                    ClientQOBD ClientQOBD = new ClientQOBD { ID = i.ToString(), AgentId = i.ToString() + 1, MaxCredit = i.ToString() + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
                     output[i-1] = ClientQOBD;
                 }
                 return output;
@@ -1512,7 +1512,7 @@ namespace QOBDTest.Classes
         {
             ClientQOBD[] output = new ClientQOBD[1];
             int i = 1;
-            ClientQOBD ClientQOBD = new ClientQOBD { ID = id, AgentId = i +"" + 1, MaxCredit = i +"" + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+            ClientQOBD ClientQOBD = new ClientQOBD { ID = id, AgentId = i.ToString() + 1, MaxCredit = i.ToString() + 1 + "", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
             output[i-1] = ClientQOBD;
 
             return output;
@@ -1523,7 +1523,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 ClientQOBD[] output = new ClientQOBD[1];
                 int i = 1;
-                ClientQOBD ClientQOBD = new ClientQOBD { ID = id, AgentId = i +"" + 1, MaxCredit = i +"", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+                ClientQOBD ClientQOBD = new ClientQOBD { ID = id, AgentId = i.ToString() + 1, MaxCredit = i.ToString(), Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
                 output[i-1] = ClientQOBD;
 
                 return output;
@@ -1534,7 +1534,7 @@ namespace QOBDTest.Classes
         {
             ClientQOBD[] output = new ClientQOBD[1];
             int i = 1;
-            ClientQOBD ClientQOBD = new ClientQOBD { ID = i +"", AgentId = agent_id + "", MaxCredit = i +"", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+            ClientQOBD ClientQOBD = new ClientQOBD { ID = i.ToString(), AgentId = agent_id + "", MaxCredit = i.ToString(), Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
             output[i - 1] = ClientQOBD;
 
             return output;
@@ -1545,7 +1545,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 ClientQOBD[] output = new ClientQOBD[1];
                 int i = 1;
-                ClientQOBD ClientQOBD = new ClientQOBD { ID = i +"", AgentId = agent_id + "", MaxCredit = i +"", Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
+                ClientQOBD ClientQOBD = new ClientQOBD { ID = i.ToString(), AgentId = agent_id + "", MaxCredit = i.ToString(), Status = Utility.encodeStringToBase64("Active"), FirstName = Utility.encodeStringToBase64("FirstName"), LastName = Utility.encodeStringToBase64("LastName") };
                 output[i - 1] = ClientQOBD;
 
                 return output;
@@ -1557,7 +1557,7 @@ namespace QOBDTest.Classes
             ContactQOBD[] output = new ContactQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                ContactQOBD ContactQOBD = new ContactQOBD { ID = i +"", ClientId = i +"", Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
+                ContactQOBD ContactQOBD = new ContactQOBD { ID = i.ToString(), ClientId = i.ToString(), Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
                 output[i-1] = ContactQOBD;
             }
             return output;
@@ -1569,7 +1569,7 @@ namespace QOBDTest.Classes
                 ContactQOBD[] output = new ContactQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    ContactQOBD ContactQOBD = new ContactQOBD { ID = i +"", ClientId = i +"", Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
+                    ContactQOBD ContactQOBD = new ContactQOBD { ID = i.ToString(), ClientId = i.ToString(), Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
                     output[i-1] = ContactQOBD;
                 }
                 return output;
@@ -1590,7 +1590,7 @@ namespace QOBDTest.Classes
         {
             ContactQOBD[] output = new ContactQOBD[1];
             int i = 1;
-            ContactQOBD ContactQOBD = new ContactQOBD { ID = id, ClientId = i +"", Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
+            ContactQOBD ContactQOBD = new ContactQOBD { ID = id, ClientId = i.ToString(), Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
             output[i-1] = ContactQOBD;
 
             return output;
@@ -1601,7 +1601,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 ContactQOBD[] output = new ContactQOBD[1];
                 int i = 1;
-                ContactQOBD ContactQOBD = new ContactQOBD { ID = id, ClientId = i +"", Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
+                ContactQOBD ContactQOBD = new ContactQOBD { ID = id, ClientId = i.ToString(), Firstname = Utility.encodeStringToBase64("first name"), LastName = Utility.encodeStringToBase64("last name") };
                 output[i-1] = ContactQOBD;
 
                 return output;
@@ -1806,7 +1806,7 @@ namespace QOBDTest.Classes
         {
             OrdersQOBD[] output = new OrdersQOBD[1];
             int i = 1;
-            OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = id, AgentId = i +"", ClientId = i +"", Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now+""), BillAddress = 1 + "", DeliveryAddress = 1 + "" };
+            OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = id, AgentId = i.ToString(), ClientId = i.ToString(), Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now+""), BillAddress = 1 + "", DeliveryAddress = 1 + "" };
             output[i-1] = OrdersQOBD;
 
             return output;
@@ -1818,7 +1818,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 OrdersQOBD[] output = new OrdersQOBD[1];
                 int i = 1;
-                OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = id, AgentId = i +"", ClientId = i +"", Status = Utility.encodeStringToBase64("status"), Date = Utility.encodeStringToBase64(DateTime.Now + ""), BillAddress = 1 + "", DeliveryAddress = 1 + "" };
+                OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = id, AgentId = i.ToString(), ClientId = i.ToString(), Status = Utility.encodeStringToBase64("status"), Date = Utility.encodeStringToBase64(DateTime.Now + ""), BillAddress = 1 + "", DeliveryAddress = 1 + "" };
                 output[i-1] = OrdersQOBD;
 
                 return output;
@@ -1831,7 +1831,7 @@ namespace QOBDTest.Classes
             BillQOBD[] output = new BillQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                BillQOBD BillQOBD = new BillQOBD { ID = i +"", ClientId = i +"", OrderId = i +"" };
+                BillQOBD BillQOBD = new BillQOBD { ID = i.ToString(), ClientId = i.ToString(), OrderId = i.ToString() };
                 output[i-1] = BillQOBD;
             }
             return output;
@@ -1844,7 +1844,7 @@ namespace QOBDTest.Classes
                 BillQOBD[] output = new BillQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    BillQOBD BillQOBD = new BillQOBD { ID = i +"", ClientId = i +"", OrderId = i +"", Date = Utility.encodeStringToBase64(DateTime.Now+""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
+                    BillQOBD BillQOBD = new BillQOBD { ID = i.ToString(), ClientId = i.ToString(), OrderId = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now+""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
                     output[i-1] = BillQOBD;
                 }
                 return output;
@@ -1868,7 +1868,7 @@ namespace QOBDTest.Classes
         {
             BillQOBD[] output = new BillQOBD[1];
             int i = 1;
-            BillQOBD BillQOBD = new BillQOBD { ID = id, ClientId = i +"", OrderId = i +"", Date = Utility.encodeStringToBase64(DateTime.Now + ""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
+            BillQOBD BillQOBD = new BillQOBD { ID = id, ClientId = i.ToString(), OrderId = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now + ""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
             output[i-1] = BillQOBD;
 
             return output;
@@ -1880,7 +1880,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 BillQOBD[] output = new BillQOBD[1];
                 int i = 1;
-                BillQOBD BillQOBD = new BillQOBD { ID = id, ClientId = i +"", OrderId = i +"", Date = Utility.encodeStringToBase64(DateTime.Now + ""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
+                BillQOBD BillQOBD = new BillQOBD { ID = id, ClientId = i.ToString(), OrderId = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now + ""), DateLimit = Utility.encodeStringToBase64(DateTime.Now + ""), DatePay = Utility.encodeStringToBase64(DateTime.Now + ""), PayReceived = 20, Pay = 50 };
                 output[i-1] = BillQOBD;
 
                 return output;
@@ -1905,7 +1905,7 @@ namespace QOBDTest.Classes
             OrdersQOBD[] output = new OrdersQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = i +"", AgentId = i +"" , ClientId = i +"" , Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = i.ToString(), AgentId = i.ToString() , ClientId = i.ToString() , Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
                 output[i-1] = OrdersQOBD;
             }
             return output;
@@ -1918,7 +1918,7 @@ namespace QOBDTest.Classes
                 OrdersQOBD[] output = new OrdersQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    output[i-1] = new OrdersQOBD { ID = i +"", AgentId = i +"", ClientId = i +"", Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                    output[i-1] = new OrdersQOBD { ID = i.ToString(), AgentId = i.ToString(), ClientId = i.ToString(), Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
                 }
                 return output;
             });
@@ -1929,7 +1929,7 @@ namespace QOBDTest.Classes
         {
             OrdersQOBD[] output = new OrdersQOBD[1];
             int i = 1;
-            OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = id, AgentId = i +"", ClientId = i +"", Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+            OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = id, AgentId = i.ToString(), ClientId = i.ToString(), Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
             output[i-1] = OrdersQOBD;
 
             return output;
@@ -1941,7 +1941,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 OrdersQOBD[] output = new OrdersQOBD[1];
                 int i = 1;
-                OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = id, AgentId = i +"", ClientId = i +"", Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now+"") };
+                OrdersQOBD OrdersQOBD = new OrdersQOBD { ID = id, AgentId = i.ToString(), ClientId = i.ToString(), Status = Utility.encodeStringToBase64("Order"), Date = Utility.encodeStringToBase64(DateTime.Now+"") };
                 output[i-1] = OrdersQOBD;
 
                 return output;
@@ -1954,7 +1954,7 @@ namespace QOBDTest.Classes
             Order_itemQOBD[] output = new Order_itemQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = i +"", OrderId = i +"", Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1 + "", Price = 10, Price_purchase = 5 };
+                Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = i.ToString(), OrderId = i.ToString(), Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1 + "", Price = 10, Price_purchase = 5 };
                 output[i-1] = Order_itemQOBD;
             }
             return output;
@@ -1967,7 +1967,7 @@ namespace QOBDTest.Classes
                 Order_itemQOBD[] output = new Order_itemQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = i +"", OrderId = i +"", Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1 + "", Price = 10, Price_purchase = 5 };
+                    Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = i.ToString(), OrderId = i.ToString(), Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1 + "", Price = 10, Price_purchase = 5 };
                     output[i-1] = Order_itemQOBD;
                 }
                 return output;
@@ -1991,7 +1991,7 @@ namespace QOBDTest.Classes
         {
             Order_itemQOBD[] output = new Order_itemQOBD[1];
             int i = 1;
-            Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = id, OrderId = i +"", Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1 + "", Price = 10, Price_purchase = 5 };
+            Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = id, OrderId = i.ToString(), Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1 + "", Price = 10, Price_purchase = 5 };
             output[i-1] = Order_itemQOBD;
 
             return output;
@@ -2003,7 +2003,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 Order_itemQOBD[] output = new Order_itemQOBD[1];
                 int i = 1;
-                Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = id, OrderId = i +"", Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1 + "", Price = 10, Price_purchase = 5 };
+                Order_itemQOBD Order_itemQOBD = new Order_itemQOBD { ID = id, OrderId = i.ToString(), Item_ref = Utility.encodeStringToBase64("item ref"), ItemId = 1 + "", Price = 10, Price_purchase = 5 };
                 output[i-1] = Order_itemQOBD;
 
                 return output;
@@ -2016,7 +2016,7 @@ namespace QOBDTest.Classes
             DeliveryQOBD[] output = new DeliveryQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = i +"", BillId = i +"", OrderId = i +"", Date = Utility.encodeStringToBase64(DateTime.Now+"") };
+                DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = i.ToString(), BillId = i.ToString(), OrderId = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now+"") };
                 output[i-1] = DeliveryQOBD;
             }
             return output;
@@ -2029,7 +2029,7 @@ namespace QOBDTest.Classes
                 DeliveryQOBD[] output = new DeliveryQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = i +"", BillId = i +"", OrderId = i +"", Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                    DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = i.ToString(), BillId = i.ToString(), OrderId = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
                     output[i-1] = DeliveryQOBD;
                 }
                 return output;
@@ -2053,7 +2053,7 @@ namespace QOBDTest.Classes
         {
             DeliveryQOBD[] output = new DeliveryQOBD[1];
             int i = 1;
-            DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = id, BillId = i +"", OrderId = i +"", Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+            DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = id, BillId = i.ToString(), OrderId = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
             output[i-1] = DeliveryQOBD;
 
             return output;
@@ -2065,7 +2065,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 DeliveryQOBD[] output = new DeliveryQOBD[1];
                 int i = 1;
-                DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = id, BillId = i +"", OrderId = i +"", Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                DeliveryQOBD DeliveryQOBD = new DeliveryQOBD { ID = id, BillId = i.ToString(), OrderId = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
                 output[i-1] = DeliveryQOBD;
 
                 return output;
@@ -2078,7 +2078,7 @@ namespace QOBDTest.Classes
             TaxQOBD[] output = new TaxQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                TaxQOBD TaxQOBD = new TaxQOBD { ID = i +"", Value = i, Type = Utility.encodeStringToBase64("type "), Date_insert = Utility.encodeStringToBase64(DateTime.Now+""), Tax_current = i +"" };
+                TaxQOBD TaxQOBD = new TaxQOBD { ID = i.ToString(), Value = i.ToString(), Type = Utility.encodeStringToBase64("type "), Date_insert = Utility.encodeStringToBase64(DateTime.Now+""), Tax_current = i.ToString() };
                 output[i-1] = TaxQOBD;
             }
             return output;
@@ -2091,7 +2091,7 @@ namespace QOBDTest.Classes
                 TaxQOBD[] output = new TaxQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    TaxQOBD TaxQOBD = new TaxQOBD { ID = i +"", Value = i, Type = Utility.encodeStringToBase64("type "), Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_current = i +"" };
+                    TaxQOBD TaxQOBD = new TaxQOBD { ID = i.ToString(), Value = i.ToString(), Type = Utility.encodeStringToBase64("type "), Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_current = i.ToString() };
                     output[i-1] = TaxQOBD;
                 }
                 return output;
@@ -2103,7 +2103,7 @@ namespace QOBDTest.Classes
         {
             TaxQOBD[] output = new TaxQOBD[1];
             int i = 1;
-            TaxQOBD TaxQOBD = new TaxQOBD { ID = id, Value = i, Type = Utility.encodeStringToBase64("type "), Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_current = i +"" };
+            TaxQOBD TaxQOBD = new TaxQOBD { ID = id, Value = i.ToString(), Type = Utility.encodeStringToBase64("type "), Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_current = i.ToString() };
             output[i-1] = TaxQOBD;
 
             return output;
@@ -2115,7 +2115,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 TaxQOBD[] output = new TaxQOBD[1];
                 int i = 1;
-                TaxQOBD TaxQOBD = new TaxQOBD { ID = id, Value = i, Type = Utility.encodeStringToBase64("type "), Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_current = i +"" };
+                TaxQOBD TaxQOBD = new TaxQOBD { ID = id, Value = i.ToString(), Type = Utility.encodeStringToBase64("type "), Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_current = i.ToString() };
                 output[i-1] = TaxQOBD;
 
                 return output;
@@ -2128,7 +2128,7 @@ namespace QOBDTest.Classes
             Tax_orderQOBD[] output = new Tax_orderQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = i +"", OrderId = i +"", Target = Utility.encodeStringToBase64("target ") + i, TaxId = i +"", Date_insert = Utility.encodeStringToBase64(DateTime.Now+""), Tax_value = 20 };
+                Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = i.ToString(), OrderId = i.ToString(), Target = Utility.encodeStringToBase64("target ") + i, TaxId = i.ToString(), Date_insert = Utility.encodeStringToBase64(DateTime.Now+""), Tax_value = 20 };
                 output[i-1] = Tax_orderQOBD;
             }
             return output;
@@ -2141,7 +2141,7 @@ namespace QOBDTest.Classes
                 Tax_orderQOBD[] output = new Tax_orderQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = i +"", OrderId = i +"", Target = Utility.encodeStringToBase64("target ") + i, TaxId = i +"", Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
+                    Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = i.ToString(), OrderId = i.ToString(), Target = Utility.encodeStringToBase64("target ") + i, TaxId = i.ToString(), Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
                     output[i-1] = Tax_orderQOBD;
                 }
                 return output;
@@ -2165,7 +2165,7 @@ namespace QOBDTest.Classes
         {
             Tax_orderQOBD[] output = new Tax_orderQOBD[1];
             int i = 1;
-            Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = id, OrderId = i +"", Target = Utility.encodeStringToBase64("target ") + i, TaxId = i +"", Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
+            Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = id, OrderId = i.ToString(), Target = Utility.encodeStringToBase64("target ") + i, TaxId = i.ToString(), Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
             output[i-1] = Tax_orderQOBD;
 
             return output;
@@ -2177,7 +2177,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 Tax_orderQOBD[] output = new Tax_orderQOBD[1];
                 int i = 1;
-                Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = id, OrderId = i +"", Target = Utility.encodeStringToBase64("target ") + i, TaxId = i +"", Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
+                Tax_orderQOBD Tax_orderQOBD = new Tax_orderQOBD { ID = id, OrderId = i.ToString(), Target = Utility.encodeStringToBase64("target ") + i, TaxId = i.ToString(), Date_insert = Utility.encodeStringToBase64(DateTime.Now + ""), Tax_value = 20 };
                 output[i-1] = Tax_orderQOBD;
 
                 return output;
@@ -2509,7 +2509,7 @@ namespace QOBDTest.Classes
             Auto_refsQOBD[] output = new Auto_refsQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                Auto_refsQOBD Auto_refsQOBD = new Auto_refsQOBD { ID = i +"", RefId = i +"" };
+                Auto_refsQOBD Auto_refsQOBD = new Auto_refsQOBD { ID = i.ToString(), RefId = i.ToString() };
                 output[i-1] = Auto_refsQOBD;
             }
             return output;
@@ -2522,7 +2522,7 @@ namespace QOBDTest.Classes
                 Auto_refsQOBD[] output = new Auto_refsQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    Auto_refsQOBD Auto_refsQOBD = new Auto_refsQOBD { ID = i +"", RefId = i +"" + 1 };
+                    Auto_refsQOBD Auto_refsQOBD = new Auto_refsQOBD { ID = i.ToString(), RefId = i.ToString() + 1 };
                     output[i-1] = Auto_refsQOBD;
                 }
                 return output;
@@ -2534,7 +2534,7 @@ namespace QOBDTest.Classes
         {
             Auto_refsQOBD[] output = new Auto_refsQOBD[1];
             int i = 1;
-            Auto_refsQOBD Auto_refsQOBD = new Auto_refsQOBD { ID = id, RefId = i +"" };
+            Auto_refsQOBD Auto_refsQOBD = new Auto_refsQOBD { ID = id, RefId = i.ToString() };
             output[i-1] = Auto_refsQOBD;
 
             return output;
@@ -2546,7 +2546,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 Auto_refsQOBD[] output = new Auto_refsQOBD[1];
                 int i = 1;
-                Auto_refsQOBD Auto_refsQOBD = new Auto_refsQOBD { ID = id, RefId = i +"" };
+                Auto_refsQOBD Auto_refsQOBD = new Auto_refsQOBD { ID = id, RefId = i.ToString() };
                 output[i-1] = Auto_refsQOBD;
 
                 return output;
@@ -2559,7 +2559,7 @@ namespace QOBDTest.Classes
             ItemQOBD[] output = new ItemQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                ItemQOBD ItemQOBD = new ItemQOBD { ID = i +"", Source = i +"" + "", Ref = Utility.encodeStringToBase64("ref"), Price_purchase = 10, Price_sell = 20, Type = Utility.encodeStringToBase64("type") };
+                ItemQOBD ItemQOBD = new ItemQOBD { ID = i.ToString(), Source = i.ToString() + "", Ref = Utility.encodeStringToBase64("ref"), Price_purchase = 10, Price_sell = 20, Type = Utility.encodeStringToBase64("type") };
                 output[i-1] = ItemQOBD;
             }
             return output;
@@ -2572,7 +2572,7 @@ namespace QOBDTest.Classes
                 ItemQOBD[] output = new ItemQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    ItemQOBD ItemQOBD = new ItemQOBD { ID = i +"", Source = i +"" + "", Ref = Utility.encodeStringToBase64("ref"), Price_purchase = 10, Price_sell = 20, Type = Utility.encodeStringToBase64("type") };
+                    ItemQOBD ItemQOBD = new ItemQOBD { ID = i.ToString(), Source = i.ToString() + "", Ref = Utility.encodeStringToBase64("ref"), Price_purchase = 10, Price_sell = 20, Type = Utility.encodeStringToBase64("type") };
                     output[i-1] = ItemQOBD;
                 }
                 return output;
@@ -2596,7 +2596,7 @@ namespace QOBDTest.Classes
         {
             ItemQOBD[] output = new ItemQOBD[1];
             int i = 1;
-            ItemQOBD ItemQOBD = new ItemQOBD { ID = id, Source = i +"" + "", Ref = Utility.encodeStringToBase64("ref"), Price_purchase = 10, Price_sell = 20, Type = Utility.encodeStringToBase64("type") };
+            ItemQOBD ItemQOBD = new ItemQOBD { ID = id, Source = i.ToString() + "", Ref = Utility.encodeStringToBase64("ref"), Price_purchase = 10, Price_sell = 20, Type = Utility.encodeStringToBase64("type") };
             output[i-1] = ItemQOBD;
 
             return output;
@@ -2608,7 +2608,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 ItemQOBD[] output = new ItemQOBD[1];
                 int i = 1;
-                ItemQOBD ItemQOBD = new ItemQOBD { ID = id, Source = i +"" + "", Ref = Utility.encodeStringToBase64("ref"), Price_purchase = 10, Price_sell = 20, Type = Utility.encodeStringToBase64("type") };
+                ItemQOBD ItemQOBD = new ItemQOBD { ID = id, Source = i.ToString() + "", Ref = Utility.encodeStringToBase64("ref"), Price_purchase = 10, Price_sell = 20, Type = Utility.encodeStringToBase64("type") };
                 output[i-1] = ItemQOBD;
 
                 return output;
@@ -2621,7 +2621,7 @@ namespace QOBDTest.Classes
             Item_deliveryQOBD[] output = new Item_deliveryQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                Item_deliveryQOBD Item_deliveryQOBD = new Item_deliveryQOBD { ID = i +"", DeliveryId = i +"", Item_ref = Utility.encodeStringToBase64("ref"), Quantity_delivery = 10 + "" };
+                Item_deliveryQOBD Item_deliveryQOBD = new Item_deliveryQOBD { ID = i.ToString(), DeliveryId = i.ToString(), Item_ref = Utility.encodeStringToBase64("ref"), Quantity_delivery = 10 + "" };
                 output[i-1] = Item_deliveryQOBD;
             }
             return output;
@@ -2634,7 +2634,7 @@ namespace QOBDTest.Classes
                 Item_deliveryQOBD[] output = new Item_deliveryQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    Item_deliveryQOBD Item_deliveryQOBD = new Item_deliveryQOBD { ID = i +"", DeliveryId = i +"", Item_ref = Utility.encodeStringToBase64("ref"), Quantity_delivery = 10 + "" };
+                    Item_deliveryQOBD Item_deliveryQOBD = new Item_deliveryQOBD { ID = i.ToString(), DeliveryId = i.ToString(), Item_ref = Utility.encodeStringToBase64("ref"), Quantity_delivery = 10 + "" };
                     output[i-1] = Item_deliveryQOBD;
                 }
                 return output;
@@ -2658,7 +2658,7 @@ namespace QOBDTest.Classes
         {
             Item_deliveryQOBD[] output = new Item_deliveryQOBD[1];
             int i = 1;
-            Item_deliveryQOBD Item_deliveryQOBD = new Item_deliveryQOBD { ID = id, DeliveryId = i +"", Item_ref = Utility.encodeStringToBase64("ref"), Quantity_delivery = 10 + "" };
+            Item_deliveryQOBD Item_deliveryQOBD = new Item_deliveryQOBD { ID = id, DeliveryId = i.ToString(), Item_ref = Utility.encodeStringToBase64("ref"), Quantity_delivery = 10 + "" };
             output[i-1] = Item_deliveryQOBD;
 
             return output;
@@ -2670,7 +2670,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 Item_deliveryQOBD[] output = new Item_deliveryQOBD[1];
                 int i = 1;
-                Item_deliveryQOBD Item_deliveryQOBD = new Item_deliveryQOBD { ID = id, DeliveryId = i +"", Item_ref = Utility.encodeStringToBase64("ref"), Quantity_delivery = 10 + "" };
+                Item_deliveryQOBD Item_deliveryQOBD = new Item_deliveryQOBD { ID = id, DeliveryId = i.ToString(), Item_ref = Utility.encodeStringToBase64("ref"), Quantity_delivery = 10 + "" };
                 output[i-1] = Item_deliveryQOBD;
 
                 return output;
@@ -2683,7 +2683,7 @@ namespace QOBDTest.Classes
             ProviderQOBD[] output = new ProviderQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                ProviderQOBD ProviderQOBD = new ProviderQOBD { ID = i +"", Name = Utility.encodeStringToBase64("name"), Source = i +"" };
+                ProviderQOBD ProviderQOBD = new ProviderQOBD { ID = i.ToString(), Name = Utility.encodeStringToBase64("name"), Source = i.ToString() };
                 output[i-1] = ProviderQOBD;
             }
             return output;
@@ -2696,7 +2696,7 @@ namespace QOBDTest.Classes
                 ProviderQOBD[] output = new ProviderQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    ProviderQOBD ProviderQOBD = new ProviderQOBD { ID = i +"", Name = Utility.encodeStringToBase64("name"), Source = i +"" };
+                    ProviderQOBD ProviderQOBD = new ProviderQOBD { ID = i.ToString(), Name = Utility.encodeStringToBase64("name"), Source = i.ToString() };
                     output[i-1] = ProviderQOBD;
                 }
                 return output;
@@ -2708,7 +2708,7 @@ namespace QOBDTest.Classes
         {
             ProviderQOBD[] output = new ProviderQOBD[1];
             int i = 1;
-            ProviderQOBD ProviderQOBD = new ProviderQOBD { ID = id, Name = Utility.encodeStringToBase64("name"), Source = i +"" };
+            ProviderQOBD ProviderQOBD = new ProviderQOBD { ID = id, Name = Utility.encodeStringToBase64("name"), Source = i.ToString() };
             output[i-1] = ProviderQOBD;
 
             return output;
@@ -2720,7 +2720,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 ProviderQOBD[] output = new ProviderQOBD[1];
                 int i = 1;
-                ProviderQOBD ProviderQOBD = new ProviderQOBD { ID = id, Name = Utility.encodeStringToBase64("name"), Source = i +"" };
+                ProviderQOBD ProviderQOBD = new ProviderQOBD { ID = id, Name = Utility.encodeStringToBase64("name"), Source = i.ToString() };
                 output[i-1] = ProviderQOBD;
 
                 return output;
@@ -2745,7 +2745,7 @@ namespace QOBDTest.Classes
             Provider_itemQOBD[] output = new Provider_itemQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                Provider_itemQOBD Provider_itemQOBD = new Provider_itemQOBD { ID = i +"", Item_ref = Utility.encodeStringToBase64("item ref"), Provider_name = Utility.encodeStringToBase64("provider name") };
+                Provider_itemQOBD Provider_itemQOBD = new Provider_itemQOBD { ID = i.ToString(), ItemId = i.ToString(), ProviderId = i.ToString() };
                 output[i-1] = Provider_itemQOBD;
             }
             return output;
@@ -2758,7 +2758,7 @@ namespace QOBDTest.Classes
                 Provider_itemQOBD[] output = new Provider_itemQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    Provider_itemQOBD Provider_itemQOBD = new Provider_itemQOBD { ID = i +"", Item_ref = Utility.encodeStringToBase64("item ref"), Provider_name = Utility.encodeStringToBase64("provider name") };
+                    Provider_itemQOBD Provider_itemQOBD = new Provider_itemQOBD { ID = i.ToString(), ItemId = i.ToString(), ProviderId = i.ToString() };
                     output[i-1] = Provider_itemQOBD;
                 }
                 return output;
@@ -2770,7 +2770,7 @@ namespace QOBDTest.Classes
         {
             Provider_itemQOBD[] output = new Provider_itemQOBD[1];
             int i = 1;
-            Provider_itemQOBD Provider_itemQOBD = new Provider_itemQOBD { ID = id, Item_ref = Utility.encodeStringToBase64("item ref"), Provider_name = Utility.encodeStringToBase64("provider name") };
+            Provider_itemQOBD Provider_itemQOBD = new Provider_itemQOBD { ID = id, ItemId = i.ToString(), ProviderId = i.ToString() };
             output[i-1] = Provider_itemQOBD;
 
             return output;
@@ -2782,7 +2782,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 Provider_itemQOBD[] output = new Provider_itemQOBD[1];
                 int i = 1;
-                Provider_itemQOBD Provider_itemQOBD = new Provider_itemQOBD { ID = id, Item_ref = Utility.encodeStringToBase64("item ref"), Provider_name = Utility.encodeStringToBase64("provider name") };
+                Provider_itemQOBD Provider_itemQOBD = new Provider_itemQOBD { ID = id, ItemId = i.ToString(), ProviderId = i.ToString() };
                 output[i-1] = Provider_itemQOBD;
 
                 return output;
@@ -2807,7 +2807,7 @@ namespace QOBDTest.Classes
             Tax_itemQOBD[] output = new Tax_itemQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                Tax_itemQOBD tax_item = new Tax_itemQOBD { ID = i +"", Item_ref = Utility.encodeStringToBase64("ref") + i, TaxId = i +"", Tax_type = Utility.encodeStringToBase64("tax type : " + i), Tax_value = i };
+                Tax_itemQOBD tax_item = new Tax_itemQOBD { ID = i.ToString(), Item_ref = Utility.encodeStringToBase64("ref") + i, TaxId = i.ToString(), Tax_type = Utility.encodeStringToBase64("tax type : " + i), Tax_value = i };
                 output[i-1] = tax_item;
             }
             return output;
@@ -2820,7 +2820,7 @@ namespace QOBDTest.Classes
                 Tax_itemQOBD[] output = new Tax_itemQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    Tax_itemQOBD tax_item = new Tax_itemQOBD { ID = i +"", Item_ref = Utility.encodeStringToBase64("ref") + i, TaxId = i +"", Tax_type = Utility.encodeStringToBase64("tax type : " + i), Tax_value = i };
+                    Tax_itemQOBD tax_item = new Tax_itemQOBD { ID = i.ToString(), Item_ref = Utility.encodeStringToBase64("ref") + i, TaxId = i.ToString(), Tax_type = Utility.encodeStringToBase64("tax type : " + i), Tax_value = i };
                     output[i-1] = tax_item;
                 }
                 return output;
@@ -2832,7 +2832,7 @@ namespace QOBDTest.Classes
         {
             Tax_itemQOBD[] output = new Tax_itemQOBD[1];
             int i = 1;
-            Tax_itemQOBD tax_item = new Tax_itemQOBD { ID = id, Item_ref = Utility.encodeStringToBase64("ref") + i, TaxId = i +"", Tax_type = Utility.encodeStringToBase64("tax type : " + i), Tax_value = i };
+            Tax_itemQOBD tax_item = new Tax_itemQOBD { ID = id, Item_ref = Utility.encodeStringToBase64("ref") + i, TaxId = i.ToString(), Tax_type = Utility.encodeStringToBase64("tax type : " + i), Tax_value = i };
             output[i-1] = tax_item;
 
             return output;
@@ -2844,7 +2844,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 Tax_itemQOBD[] output = new Tax_itemQOBD[1];
                 int i = 1;
-                Tax_itemQOBD tax_item = new Tax_itemQOBD { ID = id, Item_ref = Utility.encodeStringToBase64("ref") + i, TaxId = i +"", Tax_type = Utility.encodeStringToBase64("tax type : " + i), Tax_value = i };
+                Tax_itemQOBD tax_item = new Tax_itemQOBD { ID = id, Item_ref = Utility.encodeStringToBase64("ref") + i, TaxId = i.ToString(), Tax_type = Utility.encodeStringToBase64("tax type : " + i), Tax_value = i };
                 output[i-1] = tax_item;
 
                 return output;
@@ -2922,14 +2922,14 @@ namespace QOBDTest.Classes
         
         public Provider_itemQOBD[] get_filter_provider_item(Provider_itemFilterQOBD provider_item_array_list_filter)
         {
-            return new Provider_itemQOBD[1] { new Provider_itemQOBD { ID = provider_item_array_list_filter.ID, Item_ref = provider_item_array_list_filter.Item_ref, Provider_name = provider_item_array_list_filter.Provider_name } };
+            return new Provider_itemQOBD[1] { new Provider_itemQOBD { ID = provider_item_array_list_filter.ID, ItemId = provider_item_array_list_filter.ItemId, ProviderId = provider_item_array_list_filter.ProviderId } };
         }
 
         
         public Task<Provider_itemQOBD[]> get_filter_provider_itemAsync(Provider_itemFilterQOBD provider_item_array_list_filter)
         {
             return Task.Factory.StartNew(() => {
-                return new Provider_itemQOBD[1] { new Provider_itemQOBD { ID = provider_item_array_list_filter.ID, Item_ref = provider_item_array_list_filter.Item_ref, Provider_name = provider_item_array_list_filter.Provider_name } };
+                return new Provider_itemQOBD[1] { new Provider_itemQOBD { ID = provider_item_array_list_filter.ID, ItemId = provider_item_array_list_filter.ItemId, ProviderId = provider_item_array_list_filter.ProviderId } };
             });
         }
 
@@ -3112,7 +3112,7 @@ namespace QOBDTest.Classes
             NotificationQOBD[] output = new NotificationQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                NotificationQOBD NotificationQOBD = new NotificationQOBD { ID = i +"", BillId = i +"", Date = "Date" };
+                NotificationQOBD NotificationQOBD = new NotificationQOBD { ID = i.ToString(), BillId = i.ToString(), Date = "Date" };
                 output[i-1] = NotificationQOBD;
             }
             return output;
@@ -3125,7 +3125,7 @@ namespace QOBDTest.Classes
                 NotificationQOBD[] output = new NotificationQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    NotificationQOBD NotificationQOBD = new NotificationQOBD { ID = i +"", BillId = i +"", Date = "Date" };
+                    NotificationQOBD NotificationQOBD = new NotificationQOBD { ID = i.ToString(), BillId = i.ToString(), Date = "Date" };
                     output[i-1] = NotificationQOBD;
                 }
                 return output;
@@ -3161,7 +3161,7 @@ namespace QOBDTest.Classes
         {
             NotificationQOBD[] output = new NotificationQOBD[1];
             int i = 1;
-            NotificationQOBD NotificationQOBD = new NotificationQOBD { ID = id, BillId = i +"", Date = "date" };
+            NotificationQOBD NotificationQOBD = new NotificationQOBD { ID = id, BillId = i.ToString(), Date = "date" };
             output[i-1] = NotificationQOBD;
 
             return output;
@@ -3173,7 +3173,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 NotificationQOBD[] output = new NotificationQOBD[1];
                 int i = 1;
-                NotificationQOBD NotificationQOBD = new NotificationQOBD { ID = id, BillId = i +"", Date = "date" };
+                NotificationQOBD NotificationQOBD = new NotificationQOBD { ID = id, BillId = i.ToString(), Date = "date" };
                 output[i-1] = NotificationQOBD;
 
                 return output;
@@ -3242,7 +3242,7 @@ namespace QOBDTest.Classes
             InfosQOBD[] output = new InfosQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                InfosQOBD InfosQOBD = new InfosQOBD { ID = i +"", Name = "name", Value = "value" };
+                InfosQOBD InfosQOBD = new InfosQOBD { ID = i.ToString(), Name = "name", Value = "value" };
                 output[i-1] = InfosQOBD;
             }
             return output;
@@ -3255,7 +3255,7 @@ namespace QOBDTest.Classes
                 InfosQOBD[] output = new InfosQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    InfosQOBD InfosQOBD = new InfosQOBD { ID = i +"", Name = "name", Value = "value" };
+                    InfosQOBD InfosQOBD = new InfosQOBD { ID = i.ToString(), Name = "name", Value = "value" };
                     output[i-1] = InfosQOBD;
                 }
                 return output;
@@ -3267,7 +3267,7 @@ namespace QOBDTest.Classes
         {
             InfosQOBD[] output = new InfosQOBD[1];
             int i = 1;
-            InfosQOBD InfosQOBD = new InfosQOBD { ID = id, Value = i +"" + "", Name = "Name" };
+            InfosQOBD InfosQOBD = new InfosQOBD { ID = id, Value = i.ToString() + "", Name = "Name" };
             output[i-1] = InfosQOBD;
 
             return output;
@@ -3279,7 +3279,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 InfosQOBD[] output = new InfosQOBD[1];
                 int i = 1;
-                InfosQOBD InfosQOBD = new InfosQOBD { ID = id, Value = i +"" + "", Name = "Name" };
+                InfosQOBD InfosQOBD = new InfosQOBD { ID = id, Value = i.ToString() + "", Name = "Name" };
                 output[i-1] = InfosQOBD;
 
                 return output;
@@ -3433,7 +3433,7 @@ namespace QOBDTest.Classes
             ActionRecordQOBD[] output = new ActionRecordQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                ActionRecordQOBD ActionRecordQOBD = new ActionRecordQOBD { ID = i +"", AgentId = i +"", TargetId = i +"" + 1, Date = Utility.encodeStringToBase64(DateTime.Now +"") };
+                ActionRecordQOBD ActionRecordQOBD = new ActionRecordQOBD { ID = i.ToString(), AgentId = i.ToString(), TargetId = i.ToString() + 1, Date = Utility.encodeStringToBase64(DateTime.Now +"") };
                 output[i-1] = ActionRecordQOBD;
             }
             return output;
@@ -3446,7 +3446,7 @@ namespace QOBDTest.Classes
                 ActionRecordQOBD[] output = new ActionRecordQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    ActionRecordQOBD ActionRecordQOBD = new ActionRecordQOBD { ID = i +"", AgentId = i +"", TargetId = i +"" +1, Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                    ActionRecordQOBD ActionRecordQOBD = new ActionRecordQOBD { ID = i.ToString(), AgentId = i.ToString(), TargetId = i.ToString() +1, Date = Utility.encodeStringToBase64(DateTime.Now + "") };
                     output[i-1] = ActionRecordQOBD;
                 }
                 return output;
@@ -3458,7 +3458,7 @@ namespace QOBDTest.Classes
         {
             ActionRecordQOBD[] output = new ActionRecordQOBD[1];
             int i = 1;
-            ActionRecordQOBD ActionRecordQOBD = new ActionRecordQOBD { ID = id, AgentId = i +"", TargetId = i +"", TargetName = Utility.encodeStringToBase64("target name"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+            ActionRecordQOBD ActionRecordQOBD = new ActionRecordQOBD { ID = id, AgentId = i.ToString(), TargetId = i.ToString(), TargetName = Utility.encodeStringToBase64("target name"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
             output[i-1] = ActionRecordQOBD;
 
             return output;
@@ -3470,7 +3470,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 ActionRecordQOBD[] output = new ActionRecordQOBD[1];
                 int i = 1;
-                ActionRecordQOBD ActionRecordQOBD = new ActionRecordQOBD { ID = id, AgentId = i +"", TargetId = i +"", TargetName = Utility.encodeStringToBase64("target name"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                ActionRecordQOBD ActionRecordQOBD = new ActionRecordQOBD { ID = id, AgentId = i.ToString(), TargetId = i.ToString(), TargetName = Utility.encodeStringToBase64("target name"), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
                 output[i-1] = ActionRecordQOBD;
 
                 return output;
@@ -3557,7 +3557,7 @@ namespace QOBDTest.Classes
             PrivilegeQOBD[] output = new PrivilegeQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                PrivilegeQOBD PrivilegeQOBD = new PrivilegeQOBD { ID = i +"", Role_actionId = i +"", Date = Utility.encodeStringToBase64(DateTime.Now+"") };
+                PrivilegeQOBD PrivilegeQOBD = new PrivilegeQOBD { ID = i.ToString(), Role_actionId = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now+"") };
                 output[i-1] = PrivilegeQOBD;
             }
             return output;
@@ -3570,7 +3570,7 @@ namespace QOBDTest.Classes
                 PrivilegeQOBD[] output = new PrivilegeQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    PrivilegeQOBD PrivilegeQOBD = new PrivilegeQOBD { ID = i +"", Role_actionId = i +"", Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                    PrivilegeQOBD PrivilegeQOBD = new PrivilegeQOBD { ID = i.ToString(), Role_actionId = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
                     output[i-1] = PrivilegeQOBD;
                 }
                 return output;
@@ -3582,7 +3582,7 @@ namespace QOBDTest.Classes
         {
             PrivilegeQOBD[] output = new PrivilegeQOBD[1];
             int i = 1;
-            PrivilegeQOBD PrivilegeQOBD = new PrivilegeQOBD { ID = id + "", Role_actionId = i +"", Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+            PrivilegeQOBD PrivilegeQOBD = new PrivilegeQOBD { ID = id + "", Role_actionId = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
             output[i-1] = PrivilegeQOBD;
 
             return output;
@@ -3594,7 +3594,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 PrivilegeQOBD[] output = new PrivilegeQOBD[1];
                 int i = 1;
-                PrivilegeQOBD PrivilegeQOBD = new PrivilegeQOBD { ID = id, Role_actionId = i +"", Date = Utility.encodeStringToBase64(DateTime.Now + "") };
+                PrivilegeQOBD PrivilegeQOBD = new PrivilegeQOBD { ID = id, Role_actionId = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now + "") };
                 output[i-1] = PrivilegeQOBD;
 
                 return output;
@@ -3607,7 +3607,7 @@ namespace QOBDTest.Classes
             RoleQOBD[] output = new RoleQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                RoleQOBD Role_actionQOBD = new RoleQOBD { ID = i, Name = Utility.encodeStringToBase64("Name"), Actions = new ActionQOBD[] { new ActionQOBD { ID = i, Name = Utility.encodeStringToBase64("name"), Right = new PrivilegeQOBD { ID = i +"", Date = Utility.encodeStringToBase64(DateTime.Now+"") } } } };
+                RoleQOBD Role_actionQOBD = new RoleQOBD { ID = i, Name = Utility.encodeStringToBase64("Name"), Actions = new ActionQOBD[] { new ActionQOBD { ID = i, Name = Utility.encodeStringToBase64("name"), Right = new PrivilegeQOBD { ID = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now+"") } } } };
                 output[i-1] = Role_actionQOBD;
             }
             return output;
@@ -3620,7 +3620,7 @@ namespace QOBDTest.Classes
                 RoleQOBD[] output = new RoleQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    RoleQOBD Role_actionQOBD = new RoleQOBD { ID = i, Name = Utility.encodeStringToBase64("Name"), Actions = new ActionQOBD[] { new ActionQOBD { ID = i, Name = Utility.encodeStringToBase64("name"), Right = new PrivilegeQOBD { ID = i +"" + "", Date = Utility.encodeStringToBase64(DateTime.Now + "") } } } };
+                    RoleQOBD Role_actionQOBD = new RoleQOBD { ID = i, Name = Utility.encodeStringToBase64("Name"), Actions = new ActionQOBD[] { new ActionQOBD { ID = i, Name = Utility.encodeStringToBase64("name"), Right = new PrivilegeQOBD { ID = i.ToString() + "", Date = Utility.encodeStringToBase64(DateTime.Now + "") } } } };
                     output[i-1] = Role_actionQOBD;
                 }
                 return output;
@@ -3948,7 +3948,7 @@ namespace QOBDTest.Classes
             StatisticQOBD[] output = new StatisticQOBD[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = i +"", BillId = i +"" + "", Bill_date = Utility.encodeStringToBase64(DateTime.Now +""), Total = i +"", Income = i +"", Pay_received = 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i +"", Price_purchase_total = i +"", Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
+                StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = i.ToString(), BillId = i.ToString() + "", Bill_date = Utility.encodeStringToBase64(DateTime.Now +""), Total = i.ToString(), Income = i.ToString(), Pay_received = 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i.ToString(), Price_purchase_total = i.ToString(), Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
                 output[i-1] = StatisticQOBD;
             }
             return output;
@@ -3961,7 +3961,7 @@ namespace QOBDTest.Classes
                 StatisticQOBD[] output = new StatisticQOBD[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = i +"", BillId = i +"", Bill_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total = i +"" + "", Income = i +"" + "", Pay_received = i +"" + 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i +"" + "", Price_purchase_total = i +"" + "", Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
+                    StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = i.ToString(), BillId = i.ToString(), Bill_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total = i.ToString() + "", Income = i.ToString() + "", Pay_received = i.ToString() + 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i.ToString() + "", Price_purchase_total = i.ToString() + "", Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
                     output[i-1] = StatisticQOBD;
                 }
                 return output;
@@ -3973,7 +3973,7 @@ namespace QOBDTest.Classes
         {
             StatisticQOBD[] output = new StatisticQOBD[1];
             int i = 1;
-            StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = id, BillId = i +"", Bill_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total = i +"", Income = i +"", Pay_received = 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i +"", Price_purchase_total = i +"", Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
+            StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = id, BillId = i.ToString(), Bill_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total = i.ToString(), Income = i.ToString(), Pay_received = 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i.ToString(), Price_purchase_total = i.ToString(), Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
             output[i-1] = StatisticQOBD;
 
             return output;
@@ -3985,7 +3985,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 StatisticQOBD[] output = new StatisticQOBD[1];
                 int i = 1;
-                StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = id, BillId = i +"", Bill_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total = i +"", Income = i +"", Pay_received = 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i +"", Price_purchase_total = i +"", Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
+                StatisticQOBD StatisticQOBD = new StatisticQOBD { ID = id, BillId = i.ToString(), Bill_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total = i.ToString(), Income = i.ToString(), Pay_received = 10 + "", Pay_date = Utility.encodeStringToBase64(DateTime.Now + ""), Total_tax_included = i.ToString(), Price_purchase_total = i.ToString(), Tax_value = i, Date_limit = Utility.encodeStringToBase64(DateTime.Now + "") };
                 output[i-1] = StatisticQOBD;
 
                 return output;
@@ -4128,7 +4128,7 @@ namespace QOBDTest.Classes
             User_discussionChatRoom[] output = new User_discussionChatRoom[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = i +"", DiscussionId = i +"", Status = 0 +"", UserId = i +"" };
+                User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = i.ToString(), DiscussionId = i.ToString(), Status = 0 +"", UserId = i.ToString() };
                 output[i - 1] = User_discussionChatRoom;
             }
             return output;
@@ -4141,7 +4141,7 @@ namespace QOBDTest.Classes
                 User_discussionChatRoom[] output = new User_discussionChatRoom[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = i +"", DiscussionId = i +"", Status = 0+"", UserId = i +"" };
+                    User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = i.ToString(), DiscussionId = i.ToString(), Status = 0+"", UserId = i.ToString() };
                     output[i - 1] = User_discussionChatRoom;
                 }
                 return output;
@@ -4189,7 +4189,7 @@ namespace QOBDTest.Classes
         {
             User_discussionChatRoom[] output = new User_discussionChatRoom[1];
             int i = 1;
-            User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = id, DiscussionId = i +"", Status = 0+"", UserId = i +"" };
+            User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = id, DiscussionId = i.ToString(), Status = 0+"", UserId = i.ToString() };
             output[i - 1] = User_discussionChatRoom;
 
             return output;
@@ -4201,7 +4201,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 User_discussionChatRoom[] output = new User_discussionChatRoom[1];
                 int i = 1;
-                User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = id, DiscussionId = i +"", Status = 0+"", UserId = i +"" };
+                User_discussionChatRoom User_discussionChatRoom = new User_discussionChatRoom { ID = id, DiscussionId = i.ToString(), Status = 0+"", UserId = i.ToString() };
                 output[i - 1] = User_discussionChatRoom;
 
                 return output;
@@ -4235,7 +4235,7 @@ namespace QOBDTest.Classes
             MessageChatRoom[] output = new MessageChatRoom[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = i +"", Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i +"", Status = 0 + "", UserId = i +"" };
+                MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i.ToString(), Status = 0 + "", UserId = i.ToString() };
                 output[i - 1] = MessageChatRoom;
             }
             return output;
@@ -4248,7 +4248,7 @@ namespace QOBDTest.Classes
                 MessageChatRoom[] output = new MessageChatRoom[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = i +"", Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i +"", Status = 0+"", UserId = i +"" };
+                    MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i.ToString(), Status = 0+"", UserId = i.ToString() };
                     output[i - 1] = MessageChatRoom;
                 }
                 return output;
@@ -4296,7 +4296,7 @@ namespace QOBDTest.Classes
         {
             MessageChatRoom[] output = new MessageChatRoom[1];
             int i = 1;
-            MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = id, Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i +"", Status = 0 + "", UserId = i +"" };
+            MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = id, Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i.ToString(), Status = 0 + "", UserId = i.ToString() };
             output[i - 1] = MessageChatRoom;
 
             return output;
@@ -4308,7 +4308,7 @@ namespace QOBDTest.Classes
             return Task.Factory.StartNew(() => {
                 MessageChatRoom[] output = new MessageChatRoom[1];
                 int i = 1;
-                MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = id, Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i +"", Status = 0 + "", UserId = i +"" };
+                MessageChatRoom MessageChatRoom = new MessageChatRoom { ID = id, Date = Utility.encodeStringToBase64(DateTime.Now.ToString()), Content = Utility.encodeStringToBase64("Content"), DiscussionId = i.ToString(), Status = 0 + "", UserId = i.ToString() };
                 output[i - 1] = MessageChatRoom;
 
                 return output;
@@ -4342,7 +4342,7 @@ namespace QOBDTest.Classes
             DiscussionChatRoom[] output = new DiscussionChatRoom[Convert.ToInt32(nbLine)];
             for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
             {
-                DiscussionChatRoom DiscussionChatRoom = new DiscussionChatRoom { ID = i +"", Date = Utility.encodeStringToBase64(DateTime.Now.ToString()) };
+                DiscussionChatRoom DiscussionChatRoom = new DiscussionChatRoom { ID = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now.ToString()) };
                 output[i - 1] = DiscussionChatRoom;
             }
             return output;
@@ -4355,7 +4355,7 @@ namespace QOBDTest.Classes
                 DiscussionChatRoom[] output = new DiscussionChatRoom[Convert.ToInt32(nbLine)];
                 for (int i = 1; i <= Convert.ToInt32(nbLine); i++)
                 {
-                    DiscussionChatRoom DiscussionChatRoom = new DiscussionChatRoom { ID = i +"", Date = Utility.encodeStringToBase64(DateTime.Now.ToString()) };
+                    DiscussionChatRoom DiscussionChatRoom = new DiscussionChatRoom { ID = i.ToString(), Date = Utility.encodeStringToBase64(DateTime.Now.ToString()) };
                     output[i - 1] = DiscussionChatRoom;
                 }
                 return output;
@@ -4458,6 +4458,102 @@ namespace QOBDTest.Classes
 
         
         public Task<DiscussionChatRoom[]> get_data_discussion_by_message_listAsync(MessageChatRoom[] message_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public CurrencyQOBD[] get_data_currency(string nbLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public Task<CurrencyQOBD[]> get_data_currencyAsync(string nbLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public CurrencyQOBD[] delete_data_currency(CurrencyQOBD[] currency_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public Task<CurrencyQOBD[]> delete_data_currencyAsync(CurrencyQOBD[] currency_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public CurrencyQOBD[] insert_data_currency(CurrencyQOBD[] currency_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public Task<CurrencyQOBD[]> insert_data_currencyAsync(CurrencyQOBD[] currency_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public CurrencyQOBD[] update_data_currency(CurrencyQOBD[] currency_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public Task<CurrencyQOBD[]> update_data_currencyAsync(CurrencyQOBD[] currency_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public CurrencyQOBD[] get_data_currency_by_id(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public Task<CurrencyQOBD[]> get_data_currency_by_idAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public CurrencyQOBD[] get_filter_currency(CurrencyFilterQOBD currency_array_list_filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public Task<CurrencyQOBD[]> get_filter_currencyAsync(CurrencyFilterQOBD currency_array_list_filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public CurrencyQOBD[] get_data_currency_by_item_list(ItemQOBD[] item_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public Task<CurrencyQOBD[]> get_data_currency_by_item_listAsync(ItemQOBD[] item_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public CurrencyQOBD[] get_data_currency_by_provider_item_list(Provider_itemQOBD[] item_array_list)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public Task<CurrencyQOBD[]> get_data_currency_by_provider_item_listAsync(Provider_itemQOBD[] item_array_list)
         {
             throw new NotImplementedException();
         }

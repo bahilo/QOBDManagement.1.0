@@ -145,7 +145,6 @@ namespace QOBDGateway.Helper.ChannelHelper
             object _lock = new object(); List<User_discussion> returnList = new List<User_discussion>();
             if (user_discussionChatRoomList != null)
             {
-                //Parallel.ForEach(user_discussionChatRoomList, (user_discussionChat) =>
                 foreach (var user_discussionChat in user_discussionChatRoomList)
                 {
                     User_discussion user_discussion = new User_discussion();
@@ -156,7 +155,6 @@ namespace QOBDGateway.Helper.ChannelHelper
 
                     lock (_lock) returnList.Add(user_discussion);
                 }
-                //);
             }
             return returnList;
         }
@@ -221,7 +219,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Fax = Utility.decodeBase64ToString(x.Fax),
                 RoleList = x.Roles.ArrayTypeToRole(),
             }).ToList();
-            
+
             return outputList;
         }
 
@@ -244,7 +242,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Email = Utility.encodeStringToBase64(x.Email),
                 Fax = Utility.encodeStringToBase64(x.Fax),
             }).ToArray();
-            
+
             return outputArray;
         }
 
@@ -740,7 +738,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Status = Utility.decodeBase64ToString(x.Status),
                 Date = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date)),
                 DeliveryAddress = Utility.intTryParse(Utility.decodeBase64ToString(x.DeliveryAddress)),
-                Tax = Convert.ToDouble(x.Tax),
+                Tax = Utility.decimalTryParse(Utility.decodeBase64ToString(x.Tax)),
             }).ToList();
             
             return outputList;
@@ -760,7 +758,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Status = Utility.encodeStringToBase64(x.Status),
                 Date = Utility.encodeStringToBase64(x.Date.ToString("yyyy-MM-dd H:mm:ss")),
                 DeliveryAddress = Utility.encodeStringToBase64(x.DeliveryAddress.ToString()),
-                Tax = x.Tax,
+                Tax = Utility.encodeStringToBase64(x.Tax.ToString()),
             }).ToArray();
 
             return outputArray;
@@ -780,7 +778,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 orderQCBD.Comment3 = Utility.encodeStringToBase64(order.Comment3);
                 orderQCBD.Status = Utility.encodeStringToBase64(order.Status);
                 orderQCBD.DeliveryAddress = Utility.encodeStringToBase64(order.DeliveryAddress.ToString());
-                orderQCBD.Tax = order.Tax;
+                orderQCBD.Tax = Utility.encodeStringToBase64(order.Tax.ToString());
                 orderQCBD.Operator = Utility.encodeStringToBase64(filterOperator.ToString());
             }
             return orderQCBD;
@@ -986,7 +984,6 @@ namespace QOBDGateway.Helper.ChannelHelper
         }
 
 
-
         //====================================================================================
         //===============================[ Address ]===========================================
         //====================================================================================
@@ -997,6 +994,7 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 ID = Utility.intTryParse(Utility.decodeBase64ToString(x.ID)),
                 AddressName = Utility.decodeBase64ToString(x.Address),
+                ProviderId = Utility.intTryParse(Utility.decodeBase64ToString(x.ProviderId)),
                 ClientId = Utility.intTryParse(Utility.decodeBase64ToString(x.ClientId)),
                 Comment = Utility.decodeBase64ToString(x.Comment),
                 Email = Utility.decodeBase64ToString(x.Email),
@@ -1009,7 +1007,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Name2 = Utility.decodeBase64ToString(x.Name2),
                 Postcode = Utility.decodeBase64ToString(x.Postcode),
             }).ToList();
-            
+
             return outputList;
         }
 
@@ -1020,6 +1018,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 ID = Utility.encodeStringToBase64(x.ID.ToString()),
                 Address = Utility.encodeStringToBase64(x.AddressName),
                 ClientId = Utility.encodeStringToBase64(x.ClientId.ToString()),
+                ProviderId = Utility.encodeStringToBase64(x.ProviderId.ToString()),
                 Comment = Utility.encodeStringToBase64(x.Comment),
                 Email = Utility.encodeStringToBase64(x.Email),
                 Phone = Utility.encodeStringToBase64(x.Phone),
@@ -1031,7 +1030,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Name2 = Utility.encodeStringToBase64(x.Name2),
                 Postcode = Utility.encodeStringToBase64(x.Postcode),
             }).ToArray();
-            
+
             return outputArray;
         }
 
@@ -1043,6 +1042,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 AddressQCBD.ID = Utility.encodeStringToBase64(Address.ID.ToString());
                 AddressQCBD.Address = Utility.encodeStringToBase64(Address.AddressName);
                 AddressQCBD.ClientId = Utility.encodeStringToBase64(Address.ClientId.ToString());
+                AddressQCBD.ProviderId = Utility.encodeStringToBase64(Address.ProviderId.ToString());
                 AddressQCBD.Comment = Utility.encodeStringToBase64(Address.Comment);
                 AddressQCBD.Email = Utility.encodeStringToBase64(Address.Email);
                 AddressQCBD.Phone = Utility.encodeStringToBase64(Address.Phone);
@@ -1056,6 +1056,66 @@ namespace QOBDGateway.Helper.ChannelHelper
                 AddressQCBD.Operator = Utility.encodeStringToBase64(filterOperator.ToString());
             }
             return AddressQCBD;
+        }
+
+
+        //====================================================================================
+        //===============================[ Currency ]===========================================
+        //====================================================================================
+
+        public static List<Currency> ArrayTypeToCurrency(this CurrencyQOBD[] CurrenciesQOBDList)
+        {
+            List<Currency> outputList = CurrenciesQOBDList.AsParallel().Select(x => new Currency
+            {
+                ID = Utility.intTryParse(Utility.decodeBase64ToString(x.ID)),
+                Name = Utility.decodeBase64ToString(x.Name),
+                Symbol = Utility.decodeBase64ToString(x.Symbol),
+                Rate = Utility.decimalTryParse(Utility.decodeBase64ToString(x.Rate)),
+                IsDefault = (Utility.intTryParse(x.IsDefault) == 1) ? true : false,
+                CountryCode = Utility.decodeBase64ToString(x.Country_code),
+                CurrencyCode = Utility.decodeBase64ToString(x.Currency_code),
+                Country = Utility.decodeBase64ToString(x.Country),
+                Date = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date))              
+            }).ToList();
+
+            return outputList;
+        }
+
+        public static CurrencyQOBD[] CurrencyTypeToArray(this List<Currency> CurrenciesList)
+        {
+            CurrencyQOBD[] outputArray = CurrenciesList.AsParallel().Select(x => new CurrencyQOBD
+            {
+                ID = Utility.encodeStringToBase64(x.ID.ToString()),
+                Name = Utility.encodeStringToBase64(x.Name),
+                Symbol = Utility.encodeStringToBase64(x.Symbol),
+                Rate = Utility.encodeStringToBase64(x.Rate.ToString()),
+                Country_code = Utility.encodeStringToBase64(x.CountryCode),
+                Currency_code = Utility.encodeStringToBase64(x.CurrencyCode),
+                Country = Utility.encodeStringToBase64(x.Country),
+                IsDefault = (x.IsDefault) ? Utility.encodeStringToBase64("1") : Utility.encodeStringToBase64("0"),
+                Date = Utility.encodeStringToBase64(x.Date.ToString("yyyy-MM-dd H:mm:ss"))
+            }).ToArray();
+
+            return outputArray;
+        }
+
+        public static CurrencyFilterQOBD CurrencyTypeToFilterArray(this Currency Currency, ESearchOption filterOperator)
+        {
+            CurrencyFilterQOBD CurrencyQCBD = new CurrencyFilterQOBD();
+            if (Currency != null)
+            {
+                CurrencyQCBD.ID = Utility.encodeStringToBase64(Currency.ID.ToString());
+                CurrencyQCBD.ID = Utility.encodeStringToBase64(Currency.ID.ToString());
+                CurrencyQCBD.Name = Utility.encodeStringToBase64(Currency.Name);
+                CurrencyQCBD.Symbol = Utility.encodeStringToBase64(Currency.Symbol);
+                CurrencyQCBD.Country_code = Utility.encodeStringToBase64(Currency.CountryCode);
+                CurrencyQCBD.Currency_code = Utility.encodeStringToBase64(Currency.CurrencyCode);
+                CurrencyQCBD.Country = Utility.encodeStringToBase64(Currency.Country);
+                CurrencyQCBD.Rate = Utility.encodeStringToBase64(Currency.Rate.ToString());
+                CurrencyQCBD.IsDefault = (Currency.IsDefault) ? Utility.encodeStringToBase64("1") : Utility.encodeStringToBase64("0");
+                CurrencyQCBD.Operator = Utility.encodeStringToBase64(filterOperator.ToString());
+            }
+            return CurrencyQCBD;
         }
 
 
@@ -1251,7 +1311,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 ID = Utility.intTryParse(Utility.decodeBase64ToString(x.ID)),
                 Tax_current = Utility.intTryParse(Utility.decodeBase64ToString(x.Tax_current)),
                 Type = Utility.decodeBase64ToString(x.Type),
-                Value = Convert.ToDouble(x.Value),
+                Value = Utility.decimalTryParse(x.Value.ToString()),
                 Date_insert = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date_insert)),
                 Comment = Utility.decodeBase64ToString(x.Comment),
             }).ToList();
@@ -1266,7 +1326,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 ID = Utility.encodeStringToBase64(x.ID.ToString()),
                 Tax_current = Utility.encodeStringToBase64(x.Tax_current.ToString()),
                 Type = Utility.encodeStringToBase64(x.Type),
-                Value = x.Value,
+                Value = Utility.encodeStringToBase64(x.Value.ToString()),
                 Date_insert = Utility.encodeStringToBase64(x.Date_insert.ToString("yyyy-MM-dd H:mm:ss")),
                 Comment = Utility.encodeStringToBase64(x.Comment),
             }).ToArray();
@@ -1282,7 +1342,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 TaxQCBD.ID = Utility.encodeStringToBase64(Tax.ID.ToString());
                 TaxQCBD.Tax_current = Utility.encodeStringToBase64(Tax.Tax_current.ToString());
                 TaxQCBD.Type = Utility.encodeStringToBase64(Tax.Type);
-                TaxQCBD.Value = Tax.Value;
+                TaxQCBD.Value = Utility.encodeStringToBase64(Tax.Value.ToString());
                 TaxQCBD.Date_insert = Utility.encodeStringToBase64(Tax.Date_insert.ToString("yyyy-MM-dd H:mm:ss"));
                 TaxQCBD.Comment = Utility.encodeStringToBase64(Tax.Comment);
                 TaxQCBD.Operator = Utility.encodeStringToBase64(filterOperator.ToString());
@@ -1301,8 +1361,9 @@ namespace QOBDGateway.Helper.ChannelHelper
             List<Provider_item> outputList = Provider_itemQOBDList.AsParallel().Select(x => new Provider_item
             {
                 ID = Utility.intTryParse(Utility.decodeBase64ToString(x.ID)),
-                Item_ref = Utility.decodeBase64ToString(x.Item_ref),
-                Provider_name = Utility.decodeBase64ToString(x.Provider_name),
+                ItemId = Utility.intTryParse(Utility.decodeBase64ToString(x.ItemId)),
+                ProviderId = Utility.intTryParse(Utility.decodeBase64ToString(x.ProviderId)),
+                CurrencyId = Utility.intTryParse(Utility.decodeBase64ToString(x.CurrencyId)),
             }).ToList();
             
             return outputList;
@@ -1313,8 +1374,9 @@ namespace QOBDGateway.Helper.ChannelHelper
             Provider_itemQOBD[] outputArray = Provider_itemList.AsParallel().Select(x => new Provider_itemQOBD
             {
                 ID = Utility.encodeStringToBase64(x.ID.ToString()),
-                Item_ref = Utility.encodeStringToBase64(x.Item_ref),
-                Provider_name = Utility.encodeStringToBase64(x.Provider_name),
+                ItemId = Utility.encodeStringToBase64(x.ItemId.ToString()),
+                ProviderId = Utility.encodeStringToBase64(x.ProviderId.ToString()),
+                CurrencyId = Utility.encodeStringToBase64(x.CurrencyId.ToString()),
             }).ToArray();
             
             return outputArray;
@@ -1326,8 +1388,9 @@ namespace QOBDGateway.Helper.ChannelHelper
             if (Provider_item != null)
             {
                 Provider_itemQCBD.ID = Utility.encodeStringToBase64(Provider_item.ID.ToString());
-                Provider_itemQCBD.Item_ref = Utility.encodeStringToBase64(Provider_item.Item_ref);
-                Provider_itemQCBD.Provider_name = Utility.encodeStringToBase64(Provider_item.Provider_name);
+                Provider_itemQCBD.ItemId = Utility.encodeStringToBase64(Provider_item.ItemId.ToString());
+                Provider_itemQCBD.ProviderId = Utility.encodeStringToBase64(Provider_item.ProviderId.ToString());
+                Provider_itemQCBD.CurrencyId = Utility.encodeStringToBase64(Provider_item.CurrencyId.ToString());
                 Provider_itemQCBD.Operator = Utility.encodeStringToBase64(filterOperator.ToString());
             }
             return Provider_itemQCBD;
@@ -1344,6 +1407,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 ID = Utility.intTryParse(Utility.decodeBase64ToString(x.ID)),
                 Name = Utility.decodeBase64ToString(x.Name),
                 Source = Utility.intTryParse(Utility.decodeBase64ToString(x.Source)),
+                AddressId = Utility.intTryParse(Utility.decodeBase64ToString(x.AddressId)),
             }).ToList();
             
             return outputList;
@@ -1356,6 +1420,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 ID = Utility.encodeStringToBase64(x.ID.ToString()),
                 Name = Utility.encodeStringToBase64(x.Name),
                 Source = Utility.encodeStringToBase64(x.Source.ToString()),
+                AddressId = Utility.encodeStringToBase64(x.AddressId.ToString()),
             }).ToArray();
             
             return outputArray;
@@ -1369,6 +1434,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 ProviderQCBD.ID = Utility.encodeStringToBase64(Provider.ID.ToString());
                 ProviderQCBD.Name = Utility.encodeStringToBase64(Provider.Name);
                 ProviderQCBD.Source = Utility.encodeStringToBase64(Provider.Source.ToString());
+                ProviderQCBD.AddressId = Utility.encodeStringToBase64(Provider.AddressId.ToString());
                 ProviderQCBD.Operator = Utility.encodeStringToBase64(filterOperator.ToString());
             }
             return ProviderQCBD;

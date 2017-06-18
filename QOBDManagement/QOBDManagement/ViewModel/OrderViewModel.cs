@@ -25,6 +25,7 @@ namespace QOBDManagement.ViewModel
     {
         private string _navigTo;
         private Func<Object, Object> _page;
+        private List<CurrencyModel> _currenciesList;
         public NotifyTaskCompletion<List<Entity.Order>> OrderTask { get; set; }
         public NotifyTaskCompletion<List<OrderModel>> OrderModelTask { get; set; }
         public NotifyTaskCompletion<List<Entity.Tax>> TaxTask { get; set; }
@@ -99,6 +100,7 @@ namespace QOBDManagement.ViewModel
         private void instances()
         {
             _taxesList = new List<QOBDCommon.Entities.Tax>();
+            _currenciesList = new List<CurrencyModel>();
             _order = new Entity.Order();
             OrderTask = new NotifyTaskCompletion<List<QOBDCommon.Entities.Order>>();
             OrderModelTask = new NotifyTaskCompletion<List<OrderModel>>();
@@ -163,6 +165,12 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _taxesList, value); }
         }
 
+        public List<CurrencyModel> CurrenciesList
+        {
+            get { return _currenciesList; }
+            set { setProperty(ref _currenciesList, value); }
+        }
+
         public OrderDetailViewModel OrderDetailViewModel
         {
             get { return _orderDetailViewModel; }
@@ -217,6 +225,12 @@ namespace QOBDManagement.ViewModel
             get { return getOrderModelListFilterBy("WaitPayOrderList"); }
         }
 
+        public CurrencyModel CurrencyModel
+        {
+            get { return OrderDetailViewModel.CurrencyModel; }
+            set { OrderDetailViewModel.CurrencyModel = value; onPropertyChange(); }
+        }
+
         public string BlockSearchResultVisibility
         {
             get { return _blockSearchResultVisibility; }
@@ -232,7 +246,47 @@ namespace QOBDManagement.ViewModel
         //----------------------------[ Actions ]------------------
 
         /// <summary>
-        /// Convert generic list of order into a order model list
+        /// Load all orders in defferent sections according to their status
+        /// </summary>
+        public void loadOrders()
+        {
+            if (Application.Current != null)
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    load();
+                });
+            else
+                load();
+        }
+
+        private void load()
+        {
+            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
+            TaxList = Bl.BlOrder.GetTaxData(999);
+            OrderSearchModel.AgentList = Bl.BlAgent.GetAgentData(999);
+            var currenciesFound = Bl.BlOrder.searchCurrency(new Currency { IsDefault = true }, ESearchOption.AND);
+            if (currenciesFound.Count() > 0)
+                CurrencyModel = currenciesFound.Select(x => new CurrencyModel { Currency = x }).Single();
+
+            if (SelectedClient.Client.ID != 0)
+            {
+                Title = string.Format("Orders for the Company {0}", SelectedClient.Client.Company);
+
+                OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new Entity.Order { ClientId = SelectedClient.Client.ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
+                SelectedClient = new ClientModel();
+            }
+            else
+            {
+                Title = "Orders Management";
+                OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new QOBDCommon.Entities.Order { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
+            }
+            BlockSearchResultVisibility = "Hidden";
+            Dialog.IsDialogOpen = false;
+        }
+
+
+        /// <summary>
+        /// Convert order object into a order model list
         /// </summary>
         /// <param name="OrderList"></param>
         /// <returns></returns>
@@ -255,7 +309,7 @@ namespace QOBDManagement.ViewModel
                 // getting the order tax_order
                 var resultSearchOrderTaxList = Bl.BlOrder.searchTax_order(new Tax_order { OrderId = order.ID }, ESearchOption.AND);
                 ovm.Tax_orderModel = (resultSearchOrderTaxList.Count > 0) ? new Tax_orderModel { Tax_order = resultSearchOrderTaxList[0] } : new Tax_orderModel();
-                
+
                 // getting the order tax
                 Entity.Tax taxFound = TaxList.Where(x => x.ID == ovm.Tax_orderModel.Tax_order.TaxId).OrderBy(x => x.Date_insert).LastOrDefault();// await Bl.BlOrder.GetTaxDataById(cmdvm.Tax_command.TaxId);
                 ovm.Tax = (taxFound != null) ? taxFound : new Entity.Tax();
@@ -266,43 +320,6 @@ namespace QOBDManagement.ViewModel
             output = new List<OrderModel>(concurrentOrderModelList);
             return output;
         }
-
-        /// <summary>
-        /// Load all orders in defferent sections according to their status
-        /// </summary>
-        public void loadOrders()
-        {
-            if (Application.Current != null)
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    load();
-                });
-            else
-                load();
-        }
-
-        private void load()
-        {
-            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
-            TaxList = Bl.BlOrder.GetTaxData(999);
-            OrderSearchModel.AgentList = Bl.BlAgent.GetAgentData(999);
-
-            if (SelectedClient.Client.ID != 0)
-            {
-                Title = string.Format("Orders for the Company {0}", SelectedClient.Client.Company);
-
-                OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new Entity.Order { ClientId = SelectedClient.Client.ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
-                SelectedClient = new ClientModel();
-            }
-            else
-            {
-                Title = "Orders Management";
-                OrderModelList = (OrderListToModelList(Bl.BlOrder.searchOrder(new QOBDCommon.Entities.Order { AgentId = Bl.BlSecurity.GetAuthenticatedUser().ID }, ESearchOption.AND))).OrderByDescending(x => x.Order.ID).ToList();
-            }
-            BlockSearchResultVisibility = "Hidden";
-            Dialog.IsDialogOpen = false;
-        }
-
 
         private void updateOrderModelListBinding()
         {
@@ -353,7 +370,7 @@ namespace QOBDManagement.ViewModel
                     Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
 
                     OrderDetailViewModel.OrderSelected = orderModel;
-                    var order_itemModelFoundList = await OrderDetailViewModel.Order_ItemListToModelViewListAsync(Bl.BlOrder.GetOrder_itemByOrderList(new List<Entity.Order> { orderModel.Order }));
+                    var order_itemModelFoundList = OrderDetailViewModel.Order_ItemListToModelViewList(Bl.BlOrder.GetOrder_itemByOrderList(new List<Entity.Order> { orderModel.Order }));
                     var deliveryFoundList = Bl.BlOrder.GetDeliveryDataByOrderList(new List<Entity.Order> { orderModel.Order });
                     var Item_deliveryFoundList = Bl.BlItem.GetItem_deliveryDataByDeliveryList(deliveryFoundList);
                     var tax_orderFoundList = Bl.BlOrder.GetTax_orderDataByOrderList(new List<Entity.Order> { orderModel.Order });
@@ -377,8 +394,22 @@ namespace QOBDManagement.ViewModel
                     await Dialog.showAsync("Order invoice is not the latest.");
 
             }
-
         }
+
+        public void loadCurrencies()
+        {
+            object _lock = new object();
+            lock (_lock)
+            {
+                CurrenciesList = Bl.BlOrder.GetCurrencyData((int)EOrderStatus.ALL).Select(x => new CurrencyModel { Currency = x }).ToList();
+            }
+        }
+
+        public async Task loadCurrenciesAsync()
+        {
+            CurrenciesList = (await Bl.BlOrder.GetCurrencyDataAsync((int)EOrderStatus.ALL)).Select(x=> new CurrencyModel { Currency = x }).ToList();
+        }
+
 
         public override void Dispose()
         {
@@ -411,7 +442,7 @@ namespace QOBDManagement.ViewModel
         }
 
 
-        //----------------------------[ Action Order ]------------------
+        //----------------------------[ Action Command ]------------------
 
         /// <summary>
         /// Save the selected order
@@ -419,6 +450,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         public void saveSelectedOrder(OrderModel obj)
         {
+            obj.CurrencyModel = CurrencyModel;
             SelectedOrderModel = obj;
             executeNavig("order-detail");
         }

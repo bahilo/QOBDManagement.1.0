@@ -31,6 +31,7 @@ namespace QOBDManagement.ViewModel
         private string _outputStringFormat;
         private string _incomeHeaderWithCurrency;
         private decimal _totalBeforeTax;
+        private CurrencyModel _currencyModel;
         private InfoManager.FileWriter _mailFile;
         private ParamOrderToPdf _paramQuoteToPdf;
         private ParamOrderToPdf _paramOrderToPdf;
@@ -101,22 +102,24 @@ namespace QOBDManagement.ViewModel
         {
             PropertyChanged += onOrderSelectedChange;
             PropertyChanged += onOrder_itemModelWorkFlowChange;
+            PropertyChanged += onCurrencyChange;
             _updateOrderStatusTask.PropertyChanged += onInitializationTaskComplete_UpdateOrderStatus;
         }
 
         private void instances()
         {
-            _title = ConfigurationManager.AppSettings["title_order_detail"];
-            _outputStringFormat = "F";
-            _incomeHeaderWithCurrency = "Total Income (" + CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + ")";
-            _taxes = new List<Tax>();
+            _taxes = new List<Tax>(); 
+            _currencyModel = new CurrencyModel();
             _statistic = new StatisticModel();
             _selectedBillToSend = new BillModel();
             _updateOrderStatusTask = new NotifyTaskCompletion<bool>();
             _paramDeliveryToPdf = new ParamDeliveryToPdf();
             _paramQuoteToPdf = new ParamOrderToPdf(EOrderStatus.Quote, 2);
             _paramOrderToPdf = new ParamOrderToPdf(EOrderStatus.Order);
+            _outputStringFormat = "F";
+            _title = ConfigurationManager.AppSettings["title_order_detail"];
             _paramOrderToPdf.Currency = _paramQuoteToPdf.Currency = CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol;
+            _incomeHeaderWithCurrency = "Total Income (" + CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol + ")";
             _paramDeliveryToPdf.Lang = _paramOrderToPdf.Lang = _paramQuoteToPdf.Lang = _paramDeliveryToPdf.Lang = CultureInfo.CurrentCulture.Name.Split('-').FirstOrDefault() ?? "en";
 
             _mailFile = new InfoManager.FileWriter("", EOption.mails);
@@ -341,6 +344,12 @@ namespace QOBDManagement.ViewModel
             get { return Item_deliveryModelBillingInProcess.GroupBy(x => x.Item_delivery.DeliveryId).Select(x => x.First()).ToList(); }
         }
 
+        public CurrencyModel CurrencyModel
+        {
+            get { return _currencyModel; }
+            set { _currencyModel = value; onPropertyChange(); }
+        }
+
         #endregion
 
         #region [ Signaling ]
@@ -348,82 +357,87 @@ namespace QOBDManagement.ViewModel
 
         public bool IsItemListCommentTextBoxEnabled
         {
-            get { return disableUIElementByBoolean(); }
+            get { return UIControlManager.disableUIElementByBoolean(OrderSelected); }
         }
 
         public bool IsItemListPurchasePriceTextBoxEnable
         {
-            get { return disableUIElementByBoolean(); }
+            get { return UIControlManager.disableUIElementByBoolean(OrderSelected); }
         }
 
         public bool IsItemListSellingPriceTextBoxEnable
         {
-            get { return disableUIElementByBoolean(); }
+            get { return UIControlManager.disableUIElementByBoolean(OrderSelected); }
         }
 
         public bool IsItemListQuantityTextBoxEnable
         {
-            get { return disableUIElementByBoolean(); }
+            get { return UIControlManager.disableUIElementByBoolean(OrderSelected); }
         }
 
         public string BlockItemListDetailVisibility
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
         }
 
         public string BlockEmailVisibility
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
         }
 
         public string BlockBillCreationVisibility
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
         }
 
         public string BlockDeliveryReceiptCreationVisiblity
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
         }
 
         public string BlockDeliveryAddressVisiblity
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
         }
 
         public string BlockDeliveryReceiptCreatedVisibility
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
         }
 
         public string BlockBillCreatedVisibility
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
         }
 
         public string BlockStepOneVisibility
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
         }
 
         public string BlockStepTwoVisibility
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
         }
 
         public string BlockStepThreeVisibility
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
         }
 
         public string BlockDeliveryListToIncludeVisibility
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
         }
 
         public string BlockBillListBoxVisibility
         {
-            get { return disableUIElementByString(); }
+            get { return UIControlManager.disableUIElementByString(OrderSelected, Item_ModelDeliveryInProcess, Item_deliveryModelBillingInProcess); }
+        }
+
+        public string PurchasePriceBoxVisibility
+        {
+            get { return UIControlManager.disableUIElementByString(_main.AgentViewModel.IsAuthenticatedAgentAdmin); }
         }
 
         #endregion
@@ -434,18 +448,34 @@ namespace QOBDManagement.ViewModel
         /// <summary>
         /// load the data
         /// </summary>
-        public async Task loadOrder_items()
+        public void loadOrder_items()
+        {
+            load();
+        }
+
+        /// <summary>
+        /// load the data
+        /// </summary>
+        public void loadOrder_items(OrderModel order)
+        {
+            _orderSelected = order;
+            load();
+        }
+
+        /// <summary>
+        /// load the data
+        /// </summary>
+        public void load()
         {
             Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
-            Order_ItemModelList = await Order_ItemListToModelViewListAsync(Bl.BlOrder.searchOrder_item(new Order_item { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
+            Order_ItemModelList = Order_ItemListToModelViewList(Bl.BlOrder.searchOrder_item(new Order_item { OrderId = OrderSelected.Order.ID }, ESearchOption.AND));
 
-            StatisticModel = totalCalcul(Order_ItemModelList);            
+            StatisticModel = totalCalcul(Order_ItemModelList);
             loadEmail();
 
             refreshBindings();
             BilledCommand.raiseCanExecuteActionChanged();
             Dialog.IsDialogOpen = false;
-
         }
 
         /// <summary>
@@ -453,17 +483,14 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="Order_ItemList"></param>
         /// <returns></returns>
-        public async Task<List<Order_itemModel>> Order_ItemListToModelViewListAsync(List<Order_item> Order_ItemList)
+        public List<Order_itemModel> Order_ItemListToModelViewList(List<Order_item> Order_ItemList)
         {
             int index = 0;
             List<Order_itemModel> output = new List<Order_itemModel>();
 
             // unsuscribe event
             foreach (var Order_itemModel in Order_ItemModelList)
-            {
                 Order_itemModel.PropertyChanged -= onQuantityOrPriceChange;
-            }
-
 
             foreach (Order_item order_Item in Order_ItemList)
             {
@@ -473,7 +500,7 @@ namespace QOBDManagement.ViewModel
                 localOrder_item.Order_Item = order_Item;
 
                 //load item and its information (delivery and item_delivery)
-                localOrder_item.ItemModel = await loadOrder_itemItemAsync(order_Item.Item_ref, order_Item.ItemId);
+                localOrder_item.ItemModel = loadOrder_itemItem(order_Item.Item_ref, order_Item.ItemId);
 
                 // displaying every two rows colored
                 if (index % 2 == 0)
@@ -491,20 +518,18 @@ namespace QOBDManagement.ViewModel
         /// <param name="itemRef"></param>
         /// <param name="itemId"></param>
         /// <returns></returns>
-        public async Task<ItemModel> loadOrder_itemItemAsync(string itemRef, int itemId = 0)
+        public ItemModel loadOrder_itemItem(string itemRef, int itemId = 0)
         {
-            List<Item> itemFoundList = new List<Item>();
+            List<ItemModel> itemModelFoundList = new List<ItemModel>();
             if (itemId != 0)
-                itemFoundList = await Bl.BlItem.searchItemAsync(new Item { Ref = itemRef, ID = itemId }, ESearchOption.AND);
+                itemModelFoundList = _main.ItemViewModel.ItemModelList.Where(x=>x.TxtRef == itemRef && x.Item.ID == itemId).ToList();// await Bl.BlItem.searchItemAsync(new Item { Ref = itemRef, ID = itemId }, ESearchOption.AND);
             else
-                itemFoundList = await Bl.BlItem.searchItemAsync(new Item { Ref = itemRef }, ESearchOption.AND);
+                itemModelFoundList = _main.ItemViewModel.ItemModelList.Where(x => x.TxtRef == itemRef).ToList();//await Bl.BlItem.searchItemAsync(new Item { Ref = itemRef }, ESearchOption.AND);
 
-            if (itemFoundList.Count > 0)
+            if (itemModelFoundList.Count > 0)
             {
-                ItemModel itemModelFound = (await new ItemViewModel(_main, Startup, Dialog).itemListToModelViewList(new List<Item> { itemFoundList[0] })).FirstOrDefault();
-                if(itemModelFound != null)
-                    itemModelFound.Item_deliveryModelList = getItemsDeliveryReceipt(new List<ItemModel> { itemModelFound });
-                return itemModelFound;
+                itemModelFoundList[0].Item_deliveryModelList = getItemsDeliveryReceipt(new List<ItemModel> { itemModelFoundList[0] });
+                return itemModelFoundList[0];
             }                
             return new ItemModel();
         }
@@ -987,102 +1012,7 @@ namespace QOBDManagement.ViewModel
             return isInvoiceDeleted;
         }
 
-        /// <summary>
-        /// disable IU item regarding the order status
-        /// </summary>
-        /// <param name="obj">the item to disable</param>
-        /// <returns>boolean type expected by the IU</returns>
-        private bool disableUIElementByBoolean([CallerMemberName]string obj = "")
-        {
-            // Lock order when all invoices have been generated
-            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Credit.ToString()))
-                && (obj.Equals("IsItemListCommentTextBoxEnabled")
-                || obj.Equals("IsItemListQuantityTextBoxEnable")
-                || obj.Equals("IsItemListSellingPriceTextBoxEnable")
-                || obj.Equals("IsItemListPurchasePriceTextBoxEnable")))
-                return false;
-
-            // Prevent updating information when the order has been closed
-            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Order_Close.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit_CLose.ToString()))
-                && (obj.Equals("IsItemListCommentTextBoxEnabled")
-                || obj.Equals("IsItemListQuantityTextBoxEnable")
-                || obj.Equals("IsItemListSellingPriceTextBoxEnable")
-                || obj.Equals("IsItemListPurchasePriceTextBoxEnable")))
-                return false;
-
-            // prevent price, purchase, and quantity update outside quote
-            if (!OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString())
-                && (obj.Equals("IsItemListQuantityTextBoxEnable")
-                || obj.Equals("IsItemListSellingPriceTextBoxEnable")
-                || obj.Equals("IsItemListPurchasePriceTextBoxEnable")))
-                return false;
-
-            return true;
-        }
-
-        /// <summary>
-        /// disable IU item regarding the order status
-        /// </summary>
-        /// <param name="obj">the item to disable</param>
-        /// <returns>string type expected by the IU</returns>
-        private string disableUIElementByString([CallerMemberName]string obj = "")
-        {
-
-            if ((!OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString()) && !OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
-                && obj.Equals("BlockItemListDetailVisibility"))
-                return "Collapsed";
-
-            // Show order details when converted into order or credit
-            else if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
-                && obj.Equals("BlockItemListDetailVisibility"))
-                return "Visible";
-
-            if ((!OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString()) && !OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
-                && (obj.Equals("BlockDeliveryListToIncludeVisibility")
-                || obj.Equals("BlockStepOneVisibility")
-                || obj.Equals("BlockStepTwoVisibility")
-                || obj.Equals("BlockStepThreeVisibility")))
-                return "Hidden";
-
-            if (OrderSelected.TxtStatus.Equals(EOrderStatus.Quote.ToString())
-                && (obj.Equals("BlockDeliveryReceiptCreatedVisibility")
-                || obj.Equals("BlockDeliveryReceiptCreationVisiblity")
-                || obj.Equals("BlockBillCreationVisibility")
-                || obj.Equals("BlockBillCreatedVisibility")
-                || obj.Equals("BlockBillListBoxVisibility")
-                ))
-                return "Hidden";
-
-            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Order.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Pre_Credit.ToString()))
-                && (obj.Equals("BlockEmailVisibility")
-                || obj.Equals("BlockDeliveryReceiptCreatedVisibility")
-                || obj.Equals("BlockDeliveryReceiptCreationVisiblity")
-                || obj.Equals("BlockBillCreationVisibility")
-                || obj.Equals("BlockBillCreatedVisibility")
-                ))
-                return "Hidden";
-
-            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Order.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
-                && (obj.Equals("BlockStepOneVisibility") && Item_ModelDeliveryInProcess.Count == 0
-                || obj.Equals("BlockStepTwoVisibility") && Item_deliveryModelBillingInProcess.Count == 0
-                || obj.Equals("BlockStepThreeVisibility") && OrderSelected.BillModelList.Count == 0
-                ))
-                return "Hidden";
-
-            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Order.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Bill_Credit.ToString()))
-                && (obj.Equals("BlockStepVisibility")
-                || obj.Equals("BlockDeliveryReceiptCreationVisiblity")
-                || obj.Equals("BlockBillCreationVisibility")))
-                return "Hidden";
-
-            if ((OrderSelected.TxtStatus.Equals(EOrderStatus.Order_Close.ToString()) || OrderSelected.TxtStatus.Equals(EOrderStatus.Credit_CLose.ToString()))
-                && (obj.Equals("BlockStepVisibility")
-                || obj.Equals("BlockDeliveryReceiptCreationVisiblity")
-                || obj.Equals("BlockBillCreationVisibility")))
-                return "Hidden";
-
-            return "Visible";
-        }
+        
 
         /// <summary>
         /// fire the IU data refresh events
@@ -1164,11 +1094,11 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void onOrderSelectedChange(object sender, PropertyChangedEventArgs e)
+        private void onOrderSelectedChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("OrderSelected"))
             {
-                await loadOrder_items();
+                loadOrder_items();
                 loadAddresses();
             }
         }
@@ -1265,6 +1195,15 @@ namespace QOBDManagement.ViewModel
             }
         }
 
+        private void onCurrencyChange(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("CurrencyModel"))
+            {
+                OrderSelected.CurrencyModel = CurrencyModel;
+                onPropertyChange("Order_ItemModelList");
+            }
+        }
+
         #endregion
 
         #region [ Actions Command ]
@@ -1277,7 +1216,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         private async void updateOrder_itemData(string obj)
         {
-            Dialog.showSearch("Updating...");
+            Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
             List<Order_item> Order_itemToSave = new List<Order_item>();
             foreach (var newOrder_itemModel in Order_ItemModelList)
             {
@@ -1373,7 +1312,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         private void generateDeliveryReceiptPdf(DeliveryModel obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["creation_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["create_message"]);
             _paramDeliveryToPdf.OrderId = OrderSelected.Order.ID;
             _paramDeliveryToPdf.DeliveryId = obj.Delivery.ID;
             Bl.BlOrder.GeneratePdfDelivery(_paramDeliveryToPdf);
@@ -1396,7 +1335,7 @@ namespace QOBDManagement.ViewModel
         /// <param name="obj"></param>
         public async void createDeliveryReceipt(Order_itemModel obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["creation_message"]);
+            Dialog.showSearch(ConfigurationManager.AppSettings["create_message"]);
             int first = 0;
             List<Delivery> insertNewDeliveryList = new List<Delivery>();
             List<Delivery> savedDeliveryList = new List<Delivery>();

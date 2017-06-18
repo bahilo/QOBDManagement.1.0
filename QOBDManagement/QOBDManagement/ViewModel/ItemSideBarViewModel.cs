@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QOBDManagement.Interfaces;
+using QOBDCommon.Classes;
 
 namespace QOBDManagement.ViewModel
 {
@@ -61,15 +62,17 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _selectedItem, value, "SelectedItem"); }
         }
 
+        public string TxtIconColour
+        {
+            get { return Utility.getRandomColour(); }
+        }
+
         //----------------------------[ Action Commands ]------------------
 
-        private async void executeUtilityAction(string obj)
+        private void executeUtilityAction(string obj)
         {
             switch (obj)
             {
-                case "update-item":
-                    await Dialog.showAsync("Update Item");
-                    break;
                 case "catalogue":
                     _page(_main.ItemViewModel);
                     break;

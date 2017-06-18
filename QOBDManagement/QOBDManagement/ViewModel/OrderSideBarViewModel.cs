@@ -97,6 +97,11 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _cart, value); }
         }
 
+        public string TxtIconColour
+        {
+            get { return Utility.getRandomColour(); }
+        }
+
 
         //----------------------------[ Actions ]------------------
 
@@ -160,25 +165,34 @@ namespace QOBDManagement.ViewModel
 
         private bool canExecuteUtilityAction(string arg)
         {
-            if ((_page(null) as OrderDetailViewModel) == null)
+            bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
+                            && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
+                                && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
+                                    && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
+                                        && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
+
+            if (_page(null) as OrderViewModel == null && arg.Equals("order"))
+                return true;
+
+            if (_page(null) as QuoteViewModel == null && arg.Equals("quote"))
+                return true;
+
+            if (_page(null) as OrderDetailViewModel == null)
                 return false;
 
-            if ((_page(null) as OrderDetailViewModel) != null && 
+            if (_page(null) as OrderDetailViewModel != null && 
                 (SelectedOrderModel.Order.ID == 0
                 || string.IsNullOrEmpty(SelectedOrderModel.TxtStatus)))
                 return false;
 
-            if ((arg.Equals("close-order") || arg.Equals("close-credit")) && !this._main.securityCheck(EAction.Order_Close, ESecurity._Update)
-                || arg.Equals("valid-order") && !this._main.securityCheck(EAction.Order_Valid, ESecurity._Update) && !this._main.securityCheck(EAction.Order_Valid, ESecurity._Write)
-                || arg.Equals("convert-orderToQuote") && !this._main.securityCheck(EAction.Order_Quote, ESecurity._Write) && !this._main.securityCheck(EAction.Order, ESecurity._Update)
-                || arg.Equals("valid-credit") && !this._main.securityCheck(EAction.Order_Close, ESecurity._Update))
+            if ((arg.Equals("close-order") || arg.Equals("close-credit")) && (!_main.securityCheck(EAction.Order_Close, ESecurity._Update) || !_main.securityCheck(EAction.Order_Close, ESecurity._Write))
+                || (arg.Equals("valid-order") || arg.Equals("valid-credit")) && (!_main.securityCheck(EAction.Order_Valid, ESecurity._Update) || !_main.securityCheck(EAction.Order_Valid, ESecurity._Write))
+                || arg.Equals("convert-orderToQuote") && !isUserAdmin )
                 return false;
 
             if (!SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Quote.ToString())
-                && (arg.Equals("convert-quoteToOrder")
-                || arg.Equals("convert-quoteToCredit")
-                || arg.Equals("open-email")
-                ))
+                && ((arg.Equals("convert-quoteToOrder") || arg.Equals("convert-quoteToCredit")) 
+                && (!_main.securityCheck(EAction.Quote_Order, ESecurity._Update) || !_main.securityCheck(EAction.Quote_Order, ESecurity._Write))))
                 return false;
 
             if (SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Quote.ToString())

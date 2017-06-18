@@ -260,9 +260,12 @@ namespace QOBDManagement.ViewModel
 
         private bool canSetCartClientForQuote(ClientModel arg)
         {
-            bool isWrite = _main.securityCheck(QOBDCommon.Enum.EAction.Quote, QOBDCommon.Enum.ESecurity._Write);
-            if (isWrite)
+            bool canUpdate = _main.securityCheck(EAction.Client, ESecurity._Update) && _main.securityCheck(EAction.Quote, ESecurity._Update);
+            bool canWrite = _main.securityCheck(EAction.Client, ESecurity._Write) && _main.securityCheck(EAction.Quote, ESecurity._Write);
+
+            if (canWrite && canUpdate)
                 return true;
+
             return false;
         }
 

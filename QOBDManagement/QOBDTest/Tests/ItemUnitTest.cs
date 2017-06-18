@@ -27,7 +27,7 @@ namespace QOBDTest.Tests
         {
             item = new Item { ID = 1, Name = "name", Ref = "ref", Type = "brand", Type_sub = "family", Source = 1, Price_purchase = 10, Price_sell = 20 };
             provider = new Provider { ID = 1, Source = 1, Name = "Name" };
-            provider_item = new Provider_item { ID = 1, Item_ref = "item ref", Provider_name = "provider name" };
+            provider_item = new Provider_item { ID = 1, ItemId = 1, ProviderId = 1 };
             tax_item = new Tax_item { ID = 1, itemId = 1, Item_ref = "item ref", TaxId = 1, Tax_type = "tax type", Tax_value = 20 };
             auto_ref = new Auto_ref { ID = 1, RefId = 1 };
         }

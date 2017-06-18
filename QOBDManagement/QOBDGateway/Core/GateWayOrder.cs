@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 /// </summary>
 namespace QOBDGateway.Core
 {
-    public class GateWayOrder : IOrderManager, INotifyPropertyChanged
+    public class GateWayOrder : IOrderManager
     {
         private ClientProxy _channel;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -125,6 +125,19 @@ namespace QOBDGateway.Core
             return result;
         }
 
+        public async Task<List<Currency>> InsertCurrencyAsync(List<Currency> listCurrency)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = (await _channel.insert_data_currencyAsync(listCurrency.CurrencyTypeToArray())).ArrayTypeToCurrency();
+            }
+            catch (FaultException) { Dispose(); throw; }
+            catch (CommunicationException) { _channel.Abort(); throw; }
+            catch (TimeoutException) { _channel.Abort(); }
+            return result;
+        }
+
 
         public async Task<List<Order>> DeleteOrderAsync(List<Order> orderList)
         {
@@ -204,6 +217,19 @@ namespace QOBDGateway.Core
             return result;
         }
 
+        public async Task<List<Currency>> DeleteCurrencyAsync(List<Currency> listCurrency)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = (await _channel.delete_data_currencyAsync(listCurrency.CurrencyTypeToArray())).ArrayTypeToCurrency();
+            }
+            catch (FaultException) { Dispose(); throw; }
+            catch (CommunicationException) { _channel.Abort(); throw; }
+            catch (TimeoutException) { _channel.Abort(); }
+            return result;
+        }
+
         public async Task<List<Order>> UpdateOrderAsync(List<Order> orderList)
         {
             List<Order> result = new List<Order>();
@@ -258,11 +284,10 @@ namespace QOBDGateway.Core
 
         public async Task<List<Bill>> UpdateBillAsync(List<Bill> listBill)
         {
-            var formatListBillToArray = ServiceHelper.BillTypeToArray(listBill);
             List<Bill> result = new List<Bill>();
             try
             {
-                result = (await _channel.update_data_billAsync(formatListBillToArray)).ArrayTypeToBill();
+                result = (await _channel.update_data_billAsync(listBill.BillTypeToArray())).ArrayTypeToBill();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -272,11 +297,23 @@ namespace QOBDGateway.Core
 
         public async Task<List<Delivery>> UpdateDeliveryAsync(List<Delivery> listDelivery)
         {
-            var formatListDeliveryToArray = ServiceHelper.DeliveryTypeToArray(listDelivery);
             List<Delivery> result = new List<Delivery>();
             try
             {
-                result = (await _channel.update_data_deliveryAsync(formatListDeliveryToArray)).ArrayTypeToDelivery();
+                result = (await _channel.update_data_deliveryAsync(listDelivery.DeliveryTypeToArray())).ArrayTypeToDelivery();
+            }
+            catch (FaultException) { Dispose(); throw; }
+            catch (CommunicationException) { _channel.Abort(); throw; }
+            catch (TimeoutException) { _channel.Abort(); }
+            return result;
+        }
+
+        public async Task<List<Currency>> UpdateCurrencyAsync(List<Currency> listCurrency)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = (await _channel.update_data_currencyAsync(listCurrency.CurrencyTypeToArray())).ArrayTypeToCurrency();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }
@@ -517,6 +554,32 @@ namespace QOBDGateway.Core
             return result;
         }
 
+        public async Task<List<Currency>> GetCurrencyDataAsync(int nbLine)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = (await _channel.get_data_currencyAsync(nbLine.ToString())).ArrayTypeToCurrency();
+            }
+            catch (FaultException) { Dispose(); throw; }
+            catch (CommunicationException) { _channel.Abort(); throw; }
+            catch (TimeoutException) { _channel.Abort(); }
+            return result;
+        }
+
+        public async Task<List<Currency>> GetCurrencyDataByProvider_itemListAsync(List<Provider_item> provider_itemList)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = (await _channel.get_data_currency_by_provider_item_listAsync(provider_itemList.Provider_itemTypeToArray())).ArrayTypeToCurrency();
+            }
+            catch (FaultException) { Dispose(); throw; }
+            catch (CommunicationException) { _channel.Abort(); throw; }
+            catch (TimeoutException) { _channel.Abort(); }
+            return result;
+        }
+
 
         public async Task<List<Order>> searchOrderAsync(Order order, ESearchOption filterOperator)
         {
@@ -589,6 +652,19 @@ namespace QOBDGateway.Core
             try
             {
                 result = (await _channel.get_filter_deliveryAsync(Delivery.DeliveryTypeToFilterArray(filterOperator))).ArrayTypeToDelivery();
+            }
+            catch (FaultException) { Dispose(); throw; }
+            catch (CommunicationException) { _channel.Abort(); throw; }
+            catch (TimeoutException) { _channel.Abort(); }
+            return result;
+        }
+
+        public async Task<List<Currency>> searchCurrencyAsync(Currency Currency, ESearchOption filterOperator)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = (await _channel.get_filter_currencyAsync(Currency.CurrencyTypeToFilterArray(filterOperator))).ArrayTypeToCurrency();
             }
             catch (FaultException) { Dispose(); throw; }
             catch (CommunicationException) { _channel.Abort(); throw; }

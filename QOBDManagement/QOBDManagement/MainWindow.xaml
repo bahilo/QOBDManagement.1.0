@@ -137,15 +137,18 @@
                                        Width="{Binding DataContext.HeaderImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
                                        Height="{Binding DataContext.HeaderImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
-                        <ToolBarTray Name="tbMenu" Grid.Column="1"  HorizontalAlignment="Right" Orientation="Horizontal">
+                        <ToolBarTray Name="tbMenu" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
                             <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
-                                <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnEmail" ToolTip="New Messages"
+
+                                <materialDesign:Badged Badge="{Binding ChatRoomViewModel.DiscussionViewModel.TxtNbNewMessage, UpdateSourceTrigger=PropertyChanged}"
+                                                       Margin="0 12 28 4" BadgeColorZoneMode="Dark">
+                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnEmail" ToolTip="New Messages"
                                             Command="{Binding NewMessageHomePageCommand}">
-                                    <WrapPanel>
-                                        <TextBlock Text="{Binding ChatRoomViewModel.DiscussionViewModel.TxtNbNewMessage, UpdateSourceTrigger=PropertyChanged}" Foreground="Black"/>
-                                        <materialDesign:PackIcon Kind="{Binding ChatRoomViewModel.DiscussionViewModel.TxtMessageIcon, UpdateSourceTrigger=PropertyChanged}" />
-                                    </WrapPanel>
-                                </Button>
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon Kind="{Binding ChatRoomViewModel.DiscussionViewModel.TxtMessageIcon, UpdateSourceTrigger=PropertyChanged}" />
+                                        </WrapPanel>
+                                    </Button>
+                                </materialDesign:Badged>
                                 <Button Style="{DynamicResource MaterialDesignFlatButton}" x:Name="btnHelp" ToolTip="Help"
                                             Command="{Binding InformationDisplayCommand}">
                                     <materialDesign:PackIcon Kind="Help" />

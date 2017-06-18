@@ -25,10 +25,11 @@ namespace QOBDManagement.Models
         private Tax_orderModel _tax_commandModel;
         private List<BillModel> _billModelList;
         private List<DeliveryModel> _deliveryModelList;
-
+        private CurrencyModel _currencyModel;
 
         public OrderModel()
         {
+            _currencyModel = new CurrencyModel();
             _tax_commandModel = new Tax_orderModel();
             _addressList = new List<Entity.Address>();
             _billModelList = new List<BillModel>();
@@ -133,6 +134,12 @@ namespace QOBDManagement.Models
             set { _clientModel = value; onPropertyChange(); }
         }
 
+        public CurrencyModel CurrencyModel
+        {
+            get { return _currencyModel; }
+            set { _currencyModel = value; onPropertyChange(); }
+        }
+
         public string TxtID
         {
             get {  return _tax_commandModel.Order.ID.addPrefix(Enums.EPrefix.ORDER); }
@@ -196,7 +203,7 @@ namespace QOBDManagement.Models
         public string TxtTaxName
         {
             get { return _tax_commandModel.Order.Tax.ToString(); }
-            set { _tax_commandModel.Order.Tax = Convert.ToDouble(value); onPropertyChange(); }
+            set { _tax_commandModel.Order.Tax = Utility.decimalTryParse(value); onPropertyChange(); }
         }
 
         public override void Dispose()

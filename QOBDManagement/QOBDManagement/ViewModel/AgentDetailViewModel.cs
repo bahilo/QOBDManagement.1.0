@@ -182,7 +182,7 @@ namespace QOBDManagement.ViewModel
             {
                 if (SelectedAgentModel.TxtClearPassword.Equals(SelectedAgentModel.TxtClearPasswordVerification))
                 {
-                    SelectedAgentModel.TxtHashedPassword = Bl.BlSecurity.CalculateHash(SelectedAgentModel.TxtClearPassword);
+                    SelectedAgentModel.TxtHashedPassword = QOBDBusiness.Core.BlSecurity.CalculateHash(SelectedAgentModel.TxtClearPassword);
                     isPasswordIdentical = true;
                 }
             }

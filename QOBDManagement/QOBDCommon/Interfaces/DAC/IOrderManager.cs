@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 /// </summary>
 namespace QOBDCommon.Interfaces.DAC
 {
-    public interface IOrderManager : REMOTE.IOrderManager, ITax_orderManager, IOrder_itemManager, ITaxManager, IBillManager, IDeliveryManager, IGeneratePDF , INotifyPropertyChanged, IDisposable
+    public interface IOrderManager : REMOTE.IOrderManager, ITax_orderManager, IOrder_itemManager, ITaxManager, IBillManager, IDeliveryManager, IGeneratePDF , INotifyPropertyChanged, ICurrencyManager, IDisposable
     {
         void initializeCredential(Agent user);
 

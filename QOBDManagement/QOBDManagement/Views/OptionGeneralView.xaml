@@ -13,9 +13,18 @@
              d:DesignHeight="700" d:DesignWidth="800" Loaded="OptionGeneralView_Loaded">
 
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type ViewModel:ReferentialSideBarViewModel}">
-            <Views:OptionSideBarView/>
-        </DataTemplate>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type ViewModel:ReferentialSideBarViewModel}">
+                <Views:OptionSideBarView/>
+            </DataTemplate>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid Grid.Row="1" x:Name="gvMain" VerticalAlignment="Top" Margin="0">
@@ -36,26 +45,10 @@
 
         <!-- Here comes the main content of the view -->
 
-        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Label Grid.ColumnSpan="4" FontSize="20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding ReferentialViewModel.OptionGeneralViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
-            <materialDesign:ColorZone Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="4">
+        <StackPanel Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" >
+            
+            <Label FontSize="20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding ReferentialViewModel.OptionGeneralViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
+            <materialDesign:ColorZone>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -75,109 +68,221 @@
                 </Grid>
             </materialDesign:ColorZone>
 
-            <materialDesign:ColorZone Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Visibility="{Binding ReferentialViewModel.OptionGeneralViewModel.BlockBankDetailVisibility}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <materialDesign:ColorZone Mode="PrimaryMid">
-                        <TextBlock HorizontalAlignment="Center">Bank information</TextBlock>
-                    </materialDesign:ColorZone>
-                    <DataGrid Grid.Row="1" Name="dgBank" ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.BankDetailList, UpdateSourceTrigger=PropertyChanged}" 
+            <materialDesign:ColorZone Visibility="{Binding ReferentialViewModel.OptionGeneralViewModel.BlockBankDetailVisibility}">
+                <materialDesign:Flipper Style="{StaticResource MaterialDesignCardFlipper}">
+                    <materialDesign:Flipper.FrontContent>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <materialDesign:ColorZone Mode="PrimaryMid">
+                                <TextBlock HorizontalAlignment="Center">Bank information</TextBlock>
+                            </materialDesign:ColorZone>
+                            <DataGrid Grid.Row="1" Name="dgBank" ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.BankDetailList, UpdateSourceTrigger=PropertyChanged}" 
                           CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock>Sort Code</TextBlock>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding TxtSortCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock>Account Number</TextBlock>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding TxtAccountNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock>Account Key Number</TextBlock>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding TxtAccountKeyNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock>Bank Name</TextBlock>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding TxtBankName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock>Agency Code</TextBlock>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding TxtAgencyCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock>IBAN</TextBlock>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding TxtIBAN, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock>BIC</TextBlock>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding TxtBIC, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock>Bank Address</TextBlock>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding TxtBankAddress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <Button Margin="10" Grid.Row="2" HorizontalAlignment="Center"
-                        Command="{Binding ReferentialViewModel.OptionGeneralViewModel.UpdateBankDetailCommand}">
-                        <materialDesign:PackIcon Kind="Pencil"/>
-                    </Button>
-                </Grid>
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Sort Code</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtSortCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Account Number</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtAccountNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Account Key Number</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtAccountKeyNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Bank Name</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtBankName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Agency Code</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtAgencyCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>IBAN</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtIBAN, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>BIC</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtBIC, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Bank Address</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtBankAddress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Button Margin="10" Grid.Row="2" Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Center"
+                                    Command="{x:Static materialDesign:Flipper.FlipCommand}">
+                                Edit
+                            </Button>
+                        </Grid>
+                    </materialDesign:Flipper.FrontContent>
+                    <materialDesign:Flipper.BackContent>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <materialDesign:ColorZone Mode="PrimaryMid">
+                                <TextBlock HorizontalAlignment="Center">Bank information</TextBlock>
+                            </materialDesign:ColorZone>
+                            <DataGrid Grid.Row="1" Name="dgBankUpdate" ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.BankDetailList, UpdateSourceTrigger=PropertyChanged}" 
+                          CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Sort Code</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding TxtSortCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Account Number</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding TxtAccountNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Account Key Number</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding TxtAccountKeyNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Bank Name</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding TxtBankName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Agency Code</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding TxtAgencyCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>IBAN</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding TxtIBAN, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>BIC</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding TxtBIC, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Bank Address</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox Text="{Binding TxtBankAddress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            
+                            <Button  Margin="10" Grid.Row="2" HorizontalAlignment="Left"
+                                Command="{x:Static materialDesign:Flipper.FlipCommand}">
+                                <materialDesign:PackIcon Kind="ArrowLeft"/>
+                            </Button>
+
+                            <Button Margin="10" Grid.Row="2" HorizontalAlignment="Center"
+                                    Command="{Binding ReferentialViewModel.OptionGeneralViewModel.UpdateBankDetailCommand}">
+                                <materialDesign:PackIcon Kind="Pencil"/>
+                            </Button>
+                        </Grid>
+
+                    </materialDesign:Flipper.BackContent>
+                </materialDesign:Flipper>
             </materialDesign:ColorZone>
 
-            <materialDesign:ColorZone Grid.Row="3" Grid.ColumnSpan="4" Visibility="{Binding ReferentialViewModel.OptionGeneralViewModel.BlockAddressDetailVisibility}">
+            <materialDesign:ColorZone Visibility="{Binding ReferentialViewModel.OptionGeneralViewModel.BlockAddressDetailVisibility}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -259,95 +364,224 @@
                 </Grid>
             </materialDesign:ColorZone>
 
-            <StackPanel Orientation="Vertical" Grid.Row="4" Grid.ColumnSpan="4" Visibility="{Binding ReferentialViewModel.OptionGeneralViewModel.BlockTaxDetailVisibility}">
-                <materialDesign:ColorZone Margin="0 10 0 10">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <materialDesign:ColorZone Mode="PrimaryMid">
-                            <TextBlock HorizontalAlignment="Center">Taxes</TextBlock>
-                        </materialDesign:ColorZone>
-                        <DataGrid Grid.Row="1" Name="dgTax" ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.TaxList, UpdateSourceTrigger=PropertyChanged}" 
-                          CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock>Tax Value</TextBlock>
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding TxtTaxValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock>Tax Type</TextBlock>
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TxtTaxType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock>Date</TextBlock>
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TxtDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock>Comment</TextBlock>
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TxtComment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button HorizontalAlignment="Center"
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical" Visibility="{Binding ReferentialViewModel.OptionGeneralViewModel.BlockTaxDetailVisibility}">
+                    <materialDesign:ColorZone Margin="0 10 0 10">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <materialDesign:ColorZone Mode="PrimaryMid">
+                                <TextBlock HorizontalAlignment="Center">Taxes</TextBlock>
+                            </materialDesign:ColorZone>
+                            <DataGrid Grid.Row="1" Name="dgTax" ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.TaxList, UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValue="{Binding ReferentialViewModel.OptionGeneralViewModel.TaxModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                                      CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" 
+                                      MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Default Tax</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RadioButton GroupName="rdTaxIsDefault" IsChecked="{Binding IsDefault, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                             CommandParameter="{Binding}"
+                                                             Command="{Binding DataContext.ReferentialViewModel.OptionGeneralViewModel.UpdateDefaultTaxCommand, ElementName=dgTax}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Tax Value</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding TxtTaxValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Date</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Comment</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtComment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button HorizontalAlignment="Center"
                                                 Command="{Binding DataContext.ReferentialViewModel.OptionGeneralViewModel.DeleteTaxCommand, ElementName=dgTax}"
                                                 CommandParameter="{Binding CurrentItem, ElementName=dgTax}">
-                                                <materialDesign:PackIcon Kind="Delete"/>
-                                            </Button>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <materialDesign:ColorZone Grid.Row="2">
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">New Tax</TextBlock>
-                                    <ComboBox ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.TaxModel.TaxIntegerList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ReferentialViewModel.OptionGeneralViewModel.TaxModel.TxtTaxIntegerSelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20 0 0 0" Width="50"/>
-                                    <TextBlock Margin="20 0 0 0" HorizontalAlignment="Center" FontSize="30">.</TextBlock>
-                                    <ComboBox ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.TaxModel.TaxFloatList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ReferentialViewModel.OptionGeneralViewModel.TaxModel.TxtTaxFloatSelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20 0 0 0" Width="50"/>
-                                </StackPanel>
-                                <TextBox materialDesign:HintAssist.Hint="Comment" Text="{Binding ReferentialViewModel.OptionGeneralViewModel.TaxModel.TxtComment}" Margin="0 10 0 0"/>
-                                <Button HorizontalAlignment="Center" Margin="0 10 0 10"
+                                                    <materialDesign:PackIcon Kind="Delete"/>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <materialDesign:ColorZone Grid.Row="2">
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">New Tax</TextBlock>
+                                        <TextBox Text="{Binding ReferentialViewModel.OptionGeneralViewModel.SelectedTaxInteger, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20 0 0 0" Width="75"/>
+                                        <TextBlock Margin="20 0 0 0" HorizontalAlignment="Center" FontSize="30">.</TextBlock>
+                                        <TextBox Text="{Binding ReferentialViewModel.OptionGeneralViewModel.SelectedTaxFloat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20 0 0 0" Width="75"/>
+                                        <Button Margin="20 0 0 0" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Clear the new tax field"
+                                                Command="{Binding ReferentialViewModel.OptionGeneralViewModel.ClearNewTaxCommand}">
+                                            <materialDesign:PackIcon Kind="Delete"/>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBox materialDesign:HintAssist.Hint="Comment" Text="{Binding ReferentialViewModel.OptionGeneralViewModel.TaxModel.TxtComment}" Margin="0 10 0 0"/>
+                                    <Button HorizontalAlignment="Center" Margin="0 10 0 10"
                                     Command="{Binding ReferentialViewModel.OptionGeneralViewModel.AddTaxCommand}">
-                                    <materialDesign:PackIcon Kind="Pencil"/>
-                                </Button>
-                            </StackPanel>
-                        </materialDesign:ColorZone>
-                    </Grid>
-                </materialDesign:ColorZone>
+                                        <materialDesign:PackIcon Kind="Pencil"/>
+                                    </Button>
+                                </StackPanel>
+                            </materialDesign:ColorZone>
+                        </Grid>
+                    </materialDesign:ColorZone>
+                </StackPanel>
+                
+                <StackPanel Orientation="Vertical" Visibility="{Binding ReferentialViewModel.OptionGeneralViewModel.BlockTaxDetailVisibility}">
+                    <materialDesign:ColorZone Margin="0 10 0 10">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <materialDesign:ColorZone Mode="PrimaryMid">
+                                <TextBlock HorizontalAlignment="Center">Currencies</TextBlock>
+                            </materialDesign:ColorZone>
+                            <DataGrid Grid.Row="1" Name="dgCurrency" ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.CurrenciesList, UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValue="{Binding ReferentialViewModel.OptionGeneralViewModel.CurrencyModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" 
+                                      MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Default CUrrency</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RadioButton GroupName="rdCurrencyIsDefault" IsChecked="{Binding IsDefault, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                                             CommandParameter="{Binding}"
+                                                             Command="{Binding DataContext.ReferentialViewModel.OptionGeneralViewModel.UpdateDefaultCurrencyCommand, ElementName=dgCurrency}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Name</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding TxtName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Symbol</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtSymbol, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Currency Code</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtCurrencyCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Rate</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Date</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button HorizontalAlignment="Center"
+                                                Command="{Binding DataContext.ReferentialViewModel.OptionGeneralViewModel.DeleteCurrencyCommand, ElementName=dgCurrency}"
+                                                CommandParameter="{Binding CurrentItem, ElementName=dgCurrency}">
+                                                    <materialDesign:PackIcon Kind="Delete"/>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <materialDesign:ColorZone Grid.Row="2">
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">New Currency</TextBlock>
+                                        <TextBox Text="{Binding ReferentialViewModel.OptionGeneralViewModel.SelectedCurrencyInteger, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20 0 0 0" Width="75"/>
+                                        <TextBlock Margin="20 0 0 0" HorizontalAlignment="Center" FontSize="30">.</TextBlock>
+                                        <TextBox Text="{Binding ReferentialViewModel.OptionGeneralViewModel.SelectedCurrencyFloat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20 0 0 0" Width="75"/>
+                                        <ComboBox ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.SymbolsList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
+                                                  SelectedItem="{Binding ReferentialViewModel.OptionGeneralViewModel.CurrencyModel.TxtCurrencyCode_symbol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="20 0 0 0" Width="75"/>
+                                        <Button Margin="20 0 0 0" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Clear the new currency field"
+                                                Command="{Binding ReferentialViewModel.OptionGeneralViewModel.ClearNewCurrencyCommand}">
+                                            <materialDesign:PackIcon Kind="Delete"/>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBox materialDesign:HintAssist.Hint="Name" Text="{Binding ReferentialViewModel.OptionGeneralViewModel.CurrencyModel.TxtName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0 10 0 0"/>
+                                    <!--<TextBox materialDesign:HintAssist.Hint="Symbol" Text="{Binding ReferentialViewModel.OptionGeneralViewModel.CurrencyModel.TxtSymbol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0 10 0 0"/>-->
+                                    <Button HorizontalAlignment="Center" Margin="0 10 0 10"
+                                    Command="{Binding ReferentialViewModel.OptionGeneralViewModel.AddCurrencyCommand}">
+                                        <materialDesign:PackIcon Kind="Pencil"/>
+                                    </Button>
+                                </StackPanel>
+                            </materialDesign:ColorZone>
+                        </Grid>
+                    </materialDesign:ColorZone>
+                </StackPanel>
             </StackPanel>
 
-            <materialDesign:ColorZone Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Visibility="{Binding ReferentialViewModel.OptionGeneralViewModel.BlockLegalInfosDetailVisibility}">
+            <materialDesign:ColorZone Visibility="{Binding ReferentialViewModel.OptionGeneralViewModel.BlockLegalInfosDetailVisibility}">
                 <StackPanel Orientation="Vertical">
                     <materialDesign:ColorZone Mode="PrimaryMid">
                         <TextBlock HorizontalAlignment="Center">Legal information</TextBlock>
@@ -379,7 +613,7 @@
                 </StackPanel>
             </materialDesign:ColorZone>
 
-            <materialDesign:ColorZone Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="4" Visibility="{Binding ReferentialViewModel.OptionGeneralViewModel.BlockLegalInfosDetailVisibility}">
+            <materialDesign:ColorZone Visibility="{Binding ReferentialViewModel.OptionGeneralViewModel.BlockLegalInfosDetailVisibility}">
                 <StackPanel Orientation="Vertical">
                     <materialDesign:ColorZone Mode="PrimaryMid">
                         <TextBlock HorizontalAlignment="Center">Sale General conditions</TextBlock>
@@ -411,7 +645,7 @@
                 </StackPanel>
             </materialDesign:ColorZone>
 
-            <StackPanel Grid.Row="7" Grid.ColumnSpan="7" Margin="0 10 0 0">
+            <StackPanel Margin="0 10 0 0">
                 <materialDesign:ColorZone Mode="PrimaryMid">
                     <TextBlock HorizontalAlignment="Center">Email</TextBlock>
                 </materialDesign:ColorZone>
@@ -443,11 +677,11 @@
                 </Button>
             </StackPanel>
 
-        </Grid>
+        </StackPanel>
 
         <!-- End -->
 
     </Grid>
-    
-        
+
+
 </UserControl>

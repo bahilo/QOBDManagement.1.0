@@ -25,8 +25,7 @@ namespace QOBDCommon.Interfaces.BL
         Task<List<Agent>> EnableAgent(List<Agent> listAgent);
 
         Task<Agent> UseAgentAsync(Agent inAgent);
-
-        string CalculateHash(string clearTextPassword);
+        
 
     } /* end interface Isecurity */
 }

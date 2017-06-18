@@ -29,9 +29,9 @@ namespace QOBDCommon.Classes
                 try
                 {
                     if (string.IsNullOrEmpty(localCallerName))
-                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("dd/MM/yy HH:mm:ss"), "ERR", errorFromPage.ToString(), callerName, message) });
+                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("yy/MM/dd HH:mm:ss"), "ERR", errorFromPage.ToString(), callerName, message) });
                     else
-                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("dd/MM/yy HH:mm:ss"), "ERR", errorFromPage.ToString(), localCallerName, message) });
+                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("yy/MM/dd HH:mm:ss"), "ERR", errorFromPage.ToString(), localCallerName, message) });
                 }
                 catch (Exception) { }
         }
@@ -43,9 +43,9 @@ namespace QOBDCommon.Classes
                 {
 
                     if (string.IsNullOrEmpty(localCallerName))
-                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("dd/MM/yy HH:mm:ss"), "WAR", errorFromPage.ToString(), callerName, message) });
+                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("yy/MM/dd HH:mm:ss"), "WAR", errorFromPage.ToString(), callerName, message) });
                     else
-                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("dd/MM/yy HH:mm:ss"), "WAR", errorFromPage.ToString(), localCallerName, message) });
+                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("yy/MM/dd HH:mm:ss"), "WAR", errorFromPage.ToString(), localCallerName, message) });
                 }
                 catch (Exception) { }
         }
@@ -57,9 +57,9 @@ namespace QOBDCommon.Classes
                 {
 
                     if (string.IsNullOrEmpty(localCallerName))
-                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("dd/MM/yy HH:mm:ss"), "TES", errorFromPage.ToString(), callerName, message) });
+                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("yy/MM/dd HH:mm:ss"), "TES", errorFromPage.ToString(), callerName, message) });
                     else
-                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("dd/MM/yy HH:mm:ss"), "TES", errorFromPage.ToString(), localCallerName, message) });
+                        File.AppendAllLines(fileFullPath, new List<string> { string.Format(@"[{0}]-[{1}] - [{2}][{3}] {4}", DateTime.Now.ToString("yy/MM/dd HH:mm:ss"), "TES", errorFromPage.ToString(), localCallerName, message) });
                 }
                 catch (Exception) { }
 

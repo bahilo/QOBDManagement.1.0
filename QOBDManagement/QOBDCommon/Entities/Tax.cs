@@ -23,7 +23,7 @@ namespace QOBDCommon.Entities
 
         public DateTime Date_insert {get; set;}
 
-        public double Value {get; set;}
+        public decimal Value {get; set;}
 
         public string Comment {get; set;}
 

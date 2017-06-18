@@ -39,16 +39,19 @@
                             <Expander.Header>
                                 <TextBlock Text="Utilities" />
                             </Expander.Header>
-                            <StackPanel Orientation="Vertical" Margin="8">
-                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding ItemViewModel.ItemSideBarViewModel.UtilitiesCommand}"
-                                CommandParameter="catalogue"
-                                HorizontalAlignment="Left">
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Pen"/>
-                                        <TextBlock Margin="8 0 0 0">Catalogue</TextBlock>
-                                    </StackPanel>
-                                </Button>
+                            <StackPanel Orientation="Vertical">
+                                <Border BorderThickness="0 0 0 1" BorderBrush="DarkGray">
+                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" ToolTip="Catalogue home"
+                                        Command="{Binding ItemViewModel.ItemSideBarViewModel.UtilitiesCommand}"
+                                        CommandParameter="catalogue" HorizontalContentAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border CornerRadius="3" Background="{Binding ItemViewModel.ItemSideBarViewModel.TxtIconColour}" Padding="2" >
+                                                <materialDesign:PackIcon Kind="Home" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke"/>
+                                            </Border>
+                                            <TextBlock Margin="8 0 0 0">Catalogue Home</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </Border>
                             </StackPanel>
                         </Expander>
 

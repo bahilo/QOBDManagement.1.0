@@ -35,7 +35,8 @@ namespace QOBDManagement
         }
 
         private void load()
-        {            
+        {
+
             mainWindowViewModel = new MainWindowViewModel(new Classes.Startup());
             this.DataContext = mainWindowViewModel;
         }

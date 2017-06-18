@@ -11,8 +11,31 @@ using QOBDDAL.Helper.ChannelHelper;
 namespace QOBDDAL.Classes
 {
     public class QOBDDataSet : IQOBDSet
-    {    
+    {
+        string ORDERTABLENAME = "Orders";
+        string OREDER_ITEMTABLENAME = "Order_items";
+        string DELIVERYTABLENAME = "Deliveries";
+        string TAX_ORDERTABLENAME = "Tax_orders";
+        string TAXTABLENAME = "Taxes";
+        string BILLTABLENAME = "Bills";
+        string CURRENCYTABLENAME = "Currencies";
 
+
+        string TAX_ITEMTABLENAME = "Tax_items";
+        string ITEMTABLENAME = "Items";
+        string PROVIDER_ITEMTABLENAME = "Provider_items";
+        string PROVIDERTABLENAME = "Providers";
+        string ITEM_DELIVERYTABLENAME = "Item_deliveries";
+        string AUTO_REFTABLENAME = "Auto_refs";
+
+        string CLIENTTABLENAME = "Clients";
+        string CONTACTTABLENAME = "Contacts";
+        string ADDRESSTABLENAME = "Addresses";
+
+        string AGENTTABLENAME = "Agents";
+        string STATISTICTABLENAME = "Statistics";
+        string NOTIFICATIONTABLENAME = "Notifications";
+        string INFORMATIONTABLENAME = "Infos";
 
         //----------------------------[ Actions ]------------------
 
@@ -22,38 +45,44 @@ namespace QOBDDAL.Classes
 
         public int DeleteOrder(int orderId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Orders", DALHelper.getColumDictionary(new Order { ID = orderId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(ORDERTABLENAME, DALHelper.getColumDictionary(new Order { ID = orderId })));
             return new Order { ID = orderId }.filterDataTableToOrderType(ESearchOption.AND).Count;
         }
 
         public int DeleteTax_order(int tax_orderId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Tax_orders", DALHelper.getColumDictionary(new Tax_order { ID = tax_orderId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(TAX_ORDERTABLENAME, DALHelper.getColumDictionary(new Tax_order { ID = tax_orderId })));
             return new Tax_order { ID = tax_orderId }.filterDataTableToTax_orderType(ESearchOption.AND).Count;
         }
 
         public int DeleteOrder_item(int order_itemId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Order_items", DALHelper.getColumDictionary(new Order_item { ID = order_itemId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(OREDER_ITEMTABLENAME, DALHelper.getColumDictionary(new Order_item { ID = order_itemId })));
             return new Order_item { ID = order_itemId }.filterDataTableToOrder_itemType(ESearchOption.AND).Count;
         }
 
         public int DeleteTax(int taxId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Taxes", DALHelper.getColumDictionary(new Tax { ID = taxId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(TAXTABLENAME, DALHelper.getColumDictionary(new Tax { ID = taxId })));
             return new Tax { ID = taxId }.filterDataTableToTaxType(ESearchOption.AND).Count;
         }
 
         public int DeleteBill(int billId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Bills", DALHelper.getColumDictionary(new Bill { ID = billId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(BILLTABLENAME, DALHelper.getColumDictionary(new Bill { ID = billId })));
             return new Bill { ID = billId }.filterDataTableToBillType(ESearchOption.AND).Count;
         }
 
         public int DeleteDelivery(int deliveryId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Deliveries", DALHelper.getColumDictionary(new Delivery { ID = deliveryId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(DELIVERYTABLENAME, DALHelper.getColumDictionary(new Delivery { ID = deliveryId })));
             return new Delivery { ID = deliveryId }.filterDataTableToDeliveryType(ESearchOption.AND).Count;
+        }
+
+        public int DeleteCurrency(int currencyId)
+        {
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(CURRENCYTABLENAME, DALHelper.getColumDictionary(new Currency { ID = currencyId })));
+            return new Currency { ID = currencyId }.filterDataTableToCurrencyType(ESearchOption.AND).Count;
         }
 
 
@@ -64,7 +93,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var order in orderList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Orders", DALHelper.getColumDictionary(order)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(ORDERTABLENAME, DALHelper.getColumDictionary(order)));
                 count += order.filterDataTableToOrderType(ESearchOption.AND).Count;
             }
             return count;
@@ -75,7 +104,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var tax_order in tax_orderList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Tax_orders", DALHelper.getColumDictionary(tax_order)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(TAX_ORDERTABLENAME, DALHelper.getColumDictionary(tax_order)));
                 count += tax_order.filterDataTableToTax_orderType(ESearchOption.AND).Count;
             }
             return count;
@@ -87,7 +116,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var order_item in order_itemList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Order_items", DALHelper.getColumDictionary(order_item)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(OREDER_ITEMTABLENAME, DALHelper.getColumDictionary(order_item)));
                 count += order_item.filterDataTableToOrder_itemType(ESearchOption.AND).Count;
             }
             return count;
@@ -98,7 +127,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var tax in taxList)
             {
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Taxes", DALHelper.getColumDictionary(tax)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(TAXTABLENAME, DALHelper.getColumDictionary(tax)));
                 count += tax.filterDataTableToTaxType(ESearchOption.AND).Count;
             }
             return count;
@@ -109,7 +138,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var bill in billList)
             {
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Bills", DALHelper.getColumDictionary(bill)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(BILLTABLENAME, DALHelper.getColumDictionary(bill)));
                 count += bill.filterDataTableToBillType(ESearchOption.AND).Count;
             }
             return count;
@@ -120,8 +149,19 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var delivery in deliveryList)
             {
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Deliveries", DALHelper.getColumDictionary(delivery)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(DELIVERYTABLENAME, DALHelper.getColumDictionary(delivery)));
                 count += delivery.filterDataTableToDeliveryType(ESearchOption.AND).Count;
+            }
+            return count;
+        }
+
+        public int UpdateCurrency(List<Currency> currencyList)
+        {
+            int count = 0;
+            foreach (var currency in currencyList)
+            {
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(CURRENCYTABLENAME, DALHelper.getColumDictionary(currency)));
+                count += currency.filterDataTableToCurrencyType(ESearchOption.AND).Count;
             }
             return count;
         }
@@ -130,9 +170,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Order { ID = order.ID }.filterDataTableToOrderType(ESearchOption.AND);
             if(dataFoundList.Count != 0)  
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Orders", DALHelper.getColumDictionary(order)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(ORDERTABLENAME, DALHelper.getColumDictionary(order)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Orders", DALHelper.getColumDictionary(order)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(ORDERTABLENAME, DALHelper.getColumDictionary(order)));
 
             return new Order { ID = order.ID }.filterDataTableToOrderType(ESearchOption.AND).Count;
         }
@@ -141,9 +181,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Tax_order { ID = tax_order.ID }.filterDataTableToTax_orderType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Tax_orders", DALHelper.getColumDictionary(tax_order)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(TAX_ORDERTABLENAME, DALHelper.getColumDictionary(tax_order)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Tax_orders", DALHelper.getColumDictionary(tax_order)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(TAX_ORDERTABLENAME, DALHelper.getColumDictionary(tax_order)));
             return new Tax_order { ID = tax_order.ID }.filterDataTableToTax_orderType(ESearchOption.AND).Count;
         }
 
@@ -151,9 +191,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Order_item { ID = order_item.ID }.filterDataTableToOrder_itemType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Order_items", DALHelper.getColumDictionary(order_item)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(OREDER_ITEMTABLENAME, DALHelper.getColumDictionary(order_item)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Order_items", DALHelper.getColumDictionary(order_item)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(OREDER_ITEMTABLENAME, DALHelper.getColumDictionary(order_item)));
             return new Order_item { ID = order_item.ID }.filterDataTableToOrder_itemType(ESearchOption.AND).Count;
         }
 
@@ -161,9 +201,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Tax { ID = tax.ID }.filterDataTableToTaxType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Taxes", DALHelper.getColumDictionary(tax)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(TAXTABLENAME, DALHelper.getColumDictionary(tax)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Taxes", DALHelper.getColumDictionary(tax)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(TAXTABLENAME, DALHelper.getColumDictionary(tax)));
             return new Tax { ID = tax.ID }.filterDataTableToTaxType(ESearchOption.AND).Count;
         }
 
@@ -171,9 +211,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Bill { ID = bill.ID }.filterDataTableToBillType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Bills", DALHelper.getColumDictionary(bill)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(BILLTABLENAME, DALHelper.getColumDictionary(bill)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Bills", DALHelper.getColumDictionary(bill)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(BILLTABLENAME, DALHelper.getColumDictionary(bill)));
             return new Bill { ID = bill.ID }.filterDataTableToBillType(ESearchOption.AND).Count;
         }
 
@@ -181,10 +221,20 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Delivery { ID = delivery.ID }.filterDataTableToDeliveryType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Deliveries", DALHelper.getColumDictionary(delivery)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(DELIVERYTABLENAME, DALHelper.getColumDictionary(delivery)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Deliveries", DALHelper.getColumDictionary(delivery)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(DELIVERYTABLENAME, DALHelper.getColumDictionary(delivery)));
             return new Delivery { ID = delivery.ID }.filterDataTableToDeliveryType(ESearchOption.AND).Count;
+        }
+
+        public int LoadCurrency(Currency currency)
+        {
+            var dataFoundList = new Currency { ID = currency.ID }.filterDataTableToCurrencyType(ESearchOption.AND);
+            if (dataFoundList.Count != 0)
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(CURRENCYTABLENAME, DALHelper.getColumDictionary(currency)));
+            else
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(CURRENCYTABLENAME, DALHelper.getColumDictionary(currency)));
+            return new Currency { ID = currency.ID }.filterDataTableToCurrencyType(ESearchOption.AND).Count;
         }
 
 
@@ -192,7 +242,7 @@ namespace QOBDDAL.Classes
 
         public List<Order> GetOrderData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Orders", DALHelper.getColumDictionary(new Order()))).DataTableTypeToOrder();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(ORDERTABLENAME, DALHelper.getColumDictionary(new Order()))).DataTableTypeToOrder();
         }
 
         public List<Order> GetOrderDataById(int id)
@@ -202,7 +252,7 @@ namespace QOBDDAL.Classes
 
         public List<Tax_order> GetTax_orderData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Tax_orders", DALHelper.getColumDictionary(new Tax_order()))).DataTableTypeToTax_order();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(TAX_ORDERTABLENAME, DALHelper.getColumDictionary(new Tax_order()))).DataTableTypeToTax_order();
         }
 
         public List<Tax_order> GetTax_orderByOrderId(int orderId)
@@ -217,7 +267,7 @@ namespace QOBDDAL.Classes
 
         public List<Order_item> GetOrder_itemData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Order_items", DALHelper.getColumDictionary(new Order_item()))).DataTableTypeToOrder_item();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(OREDER_ITEMTABLENAME, DALHelper.getColumDictionary(new Order_item()))).DataTableTypeToOrder_item();
         }
 
         public List<Order_item> GetOrder_itemDataById(int id)
@@ -232,7 +282,7 @@ namespace QOBDDAL.Classes
 
         public List<Tax> GetTaxData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Taxes", DALHelper.getColumDictionary(new Tax()))).DataTableTypeToTax();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(TAXTABLENAME, DALHelper.getColumDictionary(new Tax()))).DataTableTypeToTax();
         }
 
         public List<Tax> GetTaxDataById(int id)
@@ -242,7 +292,7 @@ namespace QOBDDAL.Classes
 
         public List<Bill> GetBillData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Bills", DALHelper.getColumDictionary(new Bill()))).DataTableTypeToBill();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(BILLTABLENAME, DALHelper.getColumDictionary(new Bill()))).DataTableTypeToBill();
         }
 
         public List<Bill> GetBillDataById(int id)
@@ -257,7 +307,7 @@ namespace QOBDDAL.Classes
 
         public List<Delivery> GetDeliveryData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Deliveries", DALHelper.getColumDictionary(new Delivery()))).DataTableTypeToDelivery();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(DELIVERYTABLENAME, DALHelper.getColumDictionary(new Delivery()))).DataTableTypeToDelivery();
         }
 
         public List<Delivery> GetDeliveryDataById(int id)
@@ -268,7 +318,22 @@ namespace QOBDDAL.Classes
         public List<Delivery> GetDeliveryDataByOrderId(int orderId)
         {
             return new Delivery { OrderId = orderId }.filterDataTableToDeliveryType(ESearchOption.AND);
-        }        
+        }
+
+        public List<Currency> GetCurrencyData()
+        {
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(CURRENCYTABLENAME, DALHelper.getColumDictionary(new Currency()))).DataTableTypeToCurrency();
+        }
+
+        public List<Currency> GetCurrencyDataById(int id)
+        {
+            return new Currency { ID = id }.filterDataTableToCurrencyType(ESearchOption.AND);
+        }
+
+        public List<Currency> GetCurrencyDataByProvider_item(Provider_item provider_item)
+        {
+            return new Currency { ID = provider_item.CurrencyId }.filterDataTableToCurrencyType(ESearchOption.AND);
+        }
 
         // search
 
@@ -300,7 +365,12 @@ namespace QOBDDAL.Classes
         public List<Delivery> searchDelivery(Delivery Delivery, ESearchOption filterOperator)
         {
             return Delivery.filterDataTableToDeliveryType(filterOperator);
-        }        
+        }
+
+        public List<Currency> searchCurrency(Currency Currency, ESearchOption filterOperator)
+        {
+            return Currency.filterDataTableToCurrencyType(filterOperator);
+        }
 
         #endregion
 
@@ -310,37 +380,37 @@ namespace QOBDDAL.Classes
 
         public int DeleteItem(int itemId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Items", DALHelper.getColumDictionary(new Item { ID = itemId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(ITEMTABLENAME, DALHelper.getColumDictionary(new Item { ID = itemId })));
             return new Item { ID = itemId }.filterDataTableToItemType(ESearchOption.AND).Count;
         }
 
         public int DeleteProvider(int providerId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Providers", DALHelper.getColumDictionary(new Provider { ID = providerId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(PROVIDERTABLENAME, DALHelper.getColumDictionary(new Provider { ID = providerId })));
             return new Provider { ID = providerId }.filterDataTableToProviderType(ESearchOption.AND).Count;
         }
 
         public int DeleteProvider_item(int provider_itemId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Provider_items", DALHelper.getColumDictionary(new Provider_item { ID = provider_itemId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(PROVIDER_ITEMTABLENAME, DALHelper.getColumDictionary(new Provider_item { ID = provider_itemId })));
             return new Provider_item { ID = provider_itemId }.filterDataTableToProvider_itemType(ESearchOption.AND).Count;
         }
 
         public int DeleteItem_delivery(int item_deliveryId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Item_deliveries", DALHelper.getColumDictionary(new Item_delivery { ID = item_deliveryId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(ITEM_DELIVERYTABLENAME, DALHelper.getColumDictionary(new Item_delivery { ID = item_deliveryId })));
             return new Item_delivery { ID = item_deliveryId }.filterDataTableToItem_deliveryType(ESearchOption.AND).Count;
         }
 
         public int DeleteAuto_ref(int auto_refId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Auto_refs", DALHelper.getColumDictionary(new Auto_ref { ID = auto_refId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(AUTO_REFTABLENAME, DALHelper.getColumDictionary(new Auto_ref { ID = auto_refId })));
             return new Auto_ref { ID = auto_refId }.filterDataTableToAuto_refType(ESearchOption.AND).Count;
         }
 
         public int DeleteTax_item(int tax_itemId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Tax_items", DALHelper.getColumDictionary(new Tax_item { ID = tax_itemId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(TAX_ITEMTABLENAME, DALHelper.getColumDictionary(new Tax_item { ID = tax_itemId })));
             return new Tax_item { ID = tax_itemId }.filterDataTableToTax_itemType(ESearchOption.AND).Count;
         }
 
@@ -351,7 +421,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var item in itemList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Items", DALHelper.getColumDictionary(item)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(ITEMTABLENAME, DALHelper.getColumDictionary(item)));
                 count += item.filterDataTableToItemType(ESearchOption.AND).Count;
             }
             return count;
@@ -362,7 +432,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var provider in providerList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Providers", DALHelper.getColumDictionary(provider)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(PROVIDERTABLENAME, DALHelper.getColumDictionary(provider)));
                 count += provider.filterDataTableToProviderType(ESearchOption.AND).Count;
             }
             return count;
@@ -373,7 +443,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var provider_item in provider_itemList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Provider_items", DALHelper.getColumDictionary(provider_item)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(PROVIDER_ITEMTABLENAME, DALHelper.getColumDictionary(provider_item)));
                 count += provider_item.filterDataTableToProvider_itemType(ESearchOption.AND).Count;
             }
             return count;
@@ -384,7 +454,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var item_delivery in item_deliveryList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Item_deliveries", DALHelper.getColumDictionary(item_delivery)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(ITEM_DELIVERYTABLENAME, DALHelper.getColumDictionary(item_delivery)));
                 count += item_delivery.filterDataTableToItem_deliveryType(ESearchOption.AND).Count;
             }
             return count;
@@ -395,7 +465,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var auto_ref in auto_refList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Auto_refs", DALHelper.getColumDictionary(auto_ref)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(AUTO_REFTABLENAME, DALHelper.getColumDictionary(auto_ref)));
                 count += auto_ref.filterDataTableToAuto_refType(ESearchOption.AND).Count;
             }
             return count;
@@ -406,7 +476,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var tax_item in tax_itemList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Tax_items", DALHelper.getColumDictionary(tax_item)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(TAX_ITEMTABLENAME, DALHelper.getColumDictionary(tax_item)));
                 count += tax_item.filterDataTableToTax_itemType(ESearchOption.AND).Count;
             }
             return count;
@@ -416,9 +486,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Item { ID = item.ID }.filterDataTableToItemType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Items", DALHelper.getColumDictionary(item)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(ITEMTABLENAME, DALHelper.getColumDictionary(item)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Items", DALHelper.getColumDictionary(item)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(ITEMTABLENAME, DALHelper.getColumDictionary(item)));
             return new Item { ID = item.ID }.filterDataTableToItemType(ESearchOption.AND).Count;
         }
 
@@ -426,9 +496,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Provider { ID = provider.ID }.filterDataTableToProviderType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Providers", DALHelper.getColumDictionary(provider)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(PROVIDERTABLENAME, DALHelper.getColumDictionary(provider)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Providers", DALHelper.getColumDictionary(provider)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(PROVIDERTABLENAME, DALHelper.getColumDictionary(provider)));
             return new Provider { ID = provider.ID }.filterDataTableToProviderType(ESearchOption.AND).Count;
         }
 
@@ -436,9 +506,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Provider_item { ID = provider_item.ID }.filterDataTableToProvider_itemType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Provider_items", DALHelper.getColumDictionary(provider_item)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(PROVIDER_ITEMTABLENAME, DALHelper.getColumDictionary(provider_item)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Provider_items", DALHelper.getColumDictionary(provider_item)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(PROVIDER_ITEMTABLENAME, DALHelper.getColumDictionary(provider_item)));
             return new Provider_item { ID = provider_item.ID }.filterDataTableToProvider_itemType(ESearchOption.AND).Count;
         }
 
@@ -446,9 +516,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Item_delivery { ID = item_delivery.ID }.filterDataTableToItem_deliveryType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Item_deliveries", DALHelper.getColumDictionary(item_delivery)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(ITEM_DELIVERYTABLENAME, DALHelper.getColumDictionary(item_delivery)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Item_deliveries", DALHelper.getColumDictionary(item_delivery)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(ITEM_DELIVERYTABLENAME, DALHelper.getColumDictionary(item_delivery)));
             return new Item_delivery { ID = item_delivery.ID }.filterDataTableToItem_deliveryType(ESearchOption.AND).Count;
         }
 
@@ -456,9 +526,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Auto_ref { ID = auto_ref.ID }.filterDataTableToAuto_refType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Auto_refs", DALHelper.getColumDictionary(auto_ref)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(AUTO_REFTABLENAME, DALHelper.getColumDictionary(auto_ref)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Auto_refs", DALHelper.getColumDictionary(auto_ref)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(AUTO_REFTABLENAME, DALHelper.getColumDictionary(auto_ref)));
             return new Auto_ref { ID = auto_ref.ID }.filterDataTableToAuto_refType(ESearchOption.AND).Count;
         }
 
@@ -466,9 +536,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Tax_item { ID = tax_item.ID }.filterDataTableToTax_itemType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Tax_items", DALHelper.getColumDictionary(tax_item)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(TAX_ITEMTABLENAME, DALHelper.getColumDictionary(tax_item)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Tax_items", DALHelper.getColumDictionary(tax_item)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(TAX_ITEMTABLENAME, DALHelper.getColumDictionary(tax_item)));
             return new Tax_item { ID = tax_item.ID }.filterDataTableToTax_itemType(ESearchOption.AND).Count;
         }
 
@@ -476,7 +546,7 @@ namespace QOBDDAL.Classes
 
         public List<Item> GetItemData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Items", DALHelper.getColumDictionary(new Item()))).DataTableTypeToItem();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(ITEMTABLENAME, DALHelper.getColumDictionary(new Item()))).DataTableTypeToItem();
         }
 
         public List<Item> GetItemDataById(int id)
@@ -486,7 +556,7 @@ namespace QOBDDAL.Classes
 
         public List<Provider> GetProviderData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Providers", DALHelper.getColumDictionary(new Provider()))).DataTableTypeToProvider();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(PROVIDERTABLENAME, DALHelper.getColumDictionary(new Provider()))).DataTableTypeToProvider();
         }
 
         public List<Provider> GetProviderDataById(int id)
@@ -496,7 +566,7 @@ namespace QOBDDAL.Classes
 
         public List<Provider_item> GetProvider_itemData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Provider_items", DALHelper.getColumDictionary(new Provider_item()))).DataTableTypeToProvider_item();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(PROVIDER_ITEMTABLENAME, DALHelper.getColumDictionary(new Provider_item()))).DataTableTypeToProvider_item();
         }
 
         public List<Provider_item> GetProvider_itemDataById(int id)
@@ -506,7 +576,7 @@ namespace QOBDDAL.Classes
 
         public List<Item_delivery> GetItem_deliveryData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Item_deliverys", DALHelper.getColumDictionary(new Item_delivery()))).DataTableTypeToItem_delivery();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(ITEM_DELIVERYTABLENAME, DALHelper.getColumDictionary(new Item_delivery()))).DataTableTypeToItem_delivery();
         }
 
         public List<Item_delivery> GetItem_deliveryDataById(int id)
@@ -526,7 +596,7 @@ namespace QOBDDAL.Classes
 
         public List<Auto_ref> GetAuto_refData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Auto_refs", DALHelper.getColumDictionary(new Auto_ref()))).DataTableTypeToAuto_ref();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(AUTO_REFTABLENAME, DALHelper.getColumDictionary(new Auto_ref()))).DataTableTypeToAuto_ref();
         }
 
         public List<Auto_ref> GetAuto_refDataById(int id)
@@ -536,7 +606,7 @@ namespace QOBDDAL.Classes
 
         public List<Tax_item> GetTax_itemData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Tax_items", DALHelper.getColumDictionary(new Tax_item()))).DataTableTypeToTax_item();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(TAX_ITEMTABLENAME, DALHelper.getColumDictionary(new Tax_item()))).DataTableTypeToTax_item();
         }
 
         public List<Tax_item> GetTax_itemDataById(int id)
@@ -585,19 +655,19 @@ namespace QOBDDAL.Classes
 
         public int DeleteClient(int clientId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Clients", DALHelper.getColumDictionary(new Client { ID = clientId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(CLIENTTABLENAME, DALHelper.getColumDictionary(new Client { ID = clientId })));
             return new Client { ID = clientId }.filterDataTableToClientType(ESearchOption.AND).Count;
         }
 
         public int DeleteContact(int contactId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Contacts", DALHelper.getColumDictionary(new Contact { ID = contactId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(CONTACTTABLENAME, DALHelper.getColumDictionary(new Contact { ID = contactId })));
             return new Contact { ID = contactId }.filterDataTableToContactType(ESearchOption.AND).Count;
         }
 
         public int DeleteAddress(int addressId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Addresses", DALHelper.getColumDictionary(new Address { ID = addressId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(ADDRESSTABLENAME, DALHelper.getColumDictionary(new Address { ID = addressId })));
             return new Address { ID = addressId }.filterDataTableToAddressType(ESearchOption.AND).Count;
         }
 
@@ -608,7 +678,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var client in clientList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Clients", DALHelper.getColumDictionary(client)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(CLIENTTABLENAME, DALHelper.getColumDictionary(client)));
                 count += client.filterDataTableToClientType(ESearchOption.AND).Count;
             }
             return count;
@@ -619,7 +689,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var contact in contactList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Contacts", DALHelper.getColumDictionary(contact)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(CONTACTTABLENAME, DALHelper.getColumDictionary(contact)));
                 count += contact.filterDataTableToContactType(ESearchOption.AND).Count;
             }
             return count;
@@ -630,7 +700,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var address in addressList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Addresses", DALHelper.getColumDictionary(address)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(ADDRESSTABLENAME, DALHelper.getColumDictionary(address)));
                 count += address.filterDataTableToAddressType(ESearchOption.AND).Count;
             }
             return count;
@@ -640,9 +710,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Client { ID = client.ID }.filterDataTableToClientType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Clients", DALHelper.getColumDictionary(client)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(CLIENTTABLENAME, DALHelper.getColumDictionary(client)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Clients", DALHelper.getColumDictionary(client)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(CLIENTTABLENAME, DALHelper.getColumDictionary(client)));
             return new Client { ID = client.ID }.filterDataTableToClientType(ESearchOption.AND).Count;
         }
 
@@ -650,9 +720,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Contact { ID = contact.ID }.filterDataTableToContactType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Contacts", DALHelper.getColumDictionary(contact)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(CONTACTTABLENAME, DALHelper.getColumDictionary(contact)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Contacts", DALHelper.getColumDictionary(contact)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(CONTACTTABLENAME, DALHelper.getColumDictionary(contact)));
             return new Contact { ID = contact.ID }.filterDataTableToContactType(ESearchOption.AND).Count;
         }
 
@@ -660,9 +730,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Address { ID = address.ID }.filterDataTableToAddressType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Addresses", DALHelper.getColumDictionary(address)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(ADDRESSTABLENAME, DALHelper.getColumDictionary(address)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Addresses", DALHelper.getColumDictionary(address)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(ADDRESSTABLENAME, DALHelper.getColumDictionary(address)));
             return new Address { ID = address.ID }.filterDataTableToAddressType(ESearchOption.AND).Count;
         }
 
@@ -670,17 +740,17 @@ namespace QOBDDAL.Classes
 
         public List<Client>  GetClientData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Clients", DALHelper.getColumDictionary(new Client()))).DataTableTypeToClient();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(CLIENTTABLENAME, DALHelper.getColumDictionary(new Client()))).DataTableTypeToClient();
         }
 
         public List<Contact> GetContactData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Contacts", DALHelper.getColumDictionary(new Contact()))).DataTableTypeToContact();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(CONTACTTABLENAME, DALHelper.getColumDictionary(new Contact()))).DataTableTypeToContact();
         }
 
         public List<Address> GetAddressData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Addresses", DALHelper.getColumDictionary(new Address()))).DataTableTypeToAddress();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(ADDRESSTABLENAME, DALHelper.getColumDictionary(new Address()))).DataTableTypeToAddress();
         }
 
         public List<Client> GetClientDataById(int id)
@@ -723,7 +793,7 @@ namespace QOBDDAL.Classes
 
         public int DeleteAgent(int agentId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Agents", DALHelper.getColumDictionary(new Agent { ID = agentId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(AGENTTABLENAME, DALHelper.getColumDictionary(new Agent { ID = agentId })));
             return new Agent { ID = agentId }.filterDataTableToAgentType(ESearchOption.AND).Count;
         }
 
@@ -734,7 +804,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var agent in agentList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Agents", DALHelper.getColumDictionary(agent)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(AGENTTABLENAME, DALHelper.getColumDictionary(agent)));
                 count += agent.filterDataTableToAgentType(ESearchOption.AND).Count;
             }
             return count;
@@ -744,9 +814,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Agent { ID = agent.ID }.filterDataTableToAgentType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Agents", DALHelper.getColumDictionary(agent)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(AGENTTABLENAME, DALHelper.getColumDictionary(agent)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Agents", DALHelper.getColumDictionary(agent)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(AGENTTABLENAME, DALHelper.getColumDictionary(agent)));
             return new Agent { ID = agent.ID }.filterDataTableToAgentType(ESearchOption.AND).Count;
         }
 
@@ -754,7 +824,7 @@ namespace QOBDDAL.Classes
 
         public List<Agent> GetAgentData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Agents", DALHelper.getColumDictionary(new Agent()))).DataTableTypeToAgent();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(AGENTTABLENAME, DALHelper.getColumDictionary(new Agent()))).DataTableTypeToAgent();
         }
 
         public List<Agent> GetAgentDataById(int id)
@@ -777,7 +847,7 @@ namespace QOBDDAL.Classes
 
         public int DeleteNotification(int notificationId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Notifications", DALHelper.getColumDictionary(new Notification { ID = notificationId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(NOTIFICATIONTABLENAME, DALHelper.getColumDictionary(new Notification { ID = notificationId })));
             return new Notification { ID = notificationId }.filterDataTableToNotificationType(ESearchOption.AND).Count;
         }
 
@@ -788,7 +858,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var notification in notificationList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Notifications", DALHelper.getColumDictionary(notification)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(NOTIFICATIONTABLENAME, DALHelper.getColumDictionary(notification)));
                 count += notification.filterDataTableToNotificationType(ESearchOption.AND).Count;
             }
             return count;
@@ -798,9 +868,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Notification { ID = notification.ID }.filterDataTableToNotificationType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Notifications", DALHelper.getColumDictionary(notification)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(NOTIFICATIONTABLENAME, DALHelper.getColumDictionary(notification)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Notifications", DALHelper.getColumDictionary(notification)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(NOTIFICATIONTABLENAME, DALHelper.getColumDictionary(notification)));
             return new Notification { ID = notification.ID }.filterDataTableToNotificationType(ESearchOption.AND).Count;
         }
 
@@ -808,7 +878,7 @@ namespace QOBDDAL.Classes
 
         public List<Notification> GetNotificationData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Notifications", DALHelper.getColumDictionary(new Notification()))).DataTableTypeToNotification();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(NOTIFICATIONTABLENAME, DALHelper.getColumDictionary(new Notification()))).DataTableTypeToNotification();
         }
 
         public List<Notification> GetNotificationDataById(int id)
@@ -831,7 +901,7 @@ namespace QOBDDAL.Classes
 
         public int DeleteInfo(int infoId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Infos", DALHelper.getColumDictionary(new Info { ID = infoId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(INFORMATIONTABLENAME, DALHelper.getColumDictionary(new Info { ID = infoId })));
             return new Info { ID = infoId }.filterDataTableToInfoType(ESearchOption.AND).Count;
         }
 
@@ -842,7 +912,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var info in infoList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Infos", DALHelper.getColumDictionary(info)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(INFORMATIONTABLENAME, DALHelper.getColumDictionary(info)));
                 count += info.filterDataTableToInfoType(ESearchOption.AND).Count;
             }
             return count;
@@ -852,9 +922,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Info { ID = info.ID }.filterDataTableToInfoType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Infos", DALHelper.getColumDictionary(info)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(INFORMATIONTABLENAME, DALHelper.getColumDictionary(info)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Infos", DALHelper.getColumDictionary(info)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(INFORMATIONTABLENAME, DALHelper.getColumDictionary(info)));
             return new Info { ID = info.ID }.filterDataTableToInfoType(ESearchOption.AND).Count;
         }
 
@@ -862,7 +932,7 @@ namespace QOBDDAL.Classes
 
         public List<Info> GetInfosData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Infos", DALHelper.getColumDictionary(new Info()))).DataTableTypeToInfos();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(INFORMATIONTABLENAME, DALHelper.getColumDictionary(new Info()))).DataTableTypeToInfos();
         }
 
         public List<Info> GetInfosDataById(int id)
@@ -885,7 +955,7 @@ namespace QOBDDAL.Classes
 
         public int DeleteStatistic(int statisticId)
         {
-            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText("Statistics", DALHelper.getColumDictionary(new Statistic { ID = statisticId })));
+            DALHelper.getDataTableFromSqlCEQuery(DALHelper.getDeleteSqlText(STATISTICTABLENAME, DALHelper.getColumDictionary(new Statistic { ID = statisticId })));
             return new Statistic { ID = statisticId }.filterDataTableToStatisticType(ESearchOption.AND).Count;
         }
 
@@ -896,7 +966,7 @@ namespace QOBDDAL.Classes
             int count = 0;
             foreach (var statistic in statisticList)
             {
-                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Statistics", DALHelper.getColumDictionary(statistic)));
+                var dataTable = DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(STATISTICTABLENAME, DALHelper.getColumDictionary(statistic)));
                 count += statistic.filterDataTableToStatisticType(ESearchOption.AND).Count;
             }
             return count;
@@ -906,9 +976,9 @@ namespace QOBDDAL.Classes
         {
             var dataFoundList = new Statistic { ID = statistic.ID }.filterDataTableToStatisticType(ESearchOption.AND);
             if (dataFoundList.Count != 0)
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText("Statistics", DALHelper.getColumDictionary(statistic)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getUpdateSqlText(STATISTICTABLENAME, DALHelper.getColumDictionary(statistic)));
             else
-                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText("Statistics", DALHelper.getColumDictionary(statistic)));
+                DALHelper.getDataTableFromSqlCEQuery(DALHelper.getInsertSqlText(STATISTICTABLENAME, DALHelper.getColumDictionary(statistic)));
             return new Statistic { ID = statistic.ID }.filterDataTableToStatisticType(ESearchOption.AND).Count;
         }
 
@@ -916,7 +986,7 @@ namespace QOBDDAL.Classes
 
         public List<Statistic> GetStatisticData()
         {
-            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText("Statistics", DALHelper.getColumDictionary(new Statistic()))).DataTableTypeToStatistic();
+            return DALHelper.getDataTableFromSqlCEQuery(DALHelper.getAllDataSqlText(STATISTICTABLENAME, DALHelper.getColumDictionary(new Statistic()))).DataTableTypeToStatistic();
         }
 
         public List<Statistic> GetStatisticDataById(int id)

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QOBDManagement.Interfaces;
+using QOBDCommon.Classes;
 
 namespace QOBDManagement.ViewModel
 {
@@ -60,6 +61,11 @@ namespace QOBDManagement.ViewModel
         public BusinessLogic Bl
         {
             get { return _startup.Bl; }
+        }
+
+        public string TxtIconColour
+        {
+            get { return Utility.getRandomColour(); }
         }
 
         public AgentModel SelectedAgentModel
@@ -127,23 +133,32 @@ namespace QOBDManagement.ViewModel
 
         private bool canExecuteUtilityAction(string arg)
         {
-            bool isUpdate = _main.securityCheck(EAction.Agent, ESecurity._Update);
-            bool isWrite = _main.securityCheck(EAction.Agent, ESecurity._Write);
-            bool isDelete = _main.securityCheck(EAction.Agent, ESecurity._Delete);
-            bool isRead = _main.securityCheck(EAction.Agent, ESecurity._Read);
+            bool canUpdate = _main.securityCheck(EAction.Agent, ESecurity._Update);
+            bool canWrite = _main.securityCheck(EAction.Agent, ESecurity._Write);
+            bool canDelete = _main.securityCheck(EAction.Agent, ESecurity._Delete);
+            bool canRead = _main.securityCheck(EAction.Agent, ESecurity._Read);
+            bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
+                            && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
+                                && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
+                                    && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
+                                        && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
 
-
-            if (!isUpdate || !isWrite)
+            if (!canUpdate || !canWrite)
                 return false;
 
-            if (((Page(null) as AgentDetailViewModel) == null))
+            if (arg.Equals("agent") && Page(null) as AgentViewModel != null)
                 return false;
 
+            if (Page(null) as AgentDetailViewModel == null)
+                return false;
+            
             if (SelectedAgentModel == null || SelectedAgentModel.Agent.ID == 0)
                 return false;
 
-            if (!isUpdate && !isWrite && !isRead && !isDelete
-                && arg.Equals("use"))
+            if (!isUserAdmin && 
+                (arg.Equals("use")
+                || arg.Equals("activate")
+                || arg.Equals("deactivate")))
                 return false;
 
             if (SelectedAgentModel.TxtStatus.Equals(EStatus.Active.ToString())
@@ -192,8 +207,9 @@ namespace QOBDManagement.ViewModel
 
         private bool canExcecuteSetupAction(string arg)
         {
-            bool isWrite = _main.securityCheck(EAction.Agent, ESecurity._Write);
-            if (!isWrite)
+            bool canUpdate = _main.securityCheck(EAction.Agent, ESecurity._Update);
+            bool canWrite = _main.securityCheck(EAction.Agent, ESecurity._Write);
+            if (!canWrite || !canUpdate && Bl.BlSecurity.GetAuthenticatedUser().ID != SelectedAgentModel.Agent.ID)
                 return false;
             return true;
         }

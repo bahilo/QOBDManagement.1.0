@@ -69,7 +69,13 @@ namespace QOBDDAL.Core
         public bool IsDataDownloading
         {
             get { return _isLodingDataFromWebServiceToLocal; }
-            set { _isLodingDataFromWebServiceToLocal = value; }
+            set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsDataDownloading"); }
+        }
+
+        public void onPropertyChange(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public QOBDCommon.Interfaces.REMOTE.IClientManager GateWayClient
@@ -104,7 +110,7 @@ namespace QOBDDAL.Core
 
         private async Task retrieveGateWayClientDataAsync()
         {       
-            lock (_lock) _isLodingDataFromWebServiceToLocal = true;
+            lock (_lock) IsDataDownloading = true;
             try
             {
                 checkServiceCommunication();

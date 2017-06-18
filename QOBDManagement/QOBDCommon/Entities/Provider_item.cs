@@ -18,8 +18,10 @@ namespace QOBDCommon.Entities
 
         public int ID {get; set;}
 
-        public string Provider_name {get; set;}
+        public int ProviderId {get; set;}
 
-        public string Item_ref {get; set;}
+        public int ItemId {get; set;}
+
+        public int CurrencyId {get; set;}
     } /* end class Provider_item */
 }

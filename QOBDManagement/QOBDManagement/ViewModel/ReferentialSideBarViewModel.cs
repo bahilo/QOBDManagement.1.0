@@ -1,4 +1,5 @@
 ﻿using QOBDBusiness;
+using QOBDCommon.Classes;
 using QOBDManagement.Classes;
 using QOBDManagement.Command;
 using QOBDManagement.Interfaces;
@@ -48,9 +49,14 @@ namespace QOBDManagement.ViewModel
             get { return _startup.Bl; }
         }
 
+        public string TxtIconColour
+        {
+            get { return Utility.getRandomColour(); }
+        }
+
         //----------------------------[ Actions ]------------------
 
-        public async void executeNavig(string obj)
+        public void executeNavig(string obj)
         {
             switch (obj.ToLower())
             {
@@ -86,13 +92,16 @@ namespace QOBDManagement.ViewModel
 
         private bool canExecuteSetupAction(string arg)
         {
-            bool _isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
+            bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
                             && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
 
-            if (_isUserAdmin)
+            if (isUserAdmin && arg.Equals("credential") && _page(null) as OptionSecurityViewModel != null)
+                return true;
+
+            if (isUserAdmin && arg.Equals("data-display") && _page(null) as OptionDataAndDisplayViewModel != null)
                 return true;
 
             return false;
@@ -100,8 +109,20 @@ namespace QOBDManagement.ViewModel
 
         private bool canExecuteUtilityAction(string arg)
         {
-            if (arg.Equals("monitoring"))
+            bool canRead = _main.securityCheck(QOBDCommon.Enum.EAction.Option, QOBDCommon.Enum.ESecurity._Read);
+
+            if (arg.Equals("setting") && _page(null) as OptionGeneralViewModel != null)
                 return false;
+
+            if (!canRead && (arg.Equals("email") || arg.Equals("setting")))
+                return false;
+
+            if (arg.Equals("setting") && _page(null) as OptionGeneralViewModel != null)
+                return false;
+
+            if (arg.Equals("email") && _page(null) as OptionEmailViewModel != null)
+                return false;
+
             return true;
         }
 
@@ -109,9 +130,6 @@ namespace QOBDManagement.ViewModel
         {
             switch (obj)
             {
-                case "monitoring":
-                    executeNavig(obj);
-                    break;
                 case "email":
                     executeNavig(obj);
                     break;

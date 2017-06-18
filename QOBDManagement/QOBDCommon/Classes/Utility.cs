@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.AccessControl;
+using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,65 +16,99 @@ namespace QOBDCommon.Classes
 {
     public static class Utility
     {
+        public static RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
         public static DateTime DateTimeMinValueInSQL2005 = new DateTime(1753, 1, 1);
         public static string BaseDirectory = getDirectory(Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), ConfigurationManager.AppSettings["info_company_name"]); //AppDomain.CurrentDomain.BaseDirectory;
-
+        public static List<string> MaterialDesignColourList = new List<string> { "Accent", "Dark", "Inverted", "Light", "PrimaryDark", "PrimaryLight", "PrimaryMid" };
+        public static List<string> ColourList = new List<string> { "DarkBlue", "DarkGreen", "DarkMagenta", "DarkOrange", "DarkRed", "DarkOrchid", "DarkCyan", "DarkGoldenrod", "DarkSalmon", "DarkSeaGreen", "DarkSlateGray", "DarkTurquoise", "DarkViolet", "DeepPink" };
+        
         public static DateTime convertToDateTime(string dateString, bool? isFromDatePicker = false)
-        {          
-            try
+        {
+            object _lock = new object();
+            lock (_lock)
             {
-                var listDateElement = dateString.Split('/');
-                if (isFromDatePicker == true && listDateElement.Count() > 1)
+                try
                 {
-                    int day = Convert.ToInt32(listDateElement[1]);
-                    int month = Convert.ToInt32(listDateElement[0]);
-                    int year = Convert.ToInt32(listDateElement[2].Split(' ')[0]);
-                    dateString = day + "/" + month + "/" + year;// +" "+ DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second;
+                    var listDateElement = dateString.Split('/');
+                    if (isFromDatePicker == true && listDateElement.Count() > 1)
+                    {
+                        int day = Convert.ToInt32(listDateElement[1]);
+                        int month = Convert.ToInt32(listDateElement[0]);
+                        int year = Convert.ToInt32(listDateElement[2].Split(' ')[0]);
+                        dateString = day + "/" + month + "/" + year;// +" "+ DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second;
+                    }
                 }
-            }
-            catch (Exception)
-            {
-                Log.warning("Error parsing date: '" + dateString + "'", Enum.EErrorFrom.UTILITY);
-            }
+                catch (Exception)
+                {
+                    Log.warning("Error parsing date: '" + dateString + "'", Enum.EErrorFrom.UTILITY);
+                }
 
-            DateTime outDate = new DateTime();
-            if (DateTime.TryParse(dateString, out outDate) && outDate > DateTimeMinValueInSQL2005)
-                return outDate;
+                DateTime outDate = new DateTime();
+                if (DateTime.TryParse(dateString, out outDate))
+                    return outDate;
 
-            return DateTimeMinValueInSQL2005;
+                return new DateTime();
+            }            
         }
 
         public static bool convertToBoolean(string boolString)
         {
-            bool outBool = new bool();
-            if (bool.TryParse(boolString, out outBool))
+            object _lock = new object();
+            lock (_lock)
+            {
+                bool outBool = false;
+                if (bool.TryParse(boolString, out outBool))
+                    return outBool; 
                 return outBool;
-
-            return false;
+            }
         }
 
         public static int intTryParse(string input)
-        {
-            int result = 0;
-            if (int.TryParse(input, out result))
+        {            
+            object _lock = new object();
+            lock (_lock)
+            {
+                int result = 0;
+                if (int.TryParse(input, out result))
+                    return result;
                 return result;
-            return result;
+            }
         }
 
         public static decimal decimalTryParse(string input)
-        {
-            decimal result = 0m;
-            if (decimal.TryParse(input, out result))
+        {            
+            object _lock = new object();
+            lock (_lock)
+            {
+                decimal result = 0m;
+                if (decimal.TryParse(input, out result))
+                    return decimal.Round(result, 7);
                 return result;
-            return result;
+            }
+        }
+
+        public static long longTryParse(string input)
+        {            
+            object _lock = new object();
+            lock (_lock)
+            {
+                long result = 0;
+                if (long.TryParse(input.Substring(0, input.Count() > 10 ? 10 : input.Count() - 1), out result))
+                    return result;
+                return result;
+            }
         }
 
         public static double doubleTryParse(string input)
-        {
-            double result = 0;
-            if (double.TryParse(input, out result))
+        {            
+            object _lock = new object();
+            lock (_lock)
+            {
+                double result = 0;
+                if (double.TryParse(input, out result))
+                    return result;
                 return result;
-            return result;
+            }
         }
 
         public static string encodeStringToBase64(string stringToEncode)
@@ -83,7 +118,7 @@ namespace QOBDCommon.Classes
             {
                 if (!string.IsNullOrEmpty(stringToEncode))
                 {
-                    byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(stringToEncode);
+                    byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.UTF8.GetBytes(stringToEncode);
                     string returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
 
                     return returnValue;
@@ -112,7 +147,8 @@ namespace QOBDCommon.Classes
                     return encodedString;
                 }
 
-                if (encodeStringToBase64(returnValue) != encodedString)
+                var str = encodeStringToBase64(returnValue);
+                if (str != encodedString)
                     return encodedString;
 
                 return returnValue;
@@ -121,91 +157,137 @@ namespace QOBDCommon.Classes
 
         public static string getDirectory(string directory, params string[] pathElements)
         {
-            string path = "";
-            var dirElements = directory.Split('/');
-            var allPathElements = dirElements.Concat(pathElements).ToArray();
-
-            if (!string.IsNullOrEmpty(BaseDirectory))
-                path = BaseDirectory;
-
-            foreach (string pathElement in allPathElements)
+            object _lock = new object();
+            lock (_lock)
             {
-                if (!string.IsNullOrEmpty(pathElement))
-                    path = Path.Combine(path, pathElement);
-            }
+                string path = "";
+                var dirElements = directory.Split('/');
+                var allPathElements = dirElements.Concat(pathElements).ToArray();
 
-            // check if it is a full path file or only directory 
-            var pathChecking = Path.GetFileName(path).Split('.');
+                if (!string.IsNullOrEmpty(BaseDirectory))
+                    path = BaseDirectory;
 
-            if (!File.Exists(path) && !Directory.Exists(path))
-            {
-
-                if (pathChecking.Count() > 1)
+                foreach (string pathElement in allPathElements)
                 {
-                    var dir = Path.GetDirectoryName(path);
-                    Directory.CreateDirectory(Path.GetDirectoryName(path));
-                    File.Create(path);
+                    if (!string.IsNullOrEmpty(pathElement))
+                        path = Path.Combine(path, pathElement);
                 }
-                else
-                    Directory.CreateDirectory(path);
-            }
 
-            return Path.GetFullPath(path);
+                // check if it is a full path file or only directory 
+                var pathChecking = Path.GetFileName(path).Split('.');
+
+                if (!File.Exists(path) && !Directory.Exists(path))
+                {
+
+                    if (pathChecking.Count() > 1)
+                    {
+                        var dir = Path.GetDirectoryName(path);
+                        Directory.CreateDirectory(Path.GetDirectoryName(path));
+                        File.Create(path);
+                    }
+                    else
+                        Directory.CreateDirectory(path);
+                }
+                return Path.GetFullPath(path);
+            }
         }
 
         public static Dictionary<T, P> concat<T, P>(Dictionary<T, P> dictTarget, Dictionary<T, P> dictSource)
         {
-            foreach (var dict in dictSource)
+            object _lock = new object();
+            lock (_lock)
             {
-                if(!dictTarget.Keys.Contains(dict.Key))
-                    dictTarget.Add(dict.Key, dict.Value);
-            }
+                foreach (var dict in dictSource)
+                {
+                    if (!dictTarget.Keys.Contains(dict.Key))
+                        dictTarget.Add(dict.Key, dict.Value);
+                }
 
-            return dictTarget;
+                return dictTarget;
+            }            
         }
 
         public static List<T> concat<T>(List<T> Target, List<T> Source)
         {
-            foreach (var value in Source)
+            object _lock = new object();
+            lock (_lock)
             {
-                if(!Target.Contains(value))
-                Target.Add(value);
-            }
+                foreach (var value in Source)
+                {
+                    if (!Target.Contains(value))
+                        Target.Add(value);
+                }
 
-            return Target;
+                return Target;
+            }            
         }
 
         public static string stringSpliter(string stringToSplit, int nbCharToDisplay = 40)
         {
-            string valueToProcess = stringToSplit as string;
-            string output = "";
-            if (valueToProcess != null)
+            object _lock = new object();
+            lock (_lock)
             {
-                if (valueToProcess.Length > nbCharToDisplay)
+                string valueToProcess = stringToSplit as string;
+                string output = "";
+                if (valueToProcess != null)
                 {
-                    int index = 0;
-                    string newContent = "";
-                    var stringTable = valueToProcess.Split(' ').ToList();
-                    while (index < stringTable.Count)
+                    if (valueToProcess.Length > nbCharToDisplay)
                     {
-                        newContent += stringTable[index] + " ";
-                        if (newContent.Length >= nbCharToDisplay)
+                        int index = 0;
+                        string newContent = "";
+                        var stringTable = valueToProcess.Split(' ').ToList();
+                        while (index < stringTable.Count)
                         {
-                            output += newContent + Environment.NewLine;
-                            newContent = "";
+                            newContent += stringTable[index] + " ";
+                            if (newContent.Length >= nbCharToDisplay)
+                            {
+                                output += newContent + Environment.NewLine;
+                                newContent = "";
+                            }
+                            index++;
                         }
-                        index++;
+                        output += newContent;
                     }
-                    output += newContent;
-                }
-                else
-                    output = valueToProcess;
+                    else
+                        output = valueToProcess;
 
-                return output;
+                    return output;
+                }
+                return stringToSplit;
             }
-            return stringToSplit;
         }
 
+        public static string getRandomMaterialDesignColour()
+        {
+            return MaterialDesignColourList[randomProvider(0, MaterialDesignColourList.Count - 1)];
+        }
 
+        public static string getRandomColour()
+        {
+            return ColourList[randomProvider(0, ColourList.Count - 1)];
+        }
+
+        public static int randomProvider(int min, int max)
+        {
+            object _lock = new object();
+            lock (_lock)
+            {
+                if (min > max || min < 0)
+                    throw new ArgumentException("Range min [" + min + "] and max [" + max + "] for random numbers are not correct");
+
+                byte[] randomNumber = new byte[1];
+                bool IsminRandom;
+                bool IsMaxRandom;
+                do
+                {
+                    rngCsp.GetBytes(randomNumber);
+                    byte Val = (byte)((randomNumber[0] % (byte)max) + 1);
+                    IsminRandom = (byte)min <= Val;
+                    IsMaxRandom = Val <= (byte)max;
+                } while (!(IsminRandom && IsMaxRandom));
+
+                return (byte)((randomNumber[0] % max) + 1);
+            }
+        }
     }
 }

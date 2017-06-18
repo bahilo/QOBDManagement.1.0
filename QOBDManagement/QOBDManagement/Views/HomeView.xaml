@@ -38,7 +38,7 @@
                     <Button Width="420" Height="270" Margin="20" Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{Binding CommandNavig}" CommandParameter="order">
                         <materialDesign:Card>
-                            <materialDesign:ColorZone Mode="Accent">
+                            <materialDesign:ColorZone Mode="{Binding HomeViewModel.TxtMaterialDesignColourName, UpdateSourceTrigger=PropertyChanged}">
                                 <Grid Width="420" Height="270">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -61,7 +61,7 @@
                     <Button Width="420" Height="270" Margin="20" Style="{DynamicResource MaterialDesignFlatButton}"
                             Command="{Binding CommandNavig}" CommandParameter="quote">
                         <materialDesign:Card>
-                            <materialDesign:ColorZone Mode="PrimaryDark">
+                            <materialDesign:ColorZone Mode="{Binding HomeViewModel.TxtMaterialDesignColourName, UpdateSourceTrigger=PropertyChanged}">
                                 <Grid Width="420" Height="270">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -85,7 +85,7 @@
                     <Button Width="420" Height="270" Margin="20" Style="{DynamicResource MaterialDesignFlatButton}"
                             Command="{Binding CommandNavig}" CommandParameter="item">
                         <materialDesign:Card>
-                            <materialDesign:ColorZone Mode="Standard">
+                            <materialDesign:ColorZone Mode="{Binding HomeViewModel.TxtMaterialDesignColourName, UpdateSourceTrigger=PropertyChanged}">
                                 <Grid Width="420" Height="270">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -109,7 +109,7 @@
                     <Button Width="420" Height="270" Margin="20" Style="{DynamicResource MaterialDesignFlatButton}"
                         Command="{Binding CommandNavig}" CommandParameter="client">
                         <materialDesign:Card>
-                            <materialDesign:ColorZone Mode="PrimaryMid">
+                            <materialDesign:ColorZone Mode="{Binding HomeViewModel.TxtMaterialDesignColourName, UpdateSourceTrigger=PropertyChanged}">
                                 <Grid Width="420" Height="270">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -132,7 +132,7 @@
                     <Button Width="420" Height="270" Margin="20" Style="{DynamicResource MaterialDesignFlatButton}"
                  Command="{Binding CommandNavig}" CommandParameter="agent">
                         <materialDesign:Card>
-                            <materialDesign:ColorZone Mode="PrimaryDark">
+                            <materialDesign:ColorZone Mode="{Binding HomeViewModel.TxtMaterialDesignColourName, UpdateSourceTrigger=PropertyChanged}">
                                 <Grid Width="420" Height="270">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -156,7 +156,7 @@
                     <Button Width="420" Height="270" Margin="20" Style="{DynamicResource MaterialDesignFlatButton}"
                             Command="{Binding CommandNavig}" CommandParameter="notification">
                         <materialDesign:Card>
-                            <materialDesign:ColorZone Mode="Inverted">
+                            <materialDesign:ColorZone Mode="{Binding HomeViewModel.TxtMaterialDesignColourName, UpdateSourceTrigger=PropertyChanged}">
                                 <Grid Width="420" Height="270">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -180,7 +180,7 @@
                     <Button Width="420" Height="270" Margin="20" Style="{DynamicResource MaterialDesignFlatButton}"
                             Command="{Binding CommandNavig}" CommandParameter="option">
                         <materialDesign:Card>
-                            <materialDesign:ColorZone Mode="Accent">
+                            <materialDesign:ColorZone Mode="{Binding HomeViewModel.TxtMaterialDesignColourName, UpdateSourceTrigger=PropertyChanged}">
                                 <Grid Width="420" Height="270">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -204,7 +204,7 @@
                     <Button Width="420" Height="270" Margin="20" Style="{DynamicResource MaterialDesignFlatButton}"
                             Command="{Binding CommandNavig}" CommandParameter="statistic">
                         <materialDesign:Card>
-                            <materialDesign:ColorZone Mode="PrimaryDark">
+                            <materialDesign:ColorZone Mode="{Binding HomeViewModel.TxtMaterialDesignColourName, UpdateSourceTrigger=PropertyChanged}">
                                 <Grid Width="420" Height="270">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>

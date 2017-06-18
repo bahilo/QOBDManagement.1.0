@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows;
+using QOBDCommon.Classes;
 
 namespace QOBDManagement.Models
 {
@@ -23,7 +24,6 @@ namespace QOBDManagement.Models
         private string _profileImageFileNameBase;
         private Dictionary<int, int> _rolePosition;
         private InfoManager.Display _image;
-        private List<string> _iconColourList;
 
         public AgentModel()
         {
@@ -38,7 +38,6 @@ namespace QOBDManagement.Models
             _clearPassword = "";
             _clearPasswordVerification = "";
             PropertyChanged += onRoleModelListChange_updateUIRole;
-            _iconColourList = new List<string> { "DarkBlue", "DarkGreen", "DarkMagenta", "DarkOrange", "DarkRed", "DarkOrchid" };
         }
 
         private void onRoleModelListChange_updateUIRole(object sender, PropertyChangedEventArgs e)
@@ -207,7 +206,7 @@ namespace QOBDManagement.Models
 
         public string TxtIconColour
         {
-            get { return _iconColourList[_rd.Next(0, _iconColourList.Count - 1)]; }
+            get { return Utility.getRandomColour(); }
         }
 
         public bool IsOnline

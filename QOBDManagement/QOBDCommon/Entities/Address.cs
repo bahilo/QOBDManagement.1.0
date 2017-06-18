@@ -20,6 +20,8 @@ namespace QOBDCommon.Entities
 
         public int ClientId {get; set;}
 
+        public int ProviderId { get; set;}
+
         public string Name {get; set;}
 
         public string Name2 {get; set;}

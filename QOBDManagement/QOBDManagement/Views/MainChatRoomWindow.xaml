@@ -90,9 +90,8 @@
                                                                 <ColumnDefinition Width="2*"/>
                                                                 <ColumnDefinition Width="*"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <Border CornerRadius="70" Background="{Binding TxtIconColour}" Width="30">
+                                                            <Border CornerRadius="10" Background="{Binding TxtIconColour}" Width="30">
                                                                 <Image Source="{Binding Image.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" />
-                                                                <!--<TextBlock Text="{Binding TxtIcon}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                                                             </Border>
                                                             <Button Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}"
                                                                 CommandParameter="{Binding}">
@@ -202,9 +201,6 @@
                         <!-- central view -->
                         <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
-                </ScrollViewer>-->
                     </DockPanel>
                 </materialDesign:DrawerHost>
             </materialDesign:DialogHost>

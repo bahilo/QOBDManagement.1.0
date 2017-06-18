@@ -59,9 +59,9 @@ namespace QOBDBusiness.Core
         {
             try
             {                
-               Safe.AuthenticatedUser = await DAC.DALSecurity.AuthenticateUserAsync(username, password);  //DAC.DALSecurity.AuthenticateUser(username, CalculateHash(password));
+               Safe.AuthenticatedUser = await DAC.DALSecurity.AuthenticateUserAsync(username, CalculateHash(password));
 
-                if(Safe.AuthenticatedUser.ID != 0)
+                if (Safe.AuthenticatedUser.ID != 0)
                     Safe.IsAuthenticated = true;
             }
             catch (CommunicationException ex)
@@ -84,32 +84,10 @@ namespace QOBDBusiness.Core
 
         public async Task<Agent> UseAgentAsync(Agent inAgent)
         {
-            try
-            {
-                Safe.AuthenticatedUser = await DAC.DALSecurity.AuthenticateUserAsync(inAgent.UserName, CalculateHash(inAgent.HashedPassword));  //DAC.DALSecurity.AuthenticateUser(username, CalculateHash(password));
-
-                if (Safe.AuthenticatedUser.ID != 0)
-                    Safe.IsAuthenticated = true;
-            }
-            catch (CommunicationException ex)
-            {
-                Safe.IsAuthenticated = false;
-                if (!ex.Message.Contains("unauthorized"))
-                {
-                    Log.warning(ex.Message, EErrorFrom.SECURITY);
-                    throw new ApplicationException("Remote communication error.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Safe.IsAuthenticated = false;
-                Log.error(ex.Message, EErrorFrom.SECURITY);
-            }
-
-            return Safe.AuthenticatedUser;
+            return await AuthenticateUserAsync(inAgent.UserName, CalculateHash(inAgent.HashedPassword));
         }
 
-        public string CalculateHash(string clearTextPassword)
+        public static string CalculateHash(string clearTextPassword)
         {
             // Convert the salted password to a byte array
             byte[] saltedHashBytes = Encoding.UTF8.GetBytes(clearTextPassword + (int)ESecurity.Salt);

@@ -93,7 +93,7 @@ namespace QOBDDAL.Core
 
         public async Task retrieveGateWayStatisticDataAsync()
         {
-            lock (_lock) _isLodingDataFromWebServiceToLocal = true;
+            lock (_lock) IsDataDownloading = true;
             try
             {
                 checkServiceCommunication();

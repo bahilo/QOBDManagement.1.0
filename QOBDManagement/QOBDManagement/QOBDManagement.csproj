@@ -63,6 +63,10 @@
       <HintPath>..\packages\Microsoft.Expression.Drawing.3.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Money, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Multi-Currency-Money.1.1.0\lib\Money.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -110,6 +114,7 @@
     <Compile Include="Classes\Themes\Swatch.cs" />
     <Compile Include="Classes\Themes\SwatchesProvider.cs" />
     <Compile Include="Classes\TriggerConverter.cs" />
+    <Compile Include="Classes\UIControlManager.cs" />
     <Compile Include="Enums\EPrefix.cs" />
     <Compile Include="Enums\EServiceCommunication.cs" />
     <Compile Include="Enums\EStatisticOption.cs" />
@@ -133,10 +138,12 @@
     <Compile Include="Interfaces\IStatisticViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Models\AddressModel.cs" />
+    <Compile Include="Models\CurrencyModel.cs" />
     <Compile Include="Models\DiscussionModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\OrderSearchModel.cs" />
+    <Compile Include="Models\Provider_itemModel.cs" />
     <Compile Include="Models\Tax_orderModel.cs" />
     <Compile Include="ViewModel\AgentDetailViewModel.cs" />
     <Compile Include="ViewModel\AgentSideBarViewModel.cs" />
@@ -1041,6 +1048,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ReadMe.Coding4Fun.Toolkit.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\QOBDBusiness\QOBDBusiness.csproj">
       <Project>{9d526cca-4e4d-493f-8394-d4179f994b48}</Project>
       <Name>QOBDBusiness</Name>
@@ -1058,13 +1071,6 @@
       <Name>QOBDGateway</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="favicon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ReadMe.Coding4Fun.Toolkit.txt" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

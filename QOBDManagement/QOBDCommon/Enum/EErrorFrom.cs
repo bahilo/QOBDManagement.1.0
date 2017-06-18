@@ -21,6 +21,7 @@ namespace QOBDCommon.Enum
         HELPER,
         MAIN,
         COMMAND,
-        DIALOGBOXCONFIRMATION
+        DIALOGBOXCONFIRMATION,
+        INFOMANAGER
     }
 }

@@ -40,34 +40,46 @@
                             <Expander.Header>
                                 <TextBlock Text="Utilities" />
                             </Expander.Header>
-                            <StackPanel Orientation="Vertical" Margin="8">
-                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding AgentViewModel.AgentSideBarViewModel.UtilitiesCommand}"
-                                CommandParameter="activate"
-                                HorizontalAlignment="Left">
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="LockOpen"/>
-                                        <TextBlock Margin="8 0 0 0">Activate Agent</TextBlock>
-                                    </StackPanel>
-                                </Button>
-                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding AgentViewModel.AgentSideBarViewModel.UtilitiesCommand}"
-                                CommandParameter="deactivate"
-                                HorizontalAlignment="Left">
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="LockOutline"/>
-                                        <TextBlock Margin="8 0 0 0">Deactivate Agent</TextBlock>
-                                    </StackPanel>
-                                </Button>
-                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding AgentViewModel.AgentSideBarViewModel.UtilitiesCommand}"
-                                CommandParameter="use"
-                                HorizontalAlignment="Left">
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="AccountMultiple"/>
-                                        <TextBlock Margin="8 0 0 0">Connect As</TextBlock>
-                                    </StackPanel>
-                                </Button>
+                            <StackPanel Orientation="Vertical">
+                                <Border BorderThickness="0 0 0 1" BorderBrush="DarkGray">
+                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                                        Command="{Binding AgentViewModel.AgentSideBarViewModel.UtilitiesCommand}"
+                                        CommandParameter="activate"
+                                        HorizontalContentAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border CornerRadius="3" Background="{Binding AgentViewModel.AgentSideBarViewModel.TxtIconColour}" Padding="2" >
+                                                <materialDesign:PackIcon Kind="LockOpen" Foreground="WhiteSmoke"/>
+                                            </Border>
+                                            <TextBlock Margin="8 0 0 0">Activate Agent</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </Border>
+                                <Border BorderThickness="0 0 0 1" BorderBrush="DarkGray">
+                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                                        Command="{Binding AgentViewModel.AgentSideBarViewModel.UtilitiesCommand}"
+                                        CommandParameter="deactivate"
+                                        HorizontalContentAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border CornerRadius="3" Background="{Binding AgentViewModel.AgentSideBarViewModel.TxtIconColour}" Padding="2" >
+                                                <materialDesign:PackIcon Kind="Lock" Foreground="WhiteSmoke"/>
+                                            </Border>
+                                            <TextBlock Margin="8 0 0 0">Deactivate Agent</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </Border>
+                                <Border BorderThickness="0 0 0 1" BorderBrush="DarkGray">
+                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" ToolTip="Connect as the selected user"
+                                            Command="{Binding AgentViewModel.AgentSideBarViewModel.UtilitiesCommand}"
+                                            CommandParameter="use"
+                                            HorizontalContentAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border CornerRadius="3" Background="{Binding AgentViewModel.AgentSideBarViewModel.TxtIconColour}" Padding="2" >
+                                                <materialDesign:PackIcon Kind="Login" Foreground="WhiteSmoke"/>
+                                            </Border>
+                                            <TextBlock Margin="8 0 0 0">Connect As</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </Border>
                             </StackPanel>
                         </Expander>
 

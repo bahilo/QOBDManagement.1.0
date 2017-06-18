@@ -26,7 +26,6 @@ namespace QOBDManagement.ViewModel
 {
     public class ItemViewModel : BindBase, IItemViewModel
     {
-        private Cart _cart;
         private HashSet<string> _itemFamilyList;
         private HashSet<string> _itemBrandList;
         private HashSet<Provider> _providerList;
@@ -69,7 +68,6 @@ namespace QOBDManagement.ViewModel
             this._main = mainWindowViewModel;
             _page = _main.navigation;
             instancesModel(mainWindowViewModel);
-            Cart = _main.Cart;
             initEvents();
         }
 
@@ -94,7 +92,6 @@ namespace QOBDManagement.ViewModel
 
         private void instances()
         {
-            _cart = new Cart();
             _items = new List<Item>();
             _cbSearchCriteriaList = new List<string>();
             _title = ConfigurationManager.AppSettings["title_catalogue"];
@@ -234,14 +231,18 @@ namespace QOBDManagement.ViewModel
 
         public Cart Cart
         {
-            get { return _cart; }
-            set { setProperty(ref _cart, value); }
+            get { return (_main != null) ? _main.Cart : new Cart(); }
         }
 
         public ItemModel SelectedItemModel
         {
             get { return ItemDetailViewModel.SelectedItemModel; }
             set { ItemDetailViewModel.SelectedItemModel = value; onPropertyChange(); }
+        }
+
+        public List<CurrencyModel> CurrenciesList
+        {
+            get { return _main.OrderViewModel.CurrenciesList; }
         }
 
 
@@ -252,104 +253,145 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         public async void loadItems()
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
+            await Task.Factory.StartNew(()=> {
+                Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
 
-            // if not in searching mode
-            if (!_isSearchResult)
-            {
-                var itemFoundList = Bl.BlItem.GetItemData(999);
-                ProviderList = new HashSet<Provider>(Bl.BlItem.GetProviderData(999));
-                FamilyList = new HashSet<string>(itemFoundList.Select(x => x.Type_sub).ToList());
-                BrandList = new HashSet<string>(itemFoundList.Select(x => x.Type).ToList());
-
-                // close items picture file before reloading
-                foreach (var itemModel in ItemModelList)
+                // if not in searching mode
+                if (!_isSearchResult)
                 {
-                    if (itemModel.Image != null)
-                        itemModel.Image.closeImageSource();
-                }
+                    var itemFoundList = Bl.BlItem.GetItemData(999);
+                    ProviderList = new HashSet<Provider>(Bl.BlItem.GetProviderData(999));
+                    FamilyList = new HashSet<string>(itemFoundList.Select(x => x.Type_sub).ToList());
+                    BrandList = new HashSet<string>(itemFoundList.Select(x => x.Type).ToList());
 
-                // loading items
-                ItemModelList = await itemListToModelViewList(itemFoundList);
-
-                // update the selected item in case of a refresh
-                if(SelectedItemModel != null && SelectedItemModel.Item.ID != 0)
-                {
-                    SelectedItemModel = ItemModelList.Where(x=>x.TxtID == SelectedItemModel.TxtID).SingleOrDefault();
-                    if(SelectedItemModel != null)
+                    // close items picture file before reloading
+                    foreach (var itemModel in ItemModelList)
                     {
-                        SelectedItemModel.PropertyChanged -= ItemDetailViewModel.onItemNameChange_generateReference;
-                        SelectedItemModel.PropertyChanged += ItemDetailViewModel.onItemNameChange_generateReference;
-                        onPropertyChange("TxtType");
-                        onPropertyChange("TxtType_sub");
-                        onPropertyChange("SelectedProvider");
-                    }                    
-                }                
-                _cbSearchCriteriaList = new List<string>();
-            }
-            _isSearchResult = false;
-            Dialog.IsDialogOpen = false;
+                        if (itemModel.Image != null)
+                            itemModel.Image.closeImageSource();
+                    }
+                    
+                    // loading items
+                    ItemModelList = itemListToModelViewList(itemFoundList);
+                    
+                    // update the selected item in case of a refresh
+                    if (SelectedItemModel != null && SelectedItemModel.Item.ID != 0)
+                    {
+                        SelectedItemModel = ItemModelList.Where(x => x.TxtID == SelectedItemModel.TxtID).SingleOrDefault();
+                        if (SelectedItemModel != null)
+                        {
+                            SelectedItemModel.PropertyChanged -= ItemDetailViewModel.onItemNameChange_generateReference;
+                            SelectedItemModel.PropertyChanged += ItemDetailViewModel.onItemNameChange_generateReference;
+                            onPropertyChange("TxtType");
+                            onPropertyChange("TxtType_sub");
+                            onPropertyChange("SelectedProvider");
+                            onPropertyChange("CurrencyModel");
+                        }
+                    }
+                    _cbSearchCriteriaList = new List<string>();
+                }
+                _isSearchResult = false;
+                Dialog.IsDialogOpen = false;
+            });
         }
 
         public List<Item_deliveryModel> item_deliveryListToModelList(List<Item_delivery> item_deliveryList)
         {
-            List<Item_deliveryModel> output = new List<Item_deliveryModel>();
-            foreach (var item_delivery in item_deliveryList)
+            object _lock = new object();
+            lock (_lock)
             {
-                Item_deliveryModel idm = new Item_deliveryModel();
-                idm.Item_delivery = item_delivery;
-                var deliveryList = new DeliveryModel().DeliveryListToModelViewList(Bl.BlOrder.searchDelivery(new Delivery { ID = item_delivery.DeliveryId }, ESearchOption.AND));
-                idm.DeliveryModel = (deliveryList.Count > 0) ? deliveryList[0] : new DeliveryModel();
-                output.Add(idm);
+                List<Item_deliveryModel> output = new List<Item_deliveryModel>();
+                foreach (var item_delivery in item_deliveryList)
+                {
+                    Item_deliveryModel idm = new Item_deliveryModel();
+                    idm.Item_delivery = item_delivery;
+                    var deliveryList = new DeliveryModel().DeliveryListToModelViewList(Bl.BlOrder.searchDelivery(new Delivery { ID = item_delivery.DeliveryId }, ESearchOption.AND));
+                    idm.DeliveryModel = (deliveryList.Count > 0) ? deliveryList[0] : new DeliveryModel();
+                    output.Add(idm);
+                }
+                return output;
             }
-            return output;
         }
 
-        public async Task<List<ItemModel>> itemListToModelViewList(List<Item> itemtList)
+        public List<ItemModel> itemListToModelViewList(List<Item> itemtList)
         {
-            List<ItemModel> output = new List<ItemModel>();
-
-            var infoList = Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND);
-            Info usernameInfo = infoList.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
-            Info passwordInfo = infoList.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
-
-            foreach (var item in itemtList)
+            object _lock = new object();
+            lock (_lock)
             {
-                ItemModel ivm = new ItemModel();
+                List<ItemModel> output = new List<ItemModel>();
+                var ftpCredentials = Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND);
 
-                ivm.Item = item;
+                foreach (var item in itemtList)
+                {
+                    ItemModel ivm = new ItemModel();
 
-                var provider_itemFoundList = Bl.BlItem.searchProvider_item(new Provider_item { Item_ref = item.Ref }, ESearchOption.AND);
+                    ivm.Item = item;
 
-                // getting all providers for each item
-                ivm.ProviderList = loadProviderFromProvider_item(provider_itemFoundList, item.Source);
+                    var provider_itemFoundList = Bl.BlItem.searchProvider_item(new Provider_item { ItemId = item.ID }, ESearchOption.AND);
 
-                if (ivm.ProviderList.Count > 0 && ProviderList.Where(x => x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).Count() > 0)
-                    ivm.SelectedProvider = ProviderList.Where(x => x.ID == ivm.ProviderList.OrderByDescending(y => y.ID).First().ID).Single();
-                
-                // select the items appearing in the cart
-                if (Cart.CartItemList.Where(x => x.Item.ID == ivm.Item.ID).Count() > 0)
-                    ivm.IsItemSelected = true;
+                    // getting all providers for each item
+                    ivm.Provider_itemModelList = loadProvider_itemInformation(provider_itemFoundList, item.Source);
 
-                // loading the item's picture
-                ivm.Image = await Task.Factory.StartNew(() => { return ivm.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_catalogue_image_folder"], ConfigurationManager.AppSettings["local_catalogue_image_folder"], ivm.TxtPicture, ivm.TxtRef.Replace(' ', '_').Replace(':', '_'), infoList); });
+                    if (ivm.Provider_itemModelList.Count > 0 && ProviderList.Where(x => ivm.Provider_itemModelList.Where(y => y.Provider.ID == x.ID).Count() > 0).Count() > 0)
+                    {
+                        ivm.SelectedProvider = ProviderList.Where(x => ivm.Provider_itemModelList.Where(y => y.Provider.ID == x.ID).Count() > 0).Single();
+                        ivm.SelectedProvider_itemModel = ivm.Provider_itemModelList.Where(x => x.Provider.ID == ivm.SelectedProvider.ID).Single();
+                    }
 
-                output.Add(ivm);
+                    // select the items appearing in the cart
+                    if (Cart.CartItemList.Where(x => x.Item.ID == ivm.Item.ID).Count() > 0)
+                        ivm.IsItemSelected = true;
+
+                    // loading the item's picture
+                    downloadImage(ivm, ftpCredentials);
+
+                    //ivm.Image = await Task.Factory.StartNew(() => { return ivm.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_catalogue_image_folder"], ConfigurationManager.AppSettings["local_catalogue_image_folder"], ivm.TxtPicture, ivm.TxtRef.Replace(' ', '_').Replace(':', '_'), ftpCredentials); });
+
+                    output.Add(ivm);
+                }
+
+                return output;
             }
-
-            return output;
         }
 
-        private List<Provider> loadProviderFromProvider_item(List<Provider_item> provider_itemFoundList, int userSourceId)
+        private async void downloadImage(ItemModel itemModel, List<Info> ftpCredentials)
         {
-            List<Provider> returnResult = new List<Provider>();
-            foreach (var provider_item in provider_itemFoundList)
+            object _lock = new object();
+            var image = await Task.Factory.StartNew(() => { return itemModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_catalogue_image_folder"], ConfigurationManager.AppSettings["local_catalogue_image_folder"], itemModel.TxtPicture, itemModel.TxtRef.Replace(' ', '_').Replace(':', '_'), ftpCredentials); });
+            lock (_lock)
             {
-                var providerFoundList = Bl.BlItem.searchProvider(new Provider { Name = provider_item.Provider_name, Source = userSourceId }, ESearchOption.AND);
-                if (providerFoundList.Count > 0)
-                    returnResult = returnResult.Concat(providerFoundList).ToList();
+                itemModel.Image = image;
+            }               
+        }
+
+        public List<Provider_itemModel> loadProvider_itemInformation(List<Provider_item> provider_itemFoundList, int userSourceId)
+        {
+            object _lock = new object();
+            lock (_lock)
+            {
+                List<Provider_itemModel> returnResult = new List<Provider_itemModel>();
+                foreach (var provider_item in provider_itemFoundList)
+                {
+                    var provider_itemModel = new Provider_itemModel();
+                    provider_itemModel.Provider_item = provider_item;
+
+                    // getting the item provider information
+                    var providerFoundList = Bl.BlItem.searchProvider(new Provider { ID = provider_item.ProviderId, Source = userSourceId }, ESearchOption.AND);
+                    if (providerFoundList.Count > 0)
+                        provider_itemModel.Provider = providerFoundList[0];
+
+                    // getting the item currency information
+                    var currencyFoundList = Bl.BlOrder.searchCurrency(new Currency { ID = provider_item.CurrencyId }, ESearchOption.AND);
+                    if (currencyFoundList.Count > 0)
+                        provider_itemModel.CurrencyModel = currencyFoundList.Select(x => new CurrencyModel { Currency = x }).Single();
+                    
+                    //if (_main.OrderViewModel.CurrenciesList.Where(x => x.Currency.ID == provider_item.CurrencyId).Count() > 0)
+                    //    provider_itemModel.CurrencyModel = _main.OrderViewModel.CurrenciesList.Where(x => x.Currency.ID == provider_item.CurrencyId).Single();
+
+                    returnResult.Add(provider_itemModel);
+                }
+                return returnResult;
             }
-            return returnResult;
         }
 
         public async Task increaseStockAsync(List<Order_itemModel> order_itemList)
@@ -492,7 +534,7 @@ namespace QOBDManagement.ViewModel
 
             if (ItemModel.IsSearchByItemName) { results = results.Where(x => x.Name.IndexOf(obj, StringComparison.InvariantCultureIgnoreCase) >= 0).ToList(); }
 
-            ItemModelList = await itemListToModelViewList(results);
+            ItemModelList = itemListToModelViewList(results);
             _isSearchResult = true;
 
             ItemModel.SelectedBrand = null;
@@ -524,6 +566,7 @@ namespace QOBDManagement.ViewModel
             if (Cart.CartItemList.Where(x => x.Item.ID == obj.Item.ID).Count() == 0)
             {
                 var cart_itemModel = new Cart_itemModel();
+                obj.IsItemSelected = true;
                 cart_itemModel.Item = obj.Item;
                 cart_itemModel.TxtQuantity = 1.ToString();
                 Cart.AddItem(cart_itemModel);

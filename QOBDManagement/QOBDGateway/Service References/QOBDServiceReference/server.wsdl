@@ -146,7 +146,7 @@
           <xsd:element name="DeliveryAddress" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
-          <xsd:element name="Tax" type="xsd:double" />
+          <xsd:element name="Tax" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
@@ -162,7 +162,7 @@
           <xsd:element name="DeliveryAddress" type="xsd:string" />
           <xsd:element name="Status" type="xsd:string" />
           <xsd:element name="Date" type="xsd:string" />
-          <xsd:element name="Tax" type="xsd:double" />
+          <xsd:element name="Tax" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="PdfQOBD">
@@ -415,6 +415,7 @@
         <xsd:all>
           <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="ClientId" type="xsd:string" />
+          <xsd:element name="ProviderId" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
           <xsd:element name="Name2" type="xsd:string" />
           <xsd:element name="CityName" type="xsd:string" />
@@ -439,6 +440,7 @@
         <xsd:all>
           <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="ClientId" type="xsd:string" />
+          <xsd:element name="ProviderId" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
           <xsd:element name="Name2" type="xsd:string" />
           <xsd:element name="CityName" type="xsd:string" />
@@ -625,8 +627,9 @@
       <xsd:complexType name="Provider_itemQOBD">
         <xsd:all>
           <xsd:element name="ID" type="xsd:string" />
-          <xsd:element name="Provider_name" type="xsd:string" />
-          <xsd:element name="Item_ref" type="xsd:string" />
+          <xsd:element name="ProviderId" type="xsd:string" />
+          <xsd:element name="ItemId" type="xsd:string" />
+          <xsd:element name="CurrencyId" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllProvider_itemQOBD">
@@ -639,8 +642,43 @@
       <xsd:complexType name="Provider_itemFilterQOBD">
         <xsd:all>
           <xsd:element name="ID" type="xsd:string" />
-          <xsd:element name="Provider_name" type="xsd:string" />
-          <xsd:element name="Item_ref" type="xsd:string" />
+          <xsd:element name="ProviderId" type="xsd:string" />
+          <xsd:element name="ItemId" type="xsd:string" />
+          <xsd:element name="CurrencyId" type="xsd:string" />
+          <xsd:element name="Operator" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="CurrencyQOBD">
+        <xsd:all>
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="Name" type="xsd:string" />
+          <xsd:element name="Symbol" type="xsd:string" />
+          <xsd:element name="Rate" type="xsd:string" />
+          <xsd:element name="IsDefault" type="xsd:string" />
+          <xsd:element name="Currency_code" type="xsd:string" />
+          <xsd:element name="Country_code" type="xsd:string" />
+          <xsd:element name="Country" type="xsd:string" />
+          <xsd:element name="Date" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="AllCurrencyQOBD">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute wsdl:arrayType="tns:CurrencyQOBD[]" minOccurs="0" maxOccur="unbounded" ref="SOAP-ENC:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="CurrencyFilterQOBD">
+        <xsd:all>
+          <xsd:element name="ID" type="xsd:string" />
+          <xsd:element name="Name" type="xsd:string" />
+          <xsd:element name="Symbol" type="xsd:string" />
+          <xsd:element name="Rate" type="xsd:string" />
+          <xsd:element name="IsDefault" type="xsd:string" />
+          <xsd:element name="Currency_code" type="xsd:string" />
+          <xsd:element name="Country_code" type="xsd:string" />
+          <xsd:element name="Country" type="xsd:string" />
+          <xsd:element name="Date" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
@@ -649,6 +687,7 @@
           <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
           <xsd:element name="Source" type="xsd:string" />
+          <xsd:element name="AddressId" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="AllProviderQOBD">
@@ -663,6 +702,7 @@
           <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
           <xsd:element name="Source" type="xsd:string" />
+          <xsd:element name="AddressId" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
         </xsd:all>
       </xsd:complexType>
@@ -727,7 +767,7 @@
           <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Type" type="xsd:string" />
           <xsd:element name="Date_insert" type="xsd:string" />
-          <xsd:element name="Value" type="xsd:double" />
+          <xsd:element name="Value" type="xsd:string" />
           <xsd:element name="Comment" type="xsd:string" />
           <xsd:element name="Tax_current" type="xsd:string" />
         </xsd:all>
@@ -744,7 +784,7 @@
           <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Type" type="xsd:string" />
           <xsd:element name="Date_insert" type="xsd:string" />
-          <xsd:element name="Value" type="xsd:double" />
+          <xsd:element name="Value" type="xsd:string" />
           <xsd:element name="Comment" type="xsd:string" />
           <xsd:element name="Tax_current" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />
@@ -1728,6 +1768,48 @@
   </wsdl:message>
   <wsdl:message name="get_data_provider_item_by_item_listResponse">
     <wsdl:part name="return" type="tns:AllProvider_itemQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_currencyRequest">
+    <wsdl:part name="nbLine" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="get_data_currencyResponse">
+    <wsdl:part name="return" type="tns:AllCurrencyQOBD" />
+  </wsdl:message>
+  <wsdl:message name="delete_data_currencyRequest">
+    <wsdl:part name="currency_array_list" type="tns:AllCurrencyQOBD" />
+  </wsdl:message>
+  <wsdl:message name="delete_data_currencyResponse">
+    <wsdl:part name="return" type="tns:AllCurrencyQOBD" />
+  </wsdl:message>
+  <wsdl:message name="insert_data_currencyRequest">
+    <wsdl:part name="currency_array_list" type="tns:AllCurrencyQOBD" />
+  </wsdl:message>
+  <wsdl:message name="insert_data_currencyResponse">
+    <wsdl:part name="return" type="tns:AllCurrencyQOBD" />
+  </wsdl:message>
+  <wsdl:message name="update_data_currencyRequest">
+    <wsdl:part name="currency_array_list" type="tns:AllCurrencyQOBD" />
+  </wsdl:message>
+  <wsdl:message name="update_data_currencyResponse">
+    <wsdl:part name="return" type="tns:AllCurrencyQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_currency_by_idRequest">
+    <wsdl:part name="id" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="get_data_currency_by_idResponse">
+    <wsdl:part name="return" type="tns:AllCurrencyQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_filter_currencyRequest">
+    <wsdl:part name="currency_array_list_filter" type="tns:CurrencyFilterQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_filter_currencyResponse">
+    <wsdl:part name="return" type="tns:AllCurrencyQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_currency_by_provider_item_listRequest">
+    <wsdl:part name="item_array_list" type="tns:AllProvider_itemQOBD" />
+  </wsdl:message>
+  <wsdl:message name="get_data_currency_by_provider_item_listResponse">
+    <wsdl:part name="return" type="tns:AllCurrencyQOBD" />
   </wsdl:message>
   <wsdl:message name="get_data_providerRequest">
     <wsdl:part name="nbLine" type="xsd:string" />
@@ -2807,6 +2889,41 @@
       <documentation>get all provider_item by item list</documentation>
       <wsdl:input message="tns:get_data_provider_item_by_item_listRequest" />
       <wsdl:output message="tns:get_data_provider_item_by_item_listResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_data_currency">
+      <documentation>Get all currency data</documentation>
+      <wsdl:input message="tns:get_data_currencyRequest" />
+      <wsdl:output message="tns:get_data_currencyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="delete_data_currency">
+      <documentation>Delete currencys</documentation>
+      <wsdl:input message="tns:delete_data_currencyRequest" />
+      <wsdl:output message="tns:delete_data_currencyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="insert_data_currency">
+      <documentation>Insert currencies</documentation>
+      <wsdl:input message="tns:insert_data_currencyRequest" />
+      <wsdl:output message="tns:insert_data_currencyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="update_data_currency">
+      <documentation>Update currencys</documentation>
+      <wsdl:input message="tns:update_data_currencyRequest" />
+      <wsdl:output message="tns:update_data_currencyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_data_currency_by_id">
+      <documentation>get a currency by its id</documentation>
+      <wsdl:input message="tns:get_data_currency_by_idRequest" />
+      <wsdl:output message="tns:get_data_currency_by_idResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_filter_currency">
+      <documentation>get result of currency filtering</documentation>
+      <wsdl:input message="tns:get_filter_currencyRequest" />
+      <wsdl:output message="tns:get_filter_currencyResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="get_data_currency_by_provider_item_list">
+      <documentation>get all currency by item list</documentation>
+      <wsdl:input message="tns:get_data_currency_by_provider_item_listRequest" />
+      <wsdl:output message="tns:get_data_currency_by_provider_item_listResponse" />
     </wsdl:operation>
     <wsdl:operation name="get_data_provider">
       <documentation>Get all provider data</documentation>
@@ -4350,6 +4467,69 @@
     </wsdl:operation>
     <wsdl:operation name="get_data_provider_item_by_item_list">
       <soap:operation soapAction="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_data_provider_item_by_item_list" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_data_currency">
+      <soap:operation soapAction="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_data_currency" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="delete_data_currency">
+      <soap:operation soapAction="http://bahilo-001-site2.ftempurl.com/webservice/server.php/delete_data_currency" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insert_data_currency">
+      <soap:operation soapAction="http://bahilo-001-site2.ftempurl.com/webservice/server.php/insert_data_currency" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="update_data_currency">
+      <soap:operation soapAction="http://bahilo-001-site2.ftempurl.com/webservice/server.php/update_data_currency" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_data_currency_by_id">
+      <soap:operation soapAction="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_data_currency_by_id" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_filter_currency">
+      <soap:operation soapAction="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_filter_currency" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get_data_currency_by_provider_item_list">
+      <soap:operation soapAction="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_data_currency_by_provider_item_list" style="rpc" />
       <wsdl:input>
         <soap:body use="encoded" namespace="http://localhost/WebServiceSOAP/server.php?wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
       </wsdl:input>

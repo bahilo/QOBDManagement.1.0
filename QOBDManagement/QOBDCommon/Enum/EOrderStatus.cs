@@ -24,7 +24,8 @@ namespace QOBDCommon.Enum
         Valid,                    // Revalid
         Detail,                   // whether display of command detail
         Null,                      // No match found in this Enum
-        Proforma
+        Proforma,
+        ALL = 999
 
     }
 }

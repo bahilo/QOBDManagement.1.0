@@ -14,13 +14,14 @@ namespace QOBDManagement.Models
     public class ItemModel: BindBase
     {       
         private List<Item_deliveryModel> _item_deliveryModelList;
-        private List<Provider> _providerList;
+        private List<Provider_itemModel> _provider_itemModelList;
         private string _selectedBrand;
         private string _newBrand;
         private string _selectedFamily;
         private string _newFamily;
         private string _newProvider;
         private Provider _selectedProvider;
+        private Provider_itemModel _selectedProvider_itemModel;
         private bool _isSelected;
         private bool _isModifyEnable;
         private bool _isSearchByItemName;
@@ -32,8 +33,9 @@ namespace QOBDManagement.Models
         public ItemModel()
         {
             _item_deliveryModelList = new List<Item_deliveryModel>();
-            _providerList = new List<Provider>();
             _selectedProvider = new Provider();
+            _selectedProvider_itemModel = new Provider_itemModel();
+            _provider_itemModelList = new List<Provider_itemModel>();
             _isModifyEnable = false;
             _item = new Item();
 
@@ -86,16 +88,28 @@ namespace QOBDManagement.Models
             set { setProperty(ref _isModifyEnable, value); }
         }
 
-        public List<Provider> ProviderList
+        public List<Provider_itemModel> Provider_itemModelList
         {
-            get { return _providerList; }
-            set { setProperty(ref _providerList, value); }
+            get { return _provider_itemModelList; }
+            set { setProperty(ref _provider_itemModelList, value); }
         }
 
         public Provider SelectedProvider
         {
             get { return _selectedProvider; }
             set { setProperty(ref _selectedProvider, value); }
+        }
+
+        public Provider_itemModel SelectedProvider_itemModel
+        {
+            get { return _selectedProvider_itemModel; }
+            set { setProperty(ref _selectedProvider_itemModel, value); }
+        }
+
+        public CurrencyModel CurrencyModel
+        {
+            get { return SelectedProvider_itemModel.CurrencyModel; }
+            set { SelectedProvider_itemModel.CurrencyModel = value; onPropertyChange(); }
         }
 
         public Item Item
@@ -215,7 +229,7 @@ namespace QOBDManagement.Models
         {
             get { return _isSelected; }
             set { _isSelected = value; onPropertyChange(); }
-        }        
+        }
 
     }
 }

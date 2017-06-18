@@ -818,7 +818,135 @@ namespace QOBDBusiness.Core
 
         #endregion
 
+        #region [ Currency ]
         
+        public async Task<List<Currency>> InsertCurrencyAsync(List<Currency> listCurrency)
+        {
+            List<Currency> result = new List<Currency>();
+            if (listCurrency == null || listCurrency.Count == 0)
+                return result;
+            try
+            {
+                result = await DAC.DALOrder.InsertCurrencyAsync(listCurrency);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Currency>> UpdateCurrencyAsync(List<Currency> listCurrency)
+        {
+            List<Currency> result = new List<Currency>();
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listCurrency.Where(x => x.ID == 0).Count()))
+                listCurrency = listCurrency.Where(x => x.ID != 0).ToList();
+
+            if (listCurrency == null || listCurrency.Count == 0)
+                return result;
+
+            try
+            {
+                result = await DAC.DALOrder.UpdateCurrencyAsync(listCurrency);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Currency>> DeleteCurrencyAsync(List<Currency> listCurrency)
+        {
+            List<Currency> result = new List<Currency>();
+            if (!checkIfUpdateOrDeleteParamRepectsRequirements(listCurrency.Where(x => x.ID == 0).Count()))
+                listCurrency = listCurrency.Where(x => x.ID != 0).ToList();
+
+            if (listCurrency == null || listCurrency.Count == 0)
+                return result;
+
+            try
+            {
+                result = await DAC.DALOrder.DeleteCurrencyAsync(listCurrency);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Currency> GetCurrencyData(int nbLine)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = DAC.DALOrder.GetCurrencyData(nbLine);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Currency>> GetCurrencyDataAsync(int nbLine)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = await DAC.DALOrder.GetCurrencyDataAsync(nbLine);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Currency> GetCurrencyDataById(int id)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = DAC.DALOrder.GetCurrencyData(id);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Currency> GetCurrencyDataByProvider_itemList(List<Provider_item> provider_itemList)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = DAC.DALOrder.GetCurrencyDataByProvider_itemList(provider_itemList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Currency>> GetCurrencyDataByProvider_itemListAsync(List<Provider_item> provider_itemList)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = await DAC.DALOrder.GetCurrencyDataByProvider_itemListAsync(provider_itemList);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public List<Currency> searchCurrency(Currency Currency, ESearchOption filterOperator)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = DAC.DALOrder.searchCurrency(Currency, filterOperator);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        public async Task<List<Currency>> searchCurrencyAsync(Currency Currency, ESearchOption filterOperator)
+        {
+            List<Currency> result = new List<Currency>();
+            try
+            {
+                result = await DAC.DALOrder.searchCurrencyAsync(Currency, filterOperator);
+            }
+            catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
+            return result;
+        }
+
+        #endregion
+
+
         public void Dispose()
         {
             DAC.DALOrder.Dispose();

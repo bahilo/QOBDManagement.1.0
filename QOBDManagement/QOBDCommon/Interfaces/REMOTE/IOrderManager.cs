@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 /// </summary>
 namespace QOBDCommon.Interfaces.REMOTE
 {
-    public interface IOrderManager : ITax_orderManager, IOrder_itemManager, ITaxManager, IBillManager, IDeliveryManager, IGeneratePDF, IDisposable, INotifyPropertyChanged
+    public interface IOrderManager : ITax_orderManager, IOrder_itemManager, ITaxManager, IBillManager, IDeliveryManager, IGeneratePDF, ICurrencyManager, IDisposable, INotifyPropertyChanged
     {
         // Operations
 

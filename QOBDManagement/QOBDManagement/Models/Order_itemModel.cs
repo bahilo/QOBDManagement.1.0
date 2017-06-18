@@ -30,10 +30,12 @@ namespace QOBDManagement.Models
         private double _totalIncomePercent;
         private decimal _totalTaxIncluded;
         private int _oldQuantity;
+        private CurrencyModel _currencyModel;
 
         public Order_itemModel()
         {
             _order_item = new Order_item();
+            _currencyModel = new CurrencyModel();
             _itemModel = new ItemModel();
             _nbPackages = 1;
         }
@@ -65,6 +67,12 @@ namespace QOBDManagement.Models
         {
             get { return _order; }
             set { setProperty(ref _order, value); }
+        }
+
+        public CurrencyModel CurrencyModel
+        {
+            get { return _currencyModel; }
+            set { _currencyModel = value; onPropertyChange(); }
         }
 
         public string TxtTotalIncome

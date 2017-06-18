@@ -26,6 +26,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -62,6 +63,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -98,6 +100,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -134,6 +137,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -170,6 +174,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -206,6 +211,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -242,6 +248,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -278,6 +285,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -315,6 +323,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -353,6 +362,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -391,6 +401,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -429,6 +440,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -466,6 +478,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -502,6 +515,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -538,6 +552,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -574,6 +589,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -610,6 +626,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -646,6 +663,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -682,6 +700,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -718,6 +737,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -755,6 +775,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -793,6 +814,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -831,6 +853,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -869,6 +892,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -907,6 +931,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -944,6 +969,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -980,6 +1006,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1016,6 +1043,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1052,6 +1080,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1088,6 +1117,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1124,6 +1154,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1161,6 +1192,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1199,6 +1231,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1236,6 +1269,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1272,6 +1306,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1308,6 +1343,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1344,6 +1380,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1380,6 +1417,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1416,6 +1454,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1452,6 +1491,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1486,6 +1526,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1523,6 +1564,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1560,6 +1602,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1596,6 +1639,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1632,6 +1676,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1668,6 +1713,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1704,6 +1750,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1741,6 +1788,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1778,6 +1826,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1814,6 +1863,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1850,6 +1900,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1886,6 +1937,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1923,6 +1975,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1960,6 +2013,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -1996,6 +2050,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2032,6 +2087,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2068,6 +2124,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2104,6 +2161,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2140,6 +2198,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2176,6 +2235,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2213,6 +2273,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2250,6 +2311,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2286,6 +2348,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2322,6 +2385,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2358,6 +2422,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2394,6 +2459,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2430,6 +2496,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2466,6 +2533,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2502,6 +2570,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2538,6 +2607,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2575,6 +2645,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2613,6 +2684,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2651,6 +2723,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2688,6 +2761,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2725,6 +2799,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2763,6 +2838,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2801,6 +2877,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2839,6 +2916,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2877,6 +2955,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2914,6 +2993,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2950,6 +3030,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -2986,6 +3067,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3022,6 +3104,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3059,6 +3142,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3096,6 +3180,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3133,6 +3218,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3171,6 +3257,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3208,6 +3295,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3245,6 +3333,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3283,6 +3372,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3321,6 +3411,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3359,6 +3450,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3396,6 +3488,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3433,6 +3526,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3470,6 +3564,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3506,6 +3601,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3542,6 +3638,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3578,6 +3675,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3615,6 +3713,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3652,6 +3751,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3689,6 +3789,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3726,6 +3827,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3762,6 +3864,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3798,6 +3901,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3834,6 +3938,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3871,6 +3976,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3908,6 +4014,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3945,6 +4052,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -3982,6 +4090,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4018,6 +4127,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4054,6 +4164,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4090,6 +4201,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4126,6 +4238,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4162,6 +4275,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4198,6 +4312,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4234,6 +4349,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4270,6 +4386,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4306,6 +4423,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4343,6 +4461,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4380,6 +4499,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4417,6 +4537,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4455,6 +4576,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4493,6 +4615,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4531,6 +4654,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4569,6 +4693,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4607,6 +4732,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4645,6 +4771,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4683,6 +4810,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4721,6 +4849,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4759,6 +4888,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4797,6 +4927,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4835,6 +4966,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4873,6 +5005,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4911,6 +5044,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4937,6 +5071,269 @@ namespace QOBDGateway.QOBDServiceReference {
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Provider_itemQOBD[]> get_data_provider_item_by_item_listAsync(QOBDGateway.QOBDServiceReference.ItemQOBD[] item_array_list);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_data_currency", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.CurrencyQOBD[] get_data_currency(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_data_currency", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> get_data_currencyAsync(string nbLine);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/delete_data_currency", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.CurrencyQOBD[] delete_data_currency(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/delete_data_currency", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> delete_data_currencyAsync(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/insert_data_currency", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.CurrencyQOBD[] insert_data_currency(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/insert_data_currency", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> insert_data_currencyAsync(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/update_data_currency", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.CurrencyQOBD[] update_data_currency(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/update_data_currency", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> update_data_currencyAsync(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_data_currency_by_i" +
+            "d", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.CurrencyQOBD[] get_data_currency_by_id(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_data_currency_by_i" +
+            "d", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> get_data_currency_by_idAsync(string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_filter_currency", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.CurrencyQOBD[] get_filter_currency(QOBDGateway.QOBDServiceReference.CurrencyFilterQOBD currency_array_list_filter);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_filter_currency", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> get_filter_currencyAsync(QOBDGateway.QOBDServiceReference.CurrencyFilterQOBD currency_array_list_filter);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_data_currency_by_p" +
+            "rovider_item_list", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(MessageChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(User_discussionChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(UserChatRoom))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NotificationQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(TaxQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(InfosQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DeliveryQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ContactQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AddressQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionRecordQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ClientQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Order_itemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ItemQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(StatisticQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OrdersQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(BillQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Role_actionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Agent_roleQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ActionQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RoleQOBD))]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        QOBDGateway.QOBDServiceReference.CurrencyQOBD[] get_data_currency_by_provider_item_list(QOBDGateway.QOBDServiceReference.Provider_itemQOBD[] item_array_list);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_data_currency_by_p" +
+            "rovider_item_list", ReplyAction="*")]
+        [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
+        System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> get_data_currency_by_provider_item_listAsync(QOBDGateway.QOBDServiceReference.Provider_itemQOBD[] item_array_list);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://bahilo-001-site2.ftempurl.com/webservice/server.php/get_data_provider", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(DiscussionChatRoom))]
@@ -4948,6 +5345,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -4984,6 +5382,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5020,6 +5419,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5056,6 +5456,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5093,6 +5494,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5130,6 +5532,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5167,6 +5570,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5204,6 +5608,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5240,6 +5645,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5276,6 +5682,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5312,6 +5719,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5349,6 +5757,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5386,6 +5795,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5423,6 +5833,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5460,6 +5871,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5496,6 +5908,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5532,6 +5945,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5568,6 +5982,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5605,6 +6020,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5642,6 +6058,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5679,6 +6096,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5716,6 +6134,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5752,6 +6171,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5788,6 +6208,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5824,6 +6245,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5860,6 +6282,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5896,6 +6319,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5932,6 +6356,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -5968,6 +6393,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6004,6 +6430,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6040,6 +6467,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6077,6 +6505,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6114,6 +6543,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6150,6 +6580,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6187,6 +6618,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6225,6 +6657,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6263,6 +6696,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6301,6 +6735,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6339,6 +6774,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6377,6 +6813,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6415,6 +6852,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6452,6 +6890,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6488,6 +6927,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6524,6 +6964,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6560,6 +7001,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6596,6 +7038,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6632,6 +7075,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6669,6 +7113,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6706,6 +7151,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6742,6 +7188,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6778,6 +7225,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6814,6 +7262,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6851,6 +7300,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6888,6 +7338,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6924,6 +7375,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6961,6 +7413,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -6999,6 +7452,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -7037,6 +7491,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -7075,6 +7530,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -7112,6 +7568,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -7149,6 +7606,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -7187,6 +7645,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -7225,6 +7684,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -7263,6 +7723,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -7301,6 +7762,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -7339,6 +7801,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -7377,6 +7840,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -7415,6 +7879,7 @@ namespace QOBDGateway.QOBDServiceReference {
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Tax_orderQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ProviderQOBD))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(CurrencyQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Provider_itemQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Item_deliveryQOBD))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(Auto_refsQOBD))]
@@ -8935,7 +9400,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string date_insertField;
         
-        private double valueField;
+        private string valueField;
         
         private string commentField;
         
@@ -8977,7 +9442,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public double Value {
+        public string Value {
             get {
                 return this.valueField;
             }
@@ -9044,7 +9509,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string date_insertField;
         
-        private double valueField;
+        private string valueField;
         
         private string commentField;
         
@@ -9084,7 +9549,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public double Value {
+        public string Value {
             get {
                 return this.valueField;
             }
@@ -9550,6 +10015,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string sourceField;
         
+        private string addressIdField;
+        
         private string operatorField;
         
         /// <remarks/>
@@ -9582,6 +10049,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.sourceField = value;
                 this.RaisePropertyChanged("Source");
+            }
+        }
+        
+        /// <remarks/>
+        public string AddressId {
+            get {
+                return this.addressIdField;
+            }
+            set {
+                this.addressIdField = value;
+                this.RaisePropertyChanged("AddressId");
             }
         }
         
@@ -9620,6 +10098,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string sourceField;
         
+        private string addressIdField;
+        
         /// <remarks/>
         public string ID {
             get {
@@ -9653,6 +10133,300 @@ namespace QOBDGateway.QOBDServiceReference {
             }
         }
         
+        /// <remarks/>
+        public string AddressId {
+            get {
+                return this.addressIdField;
+            }
+            set {
+                this.addressIdField = value;
+                this.RaisePropertyChanged("AddressId");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class CurrencyFilterQOBD : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private string idField;
+        
+        private string nameField;
+        
+        private string symbolField;
+        
+        private string rateField;
+        
+        private string isDefaultField;
+        
+        private string currency_codeField;
+        
+        private string country_codeField;
+        
+        private string countryField;
+        
+        private string dateField;
+        
+        private string operatorField;
+        
+        /// <remarks/>
+        public string ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+                this.RaisePropertyChanged("Name");
+            }
+        }
+        
+        /// <remarks/>
+        public string Symbol {
+            get {
+                return this.symbolField;
+            }
+            set {
+                this.symbolField = value;
+                this.RaisePropertyChanged("Symbol");
+            }
+        }
+        
+        /// <remarks/>
+        public string Rate {
+            get {
+                return this.rateField;
+            }
+            set {
+                this.rateField = value;
+                this.RaisePropertyChanged("Rate");
+            }
+        }
+        
+        /// <remarks/>
+        public string IsDefault {
+            get {
+                return this.isDefaultField;
+            }
+            set {
+                this.isDefaultField = value;
+                this.RaisePropertyChanged("IsDefault");
+            }
+        }
+        
+        /// <remarks/>
+        public string Currency_code {
+            get {
+                return this.currency_codeField;
+            }
+            set {
+                this.currency_codeField = value;
+                this.RaisePropertyChanged("Currency_code");
+            }
+        }
+        
+        /// <remarks/>
+        public string Country_code {
+            get {
+                return this.country_codeField;
+            }
+            set {
+                this.country_codeField = value;
+                this.RaisePropertyChanged("Country_code");
+            }
+        }
+        
+        /// <remarks/>
+        public string Country {
+            get {
+                return this.countryField;
+            }
+            set {
+                this.countryField = value;
+                this.RaisePropertyChanged("Country");
+            }
+        }
+        
+        /// <remarks/>
+        public string Date {
+            get {
+                return this.dateField;
+            }
+            set {
+                this.dateField = value;
+                this.RaisePropertyChanged("Date");
+            }
+        }
+        
+        /// <remarks/>
+        public string Operator {
+            get {
+                return this.operatorField;
+            }
+            set {
+                this.operatorField = value;
+                this.RaisePropertyChanged("Operator");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.SoapTypeAttribute(Namespace="http://localhost/WebServiceSOAP/server.php?wsdl")]
+    public partial class CurrencyQOBD : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private string idField;
+        
+        private string nameField;
+        
+        private string symbolField;
+        
+        private string rateField;
+        
+        private string isDefaultField;
+        
+        private string currency_codeField;
+        
+        private string country_codeField;
+        
+        private string countryField;
+        
+        private string dateField;
+        
+        /// <remarks/>
+        public string ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        public string Name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+                this.RaisePropertyChanged("Name");
+            }
+        }
+        
+        /// <remarks/>
+        public string Symbol {
+            get {
+                return this.symbolField;
+            }
+            set {
+                this.symbolField = value;
+                this.RaisePropertyChanged("Symbol");
+            }
+        }
+        
+        /// <remarks/>
+        public string Rate {
+            get {
+                return this.rateField;
+            }
+            set {
+                this.rateField = value;
+                this.RaisePropertyChanged("Rate");
+            }
+        }
+        
+        /// <remarks/>
+        public string IsDefault {
+            get {
+                return this.isDefaultField;
+            }
+            set {
+                this.isDefaultField = value;
+                this.RaisePropertyChanged("IsDefault");
+            }
+        }
+        
+        /// <remarks/>
+        public string Currency_code {
+            get {
+                return this.currency_codeField;
+            }
+            set {
+                this.currency_codeField = value;
+                this.RaisePropertyChanged("Currency_code");
+            }
+        }
+        
+        /// <remarks/>
+        public string Country_code {
+            get {
+                return this.country_codeField;
+            }
+            set {
+                this.country_codeField = value;
+                this.RaisePropertyChanged("Country_code");
+            }
+        }
+        
+        /// <remarks/>
+        public string Country {
+            get {
+                return this.countryField;
+            }
+            set {
+                this.countryField = value;
+                this.RaisePropertyChanged("Country");
+            }
+        }
+        
+        /// <remarks/>
+        public string Date {
+            get {
+                return this.dateField;
+            }
+            set {
+                this.dateField = value;
+                this.RaisePropertyChanged("Date");
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -9673,9 +10447,11 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string idField;
         
-        private string provider_nameField;
+        private string providerIdField;
         
-        private string item_refField;
+        private string itemIdField;
+        
+        private string currencyIdField;
         
         private string operatorField;
         
@@ -9691,24 +10467,35 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public string Provider_name {
+        public string ProviderId {
             get {
-                return this.provider_nameField;
+                return this.providerIdField;
             }
             set {
-                this.provider_nameField = value;
-                this.RaisePropertyChanged("Provider_name");
+                this.providerIdField = value;
+                this.RaisePropertyChanged("ProviderId");
             }
         }
         
         /// <remarks/>
-        public string Item_ref {
+        public string ItemId {
             get {
-                return this.item_refField;
+                return this.itemIdField;
             }
             set {
-                this.item_refField = value;
-                this.RaisePropertyChanged("Item_ref");
+                this.itemIdField = value;
+                this.RaisePropertyChanged("ItemId");
+            }
+        }
+        
+        /// <remarks/>
+        public string CurrencyId {
+            get {
+                return this.currencyIdField;
+            }
+            set {
+                this.currencyIdField = value;
+                this.RaisePropertyChanged("CurrencyId");
             }
         }
         
@@ -9743,9 +10530,11 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string idField;
         
-        private string provider_nameField;
+        private string providerIdField;
         
-        private string item_refField;
+        private string itemIdField;
+        
+        private string currencyIdField;
         
         /// <remarks/>
         public string ID {
@@ -9759,24 +10548,35 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public string Provider_name {
+        public string ProviderId {
             get {
-                return this.provider_nameField;
+                return this.providerIdField;
             }
             set {
-                this.provider_nameField = value;
-                this.RaisePropertyChanged("Provider_name");
+                this.providerIdField = value;
+                this.RaisePropertyChanged("ProviderId");
             }
         }
         
         /// <remarks/>
-        public string Item_ref {
+        public string ItemId {
             get {
-                return this.item_refField;
+                return this.itemIdField;
             }
             set {
-                this.item_refField = value;
-                this.RaisePropertyChanged("Item_ref");
+                this.itemIdField = value;
+                this.RaisePropertyChanged("ItemId");
+            }
+        }
+        
+        /// <remarks/>
+        public string CurrencyId {
+            get {
+                return this.currencyIdField;
+            }
+            set {
+                this.currencyIdField = value;
+                this.RaisePropertyChanged("CurrencyId");
             }
         }
         
@@ -10884,6 +11684,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string clientIdField;
         
+        private string providerIdField;
+        
         private string nameField;
         
         private string name2Field;
@@ -10927,6 +11729,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.clientIdField = value;
                 this.RaisePropertyChanged("ClientId");
+            }
+        }
+        
+        /// <remarks/>
+        public string ProviderId {
+            get {
+                return this.providerIdField;
+            }
+            set {
+                this.providerIdField = value;
+                this.RaisePropertyChanged("ProviderId");
             }
         }
         
@@ -11084,6 +11897,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string clientIdField;
         
+        private string providerIdField;
+        
         private string nameField;
         
         private string name2Field;
@@ -11125,6 +11940,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.clientIdField = value;
                 this.RaisePropertyChanged("ClientId");
+            }
+        }
+        
+        /// <remarks/>
+        public string ProviderId {
+            get {
+                return this.providerIdField;
+            }
+            set {
+                this.providerIdField = value;
+                this.RaisePropertyChanged("ProviderId");
             }
         }
         
@@ -13284,7 +14110,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string dateField;
         
-        private double taxField;
+        private string taxField;
         
         private string operatorField;
         
@@ -13399,7 +14225,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public double Tax {
+        public string Tax {
             get {
                 return this.taxField;
             }
@@ -13458,7 +14284,7 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string dateField;
         
-        private double taxField;
+        private string taxField;
         
         /// <remarks/>
         public string ID {
@@ -13571,7 +14397,7 @@ namespace QOBDGateway.QOBDServiceReference {
         }
         
         /// <remarks/>
-        public double Tax {
+        public string Tax {
             get {
                 return this.taxField;
             }
@@ -15456,6 +16282,62 @@ namespace QOBDGateway.QOBDServiceReference {
         
         public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.Provider_itemQOBD[]> get_data_provider_item_by_item_listAsync(QOBDGateway.QOBDServiceReference.ItemQOBD[] item_array_list) {
             return base.Channel.get_data_provider_item_by_item_listAsync(item_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.CurrencyQOBD[] get_data_currency(string nbLine) {
+            return base.Channel.get_data_currency(nbLine);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> get_data_currencyAsync(string nbLine) {
+            return base.Channel.get_data_currencyAsync(nbLine);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.CurrencyQOBD[] delete_data_currency(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list) {
+            return base.Channel.delete_data_currency(currency_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> delete_data_currencyAsync(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list) {
+            return base.Channel.delete_data_currencyAsync(currency_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.CurrencyQOBD[] insert_data_currency(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list) {
+            return base.Channel.insert_data_currency(currency_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> insert_data_currencyAsync(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list) {
+            return base.Channel.insert_data_currencyAsync(currency_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.CurrencyQOBD[] update_data_currency(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list) {
+            return base.Channel.update_data_currency(currency_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> update_data_currencyAsync(QOBDGateway.QOBDServiceReference.CurrencyQOBD[] currency_array_list) {
+            return base.Channel.update_data_currencyAsync(currency_array_list);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.CurrencyQOBD[] get_data_currency_by_id(string id) {
+            return base.Channel.get_data_currency_by_id(id);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> get_data_currency_by_idAsync(string id) {
+            return base.Channel.get_data_currency_by_idAsync(id);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.CurrencyQOBD[] get_filter_currency(QOBDGateway.QOBDServiceReference.CurrencyFilterQOBD currency_array_list_filter) {
+            return base.Channel.get_filter_currency(currency_array_list_filter);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> get_filter_currencyAsync(QOBDGateway.QOBDServiceReference.CurrencyFilterQOBD currency_array_list_filter) {
+            return base.Channel.get_filter_currencyAsync(currency_array_list_filter);
+        }
+        
+        public QOBDGateway.QOBDServiceReference.CurrencyQOBD[] get_data_currency_by_provider_item_list(QOBDGateway.QOBDServiceReference.Provider_itemQOBD[] item_array_list) {
+            return base.Channel.get_data_currency_by_provider_item_list(item_array_list);
+        }
+        
+        public System.Threading.Tasks.Task<QOBDGateway.QOBDServiceReference.CurrencyQOBD[]> get_data_currency_by_provider_item_listAsync(QOBDGateway.QOBDServiceReference.Provider_itemQOBD[] item_array_list) {
+            return base.Channel.get_data_currency_by_provider_item_listAsync(item_array_list);
         }
         
         public QOBDGateway.QOBDServiceReference.ProviderQOBD[] get_data_provider(string nbLine) {

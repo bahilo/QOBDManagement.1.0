@@ -120,6 +120,9 @@
     <None Include="Service References\QOBDServiceReference\QOBDGateway.QOBDServiceReference.ContactQOBD.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\QOBDServiceReference\QOBDGateway.QOBDServiceReference.CurrencyQOBD.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\QOBDServiceReference\QOBDGateway.QOBDServiceReference.DeliveryQOBD.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

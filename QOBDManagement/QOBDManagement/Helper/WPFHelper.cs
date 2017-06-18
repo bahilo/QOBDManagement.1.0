@@ -25,55 +25,67 @@ namespace QOBDManagement.Helper
     {
         public static string addPrefix(this string valueString, EPrefix type)
         {
-            string prefix = "";
-
-            switch (type)
+            object _lock = new object();
+            lock (_lock)
             {
-                case EPrefix.CLIENT:
-                    prefix = ConfigurationManager.AppSettings["client_prefix"];
-                    break;
-                case EPrefix.ORDER:
-                    prefix = ConfigurationManager.AppSettings["order_prefix"];
-                    break;
-                case EPrefix.INVOICE:
-                    prefix = ConfigurationManager.AppSettings["invoice_prefix"];
-                    break;
-                case EPrefix.DELIVERY:
-                    prefix = ConfigurationManager.AppSettings["delivery_prefix"];
-                    break;
-                case EPrefix.ITEM:
-                    prefix = ConfigurationManager.AppSettings["item_prefix"];
-                    break;
-            }
+                string prefix = "";
 
-            return prefix + valueString;
+                switch (type)
+                {
+                    case EPrefix.CLIENT:
+                        prefix = ConfigurationManager.AppSettings["client_prefix"];
+                        break;
+                    case EPrefix.ORDER:
+                        prefix = ConfigurationManager.AppSettings["order_prefix"];
+                        break;
+                    case EPrefix.INVOICE:
+                        prefix = ConfigurationManager.AppSettings["invoice_prefix"];
+                        break;
+                    case EPrefix.DELIVERY:
+                        prefix = ConfigurationManager.AppSettings["delivery_prefix"];
+                        break;
+                    case EPrefix.ITEM:
+                        prefix = ConfigurationManager.AppSettings["item_prefix"];
+                        break;
+                }
+
+                return prefix + valueString;
+            }            
         }
 
         public static string addPrefix(this int valueInteger, EPrefix type)
         {
-            if (valueInteger == 0)
-                return valueInteger.ToString();
-            else
-                return addPrefix(valueInteger.ToString(), type);
+            object _lock = new object();
+            lock (_lock)
+            {
+                if (valueInteger == 0)
+                    return valueInteger.ToString();
+                else
+                    return addPrefix(valueInteger.ToString(), type);
+            }
         }
 
         public static string deletePrefix(this string valueString)
         {
-            int length = 0;
-            string output = "";
-            try
+            object _lock = new object();
+            lock (_lock)
             {
-                length = Convert.ToInt32(ConfigurationManager.AppSettings["length_prefix"]);
-                if (valueString.Length > length)
-                    output = valueString.Substring(length);
-                else
-                    output = valueString;
+                int length = 0;
+                string output = "";
+                try
+                {
+                    length = Convert.ToInt32(ConfigurationManager.AppSettings["length_prefix"]);
+                    if (valueString.Length > length)
+                        output = valueString.Substring(length);
+                    else
+                        output = valueString;
+                }
+                catch (Exception ex)
+                {
+                    Log.warning(ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
+                }
+                return output;
             }
-            catch (Exception ex)
-            {
-                Log.warning(ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
-            }
-            return output;
         }
 
         /// <summary>
@@ -86,84 +98,95 @@ namespace QOBDManagement.Helper
         /// <returns></returns>
         public static InfoManager.Display downloadPicture(this InfoManager.Display image, string ftpDirectory, string localDirectory, string recordedFileName, string fileName, List<Info> ftpCredentialInfoList)
         {
-            Info usernameInfo = ftpCredentialInfoList.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
-            Info passwordInfo = ftpCredentialInfoList.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
-
-            if (ftpCredentialInfoList.Count > 0)
+            object _lock = new object();
+            lock (_lock)
             {
-                Info info = new Info { Name = fileName, Value = fileName };
+                Info usernameInfo = ftpCredentialInfoList.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
+                Info passwordInfo = ftpCredentialInfoList.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
 
-                // closing item picture file before update
-                if (image != null)
-                    image.closeImageSource();
-                else
+                if (ftpCredentialInfoList.Count > 0)
                 {
-                    // image must be created on the IU Thread
-                    if (Application.Current != null)
+                    Info info = new Info { Name = fileName, Value = fileName };
+
+                    // closing item picture file before update
+                    if (image != null)
+                        image.closeImageSource();
+                    else
                     {
-                        Application.Current.Dispatcher.Invoke(() =>
+                        // image must be created on the IU Thread
+                        if (Application.Current != null)
                         {
-                            image = new InfoManager.Display(ftpDirectory, localDirectory, usernameInfo.Value, passwordInfo.Value);
-                        });
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                image = new InfoManager.Display(ftpDirectory, localDirectory, usernameInfo.Value, passwordInfo.Value);
+                            });
+                        }
                     }
-                }
 
-                if (!string.IsNullOrEmpty(recordedFileName) && recordedFileName.Split('.').Count() > 1 && !string.IsNullOrEmpty(recordedFileName.Split('.')[0]))
-                {
-                    info.Name = recordedFileName.Split('.')[0].Replace(' ', '_').Replace(':', '_');
-                    info.Value = recordedFileName;
-                }
+                    if (!string.IsNullOrEmpty(recordedFileName) && recordedFileName.Split('.').Count() > 1 && !string.IsNullOrEmpty(recordedFileName.Split('.')[0]))
+                    {
+                        info.Name = recordedFileName.Split('.')[0].Replace(' ', '_').Replace(':', '_');
+                        info.Value = recordedFileName;
+                    }
 
-                image.TxtFileNameWithoutExtension = info.Name;
-                image.FilterList = new List<string> { info.Name };
-                image.updateFields(new List<Info> { info });
-                image.downloadFile();
-            }
-            return image;
+                    if (image != null)
+                    {
+                        image.TxtFileNameWithoutExtension = info.Name;
+                        image.FilterList = new List<string> { info.Name };
+                        image.updateFields(new List<Info> { info });
+                        image.downloadFile();
+                    }                    
+                }
+                return image;
+            }            
         }
 
         public static string resizeImage(this string imageFullPath)
         {
-            int newImageSizeWidth = Utility.intTryParse(ConfigurationManager.AppSettings["image_size_width"]);
-            int newImageSizeHeight = Utility.intTryParse(ConfigurationManager.AppSettings["image_size_height"]);
-
-            // return image if new image sizes are not set
-            if (newImageSizeWidth == 0 || newImageSizeHeight == 0 || !File.Exists(imageFullPath))
-                return imageFullPath;
-
-            // getting the original image information
-            Bitmap image = new Bitmap(imageFullPath);
-            double originalWidth = image.Width;
-            double originalHeight = image.Height;
-
-            // tempory image file
-            string tmpFolder = Utility.getDirectory(ConfigurationManager.AppSettings["local_tmp_folder"]);
-            //string fileName = Path.GetFileName(imageFullPath).Split('.')[0] +".jpeg";
-            string outImageFullPath = Path.Combine(tmpFolder, Path.GetFileName(imageFullPath));
-
-            // getting the image ratio to preserve quality
-            double ratioX = newImageSizeWidth / originalWidth;
-            double ratioY = newImageSizeHeight / originalHeight;
-            double ratio = Math.Min(ratioX, ratioY);
-
-            // new width and height based on the ratio
-            double newOriginalWidht = originalWidth * ratio;
-            double newOriginalHeight = originalHeight * ratio;
-
-            // convert image into format RGB
-            Bitmap newImage = new Bitmap((int)newOriginalWidht, (int)newOriginalHeight, PixelFormat.Format24bppRgb);
-
-            using (Graphics graphics = Graphics.FromImage(newImage))
+            object _lock = new object();
+            lock (_lock)
             {
-                graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                graphics.DrawImage(image, 0, 0, (int)newOriginalWidht, (int)newOriginalHeight);
+                int newImageSizeWidth = Utility.intTryParse(ConfigurationManager.AppSettings["image_size_width"]);
+                int newImageSizeHeight = Utility.intTryParse(ConfigurationManager.AppSettings["image_size_height"]);
+
+                // return image if new image sizes are not set
+                if (newImageSizeWidth == 0 || newImageSizeHeight == 0 || !File.Exists(imageFullPath))
+                    return imageFullPath;
+
+                // getting the original image information
+                Bitmap image = new Bitmap(imageFullPath);
+                double originalWidth = image.Width;
+                double originalHeight = image.Height;
+
+                // tempory image file
+                string tmpFolder = Utility.getDirectory(ConfigurationManager.AppSettings["local_tmp_folder"]);
+                //string fileName = Path.GetFileName(imageFullPath).Split('.')[0] +".jpeg";
+                string outImageFullPath = Path.Combine(tmpFolder, Path.GetFileName(imageFullPath));
+
+                // getting the image ratio to preserve quality
+                double ratioX = newImageSizeWidth / originalWidth;
+                double ratioY = newImageSizeHeight / originalHeight;
+                double ratio = Math.Min(ratioX, ratioY);
+
+                // new width and height based on the ratio
+                double newOriginalWidht = originalWidth * ratio;
+                double newOriginalHeight = originalHeight * ratio;
+
+                // convert image into format RGB
+                Bitmap newImage = new Bitmap((int)newOriginalWidht, (int)newOriginalHeight, PixelFormat.Format24bppRgb);
+
+                using (Graphics graphics = Graphics.FromImage(newImage))
+                {
+                    graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                    graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                    graphics.DrawImage(image, 0, 0, (int)newOriginalWidht, (int)newOriginalHeight);
+                }
+
+                newImage.Save(outImageFullPath, ImageFormat.Png);
+
+                return outImageFullPath;
             }
-
-            newImage.Save(outImageFullPath, ImageFormat.Png);
-
-            return outImageFullPath;
         }
 
         /// <summary>
@@ -186,34 +209,37 @@ namespace QOBDManagement.Helper
         /// <returns>upload status</returns>
         public static bool ftpSendFile(string ftpUrl, string fileFullPath, string username, string password)
         {
-            bool isComplete = false;
-            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(ftpUrl);
-            req.UseBinary = true;
-            req.KeepAlive = true;
-            req.Method = WebRequestMethods.Ftp.UploadFile;
-            req.Credentials = new NetworkCredential(username, password);
-            Stream requestStream = null;
-            FtpWebResponse response = default(FtpWebResponse);
-
-            byte[] buffer;
-            int totalByte;
-            int bytes = 0;
-
-            using (requestStream = req.GetRequestStream())
-            using (FileStream fs = new FileStream(fileFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read))
+            object _lock = new object();
+            lock (_lock)
             {
-                totalByte = (int)fs.Length;
+                bool isComplete = false;
+                FtpWebRequest req = (FtpWebRequest)WebRequest.Create(ftpUrl);
+                req.UseBinary = true;
+                req.KeepAlive = true;
+                req.Method = WebRequestMethods.Ftp.UploadFile;
+                req.Credentials = new NetworkCredential(username, password);
+                Stream requestStream = null;
+                FtpWebResponse response = default(FtpWebResponse);
+
+                byte[] buffer;
+                int totalByte;
+                int bytes = 0;
+
                 try
                 {
-                    buffer = new byte[4096];
-                    req.ContentLength = fs.Length;
-                    //requestStream = req.GetRequestStream();
-
-                    while (totalByte > 0)
+                    using (requestStream = req.GetRequestStream())
+                    using (FileStream fs = new FileStream(fileFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read))
                     {
-                        bytes = fs.Read(buffer, 0, buffer.Length);
-                        requestStream.Write(buffer, 0, bytes);
-                        totalByte = totalByte - bytes;
+                        totalByte = (int)fs.Length;
+                        buffer = new byte[4096];
+                        req.ContentLength = fs.Length;
+
+                        while (totalByte > 0)
+                        {
+                            bytes = fs.Read(buffer, 0, buffer.Length);
+                            requestStream.Write(buffer, 0, bytes);
+                            totalByte = totalByte - bytes;
+                        }
                     }
                 }
                 catch (WebException ex)
@@ -225,34 +251,42 @@ namespace QOBDManagement.Helper
                 {
                     Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
                 }
-            }
-                //FileStream fs = File.Open(fileFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            
-            try
-            {
-                ftpGetFile(ftpUrl, fileFullPath, username, password);
+                finally
+                {
+                    if (response != null)
+                        response.Close();
+                }
 
-                response = (FtpWebResponse)req.GetResponse();
-                if (response != null && response.StatusCode.Equals(FtpStatusCode.ClosingData))
-                    isComplete = true;
-            }
-            catch (Exception ex)
-            {
-                Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
-            }
+                try
+                {
+                    ftpGetFile(ftpUrl, fileFullPath, username, password);
 
-            return isComplete;
+                    response = (FtpWebResponse)req.GetResponse();
+                    if (response != null && response.StatusCode.Equals(FtpStatusCode.ClosingData))
+                        isComplete = true;
+                }
+                catch (Exception ex)
+                {
+                    Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
+                }
+
+                return isComplete;
+            }
         }
 
         public static bool sendFileToFtpServer(string remotePath, string fileName, string fileToSendFullPath, List<Info> credentials)
         {
-            string ftpHost = ConfigurationManager.AppSettings["ftp"];
-            string ftpUrl = ftpHost + Path.Combine(remotePath, fileName);
+            object _lock = new object();
+            lock (_lock)
+            {
+                string ftpHost = ConfigurationManager.AppSettings["ftp"];
+                string ftpUrl = ftpHost + Path.Combine(remotePath, fileName);
 
-            Info usernameInfo = credentials.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
-            Info passwordInfo = credentials.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
+                Info usernameInfo = credentials.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
+                Info passwordInfo = credentials.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
 
-            return ftpSendFile(ftpUrl, fileToSendFullPath, usernameInfo.Value, passwordInfo.Value);
+                return ftpSendFile(ftpUrl, fileToSendFullPath, usernameInfo.Value, passwordInfo.Value);
+            }
         }
 
         /// <summary>
@@ -265,34 +299,39 @@ namespace QOBDManagement.Helper
         /// <returns>download status</returns>
         public static bool ftpGetFile(string ftpUrl, string fileFullPath, string username, string password)
         {
-            bool isComplete = false;
-            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(ftpUrl);
-            req.UseBinary = true;
-            req.KeepAlive = false;
-            req.Method = WebRequestMethods.Ftp.DownloadFile;
-            req.Credentials = new NetworkCredential(username, password);
-            req.Timeout = 600000;
-            FtpWebResponse response = null;
-            Stream ftpStream = null;
-            
-            int bytes = 0;
-            int bufferSize = 4096;
-            byte[] buffer = new byte[bufferSize];
-            
-            using (response = (FtpWebResponse)req.GetResponse())
-            using (ftpStream = response.GetResponseStream())
-            using (FileStream fs = new FileStream(fileFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read))
+            object _lock = new object();
+            lock (_lock)
             {
+
+                bool isComplete = false;
+                FtpWebRequest req = (FtpWebRequest)WebRequest.Create(ftpUrl);
+                req.UseBinary = true;
+                req.KeepAlive = false;
+                req.Method = WebRequestMethods.Ftp.DownloadFile;
+                req.Credentials = new NetworkCredential(username, password);
+                req.Timeout = 600000;
+                FtpWebResponse response = null;
+                Stream ftpStream = null;
+
+                int bytes = 0;
+                int bufferSize = 4096;
+                byte[] buffer = new byte[bufferSize];
                 try
                 {
-                    while (true)
+                    using (response = (FtpWebResponse)req.GetResponse())
+                    using (ftpStream = response.GetResponseStream())
+                    using (FileStream fs = new FileStream(fileFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read))
                     {
-                        bytes = ftpStream.Read(buffer, 0, bufferSize);
 
-                        if (bytes == 0)
-                            break;
+                        while (true)
+                        {
+                            bytes = ftpStream.Read(buffer, 0, bufferSize);
 
-                        fs.Write(buffer, 0, bytes);
+                            if (bytes == 0)
+                                break;
+
+                            fs.Write(buffer, 0, bytes);
+                        }
                     }
                 }
                 catch (WebException ex)
@@ -309,24 +348,34 @@ namespace QOBDManagement.Helper
                 {
                     Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
                 }
+                finally
+                {
+                    if (response != null)
+                        response.Close();
+                    if (ftpStream != null)
+                        ftpStream.Close();
+                }
+
+                if (!isComplete && response != null && response.StatusCode.Equals(FtpStatusCode.ClosingData))
+                    isComplete = true;
+
+                return isComplete;
             }
-                
-
-            if (!isComplete && response != null && response.StatusCode.Equals(FtpStatusCode.ClosingData))
-                isComplete = true;
-
-            return isComplete;
         }
 
         public static bool getFileFromFtpServer(string remotePath, string fileName, string outputFileName, List<Info> credentials)
         {
-            string ftpHost = ConfigurationManager.AppSettings["ftp"];
-            string ftpUrl = ftpHost + Path.Combine(remotePath, fileName);
+            object _lock = new object();
+            lock (_lock)
+            {
+                string ftpHost = ConfigurationManager.AppSettings["ftp"];
+                string ftpUrl = ftpHost + Path.Combine(remotePath, fileName);
 
-            Info usernameInfo = credentials.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
-            Info passwordInfo = credentials.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
+                Info usernameInfo = credentials.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
+                Info passwordInfo = credentials.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
 
-            return ftpGetFile(ftpUrl, outputFileName, usernameInfo.Value, passwordInfo.Value);
+                return ftpGetFile(ftpUrl, outputFileName, usernameInfo.Value, passwordInfo.Value);
+            }
         }
 
         /// <summary>
@@ -339,54 +388,62 @@ namespace QOBDManagement.Helper
         /// <returns>download status</returns>
         public static bool ftpDeleteFile(string ftpUrl, string username, string password)
         {
-            bool isComplete = false;
-            FtpWebRequest req = (FtpWebRequest)WebRequest.Create(ftpUrl);
-            req.UseBinary = true;
-            req.KeepAlive = false;
-            req.Method = WebRequestMethods.Ftp.DeleteFile;
-            req.Credentials = new NetworkCredential(username, password);
-            req.Timeout = 600000;
-            FtpWebResponse response = null;
+            object _lock = new object();
+            lock (_lock)
+            {
+                bool isComplete = false;
+                FtpWebRequest req = (FtpWebRequest)WebRequest.Create(ftpUrl);
+                req.UseBinary = true;
+                req.KeepAlive = false;
+                req.Method = WebRequestMethods.Ftp.DeleteFile;
+                req.Credentials = new NetworkCredential(username, password);
+                req.Timeout = 600000;
+                FtpWebResponse response = null;
 
-            try
-            {
-                response = (FtpWebResponse)req.GetResponse();
-            }
-            catch (WebException ex)
-            {
-                if (!ex.Message.Contains("not found"))
+                try
                 {
-                    String status = ((FtpWebResponse)ex.Response).StatusDescription;
-                    Log.warning(status + " => " + ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
+                    response = (FtpWebResponse)req.GetResponse();
                 }
-                else
+                catch (WebException ex)
+                {
+                    if (!ex.Message.Contains("not found"))
+                    {
+                        String status = ((FtpWebResponse)ex.Response).StatusDescription;
+                        Log.warning(status + " => " + ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
+                    }
+                    else
+                        isComplete = true;
+                }
+                catch (Exception ex)
+                {
+                    Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
+                }
+                finally
+                {
+                    if (response != null)
+                        response.Close();
+                }
+
+                if (!isComplete && response != null && response.StatusCode.Equals(FtpStatusCode.FileActionOK))
                     isComplete = true;
-            }
-            catch (Exception ex)
-            {
-                Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.HELPER);
-            }
-            finally
-            {
-                if (response != null)
-                    response.Close();
-            }
 
-            if (!isComplete && response != null && response.StatusCode.Equals(FtpStatusCode.FileActionOK))
-                isComplete = true;
-
-            return isComplete;
+                return isComplete;
+            }
         }
 
         public static bool deleteFileFromFtpServer(string remotePath, string fileName, List<Info> credentials)
         {
-            string ftpHost = ConfigurationManager.AppSettings["ftp"];
-            string ftpUrl = ftpHost + Path.Combine(remotePath, fileName);
+            object _lock = new object();
+            lock (_lock)
+            {
+                string ftpHost = ConfigurationManager.AppSettings["ftp"];
+                string ftpUrl = ftpHost + Path.Combine(remotePath, fileName);
 
-            Info usernameInfo = credentials.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
-            Info passwordInfo = credentials.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
+                Info usernameInfo = credentials.Where(x => x.Name == "ftp_login").FirstOrDefault() ?? new Info();
+                Info passwordInfo = credentials.Where(x => x.Name == "ftp_password").FirstOrDefault() ?? new Info();
 
-            return ftpDeleteFile(ftpUrl, usernameInfo.Value, passwordInfo.Value);
+                return ftpDeleteFile(ftpUrl, usernameInfo.Value, passwordInfo.Value);
+            }
         }
 
 

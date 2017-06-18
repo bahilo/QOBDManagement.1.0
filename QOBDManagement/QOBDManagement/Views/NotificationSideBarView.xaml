@@ -10,7 +10,7 @@
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="NotificationSideBarView_Loaded">
     <Grid>
 
         <!-- begin -->
@@ -26,17 +26,20 @@
                             <Expander.Header>
                                 <TextBlock Text="Utilities" />
                             </Expander.Header>
-                            <StackPanel Orientation="Vertical" Margin="8">
-                                <Button Style="{DynamicResource MaterialDesignFlatButton}" 
-                                Command="{Binding UtilitiesCommand}"
-                                CommandParameter="email-unpaid"
-                                HorizontalAlignment="Left">
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="EmailOutline"/>
-                                        <TextBlock Margin="8 0 0 0">Generate Quote</TextBlock>
-                                    </StackPanel>
-                                </Button>
-
+                            <StackPanel Orientation="Vertical">
+                                <Border BorderThickness="0 0 0 1" BorderBrush="DarkGray">
+                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" 
+                                        Command="{Binding UtilitiesCommand}"
+                                        CommandParameter="email-unpaid"
+                                        HorizontalAlignment="Left" HorizontalContentAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border CornerRadius="3" Background="{Binding NotificationViewModel.NotificationSideBarViewModel.TxtIconColour}" Padding="2" >
+                                                <materialDesign:PackIcon Kind="EmailOutline" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke"/>
+                                            </Border>
+                                            <TextBlock Margin="8 0 0 0">Send Reminder to All</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </Border>
                             </StackPanel>
                         </Expander>
                     </StackPanel>

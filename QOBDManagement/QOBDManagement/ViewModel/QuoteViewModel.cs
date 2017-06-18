@@ -21,7 +21,6 @@ namespace QOBDManagement.ViewModel
         private bool _isCurrentPage;
         private Func<Object, Object> _page;
         private string _missingCLientMessage;
-        private Cart _cart;
         private string _title;
         private string _defaultClientMissingMessage;
 
@@ -55,7 +54,6 @@ namespace QOBDManagement.ViewModel
         {
             _main = mainWindowViewModel;
             _page = _main.navigation;
-            Cart = _main.Cart;
             ItemModel = _main.ItemViewModel.ItemModel;
             initEvents();
         }
@@ -153,8 +151,7 @@ namespace QOBDManagement.ViewModel
 
         public Cart Cart
         {
-            get { return _cart; }
-            set { setProperty(ref _cart, value, "Cart"); }
+            get { return (_main != null) ?_main.Cart : new Cart(); }
         }
 
 
@@ -406,17 +403,19 @@ namespace QOBDManagement.ViewModel
             return _main.OrderViewModel.canDeleteOrder(arg);
         }
 
-        private async void selectQuoteForUpdate(OrderModel obj)
+        private void selectQuoteForUpdate(OrderModel obj)
         {
-            SelectedQuoteModel = obj;
             Cart.Client = obj.CLientModel;
-            QuoteDetailViewModel.OrderSelected = SelectedQuoteModel;
-            await QuoteDetailViewModel.loadOrder_items();
+            QuoteDetailViewModel.loadOrder_items(obj);
             foreach (Cart_itemModel cart_itemModel in QuoteDetailViewModel.Order_ItemModelList.Select(x => new Cart_itemModel { Item = x.ItemModel.Item, TxtQuantity = x.TxtQuantity }).ToList())
             {
                 // add item to the cart and create an event on quantity change
                 if (Cart.CartItemList.Where(x => x.Item.ID == cart_itemModel.Item.ID).Count() == 0)
+                {
                     Cart.AddItem(cart_itemModel);
+                    if (_main.ItemViewModel.ItemModelList.Where(x => x.TxtRef == cart_itemModel.TxtRef).Count() > 0)
+                        _main.ItemViewModel.ItemModelList.Where(x => x.TxtRef == cart_itemModel.TxtRef).ToList()[0].IsItemSelected = true;
+                }                    
             }
 
             executeNavig("catalog");

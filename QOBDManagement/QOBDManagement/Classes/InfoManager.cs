@@ -326,7 +326,7 @@ namespace QOBDManagement.Classes
                     }
                     catch (Exception ex)
                     {
-                        Log.error(ex.Message, EErrorFrom.REFERENTIAL);
+                        Log.error(ex.Message, EErrorFrom.INFOMANAGER);
                     }
                 }
 
@@ -386,21 +386,24 @@ namespace QOBDManagement.Classes
                 {
                     if (closeImageSource())
                     {
-                        FileStream imageStream = new FileStream(TxtFileFullPath, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete);
-                        BitmapImage imageSource = new BitmapImage();
-                        imageSource.BeginInit();
-                        imageSource.UriSource = null;
-                        imageSource.StreamSource = imageStream;
-                        imageSource.CacheOption = BitmapCacheOption.OnLoad;
-                        imageSource.EndInit();
-                        imageSource.Freeze();
+                        using (FileStream imageStream = new FileStream(TxtFileFullPath, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete))
+                        {
+                            BitmapImage imageSource = new BitmapImage();
+                            imageSource.BeginInit();
+                            imageSource.UriSource = null;
+                            imageSource.StreamSource = imageStream;
+                            imageSource.CacheOption = BitmapCacheOption.OnLoad;
+                            imageSource.EndInit();
+                            imageSource.Freeze();
 
-                        ImageSource = imageSource;
+                            ImageSource = imageSource;
+                        }
+                           
                     }
                 }
                 catch (Exception ex)
                 {
-                    Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.REFERENTIAL);
+                    Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.INFOMANAGER);
                 }
             }
 
@@ -410,26 +413,26 @@ namespace QOBDManagement.Classes
             /// <returns></returns>
             public bool closeImageSource()
             {
-                Stream stream = default(Stream);
-                if (!Application.Current.Dispatcher.CheckAccess())
-                {
-                    Application.Current.Dispatcher.Invoke(()=> {
-                        stream = ImageSource.StreamSource;
-                    });
-                }                    
-                else
-                    stream = ImageSource.StreamSource;
-
+                Stream stream = default(Stream); 
                 bool isClosed = false;
                 try
                 {
+                    if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                    {
+                        Application.Current.Dispatcher.Invoke(() => {
+                            stream = ImageSource.StreamSource;
+                        });
+                    }
+                    else
+                        stream = ImageSource.StreamSource;
+
                     if (stream != null)
                         stream.Close();
                     isClosed = true;
                 }
                 catch (Exception ex)
                 {
-                    Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.REFERENTIAL);
+                    Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.INFOMANAGER);
                 }
                 return isClosed;
             }
@@ -450,7 +453,7 @@ namespace QOBDManagement.Classes
                     }
                     catch (Exception ex)
                     {
-                        Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.REFERENTIAL);
+                        Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.INFOMANAGER);
                     }
                     return true;
                 }

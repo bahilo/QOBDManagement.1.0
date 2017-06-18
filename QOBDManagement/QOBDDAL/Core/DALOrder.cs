@@ -60,7 +60,7 @@ namespace QOBDDAL.Core
         public bool IsDataDownloading
         {
             get { return _isLodingDataFromWebServiceToLocal; }
-            set { _isLodingDataFromWebServiceToLocal = value; }
+            set { _isLodingDataFromWebServiceToLocal = value; onPropertyChange("IsDataDownloading"); }
         }
 
         public void initializeCredential(Agent user)
@@ -93,7 +93,7 @@ namespace QOBDDAL.Core
         {
             try
             {
-                lock (_lock) _isLodingDataFromWebServiceToLocal = true;
+                lock (_lock) IsDataDownloading = true;
                 await UpdateOrderDependenciesAsync((await _gatewayOrder.searchOrderAsync(new Order { AgentId = AuthenticatedUser.ID }, ESearchOption.AND)).Take(_loadSize).ToList());
             }
             catch (Exception ex) { Log.error(ex.Message, EErrorFrom.ORDER); }
@@ -119,6 +119,12 @@ namespace QOBDDAL.Core
         {
             if (_servicePortType.State == System.ServiceModel.CommunicationState.Closed || _servicePortType.State == System.ServiceModel.CommunicationState.Faulted)
                 _serviceCommunication.resetCommunication();
+        }
+
+        public void onPropertyChange(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #region [ Actions ]
@@ -164,6 +170,13 @@ namespace QOBDDAL.Core
             checkServiceCommunication();
             List<Delivery> gateWayResultList = await _gatewayOrder.InsertDeliveryAsync(listDelivery);
             return LoadDelivery(gateWayResultList);
+        }
+
+        public async Task<List<Currency>> InsertCurrencyAsync(List<Currency> listCurrency)
+        {
+            checkServiceCommunication();
+            List<Currency> gateWayResultList = await _gatewayOrder.InsertCurrencyAsync(listCurrency);
+            return LoadCurrency(gateWayResultList);
         }
 
 
@@ -253,6 +266,21 @@ namespace QOBDDAL.Core
                     int returnValue = _dataSet.DeleteDelivery(delivery.ID);
                     if (returnValue > 0)
                         result.Add(delivery);
+                }
+            return result;
+        }
+
+        public async Task<List<Currency>> DeleteCurrencyAsync(List<Currency> listCurrency)
+        {
+            List<Currency> result = new List<Currency>();
+            checkServiceCommunication();
+            List<Currency> gateWayResultList = await _gatewayOrder.DeleteCurrencyAsync(listCurrency);
+            if (gateWayResultList.Count == 0)
+                foreach (Currency currency in listCurrency)
+                {
+                    int returnValue = _dataSet.DeleteCurrency(currency.ID);
+                    if (returnValue > 0)
+                        result.Add(currency);
                 }
             return result;
         }
@@ -373,6 +401,26 @@ namespace QOBDDAL.Core
                 int returnResult = _dataSet.LoadDelivery(delivery);
                 if (returnResult > 0)
                     result.Add(delivery);
+            }
+            return result;
+        }
+
+        public async Task<List<Currency>> UpdateCurrencyAsync(List<Currency> listCurrency)
+        {
+            checkServiceCommunication();
+            List<Currency> gateWayResultList = await _gatewayOrder.UpdateCurrencyAsync(listCurrency);
+            List<Currency> result = LoadCurrency(gateWayResultList);
+            return result;
+        }
+
+        public List<Currency> LoadCurrency(List<Currency> currencyList)
+        {
+            List<Currency> result = new List<Currency>();
+            foreach (var currency in currencyList)
+            {
+                int returnResult = _dataSet.LoadCurrency(currency);
+                if (returnResult > 0)
+                    result.Add(currency);
             }
             return result;
         }
@@ -607,6 +655,44 @@ namespace QOBDDAL.Core
             return _dataSet.GetDeliveryDataById(id);
         }
 
+        public List<Currency> GetCurrencyData(int nbLine)
+        {
+            List<Currency> result = _dataSet.GetCurrencyData();
+            if (nbLine.Equals(999) || result.Count == 0 || result.Count < nbLine)
+                return result;
+
+            return result.GetRange(0, nbLine);
+        }
+
+        public async Task<List<Currency>> GetCurrencyDataAsync(int nbLine)
+        {
+            checkServiceCommunication();
+            return await _gatewayOrder.GetCurrencyDataAsync(nbLine);
+        }
+
+        public List<Currency> GetCurrencyDataByProvider_itemList(List<Provider_item> provider_itemList)
+        {
+            List<Currency> result = new List<Currency>();
+            foreach (Provider_item provider_item in provider_itemList)
+            {
+                var currencyFoundList = _dataSet.GetCurrencyDataByProvider_item(provider_item);
+                if (currencyFoundList.Count() > 0)
+                    result.Add(currencyFoundList.First());
+            }
+            return result;
+        }
+
+        public async Task<List<Currency>> GetCurrencyDataByProvider_itemListAsync(List<Provider_item> provider_itemList)
+        {
+            checkServiceCommunication();
+            return await _gatewayOrder.GetCurrencyDataByProvider_itemListAsync(provider_itemList);
+        }
+
+        public List<Currency> GetCurrencyDataById(int id)
+        {
+            return _dataSet.GetCurrencyDataById(id);
+        }
+
         public List<Order> searchOrder(Order order, ESearchOption filterOperator)
         {
             return _dataSet.searchOrder(order, filterOperator);
@@ -673,6 +759,17 @@ namespace QOBDDAL.Core
             return await _gatewayOrder.searchDeliveryAsync(Delivery, filterOperator);
         }
 
+        public List<Currency> searchCurrency(Currency Currency, ESearchOption filterOperator)
+        {
+            return _dataSet.searchCurrency(Currency, filterOperator);
+        }
+
+        public async Task<List<Currency>> searchCurrencyAsync(Currency Currency, ESearchOption filterOperator)
+        {
+            checkServiceCommunication();
+            return await _gatewayOrder.searchCurrencyAsync(Currency, filterOperator);
+        }
+
         public void GeneratePdfOrder(ParamOrderToPdf paramOrderToPdf)
         {
             _gatewayOrder.GeneratePdfOrder(paramOrderToPdf);
@@ -712,6 +809,7 @@ namespace QOBDDAL.Core
             ConcurrentBag<Delivery> deliveryList = new ConcurrentBag<Delivery>();
             ConcurrentBag<Tax_item> tax_itemList = new ConcurrentBag<Tax_item>();
             ConcurrentBag<Tax> taxList = new ConcurrentBag<Tax>();
+            ConcurrentBag<Currency> currenciesList = new ConcurrentBag<Currency>();
             ConcurrentBag<Bill> billList = new ConcurrentBag<Bill>();
             ConcurrentBag<Client> clientList = new ConcurrentBag<Client>();
             ConcurrentBag<Contact> contactList = new ConcurrentBag<Contact>();
@@ -754,6 +852,11 @@ namespace QOBDDAL.Core
             var taxFoundList = await _gatewayOrder.GetTaxDataAsync(999);
             taxList = new ConcurrentBag<Tax>(new ConcurrentBag<Tax>(taxFoundList));
             List<Tax> savedTaxList = LoadTax(taxList.ToList());
+
+            // Currency Loading
+            var currencyFoundList = await _gatewayOrder.GetCurrencyDataAsync(999);
+            currenciesList = new ConcurrentBag<Currency>(new ConcurrentBag<Currency>(currencyFoundList));
+            List<Currency> savedCurrenciesList = LoadCurrency(currenciesList.ToList());
             
             // Bills Loading
             if (orderList.Count > 0)
@@ -804,7 +907,7 @@ namespace QOBDDAL.Core
                 for (int i = 0; i < (itemList.Count() / loadUnit) || loadUnit > itemList.Count() && i == 0; i++)
                 {
                     ConcurrentBag<Provider_item> provider_itemFoundList = new ConcurrentBag<Provider_item>(await dalItem.GateWayItem.GetProvider_itemDataByItemListAsync(itemList.Skip(i * loadUnit).Take(loadUnit).ToList()));
-                    provider_itemList = new ConcurrentBag<Provider_item>(provider_itemList.Concat(new ConcurrentBag<Provider_item>(provider_itemFoundList)).OrderBy(x => x.Provider_name).Distinct());
+                    provider_itemList = new ConcurrentBag<Provider_item>(provider_itemList.Concat(new ConcurrentBag<Provider_item>(provider_itemFoundList)).OrderBy(x => x.ProviderId).Distinct());
                 }
                 var savedProvider_itemList = new ConcurrentBag<Provider_item>(dalItem.LoadProvider_item(provider_itemList.ToList()));
             }
@@ -867,5 +970,6 @@ namespace QOBDDAL.Core
                 var savedOrderList = LoadOrder(orderList.ToList());
             }
         }
+
     } /* end class BLOrdere */
 }

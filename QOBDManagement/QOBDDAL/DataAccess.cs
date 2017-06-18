@@ -23,7 +23,7 @@ public class DataAccess : IDataAccessManager
                         IAgentManager inDALAgent,
                         IClientManager inDALClient,
                         IItemManager inDALItem,
-                        IOrderManager inDALCommande,
+                        IOrderManager inDALOrder,
                         ISecurityManager inDALSecurity,
                         IStatisticManager inDALStatistic,
                         IReferentialManager inDALReferential,
@@ -33,7 +33,7 @@ public class DataAccess : IDataAccessManager
     {
         this.DALAgent = inDALAgent;
         this.DALClient = inDALClient;
-        this.DALOrder = inDALCommande;
+        this.DALOrder = inDALOrder;
         this.DALItem = inDALItem;
         this.DALStatistic = inDALStatistic;
         this.DALReferential = inDALReferential;

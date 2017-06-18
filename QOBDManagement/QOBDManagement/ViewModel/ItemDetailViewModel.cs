@@ -23,6 +23,7 @@ namespace QOBDManagement.ViewModel
         private string _ITEMREFERENCEPREFIX;
         private Func<object, object> _page;
         private string _title;
+        private CurrencyModel _selectedCurrency;
 
         //----------------------------[ Models ]------------------
 
@@ -57,6 +58,7 @@ namespace QOBDManagement.ViewModel
         
         private void instances()
         {
+            _selectedCurrency = new CurrencyModel();
             _title = ConfigurationManager.AppSettings["title_item_detail"];
             _ITEMREFERENCEPREFIX = ConfigurationManager.AppSettings["info_company_name"];          
         }
@@ -101,7 +103,7 @@ namespace QOBDManagement.ViewModel
             List<Provider> returnResult = new List<Provider>();
             foreach (var provider_item in provider_itemFoundList)
             {
-                var providerFoundList = Bl.BlItem.searchProvider(new Provider { Source = userSourceId, Name = provider_item.Provider_name }, ESearchOption.AND);
+                var providerFoundList = Bl.BlItem.searchProvider(new Provider { Source = userSourceId, ID = provider_item.ProviderId }, ESearchOption.AND);
                 if (providerFoundList.Count > 0)
                 {
                     foreach (var provider in providerFoundList)
@@ -140,32 +142,39 @@ namespace QOBDManagement.ViewModel
             return returnResult;
         }
 
-        private async Task<List<Provider_item>> updateProvider_itemTable(Item item, Provider provider)
+        private async Task<List<Provider_itemModel>> updateProvider_itemTable()
         {
             // creating a new record in the table provider_item to link the item with its providers
-            var returnResult = new List<Provider_item>();
+            var returnResult = new List<Provider_itemModel>();
 
-            var provider_itemFoundList = Bl.BlItem.searchProvider_item(new Provider_item { Provider_name = provider.Name }, ESearchOption.AND);
+            var provider_itemFoundList = Bl.BlItem.searchProvider_item(new Provider_item { ProviderId = SelectedItemModel.SelectedProvider.ID }, ESearchOption.AND);
+            var provider_itemModelFoundList = _main.ItemViewModel.loadProvider_itemInformation(provider_itemFoundList, SelectedItemModel.Item.Source);
             
-            if (!string.IsNullOrEmpty(provider.Name) && !string.IsNullOrEmpty(item.Ref))
-                
+            if (!string.IsNullOrEmpty(SelectedItemModel.SelectedProvider.Name) && !string.IsNullOrEmpty(SelectedItemModel.TxtRef))
+            {
                 // Processing in case of a new Item
-                if (provider_itemFoundList.Count == 0 || provider_itemFoundList.Where(x=>x.Item_ref == item.Ref).Count() == 0)
+                if (provider_itemModelFoundList.Count == 0 || provider_itemModelFoundList.Where(x => x.Provider_item.ItemId == SelectedItemModel.Item.ID).Count() == 0)
                 {
-                    returnResult = await Bl.BlItem.InsertProvider_itemAsync(new List<Provider_item> { new Provider_item { Item_ref = item.Ref, Provider_name = provider.Name } });
-                }                    
+                    returnResult = (await Bl.BlItem.InsertProvider_itemAsync(new List<Provider_item> { new Provider_item { ItemId = SelectedItemModel.Item.ID, ProviderId = SelectedItemModel.SelectedProvider.ID, CurrencyId = SelectedItemModel.CurrencyModel.Currency.ID } })).Select(x => new Provider_itemModel { Provider_item = x }).ToList();
+                }
 
                 //in case of an update
                 else
                 {
                     // retrieving and updating the current provider_item
-                    var provider_itemToUpdateList = (from p_i in provider_itemFoundList
-                                                      where p_i.Item_ref == item.Ref 
-                                                      select new Provider_item { ID = p_i.ID, Item_ref = p_i.Item_ref, Provider_name = provider.Name }).ToList() ;
+                    returnResult = (from p_i in provider_itemModelFoundList
+                                    where p_i.Provider_item.ItemId == SelectedItemModel.Item.ID
+                                    select new Provider_itemModel
+                                    {
+                                        Provider_item = new Provider_item { ID = p_i.Provider_item.ID, ItemId = p_i.Provider_item.ItemId, CurrencyId = SelectedItemModel.CurrencyModel.Currency.ID, ProviderId = SelectedItemModel.SelectedProvider.ID },
+                                        Provider = SelectedItemModel.SelectedProvider,
+                                        CurrencyModel = SelectedItemModel.CurrencyModel
+                                    }).ToList();
 
                     // saving into database
-                    returnResult = await Bl.BlItem.UpdateProvider_itemAsync(provider_itemToUpdateList);
+                    await Bl.BlItem.UpdateProvider_itemAsync(returnResult.Select(x => x.Provider_item).ToList());
                 }
+            }   
 
             return returnResult;
         }
@@ -274,7 +283,7 @@ namespace QOBDManagement.ViewModel
             {
                 bool isErrorDetected = false;
                 var itemFoundList = Bl.BlItem.searchItem(new Item { Ref = SelectedItemModel.TxtRef, ID = SelectedItemModel.Item.ID }, ESearchOption.AND);
-                var provider_itemFoundList = Bl.BlItem.searchProvider_item(new Provider_item { Item_ref = SelectedItemModel.TxtRef }, ESearchOption.AND);
+                var provider_itemFoundList = Bl.BlItem.searchProvider_item(new Provider_item { ItemId = SelectedItemModel.Item.ID }, ESearchOption.AND);
                 if (itemFoundList.Count > 0 && itemFoundList[0].Erasable == EItem.Yes.ToString())
                 {
                     Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
@@ -361,9 +370,11 @@ namespace QOBDManagement.ViewModel
                     SelectedItemModel.Item.Erasable = EItem.Yes.ToString();
                     var itemSavedList = await Bl.BlItem.InsertItemAsync(new List<Item> { SelectedItemModel.Item });
 
-                    var provider_itemResultList = await updateProvider_itemTable(itemSavedList[0], ((providerFoundList.Count > 0) ? providerFoundList[0] : new Provider()));
-                    SelectedItemModel.ProviderList = retrieveProviderFromProvider_item(provider_itemResultList, SelectedItemModel.Item.Source);
+                    SelectedItemModel.SelectedProvider = ((providerFoundList.Count > 0) ? providerFoundList[0] : new Provider());
+                    SelectedItemModel.Item = itemSavedList[0];
 
+                    SelectedItemModel.Provider_itemModelList = await updateProvider_itemTable();
+                     
                     if (itemSavedList.Count > 0)
                     {
                         // update the catalogue
@@ -386,11 +397,13 @@ namespace QOBDManagement.ViewModel
                 {
                     var savedProviderList = await Bl.BlItem.UpdateProviderAsync(await getEntryNewProvider());
                     var savedItemList = await Bl.BlItem.UpdateItemAsync(new List<Item> { SelectedItemModel.Item });
-                    var savedProvider_itemList = await updateProvider_itemTable(savedItemList[0], ((savedProviderList.Count > 0) ? savedProviderList[0] : new Provider()));
 
-                    // update of the item providers of the selected item
-                    SelectedItemModel.ProviderList = retrieveProviderFromProvider_item(savedProvider_itemList, SelectedItemModel.Item.Source);
+                    SelectedItemModel.SelectedProvider = ((savedProviderList.Count > 0) ? savedProviderList[0] : new Provider());
+                    SelectedItemModel.Item = savedItemList[0];
 
+                    // item providers updating
+                    SelectedItemModel.Provider_itemModelList = await updateProvider_itemTable();
+                    
                     if (savedItemList.Count > 0)
                         await Dialog.showAsync("Item has been updated successfully!");
                 }
@@ -426,9 +439,7 @@ namespace QOBDManagement.ViewModel
                 }
 
                 _main.ItemViewModel.checkBoxToCartCommand.raiseCanExecuteActionChanged();
-                OpenFileExplorerCommand.raiseCanExecuteActionChanged();
-                //_main.IsRefresh = true;
-                //_page(this);
+                OpenFileExplorerCommand.raiseCanExecuteActionChanged();                
             }  
             else
                 await Dialog.showAsync("Item's name cannot be empty!");

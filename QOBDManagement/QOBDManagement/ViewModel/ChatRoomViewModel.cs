@@ -95,6 +95,11 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _currentViewModel, value); }
         }
 
+        public string TxtIconColour
+        {
+            get { return Utility.getRandomColour(); }
+        }
+
         public AgentModel AuthenticatedAgent
         {
             get { return _authenticatedAgent; }

@@ -29,50 +29,26 @@ namespace QOBDManagement.Classes
 
         public ClientModel Client
         {
-            get
-            {
-                return _client;
-            }
-            set
-            {
-                setProperty(ref _client, value, "CLient");
-            }
+            get { return _client; }
+            set { setProperty(ref _client, value); }
         }
 
         public ObservableCollection<Cart_itemModel> CartItemList
         {
-            get
-            {
-                return _cart;
-            }
-            set
-            {
-                setProperty(ref _cart,value,"CartItemList");
-            }
+            get { return _cart; }
+            set { setProperty(ref _cart,value); }
         }
 
         public string TxtCartTotalPurchasePrice
         {
-            get
-            {
-                return _cartTotalPurchasePrice.ToString();
-            }
-            set
-            {
-                setProperty(ref _cartTotalPurchasePrice,Convert.ToDecimal(value),"TxtCartTotalPurchasePrice");
-            }
+            get { return _cartTotalPurchasePrice.ToString(); }
+            set { setProperty(ref _cartTotalPurchasePrice,Convert.ToDecimal(value)); }
         }
 
         public string TxtCartTotalSellingPrice
         {
-            get
-            {
-                return _cartTotalSellingPrice.ToString();
-            }
-            set
-            {
-                setProperty(ref _cartTotalSellingPrice,Convert.ToDecimal(value),"TxtCartTotalSellingPrice");
-            }
+            get { return _cartTotalSellingPrice.ToString(); }
+            set { setProperty(ref _cartTotalSellingPrice,Convert.ToDecimal(value)); }
         }
 
         private void onCartItemsChange(object sender, NotifyCollectionChangedEventArgs e)
@@ -88,7 +64,6 @@ namespace QOBDManagement.Classes
             {
                 cartTotalPurchase += Convert.ToDecimal(cart_itemModel.TxtTotalPurchasePrice);
                 cartTotalSelling += Convert.ToDecimal(cart_itemModel.TxtTotalSellingPrice);
-
             }
             TxtCartTotalPurchasePrice = cartTotalPurchase.ToString();
             TxtCartTotalSellingPrice = cartTotalSelling.ToString();
@@ -104,6 +79,7 @@ namespace QOBDManagement.Classes
         {
             cart_itemModel.PropertyChanged += onTotalPurchaseOrSellingPriceChange;
             CartItemList.Add(cart_itemModel);
+            onPropertyChange("CartItemList");
         }
 
         public void RemoveItem(Cart_itemModel cart_itemModel)
