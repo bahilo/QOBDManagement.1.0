@@ -116,23 +116,33 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Reference" Binding="{Binding TxtItem_ref}"/>
                                 <DataGridTextColumn Header="Item" Binding="{Binding ItemModel.TxtName}"/>
-                                <DataGridTemplateColumn Visibility="{Binding DataContext.OrderViewModel.OrderDetailViewModel.PurchasePriceBoxVisibility, ElementName=dgOrder_itemList, UpdateSourceTrigger=PropertyChanged}">
+                                <DataGridTemplateColumn Visibility="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BoxVisibility, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock>Purchase</TextBlock>
+                                    </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding TxtPrice_purchase, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                                     IsEnabled="{Binding DataContext.OrderViewModel.OrderDetailViewModel.IsItemListPurchasePriceTextBoxEnable, ElementName=dgOrder_itemList, UpdateSourceTrigger=PropertyChanged}"
-                                                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-                                                     materialDesign:HintAssist.Hint="Purchase Price"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock>(</TextBlock>
+                                                <TextBlock Text="{Binding DataContext.OrderViewModel.CurrencyModel.TxtSymbol, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <TextBlock>)</TextBlock>
+                                                <TextBlock Text="{Binding TxtPrice_purchase, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"/>
+                                            </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock>Price</TextBlock>
+                                    </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding TxtPrice, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                                     IsEnabled="{Binding DataContext.OrderViewModel.OrderDetailViewModel.IsItemListSellingPriceTextBoxEnable, ElementName=dgOrder_itemList, UpdateSourceTrigger=PropertyChanged}"
-                                                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-                                                     materialDesign:HintAssist.Hint="sale Price"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock>(</TextBlock>
+                                                <TextBlock Text="{Binding DataContext.OrderViewModel.CurrencyModel.TxtSymbol, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <TextBlock>)</TextBlock>
+                                                <TextBlock Text="{Binding TxtPrice, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"/>
+                                            </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -140,7 +150,7 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBox Text="{Binding TxtQuantity, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                                                     IsEnabled="{Binding DataContext.OrderViewModel.OrderDetailViewModel.IsItemListQuantityTextBoxEnable, ElementName=dgOrder_itemList, UpdateSourceTrigger=PropertyChanged}"
+                                                     IsEnabled="{Binding DataContext.OrderViewModel.OrderDetailViewModel.IsItemListQuantityTextBoxEnable, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}"
                                                      Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                                      materialDesign:HintAssist.Hint="Quantity"/>
                                         </DataTemplate>
@@ -148,16 +158,46 @@
                                 </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Stock" Binding="{Binding ItemModel.TxtStock, UpdateSourceTrigger=PropertyChanged}"/>
                                 <DataGridTextColumn Header="Quantity Pending" Binding="{Binding TxtQuantity_pending, UpdateSourceTrigger=PropertyChanged}"/>
-                                <DataGridTextColumn Header="Total Sales" Binding="{Binding TxtTotalSelling, UpdateSourceTrigger=PropertyChanged}"/>
-                                <DataGridTextColumn Header="Total Income (%)" Binding="{Binding TxtPercentProfit, UpdateSourceTrigger=PropertyChanged}"/>
-                                <!--<DataGridTextColumn Header="" Binding=""/>-->
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock Text="{Binding DataContext.OrderViewModel.OrderDetailViewModel.TxtIncomeHeaderWithCurrency, ElementName=dgOrder_itemList, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBlock>Total Sales</TextBlock>
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding TxtProfit, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock>(</TextBlock>
+                                                <TextBlock Text="{Binding DataContext.OrderViewModel.CurrencyModel.TxtSymbol, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <TextBlock>)</TextBlock>
+                                                <TextBlock Text="{Binding TxtTotalSelling, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Visibility="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BoxVisibility, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock>Total Income (%)</TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding TxtPercentProfit, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <TextBlock>%</TextBlock>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Visibility="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BoxVisibility, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock>Total Income</TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock>(</TextBlock>
+                                                <TextBlock Text="{Binding DataContext.OrderViewModel.CurrencyModel.TxtSymbol, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <TextBlock>)</TextBlock>
+                                                <TextBlock Text="{Binding TxtProfit, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -169,7 +209,7 @@
                                         <DataTemplate>
                                             <StackPanel>
                                                 <Button Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.DeleteItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                                        CommandParameter="{Binding CurrentItem, ElementName=dgOrder_itemList}">
+                                                        CommandParameter="{Binding CurrentItem, ElementName=gvMain}">
                                                     <materialDesign:PackIcon Kind="Delete"/>
                                                 </Button>
                                             </StackPanel>
@@ -179,8 +219,8 @@
                             </DataGrid.Columns>
                         </DataGrid>
                         <Button Margin="8" 
-                        Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.UpdateOrder_itemListCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                        HorizontalAlignment="Center">
+                                Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.UpdateOrder_itemListCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                HorizontalAlignment="Center">
                             <materialDesign:PackIcon Kind="Pencil"/>
                         </Button>
                     </StackPanel>
@@ -188,30 +228,50 @@
 
                 <!-- Summary zone -->
 
-                <Grid Margin="0 0 0 15">
+                <Grid Margin="0 0 0 15" Visibility="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BLockVisibility, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
                     <StackPanel Margin="0 10 0 0" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock  Margin="0 0 10 0" VerticalAlignment="Center">Total (Taxes Included)</TextBlock>
-                        <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalTaxIncluded, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Margin="0 0 10 0" Width="50" HorizontalAlignment="Center"  />
-                        <TextBlock Margin="0 0 10 0" VerticalAlignment="Center">Total (Taxes Excluded)</TextBlock>
-                        <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalTaxExcluded, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="50"  IsEnabled="False" HorizontalAlignment="Center" />
-                        <TextBlock Margin="0 0 10 0" VerticalAlignment="Center">Total Income (%)</TextBlock>
-                        <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalIncomePercent, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="50"  IsEnabled="False" HorizontalAlignment="Center" />
-                        <TextBlock Margin="0 0 10 0" Text="{Binding OrderViewModel.OrderDetailViewModel.TxtIncomeHeaderWithCurrency, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalIncome, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="50"  IsEnabled="False" HorizontalAlignment="Center" />
-                        <TextBlock Margin="0 0 10 0" VerticalAlignment="Center">Total Taxes Amount</TextBlock>
-                        <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalTaxAmount, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="50"  IsEnabled="False" HorizontalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock  Margin="0 0 10 0" VerticalAlignment="Center">Total (Taxes Included)</TextBlock>
+                            <TextBlock VerticalAlignment="Center">(</TextBlock>
+                            <TextBlock Text="{Binding OrderViewModel.OrderDetailViewModel.CurrencyModel.TxtSymbol, UpdateSourceTrigger=PropertyChanged}" 
+                                       VerticalAlignment="Center"/>
+                            <TextBlock VerticalAlignment="Center">)</TextBlock>
+                            <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalTaxIncluded, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Margin="0 0 10 0" Width="Auto" VerticalAlignment="Center"  />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="0 0 10 0" VerticalAlignment="Center">Total (Taxes Excluded)</TextBlock>
+                            <TextBlock VerticalAlignment="Center">(</TextBlock>
+                            <TextBlock Text="{Binding OrderViewModel.OrderDetailViewModel.CurrencyModel.TxtSymbol, UpdateSourceTrigger=PropertyChanged}" 
+                                       VerticalAlignment="Center"/>
+                            <TextBlock VerticalAlignment="Center">)</TextBlock>
+                            <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalTaxExcluded, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="Auto"  IsEnabled="False" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="0 0 10 0" VerticalAlignment="Center">Total Income (%)</TextBlock>
+                            <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalIncomePercent, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="Auto"  IsEnabled="False" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="0 0 10 0" VerticalAlignment="Center">Total Income</TextBlock>
+                            <TextBlock VerticalAlignment="Center">(</TextBlock>
+                            <TextBlock Text="{Binding OrderViewModel.OrderDetailViewModel.CurrencyModel.TxtSymbol, UpdateSourceTrigger=PropertyChanged}" 
+                                       VerticalAlignment="Center"/>
+                            <TextBlock VerticalAlignment="Center">)</TextBlock>
+                            <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalIncome, UpdateSourceTrigger=PropertyChanged}" 
+                                     Margin="0 0 10 0" Width="Auto"  IsEnabled="False" VerticalAlignment="Center" Foreground="DarkGray" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="0 0 10 0" VerticalAlignment="Center">Total Taxes Amount</TextBlock>
+                            <TextBlock VerticalAlignment="Center">(</TextBlock>
+                            <TextBlock Text="{Binding OrderViewModel.OrderDetailViewModel.CurrencyModel.TxtSymbol, UpdateSourceTrigger=PropertyChanged}" 
+                                       VerticalAlignment="Center"/>
+                            <TextBlock VerticalAlignment="Center">)</TextBlock>
+                            <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalTaxAmount, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="Auto"  IsEnabled="False" VerticalAlignment="Center" />
+                        </StackPanel>
                         <TextBlock Margin="0 0 10 0" VerticalAlignment="Center">Tax</TextBlock>
-                        <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.Tax.Value, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Margin="0 0 10 0" Width="50"  HorizontalAlignment="Center" />
+                        <TextBox Text="{Binding cTax.Value, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" Margin="0 0 10 0" Width="Auto"  VerticalAlignment="Center" />
                         <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
-                            <TextBlock VerticalAlignment="Center">Currency</TextBlock>
-                            <ComboBox ItemsSource="{Binding OrderViewModel.CurrenciesList}" Margin="20 0 0 0" materialDesign:HintAssist.Hint="Select Currency"
-                                      SelectedItem="{Binding OrderViewModel.OrderDetailViewModel.CurrencyModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding TxtName, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                            <TextBlock VerticalAlignment="Center" Margin="0 0 10 0">Currency</TextBlock>
+                            <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.CurrencyModel.TxtName, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="Auto" VerticalAlignment="Center" IsEnabled="False"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>
@@ -257,49 +317,79 @@
 
                 <!-- Tax zone -->
 
-                <materialDesign:Card Margin="0 0 0 15" HorizontalAlignment="Center">
-                    <Grid Margin="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock>Select Tax</TextBlock>
-                            <ComboBox Name="cbxTax" ItemsSource="{Binding OrderViewModel.TaxList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding OrderViewModel.OrderDetailViewModel.Tax, UpdateSourceTrigger=PropertyChanged}"
-                              Margin="8 0 0 0" Width="250">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Value}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            <Button Margin="8 0 0 0" 
-                            Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.TaxCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                            CommandParameter="{Binding SelectedItem, ElementName=cbxTax}">
-                                <materialDesign:PackIcon Kind="Check"/>
-                            </Button>
-                        </StackPanel>
-                        <StackPanel Grid.Row="1" Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <RadioButton IsChecked="{Binding OrderViewModel.OrderDetailViewModel.IsQuote, Mode=TwoWay}" GroupName="rbQoteType">Quote</RadioButton>
-                                <RadioButton IsChecked="{Binding OrderViewModel.OrderDetailViewModel.IsProForma, Mode=TwoWay}" Margin="8 0 0 0" GroupName="rbQoteType">Pro Forma</RadioButton>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 15" HorizontalAlignment="Center">
+                    <materialDesign:Card>
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock>Select Tax</TextBlock>
+                                <ComboBox Name="cbxTax" ItemsSource="{Binding OrderViewModel.TaxList, UpdateSourceTrigger=PropertyChanged}" 
+                                          SelectedItem="{Binding OrderViewModel.OrderDetailViewModel.Tax, UpdateSourceTrigger=PropertyChanged}"
+                                          Margin="8 0 0 0" Width="250">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Value}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Button Margin="8 0 0 0" 
+                                        Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.TaxCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        CommandParameter="{Binding SelectedItem, ElementName=cbxTax}">
+                                    <materialDesign:PackIcon Kind="Check"/>
+                                </Button>
                             </StackPanel>
-                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding OrderViewModel.OrderDetailViewModel.IsQuoteReferencesVisible, Mode=TwoWay}">Leave constructor references visible</CheckBox>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtQuoteValidityInDays, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                                     Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-                                                     materialDesign:HintAssist.Hint="Validity of the quote (days)"/>
+                            <StackPanel Grid.Row="1" Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <RadioButton IsChecked="{Binding OrderViewModel.OrderDetailViewModel.IsQuote, Mode=TwoWay}" GroupName="rbQoteType">Quote</RadioButton>
+                                    <RadioButton IsChecked="{Binding OrderViewModel.OrderDetailViewModel.IsProForma, Mode=TwoWay}" Margin="8 0 0 0" GroupName="rbQoteType">Pro Forma</RadioButton>
+                                </StackPanel>
+                                <CheckBox HorizontalAlignment="Center" IsChecked="{Binding OrderViewModel.OrderDetailViewModel.IsQuoteReferencesVisible, Mode=TwoWay}">Leave constructor references visible</CheckBox>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtQuoteValidityInDays, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                            Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                            materialDesign:HintAssist.Hint="Validity of the quote (days)"/>
+                                </StackPanel>
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                        Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.GeneratePdfCreatedQuoteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                                    Generate Quote.
+                                </Button>
                             </StackPanel>
-                            <Button Style="{DynamicResource MaterialDesignFlatButton}"
-                            Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.GeneratePdfCreatedQuoteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
-                                Generate Quote.
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-                </materialDesign:Card>
+                        </Grid>
+                    </materialDesign:Card>
 
+                    <materialDesign:Card Margin="20 0 0 0">
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock>Select Currency</TextBlock>
+                                <ComboBox Name="cbxCurrency" ItemsSource="{Binding OrderViewModel.CurrenciesList, UpdateSourceTrigger=PropertyChanged}" 
+                                          Margin="8 0 0 0" Width="250">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding TxtName}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Button Margin="8 0 0 0" 
+                                        Command="{Binding OrderViewModel.OrderDetailViewModel.CurrencyCommand}"
+                                        CommandParameter="{Binding SelectedItem, ElementName=cbxCurrency}">
+                                    <materialDesign:PackIcon Kind="Check"/>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+
+                </StackPanel>
                 <!-- Delivery Address Zone -->
 
                 <Border BorderBrush="Beige" BorderThickness="5" MaxWidth="980" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockDeliveryAddressVisiblity}">
@@ -548,7 +638,21 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Bill ID" Binding="{Binding TxtID, UpdateSourceTrigger=PropertyChanged}"/>
                                 <DataGridTextColumn Header="Created Date" Binding="{Binding TxtDate, UpdateSourceTrigger=PropertyChanged}"/>
-                                <DataGridTextColumn Header="Amount" Binding="{Binding TxtPay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock>Amount</TextBlock>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock>(</TextBlock>
+                                                <TextBlock Text="{Binding CurrencyModel.TxtSymbol, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <TextBlock>)</TextBlock>
+                                                <TextBlock Text="{Binding TxtPay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTextColumn Header="Limit Date" Binding="{Binding TxtDateLimit, UpdateSourceTrigger=LostFocus}"/>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
@@ -582,11 +686,10 @@
                                                     <Button.Command>
                                                         <MultiBinding Converter="{StaticResource TriggerConverter}">
                                                             <Binding Path="DataContext.OrderViewModel.OrderDetailViewModel.CancelBillCreatedCommand"
-                                                                            ElementName="dgBillCreated" />
+                                                                     ElementName="dgBillCreated" />
                                                             <Binding />
                                                         </MultiBinding>
                                                     </Button.Command>
-
                                                 </Button>
                                             </StackPanel>
                                         </DataTemplate>

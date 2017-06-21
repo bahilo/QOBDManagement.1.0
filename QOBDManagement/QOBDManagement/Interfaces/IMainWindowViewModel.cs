@@ -45,6 +45,8 @@ namespace QOBDManagement.Interfaces
         ButtonCommand<string> CommandNavig { get; set; }
 
         //---------------[ Actions ]---------------------
+
+        void appNavig(string propertyName);
         double progressBarManagement(double status = 0);
         bool securityCheck(EAction action, ESecurity right);
         Object navigation(Object centralPageContent = null);

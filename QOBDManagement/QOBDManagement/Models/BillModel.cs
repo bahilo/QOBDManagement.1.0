@@ -16,7 +16,6 @@ namespace QOBDManagement.Models
     public class BillModel : BindBase
     {
         private Bill _bill;
-        private double _taxValue;
         private bool _isConstructorRefVisible;
         
         private BusinessLogic _bl;
@@ -24,24 +23,19 @@ namespace QOBDManagement.Models
         private OrderModel _orderModel;
         private NotificationModel _notificaionModel;
         private StatisticModel _statisticModel;
+        private CurrencyModel _currencyModel;
+        private string _outputStringFormat;
 
         public BillModel()
         {
             _bill = new Bill();
+            _currencyModel = new CurrencyModel();
             _clientModel = new ClientModel();
             _orderModel = new OrderModel();
             _notificaionModel = new NotificationModel();
             _statisticModel = new StatisticModel();
 
             PropertyChanged += onTaxValueChange;
-        }
-
-        private void onTaxValueChange(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName.Equals("TxtTaxValue"))
-            {
-                StatisticModel.Statistic.Total_tax_included = StatisticModel.Statistic.Total + (decimal)_taxValue * StatisticModel.Statistic.Total;
-            }
         }
 
 
@@ -68,13 +62,18 @@ namespace QOBDManagement.Models
         {
             get { return _isConstructorRefVisible; }
             set { setProperty(ref _isConstructorRefVisible, value); }
-        }
-        
+        }        
 
         public Bill Bill
         {
             get { return _bill; }
             set { setProperty(ref _bill, value); }
+        }
+
+        public CurrencyModel CurrencyModel
+        {
+            get { return _currencyModel; }
+            set { _currencyModel = value; onPropertyChange(); }
         }
 
         public string TxtID
@@ -103,13 +102,13 @@ namespace QOBDManagement.Models
 
         public string TxtPay
         {
-            get { return _bill.Pay.ToString(); }
+            get { return (_bill.Pay * (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
             set { decimal converted; if (decimal.TryParse(value, out converted)) { _bill.Pay = converted; } else _bill.Pay = 0; onPropertyChange(); }
         }
 
         public string TxtPayReceived
         {
-            get { return _bill.PayReceived.ToString(); }
+            get { return (_bill.PayReceived / (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(); }
             set { decimal converted; if (decimal.TryParse(value, out converted)) { _bill.PayReceived = converted; } else _bill.PayReceived = 0; onPropertyChange(); }
         }
 
@@ -143,9 +142,25 @@ namespace QOBDManagement.Models
             set { _bill.DatePay = Utility.convertToDateTime(value, true); onPropertyChange(); }
         }
 
+        public string TxtOutputStringFormat
+        {
+            get { return _outputStringFormat; }
+            set { _outputStringFormat = value; onPropertyChange(); }
+        }
+
+        //=====================[ Events ]========================
+
+        private void onTaxValueChange(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("TxtTaxValue"))
+            {
+                StatisticModel.Statistic.Total_tax_included = StatisticModel.Statistic.Total + (decimal)_statisticModel.Statistic.Tax_value * StatisticModel.Statistic.Total;
+            }
+        }
+
 
         //=====================[ Statistic ]========================
-        
+
         public StatisticModel StatisticModel
         {
             get { return _statisticModel; }
@@ -219,24 +234,7 @@ namespace QOBDManagement.Models
             get { return (_notificaionModel.Notification.Reminder2 > Utility.DateTimeMinValueInSQL2005) ?_notificaionModel.TxtReminder2 : " - "; }
             set { _notificaionModel.TxtReminder2 = value; onPropertyChange(); }
         }
-
-
-
-        //===================================================================
-
-
-        public List<BillModel> BillListToModelViewList(List<Bill> BillList)
-        {
-            List<BillModel> output = new List<BillModel>();
-            foreach (Bill bill in BillList)
-            {
-                BillModel billModel = new BillModel();
-                billModel.Bill = bill;
-                output.Add(billModel);
-            }
-            return output;
-        }
-
+        
 
     }
 }

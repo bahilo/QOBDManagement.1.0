@@ -185,6 +185,10 @@ namespace QOBDManagement.ViewModel
                 || string.IsNullOrEmpty(SelectedOrderModel.TxtStatus)))
                 return false;
 
+            if (!SelectedOrderModel.TxtStatus.Equals(EOrderStatus.Quote.ToString())
+                && (arg.Equals("convert-quoteToOrder") || arg.Equals("convert-quoteToCredit")))
+                return false;
+
             if ((arg.Equals("close-order") || arg.Equals("close-credit")) && (!_main.securityCheck(EAction.Order_Close, ESecurity._Update) || !_main.securityCheck(EAction.Order_Close, ESecurity._Write))
                 || (arg.Equals("valid-order") || arg.Equals("valid-credit")) && (!_main.securityCheck(EAction.Order_Valid, ESecurity._Update) || !_main.securityCheck(EAction.Order_Valid, ESecurity._Write))
                 || arg.Equals("convert-orderToQuote") && !isUserAdmin )

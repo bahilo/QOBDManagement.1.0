@@ -264,10 +264,7 @@ namespace QOBDManagement.ViewModel
             Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
             TaxList = Bl.BlOrder.GetTaxData(999);
             OrderSearchModel.AgentList = Bl.BlAgent.GetAgentData(999);
-            var currenciesFound = Bl.BlOrder.searchCurrency(new Currency { IsDefault = true }, ESearchOption.AND);
-            if (currenciesFound.Count() > 0)
-                CurrencyModel = currenciesFound.Select(x => new CurrencyModel { Currency = x }).Single();
-
+            
             if (SelectedClient.Client.ID != 0)
             {
                 Title = string.Format("Orders for the Company {0}", SelectedClient.Client.Company);
@@ -392,7 +389,6 @@ namespace QOBDManagement.ViewModel
                 }
                 else
                     await Dialog.showAsync("Order invoice is not the latest.");
-
             }
         }
 
@@ -453,6 +449,7 @@ namespace QOBDManagement.ViewModel
             obj.CurrencyModel = CurrencyModel;
             SelectedOrderModel = obj;
             executeNavig("order-detail");
+            _main.IsRefresh = true;
         }
 
         private bool canSaveSelectedOrder(OrderModel arg)

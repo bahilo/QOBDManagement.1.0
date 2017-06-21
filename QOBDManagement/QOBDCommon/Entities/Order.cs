@@ -24,6 +24,8 @@ namespace QOBDCommon.Entities
 
         public int ClientId {get; set;}
 
+        public int CurrencyId {get; set;}
+
         public string Comment1 {get; set;}
 
         public string Comment2 {get; set;}

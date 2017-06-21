@@ -273,6 +273,13 @@ namespace QOBDManagement.ViewModel
             quote.TxtDate = DateTime.Now.ToString();
             quote.TxtStatus = EOrderStatus.Quote.ToString();
 
+            var currenciesFound = Bl.BlOrder.searchCurrency(new QOBDCommon.Entities.Currency { IsDefault = true }, ESearchOption.AND);
+            if (currenciesFound.Count() > 0)
+            {
+                quote.CurrencyModel = currenciesFound.Select(x => new CurrencyModel { Currency = x }).Single();
+                quote.Order.CurrencyId = quote.CurrencyModel.Currency.ID;
+            }                
+
             var savedQuoteList = await Bl.BlOrder.InsertOrderAsync(new List<Entity.Order> { quote.Order });
             if (savedQuoteList.Count > 0)
             {

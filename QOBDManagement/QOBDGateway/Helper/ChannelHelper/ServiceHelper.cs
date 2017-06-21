@@ -732,6 +732,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 AgentId = Utility.intTryParse(Utility.decodeBase64ToString(x.AgentId)),
                 BillAddress = Utility.intTryParse(Utility.decodeBase64ToString(x.BillAddress)),
                 ClientId = Utility.intTryParse(Utility.decodeBase64ToString(x.ClientId)),
+                CurrencyId = Utility.intTryParse(Utility.decodeBase64ToString(x.CurrencyId)),
                 Comment1 = Utility.decodeBase64ToString(x.Comment1),
                 Comment2 = Utility.decodeBase64ToString(x.Comment2),
                 Comment3 = Utility.decodeBase64ToString(x.Comment3),
@@ -752,6 +753,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 AgentId = Utility.encodeStringToBase64(x.AgentId.ToString()),
                 BillAddress = Utility.encodeStringToBase64(x.BillAddress.ToString()),
                 ClientId = Utility.encodeStringToBase64(x.ClientId.ToString()),
+                CurrencyId = Utility.encodeStringToBase64(x.CurrencyId.ToString()),
                 Comment1 = Utility.encodeStringToBase64(x.Comment1),
                 Comment2 = Utility.encodeStringToBase64(x.Comment2),
                 Comment3 = Utility.encodeStringToBase64(x.Comment3),
@@ -773,6 +775,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 orderQCBD.AgentId = Utility.encodeStringToBase64(order.AgentId.ToString());
                 orderQCBD.BillAddress = Utility.encodeStringToBase64(order.BillAddress.ToString());
                 orderQCBD.ClientId = Utility.encodeStringToBase64(order.ClientId.ToString());
+                orderQCBD.CurrencyId = Utility.encodeStringToBase64(order.CurrencyId.ToString());
                 orderQCBD.Comment1 = Utility.encodeStringToBase64(order.Comment1);
                 orderQCBD.Comment2 = Utility.encodeStringToBase64(order.Comment2);
                 orderQCBD.Comment3 = Utility.encodeStringToBase64(order.Comment3);

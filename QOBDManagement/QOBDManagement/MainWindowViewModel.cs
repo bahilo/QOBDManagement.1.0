@@ -736,7 +736,7 @@ namespace QOBDManagement
         /// allows navigating through the application
         /// </summary>
         /// <param name="propertyName"></param>
-        private void appNavig(string propertyName)
+        public void appNavig(string propertyName)
         {
             switch (propertyName)
             {

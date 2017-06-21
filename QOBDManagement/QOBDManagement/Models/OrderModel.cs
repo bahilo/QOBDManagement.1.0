@@ -142,68 +142,74 @@ namespace QOBDManagement.Models
 
         public string TxtID
         {
-            get {  return _tax_commandModel.Order.ID.addPrefix(Enums.EPrefix.ORDER); }
-            set { _tax_commandModel.Order.ID = Utility.intTryParse(value.deletePrefix());  onPropertyChange(); }
+            get {  return Order.ID.addPrefix(Enums.EPrefix.ORDER); }
+            set { Order.ID = Utility.intTryParse(value.deletePrefix());  onPropertyChange(); }
         }
 
         public string TxtAgentId
         {
-            get {  return _tax_commandModel.Order.AgentId.ToString(); }
-            set { _tax_commandModel.Order.AgentId = Utility.intTryParse(value); onPropertyChange(); }
+            get {  return Order.AgentId.ToString(); }
+            set { Order.AgentId = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtClientId
         {
-            get { return _tax_commandModel.Order.ClientId.addPrefix(Enums.EPrefix.CLIENT); }
-            set { _tax_commandModel.Order.ClientId = Utility.intTryParse(value.deletePrefix()); onPropertyChange(); }
+            get { return Order.ClientId.addPrefix(Enums.EPrefix.CLIENT); }
+            set { Order.ClientId = Utility.intTryParse(value.deletePrefix()); onPropertyChange(); }
+        }
+
+        public string TxtCurrencyId
+        {
+            get { return Order.CurrencyId.ToString(); }
+            set { Order.ClientId = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtPrivateComment
         {
-            get { return _tax_commandModel.Order.Comment1; }
-            set {  _tax_commandModel.Order.Comment1 = value; onPropertyChange(); }
+            get { return Order.Comment1; }
+            set {  Order.Comment1 = value; onPropertyChange(); }
         }
 
         public string TxtPublicComment
         {
-            get {  return _tax_commandModel.Order.Comment2; }
-            set { _tax_commandModel.Order.Comment2 = value; onPropertyChange(); }
+            get {  return Order.Comment2; }
+            set { Order.Comment2 = value; onPropertyChange(); }
         }
 
         public string TxtAdminComment
         {
-            get { return _tax_commandModel.Order.Comment3; }
-            set { _tax_commandModel.Order.Comment3 = value; onPropertyChange(); }
+            get { return Order.Comment3; }
+            set { Order.Comment3 = value; onPropertyChange(); }
         }
 
         public string TxtBillAddress
         {
-            get { return _tax_commandModel.Order.BillAddress.ToString(); }
-            set { _tax_commandModel.Order.BillAddress = Utility.intTryParse(value); onPropertyChange(); }
+            get { return Order.BillAddress.ToString(); }
+            set { Order.BillAddress = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtDeliveryAddress
         {
-            get {  return _tax_commandModel.Order.DeliveryAddress.ToString(); }
-            set { _tax_commandModel.Order.DeliveryAddress = Utility.intTryParse(value); onPropertyChange(); }
+            get {  return Order.DeliveryAddress.ToString(); }
+            set { Order.DeliveryAddress = Utility.intTryParse(value); onPropertyChange(); }
         }
 
         public string TxtStatus
         {
-            get {  return _tax_commandModel.Order.Status; }
-            set { _tax_commandModel.Order.Status = value; onPropertyChange(); }
+            get {  return Order.Status; }
+            set { Order.Status = value; onPropertyChange(); }
         }
 
         public string TxtDate
         {
-            get { return _tax_commandModel.Order.Date.ToString(); }
-            set { _tax_commandModel.Order.Date = Utility.convertToDateTime(value); onPropertyChange(); }
+            get { return Order.Date.ToString(); }
+            set { Order.Date = Utility.convertToDateTime(value); onPropertyChange(); }
         }
 
         public string TxtTaxName
         {
-            get { return _tax_commandModel.Order.Tax.ToString(); }
-            set { _tax_commandModel.Order.Tax = Utility.decimalTryParse(value); onPropertyChange(); }
+            get { return Order.Tax.ToString(); }
+            set { Order.Tax = Utility.decimalTryParse(value); onPropertyChange(); }
         }
 
         public override void Dispose()

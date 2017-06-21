@@ -14096,6 +14096,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string clientIdField;
         
+        private string currencyIdField;
+        
         private string comment1Field;
         
         private string comment2Field;
@@ -14144,6 +14146,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.clientIdField = value;
                 this.RaisePropertyChanged("ClientId");
+            }
+        }
+        
+        /// <remarks/>
+        public string CurrencyId {
+            get {
+                return this.currencyIdField;
+            }
+            set {
+                this.currencyIdField = value;
+                this.RaisePropertyChanged("CurrencyId");
             }
         }
         
@@ -14270,6 +14283,8 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string clientIdField;
         
+        private string currencyIdField;
+        
         private string comment1Field;
         
         private string comment2Field;
@@ -14316,6 +14331,17 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.clientIdField = value;
                 this.RaisePropertyChanged("ClientId");
+            }
+        }
+        
+        /// <remarks/>
+        public string CurrencyId {
+            get {
+                return this.currencyIdField;
+            }
+            set {
+                this.currencyIdField = value;
+                this.RaisePropertyChanged("CurrencyId");
             }
         }
         

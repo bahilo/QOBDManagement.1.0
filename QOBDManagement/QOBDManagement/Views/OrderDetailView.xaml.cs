@@ -29,7 +29,14 @@ namespace QOBDManagement.Views
         private void OrderDetailView_Loaded(object sender, RoutedEventArgs e)
         {
             UIContext dataContext = new UIContext();
-            dataContext.setWindowContext(this);
+            if (dataContext.setWindowContext(this) != null)
+            {
+                if (((MainWindowViewModel)this.DataContext).IsRefresh)
+                {
+                    ((MainWindowViewModel)this.DataContext).OrderViewModel.OrderDetailViewModel.loadOrder_items();
+                    ((MainWindowViewModel)this.DataContext).IsRefresh = false;
+                }
+            }
         }
     }
 }

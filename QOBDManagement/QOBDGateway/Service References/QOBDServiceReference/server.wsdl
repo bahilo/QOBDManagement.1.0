@@ -139,6 +139,7 @@
           <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="AgentId" type="xsd:string" />
           <xsd:element name="ClientId" type="xsd:string" />
+          <xsd:element name="CurrencyId" type="xsd:string" />
           <xsd:element name="Comment1" type="xsd:string" />
           <xsd:element name="Comment2" type="xsd:string" />
           <xsd:element name="Comment3" type="xsd:string" />
@@ -155,6 +156,7 @@
           <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="AgentId" type="xsd:string" />
           <xsd:element name="ClientId" type="xsd:string" />
+          <xsd:element name="CurrencyId" type="xsd:string" />
           <xsd:element name="Comment1" type="xsd:string" />
           <xsd:element name="Comment2" type="xsd:string" />
           <xsd:element name="Comment3" type="xsd:string" />

@@ -72,7 +72,7 @@ namespace QOBDManagement.Models
         public CurrencyModel CurrencyModel
         {
             get { return _currencyModel; }
-            set { _currencyModel = value; onPropertyChange(); }
+            set { if (value == null) return; _currencyModel = value; onPropertyChange(); }
         }
 
         public string TxtTotalIncome
@@ -190,7 +190,7 @@ namespace QOBDManagement.Models
 
         public string TxtPrice
         {
-            get { return _order_item.Price.ToString(_outputStringFormat); }
+            get { return (_order_item.Price * (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
             set { _order_item.Price = Utility.decimalTryParse(value); onPropertyChange(); calcul(); }
         }
 
@@ -207,7 +207,7 @@ namespace QOBDManagement.Models
 
         public string TxtPrice_purchase
         {
-            get { return _order_item.Price_purchase.ToString(_outputStringFormat); }
+            get { return ((_order_item.Price_purchase / (ItemModel.CurrencyModel.Currency.Rate != 0 ? ItemModel.CurrencyModel.Currency.Rate : 1m)) * (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
             set { _order_item.Price_purchase = Utility.decimalTryParse(value); onPropertyChange(); calcul(); }
         }
 
@@ -261,7 +261,7 @@ namespace QOBDManagement.Models
                 // income percentage per unit calculation
                 try
                 {
-                    _unitIncomPercent = (double)(decimal)ConvertIfOrderCreditStatus(((Math.Abs(_order_item.Price) - Math.Abs(_order_item.Price_purchase)) / Math.Abs(_order_item.Price)) * 100);
+                    _unitIncomPercent = (double)(decimal)ConvertIfOrderCreditStatus(((Math.Abs(Utility.decimalTryParse(TxtPrice)) - Math.Abs(Utility.decimalTryParse(TxtPrice_purchase))) / Math.Abs(Utility.decimalTryParse(TxtPrice))) * 100);
                 }
                 catch (DivideByZeroException)
                 {
@@ -270,15 +270,15 @@ namespace QOBDManagement.Models
                 onPropertyChange("TxtPercentProfit");
 
                 // income per unit calculation
-                _unitIncome = (decimal)ConvertIfOrderCreditStatus((Math.Abs(_order_item.Price) - Math.Abs(_order_item.Price_purchase)) * _order_item.Quantity);
+                _unitIncome = (decimal)ConvertIfOrderCreditStatus((Math.Abs(Utility.decimalTryParse(TxtPrice)) - Math.Abs(Utility.decimalTryParse(TxtPrice_purchase))) * _order_item.Quantity);
                 onPropertyChange("TxtProfit");
 
                 // total purchase calculation
-                _totalPurchase = (decimal)ConvertIfOrderCreditStatus(_order_item.Quantity * Math.Abs(_order_item.Price_purchase));
+                _totalPurchase = (decimal)ConvertIfOrderCreditStatus(_order_item.Quantity * Math.Abs(Utility.decimalTryParse(TxtPrice_purchase)));
                 onPropertyChange("TxtTotalPurchase");
 
                 // total sales calculations
-                _totalSelling = (decimal)ConvertIfOrderCreditStatus(_order_item.Quantity * Math.Abs(_order_item.Price));
+                _totalSelling = (decimal)ConvertIfOrderCreditStatus(_order_item.Quantity * Math.Abs(Utility.decimalTryParse(TxtPrice)));
                 onPropertyChange("TxtTotalSelling");
 
                 // tax amount calculation

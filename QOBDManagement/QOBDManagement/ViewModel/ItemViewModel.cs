@@ -332,9 +332,11 @@ namespace QOBDManagement.ViewModel
                     // getting all providers for each item
                     ivm.Provider_itemModelList = loadProvider_itemInformation(provider_itemFoundList, item.Source);
 
-                    if (ivm.Provider_itemModelList.Count > 0 && ProviderList.Where(x => ivm.Provider_itemModelList.Where(y => y.Provider.ID == x.ID).Count() > 0).Count() > 0)
+                    // selecting one provider among the item providers
+                    var providerFoundList = ProviderList.Where(x => ivm.Provider_itemModelList.Where(y => y.Provider.ID == x.ID).Count() > 0).ToList();
+                    if (ivm.Provider_itemModelList.Count > 0 && providerFoundList.Count() > 0)
                     {
-                        ivm.SelectedProvider = ProviderList.Where(x => ivm.Provider_itemModelList.Where(y => y.Provider.ID == x.ID).Count() > 0).Single();
+                        ivm.SelectedProvider = providerFoundList.Single();
                         ivm.SelectedProvider_itemModel = ivm.Provider_itemModelList.Where(x => x.Provider.ID == ivm.SelectedProvider.ID).Single();
                     }
 

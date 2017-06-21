@@ -98,10 +98,10 @@ namespace QOBDManagement.ViewModel
                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
 
-            if (isUserAdmin && arg.Equals("credential") && _page(null) as OptionSecurityViewModel != null)
+            if (isUserAdmin && arg.Equals("credential") && _page(null) as OptionSecurityViewModel == null)
                 return true;
 
-            if (isUserAdmin && arg.Equals("data-display") && _page(null) as OptionDataAndDisplayViewModel != null)
+            if (isUserAdmin && arg.Equals("data-display") && _page(null) as OptionDataAndDisplayViewModel == null)
                 return true;
 
             return false;

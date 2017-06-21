@@ -581,6 +581,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                 Order.AgentId = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["AgentId"].Ordinal].ToString());
                 Order.BillAddress = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["BillAddress"].Ordinal].ToString());
                 Order.ClientId = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["ClientId"].Ordinal].ToString());
+                Order.CurrencyId = Utility.intTryParse(OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["CurrencyId"].Ordinal].ToString());
                 Order.Comment1 = (OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment1"].Ordinal] ?? "").ToString();
                 Order.Comment2 = (OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment2"].Ordinal] ?? "").ToString();
                 Order.Comment3 = (OrderDataTable.Rows[i].ItemArray[OrderDataTable.Columns["Comment3"].Ordinal] ?? "").ToString();
@@ -607,6 +608,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), order.ID);
                 if (order.AgentId != 0)
                     query = string.Format(query + " {0} AgentId LIKE '{1}' ", filterOperator.ToString(), order.AgentId);
+                if (order.CurrencyId != 0)
+                    query = string.Format(query + " {0} CurrencyId LIKE '{1}' ", filterOperator.ToString(), order.CurrencyId);
                 if (!string.IsNullOrEmpty(order.Comment1))
                     query = string.Format(query + " {0} Comment1 LIKE '{1}' ", filterOperator.ToString(), order.Comment1.Replace("'", "''"));
                 if (!string.IsNullOrEmpty(order.Comment2))
@@ -642,6 +645,7 @@ namespace QOBDDAL.Helper.ChannelHelper
             output["AgentId"] = order.AgentId.ToString();
             output["BillAddress"] = order.BillAddress.ToString();
             output["ClientId"] = order.ClientId.ToString();
+            output["CurrencyId"] = order.CurrencyId.ToString();
             output["Comment1"] = (order.Comment1 ?? "").ToString();
             output["Comment2"] = (order.Comment2 ?? "").ToString();
             output["Comment3"] = (order.Comment3 ?? "").ToString();

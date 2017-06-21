@@ -115,8 +115,10 @@ namespace QOBDManagement.Classes
         /// <returns>string type expected by the IU</returns>
         public static string disableUIElementByString(bool isVisible, [CallerMemberName]string obj = "")
         {
-            if (isVisible && obj.Equals("PurchasePriceBoxVisibility"))
-                return "Visible";            
+            if (isVisible && obj.Equals("BoxVisibility"))
+                return "Visible";  
+            if (isVisible && obj.Equals("BlockVisibility"))
+                return "Visible";           
 
             return "Hidden";
         }
