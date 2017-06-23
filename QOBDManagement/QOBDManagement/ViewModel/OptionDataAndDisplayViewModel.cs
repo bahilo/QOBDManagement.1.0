@@ -303,10 +303,17 @@ namespace QOBDManagement.ViewModel
         public void getFileFromLocal(InfoManager.Display obj)
         {
             // opening the file explorer for image file choosing
-            obj.TxtChosenFile = InfoManager.ExecuteOpenFileDialog("Select an image file", new List<string> { "png", "jpeg", "jpg" });// ExecuteOpenFileDialog();
-            
-            // upload the image file to the server FTP
-            obj.uploadImage();
+            string imageFile = InfoManager.ExecuteOpenFileDialog("Select an image file", new List<string> { "png", "jpeg", "jpg" });
+            if (!string.IsNullOrEmpty(imageFile))
+            {
+                Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"]);
+                obj.TxtChosenFile = imageFile;
+
+                // upload the image file to the server FTP
+                obj.uploadImage();
+
+                Dialog.IsDialogOpen = false;
+            }            
         }
 
         private bool canGetFileFromLocal(InfoManager.Display arg)
@@ -316,20 +323,34 @@ namespace QOBDManagement.ViewModel
 
         private async void deleteImage(InfoManager.Display obj)
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
-            var notDeletedInfosList = await Bl.BlReferential.DeleteInfoAsync(obj.InfoDataList);
-            var whereImageInfosIDIsZeroList = obj.InfoDataList.Where(x=>x.ID == 0 && x.Name.Equals(obj.TxtFileNameWithoutExtension)).ToList();
-            if ((notDeletedInfosList.Count == 0 || whereImageInfosIDIsZeroList.Count > 0) && obj.deleteFiles())
+            if (await Dialog.showAsync("Do you really want to delete this image ["+obj.TxtFileName+"] ?"))
             {
-                await Dialog.showAsync(obj.TxtFileName + " has been successfully deteleted!");
-                obj.TxtFileFullPath = "";
-            }
+                Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
+                var notDeletedInfosList = await Bl.BlReferential.DeleteInfoAsync(obj.InfoDataList);
+                var whereImageInfosIDIsZeroList = obj.InfoDataList.Where(x => x.ID == 0 && x.Name.Equals(obj.TxtFileNameWithoutExtension)).ToList();
+                if ((notDeletedInfosList.Count == 0 || whereImageInfosIDIsZeroList.Count > 0) && obj.deleteFiles())
+                {
+                    var credentials = Bl.BlReferential.searchInfo(new Info { Name = "ftp_" }, ESearchOption.AND);
+                    if (WPFHelper.deleteFileFromFtpServer(ConfigurationManager.AppSettings["ftp_image_folder"], obj.TxtFileName, credentials))
+                    {
+                        await Dialog.showAsync(obj.TxtFileName + " has been successfully deteleted!");
+                        obj.TxtFileFullPath = "";
+                    }
+                    else
+                    {
+                        string errorMessage = "Error occurred while deleting the image ["+obj.TxtFileName+"]";
+                        Log.error(errorMessage, EErrorFrom.REFERENTIAL);
+                        Dialog.showSearch(errorMessage);
+                    }
+                    
+                }
 
-            // reset the picture information
-            foreach (Info info in obj.InfoDataList)
-                info.ID = 0;
+                // reset the picture information
+                foreach (Info info in obj.InfoDataList)
+                    info.ID = 0;
 
-            Dialog.IsDialogOpen = false;
+                Dialog.IsDialogOpen = false;
+            }            
         }
 
         private bool canDeleteImage(InfoManager.Display arg)

@@ -558,9 +558,6 @@
                                 <StackPanel Orientation="Vertical">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">New Currency</TextBlock>
-                                        <TextBox Text="{Binding ReferentialViewModel.OptionGeneralViewModel.SelectedCurrencyInteger, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20 0 0 0" Width="75"/>
-                                        <TextBlock Margin="20 0 0 0" HorizontalAlignment="Center" FontSize="30">.</TextBlock>
-                                        <TextBox Text="{Binding ReferentialViewModel.OptionGeneralViewModel.SelectedCurrencyFloat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="20 0 0 0" Width="75"/>
                                         <ComboBox ItemsSource="{Binding ReferentialViewModel.OptionGeneralViewModel.SymbolsList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
                                                   SelectedItem="{Binding ReferentialViewModel.OptionGeneralViewModel.CurrencyModel.TxtCurrencyCode_symbol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="20 0 0 0" Width="75"/>
                                         <Button Margin="20 0 0 0" Style="{StaticResource MaterialDesignFlatButton}" ToolTip="Clear the new currency field"

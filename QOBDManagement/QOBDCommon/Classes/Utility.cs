@@ -21,7 +21,7 @@ namespace QOBDCommon.Classes
         public static string BaseDirectory = getDirectory(Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), ConfigurationManager.AppSettings["info_company_name"]); //AppDomain.CurrentDomain.BaseDirectory;
         public static List<string> MaterialDesignColourList = new List<string> { "Accent", "Dark", "Inverted", "Light", "PrimaryDark", "PrimaryLight", "PrimaryMid" };
         public static List<string> ColourList = new List<string> { "DarkBlue", "DarkGreen", "DarkMagenta", "DarkOrange", "DarkRed", "DarkOrchid", "DarkCyan", "DarkGoldenrod", "DarkSalmon", "DarkSeaGreen", "DarkSlateGray", "DarkTurquoise", "DarkViolet", "DeepPink" };
-        
+
         public static DateTime convertToDateTime(string dateString, bool? isFromDatePicker = false)
         {
             object _lock = new object();
@@ -48,7 +48,7 @@ namespace QOBDCommon.Classes
                     return outDate;
 
                 return new DateTime();
-            }            
+            }
         }
 
         public static bool convertToBoolean(string boolString)
@@ -58,56 +58,72 @@ namespace QOBDCommon.Classes
             {
                 bool outBool = false;
                 if (bool.TryParse(boolString, out outBool))
-                    return outBool; 
+                    return outBool;
                 return outBool;
             }
         }
 
         public static int intTryParse(string input)
-        {            
+        {
             object _lock = new object();
             lock (_lock)
             {
-                int result = 0;
-                if (int.TryParse(input, out result))
-                    return result;
-                return result;
+                try
+                {
+                    return int.Parse(input, System.Globalization.CultureInfo.InvariantCulture);
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
             }
         }
 
         public static decimal decimalTryParse(string input)
-        {            
+        {
             object _lock = new object();
             lock (_lock)
             {
-                decimal result = 0m;
-                if (decimal.TryParse(input, out result))
-                    return decimal.Round(result, 7);
-                return result;
+                try
+                {
+                    return decimal.Round(decimal.Parse(input, System.Globalization.CultureInfo.InvariantCulture), 7);
+                }
+                catch (Exception)
+                {
+                    return 0m;
+                }
             }
         }
 
         public static long longTryParse(string input)
-        {            
+        {
             object _lock = new object();
             lock (_lock)
             {
-                long result = 0;
-                if (long.TryParse(input.Substring(0, input.Count() > 10 ? 10 : input.Count() - 1), out result))
-                    return result;
-                return result;
+                try
+                {
+                    return long.Parse(input, System.Globalization.CultureInfo.InvariantCulture);
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
             }
         }
 
         public static double doubleTryParse(string input)
-        {            
+        {
             object _lock = new object();
             lock (_lock)
             {
-                double result = 0;
-                if (double.TryParse(input, out result))
-                    return result;
-                return result;
+                try
+                {
+                    return double.Parse(input, System.Globalization.CultureInfo.InvariantCulture);
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
             }
         }
 
@@ -125,7 +141,7 @@ namespace QOBDCommon.Classes
                 }
 
                 return stringToEncode;
-            }            
+            }
         }
 
         public static string decodeBase64ToString(string encodedString)
@@ -152,8 +168,8 @@ namespace QOBDCommon.Classes
                     return encodedString;
 
                 return returnValue;
-            }            
-        } 
+            }
+        }
 
         public static string getDirectory(string directory, params string[] pathElements)
         {
@@ -204,7 +220,7 @@ namespace QOBDCommon.Classes
                 }
 
                 return dictTarget;
-            }            
+            }
         }
 
         public static List<T> concat<T>(List<T> Target, List<T> Source)
@@ -219,7 +235,7 @@ namespace QOBDCommon.Classes
                 }
 
                 return Target;
-            }            
+            }
         }
 
         public static string stringSpliter(string stringToSplit, int nbCharToDisplay = 40)

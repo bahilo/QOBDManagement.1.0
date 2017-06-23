@@ -13,8 +13,7 @@ using QOBDCommon.Entities;
 using QOBDCommon.Enum;
 using QOBDBusiness;
 using QOBDCommon.Classes;
-using System.Windows;
-using MoneyCurrency = Money.Money<decimal>;
+using System.Net;
 
 namespace QOBDManagement.ViewModel
 {
@@ -26,8 +25,6 @@ namespace QOBDManagement.ViewModel
         private GeneralInfos _generalInfos;
         private string _selectedTaxInteger;
         private string _selectedTaxFloat;
-        private string _selectedCurrencyInteger;
-        private string _selectedCurrencyFloat;
         private InfoManager.FileWriter _legalInformationFileManagement;
         private InfoManager.FileWriter _saleGeneralConditionFileManagement;
         private string _validationEmail;
@@ -184,30 +181,7 @@ namespace QOBDManagement.ViewModel
         public CurrencyModel CurrencyModel
         {
             get { return _currency; }
-            set
-            {
-                if (value != null)
-                {
-                    _currency = value;
-                    _selectedCurrencyInteger = _currency.TxtRate.Split('.')[0];
-                    _selectedCurrencyFloat = (_currency.TxtRate.Split('.').Count() > 1) ? _currency.TxtRate.Split('.')[1] : "0";
-                    onPropertyChange("SelectedCurrencyInteger");
-                    onPropertyChange("SelectedCurrencyFloat");
-                    onPropertyChange();
-                }
-            }
-        }
-
-        public string SelectedCurrencyInteger
-        {
-            get { return _selectedCurrencyInteger; }
-            set { setProperty(ref _selectedCurrencyInteger, value); }
-        }
-
-        public string SelectedCurrencyFloat
-        {
-            get { return _selectedCurrencyFloat; }
-            set { setProperty(ref _selectedCurrencyFloat, value); }
+            set { _currency = value; onPropertyChange(); }
         }
 
         public string SelectedTaxInteger
@@ -318,7 +292,6 @@ namespace QOBDManagement.ViewModel
         public async void load()
         {
             Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
-
             var userListSizeFoundList = _generalInfos.ListSizeList.Where(x => x.Equals(Bl.BlSecurity.GetAuthenticatedUser().ListSize)).ToList();
             TxtSelectedListSize = (userListSizeFoundList.Count > 0) ? userListSizeFoundList[0] : 0;
             TaxList = TaxListToTaxModelList(await Bl.BlOrder.GetTaxDataAsync(999));
@@ -395,14 +368,66 @@ namespace QOBDManagement.ViewModel
             return "Visible";
         }
 
-        private decimal getCurrencyValue()
-        {
-            return CurrencyModel.getCurrencyMoney(Utility.decimalTryParse(_selectedCurrencyInteger + "." + _selectedCurrencyFloat)).Amount;
-        }
-
         private decimal getTaxValue()
         {
             return Utility.decimalTryParse(_selectedTaxInteger + "." + _selectedTaxFloat);
+        }
+
+        private decimal getCurrencyValue()
+        {
+            var defaultCurrency = CurrenciesList.Where(x => x.IsDefault).SingleOrDefault();
+            if (defaultCurrency != null)
+                return ExchangeRateFromAPI(1, defaultCurrency.CurrencyEnum.ToString(), CurrencyModel.CurrencyEnum.ToString());
+            else
+                return ExchangeRateFromAPI(1, CurrencyModel.CurrencyEnum.ToString(), CurrencyModel.CurrencyEnum.ToString());
+        }
+
+        /// <summary>
+        /// update all prices regarding the new default currency
+        /// </summary>
+        private bool updateDefaultCurrencyPrices()
+        {
+            //<<<<< TO DO >>>>>
+
+            return true;
+        }
+
+        private decimal ExchangeRateFromAPI(decimal amount, string firstCcode, string lastCcode)
+        {
+            try
+            {
+                WebClient web = new WebClient();
+                const string urlPattern = "http://finance.yahoo.com/d/quotes.csv?s={0}{1}=X&f=l1";
+                string url = String.Format(urlPattern, firstCcode, lastCcode);
+                // Get response as string
+                string response = new WebClient().DownloadString(url);
+                // Convert string to number
+                decimal exchangeRate = Utility.decimalTryParse(response);
+                return exchangeRate;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public async Task<bool> refreshCurrenciesRate()
+        {
+            bool result = false;
+            var defaultCurrency = CurrenciesList.Where(x=>x.IsDefault).SingleOrDefault();
+            if (defaultCurrency != null)
+            {
+                foreach (CurrencyModel currencyModel in CurrenciesList)
+                    currencyModel.Currency.Rate = ExchangeRateFromAPI(1, defaultCurrency.TxtCurrencyCode, currencyModel.TxtCurrencyCode);
+
+                var savedCurrencies = await Bl.BlOrder.UpdateCurrencyAsync(CurrenciesList.Select(x => x.Currency).ToList());
+                if (savedCurrencies.Count > 0)
+                {
+                    result = true;
+                    CurrenciesList = new List<CurrencyModel>(savedCurrencies.Select(x=> new CurrencyModel { Currency = x }).ToList());
+                }                    
+            }
+            return result;
         }
 
         public override void Dispose()
@@ -426,7 +451,7 @@ namespace QOBDManagement.ViewModel
             if (e.PropertyName.Equals("CurrencyModel") && CurrencyModel != null)
             {
                 CurrencyModel.TxtRate = getCurrencyValue().ToString();
-            }
+             }
         }
 
         //----------------------------[ Action Commands ]------------------
@@ -594,23 +619,31 @@ namespace QOBDManagement.ViewModel
 
         private async void updateDefaultCurrency(CurrencyModel obj)
         {
-            if (obj.Currency.Rate != 0 && await Dialog.showAsync("Do you confirm the update of the default currency?"))
+            if (obj.Currency.Rate != 0 && await Dialog.showAsync("Do you confirm the update of the default currency?"+ Environment.NewLine + "(Please note that all prices will be updated.)"))
             {
+                bool isErrorDetected = false;
                 Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
                 var savedCurrencies = await Bl.BlOrder.UpdateCurrencyAsync(new List<Currency> { obj.Currency });
                 if (savedCurrencies.Count > 0)
                 {
-                    foreach (CurrencyModel currencyModel in CurrenciesList)
-                        currencyModel.Currency.Rate = CurrencyModel.ConvertToCurrency(currencyModel.Currency.Rate, currencyModel.CurrencyMoney.Currency, savedCurrencies[0].Rate).Amount;
-                    
-                    savedCurrencies = await Bl.BlOrder.UpdateCurrencyAsync(CurrenciesList.Select(x => x.Currency).ToList());
-                    if (savedCurrencies.Count > 0)
+                    if (await refreshCurrenciesRate())
                     {
-                        CurrenciesList = new List<CurrencyModel>(savedCurrencies.Select(x => new CurrencyModel { Currency = x }).ToList());
-                        await Dialog.showAsync("The default currency has been successfully updated!");
+                        if (updateDefaultCurrencyPrices())
+                            await Dialog.showAsync("The default currency has been successfully updated!");
+                        else
+                            isErrorDetected = true;
+                    }
+                    else
+                        isErrorDetected = true;
+
+                    if (isErrorDetected)
+                    {
+                        string errorMessage = "Error occurred while updating the default currency to [" + obj.TxtName + " (ID=" + obj.TxtID + ")]";
+                        Log.error(errorMessage, EErrorFrom.REFERENTIAL);
+                        await Dialog.showAsync(errorMessage);
                     }
                 }
-                onPropertyChange("CurrenciesList");
+                
             }
             else
             {
@@ -636,14 +669,14 @@ namespace QOBDManagement.ViewModel
 
         private bool canUpdateDefaultCurrency(CurrencyModel arg)
         {
-            return true;
+            if (_main.AgentViewModel.IsAuthenticatedAgentAdmin)
+                return true;
+            return false;
         }
 
         private void clearNewCurrency(object obj)
         {
             CurrencyModel = new CurrencyModel();
-            SelectedCurrencyInteger = "0";
-            SelectedCurrencyFloat = "0";
         }
 
         private bool canClearNewCurrency(object arg)
