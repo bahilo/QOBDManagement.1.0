@@ -28,13 +28,15 @@ namespace QOBDManagement.ViewModel
     {
         private HashSet<string> _itemFamilyList;
         private HashSet<string> _itemBrandList;
-        private HashSet<Provider> _providerList;
+        private List<ProviderModel> _providerList;
         private List<string> _cbSearchCriteriaList;
         private Func<Object, Object> _page;
         private List<Item> _items;
         private string _searchItemName;
         private string _title;
+        private string _providerTitle;
         private bool _isSearchResult;
+        private ProviderModel _selectedProviderModel;
 
         //----------------------------[ Models ]------------------
 
@@ -54,7 +56,14 @@ namespace QOBDManagement.ViewModel
         public ButtonCommand<string> NavigCommand { get; set; }
         public ButtonCommand<ItemModel> GetCurrentItemCommand { get; set; }
         public ButtonCommand<object> GoToQuoteCommand { get; set; }
-        public Command.ButtonCommand<object> ClearCartCommand { get; set; }
+        public ButtonCommand<object> ClearCartCommand { get; set; }
+        public ButtonCommand<ProviderModel> BtnProviderSearchCommand { get; set; }
+        public ButtonCommand<object> BtnAddProviderAddressCommand { get; set; }
+        public ButtonCommand<object> BtnDeleteProviderAddressCommand { get; set; }
+        public ButtonCommand<Address> SelectedAddressDetailCommand { get; set; }
+        public ButtonCommand<object> btnDeleteProviderCommand { get; set; }
+        public ButtonCommand<object> btnValidProviderCommand { get; set; }
+        public ButtonCommand<object> btnClearSelectedProviderCommand { get; set; }
 
 
         public ItemViewModel()
@@ -95,12 +104,14 @@ namespace QOBDManagement.ViewModel
             _items = new List<Item>();
             _cbSearchCriteriaList = new List<string>();
             _title = ConfigurationManager.AppSettings["title_catalogue"];
+            _providerTitle = ConfigurationManager.AppSettings["title_catalogue_provider"];
         }
 
         private void instancesModel(IMainWindowViewModel main)
         {
             _itemModel = new ItemModel();
             _itemsModel = new List<ItemModel>();
+            _selectedProviderModel = new ProviderModel();
             _itemDetailViewModel = new ItemDetailViewModel(main);
             _itemSideBarViewModel = new ItemSideBarViewModel(main);
         }
@@ -115,6 +126,13 @@ namespace QOBDManagement.ViewModel
             GetCurrentItemCommand = new ButtonCommand<ItemModel>(saveSelectedItem, canSaveSelectedItem);
             GoToQuoteCommand = new ButtonCommand<object>(gotoQuote, canGoToQuote);
             ClearCartCommand = new ButtonCommand<object>(clearCart, canClearTheCart);
+            BtnProviderSearchCommand = new ButtonCommand<ProviderModel>(searchProvider, canSearchProvider);
+            BtnAddProviderAddressCommand = new ButtonCommand<object>(addProviderAddress, canAddProviderAddress);
+            BtnDeleteProviderAddressCommand = new ButtonCommand<object>(deleteProviderAddress, canDeleteProviderAddress);
+            SelectedAddressDetailCommand = new ButtonCommand<Address>(showSelectedAddressDetail, canShowSelectedAddressDetail);
+            btnDeleteProviderCommand = new ButtonCommand<object>(deleteProvider, canDeleteProvider);
+            btnValidProviderCommand = new ButtonCommand<object>(saveProvider, canSaveProvider);
+            btnClearSelectedProviderCommand = new ButtonCommand<object>(clearSelectedProvider, canClearProvider);
         }
 
         //----------------------------[ Properties ]------------------
@@ -136,10 +154,22 @@ namespace QOBDManagement.ViewModel
             set { setProperty(ref _title, value); }
         }
 
+        public string ProviderTitle
+        {
+            get { return _providerTitle; }
+            set { setProperty(ref _providerTitle, value); }
+        }
+
         public ItemDetailViewModel ItemDetailViewModel
         {
             get { return _itemDetailViewModel; }
             set { setProperty(ref _itemDetailViewModel, value); }
+        }
+
+        public ProviderModel SelectedProviderModel
+        {
+            get { return _selectedProviderModel; }
+            set { setProperty(ref _selectedProviderModel, value); }
         }
 
         public ItemSideBarViewModel ItemSideBarViewModel
@@ -178,7 +208,7 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        public HashSet<Provider> ProviderList
+        public List<ProviderModel> ProviderList
         {
             get { return _providerList; }
             set
@@ -189,6 +219,23 @@ namespace QOBDManagement.ViewModel
                     {
                         _providerList = value;
                         onPropertyChange("ProviderList");
+                    });
+                }
+                else { _providerList = value; onPropertyChange(); }
+            }
+        }
+
+        public List<ProviderModel> ItemProviderList
+        {
+            get { return _providerList; }
+            set
+            {
+                if (Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        _providerList = value;
+                        onPropertyChange("ItemProviderList");
                     });
                 }
                 else { _providerList = value; onPropertyChange(); }
@@ -253,14 +300,15 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         public async void loadItems()
         {
-            await Task.Factory.StartNew(()=> {
+            await Task.Factory.StartNew(() =>
+            {
                 Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
 
                 // if not in searching mode
                 if (!_isSearchResult)
                 {
                     var itemFoundList = Bl.BlItem.GetItemData(999);
-                    ProviderList = new HashSet<Provider>(Bl.BlItem.GetProviderData(999));
+                    ProviderList = providerListToModelList(Bl.BlItem.GetProviderData(999));
                     FamilyList = new HashSet<string>(itemFoundList.Select(x => x.Type_sub).ToList());
                     BrandList = new HashSet<string>(itemFoundList.Select(x => x.Type).ToList());
 
@@ -270,10 +318,10 @@ namespace QOBDManagement.ViewModel
                         if (itemModel.Image != null)
                             itemModel.Image.closeImageSource();
                     }
-                    
+
                     // loading items
                     ItemModelList = itemListToModelViewList(itemFoundList);
-                    
+
                     // update the selected item in case of a refresh
                     if (SelectedItemModel != null && SelectedItemModel.Item.ID != 0)
                     {
@@ -293,6 +341,30 @@ namespace QOBDManagement.ViewModel
                 _isSearchResult = false;
                 Dialog.IsDialogOpen = false;
             });
+        }
+
+        private List<ProviderModel> providerListToModelList(List<Provider> providerList)
+        {
+            object _lock = new object();
+            lock (_lock)
+            {
+                List<ProviderModel> output = new List<ProviderModel>();
+                foreach (Provider provider in providerList)
+                {
+                    ProviderModel providerModel = new ProviderModel();
+                    providerModel.Provider = provider;
+
+                    var addressesFound = Bl.BlClient.searchAddress(new Address { ProviderId = provider.ID }, ESearchOption.AND);
+                    if (addressesFound.Count > 0)
+                    {
+                        providerModel.AddressList = new ObservableCollection<Address>(addressesFound);
+                        providerModel.SelectedAddress = addressesFound.First();
+                    }
+
+                    output.Add(providerModel);
+                }
+                return output;
+            }
         }
 
         public List<Item_deliveryModel> item_deliveryListToModelList(List<Item_delivery> item_deliveryList)
@@ -333,11 +405,11 @@ namespace QOBDManagement.ViewModel
                     ivm.Provider_itemModelList = loadProvider_itemInformation(provider_itemFoundList, item.Source);
 
                     // selecting one provider among the item providers
-                    var providerFoundList = ProviderList.Where(x => ivm.Provider_itemModelList.Where(y => y.Provider.ID == x.ID).Count() > 0).ToList();
+                    var providerFoundList = ProviderList.Where(x => ivm.Provider_itemModelList.Where(y => y.Provider.ID == x.Provider.ID).Count() > 0).Select(x => x.Provider).ToList();
                     if (ivm.Provider_itemModelList.Count > 0 && providerFoundList.Count() > 0)
                     {
-                        ivm.SelectedProvider = providerFoundList.Single();
-                        ivm.SelectedProvider_itemModel = ivm.Provider_itemModelList.Where(x => x.Provider.ID == ivm.SelectedProvider.ID).Single();
+                        ivm.SelectedProvider = providerFoundList.First();
+                        ivm.SelectedProvider_itemModel = ivm.Provider_itemModelList.Where(x => x.Provider.ID == ivm.SelectedProvider.ID).First();
                     }
 
                     // select the items appearing in the cart
@@ -363,7 +435,7 @@ namespace QOBDManagement.ViewModel
             lock (_lock)
             {
                 itemModel.Image = image;
-            }               
+            }
         }
 
         public List<Provider_itemModel> loadProvider_itemInformation(List<Provider_item> provider_itemFoundList, int userSourceId)
@@ -385,10 +457,10 @@ namespace QOBDManagement.ViewModel
                     // getting the item currency information
                     var currencyFoundList = Bl.BlOrder.searchCurrency(new Currency { ID = provider_item.CurrencyId }, ESearchOption.AND);
                     if (currencyFoundList.Count > 0)
-                        provider_itemModel.CurrencyModel = currencyFoundList.Select(x => new CurrencyModel { Currency = x }).Single();
-                    
+                        provider_itemModel.CurrencyModel = currencyFoundList.Select(x => new CurrencyModel { Currency = x }).First();
+
                     //if (_main.OrderViewModel.CurrenciesList.Where(x => x.Currency.ID == provider_item.CurrencyId).Count() > 0)
-                    //    provider_itemModel.CurrencyModel = _main.OrderViewModel.CurrenciesList.Where(x => x.Currency.ID == provider_item.CurrencyId).Single();
+                    //    provider_itemModel.CurrencyModel = _main.OrderViewModel.CurrenciesList.Where(x => x.Currency.ID == provider_item.CurrencyId).First();
 
                     returnResult.Add(provider_itemModel);
                 }
@@ -511,7 +583,7 @@ namespace QOBDManagement.ViewModel
             {
                 if (itemModel.Image != null)
                     itemModel.Image.Dispose();
-            }                
+            }
         }
 
         //----------------------------[ Action Commands ]------------------
@@ -669,6 +741,184 @@ namespace QOBDManagement.ViewModel
         private bool canClearTheCart(object obj)
         {
             return true;
+        }
+
+        private async void saveProvider(object obj)
+        {
+            Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"]);
+
+            // saving the provider
+            List<Provider> savedProviders = new List<Provider>();
+
+            bool isProviderMandatoryFieldNotEmpty = !string.IsNullOrEmpty(SelectedProviderModel.TxtCompanyName)
+                                                           && !string.IsNullOrEmpty(SelectedProviderModel.TxtPhone)
+                                                               && !string.IsNullOrEmpty(SelectedProviderModel.TxtEmail);
+
+            bool isAddressMandatoryFieldNotEmpty = !string.IsNullOrEmpty(SelectedProviderModel.SelectedAddress.Name)
+                                                           && !string.IsNullOrEmpty(SelectedProviderModel.SelectedAddress.AddressName)
+                                                               && !string.IsNullOrEmpty(SelectedProviderModel.SelectedAddress.CityName)
+                                                                   && !string.IsNullOrEmpty(SelectedProviderModel.SelectedAddress.Postcode)
+                                                                       && !string.IsNullOrEmpty(SelectedProviderModel.SelectedAddress.Country);
+
+            if (SelectedProviderModel.Provider.ID == 0)
+            {
+                
+                if (isProviderMandatoryFieldNotEmpty)
+                {
+                    savedProviders = await Bl.BlItem.InsertProviderAsync(new List<Provider> { SelectedProviderModel.Provider });
+                    if (savedProviders.Count() > 0)
+                        ProviderList = ProviderList.Concat(providerListToModelList(savedProviders)).ToList();
+                }
+                else
+                    await Dialog.showAsync("[Main detail area]: Please fill up mandatory fields!");
+            }
+            else
+                savedProviders = await Bl.BlItem.UpdateProviderAsync(new List<Provider> { SelectedProviderModel.Provider });
+
+            // saving the provider address
+            if (savedProviders.Count() > 0)
+            {
+                List<Address> savedAddresses = new List<Address>();
+
+                SelectedProviderModel.SelectedAddress.ProviderId = SelectedProviderModel.Provider.ID;
+
+                if (SelectedProviderModel.SelectedAddress.ID == 0)
+                {
+                    if (isAddressMandatoryFieldNotEmpty)
+                    {
+                        savedAddresses = await Bl.BlClient.InsertAddressAsync(new List<Address> { SelectedProviderModel.SelectedAddress });
+                        if (savedAddresses.Count() > 0)
+                        {
+                            SelectedProviderModel.SelectedAddress = savedAddresses.First();
+                            SelectedProviderModel.AddressList.Add(savedAddresses.First());
+                        }                            
+                    }
+                    else if(!string.IsNullOrEmpty(SelectedProviderModel.SelectedAddress.Name))
+                        await Dialog.showAsync("[Address detail area]: Please fill up mandatory fields!");
+                }
+                else
+                    savedAddresses = await Bl.BlClient.UpdateAddressAsync(new List<Address> { SelectedProviderModel.SelectedAddress });
+
+                if (savedAddresses.Count() > 0)
+                {
+                    SelectedProviderModel.Provider.AddressId = savedAddresses.First().ID;
+                    await Bl.BlItem.UpdateProviderAsync(new List<Provider> { SelectedProviderModel.Provider });
+                }
+
+                if(savedAddresses.Count() > 0 || string.IsNullOrEmpty(SelectedProviderModel.SelectedAddress.Name))
+                    await Dialog.showAsync("The provider has been successfully updated!");
+            }
+            
+            Dialog.IsDialogOpen = false;
+        }
+
+        private bool canSaveProvider(object arg)
+        {
+            bool canUpdate = _main.securityCheck(EAction.Item, ESecurity._Update)
+                                && _main.securityCheck(EAction.Item, ESecurity._Write);
+            if (canUpdate)
+                return true;
+            return false;
+        }
+
+        private async void deleteProvider(object obj)
+        {
+            if (await Dialog.showAsync("Do you confirm the provider ["+ SelectedProviderModel .TxtCompanyName+ "] deletion?"))
+            {
+                Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
+                var notDeletedProviders = await Bl.BlItem.DeleteProviderAsync(new List<Provider> { SelectedProviderModel.Provider });
+
+                var providerFound = ProviderList.Where(x => x.Provider.ID == SelectedProviderModel.Provider.ID).SingleOrDefault();
+                if (notDeletedProviders.Count() == 0 && providerFound != null)
+                    ProviderList.Remove(providerFound);
+
+                Dialog.IsDialogOpen = false;
+            }            
+        }
+
+        private bool canDeleteProvider(object arg)
+        {
+            bool canDelete = _main.securityCheck(EAction.Item, ESecurity._Delete);
+            if (canDelete)
+                return true;
+            return false;
+        }
+
+        private void showSelectedAddressDetail(Address obj)
+        {
+            SelectedProviderModel.SelectedAddress = obj;
+        }
+
+        private bool canShowSelectedAddressDetail(Address arg)
+        {
+            return true;
+        }
+
+        private async void deleteProviderAddress(object obj)
+        {
+            if (await Dialog.showAsync("Do you confirm the address [" + SelectedProviderModel.SelectedAddress.Name2 + "] deletion?"))
+            {
+                Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
+                await Bl.BlClient.DeleteAddressAsync(new List<Address> { SelectedProviderModel.SelectedAddress });
+                var addressFound = SelectedProviderModel.AddressList.Where(x => x.ID == SelectedProviderModel.SelectedAddress.ID).SingleOrDefault();
+                if (addressFound != null)
+                {
+                    SelectedProviderModel.AddressList.Remove(addressFound);
+
+                    if (SelectedProviderModel.AddressList.Count() > 0)
+                        SelectedProviderModel.SelectedAddress = SelectedProviderModel.AddressList.First();
+                    else
+                        SelectedProviderModel.SelectedAddress = new Address();
+                }
+                Dialog.IsDialogOpen = false;
+            }
+            
+        }
+
+        private bool canDeleteProviderAddress(object arg)
+        {
+            bool canDelete = _main.securityCheck(EAction.Item, ESecurity._Delete);
+            if (canDelete)
+                return true;
+            return false;
+        }
+
+        private void addProviderAddress(object obj)
+        {
+            SelectedProviderModel.SelectedAddress = new Address();
+        }
+
+        private bool canAddProviderAddress(object arg)
+        {
+            bool canUpdate = _main.securityCheck(EAction.Item, ESecurity._Update)
+                                && _main.securityCheck(EAction.Item, ESecurity._Write);
+            if (canUpdate)
+                return true;
+            return false;
+        }
+
+        private void searchProvider(ProviderModel obj)
+        {
+            SelectedProviderModel = obj;
+        }
+
+        private bool canSearchProvider(ProviderModel arg)
+        {
+            return true;
+        }
+
+        private void clearSelectedProvider(object obj)
+        {
+            SelectedProviderModel = new ProviderModel();
+        }
+
+        private bool canClearProvider(object arg)
+        {
+            bool canUpdate = _main.securityCheck(EAction.Item, ESecurity._Update)
+                                && _main.securityCheck(EAction.Item, ESecurity._Write);
+            if (canUpdate)
+                return true;
+            return false;
         }
 
 

@@ -36,273 +36,276 @@
 
         <!-- Here comes the main content of the view -->
 
-        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.ColumnSpan="4" FontSize="20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding ReferentialViewModel.OptionSecurityViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
-            <materialDesign:ColorZone Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Mode="PrimaryMid">
-                <Grid>
+        <StackPanel Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
+
+            <Label FontSize="20" Margin="0 20 0 20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding ReferentialViewModel.OptionSecurityViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Grid Margin="0 0 0 20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <materialDesign:ColorZone Grid.ColumnSpan="4" Mode="PrimaryMid">
+                    <Grid>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock HorizontalAlignment="Center">Roles</TextBlock>
+                            <DataGrid Name="dgRoles" ItemsSource="{Binding ReferentialViewModel.OptionSecurityViewModel.RoleModelList, UpdateSourceTrigger=PropertyChanged}" 
+                          CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="500" MaxWidth="996">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Role</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtName}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Action</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ActionModel.TxtDisplayedName}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Create</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding ActionModel.PrivilegeModel.IsWrite, UpdateSourceTrigger=PropertyChanged}"
+                                                      Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedRoleCommand, ElementName=dgRoles}"
+                                                      CommandParameter="{Binding CurrentItem, ElementName=dgRoles}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Read</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding ActionModel.PrivilegeModel.IsRead, UpdateSourceTrigger=PropertyChanged}"
+                                                      Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedRoleCommand, ElementName=dgRoles}"
+                                                      CommandParameter="{Binding CurrentItem, ElementName=dgRoles}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Update</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding ActionModel.PrivilegeModel.IsUpdate, UpdateSourceTrigger=PropertyChanged}"
+                                                      Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedRoleCommand, ElementName=dgRoles}"
+                                                      CommandParameter="{Binding CurrentItem, ElementName=dgRoles}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Delete</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding ActionModel.PrivilegeModel.IsDelete, UpdateSourceTrigger=PropertyChanged}"
+                                                      Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedRoleCommand, ElementName=dgRoles}"
+                                                      CommandParameter="{Binding CurrentItem, ElementName=dgRoles}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Send Email</TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding ActionModel.PrivilegeModel.IsSendMail, UpdateSourceTrigger=PropertyChanged}"
+                                                      Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedRoleCommand, ElementName=dgRoles}"
+                                                      CommandParameter="{Binding CurrentItem, ElementName=dgRoles}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:ColorZone>
+
+                <materialDesign:ColorZone Grid.Row="1" Grid.ColumnSpan="4" Mode="PrimaryMid" Margin="0 20 0 0">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock HorizontalAlignment="Center">Roles</TextBlock>
-                        <DataGrid Name="dgRoles" ItemsSource="{Binding ReferentialViewModel.OptionSecurityViewModel.RoleModelList, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBlock HorizontalAlignment="Center">Agents Credentials</TextBlock>
+                        <DataGrid Name="dgData" ItemsSource="{Binding ReferentialViewModel.OptionSecurityViewModel.AgentModelList, UpdateSourceTrigger=PropertyChanged, IsAsync=True}"
+                          EnableColumnVirtualization="True" EnableRowVirtualization="True"
                           CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="500" MaxWidth="996">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock>Role</TextBlock>
+                                        <TextBlock>Agent ID</TextBlock>
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding TxtName}"/>
+                                            <TextBlock Text="{Binding TxtID}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock>Action</TextBlock>
+                                        <TextBlock>Agent Name</TextBlock>
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ActionModel.TxtDisplayedName}"/>
+                                            <TextBlock Text="{Binding TxtLastName}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock>Create</TextBlock>
+                                        <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole1.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <CheckBox IsChecked="{Binding ActionModel.PrivilegeModel.IsWrite, UpdateSourceTrigger=PropertyChanged}"
-                                                      Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedRoleCommand, ElementName=dgRoles}"
-                                                      CommandParameter="{Binding CurrentItem, ElementName=dgRoles}"/>
-                                            </StackPanel>
+                                            <CheckBox IsChecked="{Binding IsRole1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole1AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
+                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
+                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock>Read</TextBlock>
+                                        <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole2.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <CheckBox IsChecked="{Binding ActionModel.PrivilegeModel.IsRead, UpdateSourceTrigger=PropertyChanged}"
-                                                      Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedRoleCommand, ElementName=dgRoles}"
-                                                      CommandParameter="{Binding CurrentItem, ElementName=dgRoles}"/>
-                                            </StackPanel>
+                                            <CheckBox IsChecked="{Binding IsRole2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole2AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
+                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
+                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock>Update</TextBlock>
+                                        <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole3.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <CheckBox IsChecked="{Binding ActionModel.PrivilegeModel.IsUpdate, UpdateSourceTrigger=PropertyChanged}"
-                                                      Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedRoleCommand, ElementName=dgRoles}"
-                                                      CommandParameter="{Binding CurrentItem, ElementName=dgRoles}"/>
-                                            </StackPanel>
+                                            <CheckBox IsChecked="{Binding IsRole3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole3AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
+                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
+                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock>Delete</TextBlock>
+                                        <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole4.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <CheckBox IsChecked="{Binding ActionModel.PrivilegeModel.IsDelete, UpdateSourceTrigger=PropertyChanged}"
-                                                      Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedRoleCommand, ElementName=dgRoles}"
-                                                      CommandParameter="{Binding CurrentItem, ElementName=dgRoles}"/>
-                                            </StackPanel>
+                                            <CheckBox IsChecked="{Binding IsRole4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole4AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
+                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
+                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock>Send Email</TextBlock>
+                                        <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole5.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <CheckBox IsChecked="{Binding ActionModel.PrivilegeModel.IsSendMail, UpdateSourceTrigger=PropertyChanged}"
-                                                      Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedRoleCommand, ElementName=dgRoles}"
-                                                      CommandParameter="{Binding CurrentItem, ElementName=dgRoles}"/>
-                                            </StackPanel>
+                                            <CheckBox IsChecked="{Binding IsRole5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole5AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
+                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
+                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole6.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsRole6, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole6AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
+                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
+                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole7.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsRole7, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole7AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
+                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
+                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole8.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsRole8, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole8AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
+                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
+                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole9.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsRole9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole9AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
+                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
+                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </StackPanel>
-                </Grid>
-            </materialDesign:ColorZone>
-
-            <materialDesign:ColorZone Grid.Row="2" Grid.ColumnSpan="4" Mode="PrimaryMid" Margin="0 20 0 0">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Center">Agents Credentials</TextBlock>
-                    <DataGrid Name="dgData" ItemsSource="{Binding ReferentialViewModel.OptionSecurityViewModel.AgentModelList, UpdateSourceTrigger=PropertyChanged, IsAsync=True}"
-                          EnableColumnVirtualization="True" EnableRowVirtualization="True"
-                          CanUserAddRows="False" AutoGenerateColumns="False" MaxHeight="500" MaxWidth="996">
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock>Agent ID</TextBlock>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding TxtID}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock>Agent Name</TextBlock>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding TxtLastName}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole1.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole1AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
-                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
-                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole2.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole2AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
-                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
-                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole3.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole3AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
-                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
-                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole4.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole4AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
-                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
-                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole5.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole5AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
-                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
-                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole6.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole6, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole6AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
-                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
-                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole7.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole7, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole7AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
-                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
-                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole8.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole8, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole8AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
-                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
-                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.Header>
-                                    <TextBlock Text="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.HeaderRole9.Name, ElementName=dgData, UpdateSourceTrigger=PropertyChanged}"/>
-                                </DataGridTemplateColumn.Header>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding IsRole9, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIsRole9AnonymousEnable, UpdateSourceTrigger=PropertyChanged}"
-                                              Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.CbxGetSelectedAgentCommand, ElementName=dgData}"
-                                              CommandParameter="{Binding CurrentItem, ElementName=dgData}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </materialDesign:ColorZone>
+                </materialDesign:ColorZone>
 
 
-            <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Center" Margin="0 12 0 12">
-                <Button IsDefault="True"
+                <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.Row="2" HorizontalAlignment="Center" Margin="0 12 0 12">
+                    <Button IsDefault="True"
                         Command="{Binding DataContext.ReferentialViewModel.OptionSecurityViewModel.UpdateCredentialCommand, ElementName=dgData}" >
-                    <materialDesign:PackIcon Kind="Pencil" FontSize="30"/>
-                </Button>
-            </StackPanel>
+                        <materialDesign:PackIcon Kind="Pencil" FontSize="30"/>
+                    </Button>
+                </StackPanel>
 
-        </Grid>
-
+            </Grid>
+        </StackPanel>
+               
         <!-- End -->
 
     </Grid>

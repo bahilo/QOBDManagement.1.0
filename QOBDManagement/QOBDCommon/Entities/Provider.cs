@@ -16,12 +16,22 @@ namespace QOBDCommon.Entities
     {
         // Attributes
 
-        public int ID {get; set;}
-
-        public string Name {get; set;}
+        public int ID {get; set; }
 
         public int AddressId {get; set;}
 
         public int Source {get; set;}
+
+        public string Name { get; set; }
+
+        public string Phone { get; set; }
+
+        public string Email { get; set; }
+
+        public string Fax { get; set; }
+
+        public string RIB { get; set; }
+
+        public string Comment { get; set; }
     } /* end class Provider */
 }

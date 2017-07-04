@@ -39,134 +39,139 @@
 
         <!-- Here comes the main content of the view -->
 
-        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 20" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
 
-            <Label FontSize="20" Grid.ColumnSpan="2" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding ItemViewModel.ItemDetailViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
-            <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Margin="8" Grid.Row="1" Grid.Column="0">
-                <Grid Margin="8">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+            <Label FontSize="20" Margin="0 20 0 20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding ItemViewModel.ItemDetailViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock HorizontalAlignment="Center">Item Picture</TextBlock>
-                    <Grid Margin="0 10 0 0" Grid.Row="1">
-                        <Image Source="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.Image.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+            <Grid Margin="0 0 0 20" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Margin="8" Grid.Column="0">
+                    <Grid Margin="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock HorizontalAlignment="Center">Item Picture</TextBlock>
+                        <Grid Margin="0 10 0 0" Grid.Row="1">
+                            <Image Source="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.Image.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
                            Width="175"
                            Height="200"/>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Button Command="{Binding ItemViewModel.ItemDetailViewModel.OpenFileExplorerCommand}">
+                                <TextBlock>Choose File</TextBlock>
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid Grid.Row="2">
-                        <Button Command="{Binding ItemViewModel.ItemDetailViewModel.OpenFileExplorerCommand}">
-                            <TextBlock>Choose File</TextBlock>
-                        </Button>
-                    </Grid>
-                </Grid>
-            </materialDesign:Card>
+                </materialDesign:Card>
 
-            <materialDesign:ColorZone  Margin="8" Grid.Row="1" Grid.Column="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock HorizontalAlignment="Center">Main Details</TextBlock>
-                    <StackPanel Margin="0 6 0 0"  Grid.Row="1" Orientation="Vertical">
-                        <TextBox materialDesign:HintAssist.Hint="Name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" TextWrapping="Wrap" AcceptsReturn="True"               
+                <materialDesign:ColorZone  Margin="8" Grid.Column="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock HorizontalAlignment="Center">Main Details</TextBlock>
+                        <StackPanel Margin="0 6 0 0"  Grid.Row="1" Orientation="Vertical">
+                            <TextBox materialDesign:HintAssist.Hint="Name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" TextWrapping="Wrap" AcceptsReturn="True"               
                                          Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtName, Mode=TwoWay,UpdateSourceTrigger=LostFocus, Converter={StaticResource ResourceKey=StringLengthConverter}}"/>
-                        <TextBox materialDesign:HintAssist.Hint="Reference" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"  TextWrapping="Wrap" AcceptsReturn="True"
+                            <TextBox materialDesign:HintAssist.Hint="Reference" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"  TextWrapping="Wrap" AcceptsReturn="True"
                                   IsEnabled="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.IsRefModifyEnable, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"               
                                          Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtRef, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <StackPanel Orientation="Horizontal" Margin="20 6 0 0">
-                            <TextBlock VerticalAlignment="Center">Purchase Currency</TextBlock>
-                            <ComboBox ItemsSource="{Binding ItemViewModel.CurrenciesList}" Margin="20 0 0 0" materialDesign:HintAssist.Hint="Purchase Currencies" Width="250"
+                            <StackPanel Orientation="Horizontal" Margin="20 6 0 0">
+                                <TextBlock VerticalAlignment="Center">Purchase Currency</TextBlock>
+                                <ComboBox ItemsSource="{Binding ItemViewModel.CurrenciesList}" Margin="20 0 0 0" materialDesign:HintAssist.Hint="Purchase Currencies" Width="250"
                                       SelectedItem="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.CurrencyModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding TxtName, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
-                            <TextBox materialDesign:HintAssist.Hint="Purchase price" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding TxtName, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
+                                <TextBox materialDesign:HintAssist.Hint="Purchase price" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                      Width="100" Margin="20 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtPrice_purchase, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
-                            <TextBox materialDesign:HintAssist.Hint="Selling Price Advised" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                <TextBox materialDesign:HintAssist.Hint="Selling Price Advised" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                      Width="100" Margin="20 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtPrice_sell, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
-                            <TextBox materialDesign:HintAssist.Hint="Stock" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                <TextBox materialDesign:HintAssist.Hint="Stock" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                      Width="100" Margin="20 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtStock, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
+                            </StackPanel>
+
                         </StackPanel>
-                        
-                    </StackPanel>
-                </Grid>
-            </materialDesign:ColorZone>
-            <StackPanel Grid.Row="2" Grid.Column="0">
-                <Border Background="{DynamicResource PrimaryHueDarkBrush}" Margin="8" >
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock HorizontalAlignment="Center">Comments / More detail on the item</TextBlock>
-                        <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" MinLines="10" TextWrapping="Wrap" AcceptsReturn="True" Background="White"
+                    </Grid>
+                </materialDesign:ColorZone>
+                <StackPanel Grid.Row="1" Grid.Column="0">
+                    <Border Background="{DynamicResource PrimaryHueDarkBrush}" Margin="8" >
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock HorizontalAlignment="Center">Comments / More detail on the item</TextBlock>
+                            <TextBox Style="{DynamicResource MaterialDesignFloatingHintTextBox}" MinLines="10" TextWrapping="Wrap" AcceptsReturn="True" Background="White"
                                         Margin="0 8 0 0" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtComment}"/>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-            <materialDesign:ColorZone Margin="8" Grid.Row="2" Grid.Column="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock HorizontalAlignment="Center">Provider</TextBlock>
-                    <StackPanel Grid.Row="1" Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
-                            <TextBlock VerticalAlignment="Center">Brand</TextBlock>
-                            <ComboBox ItemsSource="{Binding ItemViewModel.BrandList,IsAsync=True, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200"  Margin="20 0 0 0"  materialDesign:HintAssist.Hint="Item Brand"
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                <materialDesign:ColorZone Margin="8" Grid.Row="1" Grid.Column="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock HorizontalAlignment="Center">Provider</TextBlock>
+                        <StackPanel Grid.Row="1" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
+                                <TextBlock VerticalAlignment="Center">Brand</TextBlock>
+                                <ComboBox ItemsSource="{Binding ItemViewModel.BrandList,IsAsync=True, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200"  Margin="20 0 0 0"  materialDesign:HintAssist.Hint="Item Brand"
                                       SelectedItem="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>
-                        <TextBox materialDesign:HintAssist.Hint="New Brand" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                            </StackPanel>
+                            <TextBox materialDesign:HintAssist.Hint="New Brand" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                         Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtNewBrand, UpdateSourceTrigger=PropertyChanged}"/>
-                        <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
-                            <TextBlock VerticalAlignment="Center">Family</TextBlock>
-                            <ComboBox ItemsSource="{Binding ItemViewModel.FamilyList,IsAsync=True, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="20 0 0 0"  materialDesign:HintAssist.Hint="Item Family"
+                            <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
+                                <TextBlock VerticalAlignment="Center">Family</TextBlock>
+                                <ComboBox ItemsSource="{Binding ItemViewModel.FamilyList,IsAsync=True, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="20 0 0 0"  materialDesign:HintAssist.Hint="Item Family"
                                       SelectedItem="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtType_sub, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>
-                        <TextBox materialDesign:HintAssist.Hint="New family" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                            </StackPanel>
+                            <TextBox materialDesign:HintAssist.Hint="New family" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                  Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtNewFamily, UpdateSourceTrigger=PropertyChanged}"/>
-                        <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
-                            <TextBlock VerticalAlignment="Center">Provider</TextBlock>
-                            <ComboBox ItemsSource="{Binding ItemViewModel.ProviderList}" HorizontalAlignment="Right" materialDesign:HintAssist.Hint="Item Provider"  Margin="20 0 0 0" Width="250"
+                            <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
+                                <TextBlock VerticalAlignment="Center">Provider</TextBlock>
+                                <ComboBox ItemsSource="{Binding ItemViewModel.ProviderList}" HorizontalAlignment="Right" materialDesign:HintAssist.Hint="Item Provider"  Margin="20 0 0 0" Width="250"
                                       SelectedItem="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.SelectedProvider, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Name}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                        </StackPanel>
-                        <TextBox materialDesign:HintAssist.Hint="New provider" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding TxtCompanyName}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                            <TextBox materialDesign:HintAssist.Hint="New provider" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                  Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtNewProvider, UpdateSourceTrigger=PropertyChanged}"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 12 0 0">
-                            <Button IsDefault="True"
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 12 0 0">
+                                <Button IsDefault="True"
                                     Command="{Binding ItemViewModel.ItemDetailViewModel.btnDeleteCommand}" >
-                                <materialDesign:PackIcon Kind="Delete" FontSize="30"/>
-                            </Button>
-                            <Button IsDefault="True"
+                                    <materialDesign:PackIcon Kind="Delete" FontSize="30"/>
+                                </Button>
+                                <Button IsDefault="True"
                                     Command="{Binding ItemViewModel.ItemDetailViewModel.btnValidCommand}" >
-                                <materialDesign:PackIcon Kind="Pencil" FontSize="30"/>
-                            </Button>
+                                    <materialDesign:PackIcon Kind="Pencil" FontSize="30"/>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </materialDesign:ColorZone>
-        </Grid>
+                    </Grid>
+                </materialDesign:ColorZone>
+            </Grid>
+
+        </StackPanel>
+        
 
         <!-- End -->
 

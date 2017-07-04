@@ -52,6 +52,18 @@
                                         </StackPanel>
                                     </Button>
                                 </Border>
+                                <Border BorderThickness="0 0 0 1" BorderBrush="DarkGray">
+                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" ToolTip="Catalogue home"
+                                        Command="{Binding ItemViewModel.ItemSideBarViewModel.UtilitiesCommand}"
+                                        CommandParameter="provider" HorizontalContentAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border CornerRadius="3" Background="{Binding ItemViewModel.ItemSideBarViewModel.TxtIconColour}" Padding="2" >
+                                                <materialDesign:PackIcon Kind="Blender" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke"/>
+                                            </Border>
+                                            <TextBlock Margin="8 0 0 0">Providers</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </Border>
                             </StackPanel>
                         </Expander>
 

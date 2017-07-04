@@ -112,6 +112,10 @@ namespace QOBDDAL.Core
                 var itemList = await _gateWayItem.GetItemDataAsync(_loadSize);
                 if (itemList.Count > 0)
                     await UpdateItemDependenciesAsync(itemList);
+
+                var providerList = await _gateWayItem.GetProviderDataAsync(_loadSize);
+                if (providerList.Count > 0)
+                    LoadProvider(providerList);
             }
             catch (Exception ex)
             {

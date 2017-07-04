@@ -7,6 +7,7 @@ using System.Windows.Input;
 using QOBDManagement.ViewModel;
 using System.Windows.Threading;
 using QOBDCommon.Classes;
+using System.Windows;
 
 namespace QOBDManagement.Command
 {
@@ -54,8 +55,19 @@ namespace QOBDManagement.Command
         {
             try
             {
-                if (CanExecuteChanged != null)
-                    CanExecuteChanged(this, EventArgs.Empty);
+                if(Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(()=> {
+                        if (CanExecuteChanged != null)
+                            CanExecuteChanged(this, EventArgs.Empty);
+                    });
+                }
+                else
+                {
+                    if (CanExecuteChanged != null)
+                        CanExecuteChanged(this, EventArgs.Empty);
+                }
+                
             }
             catch (Exception ex)
             {

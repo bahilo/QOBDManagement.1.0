@@ -76,12 +76,18 @@ namespace QOBDManagement.ViewModel
                 case "catalogue":
                     _page(_main.ItemViewModel);
                     break;
+                case "provider":
+                    _page(new ProviderModel());
+                    break;
             }
         }
 
         private bool canExecuteUtilityAction(string arg)
         {
             if (arg.Equals("catalogue") && _page(null) as ItemViewModel != null)
+                return false;
+
+            if (arg.Equals("provider") && _page(null) as ProviderModel != null)
                 return false;
 
             return true;

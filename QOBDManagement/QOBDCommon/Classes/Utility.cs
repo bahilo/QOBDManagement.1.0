@@ -19,7 +19,7 @@ namespace QOBDCommon.Classes
         public static RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
         public static DateTime DateTimeMinValueInSQL2005 = new DateTime(1753, 1, 1);
         public static string BaseDirectory = getDirectory(Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), ConfigurationManager.AppSettings["info_company_name"]); //AppDomain.CurrentDomain.BaseDirectory;
-        public static List<string> MaterialDesignColourList = new List<string> { "Accent", "Dark", "Inverted", "Light", "PrimaryDark", "PrimaryLight", "PrimaryMid" };
+        public static List<string> MaterialDesignColourList = new List<string> { "Accent", "Dark", "Inverted", "PrimaryDark", "PrimaryLight", "PrimaryMid" };
         public static List<string> ColourList = new List<string> { "DarkBlue", "DarkGreen", "DarkMagenta", "DarkOrange", "DarkRed", "DarkOrchid", "DarkCyan", "DarkGoldenrod", "DarkSalmon", "DarkSeaGreen", "DarkSlateGray", "DarkTurquoise", "DarkViolet", "DeepPink" };
 
         public static DateTime convertToDateTime(string dateString, bool? isFromDatePicker = false)

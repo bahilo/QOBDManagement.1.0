@@ -10013,6 +10013,16 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string nameField;
         
+        private string phoneField;
+        
+        private string faxField;
+        
+        private string emailField;
+        
+        private string rIBField;
+        
+        private string commentField;
+        
         private string sourceField;
         
         private string addressIdField;
@@ -10038,6 +10048,61 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.nameField = value;
                 this.RaisePropertyChanged("Name");
+            }
+        }
+        
+        /// <remarks/>
+        public string Phone {
+            get {
+                return this.phoneField;
+            }
+            set {
+                this.phoneField = value;
+                this.RaisePropertyChanged("Phone");
+            }
+        }
+        
+        /// <remarks/>
+        public string Fax {
+            get {
+                return this.faxField;
+            }
+            set {
+                this.faxField = value;
+                this.RaisePropertyChanged("Fax");
+            }
+        }
+        
+        /// <remarks/>
+        public string Email {
+            get {
+                return this.emailField;
+            }
+            set {
+                this.emailField = value;
+                this.RaisePropertyChanged("Email");
+            }
+        }
+        
+        /// <remarks/>
+        public string RIB {
+            get {
+                return this.rIBField;
+            }
+            set {
+                this.rIBField = value;
+                this.RaisePropertyChanged("RIB");
+            }
+        }
+        
+        /// <remarks/>
+        public string Comment {
+            get {
+                return this.commentField;
+            }
+            set {
+                this.commentField = value;
+                this.RaisePropertyChanged("Comment");
             }
         }
         
@@ -10096,6 +10161,16 @@ namespace QOBDGateway.QOBDServiceReference {
         
         private string nameField;
         
+        private string phoneField;
+        
+        private string faxField;
+        
+        private string emailField;
+        
+        private string rIBField;
+        
+        private string commentField;
+        
         private string sourceField;
         
         private string addressIdField;
@@ -10119,6 +10194,61 @@ namespace QOBDGateway.QOBDServiceReference {
             set {
                 this.nameField = value;
                 this.RaisePropertyChanged("Name");
+            }
+        }
+        
+        /// <remarks/>
+        public string Phone {
+            get {
+                return this.phoneField;
+            }
+            set {
+                this.phoneField = value;
+                this.RaisePropertyChanged("Phone");
+            }
+        }
+        
+        /// <remarks/>
+        public string Fax {
+            get {
+                return this.faxField;
+            }
+            set {
+                this.faxField = value;
+                this.RaisePropertyChanged("Fax");
+            }
+        }
+        
+        /// <remarks/>
+        public string Email {
+            get {
+                return this.emailField;
+            }
+            set {
+                this.emailField = value;
+                this.RaisePropertyChanged("Email");
+            }
+        }
+        
+        /// <remarks/>
+        public string RIB {
+            get {
+                return this.rIBField;
+            }
+            set {
+                this.rIBField = value;
+                this.RaisePropertyChanged("RIB");
+            }
+        }
+        
+        /// <remarks/>
+        public string Comment {
+            get {
+                return this.commentField;
+            }
+            set {
+                this.commentField = value;
+                this.RaisePropertyChanged("Comment");
             }
         }
         

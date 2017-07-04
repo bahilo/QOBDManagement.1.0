@@ -429,13 +429,13 @@ namespace QOBDManagement.ViewModel
                 }
 
                 // update the provider list
-                if (_main.ItemViewModel.ProviderList.Where(x => x == SelectedItemModel.SelectedProvider).Count() == 0)
+                if (_main.ItemViewModel.ProviderList.Where(x => x.Provider.ID == SelectedItemModel.SelectedProvider.ID).Count() == 0)
                 {
-                    List<Provider> buffer = _main.ItemViewModel.ProviderList.ToList();
-                    buffer.Add(SelectedItemModel.SelectedProvider);
+                    List<ProviderModel> buffer = _main.ItemViewModel.ProviderList.ToList();
+                    buffer.Add( new ProviderModel { Provider = SelectedItemModel.SelectedProvider });
 
                     // call the property change for UI update
-                    _main.ItemViewModel.ProviderList = new HashSet<Provider>(buffer);
+                    _main.ItemViewModel.ProviderList = new List<ProviderModel>(buffer);
                 }
 
                 _main.ItemViewModel.checkBoxToCartCommand.raiseCanExecuteActionChanged();

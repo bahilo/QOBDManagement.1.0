@@ -36,119 +36,123 @@
 
         <!-- Here comes the main content of the view -->
 
-        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 20" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
 
-            <Label Grid.ColumnSpan="4" FontSize="20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding NotificationViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
-            <materialDesign:ColorZone Grid.Row="1" Margin="8" Grid.ColumnSpan="4" Mode="PrimaryMid">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Center">Bill Not Paid</TextBlock>
-                    <DataGrid Name="dgBillNotPaid" ItemsSource="{Binding NotificationViewModel.BillNotPaidList, UpdateSourceTrigger=PropertyChanged}" 
+            <Label Margin="0 20 0 20" FontSize="20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding NotificationViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Grid Margin="0 0 10 20" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:ColorZone Margin="8" Grid.ColumnSpan="4" Mode="PrimaryMid">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock HorizontalAlignment="Center">Bill Not Paid</TextBlock>
+                        <DataGrid Name="dgBillNotPaid" ItemsSource="{Binding NotificationViewModel.BillNotPaidList, UpdateSourceTrigger=PropertyChanged}" 
                           CanUserAddRows="False" AutoGenerateColumns="False" MaxWidth="996">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Bill ID" Binding="{Binding TxtID}"/>
-                            <DataGridTextColumn Header="Command ID" Binding="{Binding TxtOrderId}"/>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
-                            <DataGridTextColumn Header="Company Name" Binding="{Binding ClientModel.TxtCompany}"/>
-                            <DataGridTextColumn Header="Bill Total" Binding="{Binding TxtPay}"/>
-                            <DataGridTextColumn Header="Pay Received" Binding="{Binding TxtPayReceived}"/>
-                            <DataGridTextColumn Header="Limit Date" Binding="{Binding TxtDateLimit}"/>
-                            <DataGridTextColumn Header="Order Status" Binding="{Binding OrderModel.TxtStatus}"/>
-                            <DataGridTextColumn Header="Days Late" Binding="{Binding TxtDaysLate}"/>
-                            <DataGridTextColumn Header="Date First Reminder" Binding="{Binding TxtDateFirstReminder}"/>
-                            <DataGridTextColumn Header="Date Second Reminder" Binding="{Binding TxtDateSecondReminder}"/>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Command="{Binding DataContext.NotificationViewModel.SendBillCommand, ElementName=dgBillNotPaid}"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Bill ID" Binding="{Binding TxtID}"/>
+                                <DataGridTextColumn Header="Command ID" Binding="{Binding TxtOrderId}"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
+                                <DataGridTextColumn Header="Company Name" Binding="{Binding ClientModel.TxtCompany}"/>
+                                <DataGridTextColumn Header="Bill Total" Binding="{Binding TxtPay}"/>
+                                <DataGridTextColumn Header="Pay Received" Binding="{Binding TxtPayReceived}"/>
+                                <DataGridTextColumn Header="Limit Date" Binding="{Binding TxtDateLimit}"/>
+                                <DataGridTextColumn Header="Order Status" Binding="{Binding OrderModel.TxtStatus}"/>
+                                <DataGridTextColumn Header="Days Late" Binding="{Binding TxtDaysLate}"/>
+                                <DataGridTextColumn Header="Date First Reminder" Binding="{Binding TxtDateFirstReminder}"/>
+                                <DataGridTextColumn Header="Date Second Reminder" Binding="{Binding TxtDateSecondReminder}"/>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.NotificationViewModel.SendBillCommand, ElementName=dgBillNotPaid}"
                                             CommandParameter="{Binding CurrentItem, ElementName=dgBillNotPaid}">
-                                            Send Invoice
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </materialDesign:ColorZone>
+                                                Send Invoice
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:ColorZone>
 
-            <materialDesign:ColorZone Margin="8" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Mode="PrimaryMid">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Center">Order Waiting To Be validated For More Than One Week</TextBlock>
-                    <DataGrid Name="dgOrderWaitValidClientList" ItemsSource="{Binding NotificationViewModel.OrderWaitingValidationList, UpdateSourceTrigger=PropertyChanged}" 
+                <materialDesign:ColorZone Margin="8" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Mode="PrimaryMid">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock HorizontalAlignment="Center">Order Waiting To Be validated For More Than One Week</TextBlock>
+                        <DataGrid Name="dgOrderWaitValidClientList" ItemsSource="{Binding NotificationViewModel.OrderWaitingValidationList, UpdateSourceTrigger=PropertyChanged}" 
                           CanUserAddRows="False" AutoGenerateColumns="False" MaxWidth="996">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
-                            <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
-                            <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
-                            <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
-                            <DataGridTemplateColumn Header="Detail">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
+                                <DataGridTextColumn Header="CLient" Binding="{Binding CLientModel.TxtCompany}"/>
+                                <DataGridTextColumn Header="Agent" Binding="{Binding AgentModel.TxtLastName}"/>
+                                <DataGridTemplateColumn Header="Detail">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" Name="btnDetail"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
                                                 Content="Detail"
                                                 Command="{Binding DataContext.OrderViewModel.GetCurrentOrderCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                                 CommandParameter="{Binding ElementName=dgOrderWaitValidClientList,Path=CurrentItem}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </materialDesign:ColorZone>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:ColorZone>
 
-            <materialDesign:ColorZone Margin="8" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Mode="PrimaryMid">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock HorizontalAlignment="Center">Client over their Max Credit</TextBlock>
-                    <DataGrid Name="dgClient" ItemsSource="{Binding NotificationViewModel.ClientList, UpdateSourceTrigger=PropertyChanged}" 
+                <materialDesign:ColorZone Margin="8" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Mode="PrimaryMid">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock HorizontalAlignment="Center">Client over their Max Credit</TextBlock>
+                        <DataGrid Name="dgClient" ItemsSource="{Binding NotificationViewModel.ClientList, UpdateSourceTrigger=PropertyChanged}" 
                           CanUserAddRows="False" AutoGenerateColumns="False" MaxWidth="996">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Client ID" Binding="{Binding TxtID}"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding TxtLastName}"/>
-                            <DataGridTextColumn Header="Comapny Name" Binding="{Binding TxtCompany}"/>
-                            <DataGridTextColumn Header="Status" Binding="{Binding TxtStatus}"/>
-                            <DataGridTextColumn Header="Used Credit" Binding="{Binding TxtUsedCredit}"/>
-                            <DataGridTextColumn Header="Credit Max" Binding="{Binding TxtMaxCredit}"/>
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Command="{Binding DataContext.ClientViewModel.ClientDetailCommand, ElementName=dgClient}"
-                                            CommandParameter="{Binding CurrentItem, ElementName=dgClient}">
-                                            <TextBlock>Detail</TextBlock>
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
-            </materialDesign:ColorZone>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Client ID" Binding="{Binding TxtID}"/>
+                                <DataGridTextColumn Header="Name" Binding="{Binding TxtLastName}"/>
+                                <DataGridTextColumn Header="Comapny Name" Binding="{Binding TxtCompany}"/>
+                                <DataGridTextColumn Header="Status" Binding="{Binding TxtStatus}"/>
+                                <DataGridTextColumn Header="Used Credit" Binding="{Binding TxtUsedCredit}"/>
+                                <DataGridTextColumn Header="Credit Max" Binding="{Binding TxtMaxCredit}"/>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding DataContext.ClientViewModel.ClientDetailCommand, ElementName=dgClient}"
+                                                    CommandParameter="{Binding CurrentItem, ElementName=dgClient}">
+                                                <TextBlock>Detail</TextBlock>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </materialDesign:ColorZone>
 
-            <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.Row="4" HorizontalAlignment="Right" Margin="0 12 0 0">
-                <Button IsDefault="True"
+                <StackPanel Orientation="Horizontal" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Right" Margin="0 12 0 0">
+                    <Button IsDefault="True"
                         Command="{Binding NotificationViewModel.BtnDeleteCommand}" CommandParameter="client" >
-                    <materialDesign:PackIcon Kind="Delete" FontSize="30"/>
-                </Button>
-                <Button IsDefault="True"
+                        <materialDesign:PackIcon Kind="Delete" FontSize="30"/>
+                    </Button>
+                    <Button IsDefault="True"
                         Command="{Binding NotificationViewModel.ValidChangeCommand}" >
-                    <materialDesign:PackIcon Kind="Pencil" FontSize="30"/>
-                </Button>
-            </StackPanel>
-        </Grid>
+                        <materialDesign:PackIcon Kind="Pencil" FontSize="30"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
 
+        </StackPanel>
+        
         <!-- End -->
 
     </Grid>

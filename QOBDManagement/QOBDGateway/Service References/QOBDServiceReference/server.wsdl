@@ -688,6 +688,11 @@
         <xsd:all>
           <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
+          <xsd:element name="Phone" type="xsd:string" />
+          <xsd:element name="Fax" type="xsd:string" />
+          <xsd:element name="Email" type="xsd:string" />
+          <xsd:element name="RIB" type="xsd:string" />
+          <xsd:element name="Comment" type="xsd:string" />
           <xsd:element name="Source" type="xsd:string" />
           <xsd:element name="AddressId" type="xsd:string" />
         </xsd:all>
@@ -703,6 +708,11 @@
         <xsd:all>
           <xsd:element name="ID" type="xsd:string" />
           <xsd:element name="Name" type="xsd:string" />
+          <xsd:element name="Phone" type="xsd:string" />
+          <xsd:element name="Fax" type="xsd:string" />
+          <xsd:element name="Email" type="xsd:string" />
+          <xsd:element name="RIB" type="xsd:string" />
+          <xsd:element name="Comment" type="xsd:string" />
           <xsd:element name="Source" type="xsd:string" />
           <xsd:element name="AddressId" type="xsd:string" />
           <xsd:element name="Operator" type="xsd:string" />

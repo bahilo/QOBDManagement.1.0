@@ -16,6 +16,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:Views="clr-namespace:QOBDManagement.Views"
         xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
+        xmlns:Model="clr-namespace:QOBDManagement.Models"
         xmlns:Classes="clr-namespace:QOBDManagement.Classes"
         Closing="Window_Closing"
         Icon="favicon.ico">
@@ -90,6 +91,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type ViewModel:OrderDetailViewModel}">
                 <Views:OrderDetailView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type Model:ProviderModel}">
+                <Views:ItemProviderView/>
             </DataTemplate>
 
             <!-- Chat-->

@@ -1,0 +1,227 @@
+﻿<UserControl x:Class="QOBDManagement.Views.ItemProviderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
+             xmlns:Class="clr-namespace:QOBDManagement.Classes"
+             xmlns:Views="clr-namespace:QOBDManagement.Views"
+             xmlns:Main="clr-namespace:QOBDManagement"
+             xmlns:system="clr-namespace:System;assembly=mscorlib" 
+             xmlns:local="clr-namespace:QOBDManagement.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="ItemProvider_Loaded">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type ViewModel:ItemSideBarViewModel}">
+            <Views:ItemSideBarView/>
+        </DataTemplate>
+        <Class:StringLengthConverter x:Key="StringLengthConverter"/>
+    </UserControl.Resources>
+
+    <Grid Grid.Row="1" x:Name="gvMain" VerticalAlignment="Top" Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Here comes the side menu-->
+
+        <Grid x:Name="gvLeftSide"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" 
+                          VerticalAlignment="Top" HorizontalAlignment="Left">
+            <ContentControl Content="{Binding ItemViewModel.ItemSideBarViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+
+        <!-- End -->
+
+
+        <!-- Here comes the main content of the view -->
+        <StackPanel Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" >
+
+            <Label FontSize="20" Margin="0 20 0 20" Grid.ColumnSpan="4" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding ItemViewModel.ProviderTitle, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Grid Margin="0 0 0 20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Search zone -->
+                <StackPanel Margin="1,8,8,8">
+                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3">
+                        <Grid Margin="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock HorizontalAlignment="Center">Search</TextBlock>
+                            <StackPanel Margin="0 10 0 0" Grid.Row="1" Orientation="Vertical">
+                                <StackPanel Margin="0 6 0 0" Orientation="Horizontal">
+                                    <TextBlock>Company Name</TextBlock>
+                                    <ComboBox Name="comboCompanyName" ItemsSource="{Binding DataContext.ItemViewModel.ItemProviderList, IsAsync=True,RelativeSource={RelativeSource AncestorType={x:Type Window}}}" HorizontalAlignment="Right" Margin="6 0 0 0" Width="250">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TxtCompanyName}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0 12 0 0" HorizontalAlignment="Right">
+                                    <Button Command="{Binding ItemViewModel.BtnProviderSearchCommand}" CommandParameter="{Binding SelectedItem, ElementName=comboCompanyName}">
+                                        <materialDesign:PackIcon Kind="Magnify"/>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+                </StackPanel>
+
+                <!-- Main detail zone -->
+                <materialDesign:ColorZone  Margin="8,8,8.5,0" Grid.Column="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <TextBlock HorizontalAlignment="Center">Main Details</TextBlock>
+                            <Button HorizontalAlignment="Right" ToolTip="Clear search result"
+                                    Command="{Binding ItemViewModel.btnClearSelectedProviderCommand}">
+                                <materialDesign:PackIcon Kind="Broom"/>
+                            </Button>
+                        </Grid>
+                        <StackPanel Margin="0 10 0 0"  Grid.Row="1" Orientation="Vertical">
+                            <TextBox materialDesign:HintAssist.Hint="Company Name(*)" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"                 
+                                         Margin="0 6 0 0" FontSize="12" Text="{Binding DataContext.ItemViewModel.SelectedProviderModel.TxtCompanyName, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                            <TextBox materialDesign:HintAssist.Hint="Phone(*)" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                        Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.SelectedProviderModel.TxtPhone, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox materialDesign:HintAssist.Hint="Fax" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                        Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.SelectedProviderModel.TxtFax, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox materialDesign:HintAssist.Hint="Email(*)" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                        Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.SelectedProviderModel.TxtEmail, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox materialDesign:HintAssist.Hint="RIB" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                 Margin="0 8 0 0" FontSize="12" Text="{Binding DataContext.ItemViewModel.SelectedProviderModel.TxtRIB, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:ColorZone>
+
+                <!-- Comment -->
+                <materialDesign:ColorZone Margin="1,8,8,0" Grid.Row="1" >
+                    <Grid Margin="20" Width="{Binding ActualWidth, ElementName=mdProviderComment, UpdateSourceTrigger=PropertyChanged}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <materialDesign:ColorZone Name="mdProviderComment" Mode="{Binding HomeViewModel.TxtMaterialDesignColourName, UpdateSourceTrigger=PropertyChanged}" Padding="6" Height="43">
+                            <Grid>
+                                <Border Padding="5" CornerRadius="2" BorderBrush="DarkGray" BorderThickness="2" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                    <materialDesign:PackIcon Kind="Comment"/>
+                                </Border>
+                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Center">Edit Comment</TextBlock>
+                            </Grid>
+                        </materialDesign:ColorZone>
+                        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto"
+                          Width="{Binding ElementName=mdProviderComment, Path=ActualWidth, UpdateSourceTrigger=PropertyChanged}">
+                            <Border Margin="10" BorderBrush="DarkGray" BorderThickness="1" Padding="5">
+                                <StackPanel Margin="0 10 0 0"  Grid.Row="1"  Orientation="Vertical">
+                                    <TextBox Background="Beige" TextWrapping="Wrap" Height="300" MinLines="10" AcceptsReturn="True" Width="{Binding ElementName=mdProviderComment, Path=ActualWidth, UpdateSourceTrigger=PropertyChanged}"
+                                             Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.SelectedProviderModel.TxtComment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                </StackPanel>
+                            </Border>
+                        </ScrollViewer>
+                    </Grid>
+                </materialDesign:ColorZone>
+
+                <!-- Address zone -->
+                <materialDesign:ColorZone Margin="8,8,8.5,0" Grid.Row="1" Grid.Column="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <TextBlock HorizontalAlignment="Center">Address</TextBlock>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Command="{Binding ItemViewModel.BtnAddProviderAddressCommand}" ToolTip="Clear address zone">
+                                    <materialDesign:PackIcon Kind="Broom"/>
+                                </Button>
+                                <Button Command="{Binding ItemViewModel.BtnDeleteProviderAddressCommand}" ToolTip="Delete" Margin="1 0 0 0">
+                                    <materialDesign:PackIcon Kind="Delete"/>
+                                </Button>
+                            </StackPanel>
+
+                        </Grid>
+                        <StackPanel Grid.Row="1" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0 0 10 0">Type(*)</TextBlock>
+                                <ComboBox ItemsSource="{Binding ClientViewModel.ClientDetailViewModel.AddressTypeList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ItemViewModel.SelectedProviderModel.SelectedAddress.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                               Width="200"/>
+                            </StackPanel>
+                            <TextBox materialDesign:HintAssist.Hint="Name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                        Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.SelectedProviderModel.SelectedAddress.Name2, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox materialDesign:HintAssist.Hint="Address(*)" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" TextWrapping="Wrap" AcceptsReturn="True"
+                                        Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.SelectedProviderModel.SelectedAddress.AddressName, Converter={StaticResource StringLengthConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox materialDesign:HintAssist.Hint="City(*)" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                        Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.SelectedProviderModel.SelectedAddress.CityName, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox materialDesign:HintAssist.Hint="Post Code(*)" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                        Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.SelectedProviderModel.SelectedAddress.Postcode, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox materialDesign:HintAssist.Hint="Country(*)" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                 Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.SelectedProviderModel.SelectedAddress.Country, UpdateSourceTrigger=PropertyChanged}"/>
+                            <materialDesign:Card Margin="0 8 0 0">
+                                <Border Background="{DynamicResource PrimaryHueMidBrush}">
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBox Background="White" Text="{Binding ItemViewModel.SelectedProviderModel.SelectedAddress.Comment, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                          materialDesign:HintAssist.Hint="Comment on the address" FontSize="12" MinLines="5" TextWrapping="Wrap" AcceptsReturn="True"/>
+                                    </StackPanel>
+                                </Border>
+                            </materialDesign:Card>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:ColorZone>
+
+                <!-- Addresses listing zone -->
+                <materialDesign:ColorZone Grid.Row="2" Grid.ColumnSpan="2" Margin="5,8,0,0">
+                    <DataGrid Name="dgAddress" ItemsSource="{Binding ItemViewModel.SelectedProviderModel.AddressList, UpdateSourceTrigger=PropertyChanged}" 
+                          CanUserAddRows="False" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Address type" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Address Name" Binding="{Binding Name2}"/>
+                            <DataGridTextColumn Header="Address" Binding="{Binding AddressName}"/>
+                            <DataGridTextColumn Header="Country" Binding="{Binding Country}"/>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Command="{Binding DataContext.ItemViewModel.SelectedAddressDetailCommand, ElementName=dgAddress}"
+                                            CommandParameter="{Binding CurrentItem, ElementName=dgAddress}">
+                                            <TextBlock>Detail</TextBlock>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </materialDesign:ColorZone>
+
+                <!-- Validation -->
+                <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,12,-0.5,0">
+                    <Button Command="{Binding ItemViewModel.btnDeleteProviderCommand}" >
+                        <materialDesign:PackIcon Kind="Delete" FontSize="30"/>
+                    </Button>
+                    <Button Command="{Binding ItemViewModel.btnValidProviderCommand}" >
+                        <materialDesign:PackIcon Kind="Pencil" FontSize="30"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+        </StackPanel>
+        <!-- End -->
+
+    </Grid>
+</UserControl>

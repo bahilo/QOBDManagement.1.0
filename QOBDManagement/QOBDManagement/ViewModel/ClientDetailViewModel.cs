@@ -59,7 +59,7 @@ namespace QOBDManagement.ViewModel
         private void instances()
         {
             _title = ConfigurationManager.AppSettings["title_client_detail"];
-            _addressTypeList = new List<string> { "Bill", "Delivery" };
+            _addressTypeList = new List<string> { "Bill", "Delivery", "Other" };
         }
 
         private void instancesModel()
@@ -138,7 +138,7 @@ namespace QOBDManagement.ViewModel
             List<Address> savedAddressList = new List<Address>();
             List<Contact> savedContactList = new List<Contact>();
 
-            bool isClientMandatoryFieldEmpty = !string.IsNullOrEmpty(SelectedCLientModel.TxtFirstName)
+            bool isClientMandatoryFieldNotEmpty = !string.IsNullOrEmpty(SelectedCLientModel.TxtFirstName)
                                                 && !string.IsNullOrEmpty(SelectedCLientModel.TxtLastName)
                                                     && !string.IsNullOrEmpty(SelectedCLientModel.TxtEmail)
                                                         && !string.IsNullOrEmpty(SelectedCLientModel.TxtCompany)
@@ -146,20 +146,20 @@ namespace QOBDManagement.ViewModel
                                                                 && SelectedCLientModel.Client.MaxCredit != 0
                                                                     && SelectedCLientModel.Client.PayDelay != 0;
 
-            bool isAddressMandatoryFieldEmpty = !string.IsNullOrEmpty(SelectedCLientModel.Address.Name)
+            bool isAddressMandatoryFieldNotEmpty = !string.IsNullOrEmpty(SelectedCLientModel.Address.Name)
                                                     && !string.IsNullOrEmpty(SelectedCLientModel.Address.AddressName)
                                                         && !string.IsNullOrEmpty(SelectedCLientModel.Address.CityName)
                                                             && !string.IsNullOrEmpty(SelectedCLientModel.Address.Postcode)
                                                                 && !string.IsNullOrEmpty(SelectedCLientModel.Address.Country);
 
-            bool isContactMandatoryFieldEmpty = ((!string.IsNullOrEmpty(SelectedCLientModel.Contact.Firstname)
+            bool isContactMandatoryFieldNotEmpty = ((!string.IsNullOrEmpty(SelectedCLientModel.Contact.Firstname)
                                                     && !string.IsNullOrEmpty(SelectedCLientModel.Contact.LastName))
                                                         && !string.IsNullOrEmpty(SelectedCLientModel.Contact.Phone)
                                                             && !string.IsNullOrEmpty(SelectedCLientModel.Contact.Email))
                                                                 || (string.IsNullOrEmpty(SelectedCLientModel.Contact.Firstname)
                                                                     && string.IsNullOrEmpty(SelectedCLientModel.Contact.LastName));
 
-            if (isClientMandatoryFieldEmpty && isAddressMandatoryFieldEmpty && isContactMandatoryFieldEmpty)
+            if (isClientMandatoryFieldNotEmpty && isAddressMandatoryFieldNotEmpty && isContactMandatoryFieldNotEmpty)
             {
                 var updateCount = 0;
                 var createCount = 0;
@@ -225,11 +225,11 @@ namespace QOBDManagement.ViewModel
             }
             else
             {
-                if (!isClientMandatoryFieldEmpty)
+                if (!isClientMandatoryFieldNotEmpty)
                     await Dialog.showAsync("[Main detail]: Please fill up mandatory fields.");
-                if (!isAddressMandatoryFieldEmpty)
+                if (!isAddressMandatoryFieldNotEmpty)
                     await Dialog.showAsync("[Address detail]: Please fill up mandatory fields.");
-                if (!isContactMandatoryFieldEmpty)
+                if (!isContactMandatoryFieldNotEmpty)
                     await Dialog.showAsync("[Contact detail]: Please fill up mandatory fields.");
             }
 

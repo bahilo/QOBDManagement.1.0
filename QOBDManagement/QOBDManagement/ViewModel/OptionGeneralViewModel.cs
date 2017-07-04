@@ -377,22 +377,22 @@ namespace QOBDManagement.ViewModel
         {
             var defaultCurrency = CurrenciesList.Where(x => x.IsDefault).SingleOrDefault();
             if (defaultCurrency != null)
-                return ExchangeRateFromAPI(1, defaultCurrency.CurrencyEnum.ToString(), CurrencyModel.CurrencyEnum.ToString());
+                return ExchangeRateFromAPI(defaultCurrency.CurrencyEnum.ToString(), CurrencyModel.CurrencyEnum.ToString());
             else
-                return ExchangeRateFromAPI(1, CurrencyModel.CurrencyEnum.ToString(), CurrencyModel.CurrencyEnum.ToString());
+                return ExchangeRateFromAPI(CurrencyModel.CurrencyEnum.ToString(), CurrencyModel.CurrencyEnum.ToString());
         }
 
         /// <summary>
         /// update all prices regarding the new default currency
         /// </summary>
-        private bool updateDefaultCurrencyPrices()
+        private bool updateDefaultCurrencyPrices(CurrencyModel defaultCurrencyModel)
         {
             //<<<<< TO DO >>>>>
 
             return true;
         }
 
-        private decimal ExchangeRateFromAPI(decimal amount, string firstCcode, string lastCcode)
+        private decimal ExchangeRateFromAPI(string firstCcode, string lastCcode)
         {
             try
             {
@@ -411,14 +411,14 @@ namespace QOBDManagement.ViewModel
             }
         }
 
-        public async Task<bool> refreshCurrenciesRate()
+        public async Task<bool> refreshCurrenciesRate(CurrencyModel obj)
         {
             bool result = false;
-            var defaultCurrency = CurrenciesList.Where(x=>x.IsDefault).SingleOrDefault();
+            var defaultCurrency = obj;// CurrenciesList.Where(x=>x.IsDefault).SingleOrDefault();
             if (defaultCurrency != null)
             {
                 foreach (CurrencyModel currencyModel in CurrenciesList)
-                    currencyModel.Currency.Rate = ExchangeRateFromAPI(1, defaultCurrency.TxtCurrencyCode, currencyModel.TxtCurrencyCode);
+                    currencyModel.Currency.Rate = ExchangeRateFromAPI(defaultCurrency.TxtCurrencyCode, currencyModel.TxtCurrencyCode);
 
                 var savedCurrencies = await Bl.BlOrder.UpdateCurrencyAsync(CurrenciesList.Select(x => x.Currency).ToList());
                 if (savedCurrencies.Count > 0)
@@ -619,29 +619,21 @@ namespace QOBDManagement.ViewModel
 
         private async void updateDefaultCurrency(CurrencyModel obj)
         {
+            var previousDefaultCurrency = CurrenciesList.Where(x=> x.IsDefault).SingleOrDefault();
             if (obj.Currency.Rate != 0 && await Dialog.showAsync("Do you confirm the update of the default currency?"+ Environment.NewLine + "(Please note that all prices will be updated.)"))
             {
-                bool isErrorDetected = false;
                 Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
+                await refreshCurrenciesRate(obj);
                 var savedCurrencies = await Bl.BlOrder.UpdateCurrencyAsync(new List<Currency> { obj.Currency });
                 if (savedCurrencies.Count > 0)
                 {
-                    if (await refreshCurrenciesRate())
-                    {
-                        if (updateDefaultCurrencyPrices())
-                            await Dialog.showAsync("The default currency has been successfully updated!");
-                        else
-                            isErrorDetected = true;
-                    }
-                    else
-                        isErrorDetected = true;
-
-                    if (isErrorDetected)
-                    {
-                        string errorMessage = "Error occurred while updating the default currency to [" + obj.TxtName + " (ID=" + obj.TxtID + ")]";
-                        Log.error(errorMessage, EErrorFrom.REFERENTIAL);
-                        await Dialog.showAsync(errorMessage);
-                    }
+                    await Dialog.showAsync("The default currency has been successfully updated!"+Environment.NewLine+"You must restart the application.");                    
+                }
+                else
+                {
+                    string errorMessage = "Error occurred while updating the default currency to [" + obj.TxtName + " (ID=" + obj.TxtID + ")]";
+                    Log.error(errorMessage, EErrorFrom.REFERENTIAL);
+                    await Dialog.showAsync(errorMessage);
                 }
                 
             }
@@ -652,13 +644,8 @@ namespace QOBDManagement.ViewModel
                     await Dialog.showAsync("Cannot set a currency with a rate of [0] as a default currency!");
                 else
                 {
-                    Currency currencyFound = Bl.BlOrder.searchCurrency(new Currency { IsDefault = true }, ESearchOption.AND).SingleOrDefault();
-                    if (currencyFound != null)
-                    {
-                        var currency = CurrenciesList.Where(x => x.Currency.ID == currencyFound.ID).SingleOrDefault();
-                        if (currency != null)
-                            currency.IsDefault = true;
-                    }
+                    if (previousDefaultCurrency != null)
+                        previousDefaultCurrency.IsDefault = true;
                 }
             }
             

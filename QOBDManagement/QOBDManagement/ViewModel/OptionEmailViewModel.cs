@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using QOBDManagement.Interfaces;
 using QOBDCommon.Enum;
 using System.Configuration;
+using System.IO;
 
 namespace QOBDManagement.ViewModel
 {
@@ -101,25 +102,37 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Actions ]------------------
 
-        public void load()
+        public async void load()
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
-            
-            string login = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
-            string password = ( _startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+            await Task.Factory.StartNew(()=> {
+                Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
 
+                string login = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_login" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+                string password = (_startup.Bl.BlReferential.searchInfo(new QOBDCommon.Entities.Info { Name = "ftp_password" }, ESearchOption.OR).FirstOrDefault() ?? new Info()).Value;
+
+                foreach (var email in _emails)
+                {
+                    email.Value.TxtLogin = login;
+                    email.Value.TxtPassword = password;
+                    if (string.IsNullOrEmpty(email.Value.TxtFileFullPath) || !File.Exists(email.Value.TxtFileFullPath))
+                        email.Value.read();
+                }
+
+                Dialog.IsDialogOpen = false;
+            });
+        }
+
+        public override void Dispose()
+        {
             foreach (var email in _emails)
             {
-                email.Value.TxtLogin = login;
-                email.Value.TxtPassword = password;
-                email.Value.read();
+                if(File.Exists(email.Value.TxtFileFullPath))
+                    File.Delete(email.Value.TxtFileFullPath);
             }
-
-            Dialog.IsDialogOpen = false;
         }
 
         //----------------------------[ Action Commands ]------------------
-        
+
         private void eraseContent(string obj)
         {
             switch (obj)

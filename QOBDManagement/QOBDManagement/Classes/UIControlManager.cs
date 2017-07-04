@@ -52,6 +52,12 @@ namespace QOBDManagement.Classes
         /// <returns>string type expected by the IU</returns>
         public static string disableUIElementByString(OrderModel SelectedOrder, List<Item_deliveryModel> Item_ModelDeliveryInProcess, List<Item_deliveryModel> Item_deliveryModelBillingInProcess, [CallerMemberName]string obj = "")
         {
+            if (SelectedOrder.TxtStatus == null  && obj.Equals("BlockItemListDetailVisibility"))
+                return "Collapsed";
+
+            if (SelectedOrder.TxtStatus == null)
+                return "Hidden";
+
             if ((!SelectedOrder.TxtStatus.Equals(EOrderStatus.Order.ToString()) && !SelectedOrder.TxtStatus.Equals(EOrderStatus.Credit.ToString()))
                 && obj.Equals("BlockItemListDetailVisibility"))
                 return "Collapsed";
@@ -77,7 +83,7 @@ namespace QOBDManagement.Classes
                 ))
                 return "Hidden";
 
-            if ((SelectedOrder.TxtStatus.Equals(EOrderStatus.Pre_Order.ToString()) || SelectedOrder.TxtStatus.Equals(EOrderStatus.Pre_Credit.ToString()))
+            if ( (SelectedOrder.TxtStatus.Equals(EOrderStatus.Pre_Order.ToString()) || SelectedOrder.TxtStatus.Equals(EOrderStatus.Pre_Credit.ToString()))
                 && (obj.Equals("BlockEmailVisibility")
                 || obj.Equals("BlockDeliveryReceiptCreatedVisibility")
                 || obj.Equals("BlockDeliveryReceiptCreationVisiblity")

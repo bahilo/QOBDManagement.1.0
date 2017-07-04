@@ -1409,6 +1409,11 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 ID = Utility.intTryParse(Utility.decodeBase64ToString(x.ID)),
                 Name = Utility.decodeBase64ToString(x.Name),
+                Phone = Utility.decodeBase64ToString(x.Phone),
+                Fax = Utility.decodeBase64ToString(x.Fax),
+                Email = Utility.decodeBase64ToString(x.Email),
+                RIB = Utility.decodeBase64ToString(x.RIB),
+                Comment = Utility.decodeBase64ToString(x.Comment),
                 Source = Utility.intTryParse(Utility.decodeBase64ToString(x.Source)),
                 AddressId = Utility.intTryParse(Utility.decodeBase64ToString(x.AddressId)),
             }).ToList();
@@ -1422,6 +1427,11 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 ID = Utility.encodeStringToBase64(x.ID.ToString()),
                 Name = Utility.encodeStringToBase64(x.Name),
+                Phone = Utility.encodeStringToBase64(x.Phone),
+                Fax = Utility.encodeStringToBase64(x.Fax),
+                Email = Utility.encodeStringToBase64(x.Email),
+                RIB = Utility.encodeStringToBase64(x.RIB),
+                Comment = Utility.encodeStringToBase64(x.Comment),
                 Source = Utility.encodeStringToBase64(x.Source.ToString()),
                 AddressId = Utility.encodeStringToBase64(x.AddressId.ToString()),
             }).ToArray();
@@ -1436,6 +1446,11 @@ namespace QOBDGateway.Helper.ChannelHelper
             {
                 ProviderQCBD.ID = Utility.encodeStringToBase64(Provider.ID.ToString());
                 ProviderQCBD.Name = Utility.encodeStringToBase64(Provider.Name);
+                ProviderQCBD.Phone = Utility.encodeStringToBase64(Provider.Phone);
+                ProviderQCBD.Fax = Utility.encodeStringToBase64(Provider.Fax);
+                ProviderQCBD.Email = Utility.encodeStringToBase64(Provider.Email);
+                ProviderQCBD.RIB = Utility.encodeStringToBase64(Provider.RIB);
+                ProviderQCBD.Comment = Utility.encodeStringToBase64(Provider.Comment);
                 ProviderQCBD.Source = Utility.encodeStringToBase64(Provider.Source.ToString());
                 ProviderQCBD.AddressId = Utility.encodeStringToBase64(Provider.AddressId.ToString());
                 ProviderQCBD.Operator = Utility.encodeStringToBase64(filterOperator.ToString());

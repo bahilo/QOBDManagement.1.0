@@ -670,7 +670,7 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         /// <param name="order_itemList"></param>
         /// <returns></returns>
-        private StatisticModel totalCalcul(List<Order_itemModel> order_itemList)
+        private StatisticModel totalCalcul(List<Order_itemModel> order_itemList, bool isDefaultCurrency = false)
         {
             object _lock = new object();
             lock (_lock)
@@ -691,7 +691,10 @@ namespace QOBDManagement.ViewModel
                         order_itemModel.Order = OrderSelected.Order;
 
                         // execute the total calculation per item
-                        order_itemModel.calcul();
+                        if (isDefaultCurrency)
+                            order_itemModel.calculWithDefaultCurrency();
+                        else
+                            order_itemModel.calcul();
 
                         totalIncome += (Utility.decimalTryParse(order_itemModel.TxtTotalIncome));
                         totalTaxExcluded += (Utility.decimalTryParse(order_itemModel.TxtTotalSelling));

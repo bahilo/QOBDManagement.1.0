@@ -125,7 +125,11 @@ namespace QOBDDAL.Core
                 } while (loadedClientList.Count > 0);
 
                     if (clientList.Count > 0)
-                    await UpdateClientDependenciesAsync(clientList.ToList());
+                        await UpdateClientDependenciesAsync(clientList.ToList());
+
+                var addresses = await _gateWayClient.GetAddressDataAsync(_loadSize);
+                if (addresses.Count() > 0)
+                    LoadAddress(addresses);
                 //Log.debug("-- Clients loaded --");
             }
             catch (Exception ex)

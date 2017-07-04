@@ -711,7 +711,6 @@ namespace QOBDGateway.Core
                 uri += "&path=" + ConfigurationManager.AppSettings["remote_doc_lib_pdf_folder"];
                 uri += "&num_dev=" + paramOrderToPdf.OrderId;
                 uri += "&num_fact=" + paramOrderToPdf.BillId;
-                uri += "&currency=" + paramOrderToPdf.Currency;
                 uri += "&lang=" + paramOrderToPdf.Lang;
 
                 if (paramOrderToPdf.ParamEmail.IsSendEmail)
@@ -747,7 +746,6 @@ namespace QOBDGateway.Core
                 uri += "&num_dev=" + paramOrderToPdf.OrderId;
                 uri += "&delay=" + paramOrderToPdf.ValidityDay;
                 uri += "&quote=" + paramOrderToPdf.TypeQuoteOrProformat.ToString();
-                uri += "&currency=" + paramOrderToPdf.Currency;
                 uri += "&lang=" + paramOrderToPdf.Lang;
 
                 if (paramOrderToPdf.ParamEmail.IsSendEmail)

@@ -207,8 +207,13 @@ namespace QOBDManagement.Models
 
         public string TxtPrice_purchase
         {
-            get { return ((_order_item.Price_purchase / (ItemModel.CurrencyModel.Currency.Rate != 0 ? ItemModel.CurrencyModel.Currency.Rate : 1m)) * (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
+            get { return (Utility.decimalTryParse(TxtDefaultCurrencyPurchase_price) * (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
             set { _order_item.Price_purchase = Utility.decimalTryParse(value); onPropertyChange(); calcul(); }
+        }
+
+        public string TxtDefaultCurrencyPurchase_price
+        {
+            get { return (_order_item.Price_purchase / (ItemModel.CurrencyModel.Currency.Rate != 0 ? ItemModel.CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
         }
 
         public bool IsPrice_purchaseChangeEnabled
@@ -279,6 +284,64 @@ namespace QOBDManagement.Models
 
                 // total sales calculations
                 _totalSelling = (decimal)ConvertIfOrderCreditStatus(_order_item.Quantity * Math.Abs(Utility.decimalTryParse(TxtPrice)));
+                onPropertyChange("TxtTotalSelling");
+
+                // tax amount calculation
+                _totalTaxAmount = (decimal)ConvertIfOrderCreditStatus(Math.Abs(_totalSelling) * (decimal)(Order.Tax / 100));
+                onPropertyChange("TxtTotalTaxAmount");
+
+                // income calculation
+                _totalIncome = (decimal)ConvertIfOrderCreditStatus(Math.Abs(_totalSelling) - Math.Abs(_totalPurchase));
+                onPropertyChange("TxtTotalIncome");
+
+                // percent income
+                try
+                {
+                    _totalIncomePercent = (double)(decimal)ConvertIfOrderCreditStatus(Math.Abs(_totalIncome) / Math.Abs(_totalSelling) * 100);
+                }
+                catch (DivideByZeroException)
+                {
+                    _totalIncomePercent = 0;
+                }
+                onPropertyChange("TxtTotalIncomePercent");
+
+                // total tax included calculation
+                _totalTaxIncluded = (decimal)ConvertIfOrderCreditStatus(Math.Abs(_totalSelling) + Math.Abs(_totalTaxAmount));
+                onPropertyChange("TxtTotalTaxIncluded");
+            }            
+        }
+
+        public void calculWithDefaultCurrency()
+        {
+            if (Order != null)
+            {
+                // convert price into credit if order status is credit
+                _order_item.Price = (decimal)ConvertIfOrderCreditStatus(_order_item.Price);
+
+                // convert purchase price into credit if order status is credit
+                _order_item.Price_purchase = (decimal)ConvertIfOrderCreditStatus(_order_item.Price_purchase);
+
+                // income percentage per unit calculation
+                try
+                {
+                    _unitIncomPercent = (double)(decimal)ConvertIfOrderCreditStatus(((Math.Abs(_order_item.Price) - Math.Abs(Utility.decimalTryParse(TxtDefaultCurrencyPurchase_price))) / Math.Abs(_order_item.Price)) * 100);
+                }
+                catch (DivideByZeroException)
+                {
+                    _unitIncomPercent = 0;
+                }
+                onPropertyChange("TxtPercentProfit");
+
+                // income per unit calculation
+                _unitIncome = (decimal)ConvertIfOrderCreditStatus((Math.Abs(_order_item.Price) - Math.Abs(Utility.decimalTryParse(TxtDefaultCurrencyPurchase_price))) * _order_item.Quantity);
+                onPropertyChange("TxtProfit");
+
+                // total purchase calculation
+                _totalPurchase = (decimal)ConvertIfOrderCreditStatus(_order_item.Quantity * Math.Abs(Utility.decimalTryParse(TxtDefaultCurrencyPurchase_price)));
+                onPropertyChange("TxtTotalPurchase");
+
+                // total sales calculations
+                _totalSelling = (decimal)ConvertIfOrderCreditStatus(_order_item.Quantity * Math.Abs(_order_item.Price));
                 onPropertyChange("TxtTotalSelling");
 
                 // tax amount calculation

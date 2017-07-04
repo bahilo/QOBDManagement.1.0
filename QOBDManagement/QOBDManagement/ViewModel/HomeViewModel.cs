@@ -70,6 +70,11 @@ namespace QOBDManagement.ViewModel
             get { return Utility.getRandomMaterialDesignColour(); }
         }
 
+        public string TxtColourName
+        {
+            get { return Utility.getRandomColour(); }
+        }
+
         //----------------------------[ Actions ]------------------
 
         public void loadData()

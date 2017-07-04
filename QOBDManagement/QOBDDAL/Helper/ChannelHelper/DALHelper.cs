@@ -944,6 +944,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     address.ID = (int)addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["ID"].Ordinal];
                     address.AddressName = addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Address"].Ordinal].ToString();
                     address.ClientId = Utility.intTryParse(addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["ClientId"].Ordinal].ToString());
+                    address.ProviderId = Utility.intTryParse(addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["ProviderId"].Ordinal].ToString());
                     address.Comment = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Comment"].Ordinal] ?? "").ToString();
                     address.Email = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Email"].Ordinal] ?? "").ToString();
                     address.Phone = (addressesDataTable.Rows[i].ItemArray[addressesDataTable.Columns["Phone"].Ordinal] ?? "").ToString();
@@ -973,6 +974,8 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Address.ID);
                 if (Address.ClientId != 0)
                     query = string.Format(query + " {0} ClientId LIKE '{1}' ", filterOperator.ToString(), Address.ClientId);
+                if (Address.ProviderId != 0)
+                    query = string.Format(query + " {0} ProviderId LIKE '{1}' ", filterOperator.ToString(), Address.ProviderId);
                 if (!string.IsNullOrEmpty(Address.Name))
                     query = string.Format(query + " {0} Name LIKE '{1}' ", filterOperator.ToString(), Address.Name.Replace("'", "''"));
                 if (!string.IsNullOrEmpty(Address.Name2))
@@ -1013,12 +1016,13 @@ namespace QOBDDAL.Helper.ChannelHelper
             Dictionary<string, string> output = new Dictionary<string, string>();
 
             output["ID"] = address.ID.ToString();
-            output["Address"] = (address.AddressName ?? "").ToString();
             output["ClientId"] = address.ClientId.ToString();
+            output["ClientId"] = address.ClientId.ToString();
+            output["ProviderId"] = address.ProviderId.ToString();
+            output["Address"] = (address.AddressName ?? "").ToString();
             output["LastName"] = (address.LastName ?? "").ToString();
             output["Comment"] = (address.Comment ?? "").ToString();
             output["Phone"] = (address.Phone ?? "").ToString();
-            output["ClientId"] = address.ClientId.ToString();
             output["FirstName"] = (address.FirstName ?? "").ToString();
             output["Email"] = (address.Email ?? "").ToString();
             output["CityName"] = (address.CityName ?? "").ToString();
@@ -1442,6 +1446,11 @@ namespace QOBDDAL.Helper.ChannelHelper
                     Provider provider = new Provider();
                     provider.ID = Utility.intTryParse(providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["ID"].Ordinal].ToString());
                     provider.Name = (providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Name"].Ordinal] ?? "").ToString();
+                    provider.Phone = (providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Phone"].Ordinal] ?? "").ToString();
+                    provider.Fax = (providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Fax"].Ordinal] ?? "").ToString();
+                    provider.Email = (providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Email"].Ordinal] ?? "").ToString();
+                    provider.Comment = (providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Comment"].Ordinal] ?? "").ToString();
+                    provider.RIB = (providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["RIB"].Ordinal] ?? "").ToString();
                     provider.AddressId = Utility.intTryParse(providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["AddressId"].Ordinal].ToString());
                     provider.Source = Utility.intTryParse(providerDataTable.Rows[i].ItemArray[providerDataTable.Columns["Source"].Ordinal].ToString());
 
@@ -1463,6 +1472,16 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} ID LIKE '{1}' ", filterOperator.ToString(), Provider.ID);
                 if (!string.IsNullOrEmpty(Provider.Name))
                     query = string.Format(query + " {0} Name LIKE '{1}' ", filterOperator.ToString(), Provider.Name.Replace("'", "''"));
+                if (!string.IsNullOrEmpty(Provider.Phone))
+                    query = string.Format(query + " {0} Phone LIKE '{1}' ", filterOperator.ToString(), Provider.Phone.Replace("'", "''"));
+                if (!string.IsNullOrEmpty(Provider.Fax))
+                    query = string.Format(query + " {0} Fax LIKE '{1}' ", filterOperator.ToString(), Provider.Fax.Replace("'", "''"));
+                if (!string.IsNullOrEmpty(Provider.Email))
+                    query = string.Format(query + " {0} Email LIKE '{1}' ", filterOperator.ToString(), Provider.Email.Replace("'", "''"));
+                if (!string.IsNullOrEmpty(Provider.RIB))
+                    query = string.Format(query + " {0} RIB LIKE '{1}' ", filterOperator.ToString(), Provider.RIB.Replace("'", "''"));
+                if (!string.IsNullOrEmpty(Provider.Comment))
+                    query = string.Format(query + " {0} Comment LIKE '{1}' ", filterOperator.ToString(), Provider.Comment.Replace("'", "''"));
                 if (Provider.Source != 0)
                     query = string.Format(query + " {0} Source LIKE '{1}' ", filterOperator.ToString(), Provider.Source);
                 if (Provider.AddressId != 0)
@@ -1486,6 +1505,11 @@ namespace QOBDDAL.Helper.ChannelHelper
 
             output["ID"] = provider.ID.ToString();
             output["Name"] = (provider.Name ?? "").ToString();
+            output["Phone"] = (provider.Phone ?? "").ToString();
+            output["Fax"] = (provider.Fax ?? "").ToString();
+            output["Email"] = (provider.Email ?? "").ToString();
+            output["RIB"] = (provider.RIB ?? "").ToString();
+            output["Comment"] = (provider.Comment ?? "").ToString();
             output["Source"] = provider.Source.ToString();
             output["AddressId"] = provider.AddressId.ToString();
 

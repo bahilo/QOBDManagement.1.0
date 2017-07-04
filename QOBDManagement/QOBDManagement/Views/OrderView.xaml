@@ -45,15 +45,11 @@
 
         <!-- Here comes the main content of the view -->
 
-        <Grid Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <StackPanel Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 20">
+            
+            <Label FontSize="20" Margin="0 20 0 20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding OrderViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Label FontSize="20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding OrderViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
-
-            <StackPanel Grid.Row="1">
+            <StackPanel>
                 <StackPanel HorizontalAlignment="Center" Margin="0 0 0 20">
 
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="400">
@@ -162,7 +158,7 @@
                             ItemsSource="{Binding OrderViewModel.OrderModelList, UpdateSourceTrigger=PropertyChanged}" 
                             Margin="0 0 8 0" EnableColumnVirtualization="True" EnableRowVirtualization="True"
                             materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8"       
-                            CanUserAddRows="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}">
+                            CanUserAddRows="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
                                 <DataGridTextColumn Header="Date" Binding="{Binding TxtDate}"/>
@@ -399,8 +395,9 @@
                     </StackPanel>
                 </materialDesign:Card>
             </StackPanel>
-        </Grid>
-
+            
+        </StackPanel>                   
+            
         <!-- End -->
 
     </Grid>
