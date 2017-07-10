@@ -382,7 +382,7 @@
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
-                                        <TextBlock>Default CUrrency</TextBlock>
+                                        <TextBlock>Default Currency</TextBlock>
                                     </DataGridTemplateColumn.Header>
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>

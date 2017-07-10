@@ -623,6 +623,7 @@ namespace QOBDManagement.Classes
             private string _fileName;
             private string _ftpHost;
             private string _remotePath;
+            private string _baseRemotePath;
             private string _localPath;
             private string _fileNameWithoutExtension;
             private string _typeOfFile;
@@ -639,7 +640,7 @@ namespace QOBDManagement.Classes
             public FileWriter(string fileName, EOption typeOfFile, string ftpPath, string ftpLogin = "", string ftpPassword = "")
                 : this(fileName, typeOfFile, ftpLogin, ftpPassword)
             {
-                _remotePath = ftpPath;
+                _baseRemotePath = ftpPath;
             }
 
             public string TxtLogin
@@ -690,7 +691,8 @@ namespace QOBDManagement.Classes
             {
                 string lang = CultureInfo.CurrentCulture.Name.Split('-').FirstOrDefault() ?? "en";
                 _ftpHost = ConfigurationManager.AppSettings["ftp"];
-                _remotePath = (!string.IsNullOrEmpty(_remotePath) ? _remotePath : ConfigurationManager.AppSettings["ftp_doc_base_folder"]) + lang + "/" + _typeOfFile + "/";
+                _baseRemotePath = (!string.IsNullOrEmpty(_remotePath) ? _remotePath : ConfigurationManager.AppSettings["ftp_doc_base_folder"]);
+                _remotePath = _baseRemotePath + lang + "/" + _typeOfFile + "/";
                 _localPath = Utility.getOrCreateDirectory("Docs", _typeOfFile);
 
                 TxtFileName = TxtFileNameWithoutExtension + ".txt";
@@ -705,9 +707,12 @@ namespace QOBDManagement.Classes
             {
                 bool isSavedSuccessfully = false;
 
-                File.WriteAllText(TxtFileFullPath, TxtContent);
-                isSavedSuccessfully = WPFHelper.ftpSendFile(TxtFtpUrl, TxtFileFullPath, _login, _password);
-                TxtContent = File.ReadAllText(TxtFileFullPath);
+                if (!string.IsNullOrEmpty(TxtFileFullPath))
+                {
+                    File.WriteAllText(TxtFileFullPath, TxtContent);
+                    isSavedSuccessfully = WPFHelper.ftpSendFile(TxtFtpUrl, TxtFileFullPath, _login, _password);
+                    TxtContent = File.ReadAllText(TxtFileFullPath);
+                }                
 
                 return isSavedSuccessfully;
             }

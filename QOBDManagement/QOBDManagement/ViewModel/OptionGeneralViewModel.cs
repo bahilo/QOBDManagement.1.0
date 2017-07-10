@@ -297,7 +297,7 @@ namespace QOBDManagement.ViewModel
             var userListSizeFoundList = _generalInfos.ListSizeList.Where(x => x.Equals(Bl.BlSecurity.GetAuthenticatedUser().ListSize)).ToList();
             TxtSelectedListSize = (userListSizeFoundList.Count > 0) ? userListSizeFoundList[0] : 0;
             TaxList = TaxListToTaxModelList(await Bl.BlOrder.GetTaxDataAsync(999));
-            
+
             var infosFoundList = Bl.BlReferential.GetInfoData(999);
             BankDetailList = new List<InfoManager.Bank> { new InfoManager.Bank(infosFoundList) };
             AddressList = new List<InfoManager.Contact> { new InfoManager.Contact(infosFoundList) };
@@ -383,7 +383,7 @@ namespace QOBDManagement.ViewModel
             else
                 return ExchangeRateFromAPI(CurrencyModel.CurrencyEnum.ToString(), CurrencyModel.CurrencyEnum.ToString());
         }
-        
+
         private decimal ExchangeRateFromAPI(string firstCcode, string lastCcode)
         {
             try
@@ -391,10 +391,10 @@ namespace QOBDManagement.ViewModel
                 WebClient web = new WebClient();
                 const string urlPattern = "http://finance.yahoo.com/d/quotes.csv?s={0}{1}=X&f=l1";
                 string url = String.Format(urlPattern, firstCcode, lastCcode);
-                
+
                 // Get response as string
                 string response = new WebClient().DownloadString(url);
-                
+
                 // Convert string to number
                 decimal exchangeRate = Utility.decimalTryParse(response);
                 return exchangeRate;
@@ -416,13 +416,13 @@ namespace QOBDManagement.ViewModel
                     currencyModel.Currency.Date = DateTime.Now;
                     currencyModel.Currency.Rate = ExchangeRateFromAPI(defaultCurrency.TxtCurrencyCode, currencyModel.TxtCurrencyCode);
                 }
-                    
+
                 var savedCurrencies = await Bl.BlOrder.UpdateCurrencyAsync(CurrenciesList.Select(x => x.Currency).ToList());
                 if (savedCurrencies.Count > 0)
                 {
                     result = true;
-                    CurrenciesList = new List<CurrencyModel>(savedCurrencies.Select(x=> new CurrencyModel { Currency = x }).ToList());
-                }                    
+                    CurrenciesList = new List<CurrencyModel>(savedCurrencies.Select(x => new CurrencyModel { Currency = x }).ToList());
+                }
             }
             return result;
         }
@@ -448,14 +448,14 @@ namespace QOBDManagement.ViewModel
             if (e.PropertyName.Equals("CurrencyModel") && CurrencyModel != null)
             {
                 CurrencyModel.TxtRate = getCurrencyValue().ToString();
-             }
+            }
         }
 
         //----------------------------[ Action Commands ]------------------
 
         private async void deleteTax(TaxModel obj)
         {
-            if (await Dialog.showAsync("[Tax = "+obj.TxtTaxValue+"] Do you confirm the deletion?"))
+            if (await Dialog.showAsync("[Tax = " + obj.TxtTaxValue + "] Do you confirm the deletion?"))
             {
                 Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
                 var NotDeletedTax = await Bl.BlOrder.DeleteTaxAsync(new List<QOBDCommon.Entities.Tax> { obj.Tax });
@@ -467,7 +467,7 @@ namespace QOBDManagement.ViewModel
                 }
                 clearNewTax(null);
                 Dialog.IsDialogOpen = false;
-            }            
+            }
         }
 
         private bool canDeleteTax(TaxModel arg)
@@ -479,7 +479,7 @@ namespace QOBDManagement.ViewModel
         {
             Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
 
-            List<Tax> savedTaxList = new List<Tax>();            
+            List<Tax> savedTaxList = new List<Tax>();
             TaxModel.TxtTaxValue = getTaxValue().ToString();
             TaxModel.TxtDate = DateTime.Now.ToString();
 
@@ -558,7 +558,7 @@ namespace QOBDManagement.ViewModel
                 }
                 clearNewCurrency(null);
                 Dialog.IsDialogOpen = false;
-            }            
+            }
         }
 
         private bool canDeleteCurrency(CurrencyModel arg)
@@ -603,7 +603,7 @@ namespace QOBDManagement.ViewModel
                 }
                 await Dialog.showAsync("Cannot set a currency with a rate of [0] !");
             }
-                
+
 
             clearNewCurrency(null);
             Dialog.IsDialogOpen = false;
@@ -616,22 +616,22 @@ namespace QOBDManagement.ViewModel
 
         private async void updateDefaultCurrency(CurrencyModel obj)
         {
-            var previousDefaultCurrency = CurrenciesList.Where(x=> x.IsDefault).SingleOrDefault();
-            if (obj.Currency.Rate != 0 && await Dialog.showAsync("Do you confirm the update of the default currency?"+ Environment.NewLine + "(Please note that all prices will be updated.)"))
+            var previousDefaultCurrency = CurrenciesList.Where(x => x.IsDefault).SingleOrDefault();
+            if (obj.Currency.Rate != 0 && await Dialog.showAsync("Do you confirm the update of the default currency?" + Environment.NewLine + "(Please note that all prices will be updated.)"))
             {
                 Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
                 await refreshCurrenciesRateByDefault(obj);
                 var savedCurrencies = await Bl.BlOrder.UpdateCurrencyAsync(new List<Currency> { obj.Currency });
                 if (savedCurrencies.Count > 0)
                 {
-                    await Dialog.showAsync("The default currency has been successfully updated!"+Environment.NewLine+"You must restart the application.");                    
+                    await Dialog.showAsync("The default currency has been successfully updated!" + Environment.NewLine + "You must restart the application.");
                 }
                 else
                 {
                     string errorMessage = "Error occurred while updating the default currency to [" + obj.TxtName + " (ID=" + obj.TxtID + ")]";
                     Log.error(errorMessage, EErrorFrom.REFERENTIAL);
                     await Dialog.showAsync(errorMessage);
-                }                
+                }
             }
             else
             {
@@ -643,7 +643,7 @@ namespace QOBDManagement.ViewModel
                     if (previousDefaultCurrency != null)
                         previousDefaultCurrency.IsDefault = true;
                 }
-            }            
+            }
 
             clearNewCurrency(null);
             Dialog.IsDialogOpen = false;
@@ -676,7 +676,7 @@ namespace QOBDManagement.ViewModel
                 if (!isUpdateValid)
                     await Dialog.showAsync("Error detected while updating the currencies rate!");
                 Dialog.IsDialogOpen = false;
-            }                
+            }
         }
 
         private bool canRefreshCurrenciesRate(object arg)
@@ -692,6 +692,8 @@ namespace QOBDManagement.ViewModel
             var savedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { authenticatedUser });
             if (savedAgentList.Count > 0)
                 await Dialog.showAsync("List Size saved Successfully!");
+            else
+                await Dialog.showAsync("Error occured while updating the list size!");
             Dialog.IsDialogOpen = false;
         }
 
@@ -702,9 +704,16 @@ namespace QOBDManagement.ViewModel
 
         private async void eraseLegalInformation(object obj)
         {
-            LegalInformationFileManagement.TxtContent = "";
-            LegalInformationFileManagement.save();
-            await Dialog.showAsync("Legal Information content has been erased Successfully!");
+            if (await Dialog.showAsync("Do you confirm erasing the legal information content?"))
+            {
+                Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
+                LegalInformationFileManagement.TxtContent = "";
+                if (LegalInformationFileManagement.save())
+                    await Dialog.showAsync("Legal Information content has been erased Successfully!");
+                else
+                    await Dialog.showAsync("Error occured while erasing the legal information content!");
+                Dialog.IsDialogOpen = false;
+            }
         }
 
         private bool canEraseLegalInformation(object arg)
@@ -714,9 +723,15 @@ namespace QOBDManagement.ViewModel
 
         private async void eraseSaleGeneralCondition(object obj)
         {
-            SaleGeneralConditionFileManagement.TxtContent = "";
-            SaleGeneralConditionFileManagement.save();
-            await Dialog.showAsync("Sale General Condition content has been erased Successfully!");
+            if (await Dialog.showAsync("Do you confirm erasing the sale general condition content?"))
+            {
+                SaleGeneralConditionFileManagement.TxtContent = "";
+                if (SaleGeneralConditionFileManagement.save())
+                    await Dialog.showAsync("Sale General Condition content has been erased Successfully!");
+                else
+                    await Dialog.showAsync("Error occured while erasing the sale general condition content!");
+                Dialog.IsDialogOpen = false;
+            }
         }
 
         private bool canEraseSaleGeneralCondition(object arg)
@@ -730,6 +745,8 @@ namespace QOBDManagement.ViewModel
             bool isSuccessful = LegalInformationFileManagement.save();
             if (isSuccessful)
                 await Dialog.showAsync("Legal Information content has been saved Successfully!");
+            else
+                await Dialog.showAsync("Error occured while updating the legal Information content!");
             Dialog.IsDialogOpen = false;
         }
 
@@ -744,6 +761,8 @@ namespace QOBDManagement.ViewModel
             bool isSuccessful = SaleGeneralConditionFileManagement.save();
             if (isSuccessful)
                 await Dialog.showAsync("Sale General Condition content has been saved Successfully!");
+            else
+                await Dialog.showAsync("Error occured while updating the sale General Condition content!");
             Dialog.IsDialogOpen = false;
         }
 
@@ -762,11 +781,13 @@ namespace QOBDManagement.ViewModel
             var infosCreatedList = await Bl.BlReferential.InsertInfoAsync(infosToCreateList);
             if (infosUpdatedList.Count > 0 || infosCreatedList.Count > 0)
             {
-                await Dialog.showAsync("Bank Detail saved Successfully!");
+                await Dialog.showAsync("Bank Details saved Successfully!");
                 List<Info> savedInfosList = new List<Info>(infosUpdatedList);
                 savedInfosList = new List<Info>(savedInfosList.Concat(infosCreatedList));
                 BankDetailList = new List<InfoManager.Bank> { new InfoManager.Bank(savedInfosList) };
             }
+            else
+                await Dialog.showAsync("Error occured while updating the bank Details!");
 
             Dialog.IsDialogOpen = false;
         }
@@ -791,6 +812,9 @@ namespace QOBDManagement.ViewModel
                 savedInfosList = new List<Info>(savedInfosList.Concat(infosCreatedList));
                 AddressList = new List<InfoManager.Contact> { new InfoManager.Contact(savedInfosList) };
             }
+            else
+                await Dialog.showAsync("Error occured while updating the address Details!");
+
             Dialog.IsDialogOpen = false;
         }
 
@@ -832,6 +856,9 @@ namespace QOBDManagement.ViewModel
             var infosUpdatedList = await Bl.BlReferential.UpdateInfoAsync(updateList);
             if (infosUpdatedList.Count > 0)
                 await Dialog.showAsync("Email updated successfully!");
+            else
+                await Dialog.showAsync("Error occured while updating the email!");
+
             Dialog.IsDialogOpen = false;
         }
 
