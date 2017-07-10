@@ -108,11 +108,7 @@ namespace QOBDManagement.ViewModel
 
         public void load()
         {            
-            bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
-                             && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
-                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
-                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
-                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
+            bool isUserAdmin = _main.AgentViewModel.IsAuthenticatedAgentAdmin;
 
             // only admin can see other agents profile
             if (isUserAdmin)
@@ -219,9 +215,13 @@ namespace QOBDManagement.ViewModel
 
         private bool canUpdateAgent(object arg)
         {
-            bool isWrite = _main.securityCheck(EAction.Agent, ESecurity._Write);
+            bool isAdmin = _main.AgentViewModel.IsAuthenticatedAgentAdmin;
             bool isUpdate = _main.securityCheck(EAction.Agent, ESecurity._Update);
-            if (isUpdate && isWrite)
+
+            if (isAdmin)
+                return true;
+
+            if (SelectedAgentModel.Agent.ID != 0 && isUpdate && _main.AuthenticatedUserModel.TxtID == SelectedAgentModel.TxtID)
                 return true;
 
             return false;

@@ -160,12 +160,7 @@ namespace QOBDManagement.ViewModel
 
         public bool IsAuthenticatedAgentAdmin
         {
-            get { return _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
-                             && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
-                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
-                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
-                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
-            }
+            get { return checkIfAuthenticatedUserAdmin(); }
         }
 
         public List<string> UserGroupList
@@ -218,6 +213,90 @@ namespace QOBDManagement.ViewModel
             }                
 
             AgentModelList = agentListToModelViewList(await Bl.BlAgent.GetAgentDataAsync(-999));
+        }
+
+        private bool checkIfAuthenticatedUserAdmin()
+        {
+            bool isAdminOnSecurtity = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
+                                             && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
+                                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
+
+            bool isAdminOnCatalogue = _main.securityCheck(QOBDCommon.Enum.EAction.Item, QOBDCommon.Enum.ESecurity.SendEmail)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Item, QOBDCommon.Enum.ESecurity._Delete)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Item, QOBDCommon.Enum.ESecurity._Read)
+                                             && _main.securityCheck(QOBDCommon.Enum.EAction.Item, QOBDCommon.Enum.ESecurity._Update)
+                                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Item, QOBDCommon.Enum.ESecurity._Write);
+
+            bool isAdminOnAgent = _main.securityCheck(QOBDCommon.Enum.EAction.Agent, QOBDCommon.Enum.ESecurity.SendEmail)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Agent, QOBDCommon.Enum.ESecurity._Delete)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Agent, QOBDCommon.Enum.ESecurity._Read)
+                                             && _main.securityCheck(QOBDCommon.Enum.EAction.Agent, QOBDCommon.Enum.ESecurity._Update)
+                                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Agent, QOBDCommon.Enum.ESecurity._Write);
+
+            bool isAdminOnClient = _main.securityCheck(QOBDCommon.Enum.EAction.Client, QOBDCommon.Enum.ESecurity.SendEmail)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Client, QOBDCommon.Enum.ESecurity._Delete)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Client, QOBDCommon.Enum.ESecurity._Read)
+                                             && _main.securityCheck(QOBDCommon.Enum.EAction.Client, QOBDCommon.Enum.ESecurity._Update)
+                                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Client, QOBDCommon.Enum.ESecurity._Write);
+
+            bool isAdminOnNotification = _main.securityCheck(QOBDCommon.Enum.EAction.Notification, QOBDCommon.Enum.ESecurity.SendEmail)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Notification, QOBDCommon.Enum.ESecurity._Delete)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Notification, QOBDCommon.Enum.ESecurity._Read)
+                                             && _main.securityCheck(QOBDCommon.Enum.EAction.Notification, QOBDCommon.Enum.ESecurity._Update)
+                                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Notification, QOBDCommon.Enum.ESecurity._Write);
+
+            bool isAdminOnOption = _main.securityCheck(QOBDCommon.Enum.EAction.Option, QOBDCommon.Enum.ESecurity.SendEmail)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Option, QOBDCommon.Enum.ESecurity._Delete)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Option, QOBDCommon.Enum.ESecurity._Read)
+                                             && _main.securityCheck(QOBDCommon.Enum.EAction.Option, QOBDCommon.Enum.ESecurity._Update)
+                                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Option, QOBDCommon.Enum.ESecurity._Write);
+
+            bool isAdminOnOrder = _main.securityCheck(QOBDCommon.Enum.EAction.Order, QOBDCommon.Enum.ESecurity.SendEmail)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Order, QOBDCommon.Enum.ESecurity._Delete)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Order, QOBDCommon.Enum.ESecurity._Read)
+                                             && _main.securityCheck(QOBDCommon.Enum.EAction.Order, QOBDCommon.Enum.ESecurity._Update)
+                                                && _main.securityCheck(QOBDCommon.Enum.EAction.Order, QOBDCommon.Enum.ESecurity._Write)
+                                                   && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Billed, QOBDCommon.Enum.ESecurity.SendEmail)
+                                                      && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Billed, QOBDCommon.Enum.ESecurity._Delete)
+                                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Billed, QOBDCommon.Enum.ESecurity._Read)
+                                                             && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Billed, QOBDCommon.Enum.ESecurity._Update)
+                                                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Billed, QOBDCommon.Enum.ESecurity._Write)
+                                                                    && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Close, QOBDCommon.Enum.ESecurity.SendEmail)
+                                                                        && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Close, QOBDCommon.Enum.ESecurity._Delete)
+                                                                            && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Close, QOBDCommon.Enum.ESecurity._Read)
+                                                                                && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Close, QOBDCommon.Enum.ESecurity._Update)
+                                                                                    && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Close, QOBDCommon.Enum.ESecurity._Write)
+                                                                                        && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Preorder, QOBDCommon.Enum.ESecurity.SendEmail)
+                                                                                            && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Preorder, QOBDCommon.Enum.ESecurity._Delete)
+                                                                                                && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Preorder, QOBDCommon.Enum.ESecurity._Read)
+                                                                                                    && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Preorder, QOBDCommon.Enum.ESecurity._Update)
+                                                                                                        && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Preorder, QOBDCommon.Enum.ESecurity._Write)
+                                                                                                            && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Valid, QOBDCommon.Enum.ESecurity.SendEmail)
+                                                                                                                && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Valid, QOBDCommon.Enum.ESecurity._Delete)
+                                                                                                                    && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Valid, QOBDCommon.Enum.ESecurity._Read)
+                                                                                                                        && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Valid, QOBDCommon.Enum.ESecurity._Update)
+                                                                                                                            && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Valid, QOBDCommon.Enum.ESecurity._Write);
+
+            bool isAdminOnQuote = _main.securityCheck(QOBDCommon.Enum.EAction.Quote, QOBDCommon.Enum.ESecurity.SendEmail)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Quote, QOBDCommon.Enum.ESecurity._Delete)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Quote, QOBDCommon.Enum.ESecurity._Read)
+                                             && _main.securityCheck(QOBDCommon.Enum.EAction.Quote, QOBDCommon.Enum.ESecurity._Update)
+                                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Quote, QOBDCommon.Enum.ESecurity._Write)
+                                                    && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Quote, QOBDCommon.Enum.ESecurity.SendEmail)
+                                                        && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Quote, QOBDCommon.Enum.ESecurity._Delete)
+                                                            && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Quote, QOBDCommon.Enum.ESecurity._Read)
+                                                                && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Quote, QOBDCommon.Enum.ESecurity._Update)
+                                                                    && _main.securityCheck(QOBDCommon.Enum.EAction.Order_Quote, QOBDCommon.Enum.ESecurity._Write);
+
+            bool isAdminOnStatistic = _main.securityCheck(QOBDCommon.Enum.EAction.Statistic, QOBDCommon.Enum.ESecurity.SendEmail)
+                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Statistic, QOBDCommon.Enum.ESecurity._Delete)
+                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Statistic, QOBDCommon.Enum.ESecurity._Read)
+                                             && _main.securityCheck(QOBDCommon.Enum.EAction.Statistic, QOBDCommon.Enum.ESecurity._Update)
+                                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Statistic, QOBDCommon.Enum.ESecurity._Write);
+
+            return isAdminOnAgent && isAdminOnCatalogue && isAdminOnClient && isAdminOnNotification && isAdminOnOption && isAdminOnOrder && isAdminOnQuote && isAdminOnSecurtity && isAdminOnStatistic;
         }
 
         public override void Dispose()
@@ -290,18 +369,15 @@ namespace QOBDManagement.ViewModel
         private bool canSelectAgent(AgentModel arg)
         {
             // admin profile can access all profiles
-            bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
-                             && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
-                                 && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
-                                     && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
-                                         && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
-
-            // none admin can only access their own profile
-            if (!isUserAdmin && arg != null && arg.Agent.ID != 0 && arg.Agent.ID == Bl.BlSecurity.GetAuthenticatedUser().ID)
-                return true;
+            bool isUserAdmin = _main.AgentViewModel.IsAuthenticatedAgentAdmin;
 
             if (isUserAdmin)
                 return true;
+
+            // none admin can only access their own profile
+            if (arg != null && (_page(null) as AgentViewModel == null && arg.Agent.ID == 0 ||  arg.Agent.ID != 0 && arg.TxtID == _main.AuthenticatedUserModel.TxtID))
+                return true;
+
 
             return false;
         }

@@ -94,7 +94,7 @@
                                 <TextBlock Name="txtBTitleSearch" HorizontalAlignment="Center">Search results</TextBlock>
                             </materialDesign:ColorZone>
                             <DataGrid Grid.Row="1" x:Name="dgSearchResult" AutoGenerateColumns="False"
-                              ItemsSource="{Binding ClientViewModel.ClientModelList, IsAsync=True, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" 
+                              ItemsSource="{Binding ClientViewModel.ClientModelList, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" 
                               EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}"
                               ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"  
                               >

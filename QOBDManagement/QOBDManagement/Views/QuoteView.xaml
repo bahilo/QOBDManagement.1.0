@@ -37,7 +37,7 @@
         <!-- Here comes the main content of the view -->
 
         <StackPanel Grid.Column="1"  Height="{Binding Height, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
-            
+
             <Label FontSize="20" Margin="0 20 0 20" Foreground="DarkGray" HorizontalAlignment="Center" Content="{Binding QuoteViewModel.Title, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Grid >
@@ -89,7 +89,7 @@
                                     <materialDesign:PackIcon Kind="CartOutline"/>
                                     <TextBlock>Card</TextBlock>
                                 </StackPanel>
-                                <DataGrid Name="dgCart" ItemsSource="{Binding QuoteViewModel.Cart.CartItemList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
+                                <DataGrid Name="dgCart" ItemsSource="{Binding QuoteViewModel.Cart.CartItemList, UpdateSourceTrigger=PropertyChanged}" 
                                   Margin="0 0 8 0" AutoGenerateColumns="False" RowDetailsVisibilityMode="VisibleWhenSelected" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}" 
                                   EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False" MaxHeight="{Binding TxtHeightDataList, UpdateSourceTrigger=PropertyChanged}">
                                     <DataGrid.Columns>
@@ -126,9 +126,7 @@
                                                         <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3"/>
                                                     </Button>
                                                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                                        <TextBlock Text="Purchase Price:"/>
-                                                        <TextBox Text="{Binding TxtPrice_purchase}" IsEnabled="False" Width="50" Margin="8 0 0 0"/>
-                                                        <TextBlock Text="Selling Price:" Margin="8 0 0 0"/>
+                                                        <TextBlock Text="Price:" Margin="8 0 0 0"/>
                                                         <TextBox Text="{Binding TxtPrice_sell}" IsEnabled="False" Width="50" Margin="8 0 0 0"/>
                                                         <TextBlock Text="Quantity" Margin="8 0 0 0"/>
                                                         <TextBox Text="{Binding TxtQuantity}" IsEnabled="False" Width="50" Margin="8 0 0 0"/>
@@ -151,9 +149,7 @@
                         </materialDesign:ColorZone>
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Total Purchase Price:"/>
-                                <TextBox Text="{Binding QuoteViewModel.Cart.TxtCartTotalPurchasePrice, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="20 0 0 0" IsEnabled="False"/>
-                                <TextBlock Margin="20 0 0 0" Text="Total Selling Price:"/>
+                                <TextBlock Margin="20 0 0 0" Text="Total Sales:"/>
                                 <TextBox Text="{Binding QuoteViewModel.Cart.TxtCartTotalSellingPrice, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="20 0 0 0" IsEnabled="False"/>
                             </StackPanel>
                             <Label Foreground="Red" HorizontalAlignment="Center" Content="{Binding QuoteViewModel.MissingCLientMessage}"/>
@@ -170,7 +166,7 @@
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Name="txtBWaitValid2" HorizontalAlignment="Center">Quotes List - In Process</TextBlock>
                                     <DataGrid Grid.Row="1" x:Name="dgQuoteModelList" AutoGenerateColumns="False"
-                                    ItemsSource="{Binding QuoteViewModel.QuoteModelList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
+                                    ItemsSource="{Binding QuoteViewModel.QuoteModelList, UpdateSourceTrigger=PropertyChanged}" 
                                     MaxHeight="600" MaxWidth="1000" EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="ID" Binding="{Binding TxtID}"/>
@@ -221,11 +217,11 @@
             </Grid>
         </StackPanel>
 
-        
+
 
         <!-- End -->
 
     </Grid>
-    
-        
+
+
 </UserControl>

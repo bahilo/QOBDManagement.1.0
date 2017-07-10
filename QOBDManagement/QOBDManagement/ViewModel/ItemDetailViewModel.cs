@@ -113,9 +113,9 @@ namespace QOBDManagement.ViewModel
             return returnResult;
         }
 
-        private async Task<List<Provider>> getEntryNewProvider()
+        private async Task<List<ProviderModel>> getEntryNewProvider()
         {
-            List<Provider> returnResult = new List<Provider>();
+            List<ProviderModel> returnResult = new List<ProviderModel>();
             if (!String.IsNullOrEmpty(SelectedItemModel.TxtNewProvider))
             {
                 // Check that the new Provider doesn't exist
@@ -129,14 +129,14 @@ namespace QOBDManagement.ViewModel
                     var providerSavedList = await Bl.BlItem.InsertProviderAsync(new List<Provider> { provider });
                     if(providerSavedList.Count > 0)
                     {
-                        SelectedItemModel.SelectedProvider = providerSavedList[0];
-                        returnResult.Add(providerSavedList[0]);
+                        SelectedItemModel.SelectedProvider = new ProviderModel { Provider = providerSavedList.First() };
+                        returnResult.Add(new ProviderModel { Provider = providerSavedList.First() });
                     }                        
                 }
                 else
-                    returnResult.Add(providerFoundList[0]);
+                    returnResult.Add(new ProviderModel { Provider = providerFoundList.First() });
             }
-            else if (SelectedItemModel.SelectedProvider.ID != 0)
+            else if (SelectedItemModel.SelectedProvider.Provider.ID != 0)
                 returnResult.Add(SelectedItemModel.SelectedProvider);
 
             return returnResult;
@@ -147,15 +147,15 @@ namespace QOBDManagement.ViewModel
             // creating a new record in the table provider_item to link the item with its providers
             var returnResult = new List<Provider_itemModel>();
 
-            var provider_itemFoundList = Bl.BlItem.searchProvider_item(new Provider_item { ProviderId = SelectedItemModel.SelectedProvider.ID }, ESearchOption.AND);
+            var provider_itemFoundList = Bl.BlItem.searchProvider_item(new Provider_item { ProviderId = SelectedItemModel.SelectedProvider.Provider.ID }, ESearchOption.AND);
             var provider_itemModelFoundList = _main.ItemViewModel.loadProvider_itemInformation(provider_itemFoundList, SelectedItemModel.Item.Source);
             
-            if (!string.IsNullOrEmpty(SelectedItemModel.SelectedProvider.Name) && !string.IsNullOrEmpty(SelectedItemModel.TxtRef))
+            if (!string.IsNullOrEmpty(SelectedItemModel.SelectedProvider.TxtCompanyName) && !string.IsNullOrEmpty(SelectedItemModel.TxtRef))
             {
                 // Processing in case of a new Item
                 if (provider_itemModelFoundList.Count == 0 || provider_itemModelFoundList.Where(x => x.Provider_item.ItemId == SelectedItemModel.Item.ID).Count() == 0)
                 {
-                    returnResult = (await Bl.BlItem.InsertProvider_itemAsync(new List<Provider_item> { new Provider_item { ItemId = SelectedItemModel.Item.ID, ProviderId = SelectedItemModel.SelectedProvider.ID, CurrencyId = SelectedItemModel.CurrencyModel.Currency.ID } })).Select(x => new Provider_itemModel { Provider_item = x }).ToList();
+                    returnResult = (await Bl.BlItem.InsertProvider_itemAsync(new List<Provider_item> { new Provider_item { ItemId = SelectedItemModel.Item.ID, ProviderId = SelectedItemModel.SelectedProvider.Provider.ID, CurrencyId = SelectedItemModel.CurrencyModel.Currency.ID } })).Select(x => new Provider_itemModel { Provider_item = x }).ToList();
                 }
 
                 //in case of an update
@@ -166,8 +166,8 @@ namespace QOBDManagement.ViewModel
                                     where p_i.Provider_item.ItemId == SelectedItemModel.Item.ID
                                     select new Provider_itemModel
                                     {
-                                        Provider_item = new Provider_item { ID = p_i.Provider_item.ID, ItemId = p_i.Provider_item.ItemId, CurrencyId = SelectedItemModel.CurrencyModel.Currency.ID, ProviderId = SelectedItemModel.SelectedProvider.ID },
-                                        Provider = SelectedItemModel.SelectedProvider,
+                                        Provider_item = new Provider_item { ID = p_i.Provider_item.ID, ItemId = p_i.Provider_item.ItemId, CurrencyId = SelectedItemModel.CurrencyModel.Currency.ID, ProviderId = SelectedItemModel.SelectedProvider.Provider.ID },
+                                        Provider = SelectedItemModel.SelectedProvider.Provider,
                                         CurrencyModel = SelectedItemModel.CurrencyModel
                                     }).ToList();
 
@@ -370,7 +370,7 @@ namespace QOBDManagement.ViewModel
                     SelectedItemModel.Item.Erasable = EItem.Yes.ToString();
                     var itemSavedList = await Bl.BlItem.InsertItemAsync(new List<Item> { SelectedItemModel.Item });
 
-                    SelectedItemModel.SelectedProvider = ((providerFoundList.Count > 0) ? providerFoundList[0] : new Provider());
+                    SelectedItemModel.SelectedProvider = ((providerFoundList.Count > 0) ? providerFoundList.First() : new ProviderModel());
                     SelectedItemModel.Item = itemSavedList[0];
 
                     SelectedItemModel.Provider_itemModelList = await updateProvider_itemTable();
@@ -395,10 +395,10 @@ namespace QOBDManagement.ViewModel
                 // Otherwise update the current item
                 else
                 {
-                    var savedProviderList = await Bl.BlItem.UpdateProviderAsync(await getEntryNewProvider());
+                    var savedProviderList = await Bl.BlItem.UpdateProviderAsync((await getEntryNewProvider()).Select(x=>x.Provider).ToList());
                     var savedItemList = await Bl.BlItem.UpdateItemAsync(new List<Item> { SelectedItemModel.Item });
 
-                    SelectedItemModel.SelectedProvider = ((savedProviderList.Count > 0) ? savedProviderList[0] : new Provider());
+                    SelectedItemModel.SelectedProvider = ((savedProviderList.Count > 0) ? new ProviderModel { Provider = savedProviderList.First() } : new ProviderModel());
                     SelectedItemModel.Item = savedItemList[0];
 
                     // item providers updating
@@ -429,10 +429,10 @@ namespace QOBDManagement.ViewModel
                 }
 
                 // update the provider list
-                if (_main.ItemViewModel.ProviderList.Where(x => x.Provider.ID == SelectedItemModel.SelectedProvider.ID).Count() == 0)
+                if (_main.ItemViewModel.ProviderList.Where(x => x.Provider.ID == SelectedItemModel.SelectedProvider.Provider.ID).Count() == 0)
                 {
                     List<ProviderModel> buffer = _main.ItemViewModel.ProviderList.ToList();
-                    buffer.Add( new ProviderModel { Provider = SelectedItemModel.SelectedProvider });
+                    buffer.Add( SelectedItemModel.SelectedProvider);
 
                     // call the property change for UI update
                     _main.ItemViewModel.ProviderList = new List<ProviderModel>(buffer);

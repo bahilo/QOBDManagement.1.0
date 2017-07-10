@@ -154,6 +154,11 @@ namespace QOBDManagement.ViewModel
             get { return (_main != null) ?_main.Cart : new Cart(); }
         }
 
+        public string BoxVisibility
+        {
+            get { return _main.OrderViewModel.OrderDetailViewModel.BoxVisibility; }
+        }
+
 
         //----------------------------[ Actions ]------------------
 

@@ -75,7 +75,7 @@ namespace QOBDManagement.ViewModel
             _ThirdBestSeller = new ItemModel();
             _fourthBestSeller = new ItemModel();
             _taskFileName = "tasks.xml";
-            _taskFileFullName = Utility.getDirectory(ConfigurationManager.AppSettings["local_doc_task_folder"], _taskFileName);
+            _taskFileFullName = Utility.getOrCreateDirectory(ConfigurationManager.AppSettings["local_doc_task_folder"], _taskFileName);
             _purchaseAndSalePriceseriesCollection = new SeriesCollection();
             _payReceivedSeries = new SeriesCollection();
             _creditSeries = new SeriesCollection();

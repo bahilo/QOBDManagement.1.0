@@ -46,15 +46,18 @@ public class DataAccess : IDataAccessManager
     {
         if (isNewAgentAuthentication)
         {
-            // Order
-            DALOrder.progressBarManagement(ProgressBarFunc);
-            DALOrder.initializeCredential(authenticatedUser);
-            DALOrder.cacheWebServiceData();
+            Task.Factory.StartNew(() =>
+            {
+                // Order
+                DALOrder.progressBarManagement(ProgressBarFunc);
+                DALOrder.initializeCredential(authenticatedUser);
+                DALOrder.cacheWebServiceData();
 
-            // Client
-            DALClient.progressBarManagement(ProgressBarFunc);
-            DALClient.initializeCredential(authenticatedUser);
-            DALClient.cacheWebServiceData();            
+                // Client
+                DALClient.progressBarManagement(ProgressBarFunc);
+                DALClient.initializeCredential(authenticatedUser);
+                DALClient.cacheWebServiceData();
+            });            
         }
         else
         {            

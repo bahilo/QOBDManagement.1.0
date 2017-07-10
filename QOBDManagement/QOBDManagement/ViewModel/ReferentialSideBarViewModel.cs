@@ -92,11 +92,7 @@ namespace QOBDManagement.ViewModel
 
         private bool canExecuteSetupAction(string arg)
         {
-            bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
-                            && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
-                                && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
-                                    && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
-                                        && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
+            bool isUserAdmin = _main.AgentViewModel.IsAuthenticatedAgentAdmin;
 
             if (isUserAdmin && arg.Equals("credential") && _page(null) as OptionSecurityViewModel == null)
                 return true;

@@ -138,10 +138,10 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="{Binding LogoImageDisplay.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+                            <Image Source="{Binding LogoImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
                                        Width="{Binding DataContext.LogoImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
                                        Height="{Binding DataContext.LogoImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Image Grid.Column="1" Source="{Binding HeaderImageDisplay.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform" Margin="10 0 0 0"
+                            <Image Grid.Column="1" Source="{Binding HeaderImageDisplay.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform" Margin="10 0 0 0"
                                        Width="{Binding DataContext.HeaderImageDisplay.TxtInfoItem1, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"
                                        Height="{Binding DataContext.HeaderImageDisplay.TxtInfoItem2, ElementName=Window, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
@@ -233,7 +233,7 @@
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                           Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=ActualWidth}">
                 <Grid x:Name="gvCentral" Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=ActualWidth}">
-                    <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ContentControl Content="{Binding CurrentViewModel, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </ScrollViewer>
             <!-- End -->

@@ -97,7 +97,7 @@
                     <TextBlock  Name="txtBUnactifAgent" HorizontalAlignment="Center">Deactivated agents</TextBlock>
                 </materialDesign:ColorZone>
                 <DataGrid x:Name="dgDeactivatedAgent" AutoGenerateColumns="False"
-                        ItemsSource="{Binding AgentViewModel.DeactivatedAgentModelList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
+                        ItemsSource="{Binding AgentViewModel.DeactivatedAgentModelList, UpdateSourceTrigger=PropertyChanged}" 
                         Margin="0 0 8 0" EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False" MaxHeight="300" MaxWidth="985"
                         ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <DataGrid.Columns>
@@ -150,7 +150,7 @@
                                 HorizontalAlignment="Center" 
                                 VerticalAlignment="Center">
                     <TextBlock VerticalAlignment="Center" Margin="8 0 0 0">Move All Clients To</TextBlock>
-                    <ComboBox Name="comboBxToAgent" Width="250" ItemsSource="{Binding AgentViewModel.AgentModelList, IsAsync=True}" Margin="8 0 0 0">
+                    <ComboBox Name="comboBxToAgent" Width="250" ItemsSource="{Binding AgentViewModel.AgentModelList}" Margin="8 0 0 0">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <materialDesign:ColorZone Mode="Accent">

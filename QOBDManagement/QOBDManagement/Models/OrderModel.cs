@@ -117,9 +117,18 @@ namespace QOBDManagement.Models
 
         public List<Entity.Address> AddressList
         {
-            get
-            { return _addressList; }
-            set { setProperty(ref _addressList, value); }
+            get { return _addressList; }
+            set { setProperty(ref _addressList, value); onPropertyChange("DeliveryAddressList"); onPropertyChange("BillingAddressList"); }
+        }
+
+        public List<Entity.Address> DeliveryAddressList
+        {
+            get { return AddressList; }
+        }
+
+        public List<Entity.Address> BillingAddressList
+        {
+            get{ return AddressList; }
         }
 
         public AgentModel AgentModel

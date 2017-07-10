@@ -20,6 +20,7 @@
         </DataTemplate>
         <Class:StringLengthConverter x:Key="StringLengthConverter"/>
         <Class:TriggerConverter x:Key="TriggerConverter"/>
+        <FrameworkElement x:Key="ProxyElement" DataContext="{Binding}"/>
     </UserControl.Resources>
 
     <Grid Grid.Row="1" x:Name="gvMain" VerticalAlignment="Top" Margin="0">
@@ -105,7 +106,7 @@
                                                     <materialDesign:PackIcon Kind="Delete"/>
                                                 </Button>
                                             </Grid>
-                                            <DataGrid Name="dgCart" ItemsSource="{Binding ItemViewModel.Cart.CartItemList,IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
+                                            <DataGrid Name="dgCart" ItemsSource="{Binding ItemViewModel.Cart.CartItemList, UpdateSourceTrigger=PropertyChanged}" 
                                           AutoGenerateColumns="False" MaxHeight="140" Width="430" EnableColumnVirtualization="True" EnableRowVirtualization="True" CanUserAddRows="False">
                                                 <DataGrid.Columns>
                                                     <DataGridTextColumn Header="Item" Binding="{Binding TxtRef}"/>
@@ -124,8 +125,8 @@
                                                         <DataGridTemplateColumn.CellTemplate>
                                                             <DataTemplate>
                                                                 <Button ToolTip="Delete" Grid.Column="3" Style="{DynamicResource MaterialDesignFlatButton}"
-                                                            Command="{Binding DataContext.ItemViewModel.DeleteFromCartCommand, ElementName=dgCart}"
-                                                            CommandParameter="{Binding Path=CurrentItem, ElementName=dgCart}">
+                                                                        Command="{Binding DataContext.ItemViewModel.DeleteFromCartCommand, ElementName=dgCart}"
+                                                                        CommandParameter="{Binding Path=CurrentItem, ElementName=dgCart}">
                                                                     <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                                 </Button>
                                                             </DataTemplate>
@@ -136,7 +137,10 @@
                                             <StackPanel Grid.Row="2" Orientation="Horizontal">
                                                 <!--<TextBlock Text="Total Purchase Price:"/>
                                             <TextBlock Text="{Binding ItemViewModel.Cart.TxtCartTotalPurchasePrice, UpdateSourceTrigger=PropertyChanged}" Margin="8 0 0 0"/>-->
-                                                <TextBlock Text="Total Selling Price:" Margin="8 0 0 0"/>
+                                                <TextBlock Text="Total Amount:" Margin="8 0 0 0"/>
+                                                <TextBlock>(</TextBlock>
+                                                <TextBlock Text="{Binding DataContext.ItemViewModel.CurrencyModel.TxtSymbol, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <TextBlock>)</TextBlock>
                                                 <TextBlock Text="{Binding ItemViewModel.Cart.TxtCartTotalSellingPrice, UpdateSourceTrigger=PropertyChanged}" Margin="8 0 0 0"/>
                                             </StackPanel>
                                         </StackPanel>
@@ -161,9 +165,21 @@
                         </materialDesign:ColorZone>
                         <StackPanel Grid.Row="1" Orientation="Vertical">
                             <DataGrid x:Name="dgSearchResult" AutoGenerateColumns="False"
-                                  ItemsSource="{Binding ItemViewModel.ItemModelList, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" 
+                                  ItemsSource="{Binding ItemViewModel.ItemModelList, UpdateSourceTrigger=PropertyChanged}" 
                                   EnableColumnVirtualization="True" EnableRowVirtualization="True" MaxWidth="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}"
-                                  CanUserAddRows="False" IsReadOnly="True">
+                                  CanUserAddRows="False" IsReadOnly="True" RowDetailsVisibilityMode="VisibleWhenSelected">
+                                <DataGrid.RowDetailsTemplate>
+                                    <DataTemplate>
+                                        <Grid Height="100">
+                                            <Button Style="{DynamicResource MaterialDesignFlatButton}" ToolTip="See Details"
+                                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                    Command="{Binding DataContext.ItemViewModel.GetCurrentItemCommand, ElementName=dgSearchResult}" 
+                                                    CommandParameter="{Binding}">
+                                                <materialDesign:PackIcon Kind="Eye"/>
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGrid.RowDetailsTemplate>
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn Header="Select To Cart">
                                         <DataGridTemplateColumn.CellTemplate>
@@ -191,7 +207,7 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Image Source="{Binding Image.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+                                                <Image Source="{Binding Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
                                                     Width="150"
                                                     Height="100"/>
                                             </DataTemplate>
@@ -226,20 +242,21 @@
                                     <DataGridTextColumn Header="Stock" Binding="{Binding TxtStock, UpdateSourceTrigger=PropertyChanged}"/>
                                     <DataGridTextColumn Header="Brand" Binding="{Binding TxtType}"/>
                                     <DataGridTextColumn Header="Family" Binding="{Binding TxtType_sub}"/>
-                                    <DataGridTextColumn Header="Provider" Binding="{Binding SelectedProvider.Name}"/>
-                                    <!--<DataGridTextColumn Header="Purchase Price" Binding="{Binding TxtPrice_purchase}"/>-->
-                                    <DataGridTextColumn Header="Selling Price" Binding="{Binding TxtPrice_sell}"/>
+                                    <DataGridTextColumn Header="Provider" Binding="{Binding SelectedProvider.TxtCompanyName}"/>
+                                    <!--<DataGridTextColumn Header="Purchase Price" Binding="{Binding TxtPrice_purchase}" Visibility="{Binding DataContext.ItemViewModel.BoxVisibility, Source={StaticResource ProxyElement}, UpdateSourceTrigger=PropertyChanged}"/>-->
+                                    <!--<DataGridTextColumn Header="Price" Binding="{Binding TxtPrice_sell}"/>-->
                                     <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>Price</TextBlock>
+                                        </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Grid Height="100">
-                                                    <Button Style="{DynamicResource MaterialDesignFlatButton}" ToolTip="See Details"
-                                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                    Command="{Binding DataContext.ItemViewModel.GetCurrentItemCommand, ElementName=dgSearchResult}" 
-                                                    CommandParameter="{Binding}">
-                                                        <materialDesign:PackIcon Kind="Eye"/>
-                                                    </Button>
-                                                </Grid>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock>(</TextBlock>
+                                                    <TextBlock Text="{Binding DataContext.ItemViewModel.CurrencyModel.TxtSymbol, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBlock>)</TextBlock>
+                                                    <TextBlock Text="{Binding TxtPrice_sell}"/>
+                                                </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -252,7 +269,7 @@
             </Grid>
 
         </StackPanel>
-        
+
 
         <!-- End -->
 

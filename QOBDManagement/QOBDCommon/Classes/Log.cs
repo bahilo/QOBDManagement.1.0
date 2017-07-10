@@ -18,8 +18,8 @@ namespace QOBDCommon.Classes
         public static void initialize()
         {
             fileName = "log_" + DateTime.Now.ToString("yyyy_MM") + ".txt";
-            directory = Utility.getDirectory("Logs");
-            fileFullPath = Utility.getDirectory(directory, fileName);
+            directory = Utility.getOrCreateDirectory("Logs");
+            fileFullPath = Utility.getOrCreateDirectory(directory, fileName);
         }
 
         public static void error(string message, Enum.EErrorFrom errorFromPage, [CallerMemberName] string callerName = null, string localCallerName = null)

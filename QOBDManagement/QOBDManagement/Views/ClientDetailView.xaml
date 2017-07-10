@@ -68,7 +68,7 @@
                             <StackPanel Margin="0 10 0 0" Grid.Row="1" Orientation="Vertical">
                                 <StackPanel Margin="0 6 0 0" Orientation="Horizontal">
                                     <TextBlock>Company Name</TextBlock>
-                                    <ComboBox Name="comboCompanyName" ItemsSource="{Binding DataContext.ClientViewModel.ClientModelList, IsAsync=True,RelativeSource={RelativeSource AncestorType={x:Type Window}}}" HorizontalAlignment="Right" Margin="6 0 0 0" Width="250">
+                                    <ComboBox Name="comboCompanyName" ItemsSource="{Binding DataContext.ClientViewModel.ClientModelList,RelativeSource={RelativeSource AncestorType={x:Type Window}}}" HorizontalAlignment="Right" Margin="6 0 0 0" Width="250">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">

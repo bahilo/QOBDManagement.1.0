@@ -20,7 +20,7 @@ namespace QOBDManagement.Models
         private string _selectedFamily;
         private string _newFamily;
         private string _newProvider;
-        private Provider _selectedProvider;
+        private ProviderModel _selectedProvider;
         private Provider_itemModel _selectedProvider_itemModel;
         private bool _isSelected;
         private bool _isModifyEnable;
@@ -33,7 +33,7 @@ namespace QOBDManagement.Models
         public ItemModel()
         {
             _item_deliveryModelList = new List<Item_deliveryModel>();
-            _selectedProvider = new Provider();
+            _selectedProvider = new ProviderModel();
             _selectedProvider_itemModel = new Provider_itemModel();
             _provider_itemModelList = new List<Provider_itemModel>();
             _isModifyEnable = false;
@@ -94,7 +94,7 @@ namespace QOBDManagement.Models
             set { setProperty(ref _provider_itemModelList, value); }
         }
 
-        public Provider SelectedProvider
+        public ProviderModel SelectedProvider
         {
             get { return _selectedProvider; }
             set { setProperty(ref _selectedProvider, value); }
@@ -138,7 +138,7 @@ namespace QOBDManagement.Models
 
         public string txtProvider
         {
-            get { return _selectedProvider.Name; }
+            get { return _selectedProvider.TxtCompanyName; }
         }
 
         public string TxtNewBrand

@@ -84,7 +84,7 @@ namespace QOBDManagement.ViewModel
 
         public string TxtPathFavicon
         {
-            get { return System.IO.Path.Combine(Utility.getDirectory("Docs", "images"), "favicon.ico"); }
+            get { return System.IO.Path.Combine(Utility.getOrCreateDirectory("Docs", "images"), "favicon.ico"); }
         }
 
         public string TxtInfoAllRightText
@@ -264,8 +264,8 @@ namespace QOBDManagement.ViewModel
             if (e.PropertyName.Equals("Dialog"))
             {
                 if (Application.Current != null)
-                    //await showLoginView();
-                    await startAuthentication(); //"<< for dev mode >>";
+                    await showLoginView();
+                    //await startAuthentication(); //"<< for dev mode >>";
                 else
                     await startAuthentication();
             }

@@ -192,7 +192,7 @@ namespace QOBDManagement.ViewModel
                 || arg.Equals("new-address")))
                 return false;
 
-            if (_page(null) as ClientDetailViewModel == null)
+            if (_page(null) as ClientDetailViewModel == null && !arg.Equals("new-client"))
                 return false;
 
             if (SelectedClient.Client.ID == 0

@@ -18,7 +18,7 @@ namespace QOBDCommon.Classes
     {
         public static RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
         public static DateTime DateTimeMinValueInSQL2005 = new DateTime(1753, 1, 1);
-        public static string BaseDirectory = getDirectory(Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), ConfigurationManager.AppSettings["info_company_name"]); //AppDomain.CurrentDomain.BaseDirectory;
+        public static string BaseDirectory = getOrCreateDirectory(Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), ConfigurationManager.AppSettings["info_company_name"]); //AppDomain.CurrentDomain.BaseDirectory;
         public static List<string> MaterialDesignColourList = new List<string> { "Accent", "Dark", "Inverted", "PrimaryDark", "PrimaryLight", "PrimaryMid" };
         public static List<string> ColourList = new List<string> { "DarkBlue", "DarkGreen", "DarkMagenta", "DarkOrange", "DarkRed", "DarkOrchid", "DarkCyan", "DarkGoldenrod", "DarkSalmon", "DarkSeaGreen", "DarkSlateGray", "DarkTurquoise", "DarkViolet", "DeepPink" };
 
@@ -171,6 +171,19 @@ namespace QOBDCommon.Classes
             }
         }
 
+        public static bool isBase64Encoded(string inputBase64Encoded)
+        {
+            var decodedString = decodeBase64ToString(inputBase64Encoded);
+            var encodedString = encodeStringToBase64(decodedString);
+
+            return encodedString == inputBase64Encoded;
+        }
+
+        public static bool isMD5Encoded(string encodedInput)
+        {
+            return Regex.IsMatch(encodedInput, "[0-9a-z]{32}");
+        }
+
         public static string getDirectory(string directory, params string[] pathElements)
         {
             object _lock = new object();
@@ -189,23 +202,29 @@ namespace QOBDCommon.Classes
                         path = Path.Combine(path, pathElement);
                 }
 
-                // check if it is a full path file or only directory 
-                var pathChecking = Path.GetFileName(path).Split('.');
-
-                if (!File.Exists(path) && !Directory.Exists(path))
-                {
-
-                    if (pathChecking.Count() > 1)
-                    {
-                        var dir = Path.GetDirectoryName(path);
-                        Directory.CreateDirectory(Path.GetDirectoryName(path));
-                        File.Create(path);
-                    }
-                    else
-                        Directory.CreateDirectory(path);
-                }
                 return Path.GetFullPath(path);
             }
+        }
+
+        public static string getOrCreateDirectory(string directory, params string[] pathElements)
+        {
+            string path = getDirectory(directory, pathElements);
+
+            // check if it is a full path file or only directory 
+            var pathChecking = Path.GetFileName(path).Split('.');
+
+            if (!File.Exists(path) && !Directory.Exists(path))
+            {
+                if (pathChecking.Count() > 1)
+                {
+                    var dir = Path.GetDirectoryName(path);
+                    Directory.CreateDirectory(Path.GetDirectoryName(path));
+                    File.Create(path);
+                }
+                else
+                    Directory.CreateDirectory(path);
+            }
+            return Path.GetFullPath(path);
         }
 
         public static Dictionary<T, P> concat<T, P>(Dictionary<T, P> dictTarget, Dictionary<T, P> dictSource)

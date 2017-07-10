@@ -154,7 +154,7 @@ namespace QOBDTest.Tests
             _main = new MainWindowViewModel(new MockStartup(_mockProxy.Mock));
 
             // Act             
-            _main.ItemViewModel.saveSelectedItem(new QOBDManagement.Models.ItemModel { Item = item });
+            _main.ItemViewModel.showSelectedItem(new QOBDManagement.Models.ItemModel { Item = item });
 
             // Assert
             Assert.AreEqual(_main.ItemViewModel.SelectedItemModel.Item.ID, 1);

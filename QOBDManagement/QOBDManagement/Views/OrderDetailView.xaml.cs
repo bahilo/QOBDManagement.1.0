@@ -31,10 +31,10 @@ namespace QOBDManagement.Views
             UIContext dataContext = new UIContext();
             if (dataContext.setWindowContext(this) != null)
             {
-                if (((MainWindowViewModel)this.DataContext).IsRefresh)
+                if (!((MainWindowViewModel)this.DataContext).IsThroughContext)
                 {
                     ((MainWindowViewModel)this.DataContext).OrderViewModel.OrderDetailViewModel.loadOrder_items();
-                    ((MainWindowViewModel)this.DataContext).IsRefresh = false;
+                    //((MainWindowViewModel)this.DataContext).IsRefresh = false;
                 }
             }
         }

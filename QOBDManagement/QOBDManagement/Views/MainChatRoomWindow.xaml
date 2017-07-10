@@ -91,7 +91,7 @@
                                                                 <ColumnDefinition Width="*"/>
                                                             </Grid.ColumnDefinitions>
                                                             <Border CornerRadius="10" Background="{Binding TxtIconColour}" Width="30">
-                                                                <Image Source="{Binding Image.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" />
+                                                                <Image Source="{Binding Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" />
                                                             </Border>
                                                             <Button Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}"
                                                                 CommandParameter="{Binding}">
@@ -199,7 +199,7 @@
                         </materialDesign:ColorZone>
 
                         <!-- central view -->
-                        <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
+                        <ContentControl Content="{Binding CurrentViewModel, UpdateSourceTrigger=PropertyChanged}"/>
 
                     </DockPanel>
                 </materialDesign:DrawerHost>

@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="dgIndividualHistory" ItemsSource="{Binding MessageIndividualHistoryList, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" 
+        <DataGrid Name="dgIndividualHistory" ItemsSource="{Binding MessageIndividualHistoryList, UpdateSourceTrigger=PropertyChanged}" 
                   AutoGenerateColumns="False">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
@@ -58,7 +58,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid Grid.Row="1" Name="dgGroupHistory" ItemsSource="{Binding MessageGroupHistoryList, UpdateSourceTrigger=PropertyChanged, IsAsync=True}" 
+        <DataGrid Grid.Row="1" Name="dgGroupHistory" ItemsSource="{Binding MessageGroupHistoryList, UpdateSourceTrigger=PropertyChanged}" 
                   AutoGenerateColumns="False">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">

@@ -93,34 +93,32 @@ namespace QOBDDAL.Helper.ChannelHelper
         {
             object _lock = new object();
 
-            string _constr = System.Configuration.ConfigurationManager.ConnectionStrings["QCBDDatabaseCEConnectionString"].ConnectionString;
-            _constr = _constr.Replace("|DataDirectory|", Utility.getDirectory("App_Data"));
-
-            DataSet dataSet = new DataSet("QOBDData");
-            DataTable dataTable = new DataTable("QOBDTable");
-
-            using (SqlCeConnection connection = new SqlCeConnection(_constr))
+            lock (_lock)
             {
-                using (SqlCeCommand cmd = new SqlCeCommand(sql, connection))
+                string _constr = System.Configuration.ConfigurationManager.ConnectionStrings["QCBDDatabaseCEConnectionString"].ConnectionString;
+                _constr = _constr.Replace("|DataDirectory|", Utility.getOrCreateDirectory("App_Data"));
+
+                DataSet dataSet = new DataSet("QOBDData");
+                DataTable dataTable = new DataTable("QOBDTable");
+
+                using (SqlCeConnection connection = new SqlCeConnection(_constr))
                 {
-                    try
+                    using (SqlCeCommand cmd = new SqlCeCommand(sql, connection))
                     {
-                        cmd.Connection.Open();
-                        cmd.CommandTimeout = 0;
-                        dataTable.Load(cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection));
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.error(ex.Message, EErrorFrom.HELPER);
-                    }
-                    finally
-                    {
-                        cmd.Dispose();
-                        connection.Dispose();
+                        try
+                        {
+                            cmd.Connection.Open();
+                            cmd.CommandTimeout = 0;
+                            dataTable.Load(cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection));
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.error(ex.Message, EErrorFrom.HELPER);
+                        }
                     }
                 }
+                return dataTable;
             }
-            return dataTable;
         }
 
 
@@ -339,9 +337,9 @@ namespace QOBDDAL.Helper.ChannelHelper
                 statistic.Tax_value = Utility.doubleTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Tax_value"].Ordinal].ToString());
                 statistic.Total = Utility.decimalTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Total"].Ordinal].ToString());
                 statistic.Total_tax_included = Utility.decimalTryParse(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Total_tax_included"].Ordinal].ToString());
-                statistic.Bill_datetime = Utility.convertToDateTime(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Bill_datetime"].Ordinal].ToString());
-                statistic.Date_limit = Utility.convertToDateTime(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Date_limit"].Ordinal].ToString());
-                statistic.Pay_date = Utility.convertToDateTime(statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Pay_date"].Ordinal].ToString());
+                statistic.Bill_datetime = Utility.convertToDateTime((statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Bill_datetime"].Ordinal] ?? "").ToString());
+                statistic.Date_limit = Utility.convertToDateTime((statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Date_limit"].Ordinal] ?? "").ToString());
+                statistic.Pay_date = Utility.convertToDateTime((statisticDataTable.Rows[i].ItemArray[statisticDataTable.Columns["Pay_datetime"].Ordinal] ?? "").ToString());
 
                 lock (_lock) returnList.Add(statistic);
             }
@@ -375,7 +373,7 @@ namespace QOBDDAL.Helper.ChannelHelper
                     query = string.Format(query + " {0} Income LIKE '{1}' ", filterOperator.ToString(), Statistic.Income);
                 if (Statistic.Income_percent != 0)
                     query = string.Format(query + " {0} Income_percent LIKE '{1}' ", filterOperator.ToString(), Statistic.Income_percent);
-                if (string.IsNullOrEmpty(Statistic.Company))
+                if (!string.IsNullOrEmpty(Statistic.Company))
                     query = string.Format(query + " {0} Company LIKE '{1}' ", filterOperator.ToString(), Statistic.Company);
 
                 lock (_lock)

@@ -63,7 +63,7 @@
 
                         <TextBlock HorizontalAlignment="Center">Item Picture</TextBlock>
                         <Grid Margin="0 10 0 0" Grid.Row="1">
-                            <Image Source="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.Image.ImageSource, IsAsync=True, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
+                            <Image Source="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform"
                            Width="175"
                            Height="200"/>
                         </Grid>
@@ -88,9 +88,11 @@
                             <TextBox materialDesign:HintAssist.Hint="Reference" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"  TextWrapping="Wrap" AcceptsReturn="True"
                                   IsEnabled="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.IsRefModifyEnable, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"               
                                          Margin="0 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtRef, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                            <StackPanel Orientation="Horizontal" Margin="20 6 0 0">
+                            <StackPanel Orientation="Horizontal" Margin="20 0 0 0">
                                 <TextBlock VerticalAlignment="Center">Purchase Currency</TextBlock>
-                                <ComboBox ItemsSource="{Binding ItemViewModel.CurrenciesList}" Margin="20 0 0 0" materialDesign:HintAssist.Hint="Purchase Currencies" Width="250"
+                                <TextBox Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.CurrencyModel.TxtName, UpdateSourceTrigger=PropertyChanged}" 
+                                         Width="150" Margin="10 0 10 0" VerticalAlignment="Center" IsEnabled="False"/>
+                                <ComboBox ItemsSource="{Binding ItemViewModel.ItemCurrenciesList}" Margin="20 0 0 0" materialDesign:HintAssist.Hint="Select Purchase Currencies" Width="250"
                                       SelectedItem="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.CurrencyModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
@@ -100,12 +102,18 @@
                                 </ComboBox>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
-                                <TextBox materialDesign:HintAssist.Hint="Purchase price" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-                                     Width="100" Margin="20 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtPrice_purchase, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
-                                <TextBox materialDesign:HintAssist.Hint="Selling Price Advised" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-                                     Width="100" Margin="20 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtPrice_sell, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
+                                <TextBlock Margin="20 0 0 0" VerticalAlignment="Bottom">(</TextBlock>
+                                <TextBlock Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.CurrencyModel.TxtSymbol, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom"/>
+                                <TextBlock VerticalAlignment="Bottom">)</TextBlock>
+                                <TextBox materialDesign:HintAssist.Hint="Purchase Price" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                     Width="100" VerticalAlignment="Bottom" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtPrice_purchase, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
+                                <TextBlock Margin="20 0 0 0" VerticalAlignment="Bottom">(</TextBlock>
+                                <TextBlock Text="{Binding ItemViewModel.CurrencyModel.TxtSymbol, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom"/>
+                                <TextBlock VerticalAlignment="Bottom">)</TextBlock>
+                                <TextBox materialDesign:HintAssist.Hint="Price" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                                     Width="100" VerticalAlignment="Bottom" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtPrice_sell, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
                                 <TextBox materialDesign:HintAssist.Hint="Stock" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-                                     Width="100" Margin="20 6 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtStock, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
+                                     Width="100" VerticalAlignment="Bottom" Margin="20 0 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtStock, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
                             </StackPanel>
 
                         </StackPanel>
@@ -130,14 +138,14 @@
                         <StackPanel Grid.Row="1" Orientation="Vertical">
                             <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
                                 <TextBlock VerticalAlignment="Center">Brand</TextBlock>
-                                <ComboBox ItemsSource="{Binding ItemViewModel.BrandList,IsAsync=True, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200"  Margin="20 0 0 0"  materialDesign:HintAssist.Hint="Item Brand"
+                                <ComboBox ItemsSource="{Binding ItemViewModel.BrandList, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200"  Margin="20 0 0 0"  materialDesign:HintAssist.Hint="Item Brand"
                                       SelectedItem="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <TextBox materialDesign:HintAssist.Hint="New Brand" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
                                         Margin="0 8 0 0" FontSize="12" Text="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtNewBrand, UpdateSourceTrigger=PropertyChanged}"/>
                             <StackPanel Orientation="Horizontal" Margin="0 6 0 0">
                                 <TextBlock VerticalAlignment="Center">Family</TextBlock>
-                                <ComboBox ItemsSource="{Binding ItemViewModel.FamilyList,IsAsync=True, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="20 0 0 0"  materialDesign:HintAssist.Hint="Item Family"
+                                <ComboBox ItemsSource="{Binding ItemViewModel.FamilyList, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="20 0 0 0"  materialDesign:HintAssist.Hint="Item Family"
                                       SelectedItem="{Binding ItemViewModel.ItemDetailViewModel.SelectedItemModel.TxtType_sub, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <TextBox materialDesign:HintAssist.Hint="New family" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"

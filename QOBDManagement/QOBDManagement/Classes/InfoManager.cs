@@ -134,7 +134,7 @@ namespace QOBDManagement.Classes
                 : this(login, password)
             {
                 _remotePath = ftpPath;
-                _localPath = Utility.getDirectory(localPath);
+                _localPath = Utility.getOrCreateDirectory(localPath);
             }
 
             public Display(string fileNameWithoutExtension, List<string> filter, string ftpPath, string localPath, string login = "", string password = "")
@@ -269,7 +269,7 @@ namespace QOBDManagement.Classes
 
             public string TxtBaseDir
             {
-                get { return Utility.getDirectory(ConfigurationManager.AppSettings["local_image_folder"]); }
+                get { return Utility.getOrCreateDirectory(ConfigurationManager.AppSettings["local_image_folder"]); }
             }
 
             public string TxtRemotePath
@@ -466,6 +466,8 @@ namespace QOBDManagement.Classes
                 PropertyChanged -= onTxtFileFullPathDelete_deleteTxtChosenFileChange;
                 PropertyChanged -= onTxtWdthOrHeightChange;
                 closeImageSource();
+                if(File.Exists(TxtFileFullPath))
+                    File.Delete(TxtFileFullPath);
             }
 
             //----------------------------[ Event Handler ]------------------
@@ -689,7 +691,7 @@ namespace QOBDManagement.Classes
                 string lang = CultureInfo.CurrentCulture.Name.Split('-').FirstOrDefault() ?? "en";
                 _ftpHost = ConfigurationManager.AppSettings["ftp"];
                 _remotePath = (!string.IsNullOrEmpty(_remotePath) ? _remotePath : ConfigurationManager.AppSettings["ftp_doc_base_folder"]) + lang + "/" + _typeOfFile + "/";
-                _localPath = Utility.getDirectory("Docs", _typeOfFile);
+                _localPath = Utility.getOrCreateDirectory("Docs", _typeOfFile);
 
                 TxtFileName = TxtFileNameWithoutExtension + ".txt";
                 TxtFtpUrl = _ftpHost + _remotePath + TxtFileName;

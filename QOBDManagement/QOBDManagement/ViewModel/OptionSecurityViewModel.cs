@@ -206,11 +206,13 @@ namespace QOBDManagement.ViewModel
 
         public async void load()
         {
-            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
-            RoleModelList = await getRoleModelAsync();
-            AgentModelList = await getAgentModelAsync();
+            await Task.Factory.StartNew(async ()=> {
+                Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
+                RoleModelList = await getRoleModelAsync();
+                AgentModelList = await getAgentModelAsync();
 
-            Dialog.IsDialogOpen = false;
+                Dialog.IsDialogOpen = false;
+            });
         }
 
         private async Task<bool> updateRoleRights(List<RoleModel> roles)

@@ -372,18 +372,18 @@ namespace QOBDManagement
             // initialize the DataDirectory to the user local folder
             AppDomain.CurrentDomain.SetData("DataDirectory", Utility.BaseDirectory);
 
-            var unWritableAppDataDir = Utility.getDirectory(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
+            var unWritableAppDataDir = Utility.getOrCreateDirectory(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
             var writableAppDataDir = (string)AppDomain.CurrentDomain.GetData("DataDirectory");
 
             try
             {
                 // delete database if exists
-                if (File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
-                    File.Delete(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
+                if (File.Exists(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf")))
+                    File.Delete(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf"));
 
                 // copy the database to user local folder
-                if (!File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
-                    File.Copy(System.IO.Path.Combine(unWritableAppDataDir, "QCBDDatabase.sdf"), System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
+                if (!File.Exists(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf")))
+                    File.Copy(System.IO.Path.Combine(unWritableAppDataDir, "QCBDDatabase.sdf"), System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf"));
 
             }
             catch (Exception ex)
@@ -416,9 +416,7 @@ namespace QOBDManagement
 
             CommandNavig.raiseCanExecuteActionChanged();
             AgentViewModel.GetCurrentAgentCommand.raiseCanExecuteActionChanged();
-
-            
-
+                      
             // display the chat view
             ChatRoomCurrentView = ChatRoomViewModel;
 
@@ -474,15 +472,10 @@ namespace QOBDManagement
         public Object navigation(Object centralPageContent = null)
         {
             if (centralPageContent != null)
-            {
-                // reset the navigation to previous page
-                IsThroughContext = false;
-
-                // reset page refreshing
-                IsRefresh = false;
-
+            {      
                 // save the previous page for later navigation
-                Context.PreviousState = CurrentViewModel as IState;
+                if(Context.PreviousState != CurrentViewModel as IState)
+                    Context.PreviousState = CurrentViewModel as IState;
 
                 // set the current page 
                 CurrentViewModel = centralPageContent;
@@ -556,10 +549,10 @@ namespace QOBDManagement
             try
             {
                 // delete local temp database if exists
-                if (File.Exists(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf")))
-                    File.Delete(System.IO.Path.Combine(Utility.getDirectory("App_Data"), "QCBDDatabase.sdf"));
+                if (File.Exists(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf")))
+                    File.Delete(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf"));
 
-                foreach (var file in Directory.GetFiles(Utility.getDirectory(ConfigurationManager.AppSettings["local_tmp_folder"])))
+                foreach (var file in Directory.GetFiles(Utility.getOrCreateDirectory(ConfigurationManager.AppSettings["local_tmp_folder"])))
                     File.Delete(file);
             }
             catch (Exception) { }
@@ -583,7 +576,7 @@ namespace QOBDManagement
             LogoImageDisplay.Dispose();
             HeaderImageDisplay.Dispose();
             BillImageDisplay.Dispose();
-            deleteCache();
+            //deleteCache();
             return true;
         }
 
@@ -664,19 +657,24 @@ namespace QOBDManagement
         {
             if (e.PropertyName.Equals("IsDataDownloading") && !((DALOrder)sender).IsDataDownloading)
             {
-                // if not unit testing download images
                 if (Application.Current != null)
                 {
                     if (Application.Current.Dispatcher.CheckAccess())
                     {
                         // load currencies
                         OrderViewModel.loadCurrencies();
+
+                        // update currencies rate
+                        ReferentialViewModel.OptionGeneralViewModel.refreshCurrenciesRate(null);
                     }
                     else
                         Application.Current.Dispatcher.Invoke(() =>
                         {
                             // load currencies
                             OrderViewModel.loadCurrencies();
+
+                            // update currencies rate
+                            ReferentialViewModel.OptionGeneralViewModel.refreshCurrenciesRate(null);
                         });
                 }
             }
@@ -738,6 +736,12 @@ namespace QOBDManagement
         /// <param name="propertyName"></param>
         public void appNavig(string propertyName)
         {
+            // reset the navigation to previous page
+            IsThroughContext = false;
+
+            // reset page refreshing
+            IsRefresh = false;
+
             switch (propertyName)
             {
                 case "home":
@@ -750,11 +754,9 @@ namespace QOBDManagement
                     ItemViewModel.executeNavig(propertyName);
                     break;
                 case "order":
-                    IsRefresh = false;
                     OrderViewModel.executeNavig(propertyName);
                     break;
                 case "quote":
-                    IsRefresh = false;
                     QuoteViewModel.executeNavig(propertyName);
                     break;
                 case "agent":
@@ -791,7 +793,7 @@ namespace QOBDManagement
             if (arg.Equals("item"))
                 return securityCheck(QOBDCommon.Enum.EAction.Item, QOBDCommon.Enum.ESecurity._Read);
             if (arg.Equals("agent"))
-                return securityCheck(QOBDCommon.Enum.EAction.Agent, QOBDCommon.Enum.ESecurity._Read);
+                return AgentViewModel.IsAuthenticatedAgentAdmin;
             if (arg.Equals("notification"))
                 return securityCheck(QOBDCommon.Enum.EAction.Notification, QOBDCommon.Enum.ESecurity._Read);
             if (arg.Equals("quote"))
@@ -799,7 +801,7 @@ namespace QOBDManagement
             if (arg.Equals("order"))
                 return securityCheck(QOBDCommon.Enum.EAction.Order, QOBDCommon.Enum.ESecurity._Read);
             if (arg.Equals("statistic"))
-                return securityCheck(QOBDCommon.Enum.EAction.Statistic, QOBDCommon.Enum.ESecurity._Read);
+                return AgentViewModel.IsAuthenticatedAgentAdmin;
             if (arg.Equals("option"))
                 return securityCheck(QOBDCommon.Enum.EAction.Option, QOBDCommon.Enum.ESecurity._Read);
             if (arg.Equals("home") || arg.Equals("back") || arg.Equals("refresh"))

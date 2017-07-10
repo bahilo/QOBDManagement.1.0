@@ -113,21 +113,6 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Reference" Binding="{Binding TxtItem_ref}"/>
                                 <DataGridTextColumn Header="Item" Binding="{Binding ItemModel.TxtName}"/>
-                                <DataGridTemplateColumn Visibility="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BoxVisibility, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock>Purchase</TextBlock>
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock>(</TextBlock>
-                                                <TextBlock Text="{Binding DataContext.OrderViewModel.CurrencyModel.TxtSymbol, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}"/>
-                                                <TextBlock>)</TextBlock>
-                                                <TextBlock Text="{Binding TxtPrice_purchase, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
                                 <DataGridTemplateColumn>
                                     <DataGridTemplateColumn.Header>
                                         <TextBlock>Price</TextBlock>
@@ -166,34 +151,6 @@
                                                 <TextBlock Text="{Binding DataContext.OrderViewModel.CurrencyModel.TxtSymbol, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}"/>
                                                 <TextBlock>)</TextBlock>
                                                 <TextBlock Text="{Binding TxtTotalSelling, UpdateSourceTrigger=PropertyChanged}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Visibility="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BoxVisibility, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock>Total Income (%)</TextBlock>
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding TxtPercentProfit, UpdateSourceTrigger=PropertyChanged}"/>
-                                                <TextBlock>%</TextBlock>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Visibility="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BoxVisibility, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock>Total Income</TextBlock>
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock>(</TextBlock>
-                                                <TextBlock Text="{Binding DataContext.OrderViewModel.CurrencyModel.TxtSymbol, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}"/>
-                                                <TextBlock>)</TextBlock>
-                                                <TextBlock Text="{Binding TxtProfit, UpdateSourceTrigger=PropertyChanged}"/>
                                             </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -243,11 +200,11 @@
                             <TextBlock VerticalAlignment="Center">)</TextBlock>
                             <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalTaxExcluded, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="Auto"  IsEnabled="False" VerticalAlignment="Center" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BoxVisibility, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
                             <TextBlock Margin="0 0 10 0" VerticalAlignment="Center">Total Income (%)</TextBlock>
                             <TextBox Text="{Binding OrderViewModel.OrderDetailViewModel.TxtTotalIncomePercent, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 10 0" Width="Auto"  IsEnabled="False" VerticalAlignment="Center" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BoxVisibility, ElementName=gvMain, UpdateSourceTrigger=PropertyChanged}">
                             <TextBlock Margin="0 0 10 0" VerticalAlignment="Center">Total Income</TextBlock>
                             <TextBlock VerticalAlignment="Center">(</TextBlock>
                             <TextBlock Text="{Binding OrderViewModel.OrderDetailViewModel.CurrencyModel.TxtSymbol, UpdateSourceTrigger=PropertyChanged}" 
@@ -387,48 +344,95 @@
                     </materialDesign:Card>
 
                 </StackPanel>
-                <!-- Delivery Address Zone -->
 
-                <Border BorderBrush="Beige" BorderThickness="5" MaxWidth="980" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockDeliveryAddressVisiblity}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="1" HorizontalAlignment="Center">Delivery Address</TextBlock>
-                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <ComboBox Name="cbxDeliveryAddress" SelectedItem="{Binding OrderViewModel.SelectedOrderModel.DeliveryAddress, UpdateSourceTrigger=PropertyChanged}"
-                              ItemsSource="{Binding OrderViewModel.SelectedOrderModel.AddressList, UpdateSourceTrigger=PropertyChanged}" Width="250">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding Name}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            <Button Margin="8 0 0 0" 
-                            Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.DeliveryAddressSelectionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                            CommandParameter="{Binding SelectedItem, ElementName=cbxDeliveryAddress}">
-                                <materialDesign:PackIcon Kind="Check"/>
-                            </Button>
-                        </StackPanel>
-                        <StackPanel HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Orientation="Vertical">
-                            <TextBlock Text="{Binding SelectedItem.AddressName, ElementName=cbxDeliveryAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding SelectedItem.CityName, ElementName=cbxDeliveryAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding SelectedItem.Postcode, ElementName=cbxDeliveryAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                <Grid Width="{Binding TxtWidthDataList, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 20">
+                    
+                    <!-- Delivery Address Zone -->
+
+                    <Border HorizontalAlignment="Left" BorderBrush="Beige" BorderThickness="5" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockDeliveryAddressVisiblity}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Center">Delivery Address</TextBlock>
+                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <ComboBox Name="cbxDeliveryAddress" SelectedItem="{Binding OrderViewModel.SelectedOrderModel.DeliveryAddress, UpdateSourceTrigger=PropertyChanged}"
+                                          ItemsSource="{Binding OrderViewModel.SelectedOrderModel.DeliveryAddressList, UpdateSourceTrigger=PropertyChanged}" Width="150">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Name}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Button Margin="8 0 0 0" 
+                                        Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.DeliveryAddressSelectionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        CommandParameter="{Binding SelectedItem, ElementName=cbxDeliveryAddress}">
+                                    <materialDesign:PackIcon Kind="Check"/>
+                                </Button>
                             </StackPanel>
-                            <TextBlock Text="{Binding SelectedItem.Country, ElementName=cbxDeliveryAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
-                            <TextBlock Text="{Binding SelectedItem.Comment, ElementName=cbxDeliveryAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
+                            <StackPanel HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Orientation="Vertical">
+                                <TextBlock Text="{Binding SelectedItem.AddressName, ElementName=cbxDeliveryAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding SelectedItem.CityName, ElementName=cbxDeliveryAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                    <TextBlock> - </TextBlock>
+                                    <TextBlock Text="{Binding SelectedItem.Postcode, ElementName=cbxDeliveryAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding SelectedItem.Country, ElementName=cbxDeliveryAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Billing Address Zone -->
+
+                    <Border HorizontalAlignment="Right" BorderBrush="Beige" BorderThickness="5" Visibility="{Binding OrderViewModel.OrderDetailViewModel.BlockDeliveryAddressVisiblity}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Center">Billing Address</TextBlock>
+                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <ComboBox Name="cbxBillingAddress" SelectedItem="{Binding OrderViewModel.SelectedOrderModel.BillAddress, UpdateSourceTrigger=PropertyChanged}"
+                                          ItemsSource="{Binding OrderViewModel.SelectedOrderModel.BillingAddressList, UpdateSourceTrigger=PropertyChanged}" Width="150">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Name}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Button Margin="8 0 0 0" 
+                                        Command="{Binding DataContext.OrderViewModel.OrderDetailViewModel.BillingAddressSelectionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                        CommandParameter="{Binding SelectedItem, ElementName=cbxBillingAddress}">
+                                    <materialDesign:PackIcon Kind="Check"/>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2" Orientation="Vertical">
+                                <TextBlock Text="{Binding SelectedItem.AddressName, ElementName=cbxBillingAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding SelectedItem.CityName, ElementName=cbxBillingAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                    <TextBlock> - </TextBlock>
+                                    <TextBlock Text="{Binding SelectedItem.Postcode, ElementName=cbxBillingAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding SelectedItem.Country, ElementName=cbxBillingAddress, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
 
                 <!-- Delivery receipt creation zone -->
 

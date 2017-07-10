@@ -58,8 +58,11 @@ namespace QOBDBusiness.Core
         public async Task<Agent> AuthenticateUserAsync(string username, string password)
         {
             try
-            {                
-               Safe.AuthenticatedUser = await DAC.DALSecurity.AuthenticateUserAsync(username, CalculateHash(password));
+            {               
+                if(Utility.isMD5Encoded(password)) 
+                    Safe.AuthenticatedUser = await DAC.DALSecurity.AuthenticateUserAsync(username, password);
+                else
+                    Safe.AuthenticatedUser = await DAC.DALSecurity.AuthenticateUserAsync(username, CalculateHash(password));
 
                 if (Safe.AuthenticatedUser.ID != 0)
                     Safe.IsAuthenticated = true;
@@ -84,7 +87,7 @@ namespace QOBDBusiness.Core
 
         public async Task<Agent> UseAgentAsync(Agent inAgent)
         {
-            return await AuthenticateUserAsync(inAgent.UserName, CalculateHash(inAgent.HashedPassword));
+            return await AuthenticateUserAsync(inAgent.UserName, inAgent.HashedPassword);
         }
 
         public static string CalculateHash(string clearTextPassword)

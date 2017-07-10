@@ -88,6 +88,7 @@ namespace QOBDManagement.ViewModel
             if (_main != null)
             {
                 await Bl.BlSecurity.DisconnectAuthenticatedUser();
+                _main.Context = new Context(_page);
                 await Task.Factory.StartNew(() => {
                     _main.ChatRoomViewModel.Dispose();
                 });
@@ -137,11 +138,7 @@ namespace QOBDManagement.ViewModel
             bool canWrite = _main.securityCheck(EAction.Agent, ESecurity._Write);
             bool canDelete = _main.securityCheck(EAction.Agent, ESecurity._Delete);
             bool canRead = _main.securityCheck(EAction.Agent, ESecurity._Read);
-            bool isUserAdmin = _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity.SendEmail)
-                            && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Delete)
-                                && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Read)
-                                    && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Update)
-                                        && _main.securityCheck(QOBDCommon.Enum.EAction.Security, QOBDCommon.Enum.ESecurity._Write);
+            bool isUserAdmin = _main.AgentViewModel.IsAuthenticatedAgentAdmin;
 
             if (!canUpdate || !canWrite)
                 return false;
@@ -178,24 +175,33 @@ namespace QOBDManagement.ViewModel
             switch (obj)
             {
                 case "activate": // change the agent status to active
-                    Dialog.showSearch("Activating Status...");
-                    SelectedAgentModel.TxtStatus = EStatus.Active.ToString();
-                    updatedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
-                    if (updatedAgentList.Count > 0)
-                        await Dialog.showAsync("The Agent " + updatedAgentList[0].LastName + "has been successfully activated!");
+                    if (await Dialog.showAsync("Do you confirm " + SelectedAgentModel.TxtLogin + " profile activation?"))
+                    {
+                        Dialog.showSearch("Activating Status...");
+                        SelectedAgentModel.TxtStatus = EStatus.Active.ToString();
+                        updatedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
+                        if (updatedAgentList.Count > 0)
+                            await Dialog.showAsync("The Agent " + updatedAgentList[0].LastName + "has been successfully activated!");
+                    }                    
                     break;
                 case "deactivate": // change the agent status to deactivated
-                    Dialog.showSearch("Deactivating Status...");
-                    SelectedAgentModel.TxtStatus = EStatus.Deactivated.ToString();
-                    updatedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
-                    if (updatedAgentList.Count > 0)
-                        await Dialog.showAsync("The Agent " + updatedAgentList[0].LastName + " has been successfully deactivated!");
+                    if (await Dialog.showAsync("Do you confirm "+ SelectedAgentModel.TxtLogin + " profile deactivation?"))
+                    {
+                        Dialog.showSearch("Deactivating Status...");
+                        SelectedAgentModel.TxtStatus = EStatus.Deactivated.ToString();
+                        updatedAgentList = await Bl.BlAgent.UpdateAgentAsync(new List<Agent> { SelectedAgentModel.Agent });
+                        if (updatedAgentList.Count > 0)
+                            await Dialog.showAsync("The Agent " + updatedAgentList[0].LastName + " has been successfully deactivated!");
+                    }
                     break;
                 case "use": // connect a new user
-                    Dialog.showSearch("Please wait while we are dealing with your request...");
-                    var newAgent = await loadNewUser(SelectedAgentModel.Agent);
-                    if (newAgent.ID != 0)
-                        await Dialog.showAsync("Your are successfully connected as " + newAgent.FirstName + " " + newAgent.LastName);
+                    if (await Dialog.showAsync("Do you confirm reconnecting as user " + SelectedAgentModel.TxtLogin + "?"))
+                    {
+                        Dialog.showSearch("Please wait while we are dealing with your request...");
+                        var newAgent = await loadNewUser(SelectedAgentModel.Agent);
+                        if (newAgent.ID != 0)
+                            await Dialog.showAsync("Your are successfully connected as " + newAgent.FirstName + " " + newAgent.LastName);
+                    }                    
                    break;
                 case "agent": // connect a new user
                     _page(_main.AgentViewModel);

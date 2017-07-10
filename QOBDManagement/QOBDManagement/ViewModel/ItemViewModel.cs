@@ -21,6 +21,7 @@ using QOBDCommon.Classes;
 using System.Configuration;
 using QOBDManagement.Helper;
 using System.Windows;
+using System.IO;
 
 namespace QOBDManagement.ViewModel
 {
@@ -123,7 +124,7 @@ namespace QOBDManagement.ViewModel
             btnSearchCommand = new ButtonCommand<string>(filterItem, canFilterItem);
             DeleteFromCartCommand = new ButtonCommand<Cart_itemModel>(deleteItemFromCart, canDeleteItemFromCart);
             NavigCommand = new ButtonCommand<string>(executeNavig, canExecuteNavig);
-            GetCurrentItemCommand = new ButtonCommand<ItemModel>(saveSelectedItem, canSaveSelectedItem);
+            GetCurrentItemCommand = new ButtonCommand<ItemModel>(showSelectedItem, canShowSelectedItem);
             GoToQuoteCommand = new ButtonCommand<object>(gotoQuote, canGoToQuote);
             ClearCartCommand = new ButtonCommand<object>(clearCart, canClearTheCart);
             BtnProviderSearchCommand = new ButtonCommand<ProviderModel>(searchProvider, canSearchProvider);
@@ -292,6 +293,21 @@ namespace QOBDManagement.ViewModel
             get { return _main.OrderViewModel.CurrenciesList; }
         }
 
+        public CurrencyModel CurrencyModel
+        {
+            get { return _main.OrderViewModel.CurrenciesList.Where(x => x.IsDefault).FirstOrDefault() ?? new CurrencyModel(); }
+        }
+
+        public List<CurrencyModel> ItemCurrenciesList
+        {
+            get { return _main.OrderViewModel.CurrenciesList; }
+        }
+
+        public string BoxVisibility
+        {
+            get { return _main.OrderViewModel.OrderDetailViewModel.BoxVisibility; }
+        }
+
 
         //----------------------------[ Actions ]------------------
 
@@ -330,12 +346,12 @@ namespace QOBDManagement.ViewModel
                         {
                             SelectedItemModel.PropertyChanged -= ItemDetailViewModel.onItemNameChange_generateReference;
                             SelectedItemModel.PropertyChanged += ItemDetailViewModel.onItemNameChange_generateReference;
-                            onPropertyChange("TxtType");
-                            onPropertyChange("TxtType_sub");
-                            onPropertyChange("SelectedProvider");
-                            onPropertyChange("CurrencyModel");
+                            //onPropertyChange("TxtType");
+                            //onPropertyChange("TxtType_sub");
+                            //onPropertyChange("SelectedProvider");                            
                         }
                     }
+                    onPropertyChange("CurrencyModel");
                     _cbSearchCriteriaList = new List<string>();
                 }
                 _isSearchResult = false;
@@ -405,11 +421,10 @@ namespace QOBDManagement.ViewModel
                     ivm.Provider_itemModelList = loadProvider_itemInformation(provider_itemFoundList, item.Source);
 
                     // selecting one provider among the item providers
-                    var providerFoundList = ProviderList.Where(x => ivm.Provider_itemModelList.Where(y => y.Provider.ID == x.Provider.ID).Count() > 0).Select(x => x.Provider).ToList();
-                    if (ivm.Provider_itemModelList.Count > 0 && providerFoundList.Count() > 0)
+                    var providerFoundList = ProviderList.Where(x => ivm.Provider_itemModelList.Where(y => y.Provider.ID == x.Provider.ID).Count() > 0).ToList();
                     {
                         ivm.SelectedProvider = providerFoundList.First();
-                        ivm.SelectedProvider_itemModel = ivm.Provider_itemModelList.Where(x => x.Provider.ID == ivm.SelectedProvider.ID).First();
+                        ivm.SelectedProvider_itemModel = ivm.Provider_itemModelList.Where(x => x.Provider.ID == ivm.SelectedProvider.Provider.ID).First();
                     }
 
                     // select the items appearing in the cart
@@ -444,6 +459,8 @@ namespace QOBDManagement.ViewModel
             lock (_lock)
             {
                 List<Provider_itemModel> returnResult = new List<Provider_itemModel>();
+                _main.OrderViewModel.loadCurrencies();
+
                 foreach (var provider_item in provider_itemFoundList)
                 {
                     var provider_itemModel = new Provider_itemModel();
@@ -455,9 +472,10 @@ namespace QOBDManagement.ViewModel
                         provider_itemModel.Provider = providerFoundList[0];
 
                     // getting the item currency information
-                    var currencyFoundList = Bl.BlOrder.searchCurrency(new Currency { ID = provider_item.CurrencyId }, ESearchOption.AND);
+                    //var currencyFoundList = Bl.BlOrder.searchCurrency(new Currency { ID = provider_item.CurrencyId }, ESearchOption.AND);
+                    var currencyFoundList = _main.OrderViewModel.CurrenciesList.Where(x => x.Currency.ID == provider_item.CurrencyId).ToList();
                     if (currencyFoundList.Count > 0)
-                        provider_itemModel.CurrencyModel = currencyFoundList.Select(x => new CurrencyModel { Currency = x }).First();
+                        provider_itemModel.CurrencyModel = currencyFoundList.First();
 
                     //if (_main.OrderViewModel.CurrenciesList.Where(x => x.Currency.ID == provider_item.CurrencyId).Count() > 0)
                     //    provider_itemModel.CurrencyModel = _main.OrderViewModel.CurrenciesList.Where(x => x.Currency.ID == provider_item.CurrencyId).First();
@@ -577,13 +595,18 @@ namespace QOBDManagement.ViewModel
 
         public override void Dispose()
         {
-            ItemDetailViewModel.Dispose();
-            ItemSideBarViewModel.Dispose();
-            foreach (var itemModel in ItemModelList)
+            try
             {
-                if (itemModel.Image != null)
-                    itemModel.Image.Dispose();
+                ItemDetailViewModel.Dispose();
+                ItemSideBarViewModel.Dispose();
+                foreach (var itemModel in ItemModelList)
+                {
+                    if (itemModel.Image != null)
+                        itemModel.Image.Dispose();
+                }
             }
+            catch (Exception)
+            { }
         }
 
         //----------------------------[ Action Commands ]------------------
@@ -618,7 +641,7 @@ namespace QOBDManagement.ViewModel
             ItemModel.IsSearchByItemName = false;
             ItemModel.TxtName = "";
             Dialog.IsDialogOpen = false;
-            _main.IsRefresh = true;
+            //_main.IsRefresh = true;
             _page(this);
         }
 
@@ -681,7 +704,7 @@ namespace QOBDManagement.ViewModel
             saveCartChecks(new ItemModel { Item = obj.Item });
         }
 
-        public void saveSelectedItem(ItemModel obj)
+        public void showSelectedItem(ItemModel obj)
         {
             obj.PropertyChanged -= _itemDetailViewModel.onItemNameChange_generateReference;
             obj.PropertyChanged += _itemDetailViewModel.onItemNameChange_generateReference;
@@ -690,9 +713,13 @@ namespace QOBDManagement.ViewModel
             executeNavig("item-detail");
         }
 
-        private bool canSaveSelectedItem(ItemModel arg)
+        private bool canShowSelectedItem(ItemModel arg)
         {
-            return true;
+            bool canUpdate = _main.AgentViewModel.IsAuthenticatedAgentAdmin;
+            if (canUpdate)
+                return true;
+
+            return false;
         }
 
 
@@ -762,7 +789,7 @@ namespace QOBDManagement.ViewModel
 
             if (SelectedProviderModel.Provider.ID == 0)
             {
-                
+
                 if (isProviderMandatoryFieldNotEmpty)
                 {
                     savedProviders = await Bl.BlItem.InsertProviderAsync(new List<Provider> { SelectedProviderModel.Provider });
@@ -791,9 +818,9 @@ namespace QOBDManagement.ViewModel
                         {
                             SelectedProviderModel.SelectedAddress = savedAddresses.First();
                             SelectedProviderModel.AddressList.Add(savedAddresses.First());
-                        }                            
+                        }
                     }
-                    else if(!string.IsNullOrEmpty(SelectedProviderModel.SelectedAddress.Name))
+                    else if (!string.IsNullOrEmpty(SelectedProviderModel.SelectedAddress.Name))
                         await Dialog.showAsync("[Address detail area]: Please fill up mandatory fields!");
                 }
                 else
@@ -805,10 +832,10 @@ namespace QOBDManagement.ViewModel
                     await Bl.BlItem.UpdateProviderAsync(new List<Provider> { SelectedProviderModel.Provider });
                 }
 
-                if(savedAddresses.Count() > 0 || string.IsNullOrEmpty(SelectedProviderModel.SelectedAddress.Name))
+                if (savedAddresses.Count() > 0 || string.IsNullOrEmpty(SelectedProviderModel.SelectedAddress.Name))
                     await Dialog.showAsync("The provider has been successfully updated!");
             }
-            
+
             Dialog.IsDialogOpen = false;
         }
 
@@ -823,7 +850,7 @@ namespace QOBDManagement.ViewModel
 
         private async void deleteProvider(object obj)
         {
-            if (await Dialog.showAsync("Do you confirm the provider ["+ SelectedProviderModel .TxtCompanyName+ "] deletion?"))
+            if (await Dialog.showAsync("Do you confirm the provider [" + SelectedProviderModel.TxtCompanyName + "] deletion?"))
             {
                 Dialog.showSearch(ConfigurationManager.AppSettings["delete_message"]);
                 var notDeletedProviders = await Bl.BlItem.DeleteProviderAsync(new List<Provider> { SelectedProviderModel.Provider });
@@ -833,7 +860,7 @@ namespace QOBDManagement.ViewModel
                     ProviderList.Remove(providerFound);
 
                 Dialog.IsDialogOpen = false;
-            }            
+            }
         }
 
         private bool canDeleteProvider(object arg)
@@ -872,7 +899,7 @@ namespace QOBDManagement.ViewModel
                 }
                 Dialog.IsDialogOpen = false;
             }
-            
+
         }
 
         private bool canDeleteProviderAddress(object arg)

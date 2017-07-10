@@ -64,6 +64,7 @@ namespace QOBDManagement.ViewModel
         public ButtonCommand<Order_itemModel> DeleteItemCommand { get; set; }
         public ButtonCommand<object> BilledCommand { get; set; }
         public ButtonCommand<Address> DeliveryAddressSelectionCommand { get; set; }
+        public ButtonCommand<Address> BillingAddressSelectionCommand { get; set; }
         public ButtonCommand<Tax> TaxCommand { get; set; }
         public ButtonCommand<CurrencyModel> CurrencyCommand { get; set; }
         public ButtonCommand<object> GeneratePdfCreatedQuoteCommand { get; set; }
@@ -141,6 +142,7 @@ namespace QOBDManagement.ViewModel
             DeleteItemCommand = new ButtonCommand<Order_itemModel>(deleteItem, canDeleteItem);
             BilledCommand = new ButtonCommand<object>(orderBilling, canBillOrder);
             DeliveryAddressSelectionCommand = new ButtonCommand<Address>(selectDeliveryAddress, canSelectDeliveryAddress);
+            BillingAddressSelectionCommand = new ButtonCommand<Address>(selectBillingAddress, canSelectBillingAddress);
             TaxCommand = new ButtonCommand<Tax>(createOrderTax, canCreateOrderTax);
             GeneratePdfCreatedQuoteCommand = new ButtonCommand<object>(generateQuotePdf, canGenerateQuotePdf);
             SendEmailCommand = new ButtonCommand<BillModel>(sendEmail, canSendEmail);
@@ -1844,13 +1846,13 @@ namespace QOBDManagement.ViewModel
             if (obj != null)
             {
                 Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
-                OrderSelected.TxtDeliveryAddress = obj.ID.ToString();
+                OrderSelected.Order.DeliveryAddress = obj.ID;
                 var savedOrderList = await Bl.BlOrder.UpdateOrderAsync(new List<Entity.Order> { OrderSelected.Order });
                 if (savedOrderList.Count > 0)
                 {
                     var deliveryAddressFoundList = OrderSelected.AddressList.Where(x => x.ID == savedOrderList[0].DeliveryAddress).ToList();
                     OrderSelected.DeliveryAddress = (deliveryAddressFoundList.Count() > 0) ? deliveryAddressFoundList[0] : new Address();
-                    await Dialog.showAsync("Delivery Address Successfully Saved!");
+                    await Dialog.showAsync("The delivery Address has been updated Successfully!");
                 }
                 Dialog.IsDialogOpen = false;
             }
@@ -1862,6 +1864,32 @@ namespace QOBDManagement.ViewModel
         /// <param name="arg"></param>
         /// <returns></returns>
         private bool canSelectDeliveryAddress(Address arg)
+        {
+            bool isUpdate = _main.securityCheck(EAction.Order, ESecurity._Update);
+            if (isUpdate)
+                return true;
+
+            return false;
+        }
+
+        private async void selectBillingAddress(Address obj)
+        {
+            if (obj != null)
+            {
+                Dialog.showSearch(ConfigurationManager.AppSettings["update_message"]);
+                OrderSelected.Order.BillAddress = obj.ID;
+                var savedOrderList = await Bl.BlOrder.UpdateOrderAsync(new List<Entity.Order> { OrderSelected.Order });
+                if (savedOrderList.Count > 0)
+                {
+                    var billAddressFoundList = OrderSelected.AddressList.Where(x => x.ID == savedOrderList[0].BillAddress).ToList();
+                    OrderSelected.BillAddress = (billAddressFoundList.Count() > 0) ? billAddressFoundList.First() : new Address();
+                    await Dialog.showAsync("The billing Address has been updated Successfully!");
+                }
+                Dialog.IsDialogOpen = false;
+            }
+        }
+
+        private bool canSelectBillingAddress(Address arg)
         {
             bool isUpdate = _main.securityCheck(EAction.Order, ESecurity._Update);
             if (isUpdate)

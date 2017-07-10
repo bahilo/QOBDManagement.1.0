@@ -449,7 +449,7 @@ namespace QOBDManagement.ViewModel
             obj.CurrencyModel = CurrencyModel;
             SelectedOrderModel = obj;
             executeNavig("order-detail");
-            _main.IsRefresh = true;
+            //_main.IsRefresh = true;
         }
 
         private bool canSaveSelectedOrder(OrderModel arg)

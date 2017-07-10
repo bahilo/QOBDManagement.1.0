@@ -95,8 +95,8 @@ namespace QOBDManagement.Helper
         /// <param name="recordedFileName">The image file name already in the database</param>
         /// <param name="fileName">The new image file name in case of absence of a record</param>
         /// <param name="ftpCredentialInfoList">The ftp credential information list</param>
-        /// <returns></returns>
-        public static InfoManager.Display downloadPicture(this InfoManager.Display image, string ftpDirectory, string localDirectory, string recordedFileName, string fileName, List<Info> ftpCredentialInfoList)
+        /// <returns>Image</returns>
+        public static InfoManager.Display getPicture(this InfoManager.Display image, string ftpDirectory, string localDirectory, string recordedFileName, string fileName, List<Info> ftpCredentialInfoList)
         {
             object _lock = new object();
             lock (_lock)
@@ -134,11 +134,21 @@ namespace QOBDManagement.Helper
                         image.TxtFileNameWithoutExtension = info.Name;
                         image.FilterList = new List<string> { info.Name };
                         image.updateFields(new List<Info> { info });
-                        image.downloadFile();
-                    }                    
+                    }
                 }
                 return image;
-            }            
+            }
+        }
+
+
+        public static InfoManager.Display downloadPicture(this InfoManager.Display image, string ftpDirectory, string localDirectory, string recordedFileName, string fileName, List<Info> ftpCredentialInfoList)
+        {
+            if (ftpCredentialInfoList.Count > 0)
+            {
+                image = image.getPicture(ftpDirectory, localDirectory, recordedFileName, fileName, ftpCredentialInfoList);
+                image.downloadFile();
+            }                
+            return image;
         }
 
         public static string resizeImage(this string imageFullPath)
@@ -159,7 +169,7 @@ namespace QOBDManagement.Helper
                 double originalHeight = image.Height;
 
                 // tempory image file
-                string tmpFolder = Utility.getDirectory(ConfigurationManager.AppSettings["local_tmp_folder"]);
+                string tmpFolder = Utility.getOrCreateDirectory(ConfigurationManager.AppSettings["local_tmp_folder"]);
                 //string fileName = Path.GetFileName(imageFullPath).Split('.')[0] +".jpeg";
                 string outImageFullPath = Path.Combine(tmpFolder, Path.GetFileName(imageFullPath));
 
