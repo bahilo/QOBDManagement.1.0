@@ -146,7 +146,8 @@ namespace QOBDManagement.Helper
             if (ftpCredentialInfoList.Count > 0)
             {
                 image = image.getPicture(ftpDirectory, localDirectory, recordedFileName, fileName, ftpCredentialInfoList);
-                image.downloadFile();
+                if(image != null)
+                    image.downloadFile();
             }                
             return image;
         }

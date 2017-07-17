@@ -190,7 +190,7 @@ namespace QOBDManagement.Models
 
         public string TxtPrice
         {
-            get { return (_order_item.Price * (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
+            get { return decimal.Multiply(_order_item.Price, (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
             set { _order_item.Price = Utility.decimalTryParse(value); onPropertyChange(); calcul(); }
         }
 
@@ -207,13 +207,13 @@ namespace QOBDManagement.Models
 
         public string TxtPrice_purchase
         {
-            get { return (Utility.decimalTryParse(TxtDefaultCurrencyPurchase_price) * (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
+            get { return decimal.Multiply(Utility.decimalTryParse(TxtDefaultCurrencyPurchase_price), (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
             set { _order_item.Price_purchase = Utility.decimalTryParse(value); onPropertyChange(); calcul(); }
         }
 
         public string TxtDefaultCurrencyPurchase_price
         {
-            get { return (_order_item.Price_purchase / (ItemModel.CurrencyModel.Currency.Rate != 0 ? ItemModel.CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
+            get { return decimal.Divide(_order_item.Price_purchase, (ItemModel.CurrencyModel.Currency.Rate != 0 ? ItemModel.CurrencyModel.Currency.Rate : 1m)).ToString(); }
         }
 
         public bool IsPrice_purchaseChangeEnabled

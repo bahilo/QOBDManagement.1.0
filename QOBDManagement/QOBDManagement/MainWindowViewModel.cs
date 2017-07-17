@@ -378,8 +378,8 @@ namespace QOBDManagement
             try
             {
                 // delete database if exists
-                if (File.Exists(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf")))
-                    File.Delete(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf"));
+                /*if (File.Exists(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf")))
+                    File.Delete(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf"));*/
 
                 // copy the database to user local folder
                 if (!File.Exists(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf")))
@@ -653,7 +653,7 @@ namespace QOBDManagement
             }
         }
 
-        private void onOrdersDownloadingStatusChange(object sender, PropertyChangedEventArgs e)
+        private async void onOrdersDownloadingStatusChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("IsDataDownloading") && !((DALOrder)sender).IsDataDownloading)
             {
@@ -665,16 +665,21 @@ namespace QOBDManagement
                         OrderViewModel.loadCurrencies();
 
                         // update currencies rate
-                        ReferentialViewModel.OptionGeneralViewModel.refreshCurrenciesRate(null);
+                        await Task.Factory.StartNew(() => {
+                            ReferentialViewModel.OptionGeneralViewModel.refreshCurrenciesRate(null);
+                        });
                     }
                     else
-                        Application.Current.Dispatcher.Invoke(() =>
+                        await Application.Current.Dispatcher.Invoke(async() =>
                         {
                             // load currencies
                             OrderViewModel.loadCurrencies();
 
                             // update currencies rate
-                            ReferentialViewModel.OptionGeneralViewModel.refreshCurrenciesRate(null);
+                            await Task.Factory.StartNew(()=> {
+                                ReferentialViewModel.OptionGeneralViewModel.refreshCurrenciesRate(null);
+                            });
+                            
                         });
                 }
             }

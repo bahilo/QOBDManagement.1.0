@@ -170,7 +170,7 @@ namespace QOBDManagement.ViewModel
             int port = 0;
 
             // get user details
-            getChatUserInformation();
+            await getChatUserInformation();
 
             // loading users dicussions
             await MessageViewModel.loadAsync();
@@ -186,7 +186,7 @@ namespace QOBDManagement.ViewModel
             AuthenticatedAgent.TxtIPAddress = myIpAddress + ":" + port;
         }
 
-        public async void getChatUserInformation()
+        public async Task getChatUserInformation()
         {
             _authenticatedAgent = new AgentModel { Agent = _startup.Bl.BlSecurity.GetAuthenticatedUser() };
 
@@ -205,7 +205,7 @@ namespace QOBDManagement.ViewModel
             foreach (AgentModel agentModel in _main.AgentViewModel.AgentModelList)
                 agentModel.Image = await Task.Factory.StartNew(()=> { return agentModel.Image.downloadPicture(ConfigurationManager.AppSettings["ftp_profile_image_folder"], ConfigurationManager.AppSettings["local_profile_image_folder"], agentModel.TxtPicture, agentModel.TxtProfileImageFileNameBase + "_" + agentModel.Agent.ID, ftpCredentials); });
 
-            DiscussionViewModel.ChatAgentModelList = _main.AgentViewModel.AgentModelList.Where(x => x.Agent.ID != _startup.Bl.BlSecurity.GetAuthenticatedUser().ID).ToList();
+            DiscussionViewModel.ChatAgentModelList = _main.AgentViewModel.AgentModelList.Where(x => x.Agent.ID != _startup.Bl.BlSecurity.GetAuthenticatedUser().ID).OrderByDescending(x=>x.IsOnline).ToList();
             AuthenticatedAgent.Image = _main.AgentViewModel.AgentModelList.Where(x => x.TxtID == AuthenticatedAgent.TxtID).Select(x => x.Image).SingleOrDefault();
 
             Dialog.IsChatDialogOpen = false;
@@ -282,9 +282,9 @@ namespace QOBDManagement.ViewModel
             return null;
         }
 
-        private void updateUsersOnlineStatus()
+        private async void updateUsersOnlineStatus()
         {
-            getChatUserInformation();
+            await getChatUserInformation();
             DiscussionViewModel.SelectUserForDiscussionCommand.raiseCanExecuteActionChanged();
             DiscussionViewModel.DiscussionAddUserCommand.raiseCanExecuteActionChanged();
         }

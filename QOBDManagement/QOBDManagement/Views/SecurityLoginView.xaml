@@ -10,8 +10,8 @@
              xmlns:ViewModel="clr-namespace:QOBDManagement.ViewModel"
              xmlns:Main="clr-namespace:QOBDManagement"
              mc:Ignorable="d" 
-             Width="400" Height="330" d:DesignWidth="300" Loaded="SecurityLoginView_Loaded">
-    <materialDesign:ColorZone Name="mdBackground" Mode="PrimaryDark">
+             Width="400" Height="360" d:DesignWidth="300" d:DesignHeight="360"  Loaded="SecurityLoginView_Loaded">
+    <materialDesign:ColorZone Name="mdBackground" Mode="PrimaryDark" Height="360">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
@@ -19,12 +19,12 @@
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
             <materialDesign:ColorZone Mode="Light" Height="25">
-                <materialDesign:PackIcon Kind="AccountKey" Margin="10 0 0 0" Height="Auto" Width="25" HorizontalAlignment="Left" Foreground="{Binding Background, ElementName=mdBackground}"/>
+                <materialDesign:PackIcon Kind="AccountKey" Margin="10 0 0 0" Height="Auto" Width="25" HorizontalAlignment="Left"/>
             </materialDesign:ColorZone>
             <Border Grid.Row="1"  
                 Margin="0 20 0 0" Padding="15 20 15 15"
                 HorizontalAlignment="Center" 
-                Width="200" CornerRadius="10"
+                Width="300" CornerRadius="10"
                 Background="White">
                 <materialDesign:ColorZone Mode="Light">
                 <StackPanel>

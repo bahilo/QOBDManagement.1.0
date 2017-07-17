@@ -671,7 +671,7 @@ namespace QOBDManagement.ViewModel
             var defaultCurrency = CurrenciesList.Where(x => x.IsDefault).SingleOrDefault();
             if (defaultCurrency != null)
             {
-                Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
+                await Dialog.showAsync("We are refreshing the currencies rate, you can start working in the mean time!");
                 bool isUpdateValid = await refreshCurrenciesRateByDefault(defaultCurrency);
                 if (!isUpdateValid)
                     await Dialog.showAsync("Error detected while updating the currencies rate!");

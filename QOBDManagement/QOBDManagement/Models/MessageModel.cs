@@ -59,8 +59,8 @@ namespace QOBDManagement.Models
 
         public bool IsNewMessage
         {
-            get { return _isNewMesage; }
-            set { setProperty(ref _isNewMesage, value); }
+            get { return _message.Status == 1 ? true : false; }
+            set { _message.Status = value ? 1 : 0; onPropertyChange(); }
         }
 
         public string TxtContent
@@ -69,11 +69,11 @@ namespace QOBDManagement.Models
             set { _message.Content = value; onPropertyChange(); }
         }
 
-        public string TxtStatus
+        /*public string TxtStatus
         {
             get { return _message.Status.ToString(); }
             set { _message.Status = Convert.ToInt32(value); onPropertyChange(); }
-        }
+        }*/
 
         public string TxtUserName
         {

@@ -83,9 +83,9 @@ namespace QOBDManagement.ViewModel
                     MessageModel lastMessage = new MessageModel();
                     if (discussionModel.MessageList.Count > 0)
                     {
-                        lastMessage = discussionModel.MessageList.Where(x => x.IsNewMessage).OrderByDescending(x => x.Message.ID).Select(x => new MessageModel { Message = new Message { Content = x.TxtContent }, IsNewMessage = x.IsNewMessage }).FirstOrDefault();
+                        lastMessage = discussionModel.MessageList.Where(x => x.IsNewMessage && x.Message.UserId != AuthenticatedUser.ID).OrderByDescending(x => x.Message.ID).Select(x => new MessageModel { Message = new Message { ID = x.Message.ID, Content = x.TxtContent }, IsNewMessage = x.IsNewMessage }).FirstOrDefault();
                         if (lastMessage == null)
-                            lastMessage = discussionModel.MessageList.OrderByDescending(x => x.Message.ID).Select(x => new MessageModel { Message = new Message { Content = x.TxtContent }, IsNewMessage = x.IsNewMessage }).First();
+                            lastMessage = discussionModel.MessageList.OrderByDescending(x => x.Message.ID).Select(x => new MessageModel { Message = new Message { ID = x.Message.ID, Content = x.TxtContent }, IsNewMessage = false }).First();
 
                         // limit the amount of message characters to display in the history
                         if (lastMessage.TxtContent.Length > MaxMessageLength)

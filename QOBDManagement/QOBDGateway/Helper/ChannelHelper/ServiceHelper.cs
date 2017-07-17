@@ -201,23 +201,30 @@ namespace QOBDGateway.Helper.ChannelHelper
 
         public static List<Agent> ArrayTypeToAgent(this AgentQOBD[] agentQOBDList)
         {
-            List<Agent> outputList = agentQOBDList.AsParallel().Select(x => new Agent
-            {
-                ID = Utility.intTryParse(Utility.decodeBase64ToString(x.ID)),
-                FirstName = Utility.decodeBase64ToString(x.FirstName),
-                LastName = Utility.decodeBase64ToString(x.LastName),
-                UserName = Utility.decodeBase64ToString(x.UserName),
-                HashedPassword = Utility.decodeBase64ToString(x.Password),
-                Picture = Utility.decodeBase64ToString(x.Picture),
-                Phone = Utility.decodeBase64ToString(x.Phone),
-                Status = Utility.decodeBase64ToString(x.Status),
-                IPAddress = Utility.decodeBase64ToString(x.IPAddress),
-                IsOnline = (Utility.intTryParse(Utility.decodeBase64ToString(x.IsOnline)) == 1) ? true : false,
-                ListSize = Utility.intTryParse(Utility.decodeBase64ToString(x.ListSize)),
-                Comment = Utility.decodeBase64ToString(x.Comment),
-                Email = Utility.decodeBase64ToString(x.Email),
-                Fax = Utility.decodeBase64ToString(x.Fax),
-                RoleList = x.Roles.ArrayTypeToRole(),
+            List<Agent> outputList = agentQOBDList.AsParallel().Select(x => {
+                if (x != null && x.ID != "0")
+                {
+                    return new Agent
+                    {
+                        ID = Utility.intTryParse(Utility.decodeBase64ToString(x.ID)),
+                        FirstName = Utility.decodeBase64ToString(x.FirstName),
+                        LastName = Utility.decodeBase64ToString(x.LastName),
+                        UserName = Utility.decodeBase64ToString(x.UserName),
+                        HashedPassword = Utility.decodeBase64ToString(x.Password),
+                        Picture = Utility.decodeBase64ToString(x.Picture),
+                        Phone = Utility.decodeBase64ToString(x.Phone),
+                        Status = Utility.decodeBase64ToString(x.Status),
+                        IPAddress = Utility.decodeBase64ToString(x.IPAddress),
+                        IsOnline = (Utility.intTryParse(Utility.decodeBase64ToString(x.IsOnline)) == 1) ? true : false,
+                        ListSize = Utility.intTryParse(Utility.decodeBase64ToString(x.ListSize)),
+                        Comment = Utility.decodeBase64ToString(x.Comment),
+                        Email = Utility.decodeBase64ToString(x.Email),
+                        Fax = Utility.decodeBase64ToString(x.Fax),
+                        RoleList = x.Roles.ArrayTypeToRole(),
+                    };
+                }
+                else
+                    return new Agent();
             }).ToList();
 
             return outputList;

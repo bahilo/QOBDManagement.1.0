@@ -69,7 +69,7 @@
                             </Grid>
                             <StackPanel Orientation="Vertical">
                                 <DataGrid Name="dgUserList" AutoGenerateColumns="False"  ItemsSource="{Binding DiscussionViewModel.ChatAgentModelList, UpdateSourceTrigger=PropertyChanged}"
-                                  CanUserAddRows="False" SelectedValue="{Binding DiscussionViewModel.ChatAgentModelListSelectedValue, UpdateSourceTrigger=PropertyChanged}">
+                                  CanUserAddRows="False" SelectedValue="{Binding DiscussionViewModel.ChatAgentModelSelectedFromAgentList, UpdateSourceTrigger=PropertyChanged}">
                                     <DataGrid.RowStyle>
                                         <Style TargetType="DataGridRow">
                                             <Style.Triggers>
@@ -199,7 +199,7 @@
                         </materialDesign:ColorZone>
 
                         <!-- central view -->
-                        <ContentControl Content="{Binding CurrentViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+                        <ContentControl Content="{Binding CurrentViewModel, IsAsync=True, UpdateSourceTrigger=PropertyChanged}"/>
 
                     </DockPanel>
                 </materialDesign:DrawerHost>

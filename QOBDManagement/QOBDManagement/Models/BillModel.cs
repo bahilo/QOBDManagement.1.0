@@ -102,13 +102,13 @@ namespace QOBDManagement.Models
 
         public string TxtPay
         {
-            get { return (_bill.Pay * (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
+            get { return decimal.Multiply(_bill.Pay, (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(_outputStringFormat); }
             set { decimal converted; if (decimal.TryParse(value, out converted)) { _bill.Pay = converted; } else _bill.Pay = 0; onPropertyChange(); }
         }
 
         public string TxtPayReceived
         {
-            get { return (_bill.PayReceived / (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(); }
+            get { return decimal.Divide(_bill.PayReceived, (CurrencyModel.Currency.Rate != 0 ? CurrencyModel.Currency.Rate : 1m)).ToString(); }
             set { decimal converted; if (decimal.TryParse(value, out converted)) { _bill.PayReceived = converted; } else _bill.PayReceived = 0; onPropertyChange(); }
         }
 

@@ -164,12 +164,11 @@ namespace QOBDManagement.ViewModel
                         TxtErrorMessage = "Your profile has been Deactivated!";
                 }
                 else
-                    TxtErrorMessage = "Your User Name or password is incorrect!";
+                    TxtErrorMessage = "Your user name or password is incorrect!";
             }
             catch (Exception)
             {
-                await Dialog.showAsync("This application requires an internet connection!"+Environment.NewLine 
-                    + "Please check your internet connection." );
+                await Dialog.showAsync("This application requires an internet connection, please check your internet connection." );
                 await showLoginView();
             }             
             
