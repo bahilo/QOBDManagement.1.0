@@ -16,6 +16,7 @@ using System.Configuration;
 using System.Threading;
 using System.Net;
 using System.Net.Sockets;
+using System.Collections.ObjectModel;
 
 namespace QOBDManagement.ViewModel
 {
@@ -33,7 +34,7 @@ namespace QOBDManagement.ViewModel
         private Func<object, object> _page;
         private string _messageDefaultIcon;
         private string _messageReceivedIcon;
-        private List<string> _chatUserGroupList;
+        private ObservableCollection<string> _chatUserGroupList;
         private List<AgentModel> _chatAgentList;
         private IChatRoomViewModel _mainChatRoom;
         private List<DiscussionModel> _discussionList;
@@ -262,7 +263,7 @@ namespace QOBDManagement.ViewModel
             get { return (int)EServiceCommunication.Connected + "/" + BL.BlSecurity.GetAuthenticatedUser().ID + "/0/" + BL.BlSecurity.GetAuthenticatedUser().ID + "|" + "$"; }
         }
 
-        public List<string> UserGroupList
+        public ObservableCollection<string> UserGroupList
         {
             get { return _chatUserGroupList; }
             set { setProperty(ref _chatUserGroupList, value); }
@@ -320,7 +321,7 @@ namespace QOBDManagement.ViewModel
             lock (_lock)
             {
                 DiscussionList = new List<DiscussionModel>();
-                UserGroupList = new List<string>();
+                UserGroupList = new ObservableCollection<string>();
             }
 
             try
@@ -328,7 +329,7 @@ namespace QOBDManagement.ViewModel
                 if (user.ID != 0)
                     allUser_discussionOfAuthencatedUserList = await BL.BlChatRoom.searchUser_discussionAsync(new User_discussion { UserId = user.ID }, QOBDCommon.Enum.ESearchOption.AND);
 
-                TxtNbNewMessage = 0.ToString();
+                //_nbNewMessage = 0;
 
                 foreach (User_discussion user_discussionOfAuthenticatedUser in allUser_discussionOfAuthencatedUserList)
                 {
@@ -346,11 +347,11 @@ namespace QOBDManagement.ViewModel
                             // retrieving the discussion's messages
                             discussionModel.addMessage(await BL.BlChatRoom.searchMessageAsync(new Message { DiscussionId = discussionModel.Discussion.ID }, QOBDCommon.Enum.ESearchOption.AND));
 
-                            // display the number of unread messages
-                            if (user_discussionOfAuthenticatedUser.Status == 1)
+                            // display the last unread message
+                            if (discussionModel.MessageList.Where(x=>x.IsNewMessage && x.Message.UserId != user.ID).Count() > 0)
                             {
-                                TxtNbNewMessage = (_nbNewMessage + 1).ToString();
-                                var lastMessage = discussionModel.MessageList.Where(x => x.Message.DiscussionId == user_discussionOfAuthenticatedUser.DiscussionId).OrderByDescending(x => x.Message.ID).FirstOrDefault();
+                                //TxtNbNewMessage = (_nbNewMessage + discussionModel.MessageList.Where(x => x.IsNewMessage && x.Message.UserId != user.ID).Count()).ToString();
+                                var lastMessage = discussionModel.MessageList.Where(x => x.IsNewMessage).OrderByDescending(x => x.Message.ID).FirstOrDefault();
                                 if (lastMessage != null)
                                     lastMessage.IsNewMessage = true;
                                 TxtMessageIcon = _messageReceivedIcon;
@@ -385,6 +386,9 @@ namespace QOBDManagement.ViewModel
             {
                 Log.error(ex.Message, QOBDCommon.Enum.EErrorFrom.CHATROOM);
             }
+
+            // display the number of unread messages 
+            TxtNbNewMessage = DiscussionList.SelectMany(x => x.MessageList.Select(y => y)).Where(x => x.IsNewMessage && x.Message.UserId != user.ID).Count().ToString();
 
             return DiscussionList;
         }
@@ -529,7 +533,8 @@ namespace QOBDManagement.ViewModel
             if (user != null)
             {
                 // update the discussion messages status from unread (status = 1) to read (status = 0)
-                markMessageAsRead(DiscussionModel, new MessageModel { Message = message });
+                if(message.UserId != AuthenticatedUser.ID && user.ID != AuthenticatedUser.ID)
+                    markMessageAsRead(DiscussionModel, new MessageModel { Message = message });
 
                 MessageModel MessageModelToDisplay = new MessageModel { Message = message, TxtUserName = user.UserName };
 
@@ -600,16 +605,9 @@ namespace QOBDManagement.ViewModel
             List<User_discussion> authenticatedUserDiscussionList = (await BL.BlChatRoom.searchUser_discussionAsync(new User_discussion { DiscussionId = discussionModel.Discussion.ID }, QOBDCommon.Enum.ESearchOption.AND)).Where(x => x.UserId != AuthenticatedUser.ID).ToList();
             authenticatedUserDiscussionList = authenticatedUserDiscussionList.Select(x => new User_discussion { ID = x.ID, DiscussionId = x.DiscussionId, UserId = x.UserId, Status = 1 }).ToList();
             await BL.BlChatRoom.UpdateUser_discussionAsync(authenticatedUserDiscussionList);
-
-            MessageModel messageFound = discussionModel.MessageList.Where(x => x.Message.DiscussionId == discussionModel.Discussion.ID && x.Message.ID == messageModel.Message.ID).FirstOrDefault();
-            if (messageFound != null)
-            {
-                messageFound.IsNewMessage = true;
-                await BL.BlChatRoom.UpdateMessageAsync(new List<Message> { messageFound.Message });
-
-                // refresh message status display
-                await _mainChatRoom.MessageViewModel.loadAsync();
-            }
+            
+            // refresh message status display
+            await _mainChatRoom.MessageViewModel.loadAsync();
 
         }
 
@@ -637,7 +635,10 @@ namespace QOBDManagement.ViewModel
                 // refresh message status display
                 await _mainChatRoom.MessageViewModel.loadAsync();
             }
-            TxtMessageIcon = _messageDefaultIcon;
+
+            // reset icon image
+            if(_nbNewMessage == 0)
+                TxtMessageIcon = _messageDefaultIcon;
         }
 
         /// <summary>
@@ -648,6 +649,7 @@ namespace QOBDManagement.ViewModel
         {
             UdpClient broadcastSocket;
             broadcastSocket = udpClient;
+            Dialog.showSearch(ConfigurationManager.AppSettings["load_message"], isChatDialogBox:true);
             try
             {
                 byte[] outStream = System.Text.Encoding.ASCII.GetBytes(messageToSend);
@@ -662,9 +664,9 @@ namespace QOBDManagement.ViewModel
             finally
             {
                 InputMessage = "";
+                Dialog.IsChatDialogOpen = false;
             }
-
-            Dialog.IsChatDialogOpen = false;
+            
         }
 
         private async Task<Message> saveMessageToDBAsync(Message message)
@@ -762,14 +764,25 @@ namespace QOBDManagement.ViewModel
             return outputUdpClient;
         }
 
-        private async void deleteDiscussion(DiscussionModel discussionModel)
+        private async void deleteAuthenticatedDiscussionMessages(DiscussionModel discussionModel)
         {
-            var user_discussionFoundList = await BL.BlChatRoom.searchUser_discussionAsync(new User_discussion { DiscussionId = discussionModel.Discussion.ID }, QOBDCommon.Enum.ESearchOption.AND);
-            var messageFoundList = await BL.BlChatRoom.searchMessageAsync(new Message { DiscussionId = discussionModel.Discussion.ID }, QOBDCommon.Enum.ESearchOption.AND);
+            var messageDeletionFailedList = new List<Message>();
+            var discussionDeletionFailedList = new List<Discussion>();
+            var user_discussionDeletionFailedList = new List<User_discussion>();
 
-            var discussionDeletionFailedList = await BL.BlChatRoom.DeleteDiscussionAsync(new List<Discussion> { discussionModel.Discussion });
-            var user_discussionDeletionFailedList = await BL.BlChatRoom.DeleteUser_discussionAsync(user_discussionFoundList);
-            var messageDeletionFailedList = await BL.BlChatRoom.DeleteMessageAsync(messageFoundList);
+            var user_discussionFoundList = await BL.BlChatRoom.searchUser_discussionAsync(new User_discussion { DiscussionId = discussionModel.Discussion.ID }, QOBDCommon.Enum.ESearchOption.AND);
+            
+            if(user_discussionFoundList.Count() == 1)
+            {
+                var messageFoundList = await BL.BlChatRoom.searchMessageAsync(new Message { DiscussionId = discussionModel.Discussion.ID }, QOBDCommon.Enum.ESearchOption.AND);
+                discussionDeletionFailedList = await BL.BlChatRoom.DeleteDiscussionAsync(new List<Discussion> { discussionModel.Discussion });
+                user_discussionDeletionFailedList = await BL.BlChatRoom.DeleteUser_discussionAsync(user_discussionFoundList);
+                messageDeletionFailedList = await BL.BlChatRoom.DeleteMessageAsync(messageFoundList);
+            }
+            else
+            {
+                user_discussionDeletionFailedList = await BL.BlChatRoom.DeleteUser_discussionAsync(user_discussionFoundList.Where(x=>x.UserId == AuthenticatedUser.ID).ToList());
+            }      
 
             if (discussionDeletionFailedList.Count == 0 && user_discussionDeletionFailedList.Count == 0 && messageDeletionFailedList.Count == 0)
                 await Dialog.showAsync("Discussion has been deleted successfully", isChatDialogBox: true);
@@ -779,10 +792,12 @@ namespace QOBDManagement.ViewModel
                 Log.error(errorMessage, QOBDCommon.Enum.EErrorFrom.CHATROOM);
                 await Dialog.showAsync(errorMessage, isChatDialogBox: true);
             }
-
-            onPropertyChange("UserGroupList");
+            
             DeleteDiscussionCommand.raiseCanExecuteActionChanged();
             DeleteGroupDiscussionCommand.raiseCanExecuteActionChanged();
+
+            DiscussionList = new List<DiscussionModel>();
+            await _mainChatRoom.MessageViewModel.loadAsync();
         }
 
         public override void Dispose()
@@ -839,7 +854,7 @@ namespace QOBDManagement.ViewModel
                 }
             }
 
-            Message messageToSend = new Message { DiscussionId = DiscussionModel.Discussion.ID, Content = InputMessage, Date = DateTime.Now, UserId = AuthenticatedUser.ID };
+            Message messageToSend = new Message { DiscussionId = DiscussionModel.Discussion.ID, Content = InputMessage, Date = DateTime.Now, UserId = AuthenticatedUser.ID, Status = 1 };
             Message savedMessage = await saveMessageToDBAsync(messageToSend);
 
             // creating the message
@@ -944,11 +959,16 @@ namespace QOBDManagement.ViewModel
 
         private async void discussionAddUser(object obj)
         {
-            if (await Dialog.showAsync("Do you confirm adding " + ChatAgentModelSelectedFromAgentList.TxtLogin + " to discussion?", isChatDialogBox: true) && DiscussionModel != null && DiscussionModel.Discussion.ID != 0 && DiscussionModel.addUser(ChatAgentModelSelectedFromAgentList))
+            if (await Dialog.showAsync("Do you confirm adding [" + ChatAgentModelSelectedFromAgentList.TxtLogin + "] to discussion?", isChatDialogBox: true) && DiscussionModel != null && DiscussionModel.Discussion.ID != 0 && DiscussionModel.addUser(ChatAgentModelSelectedFromAgentList))
             {
                 Dialog.showSearch(ConfigurationManager.AppSettings["wait_message"], isChatDialogBox: true);
                 Dialog.IsChatLeftBarOpen = false;
                 var user_discussionSavedList = await BL.BlChatRoom.InsertUser_discussionAsync(new List<User_discussion> { new User_discussion { DiscussionId = DiscussionModel.Discussion.ID, UserId = ChatAgentModelSelectedFromAgentList.Agent.ID } });
+                if(user_discussionSavedList.Count() > 0)
+                {
+                    DiscussionList = new List<DiscussionModel>();
+                    await _mainChatRoom.MessageViewModel.loadAsync();
+                }
                 Dialog.IsChatDialogOpen = false;
             }
         }
@@ -1005,7 +1025,7 @@ namespace QOBDManagement.ViewModel
             {
                 var discussionFound = DiscussionList.Where(x => x.UserList.Where(y => y.Agent.ID == obj.Agent.ID).Count() > 0 && x.UserList.Count == 1).SingleOrDefault();
                 if (discussionFound != null)
-                    deleteDiscussion(discussionFound);
+                    deleteAuthenticatedDiscussionMessages(discussionFound);
             }
         }
 
@@ -1026,7 +1046,7 @@ namespace QOBDManagement.ViewModel
             {
                 var discussionFound = DiscussionList.Where(x => x.TxtGroupName == obj).SingleOrDefault();
                 if (discussionFound != null)
-                    deleteDiscussion(discussionFound);
+                    deleteAuthenticatedDiscussionMessages(discussionFound);
             }
         }
 

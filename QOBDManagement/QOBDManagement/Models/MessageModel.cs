@@ -12,7 +12,6 @@ namespace QOBDManagement.Models
     public class MessageModel : BindBase
     {
         private Message _message;
-        private bool _isNewMesage;
         private string _groupName;
         private string _userName;
 

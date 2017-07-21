@@ -378,8 +378,8 @@ namespace QOBDManagement
             try
             {
                 // delete database if exists
-                /*if (File.Exists(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf")))
-                    File.Delete(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf"));*/
+                if (File.Exists(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf")))
+                    File.Delete(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf"));
 
                 // copy the database to user local folder
                 if (!File.Exists(System.IO.Path.Combine(Utility.getOrCreateDirectory("App_Data"), "QCBDDatabase.sdf")))
@@ -576,7 +576,7 @@ namespace QOBDManagement
             LogoImageDisplay.Dispose();
             HeaderImageDisplay.Dispose();
             BillImageDisplay.Dispose();
-            //deleteCache();
+            deleteCache();
             return true;
         }
 

@@ -284,7 +284,17 @@ namespace QOBDManagement.ViewModel
 
         private async void updateUsersOnlineStatus()
         {
-            await getChatUserInformation();
+            // load chat user
+            await _main.AgentViewModel.loadAgents();
+
+            // close user images
+            foreach (AgentModel agentModel in DiscussionViewModel.ChatAgentModelList)
+            {
+                var agentWithNewStatus = _main.AgentViewModel.AgentModelList.Where(x => x.TxtID == agentModel.TxtID).FirstOrDefault();
+                if (agentWithNewStatus != null)
+                    agentModel.IsOnline = agentWithNewStatus.IsOnline;
+            }
+
             DiscussionViewModel.SelectUserForDiscussionCommand.raiseCanExecuteActionChanged();
             DiscussionViewModel.DiscussionAddUserCommand.raiseCanExecuteActionChanged();
         }

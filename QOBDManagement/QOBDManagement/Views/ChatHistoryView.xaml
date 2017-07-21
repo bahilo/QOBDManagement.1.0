@@ -21,10 +21,10 @@
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Value.IsNewMessage, UpdateSourceTrigger=PropertyChanged}" Value="true">
+                        <DataTrigger Binding="{Binding Value.PairID.IsNewMessage, UpdateSourceTrigger=PropertyChanged}" Value="true">
                             <Setter Property="Background" Value="Beige"/>
                         </DataTrigger>
-                        <!--<DataTrigger Binding="{Binding Value.TxtStatus}" Value="0">
+                        <!--<DataTrigger Binding="{Binding Value..PairIDTxtStatus}" Value="0">
                             <Setter Property="Background" Value="Gray"/>
                         </DataTrigger>-->
                     </Style.Triggers>
@@ -34,14 +34,23 @@
                 <DataGridTemplateColumn Header="Chat history">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
+                            <materialDesign:Badged Badge="{Binding Value.PairValue}">
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                        Command="{Binding DataContext.ChatRoomViewModel.DiscussionViewModel.GetIndividualDiscussionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        CommandParameter="{Binding CurrentItem.Value.PairID.TxtGroupName, ElementName=dgIndividualHistory}">
+                                    <TextBlock Text="{Binding Key.TxtLogin}"/>
+                                </Button>
+                            </materialDesign:Badged>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
                             <Button Style="{DynamicResource MaterialDesignFlatButton}"
                                     Command="{Binding DataContext.ChatRoomViewModel.DiscussionViewModel.GetIndividualDiscussionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
-                                    CommandParameter="{Binding CurrentItem.Value.TxtGroupName, ElementName=dgIndividualHistory}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Key.TxtLogin}"/>
-                                    <TextBlock Margin="0 0 5 0" Text=":"/>
-                                    <TextBlock Text="{Binding Value.TxtContent}"/>
-                                </StackPanel>
+                                    CommandParameter="{Binding CurrentItem.Value.PairID.TxtGroupName, ElementName=dgIndividualHistory}">
+                                <TextBlock Text="{Binding Value.PairID.TxtContent}"/>
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -49,9 +58,7 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Value.TxtDate}"/>
-                            </StackPanel>
+                            <TextBlock Text="{Binding Value.PairID.TxtDate}" VerticalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -63,7 +70,7 @@
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Value.IsNewMessage, UpdateSourceTrigger=PropertyChanged}" Value="true">
+                        <DataTrigger Binding="{Binding Value.PairID.IsNewMessage, UpdateSourceTrigger=PropertyChanged}" Value="true">
                             <Setter Property="Background" Value="Beige"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -73,14 +80,23 @@
                 <DataGridTemplateColumn Header="Group Chat history">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
+                            <materialDesign:Badged Badge="{Binding Value.PairValue}">
+                                <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                                        Command="{Binding DataContext.ChatRoomViewModel.DiscussionViewModel.GetDiscussionGroupCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        CommandParameter="{Binding CurrentItem.Value.PairID.TxtGroupName, ElementName=dgGroupHistory}">
+                                    <TextBlock Text="{Binding Value.PairID.TxtGroupName, Converter={StaticResource ResourceKey=discussionGroupConverter}}"/>
+                                </Button>
+                            </materialDesign:Badged>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
                             <Button Style="{DynamicResource MaterialDesignFlatButton}"
                                     Command="{Binding DataContext.ChatRoomViewModel.DiscussionViewModel.GetDiscussionGroupCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
-                                    CommandParameter="{Binding CurrentItem.Value.TxtGroupName, ElementName=dgGroupHistory}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Value.TxtGroupName, Converter={StaticResource ResourceKey=discussionGroupConverter}}"/>
-                                    <TextBlock Margin="0 0 5 0" Text=":"/>
-                                    <TextBlock Text="{Binding Value.TxtContent}"/>
-                                </StackPanel>
+                                    CommandParameter="{Binding CurrentItem.Value.PairID.TxtGroupName, ElementName=dgGroupHistory}">
+                                <TextBlock Text="{Binding Value.PairID.TxtContent}"/>
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -88,9 +104,7 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Value.TxtDate}"/>
-                            </StackPanel>
+                                <TextBlock Text="{Binding Value.PairID.TxtDate}" VerticalAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

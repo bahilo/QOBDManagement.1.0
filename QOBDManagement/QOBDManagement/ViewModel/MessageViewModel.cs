@@ -19,15 +19,15 @@ namespace QOBDManagement.ViewModel
     {
         private int _maxMessageCharacters;
         private Func<object, object> _page;
-        private Dictionary<AgentModel, MessageModel> _messageIndividualHistoryList;
-        private Dictionary<AgentModel, MessageModel> _messageGroupHistoryList;
+        private Dictionary<AgentModel, Pair<MessageModel, int>> _messageIndividualHistoryList;
+        private Dictionary<AgentModel, Pair<MessageModel, int>> _messageGroupHistoryList;
         private IChatRoomViewModel _mainChatRoom;
 
         public MessageViewModel()
         {
             _maxMessageCharacters = 10;
-            _messageIndividualHistoryList = new Dictionary<AgentModel, MessageModel>();
-            _messageGroupHistoryList = new Dictionary<AgentModel, MessageModel>();
+            _messageIndividualHistoryList = new Dictionary<AgentModel, Pair<MessageModel, int>>();
+            _messageGroupHistoryList = new Dictionary<AgentModel, Pair<MessageModel, int>>();
         }
 
         public MessageViewModel(IChatRoomViewModel mainChatRoom) : this()
@@ -51,13 +51,13 @@ namespace QOBDManagement.ViewModel
             get { return _startup.Bl; }
         }
 
-        public Dictionary<AgentModel, MessageModel> MessageIndividualHistoryList
+        public Dictionary<AgentModel, Pair<MessageModel, int>> MessageIndividualHistoryList
         {
             get { return _messageIndividualHistoryList; }
             set { setProperty(ref _messageIndividualHistoryList, value); }
         }
 
-        public Dictionary<AgentModel, MessageModel> MessageGroupHistoryList
+        public Dictionary<AgentModel, Pair<MessageModel, int>> MessageGroupHistoryList
         {
             get { return _messageGroupHistoryList; }
             set { setProperty(ref _messageGroupHistoryList, value); }
@@ -77,15 +77,18 @@ namespace QOBDManagement.ViewModel
 
             foreach (var discussionModel in discussionList)
             {
-                if (MessageIndividualHistoryList.Values.Where(x => x.Message.DiscussionId == discussionModel.Discussion.ID).Count() == 0
-                    && MessageGroupHistoryList.Values.Where(x => x.Message.DiscussionId == discussionModel.Discussion.ID).Count() == 0)
+                if (MessageIndividualHistoryList.Values.Where(x => x.PairID.Message.DiscussionId == discussionModel.Discussion.ID).Count() == 0
+                    && MessageGroupHistoryList.Values.Where(x => x.PairID.Message.DiscussionId == discussionModel.Discussion.ID).Count() == 0)
                 {
+                    int numberOfUnReadMessages = 0;
                     MessageModel lastMessage = new MessageModel();
                     if (discussionModel.MessageList.Count > 0)
                     {
                         lastMessage = discussionModel.MessageList.Where(x => x.IsNewMessage && x.Message.UserId != AuthenticatedUser.ID).OrderByDescending(x => x.Message.ID).Select(x => new MessageModel { Message = new Message { ID = x.Message.ID, Content = x.TxtContent }, IsNewMessage = x.IsNewMessage }).FirstOrDefault();
                         if (lastMessage == null)
                             lastMessage = discussionModel.MessageList.OrderByDescending(x => x.Message.ID).Select(x => new MessageModel { Message = new Message { ID = x.Message.ID, Content = x.TxtContent }, IsNewMessage = false }).First();
+
+                        numberOfUnReadMessages = discussionModel.MessageList.Where(x => x.IsNewMessage && x.Message.UserId != AuthenticatedUser.ID).Count();
 
                         // limit the amount of message characters to display in the history
                         if (lastMessage.TxtContent.Length > MaxMessageLength)
@@ -102,10 +105,21 @@ namespace QOBDManagement.ViewModel
                         var usersFound = discussionModel.UserList.Where(x => x.Agent.ID == lastMessage.Message.UserId).ToList();// await BL.BlAgent.searchAgentAsync( new Agent { ID = lastMessage.Message.UserId }, QOBDCommon.Enum.ESearchOption.AND);
                         if (usersFound.Count > 0)
                         {
+                            Pair<MessageModel, int> messageInfo = new Pair<MessageModel, int>();
+
                             if (discussionModel.UserList.Count == 1)
-                                addMessageIndividualHistoryList(new Dictionary<AgentModel, MessageModel> { { usersFound.First(), lastMessage } });
+                            {
+                                messageInfo.PairID = lastMessage;
+                                messageInfo.PairValue = numberOfUnReadMessages;
+                                addMessageIndividualHistoryList(new Dictionary<AgentModel, Pair<MessageModel, int>> { { usersFound.First(), messageInfo } });
+                            }
                             else
-                                addMessageGroupHistoryList(new Dictionary<AgentModel, MessageModel> { { usersFound.First(), lastMessage } });
+                            {                                
+                                messageInfo.PairID = lastMessage;
+                                messageInfo.PairValue = numberOfUnReadMessages;
+                                addMessageGroupHistoryList(new Dictionary<AgentModel, Pair<MessageModel, int>> { { usersFound.First(), messageInfo } });
+                            }
+                                
                         }
                     }
                 }
@@ -114,7 +128,7 @@ namespace QOBDManagement.ViewModel
             Dialog.IsChatDialogOpen = false;
         }
 
-        private void addMessageGroupHistoryList(Dictionary<AgentModel, MessageModel> dict)
+        private void addMessageGroupHistoryList(Dictionary<AgentModel, Pair<MessageModel, int>> dict)
         {
             if (Application.Current != null)
                 Application.Current.Dispatcher.Invoke(() =>
@@ -125,7 +139,7 @@ namespace QOBDManagement.ViewModel
                 MessageGroupHistoryList = Utility.concat(MessageGroupHistoryList, dict);
         }
 
-        private void addMessageIndividualHistoryList(Dictionary<AgentModel, MessageModel> dict)
+        private void addMessageIndividualHistoryList(Dictionary<AgentModel, Pair<MessageModel, int>> dict)
         {
             if(Application.Current != null)
                 Application.Current.Dispatcher.Invoke(() =>
