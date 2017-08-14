@@ -434,24 +434,26 @@ namespace QOBDManagement.ViewModel
         /// <summary>
         /// load the data
         /// </summary>
-        public void loadOrder_items()
-        {
-            load();
-        }
-
-        /// <summary>
-        /// load the data
-        /// </summary>
         public void loadOrder_items(OrderModel order)
         {
             _orderSelected = order;
-            load();
+            loadOrder_items();
+        }
+        
+        public async void loadOrder_items()
+        {
+            await load();
+        }
+
+        public async Task loadOrder_itemsAsync()
+        {
+            await load();
         }
 
         /// <summary>
         /// load the data
         /// </summary>
-        public async void load()
+        public async Task load()
         {
             await Task.Factory.StartNew(() =>
             {

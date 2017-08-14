@@ -10,8 +10,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
              xmlns:local="clr-namespace:QOBDManagement.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="300" Loaded="ChatRoomWindow_Loaded">
+             mc:Ignorable="d"
+             d:DesignHeight="420" d:DesignWidth="300" Loaded="ChatRoomWindow_Loaded">
     <UserControl.Resources>
         <LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
@@ -22,88 +22,151 @@
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
         <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
-        <Style x:Key="Reply" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="true" />
-            <!--<Setter Property="HasDropShadow" Value="True" />-->
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
 
-                        <!-- Reply bubble chat-->
+        <!-- Reply bubble chat-->
 
-                        <Grid HorizontalAlignment="Right"
+        <ControlTemplate x:Key="ReplyMessageTemplate" TargetType="ListBoxItem">
+            <Grid HorizontalAlignment="Right"
+                    Width="{TemplateBinding Width}"
+                    Height="{TemplateBinding Height}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Border CornerRadius="10 0 10 10" Margin="0,10,0,10" MinWidth="200" Padding="5" Background="GreenYellow" MinHeight="65" BorderBrush="{StaticResource SolidBorderBrush}">
+                    <ContentPresenter />
+                </Border>
+                <Path Grid.Column="1" Fill="GreenYellow" Margin="0,10,0,10">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathGeometry.Figures>
+                                <PathFigure StartPoint="30,0">
+                                    <LineSegment Point="0,0"/>
+                                    <LineSegment Point="0,30"/>
+                                </PathFigure>
+                            </PathGeometry.Figures>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+            </Grid>
+        </ControlTemplate>
+
+        <!-- Recipient bubble chat-->
+
+        <ControlTemplate x:Key="RecipientReplyMessageTemplate" TargetType="ListBoxItem">
+            <Grid  HorizontalAlignment="Left"
                               Width="{TemplateBinding Width}"
                               Height="{TemplateBinding Height}" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Border CornerRadius="10 0 10 10" Margin="0,10,0,10" MinWidth="200" Padding="5" Background="GreenYellow" MinHeight="65" BorderBrush="{StaticResource SolidBorderBrush}">
-                                <ContentPresenter />
-                            </Border>
-                            <Path Grid.Column="1" Fill="GreenYellow" Margin="0,10,0,10">
-                                <Path.Data>
-                                    <PathGeometry>
-                                        <PathGeometry.Figures>
-                                            <PathFigure StartPoint="30,0">
-                                                <LineSegment Point="0,0"/>
-                                                <LineSegment Point="0,30"/>
-                                            </PathFigure>
-                                        </PathGeometry.Figures>
-                                    </PathGeometry>
-                                </Path.Data>
-                            </Path>
-                        </Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Path Fill="Wheat" Margin="0,10,0,10">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathGeometry.Figures>
+                                <PathFigure StartPoint="0,0">
+                                    <LineSegment Point="30,0"/>
+                                    <LineSegment Point="30,30"/>
+                                </PathFigure>
+                            </PathGeometry.Figures>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+                <Border Grid.Column="1" MinWidth="200" Margin="0,10,0,10" CornerRadius="0 10 10 10" Padding="5" Background="Wheat" BorderBrush="{StaticResource SolidBorderBrush}" MinHeight="65">
+                    <ContentPresenter />
+                </Border>
+            </Grid>
 
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+        </ControlTemplate>
+
+        <!-- Chat zone -->
+
+        <Style x:Key="chatZoneStyle" TargetType="ListBox">
+            <Setter Property="Background" Value="Beige"/>
+            <Setter Property="Height" Value="288"/>
         </Style>
-        <Style x:Key="RecipientReply" TargetType="Button">
-            <Setter Property="OverridesDefaultStyle" Value="true" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
 
-                        <!-- Recipient bubble chat-->
-
-                        <Grid  HorizontalAlignment="Left"
-                              Width="{TemplateBinding Width}"
-                              Height="{TemplateBinding Height}" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Path Fill="Wheat" Margin="0,10,0,10">
-                                <Path.Data>
-                                    <PathGeometry>
-                                        <PathGeometry.Figures>
-                                            <PathFigure StartPoint="0,0">
-                                                <LineSegment Point="30,0"/>
-                                                <LineSegment Point="30,30"/>
-                                            </PathFigure>
-                                        </PathGeometry.Figures>
-                                    </PathGeometry>
-                                </Path.Data>
-                            </Path>
-                            <Border Grid.Column="1" MinWidth="200" Margin="0,10,0,10" CornerRadius="0 10 10 10" Padding="5" Background="Wheat" BorderBrush="{StaticResource SolidBorderBrush}" MinHeight="65">
-                                <ContentPresenter />
-                            </Border>
-                        </Grid>
-                        
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+        <Style x:Key="messageUserNameStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="DarkGray"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
         </Style>
+
+        <Style x:Key="messageContentStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14.667"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontFamily" Value="Helvetica"/>
+        </Style>
+
+        <Style x:Key="messageInputStyle" TargetType="TextBox">            
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="FontSize" Value="14.667"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="FontFamily" Value="Helvetica"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+        </Style>
+
+        <Style x:Key="messageDateStyle" TargetType="TextBlock" BasedOn="{StaticResource messageUserNameStyle}">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+
     </UserControl.Resources>
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <ScrollViewer Name="svChatRoom"  ScrollChanged="ScrollViewer_ScrollChanged" MaxHeight="280">
-                <StackPanel Background="Beige" MinHeight="300" Name="chatRoomZone" Orientation="Vertical"/>
-            </ScrollViewer>
-            <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Background="Beige" Margin="0 0 0 5">
+                <Button Style="{DynamicResource MaterialDesignFlatButton}"
+                        Command="{Binding ShowMoreMessagesCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Eye" VerticalAlignment="Center"/>
+                        <TextBlock Margin="8 0 0 0">Show More</TextBlock>
+                    </StackPanel>
+                </Button>
+                <ListBox ItemsSource="{Binding ChatMessages, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource chatZoneStyle}" Name="chatRoomZone">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsRecipientMessage, UpdateSourceTrigger=PropertyChanged}" Value="false">
+                                    <Setter Property="Template" Value="{StaticResource ReplyMessageTemplate}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsRecipientMessage, UpdateSourceTrigger=PropertyChanged}" Value="true">
+                                    <Setter Property="Template" Value="{StaticResource RecipientReplyMessageTemplate}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.ColumnSpan="2" Text="{Binding TxtUserName}" Style="{StaticResource messageUserNameStyle}"/>
+                                <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding TxtContent}" Style="{StaticResource messageContentStyle}"/>
+                                <TextBlock Grid.Row="2" Grid.ColumnSpan="1" Text="{Binding TxtDate}" Style="{StaticResource messageDateStyle}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -111,14 +174,9 @@
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.RowSpan="2" Name="tbxMessage" Text="{Binding InputMessage, UpdateSourceTrigger=PropertyChanged}" Margin="6" 
-                         TextWrapping="Wrap" MaxLength="{Binding MaxCharacterAllowed, UpdateSourceTrigger=PropertyChanged}"
-                         AcceptsReturn="True"
-                         Height="80"
-                         HorizontalAlignment="Stretch"
-                         VerticalScrollBarVisibility="Auto"
-                         HorizontalScrollBarVisibility="Auto"
-                         materialDesign:HintAssist.Hint="messages..."/>
+                <TextBox Grid.RowSpan="2" Name="tbxMessage" Text="{Binding InputMessage, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource messageInputStyle}"
+                         MaxLength="{Binding MaxCharacterAllowed, UpdateSourceTrigger=PropertyChanged}"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Text="{Binding InputCharactersCount, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock>/</TextBlock>
@@ -129,6 +187,6 @@
                         Command="{Binding SendMessageCommand}">Send</Button>
             </Grid>
 
-        </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

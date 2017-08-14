@@ -190,8 +190,14 @@ namespace QOBDCommon.Classes
             lock (_lock)
             {
                 string path = "";
-                var dirElements = directory.Split('/');
-                var allPathElements = dirElements.Concat(pathElements).ToArray();
+                string[] dirElements = new string[]{ };
+                string[] allPathElements = new string[]{ };
+
+                if (!string.IsNullOrEmpty(directory))
+                {
+                    dirElements = directory.Split('/');
+                    allPathElements = dirElements.Concat(pathElements).ToArray();
+                }                    
 
                 if (!string.IsNullOrEmpty(BaseDirectory))
                     path = BaseDirectory;
@@ -213,7 +219,7 @@ namespace QOBDCommon.Classes
             // check if it is a full path file or only directory 
             var pathChecking = Path.GetFileName(path).Split('.');
 
-            if (!File.Exists(path) && !Directory.Exists(path))
+            if (!string.IsNullOrEmpty(path) && !File.Exists(path) && !Directory.Exists(path))
             {
                 if (pathChecking.Count() > 1)
                 {

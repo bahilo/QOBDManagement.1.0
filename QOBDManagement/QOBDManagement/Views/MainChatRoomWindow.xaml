@@ -90,7 +90,7 @@
                                                                 <ColumnDefinition Width="2*"/>
                                                                 <ColumnDefinition Width="*"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <Border CornerRadius="10" Background="{Binding TxtIconColour}" Width="30">
+                                                            <Border CornerRadius="5" Background="{Binding TxtIconColour}" Width="30">
                                                                 <Image Source="{Binding Image.ImageSource, UpdateSourceTrigger=PropertyChanged}" />
                                                             </Border>
                                                             <Button Grid.Column="1" Style="{DynamicResource MaterialDesignFlatButton}"

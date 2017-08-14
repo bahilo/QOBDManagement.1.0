@@ -339,7 +339,7 @@ namespace QOBDGateway.Helper.ChannelHelper
                 Company = Utility.decodeBase64ToString(x.Company),
                 Date_limit = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Date_limit)),
                 Income = Utility.decimalTryParse(Utility.decodeBase64ToString(x.Income)),
-                Income_percent = Utility.doubleTryParse(Utility.decodeBase64ToString(x.Income_percent).Replace("%", "")),
+                Income_percent = Utility.doubleTryParse((Utility.decodeBase64ToString(x.Income_percent) ?? " ").Replace("%", "")),
                 Pay_date = Utility.convertToDateTime(Utility.decodeBase64ToString(x.Pay_date)),
                 Pay_received = Utility.decimalTryParse(Utility.decodeBase64ToString(x.Pay_received).Split(new char[] { ' ' }).FirstOrDefault()),
                 Price_purchase_total = Utility.decimalTryParse(Utility.decodeBase64ToString(x.Price_purchase_total)),

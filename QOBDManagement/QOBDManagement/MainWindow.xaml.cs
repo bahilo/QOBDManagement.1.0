@@ -34,9 +34,8 @@ namespace QOBDManagement
             InitializeComponent();
         }
 
-        private void load()
+        private void DialogHost_Loaded(object sender, RoutedEventArgs e)
         {
-
             mainWindowViewModel = new MainWindowViewModel(new Classes.Startup());
             this.DataContext = mainWindowViewModel;
         }
@@ -52,11 +51,6 @@ namespace QOBDManagement
                     this.Close();
                 }
             }    
-        }
-
-        private void DialogHost_Loaded(object sender, RoutedEventArgs e)
-        {
-            load();
         }
     }
 }

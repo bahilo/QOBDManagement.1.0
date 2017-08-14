@@ -14,10 +14,12 @@ namespace QOBDManagement.Models
         private Message _message;
         private string _groupName;
         private string _userName;
+        private bool _isRecipientMessage;
 
         public MessageModel()
         {
             _message = new Message();
+            _isRecipientMessage = false;
         }
 
         public Message Message
@@ -60,6 +62,12 @@ namespace QOBDManagement.Models
         {
             get { return _message.Status == 1 ? true : false; }
             set { _message.Status = value ? 1 : 0; onPropertyChange(); }
+        }
+
+        public bool IsRecipientMessage
+        {
+            get { return _isRecipientMessage; }
+            set { _isRecipientMessage = value; onPropertyChange(); }
         }
 
         public string TxtContent

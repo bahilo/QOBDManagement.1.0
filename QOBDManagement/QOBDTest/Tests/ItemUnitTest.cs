@@ -133,17 +133,17 @@ namespace QOBDTest.Tests
         }
 
         [TestMethod]
-        public void loadItems()
+        public async Task loadItems()
         {
             // Arrange
             _mockProxy.initializer();
             _main = new MainWindowViewModel(new MockStartup(_mockProxy.Mock));
 
             // Act
-            _main.ItemViewModel.loadItems();
+            await _main.ItemViewModel.loadItemsAsync();
 
             // Assert
-            Assert.AreEqual(_main.ItemViewModel.ItemModelList.Count, 2);
+            Assert.AreEqual(2, _main.ItemViewModel.ItemModelList.Count);
         }
 
         [TestMethod]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QOBDCommon.Classes;
 using QOBDCommon.Entities;
 using QOBDManagement;
 using QOBDManagement.Interfaces;
@@ -24,7 +25,7 @@ namespace QOBDTest.Tests
         public void startup()
         {
             discussion = new Discussion { ID = 1, Date = DateTime.Now };
-            message = new Message { ID = 2, Date = DateTime.Now, Content = "Content", DiscussionId = 1, Status = 0, UserId = 1 };
+            message = new Message { ID = 2, Date = Utility.convertToDateTime(DateTime.Now.ToShortDateString()), Content = "Content", DiscussionId = 1, Status = 0, UserId = 1 };
             user_discussion = new User_discussion { ID = 1, UserId = 1, DiscussionId = 1, Status = 0 };
         }
 
@@ -105,6 +106,7 @@ namespace QOBDTest.Tests
             // Arrange
             _mockProxy.initializer();
             _main = new MainWindowViewModel(new MockStartup(_mockProxy.Mock));
+            await _main.SecurityLoginViewModel.startAuthentication();
 
             // Act
             await _main.ChatRoomViewModel.DiscussionViewModel.retrieveUserDiscussions(_main.Startup.Bl.BlSecurity.GetAuthenticatedUser());
@@ -182,7 +184,7 @@ namespace QOBDTest.Tests
             var messagefoundList = await _main.ChatRoomViewModel.Startup.Bl.BlChatRoom.searchMessageAsync(message, QOBDCommon.Enum.ESearchOption.AND);
 
             // Assert
-            Assert.AreEqual(messagefoundList.Count, 1);
+            Assert.AreEqual(1, messagefoundList.Count);
         }
 
         [TestMethod]
@@ -191,12 +193,14 @@ namespace QOBDTest.Tests
             // Arrange
             _mockProxy.initializer();
             _main = new MainWindowViewModel(new MockStartup(_mockProxy.Mock));
+            await _main.SecurityLoginViewModel.startAuthentication();
+            _main.ChatRoomViewModel.DiscussionViewModel.ChatAgentModelList.Add(new QOBDManagement.Models.AgentModel { Agent = new Agent { ID = 2 } });
 
             // Act
             await _main.ChatRoomViewModel.MessageViewModel.loadAsync();
 
             // Assert
-            Assert.AreEqual(_main.ChatRoomViewModel.MessageViewModel.MessageGroupHistoryList.Count, 0);
+            Assert.AreEqual(0, _main.ChatRoomViewModel.MessageViewModel.MessageGroupHistoryList.Count);
         }
 
         [TestMethod]
@@ -205,12 +209,14 @@ namespace QOBDTest.Tests
             // Arrange
             _mockProxy.initializer();
             _main = new MainWindowViewModel(new MockStartup(_mockProxy.Mock));
+            await _main.SecurityLoginViewModel.startAuthentication();
+            _main.ChatRoomViewModel.DiscussionViewModel.ChatAgentModelList.Add(new QOBDManagement.Models.AgentModel { Agent = new Agent { ID = 2 } });
 
             // Act
             await _main.ChatRoomViewModel.MessageViewModel.loadAsync();
 
             // Assert
-            Assert.AreEqual(_main.ChatRoomViewModel.MessageViewModel.MessageIndividualHistoryList.Count, 1);
+            Assert.AreEqual(1, _main.ChatRoomViewModel.MessageViewModel.MessageIndividualHistoryList.Count);
         }
         #endregion
 
@@ -282,7 +288,7 @@ namespace QOBDTest.Tests
             var user_discussionfoundList = await _main.ChatRoomViewModel.Startup.Bl.BlChatRoom.searchUser_discussionAsync(user_discussion, QOBDCommon.Enum.ESearchOption.AND);
 
             // Assert
-            Assert.AreEqual(user_discussionfoundList.Count, 1);
+            Assert.AreEqual(1, user_discussionfoundList.Count);
         }
         #endregion
     }

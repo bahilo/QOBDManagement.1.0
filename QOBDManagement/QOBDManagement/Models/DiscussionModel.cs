@@ -135,6 +135,12 @@ namespace QOBDManagement.Models
             return ouput;
         }
 
+        public void refresh()
+        {
+            onPropertyChange("TxtGroupName");
+            onPropertyChange("UserList");
+        }
+
     }
 
 

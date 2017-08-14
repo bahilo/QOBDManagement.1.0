@@ -130,14 +130,14 @@ namespace QOBDManagement.Classes
                 _password = password;
             }
 
-            public Display(string ftpPath, string localPath, string login = "", string password = "")
+            public Display(string ftpPath, string localPath = "", string login = "", string password = "")
                 : this(login, password)
             {
                 _remotePath = ftpPath;
                 _localPath = Utility.getOrCreateDirectory(localPath);
             }
 
-            public Display(string fileNameWithoutExtension, List<string> filter, string ftpPath, string localPath, string login = "", string password = "")
+            public Display(string fileNameWithoutExtension, List<string> filter, string ftpPath = "", string localPath = "", string login = "", string password = "")
                 : this(ftpPath, localPath, login, password)
             {
                 _fileNameWithoutExtension = fileNameWithoutExtension;
@@ -146,7 +146,7 @@ namespace QOBDManagement.Classes
                 _filter = filter;
             }
 
-            public Display(List<Info> infoList, string fileNameWithoutExtension, List<string> filter, string ftpPath, string localPath, string login = "", string password = "")
+            public Display(List<Info> infoList, string fileNameWithoutExtension, List<string> filter, string ftpPath = "", string localPath = "", string login = "", string password = "")
                 : this(fileNameWithoutExtension, filter, ftpPath, localPath, login, password)
             {
                 _dictionary = new InfoManager().GeneralInfo.retrieveInfoDataDictionaryFromList(infoList, _filter);
@@ -465,9 +465,13 @@ namespace QOBDManagement.Classes
                 PropertyChanged -= onTxtChosenFileChange_setup;
                 PropertyChanged -= onTxtFileFullPathDelete_deleteTxtChosenFileChange;
                 PropertyChanged -= onTxtWdthOrHeightChange;
-                closeImageSource();
-                if(File.Exists(TxtFileFullPath))
-                    File.Delete(TxtFileFullPath);
+                try
+                {
+                    closeImageSource();
+                    if (File.Exists(TxtFileFullPath))
+                        File.Delete(TxtFileFullPath);
+                }
+                catch (Exception){ }
             }
 
             //----------------------------[ Event Handler ]------------------

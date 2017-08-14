@@ -118,9 +118,15 @@ namespace QOBDManagement.ViewModel
             get { return _agentDetailViewModel.AgentModelList; }
             set
             {
-                Application.Current.Dispatcher.Invoke(()=> {
+                if(Application.Current != null && !Application.Current.Dispatcher.CheckAccess())
+                {
+                    Application.Current.Dispatcher.Invoke(() => {
+                        _agentDetailViewModel.AgentModelList = value;
+                    });
+                }
+                else
                     _agentDetailViewModel.AgentModelList = value;
-                });                
+                               
                 onPropertyChange(); onPropertyChange("UserModelList"); onPropertyChange("ActiveAgentModelList"); onPropertyChange("DeactivatedAgentModelList");
             }
         }

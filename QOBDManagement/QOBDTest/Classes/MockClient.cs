@@ -4211,9 +4211,8 @@ namespace QOBDTest.Classes
         
         public User_discussionChatRoom[] get_filter_user_discussion(User_discussionFilterChatRoom user_discussion_array_list_filter)
         {
-            return new User_discussionChatRoom[2] {
-                new User_discussionChatRoom { ID = 1+"", DiscussionId = 1+"", Status = 1+"", UserId = 1+"" },
-                new User_discussionChatRoom { ID = 2+"", DiscussionId = 1+"", Status = 1+"", UserId = 2+"" }
+            return new User_discussionChatRoom[1] {
+                new User_discussionChatRoom { ID = user_discussion_array_list_filter.ID, DiscussionId = user_discussion_array_list_filter.DiscussionId, Status = user_discussion_array_list_filter.Status, UserId = user_discussion_array_list_filter.UserId }
             };
         }
 
@@ -4318,9 +4317,8 @@ namespace QOBDTest.Classes
         
         public MessageChatRoom[] get_filter_message(MessageFilterChatRoom message_array_list_filter)
         {
-            return new MessageChatRoom[2] {
-                new MessageChatRoom { ID = 1+"", Date = Utility.encodeStringToBase64(DateTime.Now.ToShortDateString()), Content = Utility.encodeStringToBase64("message content user 1"), DiscussionId = 1+"", Status = message_array_list_filter.Status, UserId = 1+"" },
-                new MessageChatRoom { ID = 2+"", Date = Utility.encodeStringToBase64(DateTime.Now.ToShortDateString()), Content = Utility.encodeStringToBase64("message content user 2"), DiscussionId = 1+"", Status = message_array_list_filter.Status, UserId = 2+"" }
+            return new MessageChatRoom[1] {
+                new MessageChatRoom { ID = message_array_list_filter.ID, Date = Utility.encodeStringToBase64(message_array_list_filter.Date), Content = Utility.encodeStringToBase64(message_array_list_filter.Content), DiscussionId = message_array_list_filter.DiscussionId, Status = message_array_list_filter.Status, UserId = message_array_list_filter.UserId }
             };
         }
 

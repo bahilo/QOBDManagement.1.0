@@ -148,14 +148,14 @@ namespace QOBDTest.Tests
         }
 
         [TestMethod]
-        public void loadOrderOrder_items()
+        public async Task loadOrderOrder_items()
         {
             // Arrange
             _mockProxy.initializer();
             _main = new MainWindowViewModel(new MockStartup(_mockProxy.Mock));
 
             // Act
-            _main.OrderViewModel.OrderDetailViewModel.loadOrder_items();
+            await _main.OrderViewModel.OrderDetailViewModel.loadOrder_itemsAsync();
 
             // Assert
             Assert.AreEqual(_main.OrderViewModel.OrderDetailViewModel.Order_ItemModelList.Count, 1);

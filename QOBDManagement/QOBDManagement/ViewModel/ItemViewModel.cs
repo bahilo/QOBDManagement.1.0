@@ -270,10 +270,10 @@ namespace QOBDManagement.ViewModel
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         _itemBrandList = value;
-                        onPropertyChange();
+                        onPropertyChange("BrandList");
                     });
                 }
-                else { _itemBrandList = value; onPropertyChange("BrandList"); }
+                else { _itemBrandList = value; onPropertyChange(); }
             }
         }
 
@@ -316,6 +316,11 @@ namespace QOBDManagement.ViewModel
         /// </summary>
         public async void loadItems()
         {
+            await loadItemsAsync();
+        }
+
+        public async Task loadItemsAsync()
+        {
             await Task.Factory.StartNew(() =>
             {
                 Dialog.showSearch(ConfigurationManager.AppSettings["load_message"]);
@@ -346,9 +351,6 @@ namespace QOBDManagement.ViewModel
                         {
                             SelectedItemModel.PropertyChanged -= ItemDetailViewModel.onItemNameChange_generateReference;
                             SelectedItemModel.PropertyChanged += ItemDetailViewModel.onItemNameChange_generateReference;
-                            //onPropertyChange("TxtType");
-                            //onPropertyChange("TxtType_sub");
-                            //onPropertyChange("SelectedProvider");                            
                         }
                     }
                     onPropertyChange("CurrencyModel");
@@ -422,7 +424,7 @@ namespace QOBDManagement.ViewModel
 
                     // selecting one provider among the item providers
                     var providerFoundList = ProviderList.Where(x => ivm.Provider_itemModelList.Where(y => y.Provider.ID == x.Provider.ID).Count() > 0).ToList();
-                    if(providerFoundList.Count() > 0)
+                    if (providerFoundList.Count() > 0)
                     {
                         ivm.SelectedProvider = providerFoundList.First();
                         ivm.SelectedProvider_itemModel = ivm.Provider_itemModelList.Where(x => x.Provider.ID == ivm.SelectedProvider.Provider.ID).First();

@@ -57,17 +57,17 @@ namespace QOBDTest.DAC
         
         public int DeleteAddress(int addressId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteClient(int clientId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteContact(int contactId)
         {
-            return 1;
+            return 0;
         }
 
         public List<Address> GetAddressData()
@@ -161,32 +161,32 @@ namespace QOBDTest.DAC
 
         public int DeleteBill(int billId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteDelivery(int deliveryId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteOrder(int orderId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteOrder_item(int order_itemId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteTax_order(int tax_orderId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteTax(int taxId)
         {
-            return 1;
+            return 0;
         }
 
         public List<Order> GetOrderData()
@@ -392,32 +392,32 @@ namespace QOBDTest.DAC
 
         public int DeleteAuto_ref(int auto_refId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteItem(int itemId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteItem_delivery(int item_deliveryId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteProvider(int providerId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteProvider_item(int provider_itemId)
         {
-            return 1;
+            return 0;
         }
 
         public int DeleteTax_item(int tax_itemId)
         {
-            return 1;
+            return 0;
         }
 
         public List<Item> GetItemData()
@@ -604,7 +604,7 @@ namespace QOBDTest.DAC
 
         public int DeleteNotification(int notificationId)
         {
-            return 1;
+            return 0;
         }
 
         public List<Notification> GetNotificationData()
@@ -642,7 +642,7 @@ namespace QOBDTest.DAC
 
         public int DeleteInfo(int infoId)
         {
-            return 1;
+            return 0;
         }
 
         public List<Info> GetInfosData()
@@ -680,7 +680,7 @@ namespace QOBDTest.DAC
 
         public int DeleteStatistic(int statisticId)
         {
-            return 1;
+            return 0;
         }
 
         public List<Statistic> GetStatisticData()
@@ -713,6 +713,8 @@ namespace QOBDTest.DAC
 
         #endregion
 
+        #region [ Currency ]
+        //================================[ Currency ]===================================================
 
         public void Dispose()
         {
@@ -721,27 +723,30 @@ namespace QOBDTest.DAC
 
         public int DeleteCurrency(int currencyId)
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public int UpdateCurrency(List<Currency> currencyList)
         {
-            throw new NotImplementedException();
+            return currencyList.Count;
         }
 
         public int LoadCurrency(Currency currency)
         {
-            throw new NotImplementedException();
+            return 1;
         }
 
         public List<Currency> GetCurrencyData()
         {
-            throw new NotImplementedException();
+            return new List<Currency> {
+                new Currency { ID = 1, Symbol = "£", Date = DateTime.Now },
+                new Currency { ID = 2, Symbol = "£", Date = DateTime.Now },
+            };
         }
 
         public List<Currency> GetCurrencyDataById(int id)
         {
-            throw new NotImplementedException();
+            return new List<Currency> { new Currency { ID = id, Symbol = "£", Date = DateTime.Now } };
         }
 
         public List<Currency> GetCurrencyDataByProvider_item(Provider_item provider_item)
@@ -751,7 +756,9 @@ namespace QOBDTest.DAC
 
         public List<Currency> searchCurrency(Currency Currency, ESearchOption filterOperator)
         {
-            throw new NotImplementedException();
+            return new List<Currency> { Currency };
         }
+
+        #endregion
     }
 }

@@ -373,7 +373,7 @@ namespace QOBDManagement.Models
         {
             decimal convertedValue = (decimal)value;
 
-            if(Order != null && (Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Credit.ToString()) || Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Pre_Credit.ToString())))
+            if(Order != null && Order.Status != null && (Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Credit.ToString()) || Order.Status.Equals(QOBDCommon.Enum.EOrderStatus.Pre_Credit.ToString())))
             {
                 convertedValue *= -1;
             }

@@ -157,12 +157,15 @@ namespace QOBDManagement.ViewModel
         /// start the chat server
         /// </summary>
         public async void start()
-        {        
-            // loading chat information
-            loadChatData();
+        {      
+            if(Application.Current != null)
+            {
+                // loading chat information
+                loadChatData();
 
-            // listening incoming messages
-            await receiverAsync();
+                // listening incoming messages
+                await receiverAsync();
+            }
         }
 
         private async void loadChatData()
@@ -368,12 +371,12 @@ namespace QOBDManagement.ViewModel
 
         //----------------------------[ Event Handler ]------------------
 
-        private void onChatRoomChange(object sender, PropertyChangedEventArgs e)
+        private async void onChatRoomChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("ChatRoom") && _isServerConnectionError)
             {
                 _isServerConnectionError = false;
-                DiscussionViewModel.msg("info", new MessageModel { Message = new Message { Content = "Error while trying to connect to server!" } });
+                await Dialog.showAsync("Error occurred while trying to connect to server!", isChatDialogBox: true);
             }
         }
 
